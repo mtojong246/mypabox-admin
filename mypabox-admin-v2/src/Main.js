@@ -18,16 +18,16 @@ const Main = () => {
     <div>
       <div className='bg-blue-500 h-16 w-full'>
         <img src={logo} alt='myPAbox' className='h-16'/>
-        <Link href='/schools' className='absolute text-white text-xl top-4 left-[300px]'>
+        <Link href='/schools' className='absolute text-white text-xl top-4 left-[400px]'>
           Schools
         </Link>
-        <Link href='/courses' className='absolute text-white text-xl top-4 left-[500px]'>
+        <Link href='/courses' className='absolute text-white text-xl top-4 left-[550px]'>
           Courses
         </Link>
         <Link href='/categories' className='absolute text-white text-xl top-4 left-[700px]'>
           Course Categories
         </Link>
-        <Link href='/users' className='absolute text-white text-xl top-4 left-[1000px]'>
+        <Link href='/users' className='absolute text-white text-xl top-4 left-[950px]'>
           Users
         </Link>
         <button onClick={signOut} className='absolute top-4 left-[1300px] text-xl 
