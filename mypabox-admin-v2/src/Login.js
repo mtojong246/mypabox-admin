@@ -6,16 +6,19 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
 
+  // Sets the email to whatever is typed in the input
   const handleEmail = (e) => {
     setEmail(e.target.value)
   }
 
+  // Sets the password to whatever is typed in the input
   const handlePassword = (e) => {
     setPassword(e.target.value)
   }
 
+  // Creates local storage email and password
+  // Navigates user to main page via /main route
   const login  = () => {
-    
     localStorage.setItem('email', email)
     localStorage.setItem('password', password)
     navigate('/main')

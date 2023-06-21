@@ -5,6 +5,9 @@ import { Link, useNavigate } from 'react-router-dom'
 const Main = () => {
   const navigate = useNavigate()
 
+  //Clears the username in local storage
+  //Clears the password in local storage
+  //Navigates user to login page
   const signOut = () => {
     localStorage.clear('username')
     localStorage.clear('password')
