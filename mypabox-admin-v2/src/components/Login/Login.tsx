@@ -13,10 +13,12 @@ export default function Login() {
 
   const { email, password } = inputs;
 
+  //Clears form
   const resetForm = () => setInputs(defaultInputs);
 
   const navigate = useNavigate()
 
+  //Updates inputs when form is being typed in
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -29,6 +31,10 @@ export default function Login() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
+    // eslint-disable-next-line no-lone-blocks
+    {/* If data from form matches with data from Firebase, the form is reset, the email & password 
+    is saved in local storage, and the user is navigated to the main page */}
+    // If data from form doesn't match with data from Firebase, an error will appear in the console log
     try {
         const userCredentials = await signInAuthUserWithEmailAndPassword(email, password);
         if(userCredentials) {
