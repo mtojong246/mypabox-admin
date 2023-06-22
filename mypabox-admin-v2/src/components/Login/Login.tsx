@@ -1,6 +1,7 @@
 import { ChangeEvent, useState, FormEvent } from "react";
 import { signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
+import logo from '../../My PA Box - Logo Polychrome Vertical.jpg'
 
 const defaultInputs = {
   email: '',
@@ -42,19 +43,30 @@ export default function Login() {
   }
 
   return (
-    <form id='signin-form' onSubmit={handleSubmit}>
-      <p className="text-4xl text-center font-semibold mt-40">Log In</p>
-      <input type="email" className="block border focus:outline-none border-black ml-[600px] mt-8 
-      rounded-md h-[45px] w-80" placeholder="Email"
-      value={email} name='email'  onChange={handleChange} />
-      <input type="text" className="block border border-black ml-[600px] mt-4 w-80 h-[45px] rounded-md 
-      focus:outline-none bg-gray-200" placeholder="Password"
-      value={password} name='password' onChange={handleChange} />
+    <>
+      <img src={logo} alt="My PA Box"  className="w-[50%] ml-4 mt-4" />
+      <form id='signin-form' onSubmit={handleSubmit} className="border ml-[784px] h-96 z-30 -mt-[500px] 
+      border-l-16 border-gray-400 border-y-0 border-r-0 w-[660px]">
+        <p className="text-2xl ml-16 font-semibold text-[#124967]">Log in to your account</p>
 
-      <button type='submit' form='signin-form' className="mt-8 text-2xl border ml-[600px] bg-blue-400 text-white border-black w-80 h-[40px] rounded-lg">
-        Log In
-      </button>
-    </form>
+        <div className="mt-[30px] ml-16 w-[620px]">
+          <label className="font-bold text-md">Email Address</label>
+          <input type="email" className="block border focus:outline-none border-black mt-2
+          rounded h-[45px] w-full" placeholder="Email" value={email} name='email'  onChange={handleChange} />
+        </div>
+
+        <div className="mt-[20px] ml-16 w-[620px]">
+          <label className="font-bold text-md">Password</label>
+          <input type="text" className="block border border-black mt-2 w-full h-[45px] rounded 
+          focus:outline-none bg-gray-200" placeholder="Password" value={password} name='password' onChange={handleChange} />
+        </div>
+
+        <button type='submit' form='signin-form' className="mt-[40px] text-xl border ml-16 bg-[#5B7E92]
+        text-white border-black w-[620px] h-[40px] rounded-full">
+          Login
+        </button>
+      </form>
+    </>
   )
 }
 
