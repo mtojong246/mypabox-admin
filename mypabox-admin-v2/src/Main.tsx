@@ -16,19 +16,19 @@ const Main = () => {
     <div>
       <div className='bg-blue-500 h-16 w-full'>
         <img src={logo} alt='myPAbox' className='h-16'/>
-        <Link to='/schools' className='absolute text-white text-xl top-4 left-[400px]'>
+        <Link to='/schools' className='absolute text-white text-xl top-4 left-[430px]'>
           Schools
         </Link>
-        <Link to='/courses' className='absolute text-white text-xl top-4 left-[550px]'>
+        <Link to='/courses' className='absolute text-white text-xl top-4 left-[580px]'>
           Courses
         </Link>
-        <Link to='/categories' className='absolute text-white text-xl top-4 left-[700px]'>
+        <Link to='/categories' className='absolute text-white text-xl top-4 left-[730px]'>
           Course Categories
         </Link>
-        <Link to='/users' className='absolute text-white text-xl top-4 left-[950px]'>
+        <Link to='/users' className='absolute text-white text-xl top-4 left-[980px]'>
           Users
         </Link>
-        <button onClick={signOut} className='absolute top-4 left-[1300px] text-xl 
+        <button onClick={signOut} className='absolute top-4 left-[1350px] text-xl 
         text-white'>Sign Out</button>
       </div>
 
