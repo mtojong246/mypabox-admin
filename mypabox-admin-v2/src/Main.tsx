@@ -1,16 +1,17 @@
-import React from 'react'
 import logo from './My PA Box - Logo Polychrome Horizontal.png'
 import { Link, useNavigate } from 'react-router-dom'
+import { signOutUser } from './utils/firebase/firebase.utils'
 
 const Main = () => {
   const navigate = useNavigate()
 
-  //Clears local storage
+  //Signs out user from Firebase and clears local storage
   //Navigates user from main page to login page
-  const signOut = () => {
+  const signOutHandler = async (): Promise<void> => {
+    await signOutUser();
     localStorage.clear()
     navigate('/')
-  }
+}
 
   return (
     <div>
@@ -28,7 +29,7 @@ const Main = () => {
         <Link to='/users' className='absolute text-white text-xl top-4 left-[980px]'>
           Users
         </Link>
-        <button onClick={signOut} className='absolute top-4 left-[1350px] text-xl 
+        <button onClick={signOutHandler} className='absolute top-4 left-[1350px] text-xl 
         text-white'>Sign Out</button>
       </div>
 

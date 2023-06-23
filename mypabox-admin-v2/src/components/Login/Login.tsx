@@ -63,7 +63,7 @@ export default function Login() {
 
         <div className="mt-[20px] ml-16 w-[620px]">
           <label className="font-bold text-md">Password</label>
-          <input type="text" className="block border border-black mt-2 w-full h-[45px] rounded 
+          <input type="password" className="block border border-black mt-2 w-full h-[45px] rounded 
           focus:outline-none bg-gray-200" placeholder="Password" value={password} name='password' onChange={handleChange} />
         </div>
 
