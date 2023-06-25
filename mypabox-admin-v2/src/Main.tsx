@@ -2,7 +2,7 @@
 import logo from "./My PA Box - Logo Polychrome Horizontal.png";
 import { Link, useNavigate } from "react-router-dom";
 import { signOutUser } from "./utils/firebase/firebase.utils";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "./app/store";
 import { logout } from "./app/slices/login";
 
@@ -20,8 +20,6 @@ const Main = () => {
   const navigate = useNavigate();
   // Dispatches action from redux
   const dispatch: AppDispatch = useDispatch()
-
-  const email = useSelector((state: loginState) => state.email)
   
   // Sign out handler function
   const signOutHandler = async (): Promise<void> => {
