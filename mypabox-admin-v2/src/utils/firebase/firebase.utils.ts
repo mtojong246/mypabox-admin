@@ -6,14 +6,15 @@ interface AdditionalInfo {
     displayName?: string;
 }
 
+// Config values moved to .env file
 const firebaseConfig = {
-  apiKey: "AIzaSyAvJPXfnk1PL6W8F8IoiEVg14eJXj6ACXk",
-  authDomain: "mypabox-admin-v2.firebaseapp.com",
-  projectId: "mypabox-admin-v2",
-  storageBucket: "mypabox-admin-v2.appspot.com",
-  messagingSenderId: "58794515174",
-  appId: "1:58794515174:web:2daa229b1b08ab5f593927",
-  measurementId: "G-ZFJ2E8ETHB"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
@@ -59,18 +60,35 @@ export const createUserDocumentFromAuth = async (userAuth: User, additionalInfo 
 export const createAuthUserWithEmailAndPassword = async (email: string, password: string) => {
     if(!email || !password) return;
 
-    return await createUserWithEmailAndPassword(auth, email, password);
+    try {
+        return await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+        throw new Error('Error creating user with email and password' + error.message);
+    }
+    
 }
 
 // Signs in authenticated user
 export const signInAuthUserWithEmailAndPassword = async (email: string, password: string) => {
     if(!email || !password) return;
 
-    return await signInWithEmailAndPassword(auth, email, password);
+    try {
+        return await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+        throw new Error('Error signing in user with email and password' + error.message)
+    }
+    
 }
 
 // Signs out authenticated user
-export const signOutUser = async () => await signOut(auth)
+export const signOutUser = async () => {
+    try {
+        await signOut(auth)
+    } catch (error: any) {
+        throw new Error('Error signing out user' + error.message)
+    }
+    
+}
 
 // Auth state listener
 export const onAuthStateChangedListener = (callback: (user: User | null) => void) => onAuthStateChanged(auth, callback)
