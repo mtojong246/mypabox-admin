@@ -44,26 +44,33 @@
 import logo from "./My PA Box - Logo Polychrome Horizontal.png";
 import { Link, useNavigate } from "react-router-dom";
 import { signOutUser } from "./utils/firebase/firebase.utils";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "./app/store";
+import { logout } from "./app/slices/login";
 
 // Array of objects, each representing a navigation item
 const NAV_ITEMS = [
-  { path: "/schools", label: "Schools", left: "430px" },
-  { path: "/courses", label: "Courses", left: "580px" },
-  { path: "/categories", label: "Course Categories", left: "730px" },
-  { path: "/users", label: "Users", left: "980px" },
+  { path: "/schools", label: "Schools", left: "21.5em" },
+  { path: "/courses", label: "Courses", left: "29em" },
+  { path: "/categories", label: "Course Categories", left: "36.5em" },
+  { path: "/users", label: "Users", left: "49em" },
 ];
 
 // Main functional component
 const Main = () => {
   // Using navigate hook from react-router-dom
   const navigate = useNavigate();
+  // Dispatches action from redux
+  const dispatch: AppDispatch = useDispatch()
 
+  const email = useSelector((state: loginState) => state.email)
+  
   // Sign out handler function
   const signOutHandler = async (): Promise<void> => {
     // Sign out from Firebase
     await signOutUser();
-    // Clear local storage
-    localStorage.clear();
+    // Clears redux state
+    dispatch(logout())
     // Navigate back to root
     navigate("/");
   };
@@ -88,7 +95,7 @@ const Main = () => {
         {/* Sign Out button with handler to trigger sign out process */}
         <button
           onClick={signOutHandler}
-          className="absolute top-4 left-[1350px] text-xl 
+          className="absolute top-4 left-[67.5em] text-xl 
         text-white"
         >
           Sign Out
@@ -96,6 +103,7 @@ const Main = () => {
       </div>
       {/* Left navigation bar */}
       <div className="w-40 bg-gray-200 h-screen"></div>
+
     </div>
   );
 };
