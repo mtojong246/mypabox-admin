@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where } from 'firebase/firestore'
 
 interface AdditionalInfo {
     displayName?: string;
@@ -26,19 +26,54 @@ export const auth = getAuth();
 // Instantiate Firestore 
 export const db = getFirestore();
 
-// Gets all documents inside schools collection
+//  **************[SCHOOL DATA FUNCTION HANDLERS]**************
+
+// Retrieves all documents inside schools collection
 export const getSchoolsAndDocuments = async () => {
     const collectionRef = collection(db, 'schools');
     const q = query(collectionRef);
 
     try {
+        // Gets documents based on query parameters 
         const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
     } catch (error: any) {
         console.log('error fetching school data' , error);
     }
-    
 }
+
+// Retrieves schools by state 
+export const getDocsByState = async (state: string) => {
+    const collectionRef = collection(db, 'schools');
+    const q = query(collectionRef, where('state', '==', state));
+
+    try {
+        // Gets documents based on query parameters 
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+    } catch (error: any) {
+        console.log('error fetching school data by state' , error);
+    }
+}
+
+// Retrieves schools by name
+export const getDocsByName = async (name: string) => {
+    const collectionRef = collection(db, 'schools');
+    const q = query(collectionRef, where('name', '==', name));
+
+    try {
+        // Gets documents based on query parameters 
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+    } catch (error: any) {
+        console.log('error fetching school data by name' , error);
+    }
+}
+
+
+
+
+//  **************[USER DATA FUNCTION HANDLERS]**************
 
 // Creates new user doc from authenticated user 
 export const createUserDocumentFromAuth = async (userAuth: User, additionalInfo = {} as AdditionalInfo) => {

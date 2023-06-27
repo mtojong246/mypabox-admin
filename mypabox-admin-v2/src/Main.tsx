@@ -56,7 +56,6 @@ const Main = () => {
     fetchSchools();
   }, [])
 
-  console.log(schools);
 
   // Return JSX
   return (
