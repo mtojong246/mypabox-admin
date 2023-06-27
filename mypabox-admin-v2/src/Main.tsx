@@ -2,9 +2,14 @@
 import logo from "./My PA Box - Logo Polychrome Horizontal.png";
 import { Link, useNavigate } from "react-router-dom";
 import { signOutUser } from "./utils/firebase/firebase.utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "./app/store";
 import { logout } from "./app/slices/login";
+import { useEffect } from "react";
+import { getSchoolsAndDocuments } from "./utils/firebase/firebase.utils";
+import { setSchools } from "./app/slices/schools";
+import { selectSchools } from "./app/selectors/schools.selectors";
+
 
 // Array of objects, each representing a navigation item
 const NAV_ITEMS = [
@@ -20,6 +25,8 @@ const Main = () => {
   const navigate = useNavigate();
   // Dispatches action from redux
   const dispatch: AppDispatch = useDispatch()
+  // Grabs schools stored in state 
+  const schools = useSelector(selectSchools);
   
   // Sign out handler function
   const signOutHandler = async (): Promise<void> => {
@@ -30,6 +37,26 @@ const Main = () => {
     // Navigate back to root
     navigate("/");
   };
+
+  useEffect(() => {
+
+    const fetchSchools = async () => {
+      try {
+        // fetches schools from firebase db and dispatches school action, which updates the schools array 
+        // that's stored in the school reducer
+        const allSchools = await getSchoolsAndDocuments();
+        if (allSchools) {
+          dispatch(setSchools(allSchools));
+        }
+      } catch (error: any) {
+        alert('Error loading schools')
+      }
+    }
+
+    fetchSchools();
+  }, [])
+
+  console.log(schools);
 
   // Return JSX
   return (
