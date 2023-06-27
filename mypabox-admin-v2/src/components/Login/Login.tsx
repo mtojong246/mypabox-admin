@@ -57,8 +57,8 @@ export default function Login() {
         navigate("/main");
       }
     } catch (error) {
-      // If email or password is not found in the database, the error will appear in the console log
-      console.log("Wrong email or password");
+      // If email or password is not found in the database, the error will appear to the user
+      alert("Wrong email or password");
     }
   };
 
