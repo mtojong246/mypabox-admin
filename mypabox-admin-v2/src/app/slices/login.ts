@@ -10,7 +10,7 @@ const loginSlice = createSlice({
   name: 'loginSlice',
   initialState,
   reducers: {
-    login: (state, action) => {
+    login: (state, action: loginAction) => {
       // The email in state will be updated to the email in the payload
       state.email = action.payload.email
       // The password in state will be updated to the password in the payload

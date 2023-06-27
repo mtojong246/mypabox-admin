@@ -53,7 +53,6 @@ export default function Login() {
       if (userCredentials) {
         setInputs(defaultInputs);
         // The login action will be dispatched which updates the email and password in the login reducer
-       // dispatch({ type: 'login', payload: { email, password }})
         dispatch(login({ email, password }))
         // User will be navigated to the main page via the main route
         navigate("/main");
