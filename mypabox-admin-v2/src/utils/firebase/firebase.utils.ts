@@ -1,9 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, addDoc } from 'firebase/firestore'
 
 interface AdditionalInfo {
     displayName?: string;
+}
+
+interface SchoolDataType {
+    name: string,
+    state: string,
+    city: string,
 }
 
 // Config values moved to .env file
@@ -38,7 +44,7 @@ export const getSchoolsAndDocuments = async () => {
         const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
     } catch (error: any) {
-        console.log('error fetching school data' , error);
+        console.log('error fetching school data' , error.message);
     }
 }
 
@@ -52,7 +58,7 @@ export const getDocsByState = async (state: string) => {
         const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
     } catch (error: any) {
-        console.log('error fetching school data by state' , error);
+        console.log('error fetching school data by state' , error.message);
     }
 }
 
@@ -66,11 +72,21 @@ export const getDocsByName = async (name: string) => {
         const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
     } catch (error: any) {
-        console.log('error fetching school data by name' , error);
+        console.log('error fetching school data by name' , error.message);
     }
 }
 
+// Adds individual school collection to school document 
+export const addDocToSchoolCollection = async (data: SchoolDataType) => {
+    const collectionRef = collection(db, 'schools');
 
+    try {
+        // Adds data as a document to school collection
+        await addDoc(collectionRef, data)
+    } catch (error: any) {
+        console.log('Error adding school', error.message)
+    }
+}
 
 
 //  **************[USER DATA FUNCTION HANDLERS]**************
