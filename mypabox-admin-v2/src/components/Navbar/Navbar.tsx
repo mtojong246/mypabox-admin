@@ -37,7 +37,7 @@ const Navbar = () => {
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
       {location.pathname === '/' ? '' :
-        <div className="bg-blue-500 h-16 w-full">
+        <div className="fixed z-10 bg-blue-500 h-16 w-full">
           {/* Logo image */}
           <img src={logo} alt="myPAbox" className="h-16" />
           {/* Loop through navigation items and create a Link for each */}

@@ -10,3 +10,14 @@ type loginAction = {
     password: string
   }  
 }
+
+type School  = {
+  name: string;
+  state: string;
+  'state code': string;
+  city: string;
+}
+
+type Schools = {
+  schools: School[]
+}

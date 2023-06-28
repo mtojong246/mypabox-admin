@@ -9,7 +9,7 @@ const Sidebar = () => {
     <>
       {/* Left navigation bar */}
       {location.pathname === '/' ? '' :
-        <div className="absolute w-40 bg-gray-500 h-screen"></div>
+        <div className="fixed z-0 w-40 bg-gray-500 h-full"></div>
       }
     </>
   )
