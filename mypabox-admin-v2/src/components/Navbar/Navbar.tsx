@@ -1,64 +1,52 @@
-import React from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { logout } from '../../app/slices/login';
-import { signOutUser } from '../../utils/firebase/firebase.utils';
-import { AppDispatch } from '../../app/store';
-import { useDispatch } from 'react-redux';
+import React, { useContext } from 'react'
+import { useLocation } from 'react-router-dom'
 import logo from "../../My PA Box - Logo Monochrome Flat Horizontal Negative.png"
-
-// Array of objects, each representing a navigation item
-const NAV_ITEMS = [
-  { path: "/schools", label: "Schools", left: "21.5em" },
-  { path: "/courses", label: "Courses", left: "29em" },
-  { path: "/categories", label: "Course Categories", left: "36.5em" },
-  { path: "/users", label: "Users", left: "49em" },
-];
+import { HiMagnifyingGlass } from 'react-icons/hi2'
+import Select from 'react-select';
+import { SchoolContext } from '../../useContext';
+import states from '../../states.json'
 
 const Navbar = () => {
-  // Using navigate hook from react-router-dom
-  const navigate = useNavigate();
-  // Dispatches action from redux
-  const dispatch: AppDispatch = useDispatch()
   // Find out current pathname in url
   const location = useLocation()
-
-  // Sign out handler function
-  const signOutHandler = async (): Promise<void> => {
-    // Sign out from Firebase
-    await signOutUser();
-    // Clears redux state
-    dispatch(logout())
-    // Navigate back to root
-    navigate("/");
-  };
+  const { handleOpenForm, handleStateSearch, handleSchoolName, schoolName } = useContext(SchoolContext)
 
   return (
     <div>
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
-      {location.pathname === '/' ? '' :
-        <div className="fixed z-10 bg-blue-500 h-16 w-full">
+      {location.pathname === '/' ? '' : (
+        <div className="fixed z-20 bg-[#363639] h-16 w-full">
           {/* Logo image */}
           <img src={logo} alt="myPAbox" className="h-16" />
-          {/* Loop through navigation items and create a Link for each */}
-          {NAV_ITEMS.map((item) => (
-            <Link
-              to={item.path}
-              className="absolute text-white text-xl top-4"
-              style={{ left: item.left }}
-            >
-              {item.label}
-            </Link>
-          ))}
-          {/* Sign Out button with handler to trigger sign out process */}
-          <button
-            onClick={signOutHandler}
-            className="absolute top-4 left-[67.5em] text-xl 
-          text-white"
-          >
-            Sign Out
-          </button>
         </div>  
+      )}
+      {
+        location.pathname === '/schools' ? (
+          <div className='fixed z-20'>
+            {/* Search field that allows you to filter through schools */}
+            <input type='input' className='border-b-2 mt-2 border-black h-12 w-[400px] focus:outline-none 
+            ml-[13em] text-xl bg-transparent' value={schoolName} onChange={handleSchoolName} placeholder='Search for school' />
+       
+            <div className='ml-[26.5em] -mt-8 text-2xl'>
+              <HiMagnifyingGlass />
+            </div>
+            {/* Select component that allows you to select multiple states */}
+            <Select
+              isMulti
+              name="colors"
+              options={states}
+              className="absolute top-[-2em] w-[25em] left-[43em]"
+              classNamePrefix="select"
+              onChange={handleStateSearch}
+            />
+                                            
+            <button className="absolute top-[1em] border-2 w-40 rounded-2xl border-black h-[2.5em] 
+            ml-[81em]" onClick={handleOpenForm}>
+              Add New School
+            </button>
+          </div>
+        ) : ''
       }
     </div>
   )

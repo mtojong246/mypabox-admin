@@ -1,74 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSchools } from './app/selectors/schools.selectors';
-import Select from 'react-select';
 import { addDocToSchoolCollection, getSchoolsAndDocuments } from './utils/firebase/firebase.utils';
 import { setSchools } from './app/slices/schools';
 import { AppDispatch } from './app/store';
 import { AiOutlineClose } from 'react-icons/ai'
-
-const states: Array<Object> = [
-  { value: 'Alabama', label: 'Alabama' },
-  { value: 'Alaska', label: 'Alaska' },
-  { value: 'Arizona', label: 'Arizona' },
-  { value: 'Arkansas', label: 'Arkansas' },
-  { value: 'California', label: 'California' },
-  { value: 'Colorado', label: 'Colorado' },
-  { value: 'Connecticut', label: 'Connecticut' },
-  { value: 'Delaware', label: 'Delaware' },
-  { value: 'Florida', label: 'Florida' },
-  { value: 'Georgia', label: 'Georgia' },
-  { value: 'Hawaii', label: 'Hawaii' },
-  { value: 'Idaho', label: 'Idaho' },
-  { value: 'Illinois', label: 'Illinois' },
-  { value: 'Indiana', label: 'Indiana' },
-  { value: 'Iowa', label: 'Iowa' },
-  { value: 'Kansas', label: 'Kansas' },
-  { value: 'Kentucky', label: 'Kentucky' },
-  { value: 'Louisiana', label: 'Louisiana' },
-  { value: 'Maine', label: 'Maine' },
-  { value: 'Maryland', label: 'Maryland' },
-  { value: 'Massachusetts', label: 'Massachusetts' },
-  { value: 'Michigan', label: 'Michigan' },
-  { value: 'Minnesota', label: 'Minnesota' },
-  { value: 'Mississippi', label: 'Mississippi' },
-  { value: 'Missouri', label: 'Missouri' },
-  { value: 'Montana', label: 'Montana' },
-  { value: 'Nebraska', label: 'Nebraska' },
-  { value: 'Nevada', label: 'Nevada' },
-  { value: 'New Hampshire', label: 'New Hampshire' },
-  { value: 'New Jersey', label: 'New Jersey' },
-  { value: 'New Mexico', label: 'New Mexico' },
-  { value: 'New York', label: 'New York' },
-  { value: 'North Carolina', label: 'North Carolina' },
-  { value: 'North Dakota', label: 'North Dakota' },
-  { value: 'Ohio', label: 'Ohio' },
-  { value: 'Oklahoma', label: 'Oklahoma' },
-  { value: 'Oregon', label: 'Oregon' },
-  { value: 'Pennsylvania', label: 'Pennsylvania' },
-  { value: 'Rhode Island', label: 'Rhode Island' },
-  { value: 'South Carolina', label: 'South Carolina' },
-  { value: 'South Dakota', label: 'South Dakota' },
-  { value: 'Tennessee', label: 'Tennessee' },
-  { value: 'Texas', label: 'Texas' },
-  { value: 'Utah', label: 'Utah' },
-  { value: 'Vermont', label: 'Vermont' },
-  { value: 'Virginia', label: 'Virginia' },
-  { value: 'Washington', label: 'Washington' },
-  { value: 'West Virginia', label: 'West Virginia' },
-  { value: 'Wisconsin', label: 'Wisconsin' },
-  { value: 'Wyoming', label: 'Wyoming' }
-]
+import { SchoolContext } from './useContext';
   
 const Schools = () => {
-  const [schoolName, setSchoolName] = useState('')
-  const [stateSearch, setStateSearch] = useState([{}])
-  const [name, setName] = useState('')
-  const [state, setState] = useState('')
-  const [city, setCity] = useState('')
-  const [openForm, setOpenForm] = useState(false)
   const schools = useSelector(selectSchools);
   const dispatch: AppDispatch = useDispatch()
+  const { state, city, name, openForm, stateSearch, schoolName, setName, setState, setCity,
+  setOpenForm, setStateSearch } = useContext(SchoolContext)
 
   useEffect(() => {
     setStateSearch([])
@@ -87,17 +30,7 @@ const Schools = () => {
     }
 
     fetchSchools();
-  }, [dispatch])
-  
-  // Converts current value of input field to all lowercase letters
-  const handleSchoolName = (e: { target: { value: string; }; }) => {
-    setSchoolName(e.target.value.toLowerCase())
-  }
-
-  // Sets stateSearch to mapped newValue array which displays the value of each state in an array
-  const handleStateSearch = (newValue: any) => {
-    setStateSearch(newValue.map((state: any) => state.value))
-  }
+  }, [dispatch, setStateSearch])
 
   /* Uses boolean value so when openForm is false, it will set openForm to true and the 
   add school form will be seen and vice versa */
@@ -138,25 +71,13 @@ const Schools = () => {
     setName("")
   }
 
+  const sortCity = () => {
+    console.log('sort')
+  }
+
   return (
-    <div className=''>
-      {/* Search field that allows you to filter through schools */}
-      <input type='search' className='border-b-2 mt-16 border-black h-12 w-[400px] focus:outline-none 
-      ml-[13em] text-xl' value={schoolName} onChange={handleSchoolName} />
-
-      {/* Select component that allows you to select multiple states */}
-      <Select
-        isMulti
-        name="colors"
-        options={states}
-        className="absolute top-[-2em] w-[25em] left-[43em]"
-        classNamePrefix="select"
-        onChange={handleStateSearch}
-      />
-
-      <button className="absolute top-[5em] border-2 w-40 border-black h-[2.5em] ml-[75em]" onClick={handleOpenForm}>
-        Add New School
-      </button>
+    <div className='absolute top-16'>
+      
 
       {/* Filter 1: The school name is converted to all lowercase letters and then the includes method is ran so that the only
           schools that are shown are the schools that matches the search input  
@@ -164,28 +85,40 @@ const Schools = () => {
           that are shown are the school who's state is included in the stateSearch array
           After the filters are ran, the remaining schools array is then mapped through and the schools data is displayed
       */}
-      <div className='ml-72 mt-16'>
-        {
-          schools.filter(school => school.name.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
-            item : stateSearch.includes(item.state)).map((d, i) => 
-            <div key={`${d.name}-${i}`} className='text-2xl text-center w-[40em] text-black mt-8 border border-black'>
-              <p>School: {d.name}</p>
-              <p>City: {d.city}</p>
-              <p>State: {d.state}</p>
-            </div>
-          )
-        }
+      <div className='ml-60 w-[76em] rounded-xl shadow-lg shadow-gray-600  h-fit'>
+        <p className='text-3xl text-center font-semibold mt-16 ml-4'>Schools</p>
+        <table className='w-full mt-8'>
+          <thead className='bg-[#eeeef2] mt-8'>
+            <tr className=''>
+              <th scope="col" onClick={sortCity} className='font-normal text-2xl text-left w-[20em]'>Name</th>
+              <th scope="col" className='font-normal -ml-96 text-2xl text-center w-80'>City</th>
+              <th scope="col" className='font-normal text-2xl text-center'>State</th>
+            </tr>
+          </thead>
+          <tbody>
+          {
+            schools.filter(school => school.name.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
+              item : stateSearch.includes(item.state)).map((d, i) => (
+                <tr className="border-b-[0.125px] border-gray-400">
+                  <td className='text-xl h-[45px]'>{d.name}</td>
+                  <td className='text-xl text-center'>{d.city}</td>
+                  <td className='text-xl text-center'>{d.state}</td>
+                </tr>
+              )
+            )
+          }
+          </tbody>
+        </table>
       </div>
-
       {/* If openForm is true, the add school form will be shown, if not it will stay hidden */}
       {
         openForm ? (
-          <div className='absolute w-screen top-0 bg-[#000000d5] z-10 h-screen'>
+          <div className='absolute w-screen top-0 bg-[#000000d5] z-50 h-screen'>
             <button onClick={handleOpenForm} className='absolute left-[70em] top-4 text-xl text-white'>
               <AiOutlineClose />
             </button>
-            <form className='w-[41em] rounded-xl h-[40em] ml-[27em] mt-[40px] bg-white'>
-              <p className="text-4xl text-center">Add New School</p>
+            <form className='w-[41em] h-[35em] ml-[27em] mt-[40px] bg-white'>
+              <p className="text-4xl mt-4 text-center">Add New School</p>
 
               <label className="">
                 <p className='mt-16 ml-24'>School Name</p>
