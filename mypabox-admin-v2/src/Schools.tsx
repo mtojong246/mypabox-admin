@@ -6,7 +6,8 @@ import { setSchools } from './app/slices/schools';
 import { AppDispatch } from './app/store';
 import { AiOutlineClose } from 'react-icons/ai'
 import { SchoolContext } from './useContext';
-  
+import { addSchool } from './app/slices/schools';  
+
 const Schools = () => {
   const schools = useSelector(selectSchools);
   const dispatch: AppDispatch = useDispatch()
@@ -30,6 +31,7 @@ const Schools = () => {
     }
 
     fetchSchools();
+
   }, [dispatch, setStateSearch])
 
   /* Uses boolean value so when openForm is false, it will set openForm to true and the 
@@ -52,7 +54,7 @@ const Schools = () => {
   const handleCity = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setCity(e.target.value)
   }
-
+  
   /* Form data is collected & sent through the addDocToSchoolCollection function
    so a new school can be created and form values are reset after */
   const handleSubmit = (e: { preventDefault: () => void; }) => {
@@ -62,22 +64,19 @@ const Schools = () => {
       city: city,
       state: state,
       name: name,
+      'state code': ''
     }
 
     addDocToSchoolCollection(data)
     
+    dispatch(addSchool(data))
     setCity("")
     setState("")
     setName("")
   }
 
-  const sortCity = () => {
-    console.log('sort')
-  }
-
   return (
     <div className='absolute top-16'>
-      
 
       {/* Filter 1: The school name is converted to all lowercase letters and then the includes method is ran so that the only
           schools that are shown are the schools that matches the search input  
@@ -90,7 +89,7 @@ const Schools = () => {
         <table className='w-full mt-8'>
           <thead className='bg-[#eeeef2] mt-8'>
             <tr className=''>
-              <th scope="col" onClick={sortCity} className='font-normal text-2xl text-left w-[20em]'>Name</th>
+              <th scope="col" className='font-normal text-2xl text-left w-[20em]'>Name</th>
               <th scope="col" className='font-normal -ml-96 text-2xl text-center w-80'>City</th>
               <th scope="col" className='font-normal text-2xl text-center'>State</th>
             </tr>

@@ -1,7 +1,4 @@
-import React, { FC, ReactNode, createContext, useEffect, useState } from 'react'
-import { getSchoolsAndDocuments } from './utils/firebase/firebase.utils';
-import { useDispatch } from 'react-redux';
-import { setSchools } from './app/slices/schools';
+import React, { FC, ReactNode, createContext, useState } from 'react'
 
 interface Props {
   children: React.ReactNode;
@@ -34,26 +31,6 @@ const SchoolContextProvider: FC<Props> = ({ children }: { children: ReactNode })
   const [state, setState] = useState('')
   const [city, setCity] = useState('')
   const [openForm, setOpenForm] = useState(false)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    setStateSearch([])
-    
-    const fetchSchools = async () => {
-      try {
-        // fetches schools from firebase db and dispatches school action, which updates the schools array 
-        // that's stored in the school reducer
-        const allSchools = await getSchoolsAndDocuments();
-        if (allSchools) {
-          dispatch(setSchools(allSchools));
-        }
-      } catch (error: any) {
-        alert('Error loading schools')
-      }
-    }
-
-    fetchSchools();
-  }, [dispatch, setStateSearch])
   
   // Converts current value of input field to all lowercase letters
   const handleSchoolName = (e: { target: { value: string; }; }) => {

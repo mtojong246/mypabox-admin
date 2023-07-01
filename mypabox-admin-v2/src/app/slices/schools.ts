@@ -21,11 +21,13 @@ const schoolSlice = createSlice({
     reducers: {
         setSchools: (state, action) => {
             state.schools = action.payload
+        },
+        addSchool: (state, action) => {
+            state.schools.push(action.payload)
         }
-
     }
 })
 
-export const { setSchools } = schoolSlice.actions;
+export const { setSchools, addSchool } = schoolSlice.actions;
 
 export const schoolReducer = schoolSlice.reducer;
