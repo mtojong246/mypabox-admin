@@ -84,14 +84,14 @@ const Schools = () => {
           that are shown are the school who's state is included in the stateSearch array
           After the filters are ran, the remaining schools array is then mapped through and the schools data is displayed
       */}
-      <div className='ml-60 w-[76em] rounded-xl shadow-lg shadow-gray-600  h-fit'>
+      <div className='ml-60 w-[100em] rounded-xl shadow-lg shadow-gray-600  h-fit'>
         <p className='text-3xl text-center font-semibold mt-16 ml-4'>Schools</p>
         <table className='w-full mt-8'>
           <thead className='bg-[#eeeef2] mt-8'>
             <tr className=''>
-              <th scope="col" className='font-normal text-2xl text-left w-[20em]'>Name</th>
-              <th scope="col" className='font-normal -ml-96 text-2xl text-center w-80'>City</th>
-              <th scope="col" className='font-normal text-2xl text-center'>State</th>
+              <th scope="col" className='font-normal text-2xl text-left w-[24em]'>Name</th>
+              <th scope="col" className='font-normal ml-40 text-2xl text-center '>City</th>
+              <th scope="col" className='font-normal text-2xl mt text-center'>State</th>
             </tr>
           </thead>
           <tbody>

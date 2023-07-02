@@ -1,15 +1,21 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import logo from "../../My PA Box - Logo Monochrome Flat Horizontal Negative.png"
 import { HiMagnifyingGlass } from 'react-icons/hi2'
 import Select from 'react-select';
 import { SchoolContext } from '../../useContext';
 import states from '../../states.json'
+import { AiOutlineClose } from 'react-icons/ai'
 
 const Navbar = () => {
+  const [openFilter, setOpenFilter] = useState(false)
   // Find out current pathname in url
   const location = useLocation()
   const { handleOpenForm, handleStateSearch, handleSchoolName, schoolName } = useContext(SchoolContext)
+
+  const handleOpenFilter = () => {
+    setOpenFilter(!openFilter)
+  }
 
   return (
     <div>
@@ -32,19 +38,39 @@ const Navbar = () => {
               <HiMagnifyingGlass />
             </div>
             {/* Select component that allows you to select multiple states */}
+            <button className='absolute top-[1em] border-2 left-[53em] border-black w-96' onClick={handleOpenFilter}>
             <Select
               isMulti
               name="colors"
-              options={states}
-              className="absolute top-[-2em] w-[25em] left-[43em]"
+              className="absolute w-[25em]"
               classNamePrefix="select"
-              onChange={handleStateSearch}
+              isDisabled={true}
             />
-                                            
-            <button className="absolute top-[1em] border-2 w-40 rounded-2xl border-black h-[2.5em] 
-            ml-[81em]" onClick={handleOpenForm}>
+            </button>                         
+            <button className="absolute top-[1em] border-2 w-40 rounded-2xl border-white text-white h-[2.5em] 
+            ml-[100em]" onClick={handleOpenForm}>
               Add New School
             </button>
+          </div>
+        ) : ''
+      }
+      {
+        openFilter ? (
+          <div className='absolute w-screen top-0 bg-[#000000d5] z-50 h-screen'>
+            <div className='w-[95em] bg-white ml-[18.1em] mt-48 h-64'>
+              <button className='absolute left-[73em] top-52 text-2xl' onClick={handleOpenFilter}>
+                <AiOutlineClose />
+              </button>
+              <p className='text-center text-4xl font-semibold'>Filter</p>
+              <Select
+                options={states}
+                isMulti
+                name="colors"
+                className="ml-[12em] mt-8 w-[70em]"
+                classNamePrefix="select"
+                onChange={handleStateSearch}
+              />
+            </div>
           </div>
         ) : ''
       }
