@@ -51,7 +51,7 @@ export const getSchoolsAndDocuments = async () => {
 // Retrieves schools by state 
 export const getDocsByState = async (state: string) => {
     const collectionRef = collection(db, 'schools');
-    const q = query(collectionRef, where('state', '==', state));
+    const q = query(collectionRef, where('school_state', '==', state));
 
     try {
         // Gets documents based on query parameters 
@@ -65,7 +65,7 @@ export const getDocsByState = async (state: string) => {
 // Retrieves schools by name
 export const getDocsByName = async (name: string) => {
     const collectionRef = collection(db, 'schools');
-    const q = query(collectionRef, where('name', '==', name));
+    const q = query(collectionRef, where('school_name', '==', name));
 
     try {
         // Gets documents based on query parameters 

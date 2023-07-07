@@ -64,7 +64,6 @@ const Schools = () => {
       city: city,
       state: state,
       name: name,
-      'state code': ''
     }
 
     addDocToSchoolCollection(data)
@@ -96,12 +95,12 @@ const Schools = () => {
           </thead>
           <tbody>
           {
-            schools.filter(school => school.name.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
-              item : stateSearch.includes(item.state)).map((d, i) => (
+            schools && schools.filter(school => school.school_name.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
+              item : stateSearch.includes(item.school_state.input)).map((d, i) => (
                 <tr className="border-b-[0.125px] border-gray-400">
-                  <td className='text-xl h-[45px]'>{d.name}</td>
-                  <td className='text-xl text-center'>{d.city}</td>
-                  <td className='text-xl text-center'>{d.state}</td>
+                  <td className='text-xl h-[45px]'>{d.school_name.input}</td>
+                  <td className='text-xl text-center'>{d.school_city.input}</td>
+                  <td className='text-xl text-center'>{d.school_state.input}</td>
                 </tr>
               )
             )

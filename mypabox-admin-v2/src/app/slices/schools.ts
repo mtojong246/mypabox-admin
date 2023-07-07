@@ -1,15 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export interface School {
-    name: string;
-    state: string;
-    'state code': string;
-    city: string;
-}
-
-export interface SchoolState {
-    schools: School[];
-}
+import { SchoolState } from "../../types/schools.types";
 
 const initialState: SchoolState = {
     schools: [],

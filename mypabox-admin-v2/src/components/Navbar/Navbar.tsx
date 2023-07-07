@@ -4,7 +4,7 @@ import logo from "../../My PA Box - Logo Monochrome Flat Horizontal Negative.png
 import { HiMagnifyingGlass } from 'react-icons/hi2'
 import Select from 'react-select';
 import { SchoolContext } from '../../useContext';
-import states from '../../states.json'
+import states from '../../data/states.json';
 import { AiOutlineClose } from 'react-icons/ai'
 
 const Navbar = () => {

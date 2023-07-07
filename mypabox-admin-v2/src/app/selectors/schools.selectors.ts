@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { SchoolState } from "../slices/schools";
+import { SchoolState } from "../../types/schools.types";
 import { RootState } from "../store";
 
 // Grabs school slice from root state
