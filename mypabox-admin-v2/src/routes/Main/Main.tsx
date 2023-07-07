@@ -1,11 +1,11 @@
 // Importing necessary dependencies and components
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "./app/store";
+import { AppDispatch } from "../../app/store";
 import { useEffect } from "react";
-import { getSchoolsAndDocuments } from "./utils/firebase/firebase.utils";
-import { setSchools } from "./app/slices/schools";
-import { selectSchools } from "./app/selectors/schools.selectors";
+import { getSchoolsAndDocuments } from "../../utils/firebase/firebase.utils";
+import { setSchools } from "../../app/slices/schools";
+import { selectSchools } from "../../app/selectors/schools.selectors";
 
 // Main functional component
 const Main = () => {
