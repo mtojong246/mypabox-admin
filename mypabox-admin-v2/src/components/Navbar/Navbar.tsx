@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { SchoolContext } from '../../useContext';
 import states from '../../data/states.json';
 import { AiOutlineClose } from 'react-icons/ai'
+import Sidebar from './Sidebar';
 
 const Navbar = () => {
   const [openFilter, setOpenFilter] = useState(false)
@@ -18,6 +19,7 @@ const Navbar = () => {
   }
 
   return (
+    <>
     <div>
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
@@ -75,6 +77,8 @@ const Navbar = () => {
         ) : ''
       }
     </div>
+    <Sidebar />
+    </>
   )
 }
 

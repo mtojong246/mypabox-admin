@@ -1,12 +1,12 @@
 import React, { useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSchools } from './app/selectors/schools.selectors';
-import { addDocToSchoolCollection, getSchoolsAndDocuments } from './utils/firebase/firebase.utils';
-import { setSchools } from './app/slices/schools';
-import { AppDispatch } from './app/store';
+import { selectSchools } from '../../app/selectors/schools.selectors';
+import { addDocToSchoolCollection, getSchoolsAndDocuments } from '../../utils/firebase/firebase.utils';
+import { setSchools } from '../../app/slices/schools';
+import { AppDispatch } from '../../app/store';
 import { AiOutlineClose } from 'react-icons/ai'
-import { SchoolContext } from './useContext';
-import { addSchool } from './app/slices/schools';  
+import { SchoolContext } from '../../useContext';
+import { addSchool } from '../../app/slices/schools';  
 
 const Schools = () => {
   const schools = useSelector(selectSchools);
