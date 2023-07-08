@@ -9,25 +9,26 @@ interface AdditionalField {
 
 interface StringInput {
     input: string;
-    notes: Note[];
+    notes?: Note[];
 }
 
 interface StringInputWithFields {
     fields: AdditionalField[];
-    notes: Note[];
+    notes?: Note[];
 }
 
 interface NumberInput {
     input: number;
-    notes: Note[];
+    notes?: Note[];
 }
 
 interface BooleanInput {
     input: boolean;
-    notes: Note[];
+    notes?: Note[];
 }
 
 export interface School {
+    id: number;
     school_name: StringInput;
     school_logo: StringInput;
     school_street: StringInput;
