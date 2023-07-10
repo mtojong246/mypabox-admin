@@ -6,13 +6,14 @@ import { setSchools } from '../../app/slices/schools';
 import { AppDispatch } from '../../app/store';
 import { AiOutlineClose } from 'react-icons/ai'
 import { SchoolContext } from '../../useContext';
-import { addSchool } from '../../app/slices/schools';  
+import { useNavigate } from 'react-router-dom';
 
 const Schools = () => {
   const schools = useSelector(selectSchools);
   const dispatch: AppDispatch = useDispatch()
   const { state, city, name, openForm, stateSearch, schoolName, setName, setState, setCity,
   setOpenForm, setStateSearch } = useContext(SchoolContext)
+  const navigate = useNavigate();
 
   useEffect(() => {
     setStateSearch([])
@@ -26,7 +27,13 @@ const Schools = () => {
           dispatch(setSchools(allSchools));
         }
       } catch (error: any) {
-        alert('Error loading schools')
+        // throws error if user is not authenticated 
+        if (error.message === 'permission-denied') {
+          alert("Access denied. Please log in using the appropriate credentials");
+          navigate('/');
+        } else {
+          alert('Error loading school data')
+        }
       }
     }
 

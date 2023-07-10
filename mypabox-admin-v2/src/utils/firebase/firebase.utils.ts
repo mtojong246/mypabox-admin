@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, signOut, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, addDoc } from 'firebase/firestore'
+
 import { School } from "../../types/schools.types";
 
 interface AdditionalInfo {
@@ -45,7 +46,12 @@ export const getSchoolsAndDocuments = async () => {
         const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
     } catch (error: any) {
-        console.log('error fetching school data' , error.message);
+        console.log(error.code)
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error fetching school data' , error.code);
     }
 }
 

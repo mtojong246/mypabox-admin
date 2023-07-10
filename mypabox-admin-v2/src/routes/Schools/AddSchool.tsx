@@ -19,6 +19,7 @@ export default function AddSchool() {
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
 
+    // Toggles "AddNote" component
     const toggleNote = () => setOpenNote(!openNote);
 
     useEffect(() => {
