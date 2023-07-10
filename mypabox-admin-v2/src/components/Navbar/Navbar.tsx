@@ -7,6 +7,7 @@ import { SchoolContext } from '../../useContext';
 import states from '../../data/states.json';
 import { AiOutlineClose } from 'react-icons/ai'
 import Sidebar from './Sidebar';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [openFilter, setOpenFilter] = useState(false)
@@ -49,10 +50,10 @@ const Navbar = () => {
               isDisabled={true}
             />
             </button>                         
-            <button className="absolute top-[1em] border-2 w-40 rounded-2xl border-white text-white h-[2.5em] 
+            <Link to='/schools/add-school'><button className="absolute top-[1em] border-2 w-40 rounded-2xl border-white text-white h-[2.5em] 
             ml-[100em]" onClick={handleOpenForm}>
               Add New School
-            </button>
+            </button></Link>
           </div>
         ) : ''
       }

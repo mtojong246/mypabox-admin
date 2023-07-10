@@ -66,9 +66,9 @@ const Schools = () => {
       name: name,
     }
 
-    addDocToSchoolCollection(data)
+    // addDocToSchoolCollection(data)
     
-    dispatch(addSchool(data))
+    // dispatch(addSchool(data))
     setCity("")
     setState("")
     setName("")

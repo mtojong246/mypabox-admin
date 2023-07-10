@@ -33,9 +33,10 @@ const Sidebar = () => {
       {/* Left navigation bar */}
       {location.pathname === '/' ? '' :
         <div className="fixed block z-30 w-40 mt-16 bg-[#424244] h-screen">
-          {NAV_ITEMS.map((item) => (
+          {NAV_ITEMS.map((item, i) => (
             <Link
               to={item.path}
+              key={i}
               className=" text-white text-lg active:underline focus:underline hover:underline ml-4 border-3 w-2 block mt-16 border-black"
               style={{ left: item.left }}
             >

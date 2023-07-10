@@ -78,14 +78,14 @@ export const getDocsByName = async (name: string) => {
 }
 
 // Adds individual school collection to school document 
-export const addDocToSchoolCollection = async (data: SchoolDataType) => {
+export const addDocToSchoolCollection = async (data: School) => {
     const collectionRef = collection(db, 'schools');
 
     try {
         // Adds data as a document to school collection
         await addDoc(collectionRef, data)
     } catch (error: any) {
-        console.log('Error adding school', error.message)
+        return { error: `Unable to add school: ${error.message}`  }
     }
 }
 
