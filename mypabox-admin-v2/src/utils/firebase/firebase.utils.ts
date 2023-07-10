@@ -7,11 +7,11 @@ interface AdditionalInfo {
     displayName?: string;
 }
 
-interface SchoolDataType {
-    name: string,
-    state: string,
-    city: string,
-}
+// interface SchoolDataType {
+//     name: string,
+//     state: string,
+//     city: string,
+// }
 
 // Config values moved to .env file
 const firebaseConfig = {
