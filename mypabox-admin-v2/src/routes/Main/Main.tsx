@@ -16,24 +16,24 @@ const Main = () => {
   // Grabs schools stored in state 
   const schools = useSelector(selectSchools);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const fetchSchools = async () => {
-      try {
-        // fetches schools from firebase db and dispatches school action, which updates the schools array 
-        // that's stored in the school reducer
-        const allSchools = await getSchoolsAndDocuments();
-        if (allSchools) {
-          dispatch(setSchools(allSchools));
-        }
-      } catch (error: any) {
-        alert('Error loading schools')
-      }
-    }
+  //   const fetchSchools = async () => {
+  //     try {
+  //       // fetches schools from firebase db and dispatches school action, which updates the schools array 
+  //       // that's stored in the school reducer
+  //       const allSchools = await getSchoolsAndDocuments();
+  //       if (allSchools) {
+  //         dispatch(setSchools(allSchools));
+  //       }
+  //     } catch (error: any) {
+  //       alert('Error loading schools')
+  //     }
+  //   }
 
-    fetchSchools();
+  //   fetchSchools();
 
-  }, [dispatch])
+  // }, [dispatch])
 
 
   // Return JSX

@@ -61,12 +61,20 @@ export default function AddSchool() {
 
     // Sends newSchool data to db 
     const handleSave = async (e: MouseEvent<HTMLButtonElement>) => {
-        const response = await addDocToSchoolCollection(newSchool);
-
-        // if error, returns response, otherwise returns void 
-        if (response) {
-            return alert(response.error);
-        } 
+        try {
+            // Sends API request with new school data to firestore 
+            await addDocToSchoolCollection(newSchool);
+        } catch (error:any) {
+            // throws error and navigates to main page if user is not authenticated when making request
+            if (error.message === 'permission-denied') {
+                alert("Access denied. Please log in using the appropriate credentials");
+                navigate('/');
+                return;
+            } else {
+                alert('Error adding school');
+                return;
+            }
+        }
 
         // Adds new school to current school list 
         dispatch(addSchool(newSchool));

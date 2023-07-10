@@ -46,7 +46,6 @@ export const getSchoolsAndDocuments = async () => {
         const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
     } catch (error: any) {
-        console.log(error.code)
         if (error.code === 'permission-denied') {
             throw new Error(error.code);
         }
@@ -91,7 +90,11 @@ export const addDocToSchoolCollection = async (data: School) => {
         // Adds data as a document to school collection
         await addDoc(collectionRef, data)
     } catch (error: any) {
-        return { error: `Unable to add school: ${error.message}`  }
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error adding school' , error.code);
     }
 }
 

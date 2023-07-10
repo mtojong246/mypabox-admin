@@ -27,10 +27,11 @@ const Schools = () => {
           dispatch(setSchools(allSchools));
         }
       } catch (error: any) {
-        // throws error if user is not authenticated 
+        // throws error and navigates to main page if user is not authenticated 
         if (error.message === 'permission-denied') {
           alert("Access denied. Please log in using the appropriate credentials");
           navigate('/');
+          return;
         } else {
           alert('Error loading school data')
         }
