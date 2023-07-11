@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { loginAction, loginState } from "../../types/login.types";
 
 // The initial state for the login slice
 const initialState: loginState = {

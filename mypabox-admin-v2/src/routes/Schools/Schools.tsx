@@ -4,15 +4,16 @@ import { selectSchools } from '../../app/selectors/schools.selectors';
 import { addDocToSchoolCollection, getSchoolsAndDocuments } from '../../utils/firebase/firebase.utils';
 import { setSchools } from '../../app/slices/schools';
 import { AppDispatch } from '../../app/store';
-import { AiOutlineClose } from 'react-icons/ai'
+import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
 import { SchoolContext } from '../../useContext';
 import { addSchool } from '../../app/slices/schools';  
+import { Link } from 'react-router-dom';
 
 const Schools = () => {
   const schools = useSelector(selectSchools);
   const dispatch: AppDispatch = useDispatch()
   const { state, city, name, openForm, stateSearch, schoolName, setName, setState, setCity,
-  setOpenForm, setStateSearch } = useContext(SchoolContext)
+  setOpenForm, setStateSearch, toggleSideMenu } = useContext(SchoolContext)
 
   useEffect(() => {
     setStateSearch([])
@@ -75,32 +76,40 @@ const Schools = () => {
   }
 
   return (
-    <div className='absolute top-16'>
-
+    <div className="absolute top-16 font-['Noto Sans']">
       {/* Filter 1: The school name is converted to all lowercase letters and then the includes method is ran so that the only
           schools that are shown are the schools that matches the search input  
           Filter 2: If the state search length is 0 the item will be shown, if not the includes method is ran so the only schools
           that are shown are the school who's state is included in the stateSearch array
           After the filters are ran, the remaining schools array is then mapped through and the schools data is displayed
       */}
-      <div className='ml-60 w-[100em] rounded-xl shadow-lg shadow-gray-600  h-fit'>
-        <p className='text-3xl text-center font-semibold mt-16 ml-4'>Schools</p>
+      <div className={`mt-16 ${toggleSideMenu ? 'ml-72': 'ml-40'}`}>
+        <p className='text-4xl font-medium'>Schools</p>
+        <p className='mt-4'>Total: {schools.length}</p>
+      </div>
+
+      <Link to='/schools/add-school' className={`absolute border-2 focus:outline-none border-[#F06A6A] text-[#F06A6A] 
+      rounded-xl top-20 pl-8 pt-[.5em] h-10 w-32 ${toggleSideMenu ? 'left-[110em]' : 'left-[102em]'}`}>
+        <AiOutlinePlus className="absolute mt-1 -ml-6"/> Add School
+      </Link>
+      
+      <div className={`${toggleSideMenu ? 'ml-72' : 'ml-40'} w-[100em] rounded-t-xl shadow-lg shadow-gray-600 h-fit`}>
         <table className='w-full mt-8'>
           <thead className='bg-[#eeeef2] mt-8'>
-            <tr className=''>
-              <th scope="col" className='font-normal text-2xl text-left w-[24em]'>Name</th>
-              <th scope="col" className='font-normal ml-40 text-2xl text-center '>City</th>
-              <th scope="col" className='font-normal text-2xl mt text-center'>State</th>
+            <tr className='h-8'>
+              <th scope="col" className='font-normal uppercase text-2xl text-left w-[33em]'>Name</th>
+              <th scope="col" className='font-normal uppercase text-2xl w-[34em] text-center'>City</th>
+              <th scope="col" className='font-normal uppercase text-2xl w-[33em] mt text-center'>State</th>
             </tr>
           </thead>
           <tbody>
           {
             schools && schools.filter(school => school.school_name.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
               item : stateSearch.includes(item.school_state.input)).map((d, i) => (
-                <tr className="border-b-[0.125px] border-gray-400">
+                <tr className="border-b-[0.125px] border-gray-400 h-8">
                   <td className='text-xl h-[45px]'>{d.school_name.input}</td>
-                  <td className='text-xl text-center'>{d.school_city.input}</td>
-                  <td className='text-xl text-center'>{d.school_state.input}</td>
+                  <td className='text-xl pl-[13.4em] text-left'>{d.school_city.input}</td>
+                  <td className='text-xl pl-[12.7em] text-left'>{d.school_state.input}</td>
                 </tr>
               )
             )

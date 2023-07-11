@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-
+import { addSchoolReducer } from "./slices/addSchool";
 import { loginReducer } from "./slices/login";
 import { schoolReducer } from "./slices/schools";
 
@@ -7,4 +7,5 @@ import { schoolReducer } from "./slices/schools";
 export const rootReducer = combineReducers({
     login: loginReducer,
     schools: schoolReducer,
+    addSchool: addSchoolReducer
 })

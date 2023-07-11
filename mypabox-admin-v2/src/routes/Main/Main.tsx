@@ -39,7 +39,7 @@ const Main = () => {
   // Return JSX
   return (
     <div>
-      <p className="text-4xl text-center">Main</p>
+      <p className="absolute text-7xl mt-32 text-center">Main</p>
     </div>
   );
 };

@@ -10,6 +10,7 @@ const SchoolContext = createContext({
   handleName: (e: any) => {},
   handleState: (e: any) => {},
   handleOpenForm: (e: any) => {},
+  handleToggleSideMenu: (e: any) => {},
   handleCity: (e: any) => {},
   schoolName: '',
   state: '',
@@ -17,6 +18,7 @@ const SchoolContext = createContext({
   openForm: false,
   name: '',
   stateSearch: [{}],
+  toggleSideMenu: false,
   setName: (e: any) => {},
   setState: (e: any) => {},
   setCity: (e: any) => {},
@@ -31,6 +33,7 @@ const SchoolContextProvider: FC<Props> = ({ children }: { children: ReactNode })
   const [state, setState] = useState('')
   const [city, setCity] = useState('')
   const [openForm, setOpenForm] = useState(false)
+  const [toggleSideMenu, setToggleSideMenu] = useState(false)
   
   // Converts current value of input field to all lowercase letters
   const handleSchoolName = (e: { target: { value: string; }; }) => {
@@ -63,9 +66,14 @@ const SchoolContextProvider: FC<Props> = ({ children }: { children: ReactNode })
     setCity(e.target.value)
   }
 
+  const handleToggleSideMenu = () => {
+    setToggleSideMenu(!toggleSideMenu)
+  }
+
   return (
     <SchoolContext.Provider value={{ handleCity, handleState, handleName, handleOpenForm, handleStateSearch, handleSchoolName,
-      schoolName, state, city, name, openForm, stateSearch, setName, setState, setCity, setOpenForm, setStateSearch }}>
+      schoolName, state, city, name, openForm, stateSearch, setName, setState, setCity, setOpenForm, setStateSearch,
+      handleToggleSideMenu, toggleSideMenu }}>
       {children}
     </SchoolContext.Provider>
   )

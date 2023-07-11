@@ -1,9 +1,9 @@
-type loginState = {
+export type loginState = {
   email: string
   password: string
 }
 
-type loginAction = {
+export type loginAction = {
   type: string
   payload: {
     email: string,
@@ -18,6 +18,6 @@ type School  = {
   city: string;
 }
 
-type Schools = {
+export type Schools = {
   schools: School[]
 }
