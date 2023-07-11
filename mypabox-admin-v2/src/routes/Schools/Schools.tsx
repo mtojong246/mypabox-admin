@@ -104,12 +104,12 @@ const Schools = () => {
           </thead>
           <tbody>
           {
-            schools && schools.filter(school => school.school_name.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
-              item : stateSearch.includes(item.school_state.input)).map((d, i) => (
-                <tr className="border-b-[0.125px] border-gray-400 h-8">
-                  <td className='text-xl h-[45px]'>{d.school_name.input}</td>
-                  <td className='text-xl pl-[13.4em] text-left'>{d.school_city.input}</td>
-                  <td className='text-xl pl-[12.7em] text-left'>{d.school_state.input}</td>
+            schools.filter(school => school.name.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
+              item : stateSearch.includes(item.state)).map((d, i) => (
+                <tr className="border-b-[0.125px] border-gray-400">
+                  <td className='text-xl h-[45px]'>{d.name}</td>
+                  <td className='text-xl text-center'>{d.city}</td>
+                  <td className='text-xl text-center'>{d.state}</td>
                 </tr>
               )
             )

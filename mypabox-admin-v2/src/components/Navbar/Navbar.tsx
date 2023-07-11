@@ -7,6 +7,7 @@ import { RxHamburgerMenu } from 'react-icons/rx'
 import { SchoolContext } from '../../useContext';
 import states from '../../data/states.json';
 import { AiOutlineClose } from 'react-icons/ai'
+import { RxHamburgerMenu } from 'react-icons/rx'
 import Sidebar from './Sidebar';
 
 const Navbar = () => {
@@ -32,13 +33,9 @@ const Navbar = () => {
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
       {location.pathname === '/' ? '' : (
-        <div className="fixed z-20 bg-[#252628] h-16 w-full">
-          <RxHamburgerMenu className='text-white text-4xl mt-4 ml-4 b' onClick={handleToggleSideMenu}/>
-          
+        <div className="fixed z-20 bg-[#363639] h-16 w-full">
           {/* Logo image */}
-          <button className='-mt-[5.5em] ml-16' onClick={goToMain}>
-            <img src={logo} alt="myPAbox" className="h-16 select-none" />
-          </button>
+          <img src={logo} alt="myPAbox" className="h-16" />
         </div>  
       )}
       {
