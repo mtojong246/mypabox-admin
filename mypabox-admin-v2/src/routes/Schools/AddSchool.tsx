@@ -129,8 +129,6 @@ export default function AddSchool() {
         {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
     */}
 
-  console.log(newSchool)
-
   return (
     <>
       <div className="absolute left-32 font-Noto Sans">

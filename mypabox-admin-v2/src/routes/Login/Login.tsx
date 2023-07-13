@@ -79,7 +79,7 @@ export default function Login() {
       <form
         id="signin-form"
         onSubmit={handleSubmit}
-        className="relative border ml-[784px] h-96 z-30 -mt-[500px] 
+        className="relative border ml-[844px] h-96 z-30 -mt-[500px] 
         border-l-16 border-gray-400 border-y-0 border-r-0 w-[660px]"
       >
         <p className="text-2xl ml-16 select-none font-semibold text-[#124967]">
