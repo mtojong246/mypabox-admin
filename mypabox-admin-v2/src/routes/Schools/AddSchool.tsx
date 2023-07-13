@@ -314,7 +314,6 @@ export default function AddSchool() {
           </button>
 
           
-
         </div>
 
         <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
