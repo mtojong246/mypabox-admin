@@ -2,15 +2,17 @@ import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, signOut, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, addDoc } from 'firebase/firestore'
 
+import { School } from "../../types/schools.types";
+
 interface AdditionalInfo {
     displayName?: string;
 }
 
-interface SchoolDataType {
-    name: string,
-    state: string,
-    city: string,
-}
+// interface SchoolDataType {
+//     name: string,
+//     state: string,
+//     city: string,
+// }
 
 // Config values moved to .env file
 const firebaseConfig = {
@@ -44,7 +46,11 @@ export const getSchoolsAndDocuments = async () => {
         const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
     } catch (error: any) {
-        console.log('error fetching school data' , error.message);
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error fetching school data' , error.code);
     }
 }
 
@@ -77,14 +83,18 @@ export const getDocsByName = async (name: string) => {
 }
 
 // Adds individual school collection to school document 
-export const addDocToSchoolCollection = async (data: SchoolDataType) => {
+export const addDocToSchoolCollection = async (data: School) => {
     const collectionRef = collection(db, 'schools');
 
     try {
         // Adds data as a document to school collection
         await addDoc(collectionRef, data)
     } catch (error: any) {
-        console.log('Error adding school', error.message)
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error adding school' , error.code);
     }
 }
 

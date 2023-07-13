@@ -35,7 +35,7 @@ const Sidebar = () => {
       {/* Left navigation bar */}
       {location.pathname === '/' ? '' :
         <div className="fixed block font-['Noto Sans'] select-none z-30 w-[15em] mt-16 bg-[#252628] h-screen">
-          <div className="mt-6 border-b-2 h-[53em] border-white">
+          <div className="mt-6 border-b-2 h-[74em] border-white">
             {NAV_ITEMS.map((item) => (
               <Link
                 to={item.path}
@@ -47,11 +47,13 @@ const Sidebar = () => {
               </Link>
             ))}
           </div>
+          
           <button
             onClick={signOutHandler}
-            className="absolute top-[45.5em] ml-4 text-xl text-white">
+            className="absolute top-[62.5em] ml-4 text-xl text-white">
             Sign Out
           </button>
+       
         </div>
        }
     </>

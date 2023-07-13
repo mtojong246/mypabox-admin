@@ -7,7 +7,6 @@ import { RxHamburgerMenu } from 'react-icons/rx'
 import { SchoolContext } from '../../useContext';
 import states from '../../data/states.json';
 import { AiOutlineClose } from 'react-icons/ai'
-import { RxHamburgerMenu } from 'react-icons/rx'
 import Sidebar from './Sidebar';
 
 const Navbar = () => {
@@ -33,16 +32,31 @@ const Navbar = () => {
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
       {location.pathname === '/' ? '' : (
-        <div className="fixed z-20 bg-[#363639] h-16 w-full">
+        <div className="fixed z-20 bg-[#252628] h-16 w-full">
           {/* Logo image */}
-          <img src={logo} alt="myPAbox" className="h-16" />
+          <img src={logo} alt="myPAbox" className="h-16 ml-16" />
+          <RxHamburgerMenu className='absolute text-white text-4xl mt-4 ml-4 z-30' onClick={handleToggleSideMenu}/>
+
         </div>  
       )}
       {
+        location.pathname === '/schools/add-school' ? (
+          <div>
+            <RxHamburgerMenu className='fixed text-white text-4xl mt-4 ml-4 z-30' onClick={handleToggleSideMenu}/>
+          </div>
+        ) : ''
+      }
+      {
+        location.pathname === '/main' ? (
+          <div>
+            <RxHamburgerMenu className='fixed text-white text-4xl mt-4 ml-4 z-30' onClick={handleToggleSideMenu}/>
+          </div>
+        ) : ''
+      }
+      {
         location.pathname === '/schools' ? (
           <div className='fixed z-20'>
-            <RxHamburgerMenu className='absolute text-white text-4xl mt-4 ml-4 b' onClick={handleToggleSideMenu}/>
-
+            <RxHamburgerMenu className='absolute text-white text-4xl mt-4 ml-4 z-30' onClick={handleToggleSideMenu}/>
             {/* Search field that allows you to filter through schools */}
             <input type='input' className=' rounded-lg mt-2 h-12 w-[45em] focus:outline-none 
             ml-[25em] text-xl placeholder:pl-10 placeholder:select-none bg-[#424244]' value={schoolName} onChange={handleSchoolName} 
@@ -61,13 +75,7 @@ const Navbar = () => {
               placeholder="Select State"
               isDisabled={true}
             />
-            </button>                         
-            {/*
-            <button className="absolute top-[1em] border-2 w-40 rounded-2xl border-white text-white h-[2.5em] 
-            ml-[100em]" onClick={handleOpenForm}>
-              Add New School
-            </button>
-        */}
+            </button>       
           </div>
         ) : ''
       }

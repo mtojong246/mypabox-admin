@@ -1,4 +1,4 @@
-interface Note {
+export interface Note {
     type: string;
     note: string;
 }
@@ -7,27 +7,28 @@ interface AdditionalField {
     input: string;
 }
 
-interface StringInput {
+export interface StringInput {
     input: string;
-    notes: Note[];
+    notes?: Note[];
 }
 
 interface StringInputWithFields {
     fields: AdditionalField[];
-    notes: Note[];
+    notes?: Note[];
 }
 
-interface NumberInput {
+export interface NumberInput {
     input: number;
-    notes: Note[];
+    notes?: Note[];
 }
 
-interface BooleanInput {
+export interface BooleanInput {
     input: boolean;
-    notes: Note[];
+    notes?: Note[];
 }
 
 export interface School {
+    id: number;
     school_name: StringInput;
     school_logo: StringInput;
     school_street: StringInput;
