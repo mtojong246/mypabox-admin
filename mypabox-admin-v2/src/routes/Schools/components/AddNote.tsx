@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, SetStateAction } from 'react';
+import { useState, ChangeEvent, SetStateAction, useEffect } from 'react';
 import { AiOutlineClose, AiOutlineBold, AiOutlineItalic } from 'react-icons/ai';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -6,16 +6,22 @@ import 'react-quill/dist/quill.snow.css';
 export default function AddNote({ currentInput, addNote, toggleNote }: { currentInput: string, addNote: (currentInput: string, type: string, note: string) => void, toggleNote: () => void }) {
     const [ type, setType ] = useState('information');
     const [ note, setNote ] = useState('');
+    const [ htmlString, setHtmlString ] = useState('')
     // Changes type based on radio button selection 
     const handleType = (e: ChangeEvent<HTMLInputElement>) => {
         setType((e.target as HTMLInputElement).value);
     }
 
-    // Changes note based on user input 
-    const handleInput = (e: { target: { value: SetStateAction<string>; }; }) => {
-        setNote(e.target.value);
-    }
 
+    useEffect(() => {
+      // Converts html string into plain text and sets note 
+      if (htmlString) {
+        const plainString = htmlString.replace(/<[^>]+>/g, '');
+        setNote(plainString);
+      }
+      
+    }, [htmlString])
+    
 
     return (
         // Test inputs 
@@ -45,7 +51,7 @@ export default function AddNote({ currentInput, addNote, toggleNote }: { current
             </div>
            */}
             
-            <ReactQuill className='absolute mt-[15em] h-96 rounded-2xl w-[42em] ml-8' theme="snow" value={note} onChange={setNote} />
+            <ReactQuill className='absolute mt-[15em] h-96 rounded-2xl w-[42em] ml-8' theme="snow" value={htmlString} onChange={setHtmlString} />
             <button type='submit' className="absolute mt-[45em] ml-[39em] w-20 h-10 rounded-2xl border-2 border-blue-600 text-blue-600" 
             onClick={() => {addNote(currentInput, type, note); toggleNote()}}>
               Done

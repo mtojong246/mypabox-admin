@@ -105,6 +105,7 @@ export default function AddSchool() {
    
         const name = currentInput as keyof School;
         const field = newSchool[name] as StringInput | BooleanInput | NumberInput;
+        console.log(field);
         setNewSchool({
             ...newSchool,
             [name]: {
@@ -112,7 +113,6 @@ export default function AddSchool() {
                 notes: field?.notes?.concat({type, note})
             }
         })
-        console.log(newSchool)
     }
 
     // eslint-disable-next-line no-lone-blocks
@@ -133,7 +133,7 @@ export default function AddSchool() {
       <div className="absolute left-32 font-['Noto Sans']">
       <div className="h-16 w-[105em] mt-28">
         <p className='text-4xl mt-4 font-medium'>Add School</p>
-        <button className='absolute ml-[94em] border-2 border-solid border-[#4573D2] rounded-xl w-20 h-12 -mt-9'>
+        <button onClick={handleSave} value='done' className='absolute ml-[94em] border-2 border-solid border-[#4573D2] rounded-xl w-20 h-12 -mt-9'>
           Done
         </button>
       </div>
