@@ -42,7 +42,7 @@ const Schools = () => {
   }, [dispatch, navigate, setStateSearch])
 
   const addSchoolButton = () => {
-    navigate('/schools/add-school')
+    navigate('/schools/add-school#general-info')
   }
 
   return (

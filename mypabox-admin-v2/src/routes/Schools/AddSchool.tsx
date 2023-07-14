@@ -5,11 +5,11 @@ import { selectSchools } from "../../app/selectors/schools.selectors";
 import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
 import { addDocToSchoolCollection } from "../../utils/firebase/firebase.utils";
 import { addSchool } from "../../app/slices/schools";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import AddNote from "./components/AddNote";
 import { School } from "../../types/schools.types";
 import { StringInput, BooleanInput, NumberInput } from "../../types/schools.types";
-
+import GeneralInfo from "./AddSchool/GeneralInfo";
 
 export default function AddSchool() {
   const schools = useSelector(selectSchools);
@@ -18,6 +18,7 @@ export default function AddSchool() {
   const [ openNote, setOpenNote ] = useState(false);
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
+  const location = useLocation()
 
   // Toggles "AddNote" component
   const toggleNote = () => setOpenNote(!openNote);
@@ -56,8 +57,9 @@ export default function AddSchool() {
                 }
             })
         }        
+
     }
-    
+
     // Sends newSchool data to db 
     const handleSave = async (e: MouseEvent<HTMLButtonElement>) => {
         try {
@@ -93,21 +95,24 @@ export default function AddSchool() {
     // Opens note popup and sets value of "Add note" button to "currentInput", 
     // which will be used in the "addNote" function to find the corresponding data point 
     const openNotePopup = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
         toggleNote();
         setCurrentInput((e.currentTarget as HTMLButtonElement).value);
     }
 
     // Concats new note to corresponding data point 
     const addNote = (currentInput: string, type: string, note: string) => {
+   
         const name = currentInput as keyof School;
         const field = newSchool[name] as StringInput | BooleanInput | NumberInput;
         setNewSchool({
             ...newSchool,
             [name]: {
                 ...field,
-                notes: field.notes?.concat({type, note})
+                notes: field?.notes?.concat({type, note})
             }
         })
+        console.log(newSchool)
     }
 
     // eslint-disable-next-line no-lone-blocks
@@ -125,365 +130,57 @@ export default function AddSchool() {
 
   return (
     <>
-      <div className="absolute left-32 font-Noto Sans">
+      <div className="absolute left-32 font-['Noto Sans']">
       <div className="h-16 w-[105em] mt-28">
         <p className='text-4xl mt-4 font-medium'>Add School</p>
-        <button className='absolute ml-[100em] border-2 border-solid border-[#4573D2] rounded-xl w-20 h-12 -mt-9'>
+        <button className='absolute ml-[94em] border-2 border-solid border-[#4573D2] rounded-xl w-20 h-12 -mt-9'>
           Done
         </button>
       </div>
 
-      <div className='h-8 mt-6 text-lg border-b-2 flex border-black'>
-        <p className=''>General Info</p>
-        <p className='ml-14'>Degree Info</p>
-        <p className='ml-14'>Tuition</p>
-        <p className='ml-14'>GPA</p>
-        <p className='ml-14'>Prerequisites</p>
-        <p className='ml-14'>Healthcare Experience</p>
-        <p className='ml-14'>Shadowing</p>
-        <p className='ml-14'>GRE</p>
-        <p className='ml-14'>Letters of Recommendation</p>
-        <p className='ml-14'>Certifications</p>
-        <p className='ml-14'>Additional Notes</p>
+      <div className='h-8 mt-6 text-md border-b-2 flex border-black'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#general-info' }} className='focus:text-orange-500'>
+          General Info
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#degree-info' }} className='ml-14 focus:text-orange-500'>
+          Degree Info
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#tuition' }} className='ml-14 focus:text-orange-500'>
+          Tuition
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#GPA' }} className='ml-14 focus:text-orange-500'>
+          GPA</Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#prerequisites' }} className='ml-14 focus:text-orange-500'>
+          Prerequisites
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#healthcare-experience' }} className='ml-14 focus:text-orange-500'>
+          Healthcare Experience
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#shadowing' }} className='ml-14 focus:text-orange-500'>
+          Shadowing
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#GRE' }} className='ml-14 focus:text-orange-500'>
+          GRE
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#letters-of-recommendation' }} className='ml-14 focus:text-orange-500'>
+          Letters of Recommendation
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#certifications' }} className='ml-14 focus:text-orange-500'>
+          Certifications
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#additional-notes' }} className='ml-14 focus:text-orange-500'>
+          Additional Notes
+        </Link>
       </div>
 
-      <form className='mt-16'>
-        <div className="w-[45em] border h-44 rounded-lg border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">School Name</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl" onClick={openNotePopup}>
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_name.input} name='school_name' onChange={handleInputChange} />
-        </div>
+      {
+        location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} /> : ''
+      }
 
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">School Logo</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_logo.input} name='school_logo' onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Street Address</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_street.input} name='school_street' onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">City</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_city.input} name='school_city' onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">State</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_state.input} name='school_state' onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Zip</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_zip_code.input} name="school_zip_code" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Country</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_country.input} name="school_country" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Website</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_website.input} name="school_website" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">School Email</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_email.input} name="school_email" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">School Phone Number</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_phone_number.input} name="school_phone_number" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-32 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Campus Location</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_campus_location.input} name="school_campus_location" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Start Month</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_start_month.input} name="school_start_month" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Class Compacity</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_class_capacity.input} name="school_class_capacity" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Duration(Full-time)</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_duration_full_time.input} name="school_duration_full_time" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Duration(Part-time)</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_duration_part_time.input} name="school_duration_part_time" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Seat Deposit(In-state)</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_seat_deposit_in_state.input} name="school_seat_deposit_in_state" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Seat Deposit(Out-of-state)</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <input type='text' className="w-[42.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_seat_deposit_out_of_state.input} name="school_seat_deposit_out_of_state" onChange={handleInputChange}/>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-32 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Rolling admissions</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_rolling_admissions' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_rolling_admissions.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Non-rolling admissions</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_nonrolling_admissions' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_nonrolling_admissions.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Pre-PA curriculum</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_pre_pa_curriculum' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_pre_pa_curriculum.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Direct High School Entry</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_direct_high_school_entry' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_direct_high_school_entry.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Part-time Option</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_part_time_option' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_part_time_option.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Online Learning</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_online_learning' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_online_learning.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">On-campus Housing</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_on_campus_housing' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_on_campus_housing.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Cadaver Lab</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_cadaver_lab' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_cadaver_lab.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Faith-based Learning</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_faith_based_learning' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_faith_based_learning.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-
-        <div className="w-[45em] border h-44 rounded-lg mt-16 border-[#B4B4B4]">
-          <label className="absolute -mt-4 ml-6 text-xl bg-white">Military Personnel Preference</label>
-          <button className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl">
-            Add Note
-          </button>
-          <label className="absolute inline-flex items-center mt-32 -ml-32 space-x-4 cursor-pointer dark:text-gray-100">
-	          <span className="relative -mt-6">
-	           	<input type="checkbox" className="hidden peer" name='school_military_personnel_preference' onChange={handleInputChange}/>
-       		    <div className="w-32 h-12 rounded-full shadow-inner dark:bg-gray-200 peer-checked:dark:bg-[#F06A6A]"></div>
-	          	<div className="absolute inset-y-0 left-0 w-10 h-10 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto 
-              dark:bg-white"></div>
-          	</span>
-	          <span className="text-black text-2xl -mt-7">
-              {newSchool.school_military_personnel_preference.input ? 'True' : 'False'}
-            </span>
-          </label>
-        </div>
-      </form>
     </div>
     {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
+
   </>
   )
 }

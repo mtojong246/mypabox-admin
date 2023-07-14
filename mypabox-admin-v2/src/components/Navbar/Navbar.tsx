@@ -35,7 +35,6 @@ const Navbar = () => {
         <div className="fixed z-20 bg-[#252628] h-16 w-full">
           {/* Logo image */}
           <img src={logo} alt="myPAbox" className="h-16 ml-16" />
-          <RxHamburgerMenu className='absolute text-white text-4xl mt-4 ml-4 z-30' onClick={handleToggleSideMenu}/>
 
         </div>  
       )}
@@ -66,7 +65,7 @@ const Navbar = () => {
               <HiMagnifyingGlass />
             </div>
             {/* Select component that allows you to select multiple states */}
-            <button className='absolute top-[1em] left-[103em] w-[15em]' onClick={handleOpenFilter}>
+            <button className='absolute top-[1em] left-[94em] w-[15em]' onClick={handleOpenFilter}>
             <Select
               isMulti
               name="colors"
