@@ -112,7 +112,7 @@ export default function AddSchool() {
                 notes: field?.notes?.concat({type, note})
             }
         })
-        console.log(newSchool)
+        console.log(newSchool[name])
     }
 
     // eslint-disable-next-line no-lone-blocks
