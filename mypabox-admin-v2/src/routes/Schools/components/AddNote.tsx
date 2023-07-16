@@ -12,16 +12,21 @@ export default function AddNote({ currentInput, addNote, toggleNote }: { current
         setType((e.target as HTMLInputElement).value);
     }
 
-    // Changes note based on user input 
-    const handleInput = (e: { target: { value: SetStateAction<string>; }; }) => {
-        setNote(e.target.value);
-    }
 
+    useEffect(() => {
+      // Converts html string into plain text and sets note 
+      if (htmlString) {
+        const plainString = htmlString.replace(/<[^>]+>/g, '');
+        setNote(plainString);
+      }
+      
+    }, [htmlString])
+    
 
     return (
         // Test inputs 
         <div className="fixed w-screen font-['Noto Sans'] top-0 bg-[#000000d5] z-10 h-screen">
-          <form className="h-[50em] w-[46em] mt-24 rounded-[0.625em] bg-white ml-[25em]">
+          <form className="h-[50em] w-[46em] mt-24 rounded-[0.625em] bg-white ml-96">
             <AiOutlineClose className='absolute text-black text-2xl ml-[29em] mt-8' onClick={toggleNote}/>
             <p className='absolute text-2xl mt-8 ml-8'>Add Note</p>
             <div className="absolute mt-24 ml-8">
@@ -55,4 +60,3 @@ export default function AddNote({ currentInput, addNote, toggleNote }: { current
         </div>
     )
 }
-
