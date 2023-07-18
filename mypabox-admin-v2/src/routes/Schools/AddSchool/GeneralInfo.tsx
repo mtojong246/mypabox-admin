@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill';
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -9,7 +9,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
   const [ htmlString, setHtmlString ] = useState('')
   const [ note, setNote ] = useState('');
   const [stateNames, setStateNames] = useState<any>([])
-  const countryNames: { value: string; label: string; target: {name: string; type: string; value: string;};}[] = useMemo(() => [], [])
+  const [countryNames, setCountryNames] = useState<any>([])
+  //const countryNames: { value: string; label: string; target: {name: string; type: string; value: string;};}[] = useMemo(() => [], [])
 
   useEffect(() => {
     // Converts html string into plain text and sets note 
@@ -17,15 +18,15 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
       const plainString = htmlString.replace(/<[^>]+>/g, '');
       setNote(plainString);
     }
+    
+    setCountryNames(countries.map(country => ({ value: country.name, label: country.name, 
+      target: {name: "school_country", type: 'text', value: country.name, }})))
 
-    countries.map(country => countryNames.push({ value: country.name, label: country.name, 
-      target: {name: "school_country", type: 'text', value: country.name, }})) 
+    setStateNames(countries.filter(country => country.name === newSchool.school_country.input)[0]?.states
+     .map(state => ({ value: state.name, label: state.name, target: {name: "school_state", type: 'text', 
+     value: state.name, } })))
 
-      setStateNames(countries.filter(country => country.name === newSchool.school_country.input)[0]?.states
-      .map(state => ({ value: state.name, label: state.name, 
-        target: {name: "school_state", type: 'text', value: state.name, } })))
-
-  }, [countryNames, htmlString, newSchool.school_country.input])
+  }, [htmlString, newSchool.school_country.input])
 
   return (
     <form className='mt-16'>
