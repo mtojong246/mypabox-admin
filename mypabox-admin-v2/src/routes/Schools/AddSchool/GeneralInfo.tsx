@@ -888,6 +888,12 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           border-black' name='school_general_information' onChange={handleInputChange}/>
         </div>
 
+        <button className='mt-4 border border-red-400 text-red-400 h-12 ml-[40em] rounded-xl w-28'>
+          Save & Next
+        </button>
+        <button className='mt-4 border border-blue-500 text-blue-500 h-12 ml-[31.5em] rounded-xl w-36'>
+          Save for later
+        </button>
       </form>
   )
 }
