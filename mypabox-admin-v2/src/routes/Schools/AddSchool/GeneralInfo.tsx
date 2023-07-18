@@ -1,20 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import ReactQuill from 'react-quill';
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
+import Select from 'react-select';
+import countries from '../../../data/countries.json'
 
 const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
   const [ htmlString, setHtmlString ] = useState('')
   const [ note, setNote ] = useState('');
-    
+  const [stateNames, setStateNames] = useState<any>([])
+  const countryNames: { value: string; label: string; target: {name: string; type: string; value: string;};}[] = useMemo(() => [], [])
+
   useEffect(() => {
     // Converts html string into plain text and sets note 
     if (htmlString) {
       const plainString = htmlString.replace(/<[^>]+>/g, '');
       setNote(plainString);
     }
-        
-  }, [htmlString])
+
+    countries.map(country => countryNames.push({ value: country.name, label: country.name, 
+      target: {name: "school_country", type: 'text', value: country.name, }})) 
+
+      setStateNames(countries.filter(country => country.name === newSchool.school_country.input)[0]?.states
+      .map(state => ({ value: state.name, label: state.name, 
+        target: {name: "school_state", type: 'text', value: state.name, } })))
+
+  }, [countryNames, htmlString, newSchool.school_country.input])
 
   return (
     <form className='mt-16'>
@@ -23,13 +34,12 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           <button value="school_name" className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl" onClick={openNotePopup}>
             Add Note
           </button>
-          <input type='text' className="w-[37.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
+          <input className="w-[37.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
           value={newSchool.school_name.input} name='school_name' onChange={handleInputChange} />
           {
             newSchool.school_name.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_name.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_name.notes.map((note: any) => {
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -55,8 +65,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_logo.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_logo.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_logo.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -82,8 +92,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_street.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_street.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_street.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -109,8 +119,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_city.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_city.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_city.notes.map((note: any) => {
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -131,13 +140,13 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           <button value='school_state' className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl" onClick={openNotePopup}>
             Add Note
           </button>
-          <input type='text' className="w-[37.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_state.input} name='school_state' onChange={handleInputChange}/>
+          <Select className="w-[37.5em] focus:outline-none h-14 rounded-lg ml-6 mt-4" name="school_state" 
+          options={stateNames} onChange={handleInputChange} />
           {
             newSchool.school_state.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_state.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_state.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -163,8 +172,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_zip_code.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_zip_code.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_zip_code.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -185,13 +194,12 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           <button value='school_country' className="w-32 border border-[#F06A6A] rounded-md mt-6 ml-6 h-14 text-xl" onClick={openNotePopup}>
             Add Note
           </button>
-          <input type='text' className="w-[37.5em] focus:outline-none border border-[#B4B4B4] h-14 rounded-lg ml-6 mt-4" 
-          value={newSchool.school_country.input} name="school_country" onChange={handleInputChange}/>
+          <Select className="w-[37.5em] focus:outline-none  h-14 rounded-lg ml-6 mt-4"  name="school_country" options={countryNames}
+           onChange={handleInputChange} />
           {
             newSchool.school_country.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_country.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_country.notes.map((note: any) => {
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -217,8 +225,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_website.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_website.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_website.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -244,8 +252,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_email.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_email.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_email.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -271,8 +279,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_phone_number.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_phone_number.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_phone_number.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -298,8 +306,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_campus_location.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_campus_location.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_campus_location.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -325,8 +333,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_start_month.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_start_month.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_start_month.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -352,8 +360,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_class_capacity.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_class_capacity.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_class_capacity.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -379,8 +387,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_duration_full_time.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_duration_full_time.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_duration_full_time.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -406,8 +414,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_duration_part_time.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_duration_part_time.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_duration_part_time.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -433,8 +441,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_seat_deposit_in_state.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_seat_deposit_in_state.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_seat_deposit_in_state.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -460,8 +468,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_seat_deposit_out_of_state.notes.length > 0 ? (
             <div className="-mt-8">
-              {newSchool.school_seat_deposit_out_of_state.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_seat_deposit_out_of_state.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -500,8 +508,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_rolling_admissions.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_rolling_admissions.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_rolling_admissions.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -539,8 +547,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_nonrolling_admissions.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_nonrolling_admissions.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_nonrolling_admissions.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -579,8 +587,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_pre_pa_curriculum.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_pre_pa_curriculum.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_pre_pa_curriculum.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -619,8 +627,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_direct_high_school_entry.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_direct_high_school_entry.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_direct_high_school_entry.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -660,8 +668,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_part_time_option.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_part_time_option.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_part_time_option.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -699,8 +707,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_online_learning.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_online_learning.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_online_learning.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -739,8 +747,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_on_campus_housing.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_on_campus_housing.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_on_campus_housing.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -777,8 +785,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_cadaver_lab.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_cadaver_lab.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_cadaver_lab.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -816,8 +824,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_faith_based_learning.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_faith_based_learning.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_faith_based_learning.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -855,8 +863,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
           {
             newSchool.school_military_personnel_preference.notes.length > 0 ? (
             <div className="mt-48">
-              {newSchool.school_military_personnel_preference.notes.map((note: any, index: number) => {
-                console.log(note)
+              {newSchool.school_military_personnel_preference.notes.map((note: any) => {
+                
                 return (
                 <div className="mt-[4em] h-44 rounded-md ml-7 w-[30em] border border-black">
                   <p className={`capitalize ml-3 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
