@@ -10,6 +10,8 @@ import AddNote from "./components/AddNote";
 import { School } from "../../types/schools.types";
 import { StringInput, BooleanInput, NumberInput } from "../../types/schools.types";
 import GeneralInfo from "./AddSchool/GeneralInfo";
+import { AppState } from "../../app/root-reducer";
+import { addSchoolState } from "../../types/addSchool.types";
 
 export default function AddSchool() {
   const schools = useSelector(selectSchools);
