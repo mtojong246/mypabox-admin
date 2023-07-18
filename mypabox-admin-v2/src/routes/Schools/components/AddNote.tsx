@@ -40,16 +40,6 @@ export default function AddNote({ currentInput, addNote, toggleNote }: { current
                 <p className='-mt-6 ml-5'>Requirement</p>
               </label>
             </div>
-            {/*
-            <div className="absolute ml-8  mt-96">
-              <div className='border border-black rounded-t-3xl h-10 border-b-0'>
-                <AiOutlineBold className="ml-4 text-xl mt-3" />
-                <AiOutlineItalic className="ml-4 text-xl text-black border-2 border-black mt-3" />
-              </div>
-              <textarea rows={12} cols={90} className="rounded-b-2xl border border-black" 
-              value={note} placeholder='Enter note' onChange={handleInput}/>
-            </div>
-           */}
             
             <ReactQuill className='absolute mt-[15em] h-96 rounded-2xl w-[42em] ml-8' theme="snow" value={htmlString} onChange={setHtmlString} />
             <button type='submit' className="absolute mt-[45em] ml-[39em] w-20 h-10 rounded-2xl border-2 border-blue-600 text-blue-600" 

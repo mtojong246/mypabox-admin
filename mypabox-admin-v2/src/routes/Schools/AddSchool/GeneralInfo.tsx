@@ -10,7 +10,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
   const [ note, setNote ] = useState('');
   const [stateNames, setStateNames] = useState<any>([])
   const [countryNames, setCountryNames] = useState<any>([])
-  //const countryNames: { value: string; label: string; target: {name: string; type: string; value: string;};}[] = useMemo(() => [], [])
+
+  console.log(newSchool.school_general_information)
 
   useEffect(() => {
     // Converts html string into plain text and sets note 
@@ -880,6 +881,13 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
             ) : ''
           }
         </div>
+
+        <div className="mt-10 text-xl">
+          <p>General Information Notes</p>
+          <textarea className='mt-4 focus:outline-none h-64 rounded-lg w-[70em] border 
+          border-black' name='school_general_information' onChange={handleInputChange}/>
+        </div>
+
       </form>
   )
 }

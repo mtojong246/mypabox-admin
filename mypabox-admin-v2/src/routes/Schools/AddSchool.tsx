@@ -56,7 +56,12 @@ export default function AddSchool() {
                     input: (e.target.checked)
                 }
             })
-        }        
+        } else if (e.target.type === 'textarea') {
+          setNewSchool({
+            ...newSchool,
+            [name]: e.target.value
+          })
+        }
 
     }
 
