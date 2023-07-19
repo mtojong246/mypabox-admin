@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import ReactQuill from 'react-quill';
+import { useEffect, useState } from 'react'
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import Select from 'react-select';
