@@ -119,19 +119,6 @@ export default function AddSchool() {
         })
     }
 
-    // eslint-disable-next-line no-lone-blocks
-    {/*
-              <div className="absolute left-[200px] top-[200px] w-[500px] bg-slate-100">
-        <input type='text' name='school_name' value={newSchool.school_name.input} placeholder="name" onChange={handleInputChange} />
-        <button value='school_name' onClick={openNotePopup}>Add note</button>
-        <input type='text' name='school_city' value={newSchool.school_city.input} placeholder='city' onChange={handleInputChange} />
-        <input type='text' name='school_state' value={newSchool.school_state.input} placeholder='state' onChange={handleInputChange} />
-        <input type='checkbox' name='school_rolling_admissions' onChange={handleInputChange} />
-        <button value='done' onClick={handleSave}>Done</button>
-        </div>
-        {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
-    */}
-
   return (
     <>
       <div className="absolute left-32 font-['Noto Sans']">
@@ -179,7 +166,7 @@ export default function AddSchool() {
 
       {
         location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> : ''
+        openNotePopup={openNotePopup} setNewSchool={setNewSchool}/> : ''
       }
 
     </div>
