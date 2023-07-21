@@ -46,7 +46,8 @@ const Schools = () => {
   }
 
   return (
-    <div className="absolute top-16 font-['Noto Sans']">
+    <div className="w-screen py-24 font-['Noto Sans']">
+      <div className='w-full max-w-[1200px] p-10 mx-auto'>
 
       {/* Filter 1: The school name is converted to all lowercase letters and then the includes method is ran so that the only
           schools that are shown are the schools that matches the search input  
@@ -54,24 +55,26 @@ const Schools = () => {
           that are shown are the school who's state is included in the stateSearch array
           After the filters are ran, the remaining schools array is then mapped through and the schools data is displayed
       */}
-      <div className={`${toggleSideMenu ? 'ml-72' : 'ml-32'} mt-16`}>
-        <p className='text-5xl font-semibold'>Schools</p>
-        <p className='text-xl mt-2'>Total: {schools.length}</p>
+      <div className={`w-full flex justify-between items-start ${toggleSideMenu ? 'pl-72 xl:pl-36' : ''}`}>
+        <div >
+          <p className='text-5xl font-semibold'>Schools</p>
+          <p className='text-xl mt-2'>Total: {schools.length}</p>
+        </div>
+
+        <button className={`text-lg border-2 
+        border-[#F06A6A] text-[#F06A6A] rounded-xl py-2 px-4`} onClick={addSchoolButton}>
+          + Add School
+        </button>
       </div>
-
-      <button className={`absolute ${toggleSideMenu ? 'ml-[96em]' : 'ml-[88em]'} pl-2 text-lg border-2 
-      border-[#F06A6A] text-[#F06A6A] h-10 rounded-xl w-36 top-20`} onClick={addSchoolButton}>
-        <AiOutlinePlus className='absolute pt-2 text-2xl' /> Add School
-      </button>
-
-      <div className={`${toggleSideMenu ? 'ml-72' : 'ml-32'} w-[100em] rounded-t-xl shadow-lg 
-      shadow-gray-600 h-fit`}>
-        <table className='w-full mt-16'>
+      <div className={`w-full ${toggleSideMenu ? 'pl-72 xl:pl-36' : ''}`}>
+      <div className={`w-full rounded-t-xl shadow-lg 
+      shadow-gray-600 mt-16 max-h-[800px] max-w-[1200px] overflow-scroll`}>
+        <table className='w-full'>
           <thead className='bg-[#eeeef2] mt-8'>
-            <tr className='h-12'>
-              <th scope="col" className='font-normal text-2xl text-left w-[24em]'>Name</th>
-              <th scope="col" className='font-normal ml-40 text-2xl text-left'>City</th>
-              <th scope="col" className='font-normal text-2xl mt text-left'>State</th>
+            <tr>
+              <th scope="col" className='font-normal text-2xl text-left p-[10px]'>Name</th>
+              <th scope="col" className='font-normal text-2xl text-left p-[10px]'>City</th>
+              <th scope="col" className='font-normal text-2xl text-left p-[10px]'>State</th>
             </tr>
           </thead>
           <tbody>
@@ -79,15 +82,17 @@ const Schools = () => {
             schools && schools.filter(school => school.school_name.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
               item : stateSearch.includes(item.school_state.input)).map((d, i) => (
                 <tr className="border-b-[0.125px] border-gray-400">
-                  <td className='text-xl h-[45px] w-[25em]'>{d.school_name.input}</td>
-                  <td className='text-xl text-left'>{d.school_city.input}</td>
-                  <td className='text-xl text-left'>{d.school_state.input}</td>
+                  <td className='text-xl text-left p-[10px]'>{d.school_name.input}</td>
+                  <td className='text-xl text-left p-[10px]'>{d.school_city.input}</td>
+                  <td className='text-xl text-left p-[10px]'>{d.school_state.input}</td>
                 </tr>
               )
             )
           }
           </tbody>
         </table>
+        </div>
+      </div>
       </div>
       {/* If openForm is true, the add school form will be shown, if not it will stay hidden */}
     </div>

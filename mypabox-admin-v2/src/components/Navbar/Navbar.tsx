@@ -28,56 +28,44 @@ const Navbar = () => {
 
   return (
     <>
-    <div className="font-['Noto Sans']">
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
       {location.pathname === '/' ? '' : (
-        <div className="fixed z-20 bg-[#252628] h-16 w-full">
+        <div className="fixed z-20 bg-[#252628] py-[10px] px-5 w-screen font-['Noto Sans'] flex justify-between items-center gap-12">
           {/* Logo image */}
-          <img src={logo} alt="myPAbox" className="h-16 ml-16" />
+          <div className='flex justify-center items-center gap-1'>
+            <RxHamburgerMenu className='text-white text-4xl z-30' onClick={handleToggleSideMenu}/>
+            <img src={logo} alt="myPAbox" className="h-14" />
+          </div>
+          {location.pathname === '/schools' ? (
+            <>
+              
+              {/* Search field that allows you to filter through schools */}
+              <input type='input' className=' rounded-lg p-2 max-w-[700px] grow focus:outline-none 
+              text-xl placeholder:select-none bg-[#424244]' value={schoolName} onChange={handleSchoolName} 
+              placeholder='Search' />
+        
+              {/* <div className='ml-[21.2em] text-gray-500 -mt-8 text-2xl'>
+                <HiMagnifyingGlass />
+              </div> */}
+              {/* Select component that allows you to select multiple states */}
+              <button onClick={handleOpenFilter}>
+              <Select
+                isMulti
+                name="colors"
+                className="w-[15em]"
+                classNamePrefix="select"
+                placeholder="Select State"
+                isDisabled={true}
+              />
+              </button>       
+            </>
+        ) : ''
+        }
 
         </div>  
       )}
-      {
-        location.pathname === '/schools/add-school' ? (
-          <div>
-            <RxHamburgerMenu className='fixed text-white text-4xl mt-4 ml-4 z-30' onClick={handleToggleSideMenu}/>
-          </div>
-        ) : ''
-      }
-      {
-        location.pathname === '/main' ? (
-          <div>
-            <RxHamburgerMenu className='fixed text-white text-4xl mt-4 ml-4 z-30' onClick={handleToggleSideMenu}/>
-          </div>
-        ) : ''
-      }
-      {
-        location.pathname === '/schools' ? (
-          <div className='fixed z-20'>
-            <RxHamburgerMenu className='absolute text-white text-4xl mt-4 ml-4 z-30' onClick={handleToggleSideMenu}/>
-            {/* Search field that allows you to filter through schools */}
-            <input type='input' className=' rounded-lg mt-2 h-12 w-[45em] focus:outline-none 
-            ml-[25em] text-xl placeholder:pl-10 placeholder:select-none bg-[#424244]' value={schoolName} onChange={handleSchoolName} 
-            placeholder='Search' />
-       
-            <div className='ml-[21.2em] text-gray-500 -mt-8 text-2xl'>
-              <HiMagnifyingGlass />
-            </div>
-            {/* Select component that allows you to select multiple states */}
-            <button className='absolute top-[1em] left-[94em] w-[15em]' onClick={handleOpenFilter}>
-            <Select
-              isMulti
-              name="colors"
-              className="absolute w-[15em]"
-              classNamePrefix="select"
-              placeholder="Select State"
-              isDisabled={true}
-            />
-            </button>       
-          </div>
-        ) : ''
-      }
+      
       {
         openFilter ? (
           <div className='absolute w-screen top-0 bg-[#000000d5] z-50 h-screen'>
@@ -98,7 +86,6 @@ const Navbar = () => {
           </div>
         ) : ''
       }
-    </div>
     { 
       toggleSideMenu ? <Sidebar /> : ''
     }
