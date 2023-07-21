@@ -120,8 +120,8 @@ export default function AddSchool() {
     }
 
   return (
-    <div className="w-screen py-24 font-['Noto Sans']">
-      <div className="w-full max-w-[1200px] px-10 pt-10 mx-auto">
+    <div className="w-screen py-24 px-10 font-['Noto Sans']">
+      <div className="w-full max-w-[1200px] pt-10 mx-auto">
       <div className="w-full flex justify-between items-center">
         <p className='text-4xl font-medium'>Add School</p>
         <button onClick={handleSave} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 hover:text-white hover:bg-blue-500'>
