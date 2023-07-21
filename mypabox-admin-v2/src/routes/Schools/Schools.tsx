@@ -47,7 +47,7 @@ const Schools = () => {
 
   return (
     <div className="w-screen py-24 font-['Noto Sans']">
-      <div className='w-full max-w-[1200px] p-10 mx-auto'>
+      <div className='w-full max-w-[1200px] px-10 pt-10 mx-auto'>
 
       {/* Filter 1: The school name is converted to all lowercase letters and then the includes method is ran so that the only
           schools that are shown are the schools that matches the search input  
@@ -57,7 +57,7 @@ const Schools = () => {
       */}
       <div className={`w-full flex justify-between items-start ${toggleSideMenu ? 'pl-72 xl:pl-36' : ''}`}>
         <div >
-          <p className='text-5xl font-semibold'>Schools</p>
+          <p className='text-5xl font-medium'>Schools</p>
           <p className='text-xl mt-2'>Total: {schools.length}</p>
         </div>
 
