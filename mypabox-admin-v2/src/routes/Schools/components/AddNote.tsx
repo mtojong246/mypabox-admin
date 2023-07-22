@@ -1,5 +1,5 @@
-import { useState, ChangeEvent, SetStateAction, useEffect } from 'react';
-import { AiOutlineClose, AiOutlineBold, AiOutlineItalic } from 'react-icons/ai';
+import { useState, ChangeEvent, useEffect } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 

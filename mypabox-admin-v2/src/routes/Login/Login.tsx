@@ -44,6 +44,7 @@ export default function Login() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
 
     try {
       const userCredentials = await signInAuthUserWithEmailAndPassword(
@@ -51,11 +52,12 @@ export default function Login() {
         password
       );
       if (userCredentials) {
+        
         setInputs(defaultInputs);
         // The login action will be dispatched which updates the email and password in the login reducer
         dispatch(login({ email, password }))
         // User will be navigated to the main page via the main route
-        navigate("/main");
+        navigate("/schools");
       }
     } catch (error) {
       // If email or password is not found in the database, the error will appear to the user

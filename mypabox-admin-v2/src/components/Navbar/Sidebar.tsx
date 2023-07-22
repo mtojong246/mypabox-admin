@@ -34,12 +34,12 @@ const Sidebar = () => {
     <>
       {/* Left navigation bar */}
       {location.pathname === '/' ? '' :
-        <div className="fixed block font-['Noto Sans'] select-none z-30 w-[15em] mt-16 bg-[#252628] h-screen">
-          <div className="mt-6 border-b-2 h-[69em] border-white">
+        <div className="fixed font-['Noto Sans'] select-none z-10 w-[15em] bg-[#252628] h-screen flex flex-col justify-between items-start">
+          <div className="pl-4 pt-4 mt-16 w-full flex flex-col justify-start items-start gap-3 border-t border-[#a2a2a2]">
             {NAV_ITEMS.map((item) => (
               <Link
                 to={item.path}
-                className=" text-white text-lg active:underline focus:underline hover:underline ml-4 border-3 w-42 block mt-1 border-black"
+                className=" text-white text-lg active:underline focus:underline hover:underline border-3 border-black"
                 style={{ left: item.left }}
                 onClick={handleToggleSideMenu}
               >
@@ -50,7 +50,7 @@ const Sidebar = () => {
           
           <button
             onClick={signOutHandler}
-            className="absolute top-[57.5em] ml-4 text-xl text-white">
+            className="p-4 text-left w-full border-t border-[#a2a2a2] text-xl text-white">
             Sign Out
           </button>
        

@@ -133,64 +133,63 @@ export default function AddSchool() {
     }
 
   return (
-    <>
-      <div className="absolute left-32 font-['Noto Sans']">
-      <div className="h-16 w-[105em] mt-28">
-        <p className='text-4xl mt-4 font-medium'>Add School</p>
-        <button onClick={handleSave} value='done' className='absolute ml-[94em] border-2 border-solid border-[#4573D2] rounded-xl w-20 h-12 -mt-9'>
+    <div className="w-screen py-24 px-10 font-['Noto Sans']">
+      <div className="w-full max-w-[1200px] pt-10 mx-auto">
+      <div className="w-full flex justify-between items-center">
+        <p className='text-4xl font-medium'>Add School</p>
+        <button onClick={handleSave} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 hover:text-white hover:bg-blue-500'>
           Done
         </button>
       </div>
-
-      <div className='h-8 mt-6 text-md border-b-2 flex border-black'>
+      <div className='mt-16 text-md border-b-2 border-black flex justify-start items-end gap-14 w-full max-w-[1200px] overflow-x-scroll'>
         <Link to={{ pathname: '/schools/add-school', hash: '#general-info' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           General Info
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#degree-info' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#degree-info' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           Degree Info
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#tuition' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#tuition' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           Tuition
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#GPA' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        <Link to={{ pathname: '/schools/add-school', hash: '#GPA' }} className='focus:text-orange-500 decoration-orange-500 
         focus:underline underline-offset-[12px]'>
           GPA</Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#prerequisites' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#prerequisites' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           Prerequisites
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#healthcare-experience' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#healthcare-experience' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           Healthcare Experience
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#shadowing' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#shadowing' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           Shadowing
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#GRE' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#GRE' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           GRE
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#letters-of-recommendation' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#letters-of-recommendation' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           Letters of Recommendation
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#certifications' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#certifications' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           Certifications
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#additional-notes' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#additional-notes' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
           Additional Notes
         </Link>
       </div>
 
       {
         location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> 
+        openNotePopup={openNotePopup} setNewSchool={setNewSchool}/> 
         :
         location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
         openNotePopup={openNotePopup} /> 
@@ -220,10 +219,19 @@ export default function AddSchool() {
         handleInputChange={handleInputChange} openNotePopup={openNotePopup} />
         : ''
       }
+      <div className='w-full flex justify-between items-center'>
+          <div className='w-[150px]'></div>
+          <button className='mt-4 border border-red-400 text-red-400 py-3 px-4 rounded-lg hover:text-white hover:bg-red-400'>
+            Save & Next
+          </button>
+          <button className='mt-4 border border-blue-500 text-blue-500 rounded-lg py-3 px-4 hover:text-white hover:bg-blue-500'>
+            Save for later
+          </button>
+      </div>
 
     </div>
     {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
 
-  </>
+  </div>
   )
 }
