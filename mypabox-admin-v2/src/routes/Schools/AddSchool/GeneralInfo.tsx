@@ -22,6 +22,8 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup }: any) => {
 
   }, [newSchool.school_country.input])
 
+
+  
   return (
     <form className='mt-16'>
         <div className="relative w-[45em] border p-5 block rounded-lg border-[#B4B4B4]">

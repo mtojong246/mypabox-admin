@@ -12,8 +12,19 @@ import { StringInput, BooleanInput, NumberInput } from "../../types/schools.type
 import GeneralInfo from "./AddSchool/GeneralInfo";
 import { AppState } from "../../app/root-reducer";
 import { addSchoolState } from "../../types/addSchool.types";
+import DegreeInfo from "./AddSchool/DegreeInfo";
+import AdditionalNotes from "./AddSchool/AdditionalNotes";
+import Tuition from "./AddSchool/Tuition";
+import GPA from "./AddSchool/GPA";
+import Prerequisites from "./AddSchool/Prerequisites";
+import HealthcareExperience from "./AddSchool/HealthcareExperience";
+import Shadowing from "./AddSchool/Shadowing";
+import GRE from "./AddSchool/GRE";
+import LettersOfRecommendation from "./AddSchool/LettersOfRecommendation";
+import Certifications from "./AddSchool/Certifications";
 
 export default function AddSchool() {
+  const school = useSelector((state: AppState) => state.addSchool)
   const schools = useSelector(selectSchools);
   const [ newSchool, setNewSchool ] = useState(defaultSchool);
   const [ currentInput, setCurrentInput ] = useState('');
@@ -121,19 +132,6 @@ export default function AddSchool() {
         })
     }
 
-    // eslint-disable-next-line no-lone-blocks
-    {/*
-              <div className="absolute left-[200px] top-[200px] w-[500px] bg-slate-100">
-        <input type='text' name='school_name' value={newSchool.school_name.input} placeholder="name" onChange={handleInputChange} />
-        <button value='school_name' onClick={openNotePopup}>Add note</button>
-        <input type='text' name='school_city' value={newSchool.school_city.input} placeholder='city' onChange={handleInputChange} />
-        <input type='text' name='school_state' value={newSchool.school_state.input} placeholder='state' onChange={handleInputChange} />
-        <input type='checkbox' name='school_rolling_admissions' onChange={handleInputChange} />
-        <button value='done' onClick={handleSave}>Done</button>
-        </div>
-        {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
-    */}
-
   return (
     <>
       <div className="absolute left-32 font-['Noto Sans']">
@@ -145,43 +143,82 @@ export default function AddSchool() {
       </div>
 
       <div className='h-8 mt-6 text-md border-b-2 flex border-black'>
-        <Link to={{ pathname: '/schools/add-school', hash: '#general-info' }} className='focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#general-info' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           General Info
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#degree-info' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#degree-info' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           Degree Info
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#tuition' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#tuition' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           Tuition
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#GPA' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#GPA' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           GPA</Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#prerequisites' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#prerequisites' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           Prerequisites
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#healthcare-experience' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#healthcare-experience' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           Healthcare Experience
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#shadowing' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#shadowing' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           Shadowing
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#GRE' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#GRE' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           GRE
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#letters-of-recommendation' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#letters-of-recommendation' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           Letters of Recommendation
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#certifications' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#certifications' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           Certifications
         </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#additional-notes' }} className='ml-14 focus:text-orange-500'>
+        <Link to={{ pathname: '/schools/add-school', hash: '#additional-notes' }} className='ml-14 focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px]'>
           Additional Notes
         </Link>
       </div>
 
       {
         location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> : ''
+        openNotePopup={openNotePopup} /> 
+        :
+        location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} /> 
+        :
+        location.hash === "#GPA" ? <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} /> 
+        :
+        location.hash === "#prerequisites" ? <Prerequisites newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} /> 
+        :
+        location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} /> 
+        :
+        location.hash === "#shadowing" ? <Shadowing newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} /> 
+        :
+        location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} /> 
+        :
+        location.hash === "#letters-of-recommendation" ? <LettersOfRecommendation newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} /> 
+        :
+        location.hash === "#certifications" ? <Certifications newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} /> 
+        :
+        location.hash === "#additional-notes" ? <AdditionalNotes newSchool={newSchool} setNewSchool={setNewSchool} 
+        handleInputChange={handleInputChange} openNotePopup={openNotePopup} />
+        : ''
       }
 
     </div>
