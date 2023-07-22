@@ -19,7 +19,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
      value: state.name, } })))
 
   }, [newSchool.school_country.input])
-  
+
   // Removes note from corresponding data field 
   const removeNote = (e: MouseEvent<HTMLButtonElement>, i: number) => {
     const name = (e.currentTarget as HTMLButtonElement).value as keyof School;
