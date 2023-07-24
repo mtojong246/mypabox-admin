@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { selectSchools } from "../../app/selectors/schools.selectors";
 import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
-import { addDocToSchoolCollection } from "../../utils/firebase/firebase.utils";
+import { addDocToSchoolCollection, getDocsById } from "../../utils/firebase/firebase.utils";
 import { addSchool } from "../../app/slices/schools";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import AddNote from "./components/AddNote";
@@ -37,14 +37,21 @@ export default function AddSchool() {
   const toggleNote = () => setOpenNote(!openNote);
 
   useEffect(() => {
-        // Autoincrements id when adding a new school to db 
-    const arrayToSort = [...schools];
-    const sortedSchools = arrayToSort.sort((a,b) => a.id - b.id);
-    const id = (sortedSchools[sortedSchools.length - 1]).id + 1; 
-    setNewSchool({
-        ...newSchool,
-        id,
-    })
+    // Continuing editing school if already saved, else start off fresh 
+    const storedSchool = localStorage.getItem('newSchool');
+    if (storedSchool) {
+      setNewSchool(JSON.parse(storedSchool))
+    } else {
+      // Autoincrements id when adding a new school to db 
+      const arrayToSort = [...schools];
+      const sortedSchools = arrayToSort.sort((a,b) => a.id - b.id);
+      const id = (sortedSchools[sortedSchools.length - 1]).id + 1; 
+      setNewSchool({
+          ...newSchool,
+          id,
+      })
+    }
+    
    }, [schools])
 
     // Adds input values to 'newSchool' object
@@ -79,10 +86,11 @@ export default function AddSchool() {
     }
 
     // Sends newSchool data to db 
-    const handleSave = async (e: MouseEvent<HTMLButtonElement>) => {
+    const handleSave = async (e: MouseEvent<HTMLButtonElement>, id: number) => {
+      
         try {
             // Sends API request with new school data to firestore 
-            await addDocToSchoolCollection(newSchool);
+            await addDocToSchoolCollection(newSchool, id);
         } catch (error:any) {
             // throws error and navigates to main page if user is not authenticated when making request
             if (error.message === 'permission-denied') {
@@ -95,18 +103,34 @@ export default function AddSchool() {
             }
         }
 
-        // Adds new school to current school list 
-        dispatch(addSchool(newSchool));
+        // Adds new school to current school list if it doesn't already exist
+        const existingSchool = schools.find(school => school.id === id)
+        if (existingSchool) {
+          dispatch(addSchool(newSchool));
+        }
 
         // If button = 'Done', take back to schools page. Otherwise save progress 
-        // and switch UI to subsequent category
         if ((e.target as HTMLButtonElement).value === 'done') {
             navigate('/schools');
+            // Remove newSchool from local storage 
+            localStorage.removeItem('newSchool');
+            // Resets inputs
+            setNewSchool(defaultSchool)
         } else {
-            alert('Progress saved');
+            try {
+              const updatedSchool = await getDocsById(id);
+              if (updatedSchool) {
+                // Saves current school data to local storage 
+                localStorage.setItem('newSchool', JSON.stringify(updatedSchool[0]));
+                setNewSchool(updatedSchool[0] as School)
+                alert('Progress saved')
+              }
+            } catch (error: any) {
+              alert('Error retrieving updated school');
+            }
+            
         }
-        // Resets inputs
-        setNewSchool(defaultSchool)
+        
 
     }
 
@@ -132,6 +156,7 @@ export default function AddSchool() {
         })
     }
 
+
     // Removes note from corresponding data field 
     const removeNote = (e: MouseEvent<HTMLButtonElement>, i: number) => {
       const name = (e.currentTarget as HTMLButtonElement).value as keyof School;
@@ -146,12 +171,14 @@ export default function AddSchool() {
       setNewSchool(updatedSchool);
     }
 
+    console.log(newSchool)
+
   return (
     <div className="w-screen py-24 px-10 font-['Noto Sans']">
       <div className="w-full max-w-[1200px] pt-10 mx-auto">
       <div className="w-full flex justify-between items-center">
         <p className='text-4xl font-medium'>Add School</p>
-        <button onClick={handleSave} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 hover:text-white hover:bg-blue-500'>
+        <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 hover:text-white hover:bg-blue-500'>
           Done
         </button>
       </div>
@@ -235,10 +262,10 @@ export default function AddSchool() {
       }
       <div className='w-full flex justify-between items-center'>
           <div className='w-[150px]'></div>
-          <button className='mt-4 border border-red-400 text-red-400 py-3 px-4 rounded-lg hover:text-white hover:bg-red-400'>
+          <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='mt-4 border border-red-400 text-red-400 py-3 px-4 rounded-lg hover:text-white hover:bg-red-400'>
             Save & Next
           </button>
-          <button className='mt-4 border border-blue-500 text-blue-500 rounded-lg py-3 px-4 hover:text-white hover:bg-blue-500'>
+          <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='mt-4 border border-blue-500 text-blue-500 rounded-lg py-3 px-4 hover:text-white hover:bg-blue-500'>
             Save for later
           </button>
       </div>

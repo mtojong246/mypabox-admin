@@ -82,13 +82,26 @@ export const getDocsByName = async (name: string) => {
     }
 }
 
-// Adds individual school collection to school document 
-export const addDocToSchoolCollection = async (data: School) => {
+// Retrieves school by id 
+export const getDocsById = async (id: number) => {
     const collectionRef = collection(db, 'schools');
+    const q = query(collectionRef, where('id', '==', id));
 
     try {
-        // Adds data as a document to school collection
-        await addDoc(collectionRef, data)
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+    } catch (error: any) {
+        console.log('error fetching school data by name' , error.message);
+    }
+}
+
+// Adds individual school collection to school document 
+export const addDocToSchoolCollection = async (data: School, id: number) => {
+    const docRef = doc(db, 'schools', id.toString());
+
+    try {
+        // Adds data as a document to school collection or updates existing document
+        await setDoc(docRef, data)
     } catch (error: any) {
         if (error.code === 'permission-denied') {
             throw new Error(error.code);
