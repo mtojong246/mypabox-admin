@@ -66,9 +66,9 @@ const Schools = () => {
           + Add School
         </button>
       </div>
-      <div className={`w-full ${toggleSideMenu ? 'pl-72 xl:pl-36' : ''}`}>
+      <div className={`w-full max-w-[1200px] ${toggleSideMenu ? 'pl-72 xl:pl-36' : ''}`}>
       <div className={`w-full rounded-t-xl shadow-lg 
-      shadow-gray-600 mt-16 max-h-[800px] max-w-[1200px] overflow-scroll`}>
+      shadow-gray-600 mt-16`}>
         <table className='w-full'>
           <thead className='bg-[#eeeef2] mt-8'>
             <tr>

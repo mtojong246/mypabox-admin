@@ -132,6 +132,20 @@ export default function AddSchool() {
         })
     }
 
+    // Removes note from corresponding data field 
+    const removeNote = (e: MouseEvent<HTMLButtonElement>, i: number) => {
+      const name = (e.currentTarget as HTMLButtonElement).value as keyof School;
+      const field = newSchool[name] as StringInput | BooleanInput | NumberInput;
+      const updatedSchool = {
+        ...newSchool,
+        [name]: {
+          ...field,
+          notes: field.notes?.filter((note: any) => field.notes?.indexOf(note) !== i)
+        }
+      }
+      setNewSchool(updatedSchool);
+    }
+
   return (
     <div className="w-screen py-24 px-10 font-['Noto Sans']">
       <div className="w-full max-w-[1200px] pt-10 mx-auto">
@@ -189,10 +203,10 @@ export default function AddSchool() {
 
       {
         location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} setNewSchool={setNewSchool}/> 
+        openNotePopup={openNotePopup} setNewSchool={setNewSchool} removeNote={removeNote}/> 
         :
         location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> 
+        openNotePopup={openNotePopup}ß removeNote={removeNote}/> 
         :
         location.hash === "#GPA" ? <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
         openNotePopup={openNotePopup} /> 

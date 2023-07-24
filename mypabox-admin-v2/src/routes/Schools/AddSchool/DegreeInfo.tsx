@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi'
 
-const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange }: any) => {
+const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange, removeNote }: any) => {
   const [inputList, setInputList] = useState([{ input: '' }])
 
   const handleFieldChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -31,6 +31,8 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
     setInputList([...inputList, { input: "" }])
   }
 
+  console.log(newSchool);
+
   return (
     <form className="mt-16 font-['Noto Sans']">
       <div className="relative w-[45em] border p-5 block rounded-lg border-[#B4B4B4]">
@@ -53,7 +55,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
         {
           newSchool.school_type_of_degree_offered.notes.length > 0 ? (
           <div className="w-full">
-            {newSchool.school_type_of_degree_offered.notes.map((note: any) => {
+            {newSchool.school_type_of_degree_offered.notes.map((note: any, i: number) => {
               return (
               <div className='flex justify-center items-start gap-3 mt-4'>
                 <div className="grow p-4 rounded-md border border-black">
@@ -63,7 +65,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
                   <p className='text-black'>{note.note}</p>
                 </div>
                 <FiEdit3 className='h-10 w-10 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
-                <AiOutlineClose className='h-10 w-10 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/>
+                <button value='school_type_of_degree_offered' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-10 w-10 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
               </div>
             )})}
           </div>
@@ -90,7 +92,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
         {
           newSchool.school_dual_degree_program.notes.length > 0 ? (
             <div className="w-full">
-              {newSchool.school_dual_degree_program.notes.map((note: any) => {
+              {newSchool.school_dual_degree_program.notes.map((note: any, i: number) => {
                 
                 return (
                 <div className='flex justify-center items-start gap-3 mt-4'>
@@ -101,7 +103,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
                     <p className='text-black'>{note.note}</p>
                   </div>
                   <FiEdit3 className='h-10 w-10 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
-                  <AiOutlineClose className='h-10 w-10 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/>
+                  <button value='school_dual_degree_program' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-10 w-10 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                 </div>
               )})}
             </div>
@@ -128,7 +130,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
         {
           newSchool.school_bachelors_degree_required.notes.length > 0 ? (
             <div className="w-full">
-              {newSchool.school_bachelors_degree_required.notes.map((note: any) => {
+              {newSchool.school_bachelors_degree_required.notes.map((note: any, i: number) => {
                 
                 return (
                 <div className='flex justify-center items-start gap-3 mt-4'>
@@ -139,7 +141,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
                     <p className='text-black'>{note.note}</p>
                   </div>
                   <FiEdit3 className='h-10 w-10 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
-                  <AiOutlineClose className='h-10 w-10 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/>
+                  <button value='school_bachelors_degree_required' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-10 w-10 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                 </div>
               )})}
             </div>

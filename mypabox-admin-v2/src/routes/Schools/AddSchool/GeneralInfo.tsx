@@ -5,7 +5,7 @@ import Select from 'react-select';
 import countries from '../../../data/countries.json'
 import { School, StringInput, BooleanInput, NumberInput } from '../../../types/schools.types';
 
-const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool }: { newSchool: School, handleInputChange: (e: any) => void, openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, setNewSchool: Dispatch<SetStateAction<School>>}) => {
+const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote }: { newSchool: School, handleInputChange: (e: any) => void, openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, setNewSchool: Dispatch<SetStateAction<School>>, removeNote: (e: MouseEvent<HTMLButtonElement>, i: number) => void }) => {
   const [stateNames, setStateNames] = useState<any>([])
   const [countryNames, setCountryNames] = useState<any>([])
 
@@ -20,19 +20,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
 
   }, [newSchool.school_country.input])
 
-  // Removes note from corresponding data field 
-  const removeNote = (e: MouseEvent<HTMLButtonElement>, i: number) => {
-    const name = (e.currentTarget as HTMLButtonElement).value as keyof School;
-    const field = newSchool[name] as StringInput | BooleanInput | NumberInput;
-    const updatedSchool = {
-      ...newSchool,
-      [name]: {
-        ...field,
-        notes: field.notes?.filter((note: any) => field.notes?.indexOf(note) !== i)
-      }
-    }
-    setNewSchool(updatedSchool);
-  }
+  
 
   return (
     <form className='mt-16'>
