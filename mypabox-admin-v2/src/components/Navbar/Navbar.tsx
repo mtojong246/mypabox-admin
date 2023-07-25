@@ -52,11 +52,12 @@ const Navbar = () => {
               <button onClick={handleOpenFilter}>
               <Select
                 isMulti
+                options={states}
+                onChange={handleStateSearch}
                 name="colors"
                 className="w-[15em]"
                 classNamePrefix="select"
                 placeholder="Select State"
-                isDisabled={true}
               />
               </button>       
             </>
@@ -65,27 +66,6 @@ const Navbar = () => {
 
         </div>  
       )}
-      
-      {
-        openFilter ? (
-          <div className='absolute w-screen top-0 bg-[#000000d5] z-50 h-screen'>
-            <div className='w-[95em] bg-white ml-[18.1em] mt-48 h-64'>
-              <button className='absolute left-[73em] top-52 text-2xl' onClick={handleOpenFilter}>
-                <AiOutlineClose />
-              </button>
-              <p className='text-center text-4xl font-semibold'>Filter</p>
-              <Select
-                options={states}
-                isMulti
-                name="colors"
-                className="ml-[12em] mt-8 w-[70em]"
-                classNamePrefix="select"
-                onChange={handleStateSearch}
-              />
-            </div>
-          </div>
-        ) : ''
-      }
     { 
       toggleSideMenu ? <Sidebar /> : ''
     }

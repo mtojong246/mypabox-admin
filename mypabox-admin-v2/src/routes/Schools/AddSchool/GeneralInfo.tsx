@@ -25,7 +25,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
   }, [newSchool.school_country.input])
 
   
-
+  console.log(newSchool.school_state)
   return (
     <form className='mt-16'>
         <div className="relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">

@@ -4,8 +4,6 @@ import { FiEdit3 } from 'react-icons/fi'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 
-
-
 const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange, removeNote, openEditPopup }: any) => {
   const [inputList, setInputList] = useState([{ input: '' }])
 
