@@ -55,7 +55,7 @@ const Navbar = () => {
                 options={states}
                 onChange={handleStateSearch}
                 name="colors"
-                className="w-[15em]"
+                className="w-[15em] text-left"
                 classNamePrefix="select"
                 placeholder="Select State"
               />
