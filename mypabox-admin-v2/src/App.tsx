@@ -1,10 +1,11 @@
-import "./App.css";
+import './App.css'
 import Main from './routes/Main/Main';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
 import Login from "./routes/Login/Login";
 import Schools from "./routes/Schools/Schools";
 import Navbar from "./components/Navbar/Navbar";
 import AddSchool from "./routes/Schools/AddSchool";
+
 
 function App() {
   return (

@@ -1,6 +1,10 @@
 import React, { ChangeEvent, useState } from 'react'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.bubble.css';
+
+
 
 const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange, removeNote }: any) => {
   const [inputList, setInputList] = useState([{ input: '' }])
@@ -62,7 +66,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
                   <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                     {note.type}:
                   </p>
-                  <p className='text-black'>{note.note}</p>
+                  <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                 </div>
                 <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -102,7 +106,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -142,7 +146,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>

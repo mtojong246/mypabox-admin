@@ -4,6 +4,10 @@ import { AiOutlineClose } from 'react-icons/ai'
 import Select from 'react-select';
 import countries from '../../../data/countries.json'
 import { School, StringInput, BooleanInput, NumberInput } from '../../../types/schools.types';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.bubble.css';
+
+
 
 const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote }: { newSchool: School, handleInputChange: (e: any) => void, openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, setNewSchool: Dispatch<SetStateAction<School>>, removeNote: (e: MouseEvent<HTMLButtonElement>, i: number) => void }) => {
   const [stateNames, setStateNames] = useState<any>([])
@@ -41,7 +45,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -72,7 +76,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -103,7 +107,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -133,7 +137,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -164,7 +168,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -195,7 +199,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -225,7 +229,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -256,7 +260,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -287,7 +291,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -318,7 +322,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -349,7 +353,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -380,7 +384,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -411,7 +415,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -442,7 +446,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -473,7 +477,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -504,7 +508,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -535,7 +539,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -575,7 +579,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -614,7 +618,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -653,7 +657,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -692,7 +696,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -731,7 +735,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -769,7 +773,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -808,7 +812,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -846,7 +850,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -884,7 +888,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
@@ -922,7 +926,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
-                    <p className='text-black'>{note.note}</p>
+                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
                     <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>

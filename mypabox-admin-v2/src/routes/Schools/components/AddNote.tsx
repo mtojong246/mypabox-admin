@@ -13,14 +13,14 @@ export default function AddNote({ currentInput, addNote, toggleNote }: { current
     }
 
 
-    useEffect(() => {
-      // Converts html string into plain text and sets note 
-      if (htmlString) {
-        const plainString = htmlString.replace(/<[^>]+>/g, '');
-        setNote(plainString);
-      }
+    // useEffect(() => {
+    //   // Converts html string into plain text and sets note 
+    //   if (htmlString) {
+    //     const plainString = htmlString.replace(/<[^>]+>/g, '');
+    //     setNote(plainString);
+    //   }
       
-    }, [htmlString])
+    // }, [htmlString])
     
 
     return (
@@ -41,7 +41,7 @@ export default function AddNote({ currentInput, addNote, toggleNote }: { current
               </label>
             </div>
             
-            <ReactQuill className='absolute mt-[15em] h-96 rounded-2xl w-[42em] ml-8' theme="snow" value={htmlString} onChange={setHtmlString} />
+            <ReactQuill className='absolute mt-[15em] h-96 rounded-2xl w-[42em] ml-8' theme="snow" value={note} onChange={setNote} />
             <button type='submit' className="absolute mt-[45em] ml-[39em] w-20 h-10 rounded-2xl border-2 border-blue-600 text-blue-600" 
             onClick={() => {addNote(currentInput, type, note); toggleNote()}}>
               Done
