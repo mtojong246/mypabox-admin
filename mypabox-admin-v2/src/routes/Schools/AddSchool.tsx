@@ -22,19 +22,25 @@ import Shadowing from "./AddSchool/Shadowing";
 import GRE from "./AddSchool/GRE";
 import LettersOfRecommendation from "./AddSchool/LettersOfRecommendation";
 import Certifications from "./AddSchool/Certifications";
+import EditNote from "./components/EditNote";
+import { Note } from "../../types/schools.types";
 
 export default function AddSchool() {
   const school = useSelector((state: AppState) => state.addSchool)
   const schools = useSelector(selectSchools);
   const [ newSchool, setNewSchool ] = useState(defaultSchool);
   const [ currentInput, setCurrentInput ] = useState('');
+  const [ note, setNote ] = useState<Note>({} as Note);
+  const [ index, setIndex ] = useState(0);
   const [ openNote, setOpenNote ] = useState(false);
+  const [ openEdit, setOpenEdit ] = useState(false);
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const location = useLocation()
 
-  // Toggles "AddNote" component
+  // Toggles "AddNote" and "EditNote" components
   const toggleNote = () => setOpenNote(!openNote);
+  const toggleEdit = () => setOpenEdit(!openEdit);
 
   useEffect(() => {
     // Continuing editing school if already saved, else start off fresh 
@@ -142,6 +148,14 @@ export default function AddSchool() {
         setCurrentInput((e.currentTarget as HTMLButtonElement).value);
     }
 
+    const openEditPopup = (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => {
+        e.preventDefault();
+        toggleEdit();
+        setCurrentInput((e.currentTarget as HTMLButtonElement).value);
+        setNote(note);
+        setIndex(index);
+    }
+
     // Concats new note to corresponding data point 
     const addNote = (currentInput: string, type: string, note: string) => {
    
@@ -154,6 +168,24 @@ export default function AddSchool() {
                 notes: field?.notes?.concat({type, note})
             }
         })
+    }
+
+    const editNote = (currentInput: string, type: string, note: string, index: number) => {
+      const name = currentInput as keyof School;
+      const field = newSchool[name] as StringInput | BooleanInput | NumberInput;
+      setNewSchool({
+        ...newSchool,
+        [name]: {
+          ...field,
+          notes: field?.notes?.map(n => {
+            if (field.notes?.indexOf(n) === index) {
+              return { type, note }
+            } else {
+              return { ...n }
+            }
+          })
+        }
+      })
     }
 
 
@@ -230,34 +262,34 @@ export default function AddSchool() {
 
       {
         location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} setNewSchool={setNewSchool} removeNote={removeNote}/> 
+        openNotePopup={openNotePopup} setNewSchool={setNewSchool} removeNote={removeNote} openEditPopup={openEditPopup}/> 
         :
         location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup}ß removeNote={removeNote}/> 
+        openNotePopup={openNotePopup}ß removeNote={removeNote} openEditPopup={openEditPopup}/> 
         :
         location.hash === "#GPA" ? <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
         :
         location.hash === "#prerequisites" ? <Prerequisites newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
         :
         location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
         :
         location.hash === "#shadowing" ? <Shadowing newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
         :
         location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
         :
         location.hash === "#letters-of-recommendation" ? <LettersOfRecommendation newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
         :
         location.hash === "#certifications" ? <Certifications newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} /> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
         :
         location.hash === "#additional-notes" ? <AdditionalNotes newSchool={newSchool} setNewSchool={setNewSchool} 
-        handleInputChange={handleInputChange} openNotePopup={openNotePopup} />
+        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup}/>
         : ''
       }
       <div className='w-full flex justify-between items-center'>
@@ -272,6 +304,7 @@ export default function AddSchool() {
 
     </div>
     {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
+    {openEdit && <EditNote currentInput={currentInput} note={note} index={index} toggleEdit={toggleEdit} editNote={editNote}/>}
 
   </div>
   )

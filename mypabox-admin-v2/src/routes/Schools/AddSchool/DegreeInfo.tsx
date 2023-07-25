@@ -6,7 +6,7 @@ import 'react-quill/dist/quill.bubble.css';
 
 
 
-const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange, removeNote }: any) => {
+const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange, removeNote, openEditPopup }: any) => {
   const [inputList, setInputList] = useState([{ input: '' }])
 
   const handleFieldChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -69,7 +69,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
                   <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                 </div>
                 <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_type_of_degree_offered' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_type_of_degree_offered' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
               </div>
@@ -109,7 +109,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_dual_degree_program' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_dual_degree_program' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -149,7 +149,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_bachelors_degree_required' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_bachelors_degree_required' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>

@@ -3,13 +3,13 @@ import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import Select from 'react-select';
 import countries from '../../../data/countries.json'
-import { School, StringInput, BooleanInput, NumberInput } from '../../../types/schools.types';
+import { School, StringInput, BooleanInput, NumberInput, Note } from '../../../types/schools.types';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 
 
 
-const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote }: { newSchool: School, handleInputChange: (e: any) => void, openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, setNewSchool: Dispatch<SetStateAction<School>>, removeNote: (e: MouseEvent<HTMLButtonElement>, i: number) => void }) => {
+const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote, openEditPopup }: { newSchool: School, handleInputChange: (e: any) => void, openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, openEditPopup: (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => void, setNewSchool: Dispatch<SetStateAction<School>>, removeNote: (e: MouseEvent<HTMLButtonElement>, i: number) => void }) => {
   const [stateNames, setStateNames] = useState<any>([])
   const [countryNames, setCountryNames] = useState<any>([])
 
@@ -30,7 +30,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
     <form className='mt-16'>
         <div className="relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">School Name</label>
-          <button value="school_name" className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
+          <button name='add' value="school_name" className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
           </button>
           <input className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-4" 
@@ -48,7 +48,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_name' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_name' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -79,7 +79,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_logo' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_logo' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -110,7 +110,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_street' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_street' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -140,7 +140,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_city' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_city' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -171,7 +171,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_state' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_state' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -202,7 +202,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_zip_code' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_zip_code' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -232,7 +232,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_country' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_country' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -263,7 +263,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_website' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_website' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -294,7 +294,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_email' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_email' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -325,7 +325,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_phone_number' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_phone_number' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -356,7 +356,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_campus_location' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_campus_location' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -387,7 +387,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_start_month' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_start_month' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -418,7 +418,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_class_capacity' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_class_capacity' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -449,7 +449,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_duration_full_time' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_duration_full_time' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -480,7 +480,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_duration_part_time' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_duration_part_time' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -511,7 +511,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_seat_deposit_in_state' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_seat_deposit_in_state' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -542,7 +542,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_seat_deposit_out_of_state' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_seat_deposit_out_of_state' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -582,7 +582,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_rolling_admissions' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_rolling_admissions' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -621,7 +621,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_nonrolling_admissions' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_nonrolling_admissions' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -660,7 +660,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_pre_pa_curriculum' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_pre_pa_curriculum' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -699,7 +699,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_direct_high_school_entry' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_direct_high_school_entry' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -738,7 +738,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_part_time_option' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_part_time_option' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -776,7 +776,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_online_learning' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_online_learning' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -815,7 +815,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_on_campus_housing' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_on_campus_housing' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -853,7 +853,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_cadaver_lab' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_cadaver_lab' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -891,7 +891,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_faith_based_learning' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_faith_based_learning' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
@@ -929,7 +929,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                   </div>
                   <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_military_personnel_preference' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                     <button value='school_military_personnel_preference' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                   </div>
                 </div>
