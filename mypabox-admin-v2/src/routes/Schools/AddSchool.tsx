@@ -203,7 +203,6 @@ export default function AddSchool() {
       setNewSchool(updatedSchool);
     }
 
-    console.log(newSchool)
 
   return (
     <div className="w-screen py-24 px-10 font-['Noto Sans']">

@@ -12,7 +12,7 @@ export interface StringInput {
     notes?: Note[];
 }
 
-interface StringInputWithFields {
+export interface StringInputWithFields {
     fields: AdditionalField[];
     notes?: Note[];
 }
