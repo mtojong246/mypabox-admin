@@ -24,7 +24,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
 
   return (
     <form className='mt-16'>
-        <div className="relative max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">School Name</label>
           <button value="school_name" className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -52,7 +52,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">School Logo</label>
           <button value='school_logo' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -81,7 +81,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Street Address</label>
           <button value='school_street' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -110,7 +110,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">City</label>
           <button value='school_city' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -138,7 +138,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">State</label>
           <button value='school_state' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -167,7 +167,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Zip</label>
           <button value='school_zip_code' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -196,7 +196,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Country</label>
           <button value='school_country' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -224,7 +224,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Website</label>
           <button value='school_website' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -253,7 +253,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">School Email</label>
           <button value='school_email' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -282,7 +282,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">School Phone Number</label>
           <button value='school_phone_number' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -311,7 +311,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-32 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-32 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Campus Location</label>
           <button value='school_campus_location' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -340,7 +340,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Start Month</label>
           <button value='school_start_month' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -369,7 +369,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Class Compacity</label>
           <button value='school_class_capacity' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -398,7 +398,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Duration(Full-time)</label>
           <button  value='school_duration_full_time' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -427,7 +427,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Duration(Part-time)</label>
           <button value='school_duration_part_time' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -456,7 +456,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Seat Deposit(In-state)</label>
           <button value='school_seat_deposit_in_state' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -485,7 +485,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Seat Deposit(Out-of-state)</label>
           <button value='school_seat_deposit_out_of_state' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -514,7 +514,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Rolling admissions</label>
           <button value='school_rolling_admissions' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" 
           onClick={openNotePopup}>
@@ -524,7 +524,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_rolling_admissions' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_rolling_admissions.input ? 'True' : 'False'}
               </span>
@@ -552,7 +552,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Non-rolling admissions</label>
           <button value='school_nonrolling_admissions' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -560,7 +560,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_nonrolling_admissions' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_nonrolling_admissions.input ? 'True' : 'False'}
               </span>
@@ -589,7 +589,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Pre-PA curriculum</label>
           <button value='school_pre_pa_curriculum' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -597,7 +597,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_pre_pa_curriculum' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_pre_pa_curriculum.input ? 'True' : 'False'}
               </span>
@@ -626,7 +626,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Direct High School Entry</label>
           <button value='school_direct_high_school_entry' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -634,7 +634,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_direct_high_school_entry' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_direct_high_school_entry.input ? 'True' : 'False'}
               </span>
@@ -663,7 +663,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Part-time Option</label>
           <button value='school_part_time_option' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -671,7 +671,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_part_time_option' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_part_time_option.input ? 'True' : 'False'}
               </span>
@@ -700,7 +700,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Online Learning</label>
           <button value='school_online_learning' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -708,7 +708,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_online_learning' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_online_learning.input ? 'True' : 'False'}
               </span>
@@ -736,7 +736,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">On-campus Housing</label>
           <button value='school_on_campus_housing' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -744,7 +744,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_on_campus_housing' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_on_campus_housing.input ? 'True' : 'False'}
               </span>
@@ -773,7 +773,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Cadaver Lab</label>
           <button value='school_cadaver_lab' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -781,7 +781,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_cadaver_lab' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_cadaver_lab.input ? 'True' : 'False'}
               </span>
@@ -809,7 +809,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Faith-based Learning</label>
           <button value='school_faith_based_learning' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -817,7 +817,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_faith_based_learning' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_faith_based_learning.input ? 'True' : 'False'}
               </span>
@@ -845,7 +845,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           }
         </div>
 
-        <div className="relative mt-10 max-w-[800px] border p-5 block rounded-lg border-[#B4B4B4]">
+        <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">Military Personnel Preference</label>
           <button value='school_military_personnel_preference' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
             Add Note
@@ -853,7 +853,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
           <div className='mt-4 w-full'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" name='school_military_personnel_preference' onChange={handleInputChange}/>
-              <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+              <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
               <span className="ml-3 text-xl text-black">
                 {newSchool.school_military_personnel_preference.input ? 'True' : 'False'}
               </span>

@@ -175,14 +175,14 @@ export default function AddSchool() {
 
   return (
     <div className="w-screen py-24 px-10 font-['Noto Sans']">
-      <div className="w-full max-w-[1600px] pt-10 mx-auto">
+      <div className="w-full max-w-[1800px] pt-10 mx-auto">
       <div className="w-full flex justify-between items-center">
         <p className='text-4xl font-medium'>Add School</p>
         <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 hover:text-white hover:bg-blue-500'>
           Done
         </button>
       </div>
-      <div className='mt-16 text-md border-b-2 border-black flex justify-start items-end gap-14 w-full max-w-[1600px] overflow-x-scroll'>
+      <div className='mt-16 text-md border-b-2 border-black flex justify-between items-end gap-14 w-full max-w-[1800px] overflow-x-scroll'>
         <Link to={{ pathname: '/schools/add-school', hash: '#general-info' }} className='focus:text-orange-500 decoration-orange-500 
         focus:underline underline-offset-[12px] whitespace-nowrap'>
           General Info

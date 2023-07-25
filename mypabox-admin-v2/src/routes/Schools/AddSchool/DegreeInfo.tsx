@@ -35,7 +35,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
 
   return (
     <form className="mt-16 font-['Noto Sans']">
-      <div className="relative w-[45em] border p-5 block rounded-lg border-[#B4B4B4]">
+      <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
         <label className="absolute top-[-16px] text-xl bg-white">Types of Degrees Offered</label>
         <button value="school_type_of_degree_offered" className="w-56 pl-4 text-orange-500 border border-[#F06A6A] rounded-md h-14 text-xl" 
         onClick={addInputFields}>
@@ -73,7 +73,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
         }
       </div>
 
-      <div className="relative mt-10 w-[45em] border p-5 block rounded-lg border-[#B4B4B4]">
+      <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
         <label className="absolute top-[-16px] text-xl bg-white">Dual-Degree Program</label>
         <button value='school_dual_degree_program' className="w-32 border border-[#F06A6A] rounded-md h-14 text-xl" onClick={openNotePopup}>
           Add Note
@@ -81,8 +81,8 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
         <div className='mt-4 w-full'>
           <label className="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" className="sr-only peer" name='school_dual_degree_program' onChange={handleInputChange}/>
-            <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 
-            peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 
+            peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
             after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
             <span className="ml-3 text-xl text-black">
               {newSchool.school_dual_degree_program.input ? 'True' : 'False'}
@@ -111,7 +111,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
         }
       </div>
 
-      <div className="relative mt-10 w-[45em] border p-5 block rounded-lg border-[#B4B4B4]">
+      <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
         <label className="absolute top-[-16px] text-xl bg-white">Bachelors degree required</label>
         <button value='school_bachelors_degree_required' className="w-32 border border-[#F06A6A] rounded-md h-14 text-xl" onClick={openNotePopup}>
           Add Note
@@ -119,8 +119,8 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
         <div className='mt-4 w-full'>
           <label className="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" className="sr-only peer" name='school_bachelors_degree_required' onChange={handleInputChange}/>
-            <div className="w-24 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 
-            peer-checked:after:translate-x-[63px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 
+            peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
             after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
             <span className="ml-3 text-xl text-black">
               {newSchool.school_bachelors_degree_required.input ? 'True' : 'False'}
