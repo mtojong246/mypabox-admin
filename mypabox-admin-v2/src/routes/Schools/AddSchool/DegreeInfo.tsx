@@ -57,15 +57,17 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
           <div className="w-full">
             {newSchool.school_type_of_degree_offered.notes.map((note: any, i: number) => {
               return (
-              <div className='flex justify-center items-start gap-3 mt-4'>
+              <div className='flex justify-center items-start gap-2 mt-4'>
                 <div className="grow p-4 rounded-md border border-black">
                   <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                     {note.type}:
                   </p>
                   <p className='text-black'>{note.note}</p>
                 </div>
-                <FiEdit3 className='h-10 w-10 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
-                <button value='school_type_of_degree_offered' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-10 w-10 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                <div className='flex flex-col-reverse justify-start items-center gap-1'>
+                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_type_of_degree_offered' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                  </div>
               </div>
             )})}
           </div>
@@ -95,15 +97,17 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
               {newSchool.school_dual_degree_program.notes.map((note: any, i: number) => {
                 
                 return (
-                <div className='flex justify-center items-start gap-3 mt-4'>
+                <div className='flex justify-center items-start gap-2 mt-4'>
                   <div className="grow p-4 rounded-md border border-black">
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
                     <p className='text-black'>{note.note}</p>
                   </div>
-                  <FiEdit3 className='h-10 w-10 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
-                  <button value='school_dual_degree_program' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-10 w-10 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                  <div className='flex flex-col-reverse justify-start items-center gap-1'>
+                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_dual_degree_program' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                  </div>
                 </div>
               )})}
             </div>
@@ -133,15 +137,17 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
               {newSchool.school_bachelors_degree_required.notes.map((note: any, i: number) => {
                 
                 return (
-                <div className='flex justify-center items-start gap-3 mt-4'>
+                <div className='flex justify-center items-start gap-2 mt-4'>
                   <div className="grow p-4 rounded-md border border-black">
                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                       {note.type}:
                     </p>
                     <p className='text-black'>{note.note}</p>
                   </div>
-                  <FiEdit3 className='h-10 w-10 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
-                  <button value='school_bachelors_degree_required' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-10 w-10 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                  <div className='flex flex-col-reverse justify-start items-center gap-1'>
+                    <FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/>
+                    <button value='school_bachelors_degree_required' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                  </div>
                 </div>
               )})}
             </div>
