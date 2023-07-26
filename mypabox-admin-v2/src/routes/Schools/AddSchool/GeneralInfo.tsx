@@ -7,8 +7,6 @@ import { School, StringInput, BooleanInput, NumberInput, Note } from '../../../t
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 
-
-
 const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote, openEditPopup }: { newSchool: School, handleInputChange: (e: any) => void, openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, openEditPopup: (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => void, setNewSchool: Dispatch<SetStateAction<School>>, removeNote: (e: MouseEvent<HTMLButtonElement>, i: number) => void }) => {
   const [stateNames, setStateNames] = useState<any>([])
   const [countryNames, setCountryNames] = useState<any>([])

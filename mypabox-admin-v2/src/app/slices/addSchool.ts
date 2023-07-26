@@ -133,6 +133,40 @@ const initialState: School= {
         input: false,
         notes: [],
     },
+    school_accreditation_status: {
+        input: "",
+        notes: []
+    },
+    school_acceditation_status_general_note: {
+        input: ""
+    },
+    school_mission_statement: {
+        input: ""
+    },
+    school_in_state_tuition: {
+        input: 0,
+        notes: []
+    },
+    school_out_of_state_tuition: {
+        input: 0,
+        notes: []
+    },
+    school_tuition_general_note: {
+        input: "",
+        notes: []
+    },
+    school_first_time_pass_rate: {
+        input: 0,
+        notes: []
+    },
+    school_average_five_year_first_time_pass_rate: {
+        input: "",
+        notes: []
+    },
+    school_pance_pass_rate_note: {
+        input: "",
+        notes: []
+    }
 }
 
 const addSchoolSlice = createSlice({

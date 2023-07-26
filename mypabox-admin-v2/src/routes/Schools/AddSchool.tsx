@@ -65,7 +65,7 @@ export default function AddSchool() {
         // Input changes based on what user types 
         const name = e.target.name as keyof School;
         const field = newSchool[name] as StringInput | BooleanInput | NumberInput;
-        if (e.target.type === 'text') {
+        if (e.target.type === 'text' || 'number') {
             setNewSchool({
                 ...newSchool,
                 [name]: {
@@ -266,28 +266,31 @@ export default function AddSchool() {
         location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
         openNotePopup={openNotePopup}ß removeNote={removeNote} openEditPopup={openEditPopup}/> 
         :
+        location.hash === "#tuition" ? <Tuition newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+        :
         location.hash === "#GPA" ? <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
         :
         location.hash === "#prerequisites" ? <Prerequisites newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
         :
-        location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
+        location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} 
+        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
         :
         location.hash === "#shadowing" ? <Shadowing newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
         :
-        location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
+        location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} 
+        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
         :
-        location.hash === "#letters-of-recommendation" ? <LettersOfRecommendation newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
+        location.hash === "#letters-of-recommendation" ? <LettersOfRecommendation newSchool={newSchool} setNewSchool={setNewSchool} 
+        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
         :
-        location.hash === "#certifications" ? <Certifications newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup}/> 
+        location.hash === "#certifications" ? <Certifications newSchool={newSchool} setNewSchool={setNewSchool} 
+        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
         :
-        location.hash === "#additional-notes" ? <AdditionalNotes newSchool={newSchool} setNewSchool={setNewSchool} 
+        location.hash === "#additional-notes" ? <AdditionalNotes newSchool={newSchool} setNewSchool={setNewSchool} removeNote={removeNote}
         handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup}/>
         : ''
       }

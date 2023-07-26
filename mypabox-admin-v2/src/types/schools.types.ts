@@ -66,7 +66,18 @@ export interface School {
     school_type_of_degree_offered: StringInputWithFields;
     school_bachelors_degree_required: BooleanInput;
 
+    school_accreditation_status: StringInput
+    school_acceditation_status_general_note: StringInput
 
+    school_mission_statement: StringInput
+
+    school_in_state_tuition: NumberInput
+    school_out_of_state_tuition: NumberInput
+    school_tuition_general_note: StringInput
+
+    school_first_time_pass_rate: NumberInput
+    school_average_five_year_first_time_pass_rate: StringInput
+    school_pance_pass_rate_note: StringInput
 
 }
 
