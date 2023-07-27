@@ -7,14 +7,17 @@ import { School, StringInput, BooleanInput, NumberInput, Note } from '../../../t
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 
-const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote, openEditPopup }: { newSchool: School, handleInputChange: (e: any) => void, openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, openEditPopup: (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => void, setNewSchool: Dispatch<SetStateAction<School>>, removeNote: (e: MouseEvent<HTMLButtonElement>, i: number) => void }) => {
+const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote, openEditPopup }: { 
+  newSchool: School, handleInputChange: (e: any) => void, openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, 
+  openEditPopup: (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => void, setNewSchool: Dispatch<SetStateAction<School>>, 
+  removeNote: (e: MouseEvent<HTMLButtonElement>, i: number) => void }) => {
   const [stateNames, setStateNames] = useState<any>([])
   const [countryNames, setCountryNames] = useState<any>([])
 
   useEffect(() => {
     
     setCountryNames(countries.map(country => ({ value: country.name, label: country.name, 
-      target: {name: "school_country", type: 'text', value: country.name, }})))
+      target: {name: "school_country", type: 'text', value: country.name }})))
 
     setStateNames(countries.filter(country => country.name === newSchool.school_country.input)[0]?.states
      .map(state => ({ value: state.name, label: state.name, target: {name: "school_state", type: 'text', 

@@ -11,7 +11,6 @@ import { School } from "../../types/schools.types";
 import { StringInput, BooleanInput, NumberInput } from "../../types/schools.types";
 import GeneralInfo from "./AddSchool/GeneralInfo";
 import { AppState } from "../../app/root-reducer";
-import { addSchoolState } from "../../types/addSchool.types";
 import DegreeInfo from "./AddSchool/DegreeInfo";
 import AdditionalNotes from "./AddSchool/AdditionalNotes";
 import Tuition from "./AddSchool/Tuition";
@@ -24,9 +23,11 @@ import LettersOfRecommendation from "./AddSchool/LettersOfRecommendation";
 import Certifications from "./AddSchool/Certifications";
 import EditNote from "./components/EditNote";
 import { Note } from "../../types/schools.types";
+import AccreditationStatus from "./AddSchool/AccreditationStatus";
+import MissionStatement from "./AddSchool/MissionStatement";
+import PANCEPassRate from "./AddSchool/PANCEPassRate";
 
 export default function AddSchool() {
-  const school = useSelector((state: AppState) => state.addSchool)
   const schools = useSelector(selectSchools);
   const [ newSchool, setNewSchool ] = useState(defaultSchool);
   const [ currentInput, setCurrentInput ] = useState('');
@@ -62,6 +63,7 @@ export default function AddSchool() {
 
     // Adds input values to 'newSchool' object
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+      console.log(e)
         // Input changes based on what user types 
         const name = e.target.name as keyof School;
         const field = newSchool[name] as StringInput | BooleanInput | NumberInput;
@@ -88,7 +90,13 @@ export default function AddSchool() {
             [name]: e.target.value
           })
         }
+    }
 
+    const handleQuillInputChange = (name: string, value: string) => {
+      setNewSchool({
+        ...newSchool,
+        [name]: value
+      })
     }
 
     // Sends newSchool data to db 
@@ -133,11 +141,8 @@ export default function AddSchool() {
               }
             } catch (error: any) {
               alert('Error retrieving updated school');
-            }
-            
+            }   
         }
-        
-
     }
 
     // Opens note popup and sets value of "Add note" button to "currentInput", 
@@ -209,11 +214,21 @@ export default function AddSchool() {
       <div className="w-full max-w-[1800px] pt-10 mx-auto">
       <div className="w-full flex justify-between items-center">
         <p className='text-4xl font-medium'>Add School</p>
-        <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 hover:text-white hover:bg-blue-500'>
+        <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border ml-[50em] border-red-400 text-red-400 py-3 px-4 
+        rounded-lg hover:text-white hover:bg-red-400'>
+            Save & Next
+          </button>
+          <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 text-blue-500 rounded-lg 
+          py-3 px-4 hover:text-white hover:bg-blue-500'>
+            Save for later
+          </button>
+        <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 
+        hover:text-white hover:bg-blue-500'>
           Done
         </button>
       </div>
-      <div className='mt-16 text-md border-b-2 border-black flex justify-between items-end gap-14 w-full max-w-[1800px] overflow-x-scroll'>
+      <div className='sticky top-0 mt-16 text-md border-b-2 border-black flex justify-between items-end gap-14 w-full max-w-[1800px] 
+      overflow-x-scroll bg-white z-30'>
         <Link to={{ pathname: '/schools/add-school', hash: '#general-info' }} className='focus:text-orange-500 decoration-orange-500 
         focus:underline underline-offset-[12px] whitespace-nowrap'>
           General Info
@@ -222,9 +237,21 @@ export default function AddSchool() {
         focus:underline underline-offset-[12px] whitespace-nowrap'>
           Degree Info
         </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#accreditation-status' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
+          Accreditation Status
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: "#mission_statement" }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
+          Mission Statement
+        </Link>
         <Link to={{ pathname: '/schools/add-school', hash: '#tuition' }} className='focus:text-orange-500 decoration-orange-500 
         focus:underline underline-offset-[12px] whitespace-nowrap'>
           Tuition
+        </Link>
+        <Link to={{ pathname: '/schools/add-school', hash: '#pance-pass-rate' }} className='focus:text-orange-500 decoration-orange-500 
+        focus:underline underline-offset-[12px] whitespace-nowrap'>
+          PANCE Pass Rate
         </Link>
         <Link to={{ pathname: '/schools/add-school', hash: '#GPA' }} className='focus:text-orange-500 decoration-orange-500 
         focus:underline underline-offset-[12px]'>
@@ -266,10 +293,22 @@ export default function AddSchool() {
         location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
         openNotePopup={openNotePopup}ß removeNote={removeNote} openEditPopup={openEditPopup}/> 
         :
-        location.hash === "#tuition" ? <Tuition newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+        location.hash === "#accreditation-status" ? <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} 
+        handleInputChange={handleQuillInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
+        :
+        location.hash === "#mission_statement" ? <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool} 
+        handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
+        :
+        location.hash === "#tuition" ? <Tuition newSchool={newSchool} setNewSchool={setNewSchool} handleQuillInputChange={handleQuillInputChange} 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} handleInputChange={handleInputChange}/> 
+        :
+        location.hash === "#pance-pass-rate" ? <PANCEPassRate newSchool={newSchool} setNewSchool={setNewSchool} handleQuillInputChange={handleQuillInputChange} 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} handleInputChange={handleInputChange}/> 
         :
         location.hash === "#GPA" ? <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+        :
+        location.hash === "#GRE" ? <GRE newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
         openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
         :
         location.hash === "#prerequisites" ? <Prerequisites newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
@@ -294,15 +333,6 @@ export default function AddSchool() {
         handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup}/>
         : ''
       }
-      <div className='w-full flex justify-between items-center'>
-          <div className='w-[150px]'></div>
-          <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='mt-4 border border-red-400 text-red-400 py-3 px-4 rounded-lg hover:text-white hover:bg-red-400'>
-            Save & Next
-          </button>
-          <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='mt-4 border border-blue-500 text-blue-500 rounded-lg py-3 px-4 hover:text-white hover:bg-blue-500'>
-            Save for later
-          </button>
-      </div>
 
     </div>
     {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
