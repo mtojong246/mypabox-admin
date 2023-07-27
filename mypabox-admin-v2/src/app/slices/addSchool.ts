@@ -137,12 +137,8 @@ const initialState: School= {
         input: "",
         notes: []
     },
-    school_acceditation_status_general_note: {
-        input: ""
-    },
-    school_mission_statement: {
-        input: ""
-    },
+    school_acceditation_status_general_note: "",
+    school_mission_statement: "",
     school_in_state_tuition: {
         input: 0,
         notes: []
@@ -151,10 +147,7 @@ const initialState: School= {
         input: 0,
         notes: []
     },
-    school_tuition_general_note: {
-        input: "",
-        notes: []
-    },
+    school_tuition_general_note: "",
     school_first_time_pass_rate: {
         input: 0,
         notes: []
@@ -163,10 +156,7 @@ const initialState: School= {
         input: "",
         notes: []
     },
-    school_pance_pass_rate_note: {
-        input: "",
-        notes: []
-    }
+    school_pance_pass_rate_note: ""
 }
 
 const addSchoolSlice = createSlice({
