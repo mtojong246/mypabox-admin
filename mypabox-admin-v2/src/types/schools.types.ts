@@ -84,3 +84,10 @@ export interface School {
 export interface SchoolState {
     schools: School[];
 }
+
+export interface DataPoints {
+    name: string;
+    value: string;
+    margin: string;
+    type: string;
+}

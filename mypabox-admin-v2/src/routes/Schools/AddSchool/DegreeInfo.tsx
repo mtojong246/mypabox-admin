@@ -4,7 +4,7 @@ import { FiEdit3 } from 'react-icons/fi'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 
-const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange, removeNote, openEditPopup }: any) => {
+const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange, removeNote, openEditPopup, handleCheck }: any) => {
   const [inputList, setInputList] = useState([{ input: '' }])
 
   const handleFieldChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -48,11 +48,14 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
   }
 
 
+
   // Adds more input fields to input list 
   const addInputFields = (e: { preventDefault: () => void }) => {
     e.preventDefault()
     setInputList([...inputList, { input: "" }])
   }
+
+
 
 
   return (
@@ -101,6 +104,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
           ) : ''
         }
       </div>
+  
 
       <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
         <label className="absolute top-[-16px] text-xl bg-white">Dual-Degree Program</label>
@@ -109,7 +113,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
         </button>
         <div className='mt-4 w-full'>
           <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" className="sr-only peer" name='school_dual_degree_program' onChange={handleInputChange}/>
+            <input type="checkbox" className="sr-only peer" name='school_dual_degree_program' onChange={handleCheck} />
             <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 
             peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
             after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
@@ -149,7 +153,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
         </button>
         <div className='mt-4 w-full'>
           <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" className="sr-only peer" name='school_bachelors_degree_required' onChange={handleInputChange}/>
+            <input type="checkbox" className="sr-only peer" name='school_bachelors_degree_required' onChange={handleCheck}/>
             <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 
             peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
             after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>

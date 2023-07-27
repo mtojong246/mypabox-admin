@@ -1,0 +1,167 @@
+import { DataPoints } from "../types/schools.types"
+
+export const generalInfo: DataPoints[] = [
+    {
+        name: 'School Name',
+        value: 'school_name',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'School Logo',
+        value: 'school_logo',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'Street Address',
+        value: 'school_street',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'City',
+        value: 'school_city',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'State',
+        value: 'school_state',
+        margin: 'mt-10',
+        type: 'select',
+    },
+    {
+        name: 'Zip',
+        value: 'school_zip_code',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'Country',
+        value: 'school_country',
+        margin: 'mt-10',
+        type: 'select',
+    },
+    {
+        name: 'Website',
+        value: 'school_website',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'School Email',
+        value: 'school_email',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'School Phone Number',
+        value: 'school_phone_number',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'Campus Location',
+        value: 'school_campus_location',
+        margin: 'mt-32',
+        type: 'text',
+    },
+    {
+        name: 'Start Month',
+        value: 'school_start_month',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'Class Capacity',
+        value: 'school_class_capacity',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'Duration (Full-time)',
+        value: 'school_duration_full_time',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'Duration (Part-time)',
+        value: 'school_duration_part_time',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'Seat Deposit (In-state)',
+        value: 'school_seat_deposit_in_state',
+        margin: 'mt-32',
+        type: 'text',
+    },
+    {
+        name: 'Seat Deposit (Out-of-state)',
+        value: 'school_seat_deposit_out_of_state',
+        margin: 'mt-10',
+        type: 'text',
+    },
+    {
+        name: 'Rolling Admissions',
+        value: 'school_rolling_admissions',
+        margin: 'mt-32',
+        type: 'bool',
+    },
+    {
+        name: 'Non-rolling Admissions',
+        value: 'school_nonrolling_admissions',
+        margin: 'mt-10',
+        type: 'bool',
+    },
+    {
+        name: 'Pre-PA Curriculum',
+        value: 'school_pre_pa_curriculum',
+        margin: 'mt-10',
+        type: 'bool',
+    },
+    {
+        name: 'Direct High School Entry',
+        value: 'school_direct_high_school_entry',
+        margin: 'mt-10',
+        type: 'bool',
+    },
+    {
+        name: 'Part-time Option',
+        value: 'school_part_time_option',
+        margin: 'mt-10',
+        type: 'bool',
+    },
+    {
+        name: 'Online Learning',
+        value: 'school_online_learning',
+        margin: 'mt-10',
+        type: 'bool',
+    },
+    {
+        name: 'On-campus Housing',
+        value: 'school_on_campus_housing',
+        margin: 'mt-10',
+        type: 'bool',
+    },
+    {
+        name: 'Cadaver Lab',
+        value: 'school_cadaver_lab',
+        margin: 'mt-10',
+        type: 'bool',
+    },
+    {
+        name: 'Faith-based Learning',
+        value: 'school_faith_based_learning',
+        margin: 'mt-10',
+        type: 'bool',
+    },
+    {
+        name: 'Military Personnel Preference',
+        value: 'school_military_personnel_preference',
+        margin: 'mt-10',
+        type: 'bool',
+    },
+    
+]

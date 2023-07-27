@@ -9,37 +9,38 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import AddNote from "./components/AddNote";
 import { School } from "../../types/schools.types";
 import { StringInput, BooleanInput, NumberInput } from "../../types/schools.types";
-import GeneralInfo from "./AddSchool/GeneralInfo";
-import { AppState } from "../../app/root-reducer";
-import DegreeInfo from "./AddSchool/DegreeInfo";
-import AdditionalNotes from "./AddSchool/AdditionalNotes";
-import Tuition from "./AddSchool/Tuition";
-import GPA from "./AddSchool/GPA";
-import Prerequisites from "./AddSchool/Prerequisites";
-import HealthcareExperience from "./AddSchool/HealthcareExperience";
-import Shadowing from "./AddSchool/Shadowing";
-import GRE from "./AddSchool/GRE";
-import LettersOfRecommendation from "./AddSchool/LettersOfRecommendation";
-import Certifications from "./AddSchool/Certifications";
+import Category from "./components/Category";
 import EditNote from "./components/EditNote";
 import { Note } from "../../types/schools.types";
-import AccreditationStatus from "./AddSchool/AccreditationStatus";
-import MissionStatement from "./AddSchool/MissionStatement";
-import PANCEPassRate from "./AddSchool/PANCEPassRate";
+import { categories } from "../../data/categories";
+// import GeneralInfo from "./AddSchool/GeneralInfo";
+// import DegreeInfo from "./AddSchool/DegreeInfo";
+// import AdditionalNotes from "./AddSchool/AdditionalNotes";
+// import Tuition from "./AddSchool/Tuition";
+// import GPA from "./AddSchool/GPA";
+// import Prerequisites from "./AddSchool/Prerequisites";
+// import HealthcareExperience from "./AddSchool/HealthcareExperience";
+// import Shadowing from "./AddSchool/Shadowing";
+// import GRE from "./AddSchool/GRE";
+// import LettersOfRecommendation from "./AddSchool/LettersOfRecommendation";
+// import Certifications from "./AddSchool/Certifications";
+// import AccreditationStatus from "./AddSchool/AccreditationStatus";
+// import MissionStatement from "./AddSchool/MissionStatement";
+// import PANCEPassRate from "./AddSchool/PANCEPassRate";
+
 
 export default function AddSchool() {
   const schools = useSelector(selectSchools);
   const [ newSchool, setNewSchool ] = useState(defaultSchool);
   const [ currentInput, setCurrentInput ] = useState('');
   const [ note, setNote ] = useState<Note>({} as Note);
+  const [ tab, setTab ] = useState('')
   const [ index, setIndex ] = useState(0);
   const [ openNote, setOpenNote ] = useState(false);
   const [ openEdit, setOpenEdit ] = useState(false);
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const location = useLocation()
-
-  console.log(newSchool)
+  // const location = useLocation()
 
   // Toggles "AddNote" and "EditNote" components
   const toggleNote = () => setOpenNote(!openNote);
@@ -63,6 +64,11 @@ export default function AddSchool() {
     
    }, [schools])
 
+   // Sets initial tab value to General Info
+   useEffect(() => {
+    setTab('#general-info')
+   }, [])
+
     // Adds input values to 'newSchool' object
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         // Input changes based on what user types 
@@ -77,20 +83,22 @@ export default function AddSchool() {
                 }
             })
         // Input changes to opposite of its previous value 
-        } else if (e.target.type === 'checkbox') {
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    input: (e.target.checked)
-                }
-            })
-        } else if (e.target.type === 'textarea') {
-          setNewSchool({
-            ...newSchool,
-            [name]: e.target.value
-          })
-        }
+        } 
+          
+        
+    }
+
+    // Handles changes to checkboxes 
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+      const name = e.target.name as keyof School;
+        const field = newSchool[name] as BooleanInput;
+        setNewSchool({
+          ...newSchool,
+          [name]: {
+              ...field,
+              input: e.target.checked,
+          }
+      })
     }
 
     const handleQuillInputChange = (name: string, value: string) => {
@@ -138,6 +146,14 @@ export default function AddSchool() {
                 // Saves current school data to local storage 
                 localStorage.setItem('newSchool', JSON.stringify(updatedSchool[0]));
                 setNewSchool(updatedSchool[0] as School)
+
+                // Switches to next tab after save 
+                const currentCategory = categories.find(cat => cat.hash === tab);
+                if (currentCategory) {
+                  const nextIndex = categories.indexOf(currentCategory) + 1;
+                  setTab(categories[nextIndex].hash)
+                }
+                
                 alert('Progress saved')
               }
             } catch (error: any) {
@@ -229,71 +245,23 @@ export default function AddSchool() {
         <div className='flex justify-start items-start gap-10'>
           <div className='text-md pt-5 sticky top-[220px]'>
             <div className='flex flex-col justify-start items-start gap-5'>
-              <Link to={{ pathname: '/schools/add-school', hash: '#general-info' }} className='focus:text-orange-500 decoration-orange-500 
+            {categories.map(category => (
+              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} className='focus:text-orange-500 decoration-orange-500 
               focus:underline underline-offset-[12px] whitespace-nowrap'>
-                General Info
+                {category.name}
               </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#degree-info' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Degree Info
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#accreditation-status' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Accreditation Status
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: "#mission-statement" }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Mission Statement
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#tuition' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Tuition
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#pance-pass-rate' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                PANCE Pass Rate
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#GPA' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px]'>
-                GPA</Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#prerequisites' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Prerequisites
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#healthcare-experience' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Healthcare Experience
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#shadowing' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Shadowing
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#GRE' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                GRE
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#letters-of-recommendation' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Letters of Recommendation
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#certifications' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Certifications
-              </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: '#additional-notes' }} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
-                Additional Notes
-              </Link>
-        
+            ))}
             </div>
           </div>
 
         <div className='border-l border-[#DCDCDC] pl-10 grow'>
-        {
-          location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} handleQuillInputChange={handleQuillInputChange} 
+          <Category tab={tab} newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}
+          handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} />
+        {/* {
+          location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} 
           openNotePopup={openNotePopup} setNewSchool={setNewSchool} removeNote={removeNote} openEditPopup={openEditPopup}/> 
           :
-          location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+          location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleCheck={handleCheck} handleInputChange={handleInputChange} 
           openNotePopup={openNotePopup}ß removeNote={removeNote} openEditPopup={openEditPopup}/> 
           :
           location.hash === "#accreditation-status" ? <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} 
@@ -335,7 +303,7 @@ export default function AddSchool() {
           location.hash === "#additional-notes" ? <AdditionalNotes newSchool={newSchool} setNewSchool={setNewSchool} removeNote={removeNote}
           handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup}/>
           : ''
-        }
+        } */}
         </div>
       </div>
 
