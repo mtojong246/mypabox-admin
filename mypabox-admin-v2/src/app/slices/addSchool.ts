@@ -153,7 +153,7 @@ const initialState: School= {
         notes: []
     },
     school_average_five_year_first_time_pass_rate: {
-        input: "",
+        input: 0,
         notes: []
     },
     school_pance_pass_rate_note: ""

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSchools } from '../../app/selectors/schools.selectors';
 import {  getSchoolsAndDocuments } from '../../utils/firebase/firebase.utils';
@@ -6,7 +6,6 @@ import { setSchools } from '../../app/slices/schools';
 import { AppDispatch } from '../../app/store';
 import { SchoolContext } from '../../useContext';
 import { useNavigate } from 'react-router-dom';
-import { AiOutlinePlus } from 'react-icons/ai';
 
 const Schools = () => {
   const schools = useSelector(selectSchools);
