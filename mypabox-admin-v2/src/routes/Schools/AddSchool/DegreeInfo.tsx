@@ -54,7 +54,6 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
     setInputList([...inputList, { input: "" }])
   }
 
-  console.log(newSchool)
 
   return (
     <form className="mt-10 pb-24 font-['Noto Sans'] min-h-screen">

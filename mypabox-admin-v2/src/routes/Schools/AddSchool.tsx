@@ -39,6 +39,8 @@ export default function AddSchool() {
   const dispatch: AppDispatch = useDispatch();
   const location = useLocation()
 
+  console.log(newSchool)
+
   // Toggles "AddNote" and "EditNote" components
   const toggleNote = () => setOpenNote(!openNote);
   const toggleEdit = () => setOpenEdit(!openEdit);
@@ -63,7 +65,6 @@ export default function AddSchool() {
 
     // Adds input values to 'newSchool' object
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      console.log(e)
         // Input changes based on what user types 
         const name = e.target.name as keyof School;
         const field = newSchool[name] as StringInput | BooleanInput | NumberInput;
@@ -240,7 +241,7 @@ export default function AddSchool() {
               focus:underline underline-offset-[12px] whitespace-nowrap'>
                 Accreditation Status
               </Link>
-              <Link to={{ pathname: '/schools/add-school', hash: "#mission_statement" }} className='focus:text-orange-500 decoration-orange-500 
+              <Link to={{ pathname: '/schools/add-school', hash: "#mission-statement" }} className='focus:text-orange-500 decoration-orange-500 
               focus:underline underline-offset-[12px] whitespace-nowrap'>
                 Mission Statement
               </Link>
@@ -289,16 +290,16 @@ export default function AddSchool() {
 
         <div className='border-l border-[#DCDCDC] pl-10 grow'>
         {
-          location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} 
+          location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} handleQuillInputChange={handleQuillInputChange} 
           openNotePopup={openNotePopup} setNewSchool={setNewSchool} removeNote={removeNote} openEditPopup={openEditPopup}/> 
           :
           location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
           openNotePopup={openNotePopup}ß removeNote={removeNote} openEditPopup={openEditPopup}/> 
           :
           location.hash === "#accreditation-status" ? <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} 
-          handleInputChange={handleQuillInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
+          handleQuillInputChange={handleQuillInputChange} handleInputChange={handleInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
           :
-          location.hash === "#mission_statement" ? <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool} 
+          location.hash === "#mission-statement" ? <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool} 
           handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
           :
           location.hash === "#tuition" ? <Tuition newSchool={newSchool} setNewSchool={setNewSchool} handleQuillInputChange={handleQuillInputChange} 

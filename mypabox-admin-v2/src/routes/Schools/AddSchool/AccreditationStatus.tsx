@@ -4,7 +4,7 @@ import { FiEdit3 } from 'react-icons/fi'
 import ReactQuill from 'react-quill'
 import Select from 'react-select'
 
-const AccreditationStatus = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote, openEditPopup }: any) => {
+const AccreditationStatus = ({ newSchool, handleInputChange, handleQuillInputChange, openNotePopup, setNewSchool, removeNote, openEditPopup }: any) => {
 
   const options = [
     { label: 'Provisional', value: 'Provisional', target: {name: "school_accreditation_status", type: 'text', value: 'Provisional' }},
@@ -62,7 +62,7 @@ const AccreditationStatus = ({ newSchool, handleInputChange, openNotePopup, setN
       <div className="mt-32 text-xl w-full">
         <p>Accreditation Status General Notes</p>
         <ReactQuill className='mt-4 h-96 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_accreditation_status_general_note} 
-        onChange={(e) => handleInputChange('school_accreditation_status_general_note', e)} />
+        onChange={(e) => handleQuillInputChange('school_accreditation_status_general_note', e)} />
       </div>
     </form>
   )

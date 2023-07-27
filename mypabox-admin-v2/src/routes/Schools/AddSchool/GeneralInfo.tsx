@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent, SetStateAction, Dispatch } from 'react'
+import { useEffect, useState, MouseEvent, SetStateAction, Dispatch, ChangeEvent } from 'react'
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import Select from 'react-select';
@@ -7,10 +7,10 @@ import { School, StringInput, BooleanInput, NumberInput, Note } from '../../../t
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 
-const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote, openEditPopup }: { 
+const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool, removeNote, openEditPopup, handleQuillInputChange }: { 
   newSchool: School, handleInputChange: (e: any) => void, openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, 
   openEditPopup: (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => void, setNewSchool: Dispatch<SetStateAction<School>>, 
-  removeNote: (e: MouseEvent<HTMLButtonElement>, i: number) => void }) => {
+  removeNote: (e: MouseEvent<HTMLButtonElement>, i: number) => void, handleQuillInputChange: (name: string, value: string) => void }) => {
   const [stateNames, setStateNames] = useState<any>([])
   const [countryNames, setCountryNames] = useState<any>([])
 
@@ -26,7 +26,6 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
   }, [newSchool.school_country.input])
 
   
-  console.log(newSchool.school_state)
   return (
     <form className='mt-10 pb-24 min-h-screen'>
         <div className="relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
@@ -942,9 +941,15 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
 
         <div className="mt-32 text-xl w-full">
           <p>General Information Notes</p>
+          <ReactQuill className='mt-4 h-96 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_general_information} 
+          onChange={(e) => handleQuillInputChange('school_general_information', e)} />
+        </div>
+
+        {/* <div className="mt-32 text-xl w-full">
+          <p>General Information Notes</p>
           <textarea className='mt-4 focus:outline-none h-64 rounded-lg w-full border 
           border-black p-4' name='school_general_information' onChange={handleInputChange}/>
-        </div>
+        </div> */}
         
       </form>
   )
