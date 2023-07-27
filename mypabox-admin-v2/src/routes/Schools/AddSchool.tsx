@@ -210,129 +210,135 @@ export default function AddSchool() {
 
 
   return (
-    <div className="w-screen py-24 px-10 font-['Noto Sans']">
-      <div className="w-full max-w-[1800px] pt-10 mx-auto">
-      <div className="w-full flex justify-between items-center">
-        <p className='text-4xl font-medium'>Add School</p>
-        <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border ml-[50em] border-red-400 text-red-400 py-3 px-4 
-        rounded-lg hover:text-white hover:bg-red-400'>
-            Save & Next
+    <div className="w-screen px-10 font-['Noto Sans']">
+      <div className="w-full max-w-[1800px] mx-auto">
+        <div className="w-full flex justify-between items-center pt-[120px] sticky bg-white z-10 top-0 pb-10 border-b border-[#DCDCDC]">
+          <p className='text-4xl font-medium'>Add School</p>
+          <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border ml-[50em] border-red-400 text-red-400 py-3 px-4 
+          rounded-lg hover:text-white hover:bg-red-400'>
+              Save & Next
+            </button>
+            <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 text-blue-500 rounded-lg 
+            py-3 px-4 hover:text-white hover:bg-blue-500'>
+              Save for later
+            </button>
+          <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 
+          hover:text-white hover:bg-blue-500'>
+            Done
           </button>
-          <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 text-blue-500 rounded-lg 
-          py-3 px-4 hover:text-white hover:bg-blue-500'>
-            Save for later
-          </button>
-        <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 
-        hover:text-white hover:bg-blue-500'>
-          Done
-        </button>
-      </div>
-      <div className='sticky top-0 mt-16 text-md border-b-2 border-black flex justify-between items-end gap-14 w-full max-w-[1800px] 
-      overflow-x-scroll bg-white z-30'>
-        <Link to={{ pathname: '/schools/add-school', hash: '#general-info' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          General Info
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#degree-info' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Degree Info
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#accreditation-status' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Accreditation Status
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: "#mission_statement" }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Mission Statement
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#tuition' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Tuition
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#pance-pass-rate' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          PANCE Pass Rate
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#GPA' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px]'>
-          GPA</Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#prerequisites' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Prerequisites
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#healthcare-experience' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Healthcare Experience
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#shadowing' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Shadowing
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#GRE' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          GRE
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#letters-of-recommendation' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Letters of Recommendation
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#certifications' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Certifications
-        </Link>
-        <Link to={{ pathname: '/schools/add-school', hash: '#additional-notes' }} className='focus:text-orange-500 decoration-orange-500 
-        focus:underline underline-offset-[12px] whitespace-nowrap'>
-          Additional Notes
-        </Link>
-      </div>
+        </div>
+        <div className='flex justify-start items-start gap-10'>
+          <div className='text-md pt-5 sticky top-[220px]'>
+            <div className='flex flex-col justify-start items-start gap-5'>
+              <Link to={{ pathname: '/schools/add-school', hash: '#general-info' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                General Info
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#degree-info' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Degree Info
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#accreditation-status' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Accreditation Status
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: "#mission_statement" }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Mission Statement
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#tuition' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Tuition
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#pance-pass-rate' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                PANCE Pass Rate
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#GPA' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px]'>
+                GPA</Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#prerequisites' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Prerequisites
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#healthcare-experience' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Healthcare Experience
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#shadowing' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Shadowing
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#GRE' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                GRE
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#letters-of-recommendation' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Letters of Recommendation
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#certifications' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Certifications
+              </Link>
+              <Link to={{ pathname: '/schools/add-school', hash: '#additional-notes' }} className='focus:text-orange-500 decoration-orange-500 
+              focus:underline underline-offset-[12px] whitespace-nowrap'>
+                Additional Notes
+              </Link>
+        
+            </div>
+          </div>
 
-      {
-        location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} setNewSchool={setNewSchool} removeNote={removeNote} openEditPopup={openEditPopup}/> 
-        :
-        location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup}ß removeNote={removeNote} openEditPopup={openEditPopup}/> 
-        :
-        location.hash === "#accreditation-status" ? <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} 
-        handleInputChange={handleQuillInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
-        :
-        location.hash === "#mission_statement" ? <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool} 
-        handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
-        :
-        location.hash === "#tuition" ? <Tuition newSchool={newSchool} setNewSchool={setNewSchool} handleQuillInputChange={handleQuillInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} handleInputChange={handleInputChange}/> 
-        :
-        location.hash === "#pance-pass-rate" ? <PANCEPassRate newSchool={newSchool} setNewSchool={setNewSchool} handleQuillInputChange={handleQuillInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} handleInputChange={handleInputChange}/> 
-        :
-        location.hash === "#GPA" ? <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-        :
-        location.hash === "#GRE" ? <GRE newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-        :
-        location.hash === "#prerequisites" ? <Prerequisites newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-        :
-        location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} 
-        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-        :
-        location.hash === "#shadowing" ? <Shadowing newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-        openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-        :
-        location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} 
-        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-        :
-        location.hash === "#letters-of-recommendation" ? <LettersOfRecommendation newSchool={newSchool} setNewSchool={setNewSchool} 
-        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-        :
-        location.hash === "#certifications" ? <Certifications newSchool={newSchool} setNewSchool={setNewSchool} 
-        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-        :
-        location.hash === "#additional-notes" ? <AdditionalNotes newSchool={newSchool} setNewSchool={setNewSchool} removeNote={removeNote}
-        handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup}/>
-        : ''
-      }
+        <div className='border-l border-[#DCDCDC] pl-10 grow'>
+        {
+          location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} 
+          openNotePopup={openNotePopup} setNewSchool={setNewSchool} removeNote={removeNote} openEditPopup={openEditPopup}/> 
+          :
+          location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+          openNotePopup={openNotePopup}ß removeNote={removeNote} openEditPopup={openEditPopup}/> 
+          :
+          location.hash === "#accreditation-status" ? <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} 
+          handleInputChange={handleQuillInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
+          :
+          location.hash === "#mission_statement" ? <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool} 
+          handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
+          :
+          location.hash === "#tuition" ? <Tuition newSchool={newSchool} setNewSchool={setNewSchool} handleQuillInputChange={handleQuillInputChange} 
+          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} handleInputChange={handleInputChange}/> 
+          :
+          location.hash === "#pance-pass-rate" ? <PANCEPassRate newSchool={newSchool} setNewSchool={setNewSchool} handleQuillInputChange={handleQuillInputChange} 
+          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} handleInputChange={handleInputChange}/> 
+          :
+          location.hash === "#GPA" ? <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+          :
+          location.hash === "#GRE" ? <GRE newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+          :
+          location.hash === "#prerequisites" ? <Prerequisites newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+          :
+          location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} 
+          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+          :
+          location.hash === "#shadowing" ? <Shadowing newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
+          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+          :
+          location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} 
+          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+          :
+          location.hash === "#letters-of-recommendation" ? <LettersOfRecommendation newSchool={newSchool} setNewSchool={setNewSchool} 
+          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+          :
+          location.hash === "#certifications" ? <Certifications newSchool={newSchool} setNewSchool={setNewSchool} 
+          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
+          :
+          location.hash === "#additional-notes" ? <AdditionalNotes newSchool={newSchool} setNewSchool={setNewSchool} removeNote={removeNote}
+          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup}/>
+          : ''
+        }
+        </div>
+      </div>
 
     </div>
     {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}

@@ -23,7 +23,7 @@ const AccreditationStatus = ({ newSchool, handleInputChange, openNotePopup, setN
   ]
 
   return (
-    <form className="mt-16 font-['Noto Sans']">
+    <form className="mt-10 pb-24 font-['Noto Sans'] min-h-screen">
       <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
         <label className="absolute top-[-16px] text-xl bg-white">Accreditation Status</label>
         <button value="school_accreditation_status" className="w-32 border text-orange-500 border-[#F06A6A] rounded-md h-14 text-xl" 

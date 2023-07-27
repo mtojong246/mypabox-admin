@@ -28,7 +28,7 @@ const GeneralInfo = ({ newSchool, handleInputChange, openNotePopup, setNewSchool
   
   console.log(newSchool.school_state)
   return (
-    <form className='mt-16'>
+    <form className='mt-10 pb-24 min-h-screen'>
         <div className="relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
           <label className="absolute top-[-16px] text-xl bg-white">School Name</label>
           <button name='add' value="school_name" className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>

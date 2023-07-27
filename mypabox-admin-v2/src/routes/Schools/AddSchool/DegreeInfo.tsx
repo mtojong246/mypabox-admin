@@ -57,7 +57,7 @@ const DegreeInfo = ({ newSchool,  openNotePopup, setNewSchool, handleInputChange
   console.log(newSchool)
 
   return (
-    <form className="mt-16 font-['Noto Sans']">
+    <form className="mt-10 pb-24 font-['Noto Sans'] min-h-screen">
       <div className="relative mt-10 max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]">
         <label className="absolute top-[-16px] text-xl bg-white">Types of Degrees Offered</label>
         <button value="school_type_of_degree_offered" className="w-56 pl-4 text-orange-500 border border-[#F06A6A] rounded-md h-14 text-xl" 
