@@ -214,18 +214,16 @@ export default function AddSchool() {
       <div className="w-full max-w-[1800px] mx-auto">
         <div className="w-full flex justify-between items-center pt-[120px] sticky bg-white z-10 top-0 pb-10 border-b border-[#DCDCDC]">
           <p className='text-4xl font-medium'>Add School</p>
-          <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border ml-[50em] border-red-400 text-red-400 py-3 px-4 
-          rounded-lg hover:text-white hover:bg-red-400'>
-              Save & Next
-            </button>
-            <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 text-blue-500 rounded-lg 
-            py-3 px-4 hover:text-white hover:bg-blue-500'>
-              Save for later
-            </button>
-          <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 rounded-lg py-3 px-4 text-blue-500 
-          hover:text-white hover:bg-blue-500'>
-            Done
-          </button>
+          <div className='flex gap-5'>
+            <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border ml-[50em] border-red-400 text-red-400 py-3 px-4 
+            rounded-lg hover:text-white hover:bg-red-400'>
+                Save & Next
+              </button>
+              <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 text-blue-500 rounded-lg 
+              py-3 px-4 hover:text-white hover:bg-blue-500'>
+                Done
+              </button>
+          </div>
         </div>
         <div className='flex justify-start items-start gap-10'>
           <div className='text-md pt-5 sticky top-[220px]'>
