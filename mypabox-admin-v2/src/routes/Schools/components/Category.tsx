@@ -233,12 +233,12 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             return (
                 <div className={`${cat.margin} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
                     <label className="absolute top-[-16px] text-xl bg-white">Types of Degrees Offered</label>
-                    <button value="school_type_of_degree_offered" className="w-56 pl-4 text-orange-500 border border-[#F06A6A] rounded-md h-14 text-xl" 
+                    <button value="school_type_of_degree_offered" className="w-56 pl-4 text-red-500 border border-[#F06A6A] rounded-md h-14 text-xl" 
                     onClick={addInputFields}>
                     <AiOutlinePlus className="absolute ml-2 mt-[6px]"/>
                     Add more fields
                     </button>
-                    <button value="school_type_of_degree_offered" className="w-32 ml-4 border text-orange-500 border-[#F06A6A] rounded-md h-14 text-xl" 
+                    <button value="school_type_of_degree_offered" className="w-32 ml-4 border text-red-500 border-[#F06A6A] rounded-md h-14 text-xl" 
                     onClick={openNotePopup}>
                     Add Note
                     </button>
