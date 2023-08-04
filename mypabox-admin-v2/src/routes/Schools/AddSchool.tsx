@@ -86,8 +86,6 @@ export default function AddSchool() {
             })
         // Input changes to opposite of its previous value 
         } 
-          
-        
     }
 
     // Handles changes to checkboxes 
