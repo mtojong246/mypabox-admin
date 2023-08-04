@@ -40,11 +40,13 @@ export default function AddSchool() {
   const [ openEdit, setOpenEdit ] = useState(false);
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  // const location = useLocation()
+  const location = useLocation()
 
   // Toggles "AddNote" and "EditNote" components
   const toggleNote = () => setOpenNote(!openNote);
   const toggleEdit = () => setOpenEdit(!openEdit);
+
+  console.log(tab)
 
   useEffect(() => {
     // Continuing editing school if already saved, else start off fresh 
@@ -246,8 +248,9 @@ export default function AddSchool() {
           <div className='text-md pt-5 sticky top-[220px]'>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
-              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} className='focus:text-orange-500 decoration-orange-500 
-              focus:underline underline-offset-[12px] whitespace-nowrap'>
+              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} 
+              className={`focus:text-orange-500 decoration-orange-500 focus:underline underline-offset-[12px] whitespace-nowrap
+              ${category.hash === location.hash ? 'underline underline-offset-[12px]' : ''}`}>
                 {category.name}
               </Link>
             ))}

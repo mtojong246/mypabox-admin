@@ -8,6 +8,7 @@ import Select from 'react-select';
 
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
+import DeletePopUp from "./DeletePopUp";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -24,18 +25,21 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
 
     const [stateNames, setStateNames] = useState<any>([]);
     const [countryNames, setCountryNames] = useState<any>([]);
-    const [ category, setCategory ] = useState<CategoryType>({} as CategoryType);
+    const [category, setCategory] = useState<CategoryType>({} as CategoryType);
+    const [deletePopUp, setDeletePopUp] = useState(true)
+    const [eventTarget, setEventTarget] = useState()
+    const [index, setIndex] = useState(0)
 
     useEffect(() => {
         const newCategory = categories.find(cat => cat.hash === tab);
         if (newCategory) {
             setCategory(newCategory);
         }
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     }, [tab])
 
 
     useEffect(() => {
-    
         setCountryNames(countries.map(country => ({ value: country.name, label: country.name, 
           target: {name: "school_country", type: 'text', value: country.name }})))
     
@@ -95,8 +99,14 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
         setInputList([...inputList, { input: "" }])
     }
 
-    console.log(newSchool)
-
+    const handleDeletePopup = (e: any , i: SetStateAction<number>) => {
+      e.preventDefault()
+      setEventTarget(e.currentTarget.value)
+      console.log(eventTarget)
+      setIndex(i)
+      setDeletePopUp(!deletePopUp)
+    }
+    
     return (
         <form className='pb-24 min-h-screen'>
         {category.fields && category.fields.map((cat) => {
@@ -126,7 +136,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
                         <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                        <button value={cat.value} onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                     )})}
@@ -206,7 +216,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
                         <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                        <button value={cat.value} onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                     )})}
@@ -266,7 +276,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                                     </div>
                                     <div className='flex flex-col-reverse justify-start items-center gap-1'>
                                         <button value='school_type_of_degree_offered' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                                        <button value='school_type_of_degree_offered' onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                                        <button value='school_type_of_degree_offered' onClick={(e) => handleDeletePopup(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                                     </div>
                                 </div>
                             )})}
@@ -275,15 +285,16 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                     }
                 </div>
             )
-        } 
+        }
         return (
             <></>
         )
 
         })}
-
-
-            
+        <>
+          {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
+          removeNote={removeNote}/> : ''} 
+        </>
         </form>
     )
 }
