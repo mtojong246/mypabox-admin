@@ -248,9 +248,8 @@ export default function AddSchool() {
           <div className='text-md pt-5 sticky top-[220px]'>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
-              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} 
-              className={`focus:text-orange-500 decoration-orange-500 focus:underline underline-offset-[12px] whitespace-nowrap
-              ${category.hash === location.hash ? 'underline underline-offset-[12px]' : ''}`}>
+              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} className='focus:text-red-500 decoration-red-500 
+              whitespace-nowrap'>
                 {category.name}
               </Link>
             ))}
