@@ -9,10 +9,9 @@ import Sidebar from './Sidebar';
 
 const Navbar = () => {
   const [openFilter, setOpenFilter] = useState(false)
-  const [show, setShow] = useState(true)
   // Find out current pathname in url
   const location = useLocation()
-  const { handleStateSearch, handleSchoolName, schoolName, handleToggleSideMenu, toggleSideMenu } = useContext(SchoolContext)
+  const { handleStateSearch, handleSchoolName, schoolName, handleToggleSideMenu, toggleSideMenu, show, setShow } = useContext(SchoolContext)
   const [lastScrollY, setLastScrollY] = useState(200);
 
   const controlNavbar = () => {

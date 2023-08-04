@@ -26,7 +26,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     const [stateNames, setStateNames] = useState<any>([]);
     const [countryNames, setCountryNames] = useState<any>([]);
     const [category, setCategory] = useState<CategoryType>({} as CategoryType);
-    const [deletePopUp, setDeletePopUp] = useState(true)
+    const [deletePopUp, setDeletePopUp] = useState(false)
     const [eventTarget, setEventTarget] = useState()
     const [index, setIndex] = useState(0)
 
@@ -172,7 +172,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
                         <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                        <button value={cat.value} onClick={(e) => removeNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                     )})}
@@ -293,7 +293,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
         })}
         <>
           {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
-          removeNote={removeNote}/> : ''} 
+          removeNote={removeNote} removeField={removeField}/> : ''} 
         </>
         </form>
     )

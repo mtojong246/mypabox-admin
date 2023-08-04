@@ -1,7 +1,7 @@
 import React from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 
-const DeletePopUp = ({event, i, deletePopUp, setDeletePopUp, removeNote}: any) => {
+const DeletePopUp = ({event, i, deletePopUp, setDeletePopUp, removeNote, inputType}: any) => {
 
   const e = { currentTarget: { value: event } }
   const toggleDeletePopUp = () => setDeletePopUp(!deletePopUp)
@@ -11,7 +11,6 @@ const DeletePopUp = ({event, i, deletePopUp, setDeletePopUp, removeNote}: any) =
       <form className="h-[12em] w-[26em] mt-[45em] rounded-[0.625em] bg-white ml-[75em]">
         <AiOutlineClose className='absolute text-black text-2xl ml-[29em] mt-8 cursor-pointer' />
         <p className='absolute text-2xl mt-8 ml-8'>Are you sure you want to delete?</p>
-                   
         <button type='submit' className="absolute mt-[7em] ml-[8em] w-20 h-10 rounded-2xl border-2 
         border-red-600 text-red-600" onClick={() => {removeNote(e, i); toggleDeletePopUp()}}>
           Delete

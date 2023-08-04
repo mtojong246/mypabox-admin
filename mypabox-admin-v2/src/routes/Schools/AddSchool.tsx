@@ -2,7 +2,7 @@ import { defaultSchool } from "../../data/defaultValues";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { selectSchools } from "../../app/selectors/schools.selectors";
-import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
+import { useState, useEffect, ChangeEvent, MouseEvent, useContext } from "react";
 import { addDocToSchoolCollection, getDocsById } from "../../utils/firebase/firebase.utils";
 import { addSchool } from "../../app/slices/schools";
 import { useNavigate, Link, useLocation } from "react-router-dom";
@@ -13,6 +13,7 @@ import Category from "./components/Category";
 import EditNote from "./components/EditNote";
 import { Note } from "../../types/schools.types";
 import { categories } from "../../data/categories";
+import { SchoolContext } from "../../useContext";
 // import GeneralInfo from "./AddSchool/GeneralInfo";
 // import DegreeInfo from "./AddSchool/DegreeInfo";
 // import AdditionalNotes from "./AddSchool/AdditionalNotes";
@@ -41,6 +42,7 @@ export default function AddSchool() {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const location = useLocation()
+  const { show, setShow } = useContext(SchoolContext)
 
   // Toggles "AddNote" and "EditNote" components
   const toggleNote = () => setOpenNote(!openNote);
@@ -86,6 +88,7 @@ export default function AddSchool() {
             })
         // Input changes to opposite of its previous value 
         } 
+
     }
 
     // Handles changes to checkboxes 
@@ -227,11 +230,12 @@ export default function AddSchool() {
 
 
   return (
-    <div className="w-screen px-10 font-['Noto Sans']">
-      <div className="w-full max-w-[1800px] mx-auto">
-        <div className="w-full flex justify-between items-center pt-[120px] sticky bg-white z-10 top-0 pb-10 border-b border-[#DCDCDC]">
-          <p className='text-4xl font-medium'>Add School</p>
-          <div className='flex gap-5'>
+    <div className={`w-screen px-10 ont-['Noto Sans']`}>
+      <div className={`w-full max-w-[1800px] mx-auto`}>
+        <div className={`w-full flex justify-between items-center pt-[120px] sticky bg-white z-10 top-0 pb-10 border-b border-[#DCDCDC]
+        ${show ? '' : 'pb-2'}`}>
+          <p className={`text-4xl ${show ? '' : '-mt-32'} font-medium`}>Add School</p>
+          <div className={`flex gap-5 ${show ? '' : '-mt-28'}`}>
             <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border ml-[50em] border-red-400 text-red-400 py-3 px-4 
             rounded-lg hover:text-white hover:bg-red-400'>
                 Save & Next
@@ -242,8 +246,8 @@ export default function AddSchool() {
               </button>
           </div>
         </div>
-        <div className='flex justify-start items-start gap-10'>
-          <div className='text-md pt-5 sticky top-[220px]'>
+        <div className={`flex justify-start items-start gap-10 `}>
+          <div className={`text-md pt-5 sticky ${show ? '' : 'top-[145px]'} top-[220px]`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
               <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} className='focus:text-red-500 decoration-red-500 
