@@ -70,8 +70,13 @@ export default function AddSchool() {
 
    // Sets initial tab value to General Info
    useEffect(() => {
-    setTab('#general-info')
-   }, [])
+    if (location.hash === '') {
+      setTab('#general-info')
+    } else {
+      setTab(location.hash)
+    }
+
+   }, [location.hash])
 
     // Adds input values to 'newSchool' object
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -213,7 +218,6 @@ export default function AddSchool() {
       })
     }
 
-
     // Removes note from corresponding data field 
     const removeNote = (e: MouseEvent<HTMLButtonElement>, i: number) => {
       const name = (e.currentTarget as HTMLButtonElement).value as keyof School;
@@ -227,7 +231,6 @@ export default function AddSchool() {
       }
       setNewSchool(updatedSchool);
     }
-
 
   return (
     <div className={`w-screen px-10 ont-['Noto Sans']`}>
@@ -250,8 +253,9 @@ export default function AddSchool() {
           <div className={`text-md pt-5 sticky ${show ? '' : 'top-[145px]'} top-[220px]`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
-              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} className='focus:text-red-500 decoration-red-500 
-              whitespace-nowrap'>
+              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} 
+              className={`focus:text-red-500 decoration-red-500 whitespace-nowrap ${location.hash === category.hash ? 
+              'text-red-500 decoration-red-500 underline underline-offset-[12px]' : ''}`}>
                 {category.name}
               </Link>
             ))}
