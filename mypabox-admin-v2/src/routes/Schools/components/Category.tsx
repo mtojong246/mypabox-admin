@@ -75,6 +75,25 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     // Removes specific field from input list 
     const removeField = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
+        
+        console.log('hello')
+        return (
+          <div className="fixed w-screen font-['Noto Sans'] -ml-[54.75em] top-0 bg-[#000000d5] z-40 h-screen">
+            <form className="h-[12em] w-[26em] mt-[45em] rounded-[0.625em] bg-white ml-[75em]">
+              <AiOutlineClose className='absolute text-black text-2xl ml-[29em] mt-8 cursor-pointer' />
+              <p className='absolute text-2xl mt-8 ml-8'>Are you sure you want to delete?</p>
+              <button type='submit' className="absolute mt-[7em] ml-[8em] w-20 h-10 rounded-2xl border-2 
+              border-red-600 text-red-600" >
+                Delete
+              </button>
+              <button type='submit' className="absolute mt-[7em] ml-[14em] w-20 h-10 rounded-2xl border-2 
+              border-blue-600 text-blue-600" >
+                Cancel
+              </button>
+            </form>
+          </div>
+        )
+        {/*
         const name = (e.currentTarget as HTMLButtonElement).value as keyof School;
         const field = newSchool[name] as StringInputWithFields; 
         
@@ -89,10 +108,10 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             fields: list
         }
         })
-        
+    */}   
     }
 
-
+    
     // Adds more input fields to input list 
     const addInputFields = (e: { preventDefault: () => void }) => {
         e.preventDefault()
@@ -293,7 +312,8 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
         })}
         <>
           {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
-          removeNote={removeNote} removeField={removeField}/> : ''} 
+          removeNote={removeNote} removeField={removeField}/> : ''}
+          {removeNote} 
         </>
         </form>
     )
