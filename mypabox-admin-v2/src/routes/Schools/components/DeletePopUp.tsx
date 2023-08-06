@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 
-const DeletePopUp = ({event, i, deletePopUp, setDeletePopUp, removeNote, inputType}: any) => {
+const DeletePopUp = ({event, i, deletePopUp, setDeletePopUp, removeNote, inputType, removeField}: any) => {
 
-  const e = { currentTarget: { value: event } }
+  console.log(inputType)
+
+  const remove = (e: MouseEvent<HTMLButtonElement>) => {
+
+    if (inputType === 'note') {
+      const e = { currentTarget: { value: event } }
+      
+      removeNote(e, i)
+    } else {
+      e.preventDefault()
+      const e1 = { currentTarget: { value: event } }
+
+      removeField(e1, i)
+    }
+  }
   const toggleDeletePopUp = () => setDeletePopUp(!deletePopUp)
 
   return (
@@ -12,7 +26,7 @@ const DeletePopUp = ({event, i, deletePopUp, setDeletePopUp, removeNote, inputTy
         <AiOutlineClose className='absolute text-black text-2xl ml-[29em] mt-8 cursor-pointer' />
         <p className='absolute text-2xl mt-8 ml-8'>Are you sure you want to delete?</p>
         <button type='submit' className="absolute mt-[7em] ml-[8em] w-20 h-10 rounded-2xl border-2 
-        border-red-600 text-red-600" onClick={() => {removeNote(e, i); toggleDeletePopUp()}}>
+        border-red-600 text-red-600" onClick={(e) => {remove(e); toggleDeletePopUp()}}>
           Delete
         </button>
         <button type='submit' className="absolute mt-[7em] ml-[14em] w-20 h-10 rounded-2xl border-2 

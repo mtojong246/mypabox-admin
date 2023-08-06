@@ -29,6 +29,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     const [deletePopUp, setDeletePopUp] = useState(false)
     const [eventTarget, setEventTarget] = useState()
     const [index, setIndex] = useState(0)
+    const [inputType, setInputType] = useState('')
 
     useEffect(() => {
         const newCategory = categories.find(cat => cat.hash === tab);
@@ -74,7 +75,6 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
 
     // Removes specific field from input list 
     const removeField = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-        e.preventDefault();
         
         const name = (e.currentTarget as HTMLButtonElement).value as keyof School;
         const field = newSchool[name] as StringInputWithFields; 
@@ -100,10 +100,10 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
         setInputList([...inputList, { input: "" }])
     }
 
-    const handleDeletePopup = (e: any , i: SetStateAction<number>) => {
+    const handleDeletePopup = (e: any , i: SetStateAction<number>, input: string) => {
       e.preventDefault()
       setEventTarget(e.currentTarget.value)
-      console.log(eventTarget)
+      setInputType(input)
       setIndex(i)
       setDeletePopUp(!deletePopUp)
     }
@@ -137,7 +137,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
                         <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                     )})}
@@ -173,7 +173,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
                         <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                     )})}
@@ -217,7 +217,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
                         <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                     )})}
@@ -259,7 +259,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                             <input className="grow focus:outline-none border border-[#B4B4B4] p-4 rounded-lg" 
                         value={input.input} name='school_type_of_degree_offered' onChange={e => handleFieldChange(e, index)} />
                             {index < 1 ? null : (
-                            <button onClick={(e) => removeField(e, index)} value='school_type_of_degree_offered'><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                            <button onClick={(e) => handleDeletePopup(e, index, 'inputField')} value='school_type_of_degree_offered'><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                             )}
                         </div>
                     )})
@@ -277,7 +277,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                                     </div>
                                     <div className='flex flex-col-reverse justify-start items-center gap-1'>
                                         <button value='school_type_of_degree_offered' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                                        <button value='school_type_of_degree_offered' onClick={(e) => handleDeletePopup(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                                        <button value='school_type_of_degree_offered' onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                                     </div>
                                 </div>
                             )})}
@@ -296,7 +296,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
         })}
         <>
           {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
-          removeNote={removeNote} removeField={removeField}/> : ''}
+          removeNote={removeNote} removeField={removeField} inputType={inputType} /> : ''}
           
         </>
         </form>
