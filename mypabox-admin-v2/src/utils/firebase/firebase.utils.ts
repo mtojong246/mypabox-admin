@@ -111,6 +111,25 @@ export const addDocToSchoolCollection = async (data: School, id: number) => {
     }
 }
 
+// **************[COURSES DATA FUNCTION HANDLERS]**************
+
+// Retrieves all courses data 
+export const getAllCourses = async () => {
+    const collectionRef = collection(db, 'courses');
+    const q = query(collectionRef);
+
+    try {
+        // Gets documents based on query parameters 
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error fetching course data' , error.code);
+    }
+}
 
 //  **************[USER DATA FUNCTION HANDLERS]**************
 
