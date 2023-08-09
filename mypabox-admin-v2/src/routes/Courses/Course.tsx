@@ -36,7 +36,6 @@ export default function Courses() {
 
     }, [dispatch, navigate])
 
-
     return (
     <div className="w-screen py-24 px-10 font-['Noto Sans']">
       <div className='w-full max-w-[1800px] pt-10 mx-auto'>

@@ -3,6 +3,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, Us
 import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, addDoc } from 'firebase/firestore'
 
 import { School } from "../../types/schools.types";
+import { Course } from "../../types/courses.types";
 
 interface AdditionalInfo {
     displayName?: string;
@@ -129,6 +130,23 @@ export const getAllCourses = async () => {
 
         console.log('error fetching course data' , error.code);
     }
+}
+
+// Adds or updates courses doc 
+export const updateCoursesDoc = async (data: Course, id: string) => {
+    const docRef = doc(db, 'courses', id);
+
+        try {
+            // Adds data as a document to school collection or updates existing document
+            await setDoc(docRef, data)
+        } catch (error: any) {
+            if (error.code === 'permission-denied') {
+                throw new Error(error.code);
+            }
+    
+            console.log('error updating course' , error.code);
+        }
+    
 }
 
 //  **************[USER DATA FUNCTION HANDLERS]**************

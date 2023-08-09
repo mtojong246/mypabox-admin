@@ -6,12 +6,31 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { Course } from "../../types/courses.types";
 import { setMode } from "../../app/slices/courses";
 import Select from 'react-select';
+import { addCourse, editCourse } from "../../app/slices/courses";
+import { updateCoursesDoc } from "../../utils/firebase/firebase.utils";
+import { useNavigate } from "react-router-dom";
+
+// program to generate random strings
+
+// declare all characters
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function generateString(length: number) {
+    let result = ' ';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
 
 
 
 export default function AddOrEditCourse() {
     const params = useParams();
     const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate();
     const courses = useSelector(selectCourses);
     const edit = useSelector(selectMode);
     const [ course, setCourse ] = useState<Course>({} as Course);
@@ -52,7 +71,7 @@ export default function AddOrEditCourse() {
         } else {
         // Creates new course template 
             setCourse({
-                unique_id: '',
+                unique_id: generateString(10),
                 course_name: '',
                 gpa_calculation: '',
                 subject_category: '',
@@ -76,14 +95,35 @@ export default function AddOrEditCourse() {
         })
     }
 
-    console.log(course);
+    // Handles save for both add and edit modes 
+    const handleSave = async () => {
+        try {
+            await updateCoursesDoc(course, course.unique_id);
+            if (edit) {
+                dispatch(editCourse(course))
+            } else {
+                dispatch(addCourse(course));
+            }
+            navigate('/courses')
+        } catch (error: any) {
+            if (error.message === 'permission-denied') {
+                alert("Access denied. Please log in using the appropriate credentials");
+                navigate('/');
+                return;
+            } else {
+                alert(error);
+                return;
+            }
+        }
+    }
+
 
     return (
         <div className="w-screen py-24 px-10 font-['Noto Sans']">
             <div className='w-full max-w-[1800px] pt-10 mx-auto'>
                 <div className={`w-full flex justify-between items-center pb-10 border-b border-[#DCDCDC]`}>
                     <p className='text-4xl font-medium'>{edit ? 'Edit Course' : 'Add Course'}</p>
-                    <button className='border border-blue-500 text-blue-500 rounded-lg py-3 px-4 hover:text-white hover:bg-blue-500'>
+                    <button onClick={handleSave} className='border border-blue-500 text-blue-500 rounded-lg py-3 px-4 hover:text-white hover:bg-blue-500'>
                         Save
                     </button>
                 </div>
