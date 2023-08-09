@@ -26,7 +26,7 @@ const courseSlice = createSlice({
             })
         },
         deleteCourse: (state, action) => {
-            state.courses.filter(course => course.unique_id !== action.payload.unique_id)
+            state.courses.filter(course => course.unique_id !== action.payload)
         },
         setMode: (state, action) => {
             state.editMode = action.payload

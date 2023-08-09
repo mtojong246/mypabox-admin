@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, addDoc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, deleteDoc } from 'firebase/firestore'
 
 import { School } from "../../types/schools.types";
 import { Course } from "../../types/courses.types";
@@ -147,6 +147,21 @@ export const updateCoursesDoc = async (data: Course, id: string) => {
             console.log('error updating course' , error.code);
         }
     
+}
+
+export const deleteCoursesDoc = async (id: string) => {
+    const docRef = doc(db, 'courses', id);
+
+    try {
+        // Removes course from document 
+        await deleteDoc(docRef)
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error deleting course' , error.code);
+    }
 }
 
 //  **************[USER DATA FUNCTION HANDLERS]**************

@@ -7,6 +7,8 @@ import { getAllCourses } from "../../utils/firebase/firebase.utils";
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link, useNavigate } from "react-router-dom";
+import { deleteCoursesDoc } from "../../utils/firebase/firebase.utils";
+import { deleteCourse } from "../../app/slices/courses";
 
 export default function Courses() {
     const courses = useSelector(selectCourses);
@@ -34,7 +36,23 @@ export default function Courses() {
 
         fetchCourses();
 
-    }, [dispatch, navigate])
+    }, [dispatch, navigate, courses])
+
+    const handleDelete = async (id: string) => {
+        try {
+            await deleteCoursesDoc(id);
+            dispatch(deleteCourse(id));
+        } catch (error: any) {
+            if (error.message === 'permission-denied') {
+                alert("Access denied. Please log in using the appropriate credentials");
+                navigate('/');
+                return;
+            } else {
+                alert(error);
+                return;
+            }
+        }
+    }
 
     return (
     <div className="w-screen py-24 px-10 font-['Noto Sans']">
@@ -61,7 +79,7 @@ export default function Courses() {
                     </div>
                     <div className='flex justify-center items-center gap-2'>
                         <Link to={`/courses/edit-course/${course.unique_id}`}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></Link>
-                        <button><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button onClick={() => handleDelete(course.unique_id)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                     </div>
                 </div>
             ))}
