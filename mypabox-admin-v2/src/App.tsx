@@ -6,6 +6,7 @@ import Schools from "./routes/Schools/Schools";
 import Navbar from "./components/Navbar/Navbar";
 import AddSchool from "./routes/Schools/AddSchool";
 import Courses from './routes/Courses/Course';
+import AddOrEditCourse from './routes/Courses/AddOrEditCourse';
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
           <Route path='schools' element={<Schools />} />
           <Route path='schools/add-school' element={<AddSchool />} />  
           <Route path='courses' element={<Courses />} />
+          <Route path='courses/add-course' element={<AddOrEditCourse />} />
+          <Route path='courses/edit-course/:id' element={<AddOrEditCourse />} />
         </Routes>
       </Router>
     </div>

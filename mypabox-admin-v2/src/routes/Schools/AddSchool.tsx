@@ -48,8 +48,6 @@ export default function AddSchool() {
   const toggleNote = () => setOpenNote(!openNote);
   const toggleEdit = () => setOpenEdit(!openEdit);
 
-  console.log(tab)
-
   useEffect(() => {
     // Continuing editing school if already saved, else start off fresh 
     const storedSchool = localStorage.getItem('newSchool');
