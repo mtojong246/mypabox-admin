@@ -3,6 +3,7 @@ import { CourseState } from "../../types/courses.types";
 
 const initialState: CourseState = {
     courses: [],
+    filteredCourses: [],
     editMode: false,
 }
 
@@ -12,6 +13,9 @@ const courseSlice = createSlice({
     reducers: {
         setCourses: (state, action) => {
             state.courses = action.payload
+        },
+        filterCourses: (state, action) => {
+            state.filteredCourses = action.payload
         },
         addCourse: (state, action) => {
             state.courses.push(action.payload)
@@ -26,7 +30,7 @@ const courseSlice = createSlice({
             })
         },
         deleteCourse: (state, action) => {
-            state.courses.filter(course => course.unique_id !== action.payload)
+            state.courses = state.courses.filter(course => course.unique_id !== action.payload)
         },
         setMode: (state, action) => {
             state.editMode = action.payload
@@ -34,6 +38,6 @@ const courseSlice = createSlice({
     }
 })
 
-export const { setCourses, addCourse, editCourse, deleteCourse, setMode } = courseSlice.actions;
+export const { setCourses, addCourse, editCourse, deleteCourse, setMode, filterCourses } = courseSlice.actions;
 
 export const courseReducer = courseSlice.reducer;

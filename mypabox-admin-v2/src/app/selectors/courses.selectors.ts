@@ -9,6 +9,11 @@ export const selectCourses = createSelector(
     (courseSlice) => courseSlice.courses,
 )
 
+export const selectFilteredCourses = createSelector(
+    [selectCourseReducer],
+    (courseSlice) => courseSlice.filteredCourses,
+)
+
 export const selectMode = createSelector(
     [selectCourseReducer],
     (courseSlice) => courseSlice.editMode,

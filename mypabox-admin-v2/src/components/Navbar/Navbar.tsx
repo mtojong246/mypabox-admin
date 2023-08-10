@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from "../../My PA Box - Logo Monochrome Flat Horizontal Negative.png"
 import Select from 'react-select';
@@ -6,6 +6,10 @@ import { RxHamburgerMenu } from 'react-icons/rx'
 import { SchoolContext } from '../../useContext';
 import states from '../../data/states.json';
 import Sidebar from './Sidebar';
+import { filterCourses } from '../../app/slices/courses';
+import { selectCourses } from '../../app/selectors/courses.selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch } from '../../app/store';
 
 const Navbar = () => {
   const [openFilter, setOpenFilter] = useState(false)
@@ -13,6 +17,9 @@ const Navbar = () => {
   const location = useLocation()
   const { handleStateSearch, handleSchoolName, schoolName, handleToggleSideMenu, toggleSideMenu, show, setShow } = useContext(SchoolContext)
   const [lastScrollY, setLastScrollY] = useState(200);
+  const dispatch: AppDispatch = useDispatch();
+  const courses = useSelector(selectCourses);
+  const [ filteredCourses, setFilteredCourses ] = useState('');
 
   const controlNavbar = () => {
     if (typeof window !== 'undefined') { 
@@ -36,11 +43,26 @@ const Navbar = () => {
       };
     }
   }, [lastScrollY]); 
+
+  useEffect(() => {
+    if (!filteredCourses) {
+      dispatch(filterCourses([]));
+    }
+  }, [filteredCourses, dispatch])
  
 
   const handleOpenFilter = () => {
     setOpenFilter(!openFilter)
   }
+
+  const handleCourseSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    setFilteredCourses(input);
+    const newCourses = courses.filter(course => course.course_name.toLowerCase().includes(input.toLowerCase()));
+    dispatch(filterCourses(newCourses));
+  }
+
+
 
   return (
     <>
@@ -77,7 +99,15 @@ const Navbar = () => {
             </>
         ) : ''
         }
-
+        {location.pathname === '/courses' ? (
+          <>
+            <input type='input' className=' rounded-lg p-2 max-w-[700px] grow focus:outline-none 
+              text-xl placeholder:select-none bg-[#424244]' value={filteredCourses} onChange={(e) => handleCourseSearch(e)}
+              placeholder='Search' />
+            <div className='w-[15em]'></div>
+          </>
+        ) : null}
+ 
         </div>  
       )}
     { 

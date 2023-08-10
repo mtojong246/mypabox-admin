@@ -10,22 +10,6 @@ import { addCourse, editCourse } from "../../app/slices/courses";
 import { addCoursesDoc, updateCoursesDoc } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
 
-// program to generate random strings
-
-// declare all characters
-const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-function generateString(length: number) {
-    let result = ' ';
-    const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    return result;
-}
-
-
 
 export default function AddOrEditCourse() {
     const params = useParams();
@@ -71,7 +55,7 @@ export default function AddOrEditCourse() {
         } else {
         // Creates new course template 
             setCourse({
-                unique_id: generateString(10),
+                unique_id: '',
                 course_name: '',
                 gpa_calculation: '',
                 subject_category: '',
@@ -81,6 +65,7 @@ export default function AddOrEditCourse() {
         }
     }, [params]);
 
+    // Handles input change for text fields 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCourse({
             ...course,
@@ -88,6 +73,7 @@ export default function AddOrEditCourse() {
         })
     }
 
+    // Handles input change for select fields 
     const handleSelectChange = (e: any, name: string) => {
         setCourse({
             ...course,
@@ -107,6 +93,7 @@ export default function AddOrEditCourse() {
                 await updateCoursesDoc(course, course.unique_id);
                 dispatch(editCourse(course))
             }
+            // Navigates back to courses page when successful 
             navigate('/courses')
         } catch (error: any) {
             if (error.message === 'permission-denied') {

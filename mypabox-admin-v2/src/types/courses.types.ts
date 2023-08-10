@@ -7,5 +7,6 @@ export interface Course {
 
 export interface CourseState {
     courses: Course[];
+    filteredCourses: Course[],
     editMode: boolean;
 }

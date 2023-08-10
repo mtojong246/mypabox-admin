@@ -6,6 +6,7 @@ import { setSchools } from '../../app/slices/schools';
 import { AppDispatch } from '../../app/store';
 import { SchoolContext } from '../../useContext';
 import { useNavigate } from 'react-router-dom';
+import { School } from '../../types/schools.types';
 
 const Schools = () => {
   const schools = useSelector(selectSchools);
@@ -22,6 +23,17 @@ const Schools = () => {
         // that's stored in the school reducer
         const allSchools = await getSchoolsAndDocuments();
         if (allSchools) {
+          // Sorts schools by name alphabetically
+          (allSchools as School[]).sort(function (a, b) {
+            if (a.school_name.input < b.school_name.input) {
+                return -1;
+            }
+            if (a.school_name.input > b.school_name.input) {
+                return 1;
+            }
+            return 0;
+        })
+        console.log(allSchools)
           dispatch(setSchools(allSchools));
         }
       } catch (error: any) {
