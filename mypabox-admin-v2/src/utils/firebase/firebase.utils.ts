@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, deleteDoc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, deleteDoc, addDoc, updateDoc } from 'firebase/firestore'
 
 import { School } from "../../types/schools.types";
 import { Course } from "../../types/courses.types";
@@ -129,6 +129,31 @@ export const getAllCourses = async () => {
         }
 
         console.log('error fetching course data' , error.code);
+    }
+}
+
+// Adds new course to doc and returns new course with unique id 
+export const addCoursesDoc = async (data: Course) => {
+    const collectionRef = collection(db, 'courses');
+
+    try {
+        // Adds new doc to collection
+        const newDoc = await addDoc(collectionRef, data);
+        const docRef = doc(db, 'courses', newDoc.id);
+        // Updates doc reference with newly-generated id 
+        await updateDoc(docRef, {
+            unique_id: newDoc.id,
+        })
+        // Grabs and returns doc with updated id 
+        const docSnap = await getDoc(docRef);
+        return docSnap.data();
+
+    } catch (error:any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error adding course' , error.code);
     }
 }
 

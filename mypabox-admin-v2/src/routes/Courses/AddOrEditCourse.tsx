@@ -7,7 +7,7 @@ import { Course } from "../../types/courses.types";
 import { setMode } from "../../app/slices/courses";
 import Select from 'react-select';
 import { addCourse, editCourse } from "../../app/slices/courses";
-import { updateCoursesDoc } from "../../utils/firebase/firebase.utils";
+import { addCoursesDoc, updateCoursesDoc } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
 
 // program to generate random strings
@@ -98,11 +98,14 @@ export default function AddOrEditCourse() {
     // Handles save for both add and edit modes 
     const handleSave = async () => {
         try {
-            await updateCoursesDoc(course, course.unique_id);
-            if (edit) {
-                dispatch(editCourse(course))
+            if (!edit) {
+                const newCourse = await addCoursesDoc(course);
+                if (newCourse) {
+                    dispatch(addCourse(newCourse));
+                }
             } else {
-                dispatch(addCourse(course));
+                await updateCoursesDoc(course, course.unique_id);
+                dispatch(editCourse(course))
             }
             navigate('/courses')
         } catch (error: any) {
