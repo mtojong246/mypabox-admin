@@ -97,9 +97,9 @@ export default function Courses() {
 
     return (
     <>
-    <div className="w-screen py-24 px-10 font-['Noto Sans']">
-      <div className='w-full max-w-[1800px] pt-10 mx-auto'>
-            <div className={`w-full flex justify-between items-start`}>
+    <div className="w-screen px-10 font-['Noto Sans']">
+      <div className='w-full max-w-[1800px] mx-auto'>
+            <div className={`w-full flex justify-between items-start sticky top-0 pt-[120px] pb-4 bg-white border-b border-[#DCDCDC]`}>
                 <div>
                     <p className='text-5xl font-medium'>Courses</p>
                     <p className='text-xl mt-2'>Total: {filteredCourses && filteredCourses.length}</p>
@@ -110,7 +110,7 @@ export default function Courses() {
                     </button>
                 </Link>
             </div>
-            <div className='w-full mt-16 flex flex-col justify-start items-center'>
+            <div className='w-full flex flex-col justify-start items-center'>
             {filteredCourses && filteredCourses.map(course => (      
                 <div className='w-full flex justify-between items-end py-3 border-b border-[#E5E5E5]' key={course.unique_id}>
                     <div>

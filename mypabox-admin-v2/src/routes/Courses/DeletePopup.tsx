@@ -1,5 +1,5 @@
 import { AiOutlineClose } from 'react-icons/ai'
-import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector'
+import { useSelector } from 'react-redux/es/hooks/useSelector'
 import { selectCourses } from '../../app/selectors/courses.selectors'
 import { useState, useEffect } from 'react'
 
