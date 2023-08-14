@@ -18,7 +18,7 @@ export default function EditNote({ currentInput, note, index, toggleEdit, editNo
     }
 
     return (
-        <div className="fixed w-screen font-['Noto Sans'] top-0 bg-[#000000d5] z-10 h-screen">
+        <div className="fixed w-screen font-['Noto Sans'] -ml-[2.5em] top-0 bg-[#000000d5] z-10 h-screen">
           <form className="h-[50em] w-[46em] mt-24 rounded-[0.625em] bg-white ml-96">
             <AiOutlineClose className='absolute text-black text-2xl ml-[29em] mt-8 cursor-pointer' onClick={toggleEdit}/>
             <p className='absolute text-2xl mt-8 ml-8'>Add Note</p>

@@ -16,23 +16,31 @@ const Navbar = () => {
   // Find out current pathname in url
   const location = useLocation()
   const { handleStateSearch, handleSchoolName, schoolName, handleToggleSideMenu, toggleSideMenu, show, setShow } = useContext(SchoolContext)
-  const [lastScrollY, setLastScrollY] = useState(200);
+  const [lastScrollY, setLastScrollY] = useState(190);
   const dispatch: AppDispatch = useDispatch();
   const courses = useSelector(selectCourses);
   const [ filteredCourses, setFilteredCourses ] = useState('');
 
   const controlNavbar = () => {
     if (typeof window !== 'undefined') { 
-      if (window.scrollY > lastScrollY) { // if scroll down hide the navbar
+      if (window.scrollY > 120) { // if scroll down hide the navbar
         setShow(false); 
-      } else { // if scroll up show the navbar
-        setShow(true);  
+      } 
+      if (window.scrollY < 150) {
+        setShow(true)
       }
 
       // remember current page location to use in the next move
     }
   };
 
+  const handleScroll = (e: { target: { scrollHeight: number; scrollTop: number; clientHeight: number; }; }) => {
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) { 
+      setShow(false)
+     }
+  }
+  
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', controlNavbar);
