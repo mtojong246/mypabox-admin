@@ -6,7 +6,6 @@ import 'react-quill/dist/quill.snow.css';
 export default function AddNote({ currentInput, addNote, toggleNote }: { currentInput: string, addNote: (currentInput: string, type: string, note: string) => void, toggleNote: () => void }) {
     const [ type, setType ] = useState('information');
     const [ note, setNote ] = useState('');
-    const [ htmlString, setHtmlString ] = useState('')
     // Changes type based on radio button selection 
     const handleType = (e: ChangeEvent<HTMLInputElement>) => {
         setType((e.target as HTMLInputElement).value);

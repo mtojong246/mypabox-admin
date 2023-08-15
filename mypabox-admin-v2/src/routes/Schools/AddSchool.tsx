@@ -43,6 +43,19 @@ export default function AddSchool() {
   const dispatch: AppDispatch = useDispatch();
   const location = useLocation()
   const { show, setShow } = useContext(SchoolContext)
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setScrollPosition(position);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   // Toggles "AddNote" and "EditNote" components
   const toggleNote = () => setOpenNote(!openNote);
@@ -234,9 +247,9 @@ export default function AddSchool() {
     <div className={`w-screen px-10 ont-['Noto Sans']`}>
       <div className={`w-full max-w-[1800px] mx-auto`}>
         <div className={`w-full flex justify-between items-center pt-[120px] sticky bg-white z-10 top-0 pb-10 border-b border-[#DCDCDC]
-        ${show ? '' : 'pb-2'}`}>
-          <p className={`text-4xl ${show ? '' : '-mt-32'} font-medium`}>Add School</p>
-          <div className={`flex gap-5 ${show ? '' : '-mt-28'}`}>
+        ${window.scrollY === 180 ? '' : 'pb-2'}`}>
+          <p className={`text-4xl ${window.scrollY === 180 ? '' : '-mt-32'} font-medium`}>Add School</p>
+          <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
             <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border ml-[50em] border-red-400 text-red-400 py-3 px-4 
             rounded-lg hover:text-white hover:bg-red-400'>
                 Save & Next
@@ -248,7 +261,7 @@ export default function AddSchool() {
           </div>
         </div>
         <div className={`flex justify-start items-start gap-10 `}>
-          <div className={`text-md pt-5 sticky ${show ? '' : 'top-[145px]'} top-[220px]`}>
+          <div className={`text-md pt-5 sticky ${window.scrollY === 180 ? '' : 'top-[145px]'} top-[220px]`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
               <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} 

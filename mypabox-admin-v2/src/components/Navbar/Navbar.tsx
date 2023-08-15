@@ -16,41 +16,9 @@ const Navbar = () => {
   // Find out current pathname in url
   const location = useLocation()
   const { handleStateSearch, handleSchoolName, schoolName, handleToggleSideMenu, toggleSideMenu, show, setShow } = useContext(SchoolContext)
-  const [lastScrollY, setLastScrollY] = useState(190);
   const dispatch: AppDispatch = useDispatch();
   const courses = useSelector(selectCourses);
   const [ filteredCourses, setFilteredCourses ] = useState('');
-
-  const controlNavbar = () => {
-    if (typeof window !== 'undefined') { 
-      if (window.scrollY > 120) { // if scroll down hide the navbar
-        setShow(false); 
-      } 
-      if (window.scrollY < 150) {
-        setShow(true)
-      }
-
-      // remember current page location to use in the next move
-    }
-  };
-
-  const handleScroll = (e: { target: { scrollHeight: number; scrollTop: number; clientHeight: number; }; }) => {
-    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    if (bottom) { 
-      setShow(false)
-     }
-  }
-  
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', controlNavbar);
-
-      // cleanup function
-      return () => {
-        window.removeEventListener('scroll', controlNavbar);
-      };
-    }
-  }, [lastScrollY]); 
 
   useEffect(() => {
     if (!filteredCourses) {
@@ -77,7 +45,7 @@ const Navbar = () => {
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
       {location.pathname === '/' ? '' : (
-        <div className={`fixed ${show ? '' : 'hidden'} z-30 bg-[#252628] py-[10px] px-5 w-screen font-['Noto Sans'] flex justify-between 
+        <div className={`sticky z-30 bg-[#252628] py-[10px] px-5 w-screen font-['Noto Sans'] flex justify-between 
         items-center gap-12`}>
           {/* Logo image */}
           <div className='flex justify-center items-center gap-1'>
