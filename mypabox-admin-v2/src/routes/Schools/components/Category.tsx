@@ -290,7 +290,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
         }
         })}
         <>
-            {category.name === 'GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} />}
+            {category.name === 'GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} openNotePopup={openNotePopup} handleInputChange={handleInputChange} openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup}/>}
             {removeNote}
             {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
             removeNote={removeNote} removeField={removeField} inputType={inputType} /> : ''}

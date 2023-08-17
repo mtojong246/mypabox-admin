@@ -18,7 +18,7 @@ export interface StringInputWithFields {
 }
 
 export interface NumberInput {
-    input: number | null;
+    input: number | undefined;
     notes?: Note[];
 }
 
