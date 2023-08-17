@@ -248,7 +248,7 @@ export default function AddSchool() {
           </div>
         </div>
         <div className={`flex justify-start items-start gap-10 `}>
-          <div className={`text-md pt-5 sticky ${window.scrollY === 180 ? '' : 'top-[145px]'} top-[220px]`}>
+          <div className={`text-md pt-3 sticky ${window.scrollY === 180 ? '' : 'top-[145px]'} top-[220px]`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
               <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} 
