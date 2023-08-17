@@ -18,13 +18,27 @@ export interface StringInputWithFields {
 }
 
 export interface NumberInput {
-    input: number;
+    input: number | null;
     notes?: Note[];
 }
 
 export interface BooleanInput {
     input: boolean;
     notes?: Note[];
+}
+
+export interface OtherTypesOfGpaEvaluted {
+    gpa_value_required_or_recommended: string;
+    minimum_gpa_value_needed: number | null;
+    minimum_number_of_credits_evaluated: number | null;
+    type_of_gpa_evaluated: string;
+    notes: Note[];
+}
+
+export interface MinimumGpaSpecificCourse {
+    minimum_gpa_required_for_course: number | null,
+    courseID: string,
+    notes: Note[],
 }
 
 export interface School {
@@ -78,6 +92,27 @@ export interface School {
     school_first_time_pass_rate: NumberInput;
     school_average_five_year_first_time_pass_rate: NumberInput;
     school_pance_pass_rate_note: string;
+
+    school_minimum_gpa_required: boolean;
+    school_minimum_overall_gpa_required: NumberInput;
+    school_minimum_science_gpa_required: NumberInput;
+    school_minimum_prerequisite_gpa_required: NumberInput;
+
+    school_minimum_gpa_recommended: boolean;
+    school_minimum_overall_gpa_recommended: NumberInput;
+    school_minimum_science_gpa_recommended: NumberInput;
+    school_minimum_prerequisite_gpa_recommended: NumberInput;
+
+    school_other_types_of_gpa_evaluated: OtherTypesOfGpaEvaluted[];
+    school_minimum_gpa_for_specific_course: MinimumGpaSpecificCourse[];
+
+    school_average_gpa_accepted_previous_cycle: {
+        average_overall_gpa_accepted_previous_year: NumberInput;
+        average_science_gpa_accepted_previous_year: NumberInput;
+        average_prerequisite_gpa_accepted_previous_year: NumberInput;
+    }
+
+    school_gpa_general_note: string;
 
 }
 
