@@ -5,7 +5,7 @@ import countries from '../../../data/countries.json';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import Select from 'react-select';
-import GPA from "./GPA";
+import GPA from "./GPA/GPA";
 
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
@@ -290,8 +290,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
         }
         })}
         <>
-            {category.name === 'GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} openNotePopup={openNotePopup} handleInputChange={handleInputChange} openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup}/>}
-            {removeNote}
+            {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} openNotePopup={openNotePopup} handleInputChange={handleInputChange} openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup}/>}
             {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
             removeNote={removeNote} removeField={removeField} inputType={inputType} /> : ''}
         </>

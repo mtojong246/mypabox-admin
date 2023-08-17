@@ -41,6 +41,12 @@ export interface MinimumGpaSpecificCourse {
     notes: Note[],
 }
 
+export interface PreviousCycle {
+    average_overall_gpa_accepted_previous_year: NumberInput;
+    average_science_gpa_accepted_previous_year: NumberInput;
+    average_prerequisite_gpa_accepted_previous_year: NumberInput;
+}
+
 export interface School {
     id: number;
     school_name: StringInput;

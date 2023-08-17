@@ -170,8 +170,8 @@ export default function AddSchool() {
 
     // Opens note popup and sets value of "Add note" button to "currentInput", 
     // which will be used in the "addNote" function to find the corresponding data point 
-    const openNotePopup = (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
+    const openNotePopup = (e: MouseEvent<HTMLButtonElement>, object?: boolean) => {
+        e.preventDefault();
         toggleNote();
         setCurrentInput((e.currentTarget as HTMLButtonElement).value);
     }
