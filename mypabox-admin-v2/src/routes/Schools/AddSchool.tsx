@@ -14,20 +14,7 @@ import EditNote from "./components/EditNote";
 import { Note } from "../../types/schools.types";
 import { categories } from "../../data/categories";
 import { SchoolContext } from "../../useContext";
-// import GeneralInfo from "./AddSchool/GeneralInfo";
-// import DegreeInfo from "./AddSchool/DegreeInfo";
-// import AdditionalNotes from "./AddSchool/AdditionalNotes";
-// import Tuition from "./AddSchool/Tuition";
-// import GPA from "./AddSchool/GPA";
-// import Prerequisites from "./AddSchool/Prerequisites";
-// import HealthcareExperience from "./AddSchool/HealthcareExperience";
-// import Shadowing from "./AddSchool/Shadowing";
-// import GRE from "./AddSchool/GRE";
-// import LettersOfRecommendation from "./AddSchool/LettersOfRecommendation";
-// import Certifications from "./AddSchool/Certifications";
-// import AccreditationStatus from "./AddSchool/AccreditationStatus";
-// import MissionStatement from "./AddSchool/MissionStatement";
-// import PANCEPassRate from "./AddSchool/PANCEPassRate";
+
 
 
 export default function AddSchool() {
@@ -276,53 +263,6 @@ export default function AddSchool() {
         <div className='border-l border-[#DCDCDC] pl-10 grow'>
           <Category tab={tab} newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}
           handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} />
-        {/* {
-          location.hash === "#general-info" ? <GeneralInfo newSchool={newSchool} handleInputChange={handleInputChange} handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} 
-          openNotePopup={openNotePopup} setNewSchool={setNewSchool} removeNote={removeNote} openEditPopup={openEditPopup}/> 
-          :
-          location.hash === "#degree-info" ? <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} handleCheck={handleCheck} handleInputChange={handleInputChange} 
-          openNotePopup={openNotePopup}ß removeNote={removeNote} openEditPopup={openEditPopup}/> 
-          :
-          location.hash === "#accreditation-status" ? <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} 
-          handleQuillInputChange={handleQuillInputChange} handleInputChange={handleInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
-          :
-          location.hash === "#mission-statement" ? <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool} 
-          handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} removeNote={removeNote} openEditPopup={openEditPopup}/> 
-          :
-          location.hash === "#tuition" ? <Tuition newSchool={newSchool} setNewSchool={setNewSchool} handleQuillInputChange={handleQuillInputChange} 
-          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} handleInputChange={handleInputChange}/> 
-          :
-          location.hash === "#pance-pass-rate" ? <PANCEPassRate newSchool={newSchool} setNewSchool={setNewSchool} handleQuillInputChange={handleQuillInputChange} 
-          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} handleInputChange={handleInputChange}/> 
-          :
-          location.hash === "#GPA" ? <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-          :
-          location.hash === "#GRE" ? <GRE newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-          :
-          location.hash === "#prerequisites" ? <Prerequisites newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-          :
-          location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} 
-          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-          :
-          location.hash === "#shadowing" ? <Shadowing newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} 
-          openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-          :
-          location.hash === "#healthcare-experience" ? <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} 
-          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-          :
-          location.hash === "#letters-of-recommendation" ? <LettersOfRecommendation newSchool={newSchool} setNewSchool={setNewSchool} 
-          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-          :
-          location.hash === "#certifications" ? <Certifications newSchool={newSchool} setNewSchool={setNewSchool} 
-          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote}/> 
-          :
-          location.hash === "#additional-notes" ? <AdditionalNotes newSchool={newSchool} setNewSchool={setNewSchool} removeNote={removeNote}
-          handleInputChange={handleInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup}/>
-          : ''
-        } */}
         </div>
       </div>
 
