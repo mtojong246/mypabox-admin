@@ -3,8 +3,8 @@ import { ChangeEvent, Dispatch, SetStateAction, MouseEvent, useEffect } from "re
 import ReactQuill from "react-quill";
 import { FiEdit3 } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
-import Select from 'react-select';
 import OtherTypesOfGpa from "./OtherTypesOfGpa";
+import SpecificCourse from "./SpecificCourse";
 
 //*******TO DO*******:
 //  Add Note functionality for 'Other types of GPA Evaluated' and 'Average GPA Accepted Previous Cycle'
@@ -295,12 +295,8 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         <OtherTypesOfGpa newSchool={newSchool} deleteField={deleteField} handleSelect={handleSelect} handleObjInput={handleObjInput} openNotePopup={openNotePopup} 
         openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup} addField={addField}/>
 
-        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA for Specific Course</label>   
-            <div className='w-full mt-4'>
-                
-            </div>
-        </div>
+        <SpecificCourse newSchool={newSchool} deleteField={deleteField} handleSelect={handleSelect} handleObjInput={handleObjInput} openNotePopup={openNotePopup} 
+        openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup} addField={addField}/>
 
         <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Average GPA Accepted Previous Cycle</label>   
