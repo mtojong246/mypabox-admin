@@ -3,6 +3,7 @@ import { ChangeEvent, Dispatch, SetStateAction, MouseEvent, useEffect } from "re
 import ReactQuill from "react-quill";
 import { FiEdit3 } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
+import Select from 'react-select';
 
 const gpaRequired = [
     {
@@ -33,6 +34,14 @@ const gpaRecommended = [
         value: 'school_minimum_prerequisite_gpa_recommended'
     }
 ]
+
+const otherGpaDefault = {
+    gpa_value_required_or_recommended: "required",
+    minimum_gpa_value_needed: undefined,
+    minimum_number_of_credits_evaluated: undefined,
+    type_of_gpa_evaluated: "",
+    notes: [],
+}
 
 export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInputChange, openEditPopup, handleDeletePopup }: { 
     newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, 
@@ -88,7 +97,21 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         })
     }
 
-    console.log(newSchool)
+    const addField = () => {
+        const updatedField = newSchool.school_other_types_of_gpa_evaluated.concat(otherGpaDefault);
+        setNewSchool({
+            ...newSchool,
+            school_other_types_of_gpa_evaluated: updatedField,
+        })
+    }
+
+    const deleteField = (index: number) => {
+        const updatedField = newSchool.school_other_types_of_gpa_evaluated.filter((field, i)=> i !== index);
+        setNewSchool({
+            ...newSchool,
+            school_other_types_of_gpa_evaluated: updatedField,
+        })
+    }
 
     return (
         <>
@@ -109,9 +132,9 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
                     <>
                         {gpaRequired.map(gpa => (
                         <>
-                            <div className='w-full mt-3'>
+                            <div className='w-full mt-4'>
                                 <label className='text-xl'>{gpa.label}</label>
-                                <div className='flex justify-start items-center gap-4 mt-4'>
+                                <div className='flex justify-start items-center gap-4 mt-3'>
                                     <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
                                     <button name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
                                         Add Note
@@ -153,9 +176,9 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
             <>
                 {gpaRecommended.map(gpa => (
                 <>
-                    <div className='w-full mt-3'>
+                    <div className='w-full mt-4'>
                         <label className='text-xl'>{gpa.label}</label>
-                        <div className='flex justify-start items-center gap-4 mt-4'>
+                        <div className='flex justify-start items-center gap-4 mt-3'>
                             <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
                             <button name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
                                 Add Note
@@ -180,6 +203,66 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
                 ))}
             </>
             )}
+        </div>
+
+        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] text-xl bg-white">Other Types of GPA Evaluated</label> 
+            {newSchool.school_other_types_of_gpa_evaluated.map((field, i) => (
+            <>
+                <div className={`w-full mt-4 ${i > 0 && 'border-t border-[#DCDCDC] pt-4'}`}>
+                    <div className='flex justify-between items-center'>
+                        <label className='text-xl'>Type of GPA Evaluated</label>
+                        <button onClick={() => deleteField(i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
+                    </div>
+                    <Select className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3" />
+                    <p className='text-[#4573D2] text-sm mt-1 pl-3'>*Note: Type to create a new option</p>
+                </div>
+                <div className='w-full mt-8'>
+                    <label className='text-xl'>GPA Required or Recommended:</label>
+                    <div className='flex justify-start items-center mt-3 gap-10 ml-3'>
+                        <div>
+                            <input type='radio' value='requirement' className='mr-2'/>
+                            <span className='text-xl'>Requirement</span>
+                        </div>
+                        <div>
+                            <input type='radio' value='recommended' className='mr-2'/>
+                            <span className='text-xl'>Recommended</span>
+                        </div>
+                    </div>
+                </div>
+                <div className='w-full mt-8'>
+                    <label className='text-xl'>Minimum GPA Valued Needed:</label>
+                    <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3 block' />
+                </div>
+                <div className='w-full mt-8'>
+                    <label className='text-xl'>Minimum Number of Credits Evaluated:</label>
+                    <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3 block' />
+                </div>
+                <div className='w-full mt-8'>
+                    <label className='text-xl'>Notes:</label>
+                    <button name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-3 block" onClick={openNotePopup}>
+                        Add Note
+                    </button>
+                </div>
+            </>
+            ))}  
+            <button className="w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
+                + Add New Field
+            </button>
+        </div>
+
+        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA for Specific Course</label>   
+            <div className='w-full mt-4'>
+                
+            </div>
+        </div>
+
+        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] text-xl bg-white">Average GPA Accepted Previous Cycle</label>   
+            <div className='w-full mt-4'>
+                
+            </div>
         </div>
         </>
         )}

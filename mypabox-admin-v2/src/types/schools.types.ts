@@ -29,14 +29,14 @@ export interface BooleanInput {
 
 export interface OtherTypesOfGpaEvaluted {
     gpa_value_required_or_recommended: string;
-    minimum_gpa_value_needed: number | null;
-    minimum_number_of_credits_evaluated: number | null;
+    minimum_gpa_value_needed: number | undefined;
+    minimum_number_of_credits_evaluated: number | undefined;
     type_of_gpa_evaluated: string;
     notes: Note[];
 }
 
 export interface MinimumGpaSpecificCourse {
-    minimum_gpa_required_for_course: number | null,
+    minimum_gpa_required_for_course: number | undefined,
     courseID: string,
     notes: Note[],
 }

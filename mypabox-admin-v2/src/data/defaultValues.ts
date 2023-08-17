@@ -183,15 +183,15 @@ export const defaultSchool: School = {
     school_other_types_of_gpa_evaluated: [
         {
             gpa_value_required_or_recommended: "required",
-            minimum_gpa_value_needed: null,
-            minimum_number_of_credits_evaluated: null,
+            minimum_gpa_value_needed: undefined,
+            minimum_number_of_credits_evaluated: undefined,
             type_of_gpa_evaluated: "",
             notes: [],
         }
     ],
     school_minimum_gpa_for_specific_course: [
         {
-            minimum_gpa_required_for_course: null,
+            minimum_gpa_required_for_course: undefined,
             courseID: "",
             notes: [],
         }
