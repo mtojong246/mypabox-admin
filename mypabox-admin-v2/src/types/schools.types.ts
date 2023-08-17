@@ -18,7 +18,7 @@ export interface StringInputWithFields {
 }
 
 export interface NumberInput {
-    input: number | undefined;
+    input: number;
     notes?: Note[];
 }
 
@@ -29,14 +29,14 @@ export interface BooleanInput {
 
 export interface OtherTypesOfGpaEvaluted {
     gpa_value_required_or_recommended: string;
-    minimum_gpa_value_needed: number | undefined;
-    minimum_number_of_credits_evaluated: number | undefined;
+    minimum_gpa_value_needed: number;
+    minimum_number_of_credits_evaluated: number;
     type_of_gpa_evaluated: string;
     notes: Note[];
 }
 
 export interface MinimumGpaSpecificCourse {
-    minimum_gpa_required_for_course: number | undefined,
+    minimum_gpa_required_for_course: number,
     courseID: string,
     notes: Note[],
 }

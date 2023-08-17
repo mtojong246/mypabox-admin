@@ -156,57 +156,57 @@ export const defaultSchool: School = {
     school_pance_pass_rate_note: '',
     school_minimum_gpa_required: false,
     school_minimum_overall_gpa_required: {
-        input: undefined,
+        input: 0,
         notes: []
     },
     school_minimum_science_gpa_required: {
-        input: undefined,
+        input: 0,
         notes: []
     },
     school_minimum_prerequisite_gpa_required: {
-        input: undefined,
+        input: 0,
         notes: []
     },
     school_minimum_gpa_recommended: false,
     school_minimum_overall_gpa_recommended: {
-        input: undefined,
+        input: 0,
         notes: []
     },
     school_minimum_science_gpa_recommended: {
-        input: undefined,
+        input: 0,
         notes: []
     },
     school_minimum_prerequisite_gpa_recommended: {
-        input: undefined,
+        input: 0,
         notes: []
     },
     school_other_types_of_gpa_evaluated: [
         {
             gpa_value_required_or_recommended: "required",
-            minimum_gpa_value_needed: undefined,
-            minimum_number_of_credits_evaluated: undefined,
+            minimum_gpa_value_needed: 0,
+            minimum_number_of_credits_evaluated: 0,
             type_of_gpa_evaluated: "",
             notes: [],
         }
     ],
     school_minimum_gpa_for_specific_course: [
         {
-            minimum_gpa_required_for_course: undefined,
+            minimum_gpa_required_for_course: 0,
             courseID: "",
             notes: [],
         }
     ],
     school_average_gpa_accepted_previous_cycle: {
         average_overall_gpa_accepted_previous_year: {
-            input: undefined,
+            input: 0,
             notes: [],
         },
         average_science_gpa_accepted_previous_year: {
-            input: undefined,
+            input: 0,
             notes: [],
         },
         average_prerequisite_gpa_accepted_previous_year: {
-            input: undefined,
+            input: 0,
             notes: [],
         },
     },
