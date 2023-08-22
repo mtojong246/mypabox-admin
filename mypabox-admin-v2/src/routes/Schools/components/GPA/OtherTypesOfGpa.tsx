@@ -12,16 +12,15 @@ const typeOfGpa = [
     { value: 'BCP', label: 'BCP' }
 ]
 
-export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, handleObjInput, openEditPopup, handleDeletePopup, addField, toggleNote, setKeyAndIndex } : {
+export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, handleObjInput, addField, toggleNote, setKeyAndIndex, toggleDelete } : {
     newSchool: School,
-    openEditPopup: (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => void,
-    handleDeletePopup: (e: any , i: SetStateAction<number>, input: string) => void,
     deleteField: (e: MouseEvent<HTMLButtonElement>, index: number, key: string) => void,
     addField: (e: MouseEvent<HTMLButtonElement>, key: string) => void,
     handleSelect: (e: any, name: string, index: number, key: string) => void,
     handleObjInput: (e: ChangeEvent<HTMLInputElement>, index: number, key: string) => void,
     toggleNote: (e: any, edit: boolean) => void,
     setKeyAndIndex: (key: string, index: number) => void,
+    toggleDelete: (e: MouseEvent<HTMLButtonElement>, i: number) => void,
 
 }) {
     return (
@@ -67,7 +66,7 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                         Add Note
                     </button>
                 </div>
-                {field.notes && field.notes.map(note => (
+                {field.notes && field.notes.map((note, index) => (
                     <div className='flex justify-center items-start gap-2 mt-4'>
                         <div className="grow p-4 rounded-md border border-black">
                             <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
@@ -76,8 +75,8 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                            <button value='school_other_types_of_gpa_evaluated' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                            <button value='school_other_types_of_gpa_evaluated' onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                            <button value='school_other_types_of_gpa_evaluated' ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                            <button value='school_other_types_of_gpa_evaluated' onClick={(e) => {toggleDelete(e, index); setKeyAndIndex('school_other_types_of_gpa_evaluated', i) }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                 ))}

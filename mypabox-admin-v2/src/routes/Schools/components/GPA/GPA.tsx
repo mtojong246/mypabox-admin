@@ -6,6 +6,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import OtherTypesOfGpa from "./OtherTypesOfGpa";
 import SpecificCourse from "./SpecificCourse";
 import AddOrEditGpaNote from "./AddOrEditGpaNote";
+import DeletePopupGpa from "./DeletePopupGpa";
 
 //*******TO DO*******:
 //  Add Note functionality for 'Other types of GPA Evaluated' and 'Average GPA Accepted Previous Cycle'
@@ -82,8 +83,10 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
 
     const [ isEdit, setIsEdit ] = useState(false);
     const [ openNote, setOpenNote ] = useState(false);
+    const [ openDelete, setOpenDelete ] = useState(false);
     const [ keyString, setKey ] = useState('');
     const [ index, setIndex ] = useState(0);
+    const [ noteIndex, setNoteIndex ] = useState(0);
 
     useEffect(() => {
         // Resets inputs if value change to false
@@ -238,6 +241,12 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         setOpenNote(!openNote);
     }
 
+    const toggleDelete = (e: MouseEvent<HTMLButtonElement>, i: number) => {
+        e.preventDefault();
+        setOpenDelete(!openDelete);
+        setNoteIndex(i);
+    }
+
     const setKeyAndIndex = (key: string, index: number) => {
         setKey(key);
         setIndex(index);
@@ -276,10 +285,33 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
                     }
                 }
             })
+        }     
+        
+    }
+
+    const removeNote = (e: MouseEvent<HTMLButtonElement>, key: string, index: number, noteIndex: number) => {
+        e.preventDefault();
+        let obj = {} as OtherTypesOfGpaEvaluted | MinimumGpaSpecificCourse;
+        if (key === 'school_other_types_of_gpa_evaluated' || key === 'school_minimum_gpa_for_specific_course') {
+            if (key === 'school_other_types_of_gpa_evaluated') {
+                obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === index) as OtherTypesOfGpaEvaluted;
+            } else if (key === 'school_minimum_gpa_for_specific_course') {
+                obj = newSchool.school_minimum_gpa_for_specific_course.find((obj,i) => i === index) as MinimumGpaSpecificCourse
+            }
+            const currentField = newSchool[key as keyof School] as OtherTypesOfGpaEvaluted[] | MinimumGpaSpecificCourse[];
+            const updatedObj = { ...obj, notes: obj.notes.filter((note, i) => i !== noteIndex) }
+            const updatedField = currentField.map((field, i) => {
+                if (i === index) {
+                    return updatedObj;
+                } 
+                return field;
+            })
+            setNewSchool({
+                ...newSchool,
+                [key]: updatedField,
+            })
+
         }
-        
-        
-        
     }
 
 
@@ -376,10 +408,10 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         </div>
 
         <OtherTypesOfGpa newSchool={newSchool} deleteField={deleteField} handleSelect={handleSelect} handleObjInput={handleObjInput} 
-        openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup} addField={addField} toggleNote={toggleNote} setKeyAndIndex={setKeyAndIndex}/>
+      addField={addField} toggleNote={toggleNote} setKeyAndIndex={setKeyAndIndex} toggleDelete={toggleDelete}/>
 
         <SpecificCourse newSchool={newSchool} deleteField={deleteField} handleSelect={handleSelect} handleObjInput={handleObjInput}
-        openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup} addField={addField} toggleNote={toggleNote} setKeyAndIndex={setKeyAndIndex}/>
+        addField={addField} toggleNote={toggleNote} setKeyAndIndex={setKeyAndIndex} toggleDelete={toggleDelete}/>
 
         <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Average GPA Accepted Previous Cycle</label>   
@@ -415,6 +447,7 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         </>
         )}
         {openNote && <AddOrEditGpaNote toggleNote={toggleNote} isEdit={isEdit} addNote={addNote} keyString={keyString} index={index}/>}
+        {openDelete && <DeletePopupGpa toggleDelete={toggleDelete} removeNote={removeNote} keyString={keyString} index={index} noteIndex={noteIndex}/>}
         </>
     )
 }
