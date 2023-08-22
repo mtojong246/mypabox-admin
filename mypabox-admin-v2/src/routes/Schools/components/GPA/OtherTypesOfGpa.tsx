@@ -12,15 +12,16 @@ const typeOfGpa = [
     { value: 'BCP', label: 'BCP' }
 ]
 
-export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, handleObjInput,openNotePopup, openEditPopup, handleDeletePopup, addField } : {
+export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, handleObjInput, openEditPopup, handleDeletePopup, addField, toggleNote, setKeyAndIndex } : {
     newSchool: School,
-    openNotePopup: (e: MouseEvent<HTMLButtonElement>, object?: boolean) => void, 
     openEditPopup: (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => void,
     handleDeletePopup: (e: any , i: SetStateAction<number>, input: string) => void,
     deleteField: (e: MouseEvent<HTMLButtonElement>, index: number, key: string) => void,
     addField: (e: MouseEvent<HTMLButtonElement>, key: string) => void,
     handleSelect: (e: any, name: string, index: number, key: string) => void,
     handleObjInput: (e: ChangeEvent<HTMLInputElement>, index: number, key: string) => void,
+    toggleNote: (e: any, edit: boolean) => void,
+    setKeyAndIndex: (key: string, index: number) => void,
 
 }) {
     return (
@@ -62,7 +63,7 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Notes:</label>
-                    <button value='school_other_types_of_gpa_evaluated' name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-3 block" onClick={openNotePopup}>
+                    <button value='school_other_types_of_gpa_evaluated' name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-3 block" onClick={(e) => {toggleNote(e,false); setKeyAndIndex('school_other_types_of_gpa_evaluated', i)}}>
                         Add Note
                     </button>
                 </div>

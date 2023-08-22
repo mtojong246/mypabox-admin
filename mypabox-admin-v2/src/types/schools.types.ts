@@ -9,17 +9,17 @@ interface AdditionalField {
 
 export interface StringInput {
     input: string;
-    notes?: Note[];
+    notes: Note[];
 }
 
 export interface StringInputWithFields {
     fields: AdditionalField[];
-    notes?: Note[];
+    notes: Note[];
 }
 
 export interface NumberInput {
     input: number;
-    notes?: Note[];
+    notes: Note[];
 }
 
 export interface BooleanInput {
