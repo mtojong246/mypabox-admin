@@ -114,7 +114,7 @@ export default function Login() {
                 name="password"
                 onChange={handleChange}
               />
-              <div className="text-2xl">
+              <div className="text-2xl hover:cursor-pointer">
                 <AiOutlineEye onClick={handleShowPassword}/>
               </div>
             </div>
