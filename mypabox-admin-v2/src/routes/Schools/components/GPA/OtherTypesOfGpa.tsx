@@ -1,7 +1,6 @@
 import ReactQuill from "react-quill";
 import { FiEdit3 } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
-import Select from 'react-select';
 import { School, Note } from "../../../../types/schools.types";
 import { MouseEvent, ChangeEvent, SetStateAction, Dispatch } from "react";
 import CreatableSelect from 'react-select/creatable';
@@ -26,8 +25,6 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
     setCurrentNote: Dispatch<SetStateAction<Note>>,
 
 }) {
-
-    console.log(newSchool.school_other_types_of_gpa_evaluated)
 
     return (
         <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>

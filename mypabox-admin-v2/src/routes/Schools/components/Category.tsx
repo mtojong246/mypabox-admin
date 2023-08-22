@@ -288,6 +288,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                 </div>
             )
         }
+        // NOTE: GPA section lives in separate component due to variable data field types and logic 
         })}
         <>
             {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} openNotePopup={openNotePopup} handleInputChange={handleInputChange} openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup}/>}

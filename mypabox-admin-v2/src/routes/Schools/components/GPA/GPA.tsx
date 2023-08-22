@@ -233,23 +233,27 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
 
     //* Handler functions for specific GPA inputs */
 
+    // Opens popup for adding or editing notes 
     const toggleNote = (e: MouseEvent<HTMLButtonElement>, edit: boolean) => {
         e.preventDefault();
         setIsEdit(edit);
         setOpenNote(!openNote);
     }
 
+    // Opens delete note popup
     const toggleDelete = (e: MouseEvent<HTMLButtonElement>, i: number) => {
         e.preventDefault();
         setOpenDelete(!openDelete);
         setNoteIndex(i);
     }
 
+    // Points to specific data field and index 
     const setKeyAndIndex = (key: string, index: number) => {
         setKey(key);
         setIndex(index);
     }
 
+    // Adds notes to array and object data fields 
     const addNote = (e: MouseEvent<HTMLButtonElement>, key: string, index: number, type: string, note: string) => {
         e.preventDefault();
         let obj = {} as OtherTypesOfGpaEvaluted | MinimumGpaSpecificCourse;
@@ -287,6 +291,7 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         
     }
 
+    // Edits notes for array and object data field 
     const editNote = (e: MouseEvent<HTMLButtonElement>, key: string, index: number, noteIndex: number, type: string, note: string) => {
         e.preventDefault();
         let obj = {} as OtherTypesOfGpaEvaluted | MinimumGpaSpecificCourse;
@@ -336,6 +341,7 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         
     }
 
+    // Removes note from array and object data fields 
     const removeNote = (e: MouseEvent<HTMLButtonElement>, key: string, index: number, noteIndex: number) => {
         e.preventDefault();
         let obj = {} as OtherTypesOfGpaEvaluted | MinimumGpaSpecificCourse;
