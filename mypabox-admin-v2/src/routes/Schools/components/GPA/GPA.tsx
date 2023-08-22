@@ -1,4 +1,4 @@
-import { School, NumberInput, Note, OtherTypesOfGpaEvaluted, StringInput, BooleanInput, PreviousCycle } from "../../../../types/schools.types";
+import { School, NumberInput, Note, OtherTypesOfGpaEvaluted, StringInput, BooleanInput, PreviousCycle, MinimumGpaSpecificCourse } from "../../../../types/schools.types";
 import { ChangeEvent, Dispatch, SetStateAction, MouseEvent, useEffect } from "react";
 import ReactQuill from "react-quill";
 import { FiEdit3 } from "react-icons/fi";
@@ -119,17 +119,23 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
     }, [newSchool.school_minimum_gpa_required, newSchool.school_minimum_gpa_recommended])
 
     // Handles input changes for objects with multiple fields 
-    const handleObjInput = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const handleObjInput = (e: ChangeEvent<HTMLInputElement>, index: number, key: string) => {
         const value = e.target.value;
         const name = e.target.name;
-        const objToBeUpdated = newSchool.school_other_types_of_gpa_evaluated.find((obj,i) => i === index) as OtherTypesOfGpaEvaluted;
+        let objToBeUpdated = {};
+        if (key === "school_other_types_of_gpa_evaluated") {
+            objToBeUpdated = newSchool.school_other_types_of_gpa_evaluated.find((obj,i) => i === index) as OtherTypesOfGpaEvaluted;
+        } else {
+            objToBeUpdated = newSchool.school_minimum_gpa_for_specific_course.find((obj, i) => i === index) as MinimumGpaSpecificCourse;
+        }
+
         const updatedObj = {
             ...objToBeUpdated,
             [name]: value,
         }
         setNewSchool({
             ...newSchool,
-            school_other_types_of_gpa_evaluated: newSchool.school_other_types_of_gpa_evaluated.map((field, i) => {
+            [key]: (newSchool[key as keyof School] as OtherTypesOfGpaEvaluted[] | MinimumGpaSpecificCourse[]).map((field, i) => {
                 if (i === index) {
                     return updatedObj;
                 } else {
@@ -165,15 +171,20 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
     }
 
     // Handles select inputs 
-    const handleSelect = (e: any, name: string, index: number) => {
-        const objToBeUpdated = newSchool.school_other_types_of_gpa_evaluated.find((obj,i) => i === index) as OtherTypesOfGpaEvaluted;
+    const handleSelect = (e: any, name: string, index: number, key: string) => {
+        let objToBeUpdated = {};
+        if (key === "school_other_types_of_gpa_evaluated") {
+            objToBeUpdated = newSchool.school_other_types_of_gpa_evaluated.find((obj,i) => i === index) as OtherTypesOfGpaEvaluted;
+        } else {
+            objToBeUpdated = newSchool.school_minimum_gpa_for_specific_course.find((obj, i) => i === index) as MinimumGpaSpecificCourse;
+        }
         const updatedObj = {
             ...objToBeUpdated,
             [name]: e.value,
         }
         setNewSchool({
             ...newSchool,
-            school_other_types_of_gpa_evaluated: newSchool.school_other_types_of_gpa_evaluated.map((field, i) => {
+            [key]: (newSchool[key as keyof School] as OtherTypesOfGpaEvaluted[] | MinimumGpaSpecificCourse[]).map((field, i) => {
                 if (i === index) {
                     return updatedObj;
                 } else {
@@ -213,7 +224,7 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         })
     }
 
-    console.log(newSchool.school_other_types_of_gpa_evaluated)
+    console.log(newSchool.school_other_types_of_gpa_evaluated, newSchool.school_minimum_gpa_for_specific_course)
 
     return (
         <>
