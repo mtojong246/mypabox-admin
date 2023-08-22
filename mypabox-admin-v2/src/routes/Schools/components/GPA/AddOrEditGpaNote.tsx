@@ -45,7 +45,7 @@ export default function AddOrEditGpaNote({ toggleNote, isEdit, addNote, keyStrin
     return (
         // Test inputs 
         <div className="fixed w-screen font-['Noto Sans'] top-0 left-0 bottom-0 right-0 bg-[#000000d5] z-10 h-screen flex justify-center items-center">
-          <form className="h-[50em] w-[46em] rounded-[0.625em] bg-white">
+          <div className="h-[50em] w-[46em] rounded-[0.625em] bg-white">
             <AiOutlineClose className='absolute text-black text-2xl ml-[29em] mt-8 cursor-pointer' onClick={(e) => toggleNote(e ,false)}/>
             <p className='absolute text-2xl mt-8 ml-8'>{isEdit ? 'Edit Note' : 'Add Note'}</p>
             <div className="absolute mt-24 ml-8">
@@ -65,7 +65,7 @@ export default function AddOrEditGpaNote({ toggleNote, isEdit, addNote, keyStrin
             onClick={handleAddOrEdit}>
               Done
             </button>
-          </form>
+          </div>
         </div>
     )
 }

@@ -27,8 +27,6 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
 
 }) {
 
-    console.log(newSchool.school_other_types_of_gpa_evaluated)
-
     return (
         <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Other Types of GPA Evaluated</label> 
