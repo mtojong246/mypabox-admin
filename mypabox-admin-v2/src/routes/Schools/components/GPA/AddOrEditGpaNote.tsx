@@ -1,14 +1,18 @@
-import { useState, ChangeEvent, MouseEvent } from 'react';
+import { useState, ChangeEvent, MouseEvent, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { Note } from '../../../../types/schools.types';
 
-export default function AddOrEditGpaNote({ toggleNote, isEdit, addNote, keyString, index }: { 
+export default function AddOrEditGpaNote({ toggleNote, isEdit, addNote, keyString, index, editNote, noteIndex, currentNote }: { 
     toggleNote: (e: any, edit: boolean) => void, 
     isEdit: boolean, 
     addNote: (e: MouseEvent<HTMLButtonElement>, key: string, index: number, type: string, note: string ) => void, 
     keyString: string,
     index: number,
+    editNote: (e: MouseEvent<HTMLButtonElement>, key: string, index: number, noteIndex: number, type: string, note: string) => void,
+    noteIndex: number,
+    currentNote: Note
 }) {
 
     const [ type, setType ] = useState('information');
@@ -16,6 +20,26 @@ export default function AddOrEditGpaNote({ toggleNote, isEdit, addNote, keyStrin
     // Changes type based on radio button selection 
     const handleType = (e: ChangeEvent<HTMLInputElement>) => {
         setType((e.target as HTMLInputElement).value);
+    }
+
+    useEffect(() => {
+        if (isEdit) {
+            setNote(currentNote.note);
+            setType(currentNote.type)
+        } else {
+            setNote('');
+            setType('information')
+        }
+    }, [isEdit]);
+
+    const handleAddOrEdit = (e: MouseEvent<HTMLButtonElement>) => {
+        toggleNote(e, false);
+        if (isEdit) {
+            editNote(e, keyString, index, noteIndex, type, note)
+        } else {
+            addNote(e, keyString, index, type, note)
+        }
+
     }
 
     return (
@@ -38,7 +62,7 @@ export default function AddOrEditGpaNote({ toggleNote, isEdit, addNote, keyStrin
             
             <ReactQuill className='absolute mt-[15em] h-96 rounded-2xl w-[42em] ml-8' theme="snow" value={note} onChange={setNote} />
             <button type='submit' className="absolute mt-[45em] ml-[39em] w-20 h-10 rounded-2xl border-2 border-blue-600 text-blue-600"
-            onClick={(e) => {toggleNote(e, false); addNote(e, keyString, index, type, note)}}>
+            onClick={handleAddOrEdit}>
               Done
             </button>
           </form>

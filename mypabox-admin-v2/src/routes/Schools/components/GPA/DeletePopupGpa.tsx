@@ -15,11 +15,11 @@ export default function DeletePopupGpa({ toggleDelete, removeNote, keyString, in
             <AiOutlineClose className='absolute text-black text-2xl ml-[29em] mt-8 cursor-pointer' />
             <p className='absolute text-2xl mt-8 ml-8'>Are you sure you want to delete?</p>
             <button type='submit' className="absolute mt-[7em] ml-[8em] w-20 h-10 rounded-2xl border-2 
-            border-red-600 text-red-600" onClick={(e) => {toggleDelete(e, index); removeNote(e, keyString, index, noteIndex)}}>
+            border-red-600 text-red-600" onClick={(e) => {toggleDelete(e, noteIndex); removeNote(e, keyString, index, noteIndex)}}>
                 Delete
             </button>
             <button type='submit' className="absolute mt-[7em] ml-[14em] w-20 h-10 rounded-2xl border-2 
-            border-blue-600 text-blue-600" onClick={(e) => toggleDelete(e, index)}>
+            border-blue-600 text-blue-600" onClick={(e) => toggleDelete(e, noteIndex)}>
                 Cancel
             </button>
             </form>

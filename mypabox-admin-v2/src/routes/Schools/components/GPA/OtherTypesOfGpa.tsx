@@ -3,7 +3,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import Select from 'react-select';
 import { School, Note } from "../../../../types/schools.types";
-import { MouseEvent, ChangeEvent, SetStateAction } from "react";
+import { MouseEvent, ChangeEvent, SetStateAction, Dispatch } from "react";
 
 const typeOfGpa = [
     { value: 'Science', label: 'Science' },
@@ -12,7 +12,7 @@ const typeOfGpa = [
     { value: 'BCP', label: 'BCP' }
 ]
 
-export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, handleObjInput, addField, toggleNote, setKeyAndIndex, toggleDelete } : {
+export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, handleObjInput, addField, toggleNote, setKeyAndIndex, toggleDelete, setNoteIndex, setCurrentNote } : {
     newSchool: School,
     deleteField: (e: MouseEvent<HTMLButtonElement>, index: number, key: string) => void,
     addField: (e: MouseEvent<HTMLButtonElement>, key: string) => void,
@@ -21,6 +21,8 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
     toggleNote: (e: any, edit: boolean) => void,
     setKeyAndIndex: (key: string, index: number) => void,
     toggleDelete: (e: MouseEvent<HTMLButtonElement>, i: number) => void,
+    setNoteIndex: Dispatch<SetStateAction<number>>,
+    setCurrentNote: Dispatch<SetStateAction<Note>>,
 
 }) {
     return (
@@ -75,7 +77,7 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                            <button value='school_other_types_of_gpa_evaluated' ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                            <button value='school_other_types_of_gpa_evaluated' onClick={(e) => {toggleNote(e, true); setNoteIndex(index); setCurrentNote(note); setKeyAndIndex('school_other_types_of_gpa_evaluated', i)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
                             <button value='school_other_types_of_gpa_evaluated' onClick={(e) => {toggleDelete(e, index); setKeyAndIndex('school_other_types_of_gpa_evaluated', i) }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>

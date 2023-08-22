@@ -1,5 +1,5 @@
 import { School, Note } from "../../../../types/schools.types"
-import { MouseEvent, SetStateAction, ChangeEvent, useState, useEffect } from "react"
+import { MouseEvent, SetStateAction, ChangeEvent, useState, useEffect, Dispatch } from "react"
 import Select from 'react-select';
 import { useSelector } from "react-redux";
 import { selectCourses } from "../../../../app/selectors/courses.selectors";
@@ -7,7 +7,7 @@ import ReactQuill from "react-quill";
 import { FiEdit3 } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 
-export default function SpecificCourse({ newSchool, deleteField, handleSelect, handleObjInput, addField, toggleNote, setKeyAndIndex, toggleDelete } : {
+export default function SpecificCourse({ newSchool, deleteField, handleSelect, handleObjInput, addField, toggleNote, setKeyAndIndex, toggleDelete, setNoteIndex, setCurrentNote } : {
     newSchool: School,
     deleteField: (e: MouseEvent<HTMLButtonElement>, index: number, key: string) => void,
     addField: (e: MouseEvent<HTMLButtonElement>, key: string) => void,
@@ -16,6 +16,8 @@ export default function SpecificCourse({ newSchool, deleteField, handleSelect, h
     toggleNote: (e: any, edit: boolean) => void,
     setKeyAndIndex: (key: string, index: number) => void,
     toggleDelete: (e: MouseEvent<HTMLButtonElement>, i: number) => void,
+    setNoteIndex: Dispatch<SetStateAction<number>>,
+    setCurrentNote: Dispatch<SetStateAction<Note>>,
 
 }) {
 
@@ -68,8 +70,8 @@ export default function SpecificCourse({ newSchool, deleteField, handleSelect, h
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                            <button value='school_other_types_of_gpa_evaluated' ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                            <button value='school_other_types_of_gpa_evaluated' onClick={(e) => toggleDelete(e, index)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                            <button value='school_minimum_gpa_for_specific_course' onClick={(e) => {toggleNote(e, true); setNoteIndex(index); setCurrentNote(note); setKeyAndIndex('school_minimum_gpa_for_specific_course', i)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                            <button value='school_minimum_gpa_for_specific_course' onClick={(e) => {toggleDelete(e, index); setKeyAndIndex('school_minimum_gpa_for_specific_course', i)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                 ))}
