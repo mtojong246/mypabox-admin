@@ -17,8 +17,8 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
     openNotePopup: (e: MouseEvent<HTMLButtonElement>, object?: boolean) => void, 
     openEditPopup: (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => void,
     handleDeletePopup: (e: any , i: SetStateAction<number>, input: string) => void,
-    deleteField: (e: MouseEvent<HTMLButtonElement>, index: number) => void,
-    addField: (e: MouseEvent<HTMLButtonElement>) => void,
+    deleteField: (e: MouseEvent<HTMLButtonElement>, index: number, key: string) => void,
+    addField: (e: MouseEvent<HTMLButtonElement>, key: string) => void,
     handleSelect: (e: any, name: string, index: number) => void,
     handleObjInput: (e: ChangeEvent<HTMLInputElement>, index: number) => void,
 
@@ -31,7 +31,7 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                 <div className={`w-full mt-4 ${i > 0 && 'border-t border-[#DCDCDC] pt-4'}`}>
                     <div className='flex justify-between items-center'>
                         <label className='text-xl'>Type of GPA Evaluated</label>
-                        <button onClick={(e) => deleteField(e,i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
+                        <button onClick={(e) => deleteField(e,i, 'school_other_types_of_gpa_evaluated')} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
                     </div>
                     <Select options={typeOfGpa} 
                     value={newSchool.school_other_types_of_gpa_evaluated[i].type_of_gpa_evaluated ? {value: `${newSchool.school_other_types_of_gpa_evaluated[i].type_of_gpa_evaluated}`, label: `${newSchool.school_other_types_of_gpa_evaluated[i].type_of_gpa_evaluated}`} : null } 
@@ -82,7 +82,7 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                 ))}
             </>
             ))}  
-            <button className="w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
+            <button className="w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={(e) => addField(e, 'school_other_types_of_gpa_evaluated')}>
                 + Add New Field
             </button>
         </div>

@@ -9,7 +9,6 @@ import SpecificCourse from "./SpecificCourse";
 //*******TO DO*******:
 //  Add Note functionality for 'Other types of GPA Evaluated' and 'Average GPA Accepted Previous Cycle'
 //  Create input fields for 'Minimum GPA for Specific Course'
-//  Separated larger portions of code into separated components inside GPA folder 
 //  Fixed radio input so that option stays highlighted after selected 
 
 const gpaRequired = [
@@ -63,6 +62,12 @@ const otherGpaDefault = {
     minimum_gpa_value_needed: 0,
     minimum_number_of_credits_evaluated: 0,
     type_of_gpa_evaluated: "",
+    notes: [],
+}
+
+const specificCourseDefault = {
+    minimum_gpa_required_for_course: 0,
+    courseID: "",
     notes: [],
 }
 
@@ -179,22 +184,32 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
     }
 
     // Adds field to objects 
-    const addField = (e: MouseEvent<HTMLButtonElement>) => {
+    const addField = (e: MouseEvent<HTMLButtonElement>, key: string) => {
         e.preventDefault();
-        const updatedField = newSchool.school_other_types_of_gpa_evaluated.concat(otherGpaDefault);
+        let updatedField = [];
+        if (key === "school_other_types_of_gpa_evaluated") {
+            updatedField = newSchool.school_other_types_of_gpa_evaluated.concat(otherGpaDefault);
+        } else {
+            updatedField = newSchool.school_minimum_gpa_for_specific_course.concat(specificCourseDefault);
+        }
         setNewSchool({
             ...newSchool,
-            school_other_types_of_gpa_evaluated: updatedField,
+            [key]: updatedField,
         })
     }
 
     // Deletes specific field from objects 
-    const deleteField = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+    const deleteField = (e: MouseEvent<HTMLButtonElement>, index: number, key: string) => {
         e.preventDefault();
-        const updatedField = newSchool.school_other_types_of_gpa_evaluated.filter((field, i)=> i !== index);
+        let updatedField = [];
+        if (key === 'school_other_types_of_gpa_evaluated') {
+            updatedField = newSchool.school_other_types_of_gpa_evaluated.filter((field, i)=> i !== index);
+        } else {
+            updatedField = newSchool.school_minimum_gpa_for_specific_course.filter((field, i) => i !== index)
+        }
         setNewSchool({
             ...newSchool,
-            school_other_types_of_gpa_evaluated: updatedField,
+            [key]: updatedField,
         })
     }
 
