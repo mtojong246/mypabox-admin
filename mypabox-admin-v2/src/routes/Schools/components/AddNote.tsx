@@ -12,16 +12,6 @@ export default function AddNote({ currentInput, addNote, toggleNote }: { current
     }
 
 
-    // useEffect(() => {
-    //   // Converts html string into plain text and sets note 
-    //   if (htmlString) {
-    //     const plainString = htmlString.replace(/<[^>]+>/g, '');
-    //     setNote(plainString);
-    //   }
-      
-    // }, [htmlString])
-    
-
     return (
         // Test inputs 
         <div className="fixed w-screen font-['Noto Sans'] -ml-10 top-0 bg-[#000000d5] z-10 h-screen">
@@ -31,11 +21,11 @@ export default function AddNote({ currentInput, addNote, toggleNote }: { current
             <div className="absolute mt-24 ml-8">
               <p className="after:content-['*'] mb-2 after:ml-0.5 after:text-red-500">Select Type:</p>
               <label className="mb-2">
-                <input type='radio' name='type' value='information' className='' onChange={handleType} />
+                <input type='radio' name='type' value='information' className='' onChange={handleType} checked={type === 'information' ? true : false}/>
                 <p className='-mt-6 ml-5'>Information</p>
               </label>
               <label className='mt-'>
-                <input type='radio' name='type' value='requirement' className='' onChange={handleType}/>
+                <input type='radio' name='type' value='requirement' className='' onChange={handleType} checked={type === 'requirement' ? true : false}/>
                 <p className='-mt-6 ml-5'>Requirement</p>
               </label>
             </div>

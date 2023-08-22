@@ -18,7 +18,7 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
     deleteField: (e: MouseEvent<HTMLButtonElement>, index: number, key: string) => void,
     addField: (e: MouseEvent<HTMLButtonElement>, key: string) => void,
     handleSelect: (e: any, name: string, index: number, key: string) => void,
-    handleObjInput: (e: ChangeEvent<HTMLInputElement>, index: number, key: string) => void,
+    handleObjInput: (e: ChangeEvent<HTMLInputElement>, index: number, key: string, name: string) => void,
     toggleNote: (e: any, edit: boolean) => void,
     setKeyAndIndex: (key: string, index: number) => void,
     toggleDelete: (e: MouseEvent<HTMLButtonElement>, i: number) => void,
@@ -26,6 +26,8 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
     setCurrentNote: Dispatch<SetStateAction<Note>>,
 
 }) {
+
+    console.log(newSchool.school_other_types_of_gpa_evaluated)
 
     return (
         <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
@@ -47,22 +49,24 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                     <label className='text-xl'>GPA Required or Recommended:</label>
                     <div className='flex justify-start items-center mt-3 gap-10 ml-3'>
                         <div>
-                            <input onChange={(e) => handleObjInput(e, i, 'school_other_types_of_gpa_evaluated')} type='radio' name='gpa_value_required_or_recommended' value='requirement' className='mr-2'/>
-                            <span className='text-xl'>Requirement</span>
+                            <input onChange={(e) => handleObjInput(e, i, 'school_other_types_of_gpa_evaluated', 'gpa_value_required_or_recommended')} type='radio' name={`gpa_value_required_or_recommended-${i.toString()}`} value='required' className='mr-2'
+                            checked={field.gpa_value_required_or_recommended === 'required' ? true : false}/>
+                            <span className='text-xl'>Required</span>
                         </div>
                         <div>
-                            <input onChange={(e) => handleObjInput(e, i, 'school_other_types_of_gpa_evaluated')} type='radio' name='gpa_value_required_or_recommended' value='recommended' className='mr-2'/>
+                            <input onChange={(e) => handleObjInput(e, i, 'school_other_types_of_gpa_evaluated', 'gpa_value_required_or_recommended')} type='radio' name={`gpa_value_required_or_recommended-${i.toString()}`} value='recommended' className='mr-2'
+                            checked={field.gpa_value_required_or_recommended === 'recommended' ? true : false}/>
                             <span className='text-xl'>Recommended</span>
                         </div>
                     </div>
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Minimum GPA Valued Needed:</label>
-                    <input onChange={(e) => handleObjInput(e, i, 'school_other_types_of_gpa_evaluated')} className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3 block' value={field.minimum_gpa_value_needed} name='minimum_gpa_value_needed'/>
+                    <input onChange={(e) => handleObjInput(e, i, 'school_other_types_of_gpa_evaluated', 'minimum_gpa_value_needed')} className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3 block' value={field.minimum_gpa_value_needed} name='minimum_gpa_value_needed'/>
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Minimum Number of Credits Evaluated:</label>
-                    <input onChange={(e) => handleObjInput(e, i, 'school_other_types_of_gpa_evaluated')} className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3 block' value={field.minimum_number_of_credits_evaluated} name='minimum_number_of_credits_evaluated' />
+                    <input onChange={(e) => handleObjInput(e, i, 'school_other_types_of_gpa_evaluated', 'minimum_number_of_credits_evaluated')} className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3 block' value={field.minimum_number_of_credits_evaluated} name='minimum_number_of_credits_evaluated' />
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Notes:</label>

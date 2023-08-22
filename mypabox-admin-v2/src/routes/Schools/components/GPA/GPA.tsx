@@ -127,9 +127,8 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
     }, [newSchool.school_minimum_gpa_required, newSchool.school_minimum_gpa_recommended])
 
     // Handles input changes for objects with multiple fields 
-    const handleObjInput = (e: ChangeEvent<HTMLInputElement>, index: number, key: string) => {
+    const handleObjInput = (e: ChangeEvent<HTMLInputElement>, index: number, key: string, name: string) => {
         const value = e.target.value;
-        const name = e.target.name;
         let objToBeUpdated = {};
         if (key === "school_other_types_of_gpa_evaluated") {
             objToBeUpdated = newSchool.school_other_types_of_gpa_evaluated.find((obj,i) => i === index) as OtherTypesOfGpaEvaluted;

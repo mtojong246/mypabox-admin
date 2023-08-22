@@ -12,7 +12,7 @@ export default function SpecificCourse({ newSchool, deleteField, handleSelect, h
     deleteField: (e: MouseEvent<HTMLButtonElement>, index: number, key: string) => void,
     addField: (e: MouseEvent<HTMLButtonElement>, key: string) => void,
     handleSelect: (e: any, name: string, index: number, key: string) => void,
-    handleObjInput: (e: ChangeEvent<HTMLInputElement>, index: number, key: string) => void,
+    handleObjInput: (e: ChangeEvent<HTMLInputElement>, index: number, key: string, name: string) => void,
     toggleNote: (e: any, edit: boolean) => void,
     setKeyAndIndex: (key: string, index: number) => void,
     toggleDelete: (e: MouseEvent<HTMLButtonElement>, i: number) => void,
@@ -51,7 +51,7 @@ export default function SpecificCourse({ newSchool, deleteField, handleSelect, h
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Minimum GPA Required:</label>
-                    <input onChange={(e) => handleObjInput(e, i, 'school_minimum_gpa_for_specific_course')} className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3 block'
+                    <input onChange={(e) => handleObjInput(e, i, 'school_minimum_gpa_for_specific_course', 'minimum_gpa_required_for_course')} className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3 block'
                     value={field.minimum_gpa_required_for_course} name='minimum_gpa_required_for_course'/>
                 </div>
                 <div className='w-full mt-8'>

@@ -43,7 +43,6 @@ export default function AddOrEditGpaNote({ toggleNote, isEdit, addNote, keyStrin
     }
 
     return (
-        // Test inputs 
         <div className="fixed w-screen font-['Noto Sans'] top-0 left-0 bottom-0 right-0 bg-[#000000d5] z-10 h-screen flex justify-center items-center">
           <div className="h-[50em] w-[46em] rounded-[0.625em] bg-white">
             <AiOutlineClose className='absolute text-black text-2xl ml-[29em] mt-8 cursor-pointer' onClick={(e) => toggleNote(e ,false)}/>
@@ -51,11 +50,11 @@ export default function AddOrEditGpaNote({ toggleNote, isEdit, addNote, keyStrin
             <div className="absolute mt-24 ml-8">
               <p className="after:content-['*'] mb-2 after:ml-0.5 after:text-red-500">Select Type:</p>
               <label className="mb-2">
-                <input type='radio' name='type' value='information' className='' onChange={handleType} />
+                <input type='radio' name='type' value='information' className='' onChange={handleType} checked={type === 'information' ? true : false}/>
                 <p className='-mt-6 ml-5'>Information</p>
               </label>
               <label className='mt-'>
-                <input type='radio' name='type' value='requirement' className='' onChange={handleType}/>
+                <input type='radio' name='type' value='requirement' className='' onChange={handleType} checked={type === 'requirement' ? true : false}/>
                 <p className='-mt-6 ml-5'>Requirement</p>
               </label>
             </div>
