@@ -4,6 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import Select from 'react-select';
 import { School, Note } from "../../../../types/schools.types";
 import { MouseEvent, ChangeEvent, SetStateAction, Dispatch } from "react";
+import CreatableSelect from 'react-select/creatable';
 
 const typeOfGpa = [
     { value: 'Science', label: 'Science' },
@@ -25,6 +26,9 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
     setCurrentNote: Dispatch<SetStateAction<Note>>,
 
 }) {
+
+    console.log(newSchool.school_other_types_of_gpa_evaluated)
+
     return (
         <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Other Types of GPA Evaluated</label> 
@@ -35,7 +39,7 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                         <label className='text-xl'>Type of GPA Evaluated</label>
                         <button onClick={(e) => deleteField(e,i, 'school_other_types_of_gpa_evaluated')} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
                     </div>
-                    <Select options={typeOfGpa} 
+                    <CreatableSelect options={typeOfGpa} 
                     value={field.type_of_gpa_evaluated ? {value: field.type_of_gpa_evaluated, label: field.type_of_gpa_evaluated} : null } 
                     className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3" 
                     onChange={(e) => handleSelect(e, 'type_of_gpa_evaluated', i, 'school_other_types_of_gpa_evaluated')}/>
