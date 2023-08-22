@@ -235,7 +235,7 @@ export default function AddSchool() {
   return (
     <div className={`w-screen px-10 ont-['Noto Sans']`}>
       <div className={`w-full max-w-[1800px] mx-auto`}>
-        <div className={`w-full flex justify-between items-center pt-[120px] sticky bg-white z-10 top-0 pb-10 border-b border-[#DCDCDC]
+        <div className={`w-full flex justify-between items-center pt-[220px] sticky bg-white z-10 top-0 pb-10 border-b border-[#DCDCDC]
         ${window.scrollY === 180 ? '' : 'pb-2'}`}>
           <p className={`text-4xl ${window.scrollY === 180 ? '' : '-mt-32'} font-medium`}>Add School</p>
           <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
@@ -250,7 +250,7 @@ export default function AddSchool() {
           </div>
         </div>
         <div className={`flex justify-start items-start gap-10 `}>
-          <div className={`text-md pt-3 sticky ${window.scrollY === 180 ? '' : 'top-[145px]'} top-[220px]`}>
+          <div className={`text-md pt-3 sticky top-[230px]`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
               <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} 

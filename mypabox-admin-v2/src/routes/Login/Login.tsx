@@ -76,56 +76,60 @@ export default function Login() {
   // In your catch block, you may want to provide a user-friendly error message to your users rather than simply logging the error. This is a better practice for handling errors and improving the user experience.
 
   return (
-    <>
-      <img src={logo} alt="My PA Box" className="w-[50%] ml-4 mt-4 z-10" />
-      <form
-        id="signin-form"
-        onSubmit={handleSubmit}
-        className="relative border ml-[844px] h-96 z-30 -mt-[500px] 
-        border-l-16 border-gray-400 border-y-0 border-r-0 w-[660px]"
-      >
-        <p className="text-2xl ml-16 select-none font-semibold text-[#124967]">
-          Log in to your account
-        </p>
-
-        <div className="relative mt-[30px] ml-16 w-[620px] z-20">
-          <label className="font-bold select-none text-md">Email Address</label>
-          <input
-            type="email"
-            className="block border focus:outline-none border-black mt-2
-          rounded h-[45px] w-full"
-            placeholder="Email"
-            value={email}
-            name="email"
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="mt-[20px] ml-16 w-[620px]">
-          <label className="font-bold select-none text-md">Password</label>
-          <input
-            type={showPassword}
-            className="block border border-black mt-2 w-full h-[45px] rounded 
-          focus:outline-none bg-gray-200"
-            placeholder="Password"
-            value={password}
-            name="password"
-            onChange={handleChange}
-          />
-          <div className="ml-[590px] text-2xl -mt-8">
-            <AiOutlineEye onClick={handleShowPassword}/>
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          form="signin-form"
-          className="mt-[40px] text-xl border ml-16 bg-[#5B7E92] select-none
-        text-white border-black w-[620px] h-[40px] rounded-full"
+    <div className='w-screen h-screen px-10 flex justify-center items-center'>
+      <div className='w-full flex flex-col xl:flex-row justify-center items-center gap-10'>
+        <img src={logo} alt="My PA Box" className="w-full max-w-[600px]" />
+        <form
+          id="signin-form"
+          onSubmit={handleSubmit}
+          className="border
+          xl:border-l border-l-0 border-r-0 border-b-0 border-t border-gray-400 xl:border-y-0  max-w-[900px] xl:min-w-[600px] xl:pl-20 xl:pt-0 pt-20 w-full"
         >
-          Login
-        </button>
-      </form>
-    </>
+          <p className="text-2xl select-none font-semibold text-[#124967]">
+            Log in to your account
+          </p>
+
+          <div className="mt-[30px] w-full z-20">
+            <label className="font-bold select-none text-md">Email Address</label>
+            <input
+              type="email"
+              className="block border focus:outline-none border-black mt-2
+            rounded p-4 w-full"
+              placeholder="Email"
+              value={email}
+              name="email"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mt-[20px] w-full">
+            <label className="font-bold select-none text-md">Password</label>
+            <div className='block border border-black mt-2 w-full rounded 
+            focus:outline-none bg-gray-200 flex justify-between items-center p-4'>
+              <input
+                type={showPassword}
+                className="grow bg-gray-200"
+                placeholder="Password"
+                value={password}
+                name="password"
+                onChange={handleChange}
+              />
+              <div className="text-2xl">
+                <AiOutlineEye onClick={handleShowPassword}/>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            form="signin-form"
+            className="mt-[40px] text-lg border bg-[#5B7E92] select-none
+          text-white border-black w-full p-2 rounded-full hover:bg-[#334652]"
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
