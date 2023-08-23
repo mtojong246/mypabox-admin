@@ -33,11 +33,13 @@ export default function SpecificCourse({ newSchool, deleteField, handleSelect, h
 
 
     return (
-        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA for Specific Course</label>
-            {newSchool.school_minimum_gpa_for_specific_course.map((field, i) => (
+        <>
+        {newSchool.school_minimum_gpa_for_specific_course.map((field, i) => (
+        <div className={`${i>0 ? 'mt-10' : 'mt-28'} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA for Specific Course <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label>
+            
             <>
-                <div className={`w-full mt-4 ${i > 0 && 'border-t border-[#DCDCDC] pt-4'}`}>
+                <div className={`w-full mt-4`}>
                     <div className='flex justify-between items-center'>
                         <label className='text-xl'>Course Name</label>
                         <button onClick={(e) => deleteField(e,i, 'school_minimum_gpa_for_specific_course')} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
@@ -77,10 +79,13 @@ export default function SpecificCourse({ newSchool, deleteField, handleSelect, h
                 ))}
 
             </>
-            ))}
+            {i === newSchool.school_minimum_gpa_for_specific_course.length-1 && (
             <button className="w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={(e) => addField(e, 'school_minimum_gpa_for_specific_course')}>
                 + Add New Field
             </button>
+            )}
         </div>
+        ))}
+        </>
     )
 }

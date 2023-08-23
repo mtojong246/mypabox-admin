@@ -485,7 +485,7 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         <SpecificCourse newSchool={newSchool} deleteField={deleteField} handleSelect={handleSelect} handleObjInput={handleObjInput}
         addField={addField} toggleNote={toggleNote} setKeyAndIndex={setKeyAndIndex} toggleDelete={toggleDelete} setNoteIndex={setNoteIndex} setCurrentNote={setCurrentNote}/>
 
-        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`mt-28 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Average GPA Accepted Previous Cycle</label>   
             {previousCycle.map(gpa => (
                 <>
@@ -517,7 +517,7 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
                 ))}               
         </div>
         
-        <div className={`mt-20 text-xl w-full`}>
+        <div className={`mt-28 text-xl w-full`}>
                 <p>GPA General Notes</p>
                 <ReactQuill className='mt-4 h-96 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_gpa_general_note} 
                 onChange={handleQuill}/>

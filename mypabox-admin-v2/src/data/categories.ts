@@ -85,7 +85,7 @@ export const categories: CategoryType[] = [
             {
                 name: 'Campus Location',
                 value: 'school_campus_location',
-                margin: 'mt-32',
+                margin: 'mt-28',
                 type: 'text',
             },
             {
@@ -115,7 +115,7 @@ export const categories: CategoryType[] = [
             {
                 name: 'Seat Deposit (In-state)',
                 value: 'school_seat_deposit_in_state',
-                margin: 'mt-32',
+                margin: 'mt-28',
                 type: 'text',
             },
             {
@@ -127,7 +127,7 @@ export const categories: CategoryType[] = [
             {
                 name: 'Rolling Admissions',
                 value: 'school_rolling_admissions',
-                margin: 'mt-32',
+                margin: 'mt-28',
                 type: 'bool',
             },
             {
@@ -187,7 +187,7 @@ export const categories: CategoryType[] = [
             {
                 name: 'General Information Notes',
                 value: 'school_general_information',
-                margin: 'mt-32',
+                margin: 'mt-28',
                 type: 'editor',
             }
         ]
@@ -230,7 +230,7 @@ export const categories: CategoryType[] = [
             {
                 name: 'Accreditation Status General Notes',
                 value: 'school_accreditation_status_general_note',
-                margin: 'mt-10',
+                margin: 'mt-28',
                 type: 'editor',
             }
         ]
@@ -266,7 +266,7 @@ export const categories: CategoryType[] = [
             {
                 name: 'Tuition General Notes',
                 value: 'school_tuition_general_note',
-                margin: 'mt-32',
+                margin: 'mt-28',
                 type: 'editor',
             }
         ]
@@ -290,7 +290,7 @@ export const categories: CategoryType[] = [
             {
                 name: 'PANCE Pass Rate Notes',
                 value: 'school_pance_pass_rate_note',
-                margin: 'mt-32',
+                margin: 'mt-28',
                 type: 'editor',
             }
         ]
