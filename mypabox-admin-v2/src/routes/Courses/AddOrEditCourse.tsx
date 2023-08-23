@@ -109,8 +109,8 @@ export default function AddOrEditCourse() {
 
 
     return (
-        <div className="w-screen py-24 px-10 font-['Noto Sans']">
-            <div className='w-full max-w-[1800px] pt-10 mx-auto'>
+        <div className="w-screen p-10 font-['Noto Sans']">
+            <div className='w-full max-w-[1800px] mx-auto'>
                 <div className={`w-full flex justify-between items-center pb-10 border-b border-[#DCDCDC]`}>
                     <p className='text-4xl font-medium'>{edit ? 'Edit Course' : 'Add Course'}</p>
                     <button onClick={handleSave} className='border border-blue-500 text-blue-500 rounded-lg py-3 px-4 hover:text-white hover:bg-blue-500'>

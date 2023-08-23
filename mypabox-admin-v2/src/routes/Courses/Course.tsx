@@ -99,7 +99,7 @@ export default function Courses() {
     <>
     <div className="w-screen px-10 font-['Noto Sans']">
       <div className='w-full max-w-[1800px] mx-auto'>
-            <div className={`w-full flex justify-between items-start sticky top-0 pt-[120px] pb-4 bg-white border-b border-[#DCDCDC]`}>
+            <div className={`w-full flex justify-between items-start sticky top-0 pt-10 pb-4 bg-white border-b border-[#DCDCDC]`}>
                 <div>
                     <p className='text-5xl font-medium'>Courses</p>
                     <p className='text-xl mt-2'>Total: {filteredCourses && filteredCourses.length}</p>

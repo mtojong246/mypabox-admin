@@ -57,8 +57,8 @@ const Schools = () => {
   }
 
   return (
-    <div className="w-screen py-24 px-10 font-['Noto Sans']">
-      <div className='w-full max-w-[1800px] pt-10 mx-auto'>
+    <div className="w-screen p-10 font-['Noto Sans']">
+      <div className='w-full max-w-[1800px] mx-auto'>
 
       {/* Filter 1: The school name is converted to all lowercase letters and then the includes method is ran so that the only
           schools that are shown are the schools that matches the search input  
