@@ -230,8 +230,6 @@ export default function AddSchool() {
       setNewSchool(updatedSchool);
     }
 
-    console.log(window.scrollY)
-
   return (
     <div className={`w-screen px-10 ont-['Noto Sans']`}>
       <div className={`w-full max-w-[1800px] mx-auto`}>

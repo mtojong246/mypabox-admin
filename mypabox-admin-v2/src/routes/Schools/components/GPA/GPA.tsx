@@ -201,6 +201,13 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         })
     }
 
+    const handleQuill = (e: any) => {
+        setNewSchool({
+            ...newSchool,
+            school_gpa_general_note: e
+        })
+    }
+
     // Adds field to objects 
     const addField = (e: MouseEvent<HTMLButtonElement>, key: string) => {
         e.preventDefault();
@@ -508,7 +515,13 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
                     ))}
                 </>
                 ))}               
-            </div>
+        </div>
+        
+        <div className={`mt-20 text-xl w-full`}>
+                <p>GPA General Notes</p>
+                <ReactQuill className='mt-4 h-96 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_gpa_general_note} 
+                onChange={handleQuill}/>
+        </div>
         </>
         )}
         {openNote && <AddOrEditGpaNote toggleNote={toggleNote} isEdit={isEdit} addNote={addNote} keyString={keyString} index={index} editNote={editNote} noteIndex={noteIndex} currentNote={currentNote}/>}

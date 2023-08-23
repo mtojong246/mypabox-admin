@@ -33,7 +33,6 @@ const Schools = () => {
             }
             return 0;
         })
-        console.log(allSchools)
           dispatch(setSchools(allSchools));
         }
       } catch (error: any) {
