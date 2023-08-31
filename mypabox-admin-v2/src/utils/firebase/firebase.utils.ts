@@ -189,6 +189,26 @@ export const deleteCoursesDoc = async (id: string) => {
     }
 }
 
+// **************[CATEGORIES DATA FUNCTION HANDLERS]**************
+
+// Retrieves all categories data 
+export const getAllCategories = async () => {
+    const collectionRef = collection(db, 'categories');
+    const q = query(collectionRef);
+
+    try {
+        // Gets documents based on query parameters 
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error fetching course data' , error.code);
+    }
+}
+
 //  **************[USER DATA FUNCTION HANDLERS]**************
 
 // Creates new user doc from authenticated user 
