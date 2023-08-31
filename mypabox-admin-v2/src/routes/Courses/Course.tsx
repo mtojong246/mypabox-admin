@@ -102,7 +102,7 @@ export default function Courses() {
             <div className={`w-full flex justify-between items-start sticky top-0 pt-10 pb-4 bg-white border-b border-[#DCDCDC]`}>
                 <div>
                     <p className='text-5xl font-medium'>Courses</p>
-                    <p className='text-xl mt-2'>Total: {filteredCourses && filteredCourses.length}</p>
+                    <p className='text-xl mt-3'>Total: {filteredCourses && filteredCourses.length}</p>
                 </div>
                 <Link to='/courses/add-course'>
                     <button className={`text-lg border-2 border-[#F06A6A] text-[#F06A6A] rounded-xl py-2 px-4`}>
