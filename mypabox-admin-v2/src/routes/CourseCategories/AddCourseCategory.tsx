@@ -4,10 +4,11 @@ import { selectCourses } from "../../app/selectors/courses.selectors"
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { AiOutlineClose } from 'react-icons/ai';
-import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import { useNavigate } from "react-router-dom";
-import { addCategoryDoc } from "../../utils/firebase/firebase.utils";
+import { addCategoryDoc, addCoursesDoc } from "../../utils/firebase/firebase.utils";
 import { addCategory } from "../../app/slices/categories";
+import { addCourse } from "../../app/slices/courses";
 
 interface SelectType {
     value: string;
@@ -40,7 +41,7 @@ export default function AddCourseCategory() {
         })
     }
 
-    const handleSelection = () => {
+    const handleSelection = async () => {
         const courseToBeAdded = courses.find(course => course.course_name === selection)
         const courseExists = category.courses.find(course => course.course_name === selection)
         if (courseToBeAdded && !courseExists) {
@@ -53,8 +54,29 @@ export default function AddCourseCategory() {
                     subcategory: ''
                 })
             })
-        } else {
-            return;
+        } else if (!courseToBeAdded && !courseExists) {
+            // Add new course if it doesn't already exist in db
+            try {
+                const newCourse = await addCoursesDoc({
+                    unique_id: '',
+                    course_name: selection,
+                    gpa_calculation: '',
+                    subject_category: '',
+                })
+                if (newCourse) {
+                    dispatch(addCourse(newCourse));
+                    setCategory({
+                        ...category,
+                        courses: category.courses.concat({
+                            course_id: newCourse.unique_id,
+                            course_name: newCourse.course_name,
+                            subcategory: ''
+                        })
+                    })
+                }
+            } catch (error: any) {
+                alert(error);
+            }
         }
     }
 
@@ -103,7 +125,7 @@ export default function AddCourseCategory() {
                     <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
                         <label className="absolute top-[-16px] text-xl bg-white">Courses</label>
                         <div className='w-full flex justify-between items-center gap-4'>
-                            <Select className="w-full focus:outline-none rounded-lg"
+                            <CreatableSelect className="w-full focus:outline-none rounded-lg"
                             options={courseOptions} value={{value: selection, label: selection}} onChange={(e) => setSelection((e as {value: '', label: ''}).value)}/>
                             <button onClick={handleSelection} className='w-[64px] h-[36px] border-2 border-[#4573D2] text-[#4573D2] font-medium rounded-md'>Add</button>
                         </div>
