@@ -4,7 +4,7 @@ import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, d
 
 import { School } from "../../types/schools.types";
 import { Course } from "../../types/courses.types";
-import { CategoryType } from "../../types/categories.types";
+import { CategoryCourse, CategoryType } from "../../types/categories.types";
 
 interface AdditionalInfo {
     displayName?: string;
@@ -252,6 +252,27 @@ export const addCourseToCategoryDoc = async (id: string, course: Course) => {
         }
 
         console.log('error adding course to category' , error.code);
+    }
+}
+
+export const addSubToCategoryDoc = async (id: string, sub: string, courses: CategoryCourse[]) => {
+    const docRef = doc(db, 'categories', id);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+
+    try {
+        if (data) {
+            await updateDoc(docRef, {
+                courses: data.courses.concat(courses),
+                subcategories: data.subcategories.concat(sub),
+            })
+        }
+    } catch (error:any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error adding subcategory to category' , error.code);
     }
 }
 
