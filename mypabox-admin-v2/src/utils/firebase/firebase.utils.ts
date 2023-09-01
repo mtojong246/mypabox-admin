@@ -280,7 +280,7 @@ export const deleteCategoryDoc = async (id: string) => {
     const docRef = doc(db, 'categories', id);
 
     try {
-        // Removes course from document 
+        // Removes category from doc
         await deleteDoc(docRef)
     } catch (error: any) {
         if (error.code === 'permission-denied') {
@@ -288,6 +288,26 @@ export const deleteCategoryDoc = async (id: string) => {
         }
 
         console.log('error deleting category' , error.code);
+    }
+}
+
+export const deleteCourseFromCategoryDoc = async (id: string, course_id: string) => {
+    const docRef = doc(db, 'categories', id);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+
+    try {
+        if (data) {
+            await updateDoc(docRef, {
+                courses: data.courses.filter((c: CategoryCourse) => c.course_id !== course_id),
+            })
+        }
+    } catch (error:any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error adding subcategory to category' , error.code);
     }
 }
 

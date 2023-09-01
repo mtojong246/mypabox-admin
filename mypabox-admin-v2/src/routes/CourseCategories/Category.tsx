@@ -2,7 +2,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { FiChevronDown, FiChevronRight } from 'react-icons/fi';
 import { useState } from 'react';
 import Select from 'react-select';
-import { CategoryType } from '../../types/categories.types';
+import { CategoryCourse, CategoryType } from '../../types/categories.types';
 import AddCoursePopup from './AddCoursePopup';
 import AddSubcategoryPopup from './AddSubcategoryPopup';
 import DeleteCategory from './DeleteCategory';
@@ -17,6 +17,7 @@ export default function Category({ category }: { category: CategoryType }) {
     const [ deleteCategory, setDeleteCategory ] = useState(false);
     const [ deleteCourse, setDeleteCourse ] = useState(false);
     const [ deleteSub, setDeleteSub ] = useState(false);
+    const [ selectedCourse, setSelectedCourse ] = useState<CategoryCourse>({} as CategoryCourse)
 
     const toggleCourses = () => setExpandCourses(!expandCourses)
     const toggleSubcategories = () => setExpandSubcategories(!expandSubcategories);
@@ -25,6 +26,11 @@ export default function Category({ category }: { category: CategoryType }) {
     const toggleDeleteCategory = () => setDeleteCategory(!deleteCategory);
     const toggleDeleteCourse = () => setDeleteCourse(!deleteCourse);
     const toggleDeleteSub = () => setDeleteSub(!deleteSub);
+
+    const setCourseToDelete = (course: CategoryCourse) => {
+        setSelectedCourse(course)
+        toggleDeleteCourse();
+    }
 
     return (
         <>
@@ -51,7 +57,7 @@ export default function Category({ category }: { category: CategoryType }) {
                         {category.courses.map((course, i) => (
                             <div className={`flex justify-between items-center py-3 mx-[84px] ${i === 0 ? 'border-none' : 'border-t'} border-[#E5E5E5]`}>
                                 <p>{course.course_name}</p>
-                                <button><AiOutlineClose className='h-[22px] w-[22px] border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={() => setCourseToDelete(course)}><AiOutlineClose className='h-[22px] w-[22px] border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                             </div>
                         ))}
                     </>
@@ -77,7 +83,7 @@ export default function Category({ category }: { category: CategoryType }) {
             {coursePopup && <AddCoursePopup toggleCoursesPopup={toggleCoursesPopup} category={category}/>}
             {subPopup && <AddSubcategoryPopup toggleSubPopup={toggleSubPopup} category={category}/>}
             {deleteCategory && <DeleteCategory toggleDeleteCategory={toggleDeleteCategory} category={category}/>}
-            {deleteCourse && <DeleteCourse />}
+            {deleteCourse && <DeleteCourse toggleDeleteCourse={toggleDeleteCourse} category={category} selectedCourse={selectedCourse}/>}
             {deleteSub && <DeleteSubcategory />}
         </>
     )
