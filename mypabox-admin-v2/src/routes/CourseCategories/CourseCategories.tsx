@@ -1,8 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiChevronDown, FiChevronRight } from 'react-icons/fi'
-import { useState, useEffect } from "react"
-import Select from 'react-select';
+import { useEffect } from "react"
 import { getAllCategories } from "../../utils/firebase/firebase.utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../app/store";
@@ -14,14 +11,9 @@ import Category from "./Category";
 // const mockSubcategories = ['Chemistry', 'Biology']
 
 export default function CourseCategories() {
-    const [ expandCourses, setExpandCourses ] = useState(false);
-    const [ expandSubcategories, setExpandSubcategories ] = useState(false); 
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
     const categories = useSelector(selectCategories);
-
-    const toggleCourses = () => setExpandCourses(!expandCourses)
-    const toggleSubcategories = () => setExpandSubcategories(!expandSubcategories);
 
     useEffect(() => {
 
@@ -45,8 +37,6 @@ export default function CourseCategories() {
         fetchCategories();
     }, [dispatch, navigate])
 
-    console.log(categories);
-
     return (
         <>
         <div className="w-screen px-10 font-['Noto Sans']">
@@ -54,10 +44,10 @@ export default function CourseCategories() {
                 <div className={`w-full flex justify-between items-start sticky top-0 pt-10 pb-10 bg-white`}>
                     <div>
                         <p className='text-5xl font-medium'>Course Categories</p>
-                        <p className='text-xl mt-3'>Total: </p>
+                        <p className='text-xl mt-3'>Total: {categories && categories.length}</p>
                     </div>
                     <Link to='/categories/add-category'>
-                        <button className={`text-lg border-2 border-[#F06A6A] text-[#F06A6A] rounded-xl py-2 px-4`}>
+                        <button className={`text-lg border-2 border-[#F06A6A] text-[#F06A6A] font-medium rounded-xl py-2 px-4`}>
                             + Add Course Category
                         </button>
                     </Link>

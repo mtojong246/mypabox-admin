@@ -4,6 +4,7 @@ import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, d
 
 import { School } from "../../types/schools.types";
 import { Course } from "../../types/courses.types";
+import { CategoryType } from "../../types/categories.types";
 
 interface AdditionalInfo {
     displayName?: string;
@@ -207,6 +208,31 @@ export const getAllCategories = async () => {
 
         console.log('error fetching course data' , error.code);
     }
+}
+
+export const addCategoryDoc = async (data: CategoryType) => {
+    const collectionRef = collection(db, 'categories');
+
+    try {
+        // Adds new doc to collection
+        const newDoc = await addDoc(collectionRef, data);
+        const docRef = doc(db, 'categories', newDoc.id);
+        // Updates doc reference with newly-generated id 
+        await updateDoc(docRef, {
+            id: newDoc.id,
+        })
+        // Grabs and returns doc with updated id 
+        const docSnap = await getDoc(docRef);
+        return docSnap.data();
+
+    } catch (error:any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error adding category' , error.code);
+    }
+
 }
 
 //  **************[USER DATA FUNCTION HANDLERS]**************
