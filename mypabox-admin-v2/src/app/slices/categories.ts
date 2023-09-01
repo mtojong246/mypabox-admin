@@ -42,10 +42,13 @@ const categorySlice = createSlice({
                     return { ...category }
                 }
             })
+        },
+        deleteCategoryObj: (state, action) => {
+            state.categories = state.categories.filter(category => category.id !== action.payload)
         }
     }
 })
 
-export const { setCategories, addCategory, deleteCategory, addCourseToCategory, addSubcategory } = categorySlice.actions;
+export const { setCategories, addCategory, deleteCategory, addCourseToCategory, addSubcategory, deleteCategoryObj } = categorySlice.actions;
 
 export const categoryReducer = categorySlice.reducer;

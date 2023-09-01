@@ -276,6 +276,21 @@ export const addSubToCategoryDoc = async (id: string, sub: string, courses: Cate
     }
 }
 
+export const deleteCategoryDoc = async (id: string) => {
+    const docRef = doc(db, 'categories', id);
+
+    try {
+        // Removes course from document 
+        await deleteDoc(docRef)
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error deleting category' , error.code);
+    }
+}
+
 //  **************[USER DATA FUNCTION HANDLERS]**************
 
 // Creates new user doc from authenticated user 

@@ -5,17 +5,26 @@ import Select from 'react-select';
 import { CategoryType } from '../../types/categories.types';
 import AddCoursePopup from './AddCoursePopup';
 import AddSubcategoryPopup from './AddSubcategoryPopup';
+import DeleteCategory from './DeleteCategory';
+import DeleteCourse from './DeleteCourse';
+import DeleteSubcategory from './DeleteSubcategory';
 
 export default function Category({ category }: { category: CategoryType }) {
     const [ expandCourses, setExpandCourses ] = useState(false);
     const [ expandSubcategories, setExpandSubcategories ] = useState(false); 
     const [ coursePopup, setCoursePopup ] = useState(false);
     const [ subPopup, setSubPopup ] = useState(false);
+    const [ deleteCategory, setDeleteCategory ] = useState(false);
+    const [ deleteCourse, setDeleteCourse ] = useState(false);
+    const [ deleteSub, setDeleteSub ] = useState(false);
 
     const toggleCourses = () => setExpandCourses(!expandCourses)
     const toggleSubcategories = () => setExpandSubcategories(!expandSubcategories);
     const toggleCoursesPopup = () => setCoursePopup(!coursePopup);
     const toggleSubPopup = () => setSubPopup(!subPopup);
+    const toggleDeleteCategory = () => setDeleteCategory(!deleteCategory);
+    const toggleDeleteCourse = () => setDeleteCourse(!deleteCourse);
+    const toggleDeleteSub = () => setDeleteSub(!deleteSub);
 
     return (
         <>
@@ -25,7 +34,7 @@ export default function Category({ category }: { category: CategoryType }) {
                     <div className='flex justify-center items-center gap-3 pr-3 text-sm'>
                         <button onClick={toggleCoursesPopup} className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded-md px-2 py-1'>+ Add course</button>
                         <button onClick={toggleSubPopup} className='border-2 border-[#FF8F0B] text-[#FF8F0B] font-medium rounded-md px-2 py-1'>+ Add subcategory</button>
-                        <button><AiOutlineClose className='h-[32px] w-[32px] border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                        <button onClick={toggleDeleteCategory}><AiOutlineClose className='h-[32px] w-[32px] border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                     </div>
                 </div>
                 <div className='w-full py-3 border-b border-[#E5E5E5]'>
@@ -67,6 +76,9 @@ export default function Category({ category }: { category: CategoryType }) {
             </div>
             {coursePopup && <AddCoursePopup toggleCoursesPopup={toggleCoursesPopup} category={category}/>}
             {subPopup && <AddSubcategoryPopup toggleSubPopup={toggleSubPopup} category={category}/>}
+            {deleteCategory && <DeleteCategory toggleDeleteCategory={toggleDeleteCategory} category={category}/>}
+            {deleteCourse && <DeleteCourse />}
+            {deleteSub && <DeleteSubcategory />}
         </>
     )
 }
