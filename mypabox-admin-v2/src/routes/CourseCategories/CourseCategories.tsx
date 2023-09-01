@@ -6,6 +6,7 @@ import { AppDispatch } from "../../app/store";
 import { setCategories } from "../../app/slices/categories";
 import { selectCategories } from "../../app/selectors/categories.selectors";
 import Category from "./Category";
+import { CategoryType } from "../../types/categories.types";
 
 // const mockCourses = [ 'Abnormal Psychology', 'Adolescent Psychology', 'Behavioral Sciences' ];
 // const mockSubcategories = ['Chemistry', 'Biology']
@@ -21,6 +22,16 @@ export default function CourseCategories() {
             try {
                 const allCategories = await getAllCategories();
                 if (allCategories) {
+                    // Sorts course alphabetically
+                    (allCategories as CategoryType[]).sort(function (a, b) {
+                        if (a.category_name < b.category_name) {
+                            return -1;
+                        }
+                        if (a.category_name > b.category_name) {
+                            return 1;
+                        }
+                        return 0;
+                    })
                     dispatch(setCategories(allCategories));
                 } 
             } catch (error: any) {

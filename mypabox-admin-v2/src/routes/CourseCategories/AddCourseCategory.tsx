@@ -77,6 +77,9 @@ export default function AddCourseCategory() {
             } catch (error: any) {
                 alert(error);
             }
+        } else {
+            alert('Course already exists');
+            return;
         }
     }
 
@@ -126,7 +129,7 @@ export default function AddCourseCategory() {
                         <label className="absolute top-[-16px] text-xl bg-white">Courses</label>
                         <div className='w-full flex justify-between items-center gap-4'>
                             <CreatableSelect className="w-full focus:outline-none rounded-lg"
-                            options={courseOptions} value={{value: selection, label: selection}} onChange={(e) => setSelection((e as {value: '', label: ''}).value)}/>
+                            options={courseOptions} value={selection ? {value: selection, label: selection} : null} onChange={(e) => setSelection((e as {value: '', label: ''}).value)}/>
                             <button onClick={handleSelection} className='w-[64px] h-[36px] border-2 border-[#4573D2] text-[#4573D2] font-medium rounded-md'>Add</button>
                         </div>
                         {category.courses && category.courses.map((course, i) => (

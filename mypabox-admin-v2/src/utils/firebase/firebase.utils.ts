@@ -235,6 +235,26 @@ export const addCategoryDoc = async (data: CategoryType) => {
 
 }
 
+export const addCourseToCategoryDoc = async (id: string, course: Course) => {
+    const docRef = doc(db, 'categories', id);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+
+    try {
+        if (data) {
+            await updateDoc(docRef, {
+                courses: data.courses.concat(course)
+            })
+        }
+    } catch (error:any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error adding course to category' , error.code);
+    }
+}
+
 //  **************[USER DATA FUNCTION HANDLERS]**************
 
 // Creates new user doc from authenticated user 
