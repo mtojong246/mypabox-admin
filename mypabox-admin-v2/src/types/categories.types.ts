@@ -9,7 +9,7 @@ export interface CategoryType {
     id: string;
     category_name: string;
     courses: CategoryCourse[];
-    subcategories: String[];
+    subcategories: string[];
 }
 
 export interface CategoryState {

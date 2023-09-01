@@ -18,6 +18,7 @@ export default function Category({ category }: { category: CategoryType }) {
     const [ deleteCourse, setDeleteCourse ] = useState(false);
     const [ deleteSub, setDeleteSub ] = useState(false);
     const [ selectedCourse, setSelectedCourse ] = useState<CategoryCourse>({} as CategoryCourse)
+    const [ selectedSub, setSelectedSub ] = useState('');
 
     const toggleCourses = () => setExpandCourses(!expandCourses)
     const toggleSubcategories = () => setExpandSubcategories(!expandSubcategories);
@@ -30,6 +31,11 @@ export default function Category({ category }: { category: CategoryType }) {
     const setCourseToDelete = (course: CategoryCourse) => {
         setSelectedCourse(course)
         toggleDeleteCourse();
+    }
+
+    const setSubToDelete = (sub: string) => {
+        setSelectedSub(sub);
+        toggleDeleteSub();
     }
 
     return (
@@ -73,7 +79,7 @@ export default function Category({ category }: { category: CategoryType }) {
                         {category.subcategories.map((sub, i) => (
                             <div className={`flex justify-between items-center pb-3 mx-[84px] ${i === 0 ? 'border-none pt-4' : 'border-t pt-3'} border-[#E5E5E5]`}>
                                 <p>{sub}</p>
-                                <button><AiOutlineClose className='h-[22px] w-[22px] border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={() => setSubToDelete(sub)}><AiOutlineClose className='h-[22px] w-[22px] border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                             </div>
                         ))}
                     </>
@@ -84,7 +90,7 @@ export default function Category({ category }: { category: CategoryType }) {
             {subPopup && <AddSubcategoryPopup toggleSubPopup={toggleSubPopup} category={category}/>}
             {deleteCategory && <DeleteCategory toggleDeleteCategory={toggleDeleteCategory} category={category}/>}
             {deleteCourse && <DeleteCourse toggleDeleteCourse={toggleDeleteCourse} category={category} selectedCourse={selectedCourse}/>}
-            {deleteSub && <DeleteSubcategory />}
+            {deleteSub && <DeleteSubcategory toggleDeleteSub={toggleDeleteSub} category={category} selectedSub={selectedSub} />}
         </>
     )
 }

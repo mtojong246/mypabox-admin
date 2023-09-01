@@ -307,7 +307,24 @@ export const deleteCourseFromCategoryDoc = async (id: string, course_id: string)
             throw new Error(error.code);
         }
 
-        console.log('error adding subcategory to category' , error.code);
+        console.log('error deleting course from category' , error.code);
+    }
+}
+
+export const deleteSubFromCategoryDoc = async (id: string, courses: CategoryCourse[], subs: string[]) => {
+    const docRef = doc(db, 'categories', id);
+
+    try {
+        await updateDoc(docRef, {
+            courses: courses,
+            subcategories: subs,
+        })
+    } catch (error:any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error delete subcategory from category' , error.code);
     }
 }
 
