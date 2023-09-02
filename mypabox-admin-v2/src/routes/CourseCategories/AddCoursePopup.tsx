@@ -33,18 +33,16 @@ export default function AddCoursePopup({toggleCoursesPopup, category} : { toggle
             const courseId = courseToBeAdded.unique_id;
             try {
                 await addCourseToCategoryDoc(category.id, {
-                    unique_id: courseId,
+                    course_id: courseId,
                     course_name: selection,
-                    gpa_calculation: '',
-                    subject_category: '',
+                    subcategory: ''
                 })
                 dispatch(addCourseToCategory({
                     id: category.id,
                     course: {
-                        unique_id: courseId,
+                        course_id: courseId,
                         course_name: selection,
-                        gpa_calculation: '',
-                        subject_category: '',
+                        subcategory: ''
                     }
                 }))
                 toggleCoursesPopup();
@@ -63,18 +61,16 @@ export default function AddCoursePopup({toggleCoursesPopup, category} : { toggle
                 if (newCourse) {
                     dispatch(addCourse(newCourse));
                     await addCourseToCategoryDoc(category.id, {
-                        unique_id: newCourse.unique_id,
+                        course_id: newCourse.unique_id,
                         course_name: selection,
-                        gpa_calculation: '',
-                        subject_category: '',
+                        subcategory: ''
                     })
                     dispatch(addCourseToCategory({
                         id: category.id,
                         course: {
-                            unique_id: newCourse.unique_id,
+                            course_id: newCourse.unique_id,
                             course_name: selection,
-                            gpa_calculation: '',
-                            subject_category: '',
+                            subcategory: ''
                         }
                     }))
                     toggleCoursesPopup();
@@ -87,6 +83,8 @@ export default function AddCoursePopup({toggleCoursesPopup, category} : { toggle
             return;
         }
     }
+
+    console.log(category)
 
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>

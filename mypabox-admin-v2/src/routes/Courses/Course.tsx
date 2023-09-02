@@ -97,7 +97,7 @@ export default function Courses() {
 
     return (
     <>
-    <div className="w-screen px-10 font-['Noto Sans']">
+    <div className="w-screen px-10 pb-10 font-['Noto Sans']">
       <div className='w-full max-w-[1800px] mx-auto'>
             <div className={`w-full flex justify-between items-start sticky top-0 pt-10 pb-4 bg-white border-b border-[#DCDCDC]`}>
                 <div>

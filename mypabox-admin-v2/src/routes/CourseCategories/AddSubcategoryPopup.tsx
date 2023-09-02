@@ -30,6 +30,7 @@ export default function AddSubcategoryPopup({toggleSubPopup, category} : { toggl
     const handleSelect = async () => {
         const categoryExists = category.subcategories.find(cat => cat === selection);
         const subcategory = categories.find(category => category.category_name === selection);
+        
         if (!categoryExists && subcategory) {
             try {
                 let newCourses: CategoryCourse[] = [];

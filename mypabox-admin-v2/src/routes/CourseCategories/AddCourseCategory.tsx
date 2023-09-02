@@ -109,6 +109,8 @@ export default function AddCourseCategory() {
             }
         }
     }
+
+    console.log(category)
  
     return (
         <div className="w-screen p-10 font-['Noto Sans']">

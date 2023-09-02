@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, deleteDoc, addDoc, updateDoc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, deleteDoc, addDoc, updateDoc, arrayUnion } from 'firebase/firestore'
 
 import { School } from "../../types/schools.types";
 import { Course } from "../../types/courses.types";
@@ -235,7 +235,7 @@ export const addCategoryDoc = async (data: CategoryType) => {
 
 }
 
-export const addCourseToCategoryDoc = async (id: string, course: Course) => {
+export const addCourseToCategoryDoc = async (id: string, course: CategoryCourse) => {
     const docRef = doc(db, 'categories', id);
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
@@ -260,19 +260,21 @@ export const addSubToCategoryDoc = async (id: string, sub: string, courses: Cate
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
 
+    console.log(courses)
+   
+
     try {
         if (data) {
             await updateDoc(docRef, {
-                courses: data.courses.concat(courses),
-                subcategories: data.subcategories.concat(sub),
+                courses: arrayUnion(...courses),
+                subcategories: data.subcategories.concat([sub]),
             })
         }
     } catch (error:any) {
         if (error.code === 'permission-denied') {
             throw new Error(error.code);
         }
-
-        console.log('error adding subcategory to category' , error.code);
+        console.log('error adding subcategory to category' , error);
     }
 }
 

@@ -1,6 +1,6 @@
 import { AiOutlineClose } from 'react-icons/ai';
 import { FiChevronDown, FiChevronRight } from 'react-icons/fi';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { CategoryCourse, CategoryType } from '../../types/categories.types';
 import AddCoursePopup from './AddCoursePopup';
@@ -8,6 +8,11 @@ import AddSubcategoryPopup from './AddSubcategoryPopup';
 import DeleteCategory from './DeleteCategory';
 import DeleteCourse from './DeleteCourse';
 import DeleteSubcategory from './DeleteSubcategory';
+
+interface SelectType {
+    value: string;
+    label: string
+}
 
 export default function Category({ category }: { category: CategoryType }) {
     const [ expandCourses, setExpandCourses ] = useState(false);
@@ -19,6 +24,25 @@ export default function Category({ category }: { category: CategoryType }) {
     const [ deleteSub, setDeleteSub ] = useState(false);
     const [ selectedCourse, setSelectedCourse ] = useState<CategoryCourse>({} as CategoryCourse)
     const [ selectedSub, setSelectedSub ] = useState('');
+    const [ filteredCourses, setFilteredCourses ] = useState<CategoryCourse[]>([] as CategoryCourse[])
+    const [ filterOptions, setFilterOptions ] = useState<SelectType[]>([]);
+    const [ filter, setFilter ] = useState('All');
+
+    useEffect(() => {
+        if (filter === 'All') {
+            setFilteredCourses(category.courses)
+        } else {
+            setFilteredCourses(category.courses.filter(c => c.subcategory === filter))
+        }
+    }, [filter, category.courses])
+
+
+    useEffect(() => {
+        const options = category.subcategories.map(sub => (
+            { value: sub, label: sub }
+        ))
+        setFilterOptions(options.concat({ value: 'All', label: 'All' }))
+    }, [category.subcategories])
 
     const toggleCourses = () => setExpandCourses(!expandCourses)
     const toggleSubcategories = () => setExpandSubcategories(!expandSubcategories);
@@ -58,9 +82,9 @@ export default function Category({ category }: { category: CategoryType }) {
                     <>
                         <div className='flex justify-start items-center gap-3 pl-9 pb-3 pt-5'>
                             <p>Filter</p>
-                            <Select />
+                            <Select options={filterOptions} value={{ value: filter, label: filter }} onChange={(e) => setFilter((e as {value: '', label: ''}).value)}/>
                         </div>
-                        {category.courses.map((course, i) => (
+                        {filteredCourses && filteredCourses.map((course, i) => (
                             <div className={`flex justify-between items-center py-3 mx-[84px] ${i === 0 ? 'border-none' : 'border-t'} border-[#E5E5E5]`}>
                                 <p>{course.course_name}</p>
                                 <button onClick={() => setCourseToDelete(course)}><AiOutlineClose className='h-[22px] w-[22px] border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
