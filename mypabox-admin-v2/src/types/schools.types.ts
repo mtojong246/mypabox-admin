@@ -47,6 +47,54 @@ export interface PreviousCycle {
     average_prerequisite_gpa_accepted_previous_year: NumberInput;
 }
 
+export interface SchoolPrereqRequiredCourse {
+    school_required_course_id: string;
+    school_required_course_lab: boolean;
+    school_required_course_lab_preferred: boolean;
+    school_required_course_credit_hours: number;
+    school_required_course_quarter_hours: number;
+    school_required_course_note_section: string;
+}
+
+export interface SchoolRequiredOptionalCourse {
+    school_optional_course_id: string;
+    school_optional_course_lab: boolean;
+    school_optional_course_lab_preferred: boolean;
+    school_optional_course_credit_hours: number;
+    school_optional_course_quarter_hours: number;
+}
+
+export interface SchoolPrereqRequiredOptionalCourse {
+    school_minimum_number_of_courses_to_be_completed: number;
+    school_required_optional_courses_list: SchoolRequiredOptionalCourse[];
+    school_optional_course_note_section: Note[];
+}
+
+export interface SchoolPrereqRequiredCourseCategory {
+    school_required_course_category: string;
+    school_required_course_category_number_of_credits_need_to_be_completed: number;
+    school_required_course_category_number_of_quarter_hours_need_to_be_completed: number;
+    school_required_course_category_number_of_courses_that_need_lab: number;
+    school_required_course_category_extra_included_courses: {
+        school_required_course_id: string;
+        school_required_course_note: string;
+    }[],
+    school_required_course_category_excluded_courses: {
+        school_required_course_id: string;
+        school_required_course_note: string;
+    }[],
+    school_required_course_category_note_section: Note[];
+}
+
+export interface SchoolPrereqRecommendedCourse {
+    school_recommended_course_id: string;
+    school_recommended_course_lab: boolean;
+    school_recommended_course_lab_preferred: boolean;
+    school_recommended_credit_hours: number;
+    school_recommended_quarter_hours: number;
+    school_recommended_note_section: string;
+}
+
 export interface School {
     id: number;
     school_name: StringInput;
@@ -119,6 +167,11 @@ export interface School {
     }
 
     school_gpa_general_note: string;
+
+    school_prereq_required_courses: SchoolPrereqRequiredCourse[];
+    school_prereq_required_optional_courses: SchoolPrereqRequiredOptionalCourse[];
+    school_prereq_required_course_categories: SchoolPrereqRequiredCourseCategory[];
+    school_prereq_recommended_courses: SchoolPrereqRecommendedCourse[];
 
 }
 
