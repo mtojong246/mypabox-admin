@@ -24,24 +24,38 @@ export default function Category({ category }: { category: CategoryType }) {
     const [ deleteSub, setDeleteSub ] = useState(false);
     const [ selectedCourse, setSelectedCourse ] = useState<CategoryCourse>({} as CategoryCourse)
     const [ selectedSub, setSelectedSub ] = useState('');
+    const [ sortedSubs, setSortedSubs ] = useState<string[]>([])
     const [ filteredCourses, setFilteredCourses ] = useState<CategoryCourse[]>([] as CategoryCourse[])
     const [ filterOptions, setFilterOptions ] = useState<SelectType[]>([]);
     const [ filter, setFilter ] = useState('All');
 
     useEffect(() => {
+        const sortedCourses = [...category.courses]
+        sortedCourses.sort(function (a, b) {
+            if (a.course_name < b.course_name) {
+                return -1;
+            }
+            if (a.course_name > b.course_name) {
+                return 1;
+            }
+            return 0;
+        })
         if (filter === 'All') {
-            setFilteredCourses(category.courses)
+            setFilteredCourses(sortedCourses)
         } else {
-            setFilteredCourses(category.courses.filter(c => c.subcategory === filter))
+            setFilteredCourses(sortedCourses.filter(c => c.subcategory === filter))
         }
     }, [filter, category.courses])
 
 
     useEffect(() => {
-        const options = category.subcategories.map(sub => (
+        const sorted = [...category.subcategories]
+        sorted.sort()
+        const options = sorted.map(sub => (
             { value: sub, label: sub }
         ))
         setFilterOptions(options.concat({ value: 'All', label: 'All' }))
+        setSortedSubs(sorted)
     }, [category.subcategories])
 
     const toggleCourses = () => setExpandCourses(!expandCourses)
@@ -100,7 +114,7 @@ export default function Category({ category }: { category: CategoryType }) {
                     </div>
                     {expandSubcategories && (
                     <>
-                        {category.subcategories.map((sub, i) => (
+                        {sortedSubs && sortedSubs.map((sub, i) => (
                             <div className={`flex justify-between items-center pb-3 mx-[84px] ${i === 0 ? 'border-none pt-4' : 'border-t pt-3'} border-[#E5E5E5]`}>
                                 <p>{sub}</p>
                                 <button onClick={() => setSubToDelete(sub)}><AiOutlineClose className='h-[22px] w-[22px] border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>

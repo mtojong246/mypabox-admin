@@ -1,4 +1,5 @@
 import { CategoryType } from "../../types/categories.types";
+import { Course } from "../../types/courses.types";
 import CreatableSelect from 'react-select/creatable';
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,6 +8,7 @@ import { selectCourses } from "../../app/selectors/courses.selectors";
 import { addCoursesDoc, addCourseToCategoryDoc } from "../../utils/firebase/firebase.utils";
 import { addCourse } from "../../app/slices/courses";
 import { addCourseToCategory } from "../../app/slices/categories";
+import AddNewCourse from "./AddNewCourse";
 
 interface SelectType {
     value: string;
@@ -18,6 +20,14 @@ export default function AddCoursePopup({toggleCoursesPopup, category} : { toggle
     const courses = useSelector(selectCourses);
     const [ courseOptions, setCourseOptions ] = useState<SelectType[]>([])
     const [ selection, setSelection ] = useState('');
+    const [ newCourse, setNewCourse ] = useState<Course>({
+        unique_id: '',
+        course_name: '',
+        gpa_calculation: '',
+        subject_category: '',
+    })
+    const [ newCoursePopup, setNewCoursePopup ] = useState(false);
+    const toggleNewCourse = () => setNewCoursePopup(!newCoursePopup);
 
     useEffect(() => {
         setCourseOptions(courses.map(course => (
@@ -51,54 +61,34 @@ export default function AddCoursePopup({toggleCoursesPopup, category} : { toggle
             }
         } else if (!courseToBeAdded && !courseExists) {
             // Add new course if it doesn't already exist in db
-            try {
-                const newCourse = await addCoursesDoc({
-                    unique_id: '',
-                    course_name: selection,
-                    gpa_calculation: '',
-                    subject_category: '',
-                })
-                if (newCourse) {
-                    dispatch(addCourse(newCourse));
-                    await addCourseToCategoryDoc(category.id, {
-                        course_id: newCourse.unique_id,
-                        course_name: selection,
-                        subcategory: ''
-                    })
-                    dispatch(addCourseToCategory({
-                        id: category.id,
-                        course: {
-                            course_id: newCourse.unique_id,
-                            course_name: selection,
-                            subcategory: ''
-                        }
-                    }))
-                    toggleCoursesPopup();
-                }
-            } catch (error: any) {
-                alert(error);
-            }
+            setNewCourse({
+                ...newCourse,
+                course_name: selection,
+            })
+            toggleNewCourse();
         } else {
             alert('Course already exists');
             return;
         }
     }
 
-    console.log(category)
-
     return (
-        <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
-            <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
-                <div className='w-full max-w-[900px] rounded-lg p-4 bg-white'>
-                    <p className='text-lg font-medium mb-4'>Add course to "{category.category_name}"</p>
-                    <CreatableSelect className="w-full focus:outline-none rounded-lg mb-4"
-                    options={courseOptions} value={selection ? {value: selection, label: selection} : null} onChange={(e) => setSelection((e as {value: '', label: ''}).value)}/>
-                    <div className='w-full flex justify-end items-center gap-3'>
-                        <button onClick={toggleCoursesPopup} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
-                        <button onClick={handleSelection} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>Add course</button>
+        <>
+            <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
+                <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
+                    <div className='relative w-full max-w-[900px] rounded-lg p-4 bg-white'>
+                        {newCoursePopup && <div className='absolute bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0'></div>}
+                        <p className='text-lg font-medium mb-4'>Add course to "{category.category_name}"</p>
+                        <CreatableSelect className="w-full focus:outline-none rounded-lg mb-4"
+                        options={courseOptions} value={selection ? {value: selection, label: selection} : null} onChange={(e) => setSelection((e as {value: '', label: ''}).value)}/>
+                        <div className='w-full flex justify-end items-center gap-3'>
+                            <button onClick={toggleCoursesPopup} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
+                            <button onClick={handleSelection} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>Add course</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            {newCoursePopup && <AddNewCourse newCourse={newCourse} setNewCourse={setNewCourse} toggleNewCourse={toggleNewCourse} category={category} toggleCoursesPopup={toggleCoursesPopup}/>}
+        </>
     )
 }

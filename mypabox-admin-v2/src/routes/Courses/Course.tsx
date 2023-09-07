@@ -57,7 +57,17 @@ export default function Courses() {
 
     useEffect(() => {
         if (!filtered.length) {
-            setFilteredCourses(courses);
+            const sortedCourses = [...courses]
+            sortedCourses.sort(function (a, b) {
+                if (a.course_name < b.course_name) {
+                    return -1;
+                }
+                if (a.course_name > b.course_name) {
+                    return 1;
+                }
+                return 0;
+            })
+            setFilteredCourses(sortedCourses);
         } else {
             setFilteredCourses(filtered)
         }

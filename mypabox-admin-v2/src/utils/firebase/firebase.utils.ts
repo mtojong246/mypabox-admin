@@ -259,9 +259,7 @@ export const addSubToCategoryDoc = async (id: string, sub: string, courses: Cate
     const docRef = doc(db, 'categories', id);
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
-
-    console.log(courses)
-   
+  
 
     try {
         if (data) {
