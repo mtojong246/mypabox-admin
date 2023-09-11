@@ -1,4 +1,4 @@
-import { School } from "../../../../types/schools.types"
+import { School, SchoolPrereqRecommendedCourse } from "../../../../types/schools.types"
 import { useSelector } from "react-redux"
 import { selectCourses } from "../../../../app/selectors/courses.selectors"
 import { FiEdit3 } from 'react-icons/fi'
@@ -6,7 +6,9 @@ import { AiOutlineClose } from 'react-icons/ai'
 import ReactQuill from "react-quill";
 import { Dispatch, SetStateAction } from "react"
 
-export default function RecommendedCourses({ toggleRecommendedCourses, newSchool, setNewSchool }: { toggleRecommendedCourses: (e:any) => void, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+export default function RecommendedCourses({ toggleRecommendedCourses, newSchool, setNewSchool, setEditedRecommendedCourse }: { toggleRecommendedCourses: (e:any) => void, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>,
+    setEditedRecommendedCourse: Dispatch<SetStateAction<SchoolPrereqRecommendedCourse | null>>
+}) {
     const courses = useSelector(selectCourses);
 
     const deleteCourse = (e:any, index: number) => {
@@ -39,7 +41,7 @@ export default function RecommendedCourses({ toggleRecommendedCourses, newSchool
                                     </span>
                                 </p>
                                 <div className='flex gap-2'>
-                                    <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                    <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(course)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
                                     <button onClick={(e) => deleteCourse(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>

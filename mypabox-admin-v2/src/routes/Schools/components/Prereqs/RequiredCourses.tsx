@@ -7,7 +7,7 @@ import { School, SchoolPrereqRequiredCourse } from "../../../../types/schools.ty
 import { Dispatch, SetStateAction } from "react";
 
 export default function RequiredCourses({ toggleRequiredCourses, newSchool, setNewSchool, setEditedRequiredCourse }: { toggleRequiredCourses: (e: any) => void, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>,
-    setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse>>,
+    setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse | null>>,
 }) {
     const courses = useSelector(selectCourses)
 

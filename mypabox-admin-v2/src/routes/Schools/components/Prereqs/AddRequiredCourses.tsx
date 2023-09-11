@@ -15,8 +15,8 @@ const defaultCourse = {
 }
 
 export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredCourse, updateRequiredCourse, editedRequiredCourse, setEditedRequiredCourse }: { toggleRequiredCourses: (e:any) => void, addRequiredCourse: (course: SchoolPrereqRequiredCourse) => void,
-    editedRequiredCourse: SchoolPrereqRequiredCourse,
-    setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse>>,
+    editedRequiredCourse: SchoolPrereqRequiredCourse | null,
+    setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse | null>>,
     updateRequiredCourse: (course: SchoolPrereqRequiredCourse) => void,
 }) {
     const courses = useSelector(selectCourses)
@@ -43,10 +43,13 @@ export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredC
     }, [selection, courses])
 
     useEffect(() => {
-        const selectedCourse = courses.find(course => course.unique_id === editedRequiredCourse.school_required_course_id)
-        if (editedRequiredCourse && selectedCourse) {
-            setRequiredCourse(editedRequiredCourse);
-            setSelection(selectedCourse.course_name)
+        
+        if (editedRequiredCourse) {
+            const selectedCourse = courses.find(course => course.unique_id === editedRequiredCourse.school_required_course_id)
+            if (selectedCourse) {
+                setRequiredCourse(editedRequiredCourse);
+                setSelection(selectedCourse.course_name)
+            }
         } else {
             setRequiredCourse(defaultCourse)
             setSelection('')
@@ -84,15 +87,14 @@ export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredC
         toggleRequiredCourses(e);
         if (editedRequiredCourse) {
             updateRequiredCourse(requiredCourse);
-            setEditedRequiredCourse({} as SchoolPrereqRequiredCourse)
+            setEditedRequiredCourse(null)
         } else {
             addRequiredCourse(requiredCourse);
-            setEditedRequiredCourse({} as SchoolPrereqRequiredCourse)
+            setEditedRequiredCourse(null)
         }
     }
 
-    console.log(requiredCourse)
-
+    console.log(editedRequiredCourse)
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
@@ -125,7 +127,7 @@ export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredC
                         <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={requiredCourse.school_required_course_note_section}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
-                        <button onClick={(e) => {toggleRequiredCourses(e); setEditedRequiredCourse({} as SchoolPrereqRequiredCourse)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
+                        <button onClick={(e) => {toggleRequiredCourses(e); setEditedRequiredCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
                         <button onClick={(e) => addOrEditCourse(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>{editedRequiredCourse ? 'Edit' : 'Add'} course</button>
                     </div>
                 </div>
