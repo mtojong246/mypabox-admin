@@ -1,6 +1,6 @@
 import Select from 'react-select';
 import ReactQuill from "react-quill";
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
 import { SchoolPrereqRequiredCourse } from '../../../../types/schools.types';
@@ -14,10 +14,14 @@ const defaultCourse = {
     school_required_course_note_section: '',
 }
 
-export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredCourse }: { toggleRequiredCourses: (e:any) => void, addRequiredCourse: (course: SchoolPrereqRequiredCourse) => void }) {
+export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredCourse, updateRequiredCourse, editedRequiredCourse, setEditedRequiredCourse }: { toggleRequiredCourses: (e:any) => void, addRequiredCourse: (course: SchoolPrereqRequiredCourse) => void,
+    editedRequiredCourse: SchoolPrereqRequiredCourse,
+    setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse>>,
+    updateRequiredCourse: (course: SchoolPrereqRequiredCourse) => void,
+}) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
-    const [ requiredCourse, setRequiredCourse ] = useState<SchoolPrereqRequiredCourse>(defaultCourse);
+    const [ requiredCourse, setRequiredCourse ] = useState<SchoolPrereqRequiredCourse>({} as SchoolPrereqRequiredCourse);
     const [ selection, setSelection ] = useState<string | undefined>('');
 
     useEffect(() => {
@@ -38,6 +42,17 @@ export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredC
         }
     }, [selection, courses])
 
+    useEffect(() => {
+        const selectedCourse = courses.find(course => course.unique_id === editedRequiredCourse.school_required_course_id)
+        if (editedRequiredCourse && selectedCourse) {
+            setRequiredCourse(editedRequiredCourse);
+            setSelection(selectedCourse.course_name)
+        } else {
+            setRequiredCourse(defaultCourse)
+            setSelection('')
+        }
+    }, [editedRequiredCourse, courses])
+
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         setRequiredCourse({
             ...requiredCourse,
@@ -53,28 +68,47 @@ export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredC
     }
 
     const handleNote = (e: any) => {
+        let note = '';
+        if (e === '<p><br></p>') {
+            note = '';
+        } else {
+            note = e
+        }
         setRequiredCourse({
             ...requiredCourse,
-            school_required_course_note_section: e,
+            school_required_course_note_section: note,
         })
     }
+
+    const addOrEditCourse = (e:any) => {
+        toggleRequiredCourses(e);
+        if (editedRequiredCourse) {
+            updateRequiredCourse(requiredCourse);
+            setEditedRequiredCourse({} as SchoolPrereqRequiredCourse)
+        } else {
+            addRequiredCourse(requiredCourse);
+            setEditedRequiredCourse({} as SchoolPrereqRequiredCourse)
+        }
+    }
+
+    console.log(requiredCourse)
 
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                 <div className='w-full max-w-[900px] rounded-lg p-4 bg-white'>
-                    <p className='text-xl font-semibold mb-8'>Add Required Course</p>
+                    <p className='text-xl font-semibold mb-8'>{editedRequiredCourse ? 'Edit' : 'Add'} Required Course</p>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
                         <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} className='w-full focus:outline-none rounded mt-2' options={courseOptions}/>
                     </div>
                     <div className='w-full mb-8 flex justify-start items-center gap-10'>
                         <div>
-                            <input type='checkbox' name='school_required_course_lab' className='mr-2' onChange={handleCheck}/>
+                            <input type='checkbox' name='school_required_course_lab' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab ? true : false}/>
                             <label className='font-medium'>With Lab</label>
                         </div>
                         <div>
-                            <input type='checkbox' name='school_required_course_lab_preferred' className='mr-2' onChange={handleCheck}/>
+                            <input type='checkbox' name='school_required_course_lab_preferred' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab_preferred ? true : false}/>
                             <label className='font-medium'>Lab Preferred</label>
                         </div>
                     </div>
@@ -88,11 +122,11 @@ export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredC
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>
-                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote}/>
+                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={requiredCourse.school_required_course_note_section}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
-                        <button onClick={toggleRequiredCourses} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
-                        <button onClick={(e) => { toggleRequiredCourses(e); addRequiredCourse(requiredCourse) }} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>Add course</button>
+                        <button onClick={(e) => {toggleRequiredCourses(e); setEditedRequiredCourse({} as SchoolPrereqRequiredCourse)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
+                        <button onClick={(e) => addOrEditCourse(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>{editedRequiredCourse ? 'Edit' : 'Add'} course</button>
                     </div>
                 </div>
             </div>
