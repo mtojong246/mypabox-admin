@@ -1,7 +1,6 @@
 import Select from 'react-select';
 import ReactQuill from "react-quill";
-import { Dispatch, SetStateAction, useState, useEffect, ChangeEvent } from 'react';
-import { School } from '../../../../types/schools.types';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
 import { SchoolPrereqRequiredCourse } from '../../../../types/schools.types';
@@ -15,7 +14,7 @@ const defaultCourse = {
     school_required_course_note_section: '',
 }
 
-export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredCourse }: { toggleRequiredCourses: () => void, addRequiredCourse: (course: SchoolPrereqRequiredCourse) => void }) {
+export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredCourse }: { toggleRequiredCourses: (e:any) => void, addRequiredCourse: (course: SchoolPrereqRequiredCourse) => void }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
     const [ requiredCourse, setRequiredCourse ] = useState<SchoolPrereqRequiredCourse>(defaultCourse);
@@ -93,7 +92,7 @@ export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredC
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={toggleRequiredCourses} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
-                        <button onClick={() => { toggleRequiredCourses(); addRequiredCourse(requiredCourse) }} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>Add course</button>
+                        <button onClick={(e) => { toggleRequiredCourses(e); addRequiredCourse(requiredCourse) }} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>Add course</button>
                     </div>
                 </div>
             </div>

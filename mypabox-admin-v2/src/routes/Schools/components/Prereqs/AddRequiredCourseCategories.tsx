@@ -1,6 +1,6 @@
 import Select from 'react-select';
 
-export default function AddRequiredCourseCategories({ toggleRequiredCourseCategories }: { toggleRequiredCourseCategories: () => void }) {
+export default function AddRequiredCourseCategories({ toggleRequiredCourseCategories }: { toggleRequiredCourseCategories: (e:any) => void }) {
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
