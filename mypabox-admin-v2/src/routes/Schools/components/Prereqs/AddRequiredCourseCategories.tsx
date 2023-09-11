@@ -10,7 +10,7 @@ import ReactQuill from 'react-quill';
 import AddNote from './AddNote';
 import AddIncludedOrExcludedCourses from './AddIncludedOrExcludedCourses';
 
-interface Course {
+interface CourseType {
     school_required_course_id: string;
     school_required_course_note: string;
 }
@@ -77,7 +77,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
         })
     }
     
-    const addCourseToCategory = (course: Course, excluded: boolean) => {
+    const addCourseToCategory = (course: CourseType, excluded: boolean) => {
         if (excluded) {
             setRequiredCategory({
                 ...requiredCategory,
@@ -92,12 +92,47 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
     }
 
     const openExcludedCourse = (e:any) => {
+        e.preventDefault();
         if (requiredCategory.school_required_course_category) {
             toggleCoursePopup(e); 
             setExcluded(true)
         } else {
             alert('Please select a category')
         }
+    }
+
+    const openIncludedCourse = (e: any) => {
+        e.preventDefault();
+        if (requiredCategory.school_required_course_category) {
+            toggleCoursePopup(e);
+            setExcluded(false)
+        } else {
+            alert('Please select a category')
+        }
+    }
+
+    const deleteCourse = (e: any, index: number, excluded: boolean) => {
+        e.preventDefault();
+
+        if (excluded) {
+            setRequiredCategory({
+                ...requiredCategory,
+                school_required_course_category_excluded_courses: requiredCategory.school_required_course_category_excluded_courses.filter((course, i) => i !== index)
+            })
+        } else {
+            setRequiredCategory({
+                ...requiredCategory,
+                school_required_course_category_extra_included_courses: requiredCategory.school_required_course_category_extra_included_courses.filter((course, i) => i !== index)
+            })
+        }
+    }
+
+    const deleteNote = (e: any, index: number) => {
+        e.preventDefault();
+        setRequiredCategory({
+            ...requiredCategory,
+            school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.filter((course,i) => i !== index)
+        })
     }
 
     return (
@@ -127,11 +162,11 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
 
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Included courses:</label>
-                            <button onClick={(e) => {toggleCoursePopup(e); setExcluded(false)}} className="block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded-md px-4 py-3 hover:text-white hover:bg-[#F06A6A]">
+                            <button onClick={(e) => openIncludedCourse(e)} className="block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded-md px-4 py-3 hover:text-white hover:bg-[#F06A6A]">
                                 Add Course
                             </button>
                             <div className={`flex flex-col justify-center items-center gap-3 ${requiredCategory.school_required_course_category_extra_included_courses.length ? 'mt-3' : 'mt-0'}`}>
-                            {requiredCategory.school_required_course_category_extra_included_courses.map(course => {
+                            {requiredCategory.school_required_course_category_extra_included_courses.map((course, i) => {
                                 const selectedCourse = courses.find(c => c.unique_id === course.school_required_course_id);
                                 if (selectedCourse) {
                                     return (
@@ -140,7 +175,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                                 <p className='font-bold'>{selectedCourse?.course_name}</p>
                                                 <div className='flex gap-2'>
                                                     <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                                    <button><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                                    <button onClick={(e) => deleteCourse(e, i, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
                                             {course.school_required_course_note ? (
@@ -165,7 +200,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                 Add Course
                             </button>
                             <div className={`flex flex-col justify-center items-center gap-3 ${requiredCategory.school_required_course_category_excluded_courses.length ? 'mt-3' : 'mt-0'}`}>
-                            {requiredCategory.school_required_course_category_excluded_courses.map(course => {
+                            {requiredCategory.school_required_course_category_excluded_courses.map((course, i) => {
                                 const selectedCourse = courses.find(c => c.unique_id === course.school_required_course_id);
                                 if (selectedCourse) {
                                     return (
@@ -174,7 +209,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                                 <p className='font-bold'>{selectedCourse?.course_name}</p>
                                                 <div className='flex gap-2'>
                                                     <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                                    <button><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                                    <button onClick={(e) => deleteCourse(e, i, true)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
                                             {course.school_required_course_note ? (
@@ -199,13 +234,13 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                 Add Note
                             </button>
                             <div className={`flex flex-col justify-center items-center gap-3 ${requiredCategory.school_required_course_category_note_section.length ? 'mt-3' : 'mt-0'}`}>
-                            {requiredCategory.school_required_course_category_note_section.map(note => (
+                            {requiredCategory.school_required_course_category_note_section.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
                                             <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

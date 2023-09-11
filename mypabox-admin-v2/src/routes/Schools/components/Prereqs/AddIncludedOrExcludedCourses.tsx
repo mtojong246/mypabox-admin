@@ -4,8 +4,9 @@ import { selectCourses } from "../../../../app/selectors/courses.selectors";
 import { selectCategories } from "../../../../app/selectors/categories.selectors";
 import Select from 'react-select';
 import ReactQuill from "react-quill";
+import { Course } from "../../../../types/courses.types";
 
-interface Course {
+interface CourseType {
     school_required_course_id: string;
     school_required_course_note: string;
 }
@@ -15,11 +16,11 @@ const defaultCourse = {
     school_required_course_note: '',
 }
 
-export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, excluded, category, addCourseToCategory }: { toggleCoursePopup: (e: any) => void, excluded: boolean, category: string, addCourseToCategory: (course: Course, excluded: boolean) => void, }) {
+export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, excluded, category, addCourseToCategory }: { toggleCoursePopup: (e: any) => void, excluded: boolean, category: string, addCourseToCategory: (course: CourseType, excluded: boolean) => void, }) {
     const courses = useSelector(selectCourses);
     const categories = useSelector(selectCategories);
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
-    const [ addedCourse, setAddedCourse ] = useState<Course>(defaultCourse);
+    const [ addedCourse, setAddedCourse ] = useState<CourseType>(defaultCourse);
     const [ selection, setSelection ] = useState<string | undefined>('');
 
     useEffect(() => {
@@ -28,8 +29,14 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
             setCourseOptions(selectedCategory.courses.map(course => (
                 { value: course.course_name, label: course.course_name }
             )))
-        } else {
-            setCourseOptions(courses.map(course => (
+        } else if (selectedCategory && !excluded) {
+            let filteredCourses = [] as Course[]
+            courses.forEach(course => {
+                if (!selectedCategory.courses.find(c => c.course_id === course.unique_id)) {
+                    filteredCourses.push(course)
+                }
+            })
+            setCourseOptions(filteredCourses.map(course => (
                 { value: course.course_name, label: course.course_name }
             )))
         }
