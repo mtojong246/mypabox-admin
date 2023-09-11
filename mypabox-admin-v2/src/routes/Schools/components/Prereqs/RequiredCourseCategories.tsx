@@ -5,10 +5,19 @@ import { selectCategories } from "../../../../app/selectors/categories.selectors
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import ReactQuill from "react-quill";
+import { Dispatch, SetStateAction } from "react";
 
-export default function RequiredCourseCategories({ toggleRequiredCourseCategories, newSchool }: { toggleRequiredCourseCategories: (e:any) => void, newSchool: School }) {
+export default function RequiredCourseCategories({ toggleRequiredCourseCategories, newSchool, setNewSchool }: { toggleRequiredCourseCategories: (e:any) => void, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
     const courses = useSelector(selectCourses);
     const categories = useSelector(selectCategories);
+
+    const deleteCategory = (e:any, index: number) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_prereq_required_course_categories: newSchool.school_prereq_required_course_categories.filter((category,i) => i !== index)
+        })
+    }
     
     return (
         <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
@@ -17,7 +26,7 @@ export default function RequiredCourseCategories({ toggleRequiredCourseCategorie
                 Add Category
             </button>
             <div className={`flex flex-col justify-center items-center gap-5 ${newSchool.school_prereq_required_course_categories.length ? 'mt-5' : 'mt-0'}`}>
-            {newSchool.school_prereq_required_course_categories.map(category => {
+            {newSchool.school_prereq_required_course_categories.map((category, i) => {
                 const selectedCategory = categories.find(c => c.id === category.school_required_course_category);
                 if (selectedCategory) {
                     return (
@@ -32,7 +41,7 @@ export default function RequiredCourseCategories({ toggleRequiredCourseCategorie
                             </p>
                             <div className='flex gap-2'>
                                 <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => deleteCategory(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                             </div>
                         </div>
                         {category.school_required_course_category_extra_included_courses.length > 0 && (

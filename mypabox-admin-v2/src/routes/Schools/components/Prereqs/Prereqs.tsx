@@ -71,10 +71,10 @@ export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School
         <>
         {newSchool && (
             <>
-                <RequiredCourses toggleRequiredCourses={toggleRequiredCourses} newSchool={newSchool}/>
-                <RequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} newSchool={newSchool}/>
-                <RequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} newSchool={newSchool} />
-                <RecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} newSchool={newSchool} />
+                <RequiredCourses toggleRequiredCourses={toggleRequiredCourses} newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <RequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <RequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <RecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} newSchool={newSchool} setNewSchool={setNewSchool}/>
             </>
         )}
         {openRequiredCourses && <AddRequiredCourses toggleRequiredCourses={toggleRequiredCourses} addRequiredCourse={addRequiredCourse}/>}
