@@ -52,6 +52,22 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
         })
     }
 
+    const deleteCourse = (e: any, index: number) => {
+        e.preventDefault();
+        setGroup({
+            ...group,
+            school_required_optional_courses_list: group.school_required_optional_courses_list.filter((course, i) => i !== index)
+        })
+    }
+
+    const deleteNote = (e: any, index: number) => {
+        e.preventDefault();
+        setGroup({
+            ...group,
+            school_optional_course_note_section: group.school_optional_course_note_section.filter((course, i) => i !== index)
+        })
+    }
+
     return (
         <>
             <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
@@ -69,7 +85,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                                 Add Course
                             </button>
                             <div className={`flex flex-col justify-center items-center gap-3 ${group.school_required_optional_courses_list.length ? 'mt-3' : 'mt-0'}`}>
-                            {courses && group.school_required_optional_courses_list.map(course => {
+                            {courses && group.school_required_optional_courses_list.map((course, i) => {
                                 const selectedCourse = courses.find(c => c.unique_id === course.school_optional_course_id)
                                 if (selectedCourse) {
                                     return (
@@ -85,7 +101,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                                                 </p>
                                                 <div className='flex gap-2'>
                                                     <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                                    <button><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                                    <button onClick={(e) => deleteCourse(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
                                             {course.school_optional_course_note_section ? (
@@ -108,13 +124,13 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                                 Add Note
                             </button>
                             <div className={`flex flex-col justify-center items-center gap-3 ${group.school_optional_course_note_section.length ? 'mt-3' : 'mt-0'}`}>
-                            {group.school_optional_course_note_section.map(note => (
+                            {group.school_optional_course_note_section.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
                                             <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
