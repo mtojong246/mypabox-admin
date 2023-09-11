@@ -57,8 +57,8 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
             <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
                 <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                     <div className='relative w-full max-w-[900px] max-h-[800px] overflow-y-scroll rounded-lg p-4 bg-white'>
+                        {(coursePopup || notePopup) && <div className='absolute bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 z-10'></div>}
                         <p className='text-xl font-semibold mb-8'>Add Required Optional Group</p>
-                        {(coursePopup || notePopup) && <div className='absolute bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0'></div>}
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Minimum number of courses that need to be completed:</label>
                             <input onChange={handleInput} value={group.school_minimum_number_of_courses_to_be_completed} className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
