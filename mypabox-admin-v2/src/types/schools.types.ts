@@ -62,6 +62,7 @@ export interface SchoolRequiredOptionalCourse {
     school_optional_course_lab_preferred: boolean;
     school_optional_course_credit_hours: number;
     school_optional_course_quarter_hours: number;
+    school_optional_course_note_section: string;
 }
 
 export interface SchoolPrereqRequiredOptionalCourse {
