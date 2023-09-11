@@ -33,6 +33,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
     const [ coursePopup, setCoursePopup ] = useState(false);
     const [ notePopup, setNotePopup ] = useState(false);
     const [ excluded, setExcluded ] = useState(false);
+    const [ selection, setSelection ] = useState<string | undefined>('');
 
     const toggleCoursePopup = (e:any) => {
         e.preventDefault();
@@ -50,17 +51,22 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
         )))
     }, [categories])
 
+    useEffect(() => {
+        if (selection) {
+            const selectedCategory = categories.find(c => c.category_name === selection)
+            if (selectedCategory) {
+                setRequiredCategory({
+                    ...requiredCategory,
+                    school_required_course_category: selectedCategory.id,
+                })
+            }
+        }
+    }, [selection, categories])
+
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         setRequiredCategory({
             ...requiredCategory,
             [e.target.name]: e.target.value, 
-        })
-    }
-
-    const handleSelect = (e:any) => {
-        setRequiredCategory({
-            ...requiredCategory,
-            school_required_course_category: e.value,
         })
     }
 
@@ -103,7 +109,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                         <p className='text-xl font-semibold mb-8'>Add Required Course Category</p>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Category name:</label>
-                            <Select onChange={handleSelect} value={requiredCategory.school_required_course_category ? {value: requiredCategory.school_required_course_category, label: requiredCategory.school_required_course_category} : null} options={categoryOptions} className='w-full focus:outline-none rounded mt-2'/>
+                            <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} options={categoryOptions} className='w-full focus:outline-none rounded mt-2'/>
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Total number of credit hours that need to be completed:</label>
@@ -216,7 +222,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                     </div>
                 </div>
             </div>
-            {coursePopup && <AddIncludedOrExcludedCourses toggleCoursePopup={toggleCoursePopup} excluded={excluded} category={requiredCategory.school_required_course_category} addCourseToCategory={addCourseToCategory}/>}
+            {coursePopup && <AddIncludedOrExcludedCourses toggleCoursePopup={toggleCoursePopup} excluded={excluded} category={selection as string} addCourseToCategory={addCourseToCategory}/>}
             {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNoteToCategory={addNoteToCategory}/>}
         </>
     )
