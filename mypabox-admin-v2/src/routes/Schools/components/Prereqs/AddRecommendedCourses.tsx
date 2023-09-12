@@ -93,13 +93,18 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, edited
     }
 
     const addOrEditCourse = (e:any) => {
-        toggleRecommendedCourses(e);
-        if (editedRecommendedCourse) {
-            updateCourseOrCategory(recommendedCourse, 'school_prereq_recommended_courses')   
+        e.preventDefault();
+        if (!recommendedCourse.school_recommended_course_id) {
+            alert('Please select a course')
         } else {
-            addCourseOrCategory(recommendedCourse, 'school_prereq_recommended_courses')
-        }
-        setEditedRecommendedCourse(null)
+            toggleRecommendedCourses(e);
+            if (editedRecommendedCourse) {
+                updateCourseOrCategory(recommendedCourse, 'school_prereq_recommended_courses')   
+            } else {
+                addCourseOrCategory(recommendedCourse, 'school_prereq_recommended_courses')
+            }
+            setEditedRecommendedCourse(null)
+        } 
     }
 
     return (

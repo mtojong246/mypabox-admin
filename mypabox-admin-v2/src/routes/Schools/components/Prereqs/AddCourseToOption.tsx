@@ -94,13 +94,17 @@ export default function AddCourseToOption({ toggleCoursePopup, addCourse, edited
 
     const addOrUpdateCourse = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (editedCourse) {
-            updateCourse(optionalCourse)
+        if (!optionalCourse.school_optional_course_id) {
+            alert('Please select a course')
         } else {
-            addCourse(optionalCourse)
+            if (editedCourse) {
+                updateCourse(optionalCourse)
+            } else {
+                addCourse(optionalCourse)
+            }
+            toggleCoursePopup(e);
+            setEditedCourse(null)
         }
-        toggleCoursePopup(e);
-        setEditedCourse(null)
     }
 
 

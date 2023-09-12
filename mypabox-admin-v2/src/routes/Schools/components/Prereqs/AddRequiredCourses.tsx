@@ -96,13 +96,18 @@ export default function AddRequiredCourses({ toggleRequiredCourses, editedRequir
     }
 
     const addOrEditCourse = (e:any) => {
-        toggleRequiredCourses(e);
-        if (editedRequiredCourse) {
-            updateCourseOrCategory(requiredCourse, 'school_prereq_required_courses')     
+        e.preventDefault();
+        if (!requiredCourse.school_required_course_id) {
+            alert('Please select a course')
         } else {
-            addCourseOrCategory(requiredCourse, 'school_prereq_required_courses')
+            toggleRequiredCourses(e);
+            if (editedRequiredCourse) {
+                updateCourseOrCategory(requiredCourse, 'school_prereq_required_courses')     
+            } else {
+                addCourseOrCategory(requiredCourse, 'school_prereq_required_courses')
+            }
+            setEditedRequiredCourse(null)
         }
-        setEditedRequiredCourse(null)
     }
 
     return (

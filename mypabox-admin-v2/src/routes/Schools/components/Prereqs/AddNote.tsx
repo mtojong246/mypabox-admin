@@ -49,19 +49,23 @@ export default function AddNote({ toggleNotePopup, addNote, addNoteToCategory, e
 
     const addOrEditNote = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        // if in edit mode, update note
-        if (editedNote) {
-            updateNote(optionalNote)
-        // if in add mode and note comes from course categories, add note to category
-        } else if (!editedNote && addNoteToCategory) {
-            addNoteToCategory(optionalNote)
-        // if in add mode and note comes from optional courses, add note to options
-        } else if (!editedNote && addNote) {
-            addNote(optionalNote)
+        if (optionalNote.note === '') {
+            alert('Please add text to note')
+        } else {
+            // if in edit mode, update note
+            if (editedNote) {
+                updateNote(optionalNote)
+            // if in add mode and note comes from course categories, add note to category
+            } else if (!editedNote && addNoteToCategory) {
+                addNoteToCategory(optionalNote)
+            // if in add mode and note comes from optional courses, add note to options
+            } else if (!editedNote && addNote) {
+                addNote(optionalNote)
+            }
+            toggleNotePopup(e)
+            // resets note to be edited
+            setEditedNote(null)
         }
-        toggleNotePopup(e)
-        // resets note to be edited
-        setEditedNote(null)
     }
 
     return (

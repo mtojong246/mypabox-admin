@@ -99,13 +99,17 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
 
     const addOrEditCourse = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (editedCourse) {
-            updateCourseFromCategory(addedCourse, excluded)
+        if (!addedCourse.school_required_course_id) {
+            alert('Please select a course')
         } else {
-            addCourseToCategory(addedCourse, excluded)
+            if (editedCourse) {
+                updateCourseFromCategory(addedCourse, excluded)
+            } else {
+                addCourseToCategory(addedCourse, excluded)
+            }
+            setEditedCourse(null)
+            toggleCoursePopup(e);
         }
-        setEditedCourse(null)
-        toggleCoursePopup(e);
     }
 
     return (

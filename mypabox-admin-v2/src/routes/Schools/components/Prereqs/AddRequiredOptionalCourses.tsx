@@ -116,13 +116,17 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
 
     const addOrUpdateGroup = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (editedRequiredOption) {
-            updateCourseOrCategory(group, 'school_prereq_required_optional_courses')
+        if (group.school_required_optional_courses_list.length === 0) {
+            alert('Please select add at least one course')
         } else {
-            addCourseOrCategory(group, 'school_prereq_required_optional_courses')
+            if (editedRequiredOption) {
+                updateCourseOrCategory(group, 'school_prereq_required_optional_courses')
+            } else {
+                addCourseOrCategory(group, 'school_prereq_required_optional_courses')
+            }
+            toggleRequiredOptionalCourses(e);
+            setEditedRequiredOption(null)
         }
-        toggleRequiredOptionalCourses(e);
-        setEditedRequiredOption(null)
     }
 
     return (

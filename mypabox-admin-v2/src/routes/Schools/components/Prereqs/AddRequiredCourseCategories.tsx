@@ -223,13 +223,18 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
 
     // Adds or updates entire category
     const addOrUpdateCategory = (e:any) => {
-        toggleRequiredCourseCategories(e);
-        if (editedRequiredCategory) {
-            updateCourseOrCategory(requiredCategory, 'school_prereq_required_course_categories')        
+        e.preventDefault();
+        if (!requiredCategory.school_required_course_category) {
+            alert('Please select a category')
         } else {
-            addCourseOrCategory(requiredCategory, 'school_prereq_required_course_categories')
+            toggleRequiredCourseCategories(e);
+            if (editedRequiredCategory) {
+                updateCourseOrCategory(requiredCategory, 'school_prereq_required_course_categories')        
+            } else {
+                addCourseOrCategory(requiredCategory, 'school_prereq_required_course_categories')
+            }
+            setEditedRequiredCategory(null)
         }
-        setEditedRequiredCategory(null)
     }
 
     return (
