@@ -6,8 +6,12 @@ import { AiOutlineClose } from 'react-icons/ai'
 import ReactQuill from "react-quill";
 import { Dispatch, SetStateAction } from "react";
 
-export default function RequiredOptionalCourses({ toggleRequiredOptionalCourses, newSchool, setNewSchool, setEditedRequiredOption }: { toggleRequiredOptionalCourses: (e:any) => void, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>,
-    setEditedRequiredOption: Dispatch<SetStateAction<SchoolPrereqRequiredOptionalCourse | null>>
+export default function RequiredOptionalCourses({ toggleRequiredOptionalCourses, newSchool, setNewSchool, setEditedRequiredOption, setGroupIndex }: { 
+    toggleRequiredOptionalCourses: (e:any) => void, 
+    newSchool: School, 
+    setNewSchool: Dispatch<SetStateAction<School>>,
+    setEditedRequiredOption: Dispatch<SetStateAction<SchoolPrereqRequiredOptionalCourse | null>>,
+    setGroupIndex: Dispatch<SetStateAction<number | null>>
 }) {
     const courses = useSelector(selectCourses)
 
@@ -31,7 +35,7 @@ export default function RequiredOptionalCourses({ toggleRequiredOptionalCourses,
                     <div className='flex justify-between items-center w-full'>
                         <p className='font-bold text-xl'>{group.school_minimum_number_of_courses_to_be_completed} <span className='font-normal'>of the following courses need to be completed:</span></p>
                         <div className='flex gap-2'>
-                            <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(group)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                            <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(group); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
                             <button onClick={(e) => deleteOption(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                         </div>
                     </div>
