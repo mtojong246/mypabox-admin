@@ -1,18 +1,30 @@
 import ReactQuill from "react-quill"
 import { Note } from "../../../../types/schools.types"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useState, MouseEvent, useEffect, Dispatch, SetStateAction } from "react"
 
 const defaultNote = {
     type: 'information',
     note: '',
 }
 
-const placeHolder = () => {
-    return null;
-}
 
-export default function AddNote({ toggleNotePopup, addNote, addNoteToCategory }: { toggleNotePopup: (e:any) => void, addNote?: (note: Note) => void, addNoteToCategory?: (note: Note) => void, }) {
+export default function AddNote({ toggleNotePopup, addNote, addNoteToCategory, editedNote, setEditedNote, updateNote }: { 
+    toggleNotePopup: (e:any) => void, 
+    addNote?: (note: Note) => void, 
+    addNoteToCategory?: (note: Note) => void, 
+    editedNote: Note | null,
+    updateNote: (note: Note) => void,
+    setEditedNote: Dispatch<SetStateAction<Note | null>>
+}) {
     const [ optionalNote, setOptionalNote ] = useState<Note>(defaultNote)
+
+    useEffect(() => {
+        if (editedNote) {
+            setOptionalNote(editedNote)
+        } else {
+            setOptionalNote(defaultNote)
+        }
+    }, [editedNote])
 
     const handleType = (e: ChangeEvent<HTMLInputElement>) => {
         console.log(e.target)
@@ -23,17 +35,40 @@ export default function AddNote({ toggleNotePopup, addNote, addNoteToCategory }:
     }
 
     const handleNote = (e:any) => {
+        let note = '';
+        if (e === '<p><br></p>') {
+            note = '';
+        } else {
+            note = e
+        }
         setOptionalNote({
             ...optionalNote,
-            note: e,
+            note: note,
         })
+    }
+
+    const addOrEditNote = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        // if in edit mode, update note
+        if (editedNote) {
+            updateNote(optionalNote)
+        // if in add mode and note comes from course categories, add note to category
+        } else if (!editedNote && addNoteToCategory) {
+            addNoteToCategory(optionalNote)
+        // if in add mode and note comes from optional courses, add note to options
+        } else if (!editedNote && addNote) {
+            addNote(optionalNote)
+        }
+        toggleNotePopup(e)
+        // resets note to be edited
+        setEditedNote(null)
     }
 
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                 <div className='w-full max-w-[900px] rounded-lg p-4 bg-white'>
-                    <p className='text-xl font-semibold mb-8'>{addNote ? 'Add Note to Required Optional Group' : 'Add Note to Required Course Category'}</p>
+                    <p className='text-xl font-semibold mb-8'>{editedNote ? 'Edit Note' : 'Add Note'}</p>
                     <div className='w-full mb-8'>
                         <p className='mb-4 font-medium'>Select type:</p>
                         <div className='ml-4 mb-2'>
@@ -47,11 +82,11 @@ export default function AddNote({ toggleNotePopup, addNote, addNoteToCategory }:
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>
-                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote}/>
+                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={optionalNote.note}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
-                        <button onClick={toggleNotePopup} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
-                        <button onClick={(e) => {toggleNotePopup(e); (addNote) ? addNote(optionalNote) : addNoteToCategory && addNoteToCategory(optionalNote)}} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>Add note</button>
+                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
+                        <button onClick={(e) => addOrEditNote(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>{editedNote ? 'Edit note' : 'Add note'}</button>
                     </div>
                 </div>
             </div>

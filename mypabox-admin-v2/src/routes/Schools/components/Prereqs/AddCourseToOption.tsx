@@ -53,9 +53,15 @@ export default function AddCourseToOption({ toggleCoursePopup, group, addCourse 
     }
 
     const handleNote = (e: any) => {
+        let note = '';
+        if (e === '<p><br></p>') {
+            note = '';
+        } else {
+            note = e
+        }
         setOptionalCourse({
             ...optionalCourse,
-            school_optional_course_note_section: e,
+            school_optional_course_note_section: note,
         })
     }
 

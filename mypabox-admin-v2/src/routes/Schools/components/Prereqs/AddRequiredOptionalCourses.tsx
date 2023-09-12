@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useState, Dispatch, SetStateAction, useEffect } from "react"
 import { Note, SchoolPrereqRequiredOptionalCourse, SchoolRequiredOptionalCourse } from "../../../../types/schools.types"
 import AddCourseToOption from "./AddCourseToOption";
 import { useSelector } from "react-redux";
@@ -14,11 +14,25 @@ const defaultGroup = {
     school_optional_course_note_section: [],
 }
 
-export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCourses, addOptionalGroup }: { toggleRequiredOptionalCourses: (e:any) => void, addOptionalGroup: (group: SchoolPrereqRequiredOptionalCourse) => void, }) {
+export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCourses, addOptionalGroup, editedRequiredOption, setEditedRequiredOption }: { toggleRequiredOptionalCourses: (e:any) => void, addOptionalGroup: (group: SchoolPrereqRequiredOptionalCourse) => void, 
+    editedRequiredOption: SchoolPrereqRequiredOptionalCourse | null,
+    setEditedRequiredOption: Dispatch<SetStateAction<SchoolPrereqRequiredOptionalCourse | null>>
+}) {
     const courses = useSelector(selectCourses)
     const [ group, setGroup ] = useState<SchoolPrereqRequiredOptionalCourse>(defaultGroup);
     const [ coursePopup, setCoursePopup ] = useState(false);
     const [ notePopup, setNotePopup ] = useState(false);
+
+    const [ index, setIndex ] = useState<number | null>(null);
+    const [ editedNote, setEditedNote ] = useState<Note | null>(null)
+
+    useEffect(() => {
+        if (editedRequiredOption) {
+            setGroup(editedRequiredOption)
+        } else {
+            setGroup(defaultGroup)
+        }
+    }, [editedRequiredOption])
 
     const toggleCoursePopup = (e:any) => {
         e.preventDefault();
@@ -52,6 +66,20 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
         })
     }
 
+    const updateNote = (note: Note) => {
+        setGroup({
+            ...group, 
+            school_optional_course_note_section: group.school_optional_course_note_section.map((n,i) => {
+                if (i === index) {
+                    return { ...note }
+                } else {
+                    return { ...n }
+                }
+            })
+        })
+        setIndex(null)
+    }
+
     const deleteCourse = (e: any, index: number) => {
         e.preventDefault();
         setGroup({
@@ -74,7 +102,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                 <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                     <div className='relative w-full max-w-[900px] max-h-[800px] overflow-y-scroll rounded-lg p-4 bg-white'>
                         {(coursePopup || notePopup) && <div className='absolute bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 z-10'></div>}
-                        <p className='text-xl font-semibold mb-8'>Add Required Optional Group</p>
+                        <p className='text-xl font-semibold mb-8'>{editedRequiredOption ? 'Edit' : 'Add'} Required Optional Group</p>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Minimum number of courses that need to be completed:</label>
                             <input onChange={handleInput} value={group.school_minimum_number_of_courses_to_be_completed} className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
@@ -139,14 +167,14 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                             </div>
                         </div>
                         <div className='w-full flex justify-end items-center gap-3'>
-                            <button onClick={toggleRequiredOptionalCourses} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
-                            <button onClick={(e) => {toggleRequiredOptionalCourses(e); addOptionalGroup(group)}} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>Add Option</button>
+                            <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
+                            <button onClick={(e) => {toggleRequiredOptionalCourses(e); addOptionalGroup(group)}} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
                         </div>
                     </div>
                 </div>
             </div>
             {coursePopup && <AddCourseToOption toggleCoursePopup={toggleCoursePopup} group={group} addCourse={addCourse}/>}
-            {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote}/>}
+            {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )
 }

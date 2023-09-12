@@ -2,7 +2,7 @@ import Select from 'react-select';
 import { useSelector } from 'react-redux';
 import { selectCategories } from '../../../../app/selectors/categories.selectors';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { Note, SchoolPrereqRequiredCourseCategory } from '../../../../types/schools.types';
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -25,7 +25,11 @@ const defaultCategory = {
     school_required_course_category_note_section: [],
 }
 
-export default function AddRequiredCourseCategories({ toggleRequiredCourseCategories, addCourseCategory }: { toggleRequiredCourseCategories: (e:any) => void, addCourseCategory: (category: SchoolPrereqRequiredCourseCategory) => void, }) {
+export default function AddRequiredCourseCategories({ toggleRequiredCourseCategories, addCourseCategory, updateCourseCategory, editedRequiredCategory, setEditedRequiredCategory }: { toggleRequiredCourseCategories: (e:any) => void, addCourseCategory: (category: SchoolPrereqRequiredCourseCategory) => void, 
+    updateCourseCategory: (category: SchoolPrereqRequiredCourseCategory) => void,
+    editedRequiredCategory: SchoolPrereqRequiredCourseCategory | null,
+    setEditedRequiredCategory: Dispatch<SetStateAction<SchoolPrereqRequiredCourseCategory | null>>
+}) {
     const categories = useSelector(selectCategories);
     const courses = useSelector(selectCourses);
     const [ categoryOptions, setCategoryOptions ] = useState<{ value: string, label: string }[]>([]);
@@ -34,6 +38,10 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
     const [ notePopup, setNotePopup ] = useState(false);
     const [ excluded, setExcluded ] = useState(false);
     const [ selection, setSelection ] = useState<string | undefined>('');
+
+    const [ index, setIndex ] = useState<number | null>(null);
+    const [ editedNote, setEditedNote ] = useState<Note | null>(null)
+    const [ editedCourse, setEditedCourse ] = useState<CourseType | null>(null)
 
     const toggleCoursePopup = (e:any) => {
         e.preventDefault();
@@ -63,6 +71,19 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
         }
     }, [selection, categories])
 
+    useEffect(() => {
+        if (editedRequiredCategory) {
+            const selectedCategory = categories.find(category => category.id === editedRequiredCategory.school_required_course_category);
+            if (selectedCategory) {
+                setRequiredCategory(editedRequiredCategory);
+                setSelection(selectedCategory.category_name)
+            }
+        } else {
+            setRequiredCategory(defaultCategory);
+            setSelection('')
+        }
+    }, [editedRequiredCategory, categories])
+
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         setRequiredCategory({
             ...requiredCategory,
@@ -70,19 +91,16 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
         })
     }
 
-    const addNoteToCategory = (note: Note) => {
-        setRequiredCategory({
-            ...requiredCategory,
-            school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.concat(note),
-        })
-    }
     
+    // Adds course to category 
     const addCourseToCategory = (course: CourseType, excluded: boolean) => {
+        // if part of excluded courses
         if (excluded) {
             setRequiredCategory({
                 ...requiredCategory,
                 school_required_course_category_excluded_courses: requiredCategory.school_required_course_category_excluded_courses.concat(course),
             })
+        // if part of included courses
         } else {
             setRequiredCategory({
                 ...requiredCategory,
@@ -91,27 +109,36 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
         }
     }
 
-    const openExcludedCourse = (e:any) => {
-        e.preventDefault();
-        if (requiredCategory.school_required_course_category) {
-            toggleCoursePopup(e); 
-            setExcluded(true)
+    // Updates course from excluded or included courses and resets index 
+    const updateCourseFromCategory = (course: CourseType, excluded: boolean) => {
+        if (excluded) {
+            setRequiredCategory({
+                ...requiredCategory,
+                school_required_course_category_excluded_courses: requiredCategory.school_required_course_category_excluded_courses.map((c,i) => {
+                    if (i === index) {
+                        return { ...course }
+                    } else {
+                        return { ...c }
+                    }
+                })
+            })
         } else {
-            alert('Please select a category')
+            setRequiredCategory({
+                ...requiredCategory,
+                school_required_course_category_extra_included_courses: requiredCategory.school_required_course_category_extra_included_courses.map((c,i) => {
+                    if (i === index) {
+                        return { ...course }
+                    } else {
+                        return { ...c }
+                    }
+                })
+            })
         }
+        setIndex(null)
     }
 
-    const openIncludedCourse = (e: any) => {
-        e.preventDefault();
-        if (requiredCategory.school_required_course_category) {
-            toggleCoursePopup(e);
-            setExcluded(false)
-        } else {
-            alert('Please select a category')
-        }
-    }
-
-    const deleteCourse = (e: any, index: number, excluded: boolean) => {
+       // Deletes course from included or excluded courses list 
+       const deleteCourse = (e: any, index: number, excluded: boolean) => {
         e.preventDefault();
 
         if (excluded) {
@@ -127,6 +154,55 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
         }
     }
 
+    // Prompts user to select a category before given option to add excluded course 
+    const openExcludedCourse = (e:any) => {
+        e.preventDefault();
+        if (requiredCategory.school_required_course_category) {
+            toggleCoursePopup(e); 
+            setExcluded(true)
+        } else {
+            alert('Please select a category')
+        }
+    }
+
+    // Prompts user to select a category before given open to add extra included course 
+    const openIncludedCourse = (e: any) => {
+        e.preventDefault();
+        if (requiredCategory.school_required_course_category) {
+            toggleCoursePopup(e);
+            setExcluded(false)
+        } else {
+            alert('Please select a category')
+        }
+    }
+
+    // Adds new note to course category
+    const addNoteToCategory = (note: Note) => {
+        setRequiredCategory({
+            ...requiredCategory,
+            school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.concat(note),
+        })
+    }
+
+    // Updates note from course category using set index 
+    const updateNote = (note: Note) => {
+        setRequiredCategory({
+            ...requiredCategory, 
+            school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.map((n,i) => {
+                if (i === index) {
+                    return { ...note }
+                } else {
+                    return { ...n }
+                }
+            })
+        })
+        // Resets index
+        setIndex(null)
+    }
+
+ 
+
+    // Deletes note from category
     const deleteNote = (e: any, index: number) => {
         e.preventDefault();
         setRequiredCategory({
@@ -135,13 +211,25 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
         })
     }
 
+    // Adds or updates entire category
+    const addOrUpdateCategory = (e:any) => {
+        toggleRequiredCourseCategories(e);
+        if (editedRequiredCategory) {
+            updateCourseCategory(requiredCategory);
+            setEditedRequiredCategory(null)
+        } else {
+            addCourseCategory(requiredCategory);
+            setEditedRequiredCategory(null)
+        }
+    }
+
     return (
         <>
             <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
                 <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                     <div className='w-full max-w-[900px] max-h-[800px] overflow-y-scroll rounded-lg p-4 bg-white'>
                         {(coursePopup || notePopup) && <div className='absolute bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 z-10'></div>}
-                        <p className='text-xl font-semibold mb-8'>Add Required Course Category</p>
+                        <p className='text-xl font-semibold mb-8'>{editedRequiredCategory ? 'Edit' : 'Add'} Required Course Category</p>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Category name:</label>
                             <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} options={categoryOptions} className='w-full focus:outline-none rounded mt-2'/>
@@ -174,7 +262,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                             <div className='flex justify-between items-center w-full'>
                                                 <p className='font-bold'>{selectedCourse?.course_name}</p>
                                                 <div className='flex gap-2'>
-                                                    <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                                    <button onClick={(e) => {toggleCoursePopup(e); setIndex(i); setEditedCourse(course); setExcluded(false)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
                                                     <button onClick={(e) => deleteCourse(e, i, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
@@ -208,7 +296,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                             <div className='flex justify-between items-center w-full'>
                                                 <p className='font-bold'>{selectedCourse?.course_name}</p>
                                                 <div className='flex gap-2'>
-                                                    <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                                    <button onClick={(e) => {toggleCoursePopup(e); setIndex(i); setEditedCourse(course); setExcluded(true)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
                                                     <button onClick={(e) => deleteCourse(e, i, true)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
@@ -239,7 +327,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
                                             <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
@@ -251,14 +339,14 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
 
 
                         <div className='w-full flex justify-end items-center gap-3'>
-                            <button onClick={toggleRequiredCourseCategories} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
-                            <button onClick={(e) => {toggleRequiredCourseCategories(e); addCourseCategory(requiredCategory)}} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>Add course</button>
+                            <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
+                            <button onClick={(e) => addOrUpdateCategory(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>{editedRequiredCategory ? 'Edit' : 'Add'} course</button>
                         </div>
                     </div>
                 </div>
             </div>
-            {coursePopup && <AddIncludedOrExcludedCourses toggleCoursePopup={toggleCoursePopup} excluded={excluded} category={selection as string} addCourseToCategory={addCourseToCategory}/>}
-            {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNoteToCategory={addNoteToCategory}/>}
+            {coursePopup && <AddIncludedOrExcludedCourses toggleCoursePopup={toggleCoursePopup} excluded={excluded} category={selection as string} addCourseToCategory={addCourseToCategory} editedCourse={editedCourse} setEditedCourse={setEditedCourse} updateCourseFromCategory={updateCourseFromCategory}/>}
+            {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNoteToCategory={addNoteToCategory} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )
 }

@@ -16,6 +16,8 @@ export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School
     const [ openRecommendedCourses, setOpenRecommendedCourses ] = useState(false);
     const [ editedRequiredCourse, setEditedRequiredCourse ] = useState<SchoolPrereqRequiredCourse | null>(null);
     const [ editedRecommendedCourse, setEditedRecommendedCourse ] = useState<SchoolPrereqRecommendedCourse | null>(null);
+    const [ editedRequiredOption, setEditedRequiredOption ] = useState<SchoolPrereqRequiredOptionalCourse | null>(null)
+    const [ editedRequiredCategory, setEditedRequiredCategory ] = useState<SchoolPrereqRequiredCourseCategory | null>(null);
 
     const toggleRequiredCourses = (e:any) => {
         e.preventDefault();
@@ -80,10 +82,24 @@ export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School
         })
     }
 
+
     const addCourseCategory = (category: SchoolPrereqRequiredCourseCategory) => {
         setNewSchool({
             ...newSchool,
             school_prereq_required_course_categories: newSchool.school_prereq_required_course_categories.concat(category),
+        })
+    }
+
+    const updateCourseCategory = (category: SchoolPrereqRequiredCourseCategory) => {
+        setNewSchool({
+            ...newSchool,
+            school_prereq_required_course_categories: newSchool.school_prereq_required_course_categories.map(cat => {
+                if (cat.school_required_course_category === category.school_required_course_category) {
+                    return { ...category }
+                } else {
+                    return { ...cat }
+                }
+            })
         })
     }
 
@@ -92,14 +108,14 @@ export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School
         {newSchool && (
             <>
                 <RequiredCourses toggleRequiredCourses={toggleRequiredCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredCourse={setEditedRequiredCourse}/>
-                <RequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <RequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <RequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredOption={setEditedRequiredOption}/>
+                <RequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredCategory={setEditedRequiredCategory}/>
                 <RecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRecommendedCourse={setEditedRecommendedCourse}/>
             </>
         )}
         {openRequiredCourses && <AddRequiredCourses toggleRequiredCourses={toggleRequiredCourses} addRequiredCourse={addRequiredCourse} updateRequiredCourse={updateRequiredCourse} editedRequiredCourse={editedRequiredCourse} setEditedRequiredCourse={setEditedRequiredCourse}/>}
-        {openRequiredCourseCategories && <AddRequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} addCourseCategory={addCourseCategory}/>}
-        {openRequiredOptionalCourses && <AddRequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} addOptionalGroup={addOptionalGroup}/>}
+        {openRequiredCourseCategories && <AddRequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} addCourseCategory={addCourseCategory} updateCourseCategory={updateCourseCategory} editedRequiredCategory={editedRequiredCategory} setEditedRequiredCategory={setEditedRequiredCategory}/>}
+        {openRequiredOptionalCourses && <AddRequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} addOptionalGroup={addOptionalGroup} editedRequiredOption={editedRequiredOption} setEditedRequiredOption={setEditedRequiredOption}/>}
         {openRecommendedCourses && <AddRecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} addRecommendedCourse={addRecommendedCourse} updateRecommendedCourse={updateRecommendedCourse} editedRecommendedCourse={editedRecommendedCourse} setEditedRecommendedCourse={setEditedRecommendedCourse}/>}
         </>
     )
