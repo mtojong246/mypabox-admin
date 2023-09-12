@@ -6,8 +6,12 @@ import ReactQuill from "react-quill";
 import { School, SchoolPrereqRequiredCourse } from "../../../../types/schools.types";
 import { Dispatch, SetStateAction } from "react";
 
-export default function RequiredCourses({ toggleRequiredCourses, newSchool, setNewSchool, setEditedRequiredCourse }: { toggleRequiredCourses: (e: any) => void, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>,
+export default function RequiredCourses({ toggleRequiredCourses, newSchool, setNewSchool, setEditedRequiredCourse, setGroupIndex }: { 
+    toggleRequiredCourses: (e: any) => void, 
+    newSchool: School, 
+    setNewSchool: Dispatch<SetStateAction<School>>,
     setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse | null>>,
+    setGroupIndex: Dispatch<SetStateAction<number | null>>
 }) {
     const courses = useSelector(selectCourses)
 
@@ -41,7 +45,7 @@ export default function RequiredCourses({ toggleRequiredCourses, newSchool, setN
                                     </span>
                                 </p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleRequiredCourses(e); setEditedRequiredCourse(course)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                    <button onClick={(e) => {toggleRequiredCourses(e); setEditedRequiredCourse(course); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
                                     <button onClick={(e) => deleteCourse(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>

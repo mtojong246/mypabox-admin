@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
-import { SchoolPrereqRequiredCourse } from '../../../../types/schools.types';
+import { SchoolPrereqRequiredCourse, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourseCategory, SchoolPrereqRequiredOptionalCourse } from '../../../../types/schools.types';
 
 const defaultCourse = {
     school_required_course_id: '',
@@ -14,10 +14,12 @@ const defaultCourse = {
     school_required_course_note_section: '',
 }
 
-export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredCourse, updateRequiredCourse, editedRequiredCourse, setEditedRequiredCourse }: { toggleRequiredCourses: (e:any) => void, addRequiredCourse: (course: SchoolPrereqRequiredCourse) => void,
+export default function AddRequiredCourses({ toggleRequiredCourses, editedRequiredCourse, setEditedRequiredCourse, addCourseOrCategory, updateCourseOrCategory }: { 
+    toggleRequiredCourses: (e:any) => void, 
     editedRequiredCourse: SchoolPrereqRequiredCourse | null,
     setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse | null>>,
-    updateRequiredCourse: (course: SchoolPrereqRequiredCourse) => void,
+    addCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    updateCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
 }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
@@ -86,15 +88,13 @@ export default function AddRequiredCourses({ toggleRequiredCourses, addRequiredC
     const addOrEditCourse = (e:any) => {
         toggleRequiredCourses(e);
         if (editedRequiredCourse) {
-            updateRequiredCourse(requiredCourse);
-            setEditedRequiredCourse(null)
+            updateCourseOrCategory(requiredCourse, 'school_prereq_required_courses')     
         } else {
-            addRequiredCourse(requiredCourse);
-            setEditedRequiredCourse(null)
+            addCourseOrCategory(requiredCourse, 'school_prereq_required_courses')
         }
+        setEditedRequiredCourse(null)
     }
 
-    console.log(editedRequiredCourse)
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>

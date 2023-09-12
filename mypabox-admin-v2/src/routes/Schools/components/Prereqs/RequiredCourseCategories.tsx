@@ -7,8 +7,12 @@ import { AiOutlineClose } from 'react-icons/ai'
 import ReactQuill from "react-quill";
 import { Dispatch, SetStateAction } from "react";
 
-export default function RequiredCourseCategories({ toggleRequiredCourseCategories, newSchool, setNewSchool, setEditedRequiredCategory }: { toggleRequiredCourseCategories: (e:any) => void, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>,
-    setEditedRequiredCategory: Dispatch<SetStateAction<SchoolPrereqRequiredCourseCategory | null>>
+export default function RequiredCourseCategories({ toggleRequiredCourseCategories, newSchool, setNewSchool, setEditedRequiredCategory, setGroupIndex }: { 
+    toggleRequiredCourseCategories: (e:any) => void, 
+    newSchool: School, 
+    setNewSchool: Dispatch<SetStateAction<School>>,
+    setEditedRequiredCategory: Dispatch<SetStateAction<SchoolPrereqRequiredCourseCategory | null>>,
+    setGroupIndex: Dispatch<SetStateAction<number | null>>
 }) {
     const courses = useSelector(selectCourses);
     const categories = useSelector(selectCategories);
@@ -42,7 +46,7 @@ export default function RequiredCourseCategories({ toggleRequiredCourseCategorie
                                 </span>
                             </p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(category)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(category); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
                                 <button onClick={(e) => deleteCategory(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                             </div>
                         </div>

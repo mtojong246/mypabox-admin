@@ -6,8 +6,12 @@ import { AiOutlineClose } from 'react-icons/ai'
 import ReactQuill from "react-quill";
 import { Dispatch, SetStateAction } from "react"
 
-export default function RecommendedCourses({ toggleRecommendedCourses, newSchool, setNewSchool, setEditedRecommendedCourse }: { toggleRecommendedCourses: (e:any) => void, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>,
-    setEditedRecommendedCourse: Dispatch<SetStateAction<SchoolPrereqRecommendedCourse | null>>
+export default function RecommendedCourses({ toggleRecommendedCourses, newSchool, setNewSchool, setEditedRecommendedCourse, setGroupIndex }: { 
+    toggleRecommendedCourses: (e:any) => void, 
+    newSchool: School, 
+    setNewSchool: Dispatch<SetStateAction<School>>,
+    setEditedRecommendedCourse: Dispatch<SetStateAction<SchoolPrereqRecommendedCourse | null>>,
+    setGroupIndex: Dispatch<SetStateAction<number | null>>
 }) {
     const courses = useSelector(selectCourses);
 
@@ -41,7 +45,7 @@ export default function RecommendedCourses({ toggleRecommendedCourses, newSchool
                                     </span>
                                 </p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(course)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                    <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(course); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
                                     <button onClick={(e) => deleteCourse(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>

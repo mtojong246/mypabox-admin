@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
-import { SchoolPrereqRecommendedCourse } from '../../../../types/schools.types';
+import { SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourse, SchoolPrereqRequiredCourseCategory, SchoolPrereqRequiredOptionalCourse } from '../../../../types/schools.types';
 
 const defaultCourse = {
     school_recommended_course_id: '',
@@ -14,10 +14,12 @@ const defaultCourse = {
     school_recommended_course_note_section: '',
 }
 
-export default function AddRecommendedCourses({ toggleRecommendedCourses, addRecommendedCourse, updateRecommendedCourse, editedRecommendedCourse, setEditedRecommendedCourse }: { toggleRecommendedCourses: (e:any) => void, addRecommendedCourse: (course: SchoolPrereqRecommendedCourse) => void,
-    updateRecommendedCourse: (course: SchoolPrereqRecommendedCourse) => void, 
+export default function AddRecommendedCourses({ toggleRecommendedCourses, editedRecommendedCourse, setEditedRecommendedCourse, addCourseOrCategory, updateCourseOrCategory }: { 
+    toggleRecommendedCourses: (e:any) => void,
     editedRecommendedCourse: SchoolPrereqRecommendedCourse | null,
     setEditedRecommendedCourse: Dispatch<SetStateAction<SchoolPrereqRecommendedCourse | null>>,
+    addCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    updateCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
 }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
@@ -85,12 +87,11 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, addRec
     const addOrEditCourse = (e:any) => {
         toggleRecommendedCourses(e);
         if (editedRecommendedCourse) {
-            updateRecommendedCourse(recommendedCourse)
-            setEditedRecommendedCourse(null)
+            updateCourseOrCategory(recommendedCourse, 'school_prereq_recommended_courses')   
         } else {
-            addRecommendedCourse(recommendedCourse)
-            setEditedRecommendedCourse(null)
+            addCourseOrCategory(recommendedCourse, 'school_prereq_recommended_courses')
         }
+        setEditedRecommendedCourse(null)
     }
 
     return (

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectCategories } from '../../../../app/selectors/categories.selectors';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
 import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Note, SchoolPrereqRequiredCourseCategory } from '../../../../types/schools.types';
+import { Note, SchoolPrereqRequiredCourseCategory, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourse, SchoolPrereqRequiredOptionalCourse } from '../../../../types/schools.types';
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import ReactQuill from 'react-quill';
@@ -25,10 +25,12 @@ const defaultCategory = {
     school_required_course_category_note_section: [],
 }
 
-export default function AddRequiredCourseCategories({ toggleRequiredCourseCategories, addCourseCategory, updateCourseCategory, editedRequiredCategory, setEditedRequiredCategory }: { toggleRequiredCourseCategories: (e:any) => void, addCourseCategory: (category: SchoolPrereqRequiredCourseCategory) => void, 
-    updateCourseCategory: (category: SchoolPrereqRequiredCourseCategory) => void,
+export default function AddRequiredCourseCategories({ toggleRequiredCourseCategories, editedRequiredCategory, setEditedRequiredCategory, addCourseOrCategory, updateCourseOrCategory }: { 
+    toggleRequiredCourseCategories: (e:any) => void, 
     editedRequiredCategory: SchoolPrereqRequiredCourseCategory | null,
-    setEditedRequiredCategory: Dispatch<SetStateAction<SchoolPrereqRequiredCourseCategory | null>>
+    setEditedRequiredCategory: Dispatch<SetStateAction<SchoolPrereqRequiredCourseCategory | null>>,
+    addCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    updateCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
 }) {
     const categories = useSelector(selectCategories);
     const courses = useSelector(selectCourses);
@@ -215,12 +217,11 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
     const addOrUpdateCategory = (e:any) => {
         toggleRequiredCourseCategories(e);
         if (editedRequiredCategory) {
-            updateCourseCategory(requiredCategory);
-            setEditedRequiredCategory(null)
+            updateCourseOrCategory(requiredCategory, 'school_prereq_required_course_categories')        
         } else {
-            addCourseCategory(requiredCategory);
-            setEditedRequiredCategory(null)
+            addCourseOrCategory(requiredCategory, 'school_prereq_required_course_categories')
         }
+        setEditedRequiredCategory(null)
     }
 
     return (

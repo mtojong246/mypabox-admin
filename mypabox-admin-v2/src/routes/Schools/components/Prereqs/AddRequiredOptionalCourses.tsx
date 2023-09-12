@@ -1,5 +1,5 @@
 import { ChangeEvent, useState, Dispatch, SetStateAction, useEffect, MouseEvent } from "react"
-import { Note, SchoolPrereqRequiredOptionalCourse, SchoolRequiredOptionalCourse } from "../../../../types/schools.types"
+import { Note, SchoolPrereqRequiredOptionalCourse, SchoolRequiredOptionalCourse, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourse, SchoolPrereqRequiredCourseCategory } from "../../../../types/schools.types"
 import AddCourseToOption from "./AddCourseToOption";
 import { useSelector } from "react-redux";
 import { selectCourses } from "../../../../app/selectors/courses.selectors";
@@ -14,12 +14,12 @@ const defaultGroup = {
     school_optional_course_note_section: [],
 }
 
-export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCourses, addOptionalGroup, editedRequiredOption, setEditedRequiredOption, updateOptionalGroup }: { 
+export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCourses, editedRequiredOption, setEditedRequiredOption, addCourseOrCategory, updateCourseOrCategory }: { 
     toggleRequiredOptionalCourses: (e:any) => void, 
-    addOptionalGroup: (group: SchoolPrereqRequiredOptionalCourse) => void, 
     editedRequiredOption: SchoolPrereqRequiredOptionalCourse | null,
     setEditedRequiredOption: Dispatch<SetStateAction<SchoolPrereqRequiredOptionalCourse | null>>,
-    updateOptionalGroup: (group: SchoolPrereqRequiredOptionalCourse) => void,
+    addCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    updateCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
 }) {
     const courses = useSelector(selectCourses)
     const [ group, setGroup ] = useState<SchoolPrereqRequiredOptionalCourse>(defaultGroup);
@@ -117,9 +117,9 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
     const addOrUpdateGroup = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (editedRequiredOption) {
-            updateOptionalGroup(group);
+            updateCourseOrCategory(group, 'school_prereq_required_optional_courses')
         } else {
-            addOptionalGroup(group)
+            addCourseOrCategory(group, 'school_prereq_required_optional_courses')
         }
         toggleRequiredOptionalCourses(e);
         setEditedRequiredOption(null)

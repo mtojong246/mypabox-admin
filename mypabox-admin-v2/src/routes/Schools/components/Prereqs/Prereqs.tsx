@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { School, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourse, SchoolPrereqRequiredCourseCategory, SchoolPrereqRequiredOptionalCourse } from "../../../../types/schools.types";
+import { School, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourse, SchoolPrereqRequiredCourseCategory, SchoolPrereqRequiredOptionalCourse, SchoolRequiredOptionalCourse } from "../../../../types/schools.types";
 import AddRequiredCourses from "./AddRequiredCourses";
 import AddRequiredCourseCategories from "./AddRequiredCourseCategories";
 import AddRequiredOptionalCourses from "./AddRequiredOptionalCourses";
@@ -8,6 +8,7 @@ import RequiredCourses from "./RequiredCourses";
 import RequiredOptionalCourses from "./RequiredOptionalCourses";
 import RequiredCourseCategories from "./RequiredCourseCategories";
 import RecommendedCourses from "./RecommendedCourses";
+
 
 export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
     const [ openRequiredCourses, setOpenRequiredCourses ] = useState(false);
@@ -37,102 +38,51 @@ export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School
         e.preventDefault();
         setOpenRecommendedCourses(!openRecommendedCourses);
     }
-    const addRequiredCourse = (course: SchoolPrereqRequiredCourse) => {
+
+    // Adds new required course, recommended course, required optional group or required course categories to newSchool object
+    const addCourseOrCategory = (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => {
+        const name = type as keyof School;
+        const field = newSchool[name] as SchoolPrereqRequiredCourse[] | SchoolPrereqRecommendedCourse[] | SchoolPrereqRequiredCourseCategory[] | SchoolPrereqRequiredOptionalCourse[];
+        const newGroup = [...field, {...group}]
         setNewSchool({
             ...newSchool,
-            school_prereq_required_courses: newSchool.school_prereq_required_courses.concat(course)
+            [name]: newGroup,
         })
     }
 
-    const updateRequiredCourse = (course: SchoolPrereqRequiredCourse) => {
-        setNewSchool({
-            ...newSchool,
-            school_prereq_required_courses: newSchool.school_prereq_required_courses.map(c => {
-                if (c.school_required_course_id === course.school_required_course_id) {
-                    return { ...course }
-                } else {
-                    return { ...c }
-                }
-            })
-        })
+    // Updates required course, recommended course, required optional group or required course categories depending on index; then resets index
+    const updateCourseOrCategory = (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => {
+       const name = type as keyof School;
+       const field = newSchool[name] as SchoolPrereqRequiredCourse[] | SchoolPrereqRecommendedCourse[] | SchoolPrereqRequiredCourseCategory[] | SchoolPrereqRequiredOptionalCourse[];
+       const newGroup = field.map((g,i) => {
+        if (i === groupIndex) {
+            return { ...group }
+        } else {
+            return { ...g }
+        }
+       })
+       setNewSchool({
+        ...newSchool,
+        [name]: newGroup,
+       })
+       setGroupIndex(null)
     }
 
-    const addRecommendedCourse = (course: SchoolPrereqRecommendedCourse) => {
-        setNewSchool({
-            ...newSchool,
-            school_prereq_recommended_courses: newSchool.school_prereq_recommended_courses.concat(course)
-        })
-    }
-
-    const updateRecommendedCourse = (course: SchoolPrereqRecommendedCourse) => {
-        setNewSchool({
-            ...newSchool,
-            school_prereq_recommended_courses: newSchool.school_prereq_recommended_courses.map(c => {
-                if (c.school_recommended_course_id === course.school_recommended_course_id) {
-                    return {...course}
-                } else {
-                    return {...c}
-                }
-            })
-        })
-    }
-
-    const addOptionalGroup = (group: SchoolPrereqRequiredOptionalCourse) => {
-        setNewSchool({
-            ...newSchool,
-            school_prereq_required_optional_courses: newSchool.school_prereq_required_optional_courses.concat(group)
-        })
-    }
-
-    const updateOptionalGroup = (group: SchoolPrereqRequiredOptionalCourse) => {
-        setNewSchool({
-            ...newSchool,
-            school_prereq_required_optional_courses: newSchool.school_prereq_required_optional_courses.map((c,i) => {
-                if (i === groupIndex) {
-                    return { ...group }
-                } else {
-                    return { ...c }
-                }
-            })
-        })
-        setGroupIndex(null)
-    }
-
-
-    const addCourseCategory = (category: SchoolPrereqRequiredCourseCategory) => {
-        setNewSchool({
-            ...newSchool,
-            school_prereq_required_course_categories: newSchool.school_prereq_required_course_categories.concat(category),
-        })
-    }
-
-    const updateCourseCategory = (category: SchoolPrereqRequiredCourseCategory) => {
-        setNewSchool({
-            ...newSchool,
-            school_prereq_required_course_categories: newSchool.school_prereq_required_course_categories.map(cat => {
-                if (cat.school_required_course_category === category.school_required_course_category) {
-                    return { ...category }
-                } else {
-                    return { ...cat }
-                }
-            })
-        })
-    }
 
     return (
         <>
         {newSchool && (
             <>
-                <RequiredCourses toggleRequiredCourses={toggleRequiredCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredCourse={setEditedRequiredCourse}/>
+                <RequiredCourses toggleRequiredCourses={toggleRequiredCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredCourse={setEditedRequiredCourse} setGroupIndex={setGroupIndex}/>
                 <RequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredOption={setEditedRequiredOption} setGroupIndex={setGroupIndex}/>
-                <RequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredCategory={setEditedRequiredCategory}/>
-                <RecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRecommendedCourse={setEditedRecommendedCourse}/>
+                <RequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredCategory={setEditedRequiredCategory} setGroupIndex={setGroupIndex}/>
+                <RecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRecommendedCourse={setEditedRecommendedCourse} setGroupIndex={setGroupIndex}/>
             </>
         )}
-        {openRequiredCourses && <AddRequiredCourses toggleRequiredCourses={toggleRequiredCourses} addRequiredCourse={addRequiredCourse} updateRequiredCourse={updateRequiredCourse} editedRequiredCourse={editedRequiredCourse} setEditedRequiredCourse={setEditedRequiredCourse}/>}
-        {openRequiredCourseCategories && <AddRequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} addCourseCategory={addCourseCategory} updateCourseCategory={updateCourseCategory} editedRequiredCategory={editedRequiredCategory} setEditedRequiredCategory={setEditedRequiredCategory}/>}
-        {openRequiredOptionalCourses && <AddRequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} addOptionalGroup={addOptionalGroup} updateOptionalGroup={updateOptionalGroup} editedRequiredOption={editedRequiredOption} setEditedRequiredOption={setEditedRequiredOption} />}
-        {openRecommendedCourses && <AddRecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} addRecommendedCourse={addRecommendedCourse} updateRecommendedCourse={updateRecommendedCourse} editedRecommendedCourse={editedRecommendedCourse} setEditedRecommendedCourse={setEditedRecommendedCourse}/>}
+        {openRequiredCourses && <AddRequiredCourses toggleRequiredCourses={toggleRequiredCourses} editedRequiredCourse={editedRequiredCourse} setEditedRequiredCourse={setEditedRequiredCourse} addCourseOrCategory={addCourseOrCategory} updateCourseOrCategory={updateCourseOrCategory}/>}
+        {openRequiredCourseCategories && <AddRequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} editedRequiredCategory={editedRequiredCategory} setEditedRequiredCategory={setEditedRequiredCategory} addCourseOrCategory={addCourseOrCategory} updateCourseOrCategory={updateCourseOrCategory}/>}
+        {openRequiredOptionalCourses && <AddRequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} editedRequiredOption={editedRequiredOption} setEditedRequiredOption={setEditedRequiredOption} addCourseOrCategory={addCourseOrCategory} updateCourseOrCategory={updateCourseOrCategory}/>}
+        {openRecommendedCourses && <AddRecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} editedRecommendedCourse={editedRecommendedCourse} setEditedRecommendedCourse={setEditedRecommendedCourse} addCourseOrCategory={addCourseOrCategory} updateCourseOrCategory={updateCourseOrCategory}/>}
         </>
     )
 }
