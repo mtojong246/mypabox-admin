@@ -3,7 +3,8 @@ import Select from 'react-select';
 import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction, MouseEvent } from "react";
 import { useSelector } from "react-redux";
 import { selectCourses } from "../../../../app/selectors/courses.selectors";
-import { SchoolRequiredOptionalCourse } from "../../../../types/schools.types";
+import { SchoolPrereqRequiredOptionalCourse, SchoolRequiredOptionalCourse } from "../../../../types/schools.types";
+import { Course } from "../../../../types/courses.types";
 
 const defaultCourse = {
     school_optional_course_id: '',
@@ -14,12 +15,13 @@ const defaultCourse = {
     school_optional_course_note_section: '',
 }
 
-export default function AddCourseToOption({ toggleCoursePopup, addCourse, editedCourse, setEditedCourse, updateCourse }: { 
+export default function AddCourseToOption({ toggleCoursePopup, addCourse, editedCourse, setEditedCourse, updateCourse, group }: { 
     toggleCoursePopup: (e:any) => void, 
     addCourse: (course: SchoolRequiredOptionalCourse) => void, 
     editedCourse: SchoolRequiredOptionalCourse | null,
     setEditedCourse: Dispatch<SetStateAction<SchoolRequiredOptionalCourse | null>>,
     updateCourse: (course: SchoolRequiredOptionalCourse) => void,
+    group: SchoolPrereqRequiredOptionalCourse,
 }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
@@ -27,10 +29,16 @@ export default function AddCourseToOption({ toggleCoursePopup, addCourse, edited
     const [ selection, setSelection ] = useState<string | undefined>('');
 
     useEffect(() => {
-        setCourseOptions(courses.map(course => (
+        let filteredCourses = [] as Course[];
+        courses.forEach(course => {
+            if (!group.school_required_optional_courses_list.find(c => c.school_optional_course_id === course.unique_id)) {
+                filteredCourses.push(course)
+            }
+        })
+        setCourseOptions(filteredCourses.map(course => (
             { value: course.course_name, label: course.course_name }
         )))
-    }, [courses])
+    }, [courses, group.school_required_optional_courses_list])
 
     useEffect(() => {
         if (selection) {

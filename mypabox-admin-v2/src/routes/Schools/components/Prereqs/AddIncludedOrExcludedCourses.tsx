@@ -5,6 +5,8 @@ import { selectCategories } from "../../../../app/selectors/categories.selectors
 import Select from 'react-select';
 import ReactQuill from "react-quill";
 import { Course } from "../../../../types/courses.types";
+import { SchoolPrereqRequiredCourseCategory } from "../../../../types/schools.types";
+import { CategoryCourse } from "../../../../types/categories.types";
 
 interface CourseType {
     school_required_course_id: string;
@@ -16,13 +18,14 @@ const defaultCourse = {
     school_required_course_note: '',
 }
 
-export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, excluded, category, addCourseToCategory, updateCourseFromCategory, editedCourse, setEditedCourse }: { 
+export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, excluded, category, addCourseToCategory, updateCourseFromCategory, editedCourse, setEditedCourse, requiredCategory }: { 
     toggleCoursePopup: (e: any) => void, 
     excluded: boolean, category: string, 
     addCourseToCategory: (course: CourseType, excluded: boolean) => void, 
     updateCourseFromCategory: (course: CourseType, excluded: boolean) => void,
     editedCourse: CourseType | null,
-    setEditedCourse: Dispatch<SetStateAction<CourseType | null>>
+    setEditedCourse: Dispatch<SetStateAction<CourseType | null>>,
+    requiredCategory: SchoolPrereqRequiredCourseCategory
 }) {
     const courses = useSelector(selectCourses);
     const categories = useSelector(selectCategories);
@@ -33,13 +36,19 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
     useEffect(() => {
         const selectedCategory = categories.find(c => c.category_name === category);
         if (selectedCategory && excluded) {
-            setCourseOptions(selectedCategory.courses.map(course => (
+            let filteredCourses = [] as CategoryCourse[];
+            selectedCategory.courses.forEach(course => {
+                if (!requiredCategory.school_required_course_category_excluded_courses.find(c => c.school_required_course_id === course.course_id)) {
+                    filteredCourses.push(course)
+                }
+            })
+            setCourseOptions(filteredCourses.map(course => (
                 { value: course.course_name, label: course.course_name }
             )))
         } else if (selectedCategory && !excluded) {
             let filteredCourses = [] as Course[]
             courses.forEach(course => {
-                if (!selectedCategory.courses.find(c => c.course_id === course.unique_id)) {
+                if (!selectedCategory.courses.find(c => c.course_id === course.unique_id) && !requiredCategory.school_required_course_category_extra_included_courses.find(c => c.school_required_course_id === course.unique_id)) {
                     filteredCourses.push(course)
                 }
             })
@@ -47,7 +56,7 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
                 { value: course.course_name, label: course.course_name }
             )))
         }
-    }, [courses, categories, category, excluded])
+    }, [courses, categories, category, excluded, requiredCategory.school_required_course_category_excluded_courses, requiredCategory.school_required_course_category_extra_included_courses])
 
     useEffect(() => {
         if (selection) {

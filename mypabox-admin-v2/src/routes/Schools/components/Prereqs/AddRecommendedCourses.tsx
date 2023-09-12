@@ -3,7 +3,8 @@ import ReactQuill from "react-quill";
 import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
-import { SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourse, SchoolPrereqRequiredCourseCategory, SchoolPrereqRequiredOptionalCourse } from '../../../../types/schools.types';
+import { School, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourse, SchoolPrereqRequiredCourseCategory, SchoolPrereqRequiredOptionalCourse } from '../../../../types/schools.types';
+import { Course } from '../../../../types/courses.types';
 
 const defaultCourse = {
     school_recommended_course_id: '',
@@ -14,12 +15,13 @@ const defaultCourse = {
     school_recommended_course_note_section: '',
 }
 
-export default function AddRecommendedCourses({ toggleRecommendedCourses, editedRecommendedCourse, setEditedRecommendedCourse, addCourseOrCategory, updateCourseOrCategory }: { 
+export default function AddRecommendedCourses({ toggleRecommendedCourses, editedRecommendedCourse, setEditedRecommendedCourse, addCourseOrCategory, updateCourseOrCategory, newSchool }: { 
     toggleRecommendedCourses: (e:any) => void,
     editedRecommendedCourse: SchoolPrereqRecommendedCourse | null,
     setEditedRecommendedCourse: Dispatch<SetStateAction<SchoolPrereqRecommendedCourse | null>>,
     addCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
     updateCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    newSchool: School
 }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
@@ -27,10 +29,16 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, edited
     const [ selection, setSelection ] = useState<string | undefined>('');
 
     useEffect(() => {
-        setCourseOptions(courses.map(course => (
+        let filteredCourses = [] as Course[];
+        courses.forEach(course => {
+            if (!newSchool.school_prereq_recommended_courses.find(c => c.school_recommended_course_id === course.unique_id)) {
+                filteredCourses.push(course)
+            }
+        })
+        setCourseOptions(filteredCourses.map(course => (
             { value: course.course_name, label: course.course_name }
         )))
-    }, [courses])
+    }, [courses, newSchool.school_prereq_recommended_courses])
 
     useEffect(() => {
         if (selection) {

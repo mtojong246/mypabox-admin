@@ -202,7 +202,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                     </div>
                 </div>
             </div>
-            {coursePopup && <AddCourseToOption toggleCoursePopup={toggleCoursePopup} addCourse={addCourse} editedCourse={editedCourse} setEditedCourse={setEditedCourse} updateCourse={updateCourse}/>}
+            {coursePopup && <AddCourseToOption toggleCoursePopup={toggleCoursePopup} addCourse={addCourse} editedCourse={editedCourse} setEditedCourse={setEditedCourse} updateCourse={updateCourse} group={group}/>}
             {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )

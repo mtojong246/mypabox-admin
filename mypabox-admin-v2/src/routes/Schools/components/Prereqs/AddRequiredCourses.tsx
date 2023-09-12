@@ -3,7 +3,8 @@ import ReactQuill from "react-quill";
 import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
-import { SchoolPrereqRequiredCourse, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourseCategory, SchoolPrereqRequiredOptionalCourse } from '../../../../types/schools.types';
+import { SchoolPrereqRequiredCourse, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourseCategory, SchoolPrereqRequiredOptionalCourse, School } from '../../../../types/schools.types';
+import { Course } from '../../../../types/courses.types';
 
 const defaultCourse = {
     school_required_course_id: '',
@@ -14,12 +15,13 @@ const defaultCourse = {
     school_required_course_note_section: '',
 }
 
-export default function AddRequiredCourses({ toggleRequiredCourses, editedRequiredCourse, setEditedRequiredCourse, addCourseOrCategory, updateCourseOrCategory }: { 
+export default function AddRequiredCourses({ toggleRequiredCourses, editedRequiredCourse, setEditedRequiredCourse, addCourseOrCategory, updateCourseOrCategory, newSchool }: { 
     toggleRequiredCourses: (e:any) => void, 
     editedRequiredCourse: SchoolPrereqRequiredCourse | null,
     setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse | null>>,
     addCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
     updateCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    newSchool: School
 }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
@@ -27,10 +29,18 @@ export default function AddRequiredCourses({ toggleRequiredCourses, editedRequir
     const [ selection, setSelection ] = useState<string | undefined>('');
 
     useEffect(() => {
-        setCourseOptions(courses.map(course => (
+        let filteredCourses = [] as Course[];
+        courses.forEach(course => {
+            if (!newSchool.school_prereq_required_courses.find(c => c.school_required_course_id === course.unique_id)) {
+                filteredCourses.push(course)
+            }
+        })
+        setCourseOptions(filteredCourses.map(course => (
             { value: course.course_name, label: course.course_name }
         )))
-    }, [courses])
+    }, [courses, newSchool.school_prereq_required_courses])
+
+    console.log(courseOptions)
 
     useEffect(() => {
         if (selection) {
