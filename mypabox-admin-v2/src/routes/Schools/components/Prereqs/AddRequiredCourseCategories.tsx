@@ -187,12 +187,19 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
     }
 
     // Adds new note to course category
-    const addNoteToCategory = (note: Note) => {
+    const addNote = (note: Note) => {
         setRequiredCategory({
             ...requiredCategory,
             school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.concat(note),
         })
     }
+
+    // const addNoteToCategory = (note: Note) => {
+    //     setRequiredCategory({
+    //         ...requiredCategory,
+    //         school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.concat(note),
+    //     })
+    // }
 
     // Updates note from course category using set index 
     const updateNote = (note: Note) => {
@@ -360,7 +367,7 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                 </div>
             </div>
             {coursePopup && <AddIncludedOrExcludedCourses toggleCoursePopup={toggleCoursePopup} excluded={excluded} category={selection as string} addCourseToCategory={addCourseToCategory} editedCourse={editedCourse} setEditedCourse={setEditedCourse} updateCourseFromCategory={updateCourseFromCategory} requiredCategory={requiredCategory}/>}
-            {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNoteToCategory={addNoteToCategory} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
+            {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )
 }

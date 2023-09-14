@@ -8,10 +8,9 @@ const defaultNote = {
 }
 
 
-export default function AddNote({ toggleNotePopup, addNote, addNoteToCategory, editedNote, setEditedNote, updateNote }: { 
+export default function AddNote({ toggleNotePopup, addNote, editedNote, setEditedNote, updateNote }: { 
     toggleNotePopup: (e:any) => void, 
-    addNote?: (note: Note) => void, 
-    addNoteToCategory?: (note: Note) => void, 
+    addNote: (note: Note) => void,
     editedNote: Note | null,
     updateNote: (note: Note) => void,
     setEditedNote: Dispatch<SetStateAction<Note | null>>
@@ -52,14 +51,9 @@ export default function AddNote({ toggleNotePopup, addNote, addNoteToCategory, e
         if (optionalNote.note === '') {
             alert('Please add text to note')
         } else {
-            // if in edit mode, update note
             if (editedNote) {
                 updateNote(optionalNote)
-            // if in add mode and note comes from course categories, add note to category
-            } else if (!editedNote && addNoteToCategory) {
-                addNoteToCategory(optionalNote)
-            // if in add mode and note comes from optional courses, add note to options
-            } else if (!editedNote && addNote) {
+            } else {
                 addNote(optionalNote)
             }
             toggleNotePopup(e)
