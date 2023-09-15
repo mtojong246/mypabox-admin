@@ -217,4 +217,56 @@ export const defaultSchool: School = {
     school_prereq_required_course_categories: [],
     school_prereq_recommended_courses: [],
 
+    school_grade_criteria: {
+        school_minimum_grade_required_for_all_courses: '',
+        school_grade_criteria_note_section: [],
+    },
+
+    school_time_frame_criteria: {
+        school_time_frame_all_courses_must_be_completed: {
+            input: '',
+            notes: [],
+        },
+        school_time_frame_science_courses_must_be_completed: {
+            input: '',
+            notes: [],
+        },
+        school_time_frame_math_courses_must_be_completed: {
+            input: '',
+            notes: [],
+        },
+        school_time_frame_criteria_note_section: [],
+    },
+
+    school_pass_fail_criteria: {
+        school_pass_fail_grade_accepted: false,
+        school_pass_fail_grade_criteria_note_section: [],
+    },
+
+    school_ap_criteria: {
+        school_ap_courses_accepted: false,
+        school_ap_courses_criteria_note_section: [],
+    },
+
+    school_community_college_criteria: {
+        school_community_college_credits_accepted: false,
+        school_community_college_criteria_note_section: [],
+    },
+
+    school_clep_criteria: {
+        school_clep_credits_accepted: false,
+        school_clep_credits_criteria_note_section: [],
+    },
+
+    school_online_courses_criteria: {
+        school_online_courses_accepted: false,
+        school_online_courses_criteria_note_section: [],
+    },
+
+    school_prerequisite_completion_criteria: {
+        school_all_courses_most_be_completed_before_applying: false,
+        school_courses_can_be_in_progress_while_applying: false,
+        school_prerequisite_completion_criteria_note_section: [],
+    }
+
 }

@@ -194,13 +194,6 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
         })
     }
 
-    // const addNoteToCategory = (note: Note) => {
-    //     setRequiredCategory({
-    //         ...requiredCategory,
-    //         school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.concat(note),
-    //     })
-    // }
-
     // Updates note from course category using set index 
     const updateNote = (note: Note) => {
         setRequiredCategory({

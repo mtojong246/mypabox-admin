@@ -174,6 +174,65 @@ export interface School {
     school_prereq_required_course_categories: SchoolPrereqRequiredCourseCategory[];
     school_prereq_recommended_courses: SchoolPrereqRecommendedCourse[];
 
+    school_grade_criteria: {
+        school_minimum_grade_required_for_all_courses: string;
+        school_grade_criteria_note_section: Note[]
+    }
+
+    school_time_frame_criteria: {
+        school_time_frame_all_courses_must_be_completed: {
+            input: string;
+            notes: Note[];
+        }
+        school_time_frame_science_courses_must_be_completed: {
+            input: string;
+            notes: Note[];
+        }
+        school_time_frame_math_courses_must_be_completed: {
+            input: string;
+            notes: Note[];
+        }
+        school_time_frame_criteria_note_section: Note[];
+    }
+
+    school_pass_fail_criteria: {
+        school_pass_fail_grade_accepted: boolean;
+        school_pass_fail_grade_criteria_note_section: Note[];
+    }
+
+    school_ap_criteria: {
+        school_ap_courses_accepted: boolean;
+        school_ap_courses_criteria_note_section: Note[];
+    }
+
+    school_community_college_criteria: {
+        school_community_college_credits_accepted: boolean;
+        school_community_college_criteria_note_section: Note[];
+    }
+
+    school_clep_criteria: {
+        school_clep_credits_accepted: boolean;
+        school_clep_credits_criteria_note_section: Note[];
+    }
+
+    school_online_courses_criteria: {
+        school_online_courses_accepted: boolean;
+        school_online_courses_criteria_note_section: Note[];
+    }
+
+    school_prerequisite_completion_criteria: {
+        school_all_courses_most_be_completed_before_applying: boolean;
+        school_courses_can_be_in_progress_while_applying: boolean;
+        school_maximum_number_of_courses_pending_while_applying?: number;
+        school_maximum_number_of_credits_pending_while_applying?: number;
+        school_maximum_number_of_science_courses_pending_while_applying?: number;
+        school_maximum_number_of_non_science_courses_pending_while_applying?: number;
+        school_minimum_grade_required_for_pending_courses?: string;
+        school_date_pending_courses_must_be_completed?: string;
+        school_semester_pending_courses_must_be_completed?: string;
+        school_prerequisite_completion_criteria_note_section: Note[];
+    }
+
 }
 
 export interface SchoolState {

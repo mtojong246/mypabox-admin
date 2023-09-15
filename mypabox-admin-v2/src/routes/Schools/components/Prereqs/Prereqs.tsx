@@ -8,6 +8,10 @@ import RequiredCourses from "./RequiredCourses";
 import RequiredOptionalCourses from "./RequiredOptionalCourses";
 import RequiredCourseCategories from "./RequiredCourseCategories";
 import RecommendedCourses from "./RecommendedCourses";
+import MinimumGrade from "./MinimumGrade";
+import TimeFrameCriteria from "./TimeFrameCriteria";
+import BooleanInputs from "./BooleanInputs";
+import CompleteConditions from "./CompleteConditions";
 
 
 export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
@@ -77,6 +81,10 @@ export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School
                 <RequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredOption={setEditedRequiredOption} setGroupIndex={setGroupIndex}/>
                 <RequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredCategory={setEditedRequiredCategory} setGroupIndex={setGroupIndex}/>
                 <RecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRecommendedCourse={setEditedRecommendedCourse} setGroupIndex={setGroupIndex}/>
+                <MinimumGrade newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <TimeFrameCriteria />
+                <BooleanInputs newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <CompleteConditions />
             </>
         )}
         {openRequiredCourses && <AddRequiredCourses toggleRequiredCourses={toggleRequiredCourses} editedRequiredCourse={editedRequiredCourse} setEditedRequiredCourse={setEditedRequiredCourse} addCourseOrCategory={addCourseOrCategory} updateCourseOrCategory={updateCourseOrCategory} newSchool={newSchool}/>}
