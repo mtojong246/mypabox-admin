@@ -180,18 +180,9 @@ export interface School {
     }
 
     school_time_frame_criteria: {
-        school_time_frame_all_courses_must_be_completed: {
-            input: string;
-            notes: Note[];
-        }
-        school_time_frame_science_courses_must_be_completed: {
-            input: string;
-            notes: Note[];
-        }
-        school_time_frame_math_courses_must_be_completed: {
-            input: string;
-            notes: Note[];
-        }
+        school_time_frame_all_courses_must_be_completed: StringInput;
+        school_time_frame_science_courses_must_be_completed: StringInput;
+        school_time_frame_math_courses_must_be_completed: StringInput;
         school_time_frame_criteria_note_section: Note[];
     }
 

@@ -82,7 +82,7 @@ export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School
                 <RequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredCategory={setEditedRequiredCategory} setGroupIndex={setGroupIndex}/>
                 <RecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRecommendedCourse={setEditedRecommendedCourse} setGroupIndex={setGroupIndex}/>
                 <MinimumGrade newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <TimeFrameCriteria />
+                <TimeFrameCriteria newSchool={newSchool} setNewSchool={setNewSchool}/>
                 <BooleanInputs newSchool={newSchool} setNewSchool={setNewSchool}/>
                 <CompleteConditions />
             </>
