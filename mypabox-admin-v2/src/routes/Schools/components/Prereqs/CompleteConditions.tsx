@@ -1,7 +1,11 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState, useEffect } from "react"
 import { School } from "../../../../types/schools.types"
 import Select from 'react-select';
-import { NumberInput, StringInput } from "../../../../types/schools.types";
+import { NumberInput, StringInput, Note } from "../../../../types/schools.types";
+import AddNote from "./AddNote";
+import { FiEdit3 } from 'react-icons/fi'
+import { AiOutlineClose } from 'react-icons/ai'
+import ReactQuill from "react-quill";
 
 const options = [
     { value: 'A+', label: 'A+' },
@@ -30,6 +34,16 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
     newSchool: School,
     setNewSchool: Dispatch<SetStateAction<School>>
  }) {
+    const [ openNote, setOpenNote ] = useState(false);
+    const [ editedNote, setEditedNote ] = useState<Note | null>(null);
+    const [ index, setIndex ] = useState(0);
+    const [ name, setName ] = useState('');
+    const [ isIndividual, setIsIndividual ] = useState(false);
+
+    const toggleNotePopup = (e: any) => {
+        e.preventDefault();
+        setOpenNote(!openNote)
+    }
 
     useEffect(() => {
         if (newSchool.school_prerequisite_completion_criteria.school_courses_can_be_in_progress_while_applying) {
@@ -106,7 +120,106 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
 
     }
 
-    console.log(newSchool.school_prerequisite_completion_criteria)
+    const handleSelect = (e:any, name: string) => {
+        const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput;
+        setNewSchool({
+            ...newSchool,
+            school_prerequisite_completion_criteria: {
+                ...newSchool.school_prerequisite_completion_criteria,
+                [name]: {
+                    ...field,
+                    input: e.value,
+                }
+            }
+        })
+    }
+
+    const addNote = (note: Note) => {
+        if (isIndividual) {
+            const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
+            setNewSchool({
+                ...newSchool,
+                school_prerequisite_completion_criteria: {
+                    ...newSchool.school_prerequisite_completion_criteria,
+                    [name]: {
+                        ...field,
+                        notes: field.notes.concat(note)
+                    }
+                    
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                school_prerequisite_completion_criteria: {
+                    ...newSchool.school_prerequisite_completion_criteria,
+                    school_prerequisite_completion_criteria_note_section: newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.concat(note)
+                }
+            })
+        }
+    }
+
+    const updateNote = (note: Note) => {
+        if (isIndividual) {
+            const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
+            setNewSchool({
+                ...newSchool,
+                school_prerequisite_completion_criteria: {
+                    ...newSchool.school_prerequisite_completion_criteria,
+                    [name]: {
+                        ...field,
+                        notes: field.notes.map((n,i) => {
+                            if (i === index) {
+                                return { ...note }
+                            } else {
+                                return { ...n }
+                            }
+                        })
+                    }
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                school_prerequisite_completion_criteria: {
+                    ...newSchool.school_prerequisite_completion_criteria,
+                    school_prerequisite_completion_criteria_note_section: newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+    const deleteNote = (e:any, index: number) => {
+        e.preventDefault();
+        if (isIndividual) {
+            const field = newSchool.school_prerequisite_completion_criteria[e.currentTarget.name as keyof object] as StringInput | NumberInput;
+            setNewSchool({
+                ...newSchool,
+                school_prerequisite_completion_criteria: {
+                    ...newSchool.school_prerequisite_completion_criteria,
+                    [e.currentTarget.name]: {
+                        ...field,
+                        notes: field.notes.filter((n,i) => i !== index)
+                    }
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                school_prerequisite_completion_criteria: {
+                    ...newSchool.school_prerequisite_completion_criteria,
+                    school_prerequisite_completion_criteria_note_section: newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.filter((n,i) => i !== index)
+                }
+            })
+        }
+    }
+
 
     return (
         <>
@@ -120,6 +233,8 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                     </label>
                 </div>
             </div>
+
+
             <div className={`mt-10 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Courses Can Be In Progress While Applying</label>   
                 <div className='w-full mt-2'>
@@ -131,64 +246,192 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                 </div>
                 {newSchool.school_prerequisite_completion_criteria.school_courses_can_be_in_progress_while_applying && (
                 <>
+
                     <div className={`mt-8 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Max Number of Courses Pending While Applying:</label> 
-                        <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_maximum_number_of_courses_pending_while_applying')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <input onChange={handleInput} value={newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying?.input} name='school_maximum_number_of_courses_pending_while_applying' className='mt-5 w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying?.notes.map((note, i) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button name='school_maximum_number_of_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                            </div>
+                        ))}
+                        </div>
                     </div>
+
+
                     <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Max Number of Credits Pending While Applying:</label> 
-                        <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_maximum_number_of_credits_pending_while_applying')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <input onChange={handleInput} value={newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying?.input} name='school_maximum_number_of_credits_pending_while_applying' className='mt-5 w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying?.notes.map((note, i) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_credits_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button name='school_maximum_number_of_credits_pending_while_applying' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                            </div>
+                        ))}
+                        </div>
                     </div>
+
+                    
                     <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Max Number of SCIENCE Courses Pending While Applying:</label> 
-                        <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_maximum_number_of_science_courses_pending_while_applying')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <input onChange={handleInput} value={newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying?.input} name='school_maximum_number_of_science_courses_pending_while_applying' className='mt-5 w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying?.notes.map((note, i) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_science_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button name='school_maximum_number_of_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                            </div>
+                        ))}
+                        </div>
                     </div>
+
+
                     <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Max Number of NON-SCIENCE Courses Pending While Applying:</label> 
-                        <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_maximum_number_of_non_science_courses_pending_while_applying')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <input onChange={handleInput} value={newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying?.input} name='school_maximum_number_of_non_science_courses_pending_while_applying' className='mt-5 w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying?.notes.map((note, i) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_non_science_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button name='school_maximum_number_of_non_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                            </div>
+                        ))}
+                        </div>
                     </div>
+
+                    
                     <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Grade Required for Pending Courses:</label> 
-                        <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_minimum_grade_required_for_pending_courses')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
-                        <Select options={options} className="mt-5 w-1/3 focus:outline-none"/>
+                        <Select value={newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses?.input ? {value: newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses.input, label: newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses.input }: null} onChange={(e) => handleSelect(e, 'school_minimum_grade_required_for_pending_courses')} options={options} className="mt-5 w-1/3 focus:outline-none"/>
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses?.notes.map((note, i) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_minimum_grade_required_for_pending_courses')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button name='school_minimum_grade_required_for_pending_courses' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                            </div>
+                        ))}
+                        </div>
                     </div>
+
+
                     <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Date Pending Courses Must Be Completed:</label> 
-                        <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_date_pending_courses_must_be_completed')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <input onChange={handleInput} value={newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed?.input} name='school_date_pending_courses_must_be_completed' type='date' className='mt-5 w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[58px] text-lg rounded-lg' />  
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed?.notes.map((note, i) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_date_pending_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button name='school_date_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                            </div>
+                        ))}
+                        </div>
                     </div>
+
+
                     <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Semester Pending Courses Must Be Completed</label> 
-                        <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_semester_pending_courses_must_be_completed')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
-                        <Select options={semesterOptions} className="mt-5 w-1/3 focus:outline-none"/>
+                        <Select value={newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed?.input ? {value: newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed.input, label: newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed.input }: null} onChange={(e) => handleSelect(e, 'school_semester_pending_courses_must_be_completed')} options={semesterOptions} className="mt-5 w-1/3 focus:outline-none"/>
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed?.notes.map((note, i) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_semester_pending_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button name='school_semester_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                            </div>
+                        ))}
+                        </div>
                     </div>
                 </>
                 )}
             </div>
+
+
             <div className={`mt-10 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Completion Criteria Notes</label>   
-                <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(false)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
+                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.length ? 'mt-3' : 'mt-0'}`}>
+                {newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.map((note, i) => (
+                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                        <div className='flex justify-between items-center w-full mb-1'>
+                            <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                            <div className='flex gap-2'>
+                                <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(false);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button onClick={(e) => {deleteNote(e, i); setIsIndividual(false)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            </div>
+                        </div>
+                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                    </div>
+                ))}
+                </div>
             </div>
+            {openNote && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )
 }
