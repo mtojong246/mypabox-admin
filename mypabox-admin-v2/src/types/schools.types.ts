@@ -214,13 +214,13 @@ export interface School {
     school_prerequisite_completion_criteria: {
         school_all_courses_most_be_completed_before_applying: boolean;
         school_courses_can_be_in_progress_while_applying: boolean;
-        school_maximum_number_of_courses_pending_while_applying?: number;
-        school_maximum_number_of_credits_pending_while_applying?: number;
-        school_maximum_number_of_science_courses_pending_while_applying?: number;
-        school_maximum_number_of_non_science_courses_pending_while_applying?: number;
-        school_minimum_grade_required_for_pending_courses?: string;
-        school_date_pending_courses_must_be_completed?: string;
-        school_semester_pending_courses_must_be_completed?: string;
+        school_maximum_number_of_courses_pending_while_applying?: NumberInput;
+        school_maximum_number_of_credits_pending_while_applying?: NumberInput;
+        school_maximum_number_of_science_courses_pending_while_applying?: NumberInput;
+        school_maximum_number_of_non_science_courses_pending_while_applying?: NumberInput;
+        school_minimum_grade_required_for_pending_courses?: StringInput;
+        school_date_pending_courses_must_be_completed?: StringInput;
+        school_semester_pending_courses_must_be_completed?: StringInput;
         school_prerequisite_completion_criteria_note_section: Note[];
     }
 
