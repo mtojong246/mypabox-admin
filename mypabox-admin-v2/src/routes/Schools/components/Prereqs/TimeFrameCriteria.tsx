@@ -272,7 +272,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                 </div>
 
 
-                <div className='w-full mt-14'>
+                <div className='w-full mt-10'>
                     <label className='font-medium text-xl'>Notes:</label>
                     <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(false)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
