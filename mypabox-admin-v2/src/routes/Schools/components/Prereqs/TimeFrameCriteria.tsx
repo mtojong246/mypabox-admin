@@ -196,13 +196,13 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                 <label className="absolute top-[-16px] text-xl bg-white">Time Frame Criteria</label>   
                 <div className={`mt-8 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All Courses Must Be Completed Within:</label> 
-                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                    Add Note
-                    </button>
-                    <div className='flex justify-start items-center gap-2 mt-5'>
+                    <div className='flex justify-start items-center gap-2 mb-4'>
                         <input onChange={(e) => {handleInput(e); setName('school_time_frame_all_courses_must_be_completed')}} name='school_time_frame_all_courses_must_be_completed' value={allSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                         <Select options={options} value={allSelection.duration ? {value: allSelection.duration, label: allSelection.duration} : null} onChange={(e) => {handleSelect(e, 'school_time_frame_all_courses_must_be_completed'); setName('school_time_frame_all_courses_must_be_completed')}} className="w-1/3 focus:outline-none"/>
                     </div>
+                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    Add Note
+                    </button>
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -222,13 +222,13 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
 
                 <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All SCIENCE Courses Must Be Completed Within:</label> 
-                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                    Add Note
-                    </button>
-                    <div className='flex justify-start items-center gap-2 mt-5'>
+                    <div className='flex justify-start items-center gap-2 mb-4'>
                         <input onChange={(e) => {handleInput(e); setName('school_time_frame_science_courses_must_be_completed')}} name='school_time_frame_science_courses_must_be_completed' value={scienceSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                         <Select options={options} value={scienceSelection.duration ? {value: scienceSelection.duration, label: scienceSelection.duration} : null} onChange={(e) => {handleSelect(e, 'school_time_frame_science_courses_must_be_completed'); setName('school_time_frame_science_courses_must_be_completed')}}  className="w-1/3 focus:outline-none"/>
                     </div>
+                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    Add Note
+                    </button>
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -248,14 +248,13 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
 
                 <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All MATH Courses Must Be Completed Within:</label> 
-                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                    Add Note
-                    </button>
-                    <div className='flex justify-start items-center gap-2 mt-5'>
+                    <div className='flex justify-start items-center gap-2 mb-4'>
                         <input onChange={(e) => {handleInput(e); setName('school_time_frame_math_courses_must_be_completed')}} name='school_time_frame_math_courses_must_be_completed' value={mathSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                         <Select options={options} value={mathSelection.duration ? {value: mathSelection.duration, label: mathSelection.duration} : null} onChange={(e) => {handleSelect(e, 'school_time_frame_math_courses_must_be_completed'); setName('school_time_frame_math_courses_must_be_completed')}} className="w-1/3 focus:outline-none"/>
                     </div>
-
+                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    Add Note
+                    </button>
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>

@@ -120,11 +120,11 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             return (
             <div className={`${cat.margin} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
+                <input className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mb-4" 
+                value={(newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number} name={cat.value} onChange={handleInputChange} />
                 <button name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
                 Add Note
                 </button>
-                <input className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-4" 
-                value={(newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number} name={cat.value} onChange={handleInputChange} />
                 {
                 (newSchool[cat.value as keyof School] as StringInput | NumberInput).notes ? (
                 <div className="w-full">
@@ -155,11 +155,11 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             return (
             <div className={`${cat.margin} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
+                <Select className="w-full focus:outline-none rounded-lg mb-4" name={cat.value} 
+                options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : cat.options} onChange={handleInputChange} />
                 <button value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
                 Add Note
                 </button>
-                <Select className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-4" name={cat.value} 
-                options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : cat.options} onChange={handleInputChange} />
                 {
                 (newSchool[cat.value as keyof School] as StringInput).notes ? (
                 <div className="w-full">
@@ -191,10 +191,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             return (
             <div className={`${cat.margin} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
-                <button value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
-                Add Note
-                </button>
-                <div className='mt-4 w-full'>
+                <div className='mb-4 mt-2 w-full'>
                 <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" className="sr-only peer" name={cat.value} onChange={handleCheck}/>
                     <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
@@ -203,7 +200,9 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                     </span>
                 </label>
                 </div>
-
+                <button value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
+                Add Note
+                </button>
                 {
                 (newSchool[cat.value as keyof School] as BooleanInput).notes ? (
                 <div className="w-full">

@@ -124,17 +124,7 @@ export default function BooleanInputs({
             <label className="absolute top-[-16px] text-xl bg-white">
               {data.name}
             </label>
-            <button
-              onClick={(e) => {
-                toggleNotePopup(e);
-                setValue(data.value);
-                setNotes(data.notes);
-              }}
-              className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]"
-            >
-              Add Note
-            </button>
-            <div className="mt-5 w-full">
+            <div className="mb-4 mt-2 w-full">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
@@ -149,6 +139,16 @@ export default function BooleanInputs({
                 </span>
               </label>
             </div>
+            <button
+              onClick={(e) => {
+                toggleNotePopup(e);
+                setValue(data.value);
+                setNotes(data.notes);
+              }}
+              className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]"
+            >
+              Add Note
+            </button>
             <div
               className={`flex flex-col justify-center items-center gap-3 ${
                 (field[data.notes as keyof object] as Note[]).length
