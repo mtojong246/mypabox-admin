@@ -267,6 +267,45 @@ export const defaultSchool: School = {
         school_all_courses_most_be_completed_before_applying: false,
         school_courses_can_be_in_progress_while_applying: false,
         school_prerequisite_completion_criteria_note_section: [],
+    },
+
+    school_paid_experience_required: {
+        input: false,
+        school_paid_experience_required_notes: [],
+    },
+
+    school_patient_experience: {
+        school_patient_experience_required: false,
+        school_minimum_patient_care_experience_hours_required: null,
+        school_minimum_time_frame_patient_care_experience_needs_to_be_completed: null,
+        school_average_patient_care_experience_hours_accepted_previous_cycle: 0,
+        school_patient_care_experience_general_notes: [],
+    },
+
+    school_healthcare_experience: {
+        school_healthcare_experience_required: false,
+        school_minimum_healthcare_experience_hours_required: null,
+        school_minimum_time_frame_healthcare_experience_needs_to_be_completed: null,
+        school_average_healthcare_experience_hours_accepted_previous_cycle: 0,
+        school_healthcare_experience_general_notes: [],
+    },
+
+    school_community_service: {
+        school_community_service_required: false,
+        school_minimum_community_service_hours_required: null,
+        school_community_service_recommended: false,
+        school_minimum_community_service_hours_recommended: null,
+        school_average_community_service_hours_accepted_previous_cycle: 0,
+        school_community_service_general_notes: [],
+    },
+
+    school_volunteer_service: {
+        school_volunteer_service_required: false,
+        school_minimum_volunteer_service_hours_required: null,
+        school_volunteer_service_recommended: false,
+        school_minimum_volunteer_service_hours_recommended: null,
+        school_average_volunteer_service_hours_accepted_previous_cycle: 0,
+        school_volunteer_service_general_notes: [],
     }
 
 }

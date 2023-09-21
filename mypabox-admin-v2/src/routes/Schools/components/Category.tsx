@@ -11,6 +11,7 @@ import Prereqs from "./Prereqs/Prereqs";
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
 import DeletePopUp from "./DeletePopUp";
+import Experience from "./Experience/Experience";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -294,6 +295,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} openNotePopup={openNotePopup} handleInputChange={handleInputChange} openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup}
             />}
             {tab === '#prerequisites' && <Prereqs newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#experience' && <Experience newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
             removeNote={removeNote} removeField={removeField} inputType={inputType} /> : ''}
         </>

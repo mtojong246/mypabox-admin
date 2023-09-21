@@ -306,8 +306,8 @@ export const categories: CategoryType[] = [
         fields: [],
     },
     {
-        hash: '#healthcare-experience',
-        name: 'Healthcare Experience',
+        hash: '#experience',
+        name: 'Experience',
         fields: [],
     },
     {

@@ -224,6 +224,69 @@ export interface School {
         school_prerequisite_completion_criteria_note_section: Note[];
     }
 
+    school_paid_experience_required: {
+        input: boolean;
+        school_paid_experience_required_notes: Note[]
+    }
+
+    school_patient_experience: {
+        school_patient_experience_required: boolean;
+        school_minimum_patient_care_experience_hours_required: {
+            input: number;
+            school_minimum_patient_care_experience_hours_required_notes: Note[];
+        } | null;
+        school_minimum_time_frame_patient_care_experience_needs_to_be_completed: {
+            input: string;
+            school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes: Note[];
+        } | null;
+        school_average_patient_care_experience_hours_accepted_previous_cycle: number;
+        school_patient_care_experience_general_notes: Note[]
+    }
+
+    school_healthcare_experience: {
+        school_healthcare_experience_required: boolean;
+        school_minimum_healthcare_experience_hours_required: {
+            input: number;
+            school_minimum_healthcare_experience_hours_required_notes: Note[]
+        } | null;
+        school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
+            input: string;
+            school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes: Note[]
+        } | null;
+        school_average_healthcare_experience_hours_accepted_previous_cycle: number;
+        school_healthcare_experience_general_notes: Note[]
+    }
+
+    school_community_service: {
+        school_community_service_required: boolean;
+        school_minimum_community_service_hours_required: {
+            input: number;
+            school_minimum_community_service_hours_required_notes: Note[]
+        } | null;
+        school_community_service_recommended: boolean;
+        school_minimum_community_service_hours_recommended: {
+            input: number;
+            school_minimum_community_service_hours_recommended_notes: Note[]
+        } | null;
+        school_average_community_service_hours_accepted_previous_cycle: number;
+        school_community_service_general_notes: Note[];
+    }
+
+    school_volunteer_service: {
+        school_volunteer_service_required: boolean;
+        school_minimum_volunteer_service_hours_required: {
+            input: number;
+            school_minimum_volunteer_service_hours_required_notes: Note[]
+        } | null;
+        school_volunteer_service_recommended: boolean;
+        school_minimum_volunteer_service_hours_recommended: {
+            input: number;
+            school_minimum_volunteer_service_hours_recommended_notes: Note[]
+        } | null;
+        school_average_volunteer_service_hours_accepted_previous_cycle: number;
+        school_volunteer_service_general_notes: Note[];
+    }
+
 }
 
 export interface SchoolState {
