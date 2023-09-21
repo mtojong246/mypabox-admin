@@ -91,6 +91,7 @@ export default function PatientExperience({newSchool, setNewSchool}: { newSchool
     }
 
     const deleteNote = (e: any, index: number) => {
+        e.preventDefault()
         if (isGroup) {
             setNewSchool({
                 ...newSchool,

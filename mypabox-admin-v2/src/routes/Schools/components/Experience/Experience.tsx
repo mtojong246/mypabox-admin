@@ -58,6 +58,7 @@ export default function Experience({ newSchool, setNewSchool }: { newSchool: Sch
     }
 
     const deleteNote = (e: any, index: number) => {
+        e.preventDefault()
             setNewSchool({
                 ...newSchool,
                 school_paid_experience_required: {
