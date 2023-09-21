@@ -1,13 +1,10 @@
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
+import { ChangeEvent, Dispatch, SetStateAction, useEffect } from "react"
 import { School } from "../../../../types/schools.types"
 
 export default function CommunityService({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> } ) {
-    
-    console.log(newSchool.school_community_service)
+
 
     useEffect(() => {
-
-
         if (newSchool.school_community_service.school_community_service_recommended) {
             setNewSchool({
                 ...newSchool,
