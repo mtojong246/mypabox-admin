@@ -1,9 +1,14 @@
-import { School } from "../../../../types/schools.types"
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
+import { School, Note } from "../../../../types/schools.types"
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react"
 import PatientExperience from "./PatientExperience"
 import HealthcareExperience from "./HealthcareExperience"
 import CommunityService from "./CommunityService"
 import VolunteerService from "./VolunteerService"
+
+import ReactQuill from "react-quill";
+import { FiEdit3 } from 'react-icons/fi'
+import { AiOutlineClose } from 'react-icons/ai'
+import AddNote from "../Prereqs/AddNote"
 
 export default function Experience({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>}) {
     
@@ -15,6 +20,51 @@ export default function Experience({ newSchool, setNewSchool }: { newSchool: Sch
                 input: e.target.checked,
             }
         })
+    }
+
+    const [ notePopup, setNotePopup ] = useState(false);
+    const [ index, setIndex ] = useState<number | null>(null);
+    const [ editedNote, setEditedNote ] = useState<Note | null>(null);
+
+    const toggleNotePopup = (e:any) => {
+        e.preventDefault();
+        setNotePopup(!notePopup)
+    }
+
+    const addNote = (note: Note) => {
+            setNewSchool({
+                ...newSchool,
+                school_paid_experience_required: {
+                    ...newSchool.school_paid_experience_required,
+                    school_paid_experience_required_notes: newSchool.school_paid_experience_required.school_paid_experience_required_notes.concat(note)
+                }
+            })
+    }
+
+    const updateNote = (note: Note) => {
+            setNewSchool({
+                ...newSchool,
+                school_paid_experience_required: {
+                    ...newSchool.school_paid_experience_required,
+                    school_paid_experience_required_notes: newSchool.school_paid_experience_required.school_paid_experience_required_notes.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+    }
+
+    const deleteNote = (e: any, index: number) => {
+            setNewSchool({
+                ...newSchool,
+                school_paid_experience_required: {
+                    ...newSchool.school_paid_experience_required,
+                    school_paid_experience_required_notes: newSchool.school_paid_experience_required.school_paid_experience_required_notes.filter((n,i) => i !== index)
+                }
+            })
     }
     
     return (
@@ -30,9 +80,23 @@ export default function Experience({ newSchool, setNewSchool }: { newSchool: Sch
                             <span className="ml-3 text-xl text-black">{newSchool.school_paid_experience_required.input ? 'True' : 'False'}</span>
                         </label>
                     </div>
-                    <button className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e) => {toggleNotePopup(e);}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
+                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_paid_experience_required.school_paid_experience_required_notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_paid_experience_required.school_paid_experience_required_notes.map((note, i) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button onClick={(e) => {deleteNote(e, i);}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                            </div>
+                        ))}
+                        </div>
                 </div>
 
 
@@ -42,6 +106,7 @@ export default function Experience({ newSchool, setNewSchool }: { newSchool: Sch
                 <VolunteerService newSchool={newSchool} setNewSchool={setNewSchool}/>
             </>
         )}
+        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )
 }
