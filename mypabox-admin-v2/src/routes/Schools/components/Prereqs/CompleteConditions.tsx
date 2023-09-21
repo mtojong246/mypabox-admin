@@ -195,7 +195,7 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
         }
     }
 
-    const deleteNote = (e:any, index: number) => {
+    const deleteNote = (e:any, index: number, isIndividual: boolean) => {
         e.preventDefault();
         if (isIndividual) {
             const field = newSchool.school_prerequisite_completion_criteria[e.currentTarget.name as keyof object] as StringInput | NumberInput;
@@ -261,7 +261,7 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
                                             <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_maximum_number_of_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button name='school_maximum_number_of_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -284,7 +284,7 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
                                             <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_credits_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_maximum_number_of_credits_pending_while_applying' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button name='school_maximum_number_of_credits_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -307,7 +307,7 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
                                             <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_science_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_maximum_number_of_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button name='school_maximum_number_of_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -330,7 +330,7 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
                                             <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_non_science_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_maximum_number_of_non_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button name='school_maximum_number_of_non_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -353,7 +353,7 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
                                             <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_minimum_grade_required_for_pending_courses')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_minimum_grade_required_for_pending_courses' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button name='school_minimum_grade_required_for_pending_courses' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -376,7 +376,7 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
                                             <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_date_pending_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_date_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button name='school_date_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -399,7 +399,7 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
                                             <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_semester_pending_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_semester_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button name='school_semester_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -423,7 +423,7 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
                                     <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(false);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i); setIsIndividual(false)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {deleteNote(e, i, false); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

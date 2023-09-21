@@ -97,7 +97,7 @@ export default function BooleanInputs({
     });
   };
 
-  const deleteNote = (e: any, index: number) => {
+  const deleteNote = (e: any, index: number, value: string, notes: string) => {
     e.preventDefault();
     const field = newSchool[value as keyof School] as object;
     setNewSchool({
@@ -180,9 +180,8 @@ export default function BooleanInputs({
                       </button>
                       <button
                         onClick={(e) => {
-                          deleteNote(e, i);
-                          setValue(data.value);
-                          setNotes(data.notes);
+                          deleteNote(e, i, data.value, data.notes);
+                          
                         }}
                       >
                         <AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]" />

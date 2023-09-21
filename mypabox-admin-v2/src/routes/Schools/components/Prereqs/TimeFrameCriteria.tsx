@@ -164,7 +164,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
         }
     }
 
-    const deleteNote = (e:any, index: number) => {
+    const deleteNote = (e:any, index: number, isIndividual: boolean) => {
         e.preventDefault();
         if (isIndividual) {
             const field = newSchool.school_time_frame_criteria[e.currentTarget.name as keyof object] as StringInput;
@@ -210,7 +210,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
                                     <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button name='school_time_frame_all_courses_must_be_completed' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button name='school_time_frame_all_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -236,7 +236,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
                                     <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button name='school_time_frame_science_courses_must_be_completed' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button name='school_time_frame_science_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -262,7 +262,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
                                     <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button name='school_time_frame_math_courses_must_be_completed' onClick={(e) => {deleteNote(e, i); setIsIndividual(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button name='school_time_frame_math_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -284,7 +284,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
                                     <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(false);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i); setIsIndividual(false)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {deleteNote(e, i, false); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
