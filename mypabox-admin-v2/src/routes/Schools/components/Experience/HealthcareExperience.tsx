@@ -90,9 +90,9 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
         }
     }
 
-    const deleteNote = (e: any, index: number) => {
+    const deleteNote = (e: any, index: number, name?: string, noteName?: string) => {
         e.preventDefault()
-        if (isGroup) {
+        if (!name && !noteName) {
             setNewSchool({
                 ...newSchool,
                 school_healthcare_experience: {
@@ -100,7 +100,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                     school_healthcare_experience_general_notes: newSchool.school_healthcare_experience.school_healthcare_experience_general_notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (name && noteName) {
             const field = newSchool.school_healthcare_experience[name as keyof object] as object;
             setNewSchool({
                 ...newSchool,
@@ -231,7 +231,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
                                         <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_healthcare_experience_hours_required'); setNoteName('school_minimum_healthcare_experience_hours_required_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => {deleteNote(e, i); setIsGroup(false); setName('school_minimum_healthcare_experience_hours_required'); setNoteName('school_minimum_healthcare_experience_hours_required_notes')}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {deleteNote(e, i, 'school_minimum_healthcare_experience_hours_required', 'school_minimum_healthcare_experience_hours_required_notes');}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -256,7 +256,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
                                         <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed'); setNoteName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => {deleteNote(e, i); setIsGroup(false); setName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed'); setNoteName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes')}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {deleteNote(e, i, 'school_minimum_time_frame_healthcare_experience_needs_to_be_completed', 'school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes'); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -287,7 +287,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
                                 <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => {deleteNote(e, i); setIsGroup(true)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {deleteNote(e, i);}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
