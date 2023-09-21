@@ -37,7 +37,7 @@ export default function Experience({ newSchool, setNewSchool }: { newSchool: Sch
 
 
                 <PatientExperience newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <HealthcareExperience />
+                <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool}/>
                 <CommunityService />
                 <VolunteerService />
             </>

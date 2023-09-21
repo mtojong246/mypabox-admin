@@ -39,6 +39,10 @@ export default function PatientExperience({newSchool, setNewSchool}: { newSchool
                     school_minimum_time_frame_patient_care_experience_needs_to_be_completed: null,
                 }
             })
+            setSelection({
+                number: '',
+                duration: ''
+            })
         }
     }, [newSchool.school_patient_experience.school_patient_experience_required])
 
