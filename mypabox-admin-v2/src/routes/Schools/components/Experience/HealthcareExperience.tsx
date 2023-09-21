@@ -104,7 +104,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
         <div className={`mt-20 relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Healthcare Experience</label>   
             
-            <div className={`mt-8 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_healthcare_experience.school_healthcare_experience_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Healthcare Experience Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
