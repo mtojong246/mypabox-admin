@@ -311,8 +311,8 @@ export const categories: CategoryType[] = [
         fields: [],
     },
     {
-        hash: '#shadowing',
-        name: 'Shadowing',
+        hash: '#pa-shadowing',
+        name: 'PA Shadowing',
         fields: [],
     },
     {

@@ -306,6 +306,23 @@ export const defaultSchool: School = {
         school_minimum_volunteer_service_hours_recommended: null,
         school_average_volunteer_service_hours_accepted_previous_cycle: 0,
         school_volunteer_service_general_notes: [],
+    },
+
+    school_pa_shadowing_required: {
+        input: false,
+        school_minimum_pa_shadowing_hours_required: null,
+        school_minimum_pa_shadowing_hours_required_notes: [],
+    },
+
+    school_pa_shadowing_recommended: {
+        input: false,
+        school_minimum_pa_shadowing_hours_recommended: null,
+        school_minimum_pa_shadowing_hours_recommended_notes: [],
+    },
+
+    school_average_pa_shadowing_hours_accepted_previous_cycle: {
+        input: 0,
+        school_average_pa_shadowing_hours_accepted_previous_cycle_notes: [],
     }
 
 }

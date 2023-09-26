@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.bubble.css';
 import Select from 'react-select';
 import GPA from "./GPA/GPA";
 import Prereqs from "./Prereqs/Prereqs";
+import PAShadowing from "./PAShadowing/PAShadowing";
 
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
@@ -296,6 +297,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             />}
             {tab === '#prerequisites' && <Prereqs newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#experience' && <Experience newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#pa-shadowing' && <PAShadowing newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
             removeNote={removeNote} removeField={removeField} inputType={inputType} /> : ''}
         </>
