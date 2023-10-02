@@ -55,10 +55,10 @@ export default function PACAT({ newSchool, setNewSchool }: { newSchool: School, 
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border py-5 px-10 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`mt-20 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] left-[20px] text-xl bg-white">PACAT</label>   
 
-            <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+            <div className={`mt-6 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">PACAT Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -69,7 +69,7 @@ export default function PACAT({ newSchool, setNewSchool }: { newSchool: School, 
                 </div>
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+            <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">PACAT Recommended</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">

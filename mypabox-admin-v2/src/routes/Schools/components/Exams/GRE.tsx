@@ -164,10 +164,10 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border py-5 px-10 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`mt-20 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] left-[20px] text-xl bg-white">GRE</label>   
 
-            <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+            <div className={`mt-6 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -178,7 +178,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+            <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Recommended</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -192,17 +192,17 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
             {gpaRequiredOrRecommended && (
             <>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">CASPA GRE Insitution Code</label>   
                 <input onChange={handleInput} name='school_caspa_gre_institution_code' value={newSchool.school_gre.school_caspa_gre_institution_code as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Insitution Code</label>   
                 <input onChange={handleInput} name='school_gre_institution_code' value={newSchool.school_gre.school_gre_institution_code as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Minimum Time Frame GRE Must Be Completed</label>
                 <div className='flex justify-start items-center gap-2 mb-4'>
                     <input onChange={(e) => setSelection({...selection, number: e.target.value.trim()})} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
@@ -213,7 +213,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </button>
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">MCAT Accepted In Place of GRE</label>
                 <div className="mt-2 w-full">
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -227,7 +227,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">GRE Exempt with Masters Degree</label>
                 <div className="mt-2 w-full">
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -241,7 +241,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">GRE Exempt with Doctoral Degree</label>
                 <div className="mt-2 w-full">
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -255,7 +255,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_gre.school_minimum_gre_scores_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+            <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_gre.school_minimum_gre_scores_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Minimum GRE Scores Required</label>
                 <div className={`${newSchool.school_gre.school_minimum_gre_scores_required ? 'mb-4' : 'mb-0'} mt-2 w-full`}>
                 <label className="relative inline-flex items-center cursor-pointer">
