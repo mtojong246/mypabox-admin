@@ -366,60 +366,60 @@ export const defaultSchool: School = {
 
         school_gre_general_notes: [],
 
-        school_pacat: {
-            school_pacat_required: false,
-            school_pacat_recommended: false,
-            school_pacat_exam_school_code: null,
-            school_pacat_exam_scaled_minimum_score_required: null,
-            school_pacat_exam_group_scaled_minimum_score_required: null,
-            school_pacat_exam_notes: [],
-        },
+    },
 
-        school_casper: {
-            school_caspar_required: false,
-            school_caspar_recommended: false,
-            school_caspar_exam_notes: [],
-        },
+    school_pacat: {
+        school_pacat_required: false,
+        school_pacat_recommended: false,
+        school_pacat_exam_school_code: null,
+        school_pacat_exam_scaled_minimum_score_required: null,
+        school_pacat_exam_group_scaled_minimum_score_required: null,
+        school_pacat_exam_notes: [],
+    },
 
-        school_english_proficiency_exams: {
-            school_english_proficiency_exams_required: false,
+    school_casper: {
+        school_caspar_required: false,
+        school_caspar_recommended: false,
+        school_caspar_exam_notes: [],
+    },
 
-            school_toefl_required: null,
-            school_minimum_time_frame_toefl_needs_to_be_completed: null,
-            school_toefl_exempt_with_masters_degree: null,
-            school_toefl_exempt_with_doctoral_degree: null,
+    school_english_proficiency_exams: {
+        school_english_proficiency_exams_required: false,
 
-            school_teofl_ibt_minimum_total_score_required: null,
-            school_teofl_ibt_minimum_reading_score_required: null,
-            school_teofl_ibt_minimum_writing_score_required: null,
-            school_teofl_ibt_minimum_listening_score_required: null,
-            school_teofl_ibt_minimum_speaking_score_required: null,
-            school_teofl_ibt_minimum_score_notes: null,
+        school_toefl_required: null,
+        school_minimum_time_frame_toefl_needs_to_be_completed: null,
+        school_toefl_exempt_with_masters_degree: null,
+        school_toefl_exempt_with_doctoral_degree: null,
 
-            school_teofl_pbt_minimum_total_score_required: null,
-            school_teofl_pbt_minimum_reading_score_required: null,
-            school_teofl_pbt_minimum_writing_score_required: null,
-            school_teofl_pbt_minimum_listening_score_required: null,
-            school_teofl_pbt_minimum_speaking_score_required: null,
-            school_teofl_pbt_minimum_score_notes: null,
+        school_teofl_ibt_minimum_total_score_required: null,
+        school_teofl_ibt_minimum_reading_score_required: null,
+        school_teofl_ibt_minimum_writing_score_required: null,
+        school_teofl_ibt_minimum_listening_score_required: null,
+        school_teofl_ibt_minimum_speaking_score_required: null,
+        school_teofl_ibt_minimum_score_notes: null,
 
-            school_ielt_required: null,
-            school_ielt_minimum_total_score_required: null,
-            school_ielt_minimum_score_notes: null,
+        school_teofl_pbt_minimum_total_score_required: null,
+        school_teofl_pbt_minimum_reading_score_required: null,
+        school_teofl_pbt_minimum_writing_score_required: null,
+        school_teofl_pbt_minimum_listening_score_required: null,
+        school_teofl_pbt_minimum_speaking_score_required: null,
+        school_teofl_pbt_minimum_score_notes: null,
 
-            school_melab_required: null,
-            school_melab_minimum_total_score_required: null,
-            school_melab_minimum_score_notes: null,
+        school_ielt_required: null,
+        school_ielt_minimum_total_score_required: null,
+        school_ielt_minimum_score_notes: null,
 
-            school_pte_academic_required: null,
-            school_pte_academic_minimum_total_score_required: null,
-            school_pte_academic_minimum_score_notes: null,
+        school_melab_required: null,
+        school_melab_minimum_total_score_required: null,
+        school_melab_minimum_score_notes: null,
 
-            school_itep_academic_plus_required: null,
-            school_itep_academic_plus_minimum_total_score_required: null,
-            school_itep_academic_plus_minimum_score_notes: null,
+        school_pte_academic_required: null,
+        school_pte_academic_minimum_total_score_required: null,
+        school_pte_academic_minimum_score_notes: null,
 
-        }
+        school_itep_academic_plus_required: null,
+        school_itep_academic_plus_minimum_total_score_required: null,
+        school_itep_academic_plus_minimum_score_notes: null,
 
     }
 

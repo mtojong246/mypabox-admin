@@ -13,7 +13,7 @@ export default function Exams({ newSchool, setNewSchool }: { newSchool: School, 
             <>
                 <RequiredOptionalExams />
                 <GRE newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <PACAT />
+                <PACAT newSchool={newSchool} setNewSchool={setNewSchool}/>
                 <Casper />
                 <EnglishExams />
             </>

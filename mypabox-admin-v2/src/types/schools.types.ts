@@ -361,61 +361,61 @@ export interface School {
 
         school_gre_general_notes: Note[];
 
-        school_pacat: {
-            school_pacat_required: boolean;
-            school_pacat_recommended: boolean;
-            school_pacat_exam_school_code: number | null;
-            school_pacat_exam_scaled_minimum_score_required: number | null;
-            school_pacat_exam_group_scaled_minimum_score_required: number | null;
-            school_pacat_exam_notes: Note[]
-        }
+    }
 
-        school_casper: {
-            school_caspar_required: boolean;
-            school_caspar_recommended: boolean;
-            school_caspar_exam_notes: Note[]
-        }
+    school_pacat: {
+        school_pacat_required: boolean;
+        school_pacat_recommended: boolean;
+        school_pacat_exam_school_code: number | null;
+        school_pacat_exam_scaled_minimum_score_required: number | null;
+        school_pacat_exam_group_scaled_minimum_score_required: number | null;
+        school_pacat_exam_notes: Note[]
+    }
 
-        school_english_proficiency_exams: {
-            school_english_proficiency_exams_required: boolean;
+    school_casper: {
+        school_caspar_required: boolean;
+        school_caspar_recommended: boolean;
+        school_caspar_exam_notes: Note[]
+    }
 
-            school_toefl_required: boolean | null;
-            school_minimum_time_frame_toefl_needs_to_be_completed: string | null;
-            school_toefl_exempt_with_masters_degree: boolean | null;
-            school_toefl_exempt_with_doctoral_degree: boolean | null;
+    school_english_proficiency_exams: {
+        school_english_proficiency_exams_required: boolean;
 
-            school_teofl_ibt_minimum_total_score_required: number | null;
-            school_teofl_ibt_minimum_reading_score_required: number | null;
-            school_teofl_ibt_minimum_writing_score_required: number | null;
-            school_teofl_ibt_minimum_listening_score_required: number | null;
-            school_teofl_ibt_minimum_speaking_score_required: number | null;
-            school_teofl_ibt_minimum_score_notes: Note[] | null;
+        school_toefl_required: boolean | null;
+        school_minimum_time_frame_toefl_needs_to_be_completed: string | null;
+        school_toefl_exempt_with_masters_degree: boolean | null;
+        school_toefl_exempt_with_doctoral_degree: boolean | null;
 
-            school_teofl_pbt_minimum_total_score_required: number | null;
-            school_teofl_pbt_minimum_reading_score_required: number | null;
-            school_teofl_pbt_minimum_writing_score_required: number | null;
-            school_teofl_pbt_minimum_listening_score_required: number | null;
-            school_teofl_pbt_minimum_speaking_score_required: number | null;
-            school_teofl_pbt_minimum_score_notes: Note[] | null;
+        school_teofl_ibt_minimum_total_score_required: number | null;
+        school_teofl_ibt_minimum_reading_score_required: number | null;
+        school_teofl_ibt_minimum_writing_score_required: number | null;
+        school_teofl_ibt_minimum_listening_score_required: number | null;
+        school_teofl_ibt_minimum_speaking_score_required: number | null;
+        school_teofl_ibt_minimum_score_notes: Note[] | null;
 
-            school_ielt_required: boolean | null;
-            school_ielt_minimum_total_score_required: number | null;
-            school_ielt_minimum_score_notes: Note[] | null;
+        school_teofl_pbt_minimum_total_score_required: number | null;
+        school_teofl_pbt_minimum_reading_score_required: number | null;
+        school_teofl_pbt_minimum_writing_score_required: number | null;
+        school_teofl_pbt_minimum_listening_score_required: number | null;
+        school_teofl_pbt_minimum_speaking_score_required: number | null;
+        school_teofl_pbt_minimum_score_notes: Note[] | null;
 
-            school_melab_required: boolean | null;
-            school_melab_minimum_total_score_required: number | null;
-            school_melab_minimum_score_notes: Note[] | null;
+        school_ielt_required: boolean | null;
+        school_ielt_minimum_total_score_required: number | null;
+        school_ielt_minimum_score_notes: Note[] | null;
 
-            school_pte_academic_required: boolean | null;
-            school_pte_academic_minimum_total_score_required: number | null;
-            school_pte_academic_minimum_score_notes: Note[] | null;
+        school_melab_required: boolean | null;
+        school_melab_minimum_total_score_required: number | null;
+        school_melab_minimum_score_notes: Note[] | null;
 
-            school_itep_academic_plus_required: boolean | null;
-            school_itep_academic_plus_minimum_total_score_required: number | null;
-            school_itep_academic_plus_minimum_score_notes: Note[] | null;
+        school_pte_academic_required: boolean | null;
+        school_pte_academic_minimum_total_score_required: number | null;
+        school_pte_academic_minimum_score_notes: Note[] | null;
 
+        school_itep_academic_plus_required: boolean | null;
+        school_itep_academic_plus_minimum_total_score_required: number | null;
+        school_itep_academic_plus_minimum_score_notes: Note[] | null;
 
-        }
 
     }
 
