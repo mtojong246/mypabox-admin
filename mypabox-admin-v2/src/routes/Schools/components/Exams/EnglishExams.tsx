@@ -236,7 +236,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                 </div>
                 {newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required && (
                 <>
-                <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_toefl_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+                <div className={`mt-8 mx-5 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_toefl_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL Required</label>   
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
@@ -346,7 +346,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
 
                 </div>
 
-                <div className={`mt-14 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_ielt_required? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+                <div className={`mt-14 mx-5 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_ielt_required? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">IELT Required</label>   
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
@@ -367,7 +367,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     )}
                 </div>
 
-                <div className={`mt-14 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_melab_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+                <div className={`mt-14 mx-5 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_melab_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">MELAB Required</label>   
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
@@ -388,7 +388,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     )}
                 </div>
 
-                <div className={`mt-14 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_pte_academic_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+                <div className={`mt-14 mx-5 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_pte_academic_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">PTE Academic Required</label>   
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
@@ -409,7 +409,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     )}
                 </div>
 
-                <div className={`mt-14 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_itep_academic_plus_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+                <div className={`mt-14 mx-5 mb-5 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_english_proficiency_exams.school_itep_academic_plus_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">ITEP Academic Required</label>   
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
