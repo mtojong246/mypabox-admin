@@ -1,4 +1,18 @@
-export default function Casper() {
+import { School } from "../../../../types/schools.types"
+import { Dispatch, SetStateAction, ChangeEvent } from "react"
+
+export default function Casper({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+    
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewSchool({
+            ...newSchool,
+            school_casper: {
+                ...newSchool.school_casper,
+                [e.target.name]: e.target.checked,
+            }
+        })
+    }
+    
     return (
         <>
         <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
@@ -8,9 +22,9 @@ export default function Casper() {
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Casper Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" className="sr-only peer"/>
+                        <input onChange={handleCheck} name='school_casper_required' checked={newSchool.school_casper.school_casper_required ? true : false} type="checkbox" className="sr-only peer"/>
                         <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                        <span className="ml-3 text-xl text-black">False</span>
+                        <span className="ml-3 text-xl text-black">{newSchool.school_casper.school_casper_required ? 'True' : 'False'}</span>
                     </label>
                 </div>
             </div>
@@ -19,9 +33,9 @@ export default function Casper() {
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Casper Recommended</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" className="sr-only peer"/>
+                        <input onChange={handleCheck} name='school_casper_recommended' checked={newSchool.school_casper.school_casper_recommended ? true : false} type="checkbox" className="sr-only peer"/>
                         <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                        <span className="ml-3 text-xl text-black">False</span>
+                        <span className="ml-3 text-xl text-black">{newSchool.school_casper.school_casper_recommended ? 'True' : 'False'}</span>
                     </label>
                 </div>
             </div>

@@ -14,8 +14,8 @@ export default function Exams({ newSchool, setNewSchool }: { newSchool: School, 
                 <RequiredOptionalExams />
                 <GRE newSchool={newSchool} setNewSchool={setNewSchool}/>
                 <PACAT newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <Casper />
-                <EnglishExams />
+                <Casper newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <EnglishExams newSchool={newSchool} setNewSchool={setNewSchool}/>
             </>
         )}
         </>

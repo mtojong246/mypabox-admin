@@ -373,9 +373,9 @@ export interface School {
     }
 
     school_casper: {
-        school_caspar_required: boolean;
-        school_caspar_recommended: boolean;
-        school_caspar_exam_notes: Note[]
+        school_casper_required: boolean;
+        school_casper_recommended: boolean;
+        school_casper_exam_notes: Note[]
     }
 
     school_english_proficiency_exams: {
@@ -386,19 +386,19 @@ export interface School {
         school_toefl_exempt_with_masters_degree: boolean | null;
         school_toefl_exempt_with_doctoral_degree: boolean | null;
 
-        school_teofl_ibt_minimum_total_score_required: number | null;
-        school_teofl_ibt_minimum_reading_score_required: number | null;
-        school_teofl_ibt_minimum_writing_score_required: number | null;
-        school_teofl_ibt_minimum_listening_score_required: number | null;
-        school_teofl_ibt_minimum_speaking_score_required: number | null;
-        school_teofl_ibt_minimum_score_notes: Note[] | null;
+        school_toefl_ibt_minimum_total_score_required: number | null;
+        school_toefl_ibt_minimum_reading_score_required: number | null;
+        school_toefl_ibt_minimum_writing_score_required: number | null;
+        school_toefl_ibt_minimum_listening_score_required: number | null;
+        school_toefl_ibt_minimum_speaking_score_required: number | null;
+        school_toefl_ibt_minimum_score_notes: Note[] | null;
 
-        school_teofl_pbt_minimum_total_score_required: number | null;
-        school_teofl_pbt_minimum_reading_score_required: number | null;
-        school_teofl_pbt_minimum_writing_score_required: number | null;
-        school_teofl_pbt_minimum_listening_score_required: number | null;
-        school_teofl_pbt_minimum_speaking_score_required: number | null;
-        school_teofl_pbt_minimum_score_notes: Note[] | null;
+        school_toefl_pbt_minimum_total_score_required: number | null;
+        school_toefl_pbt_minimum_reading_score_required: number | null;
+        school_toefl_pbt_minimum_writing_score_required: number | null;
+        school_toefl_pbt_minimum_listening_score_required: number | null;
+        school_toefl_pbt_minimum_speaking_score_required: number | null;
+        school_toefl_pbt_minimum_score_notes: Note[] | null;
 
         school_ielt_required: boolean | null;
         school_ielt_minimum_total_score_required: number | null;

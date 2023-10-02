@@ -378,9 +378,9 @@ export const defaultSchool: School = {
     },
 
     school_casper: {
-        school_caspar_required: false,
-        school_caspar_recommended: false,
-        school_caspar_exam_notes: [],
+        school_casper_required: false,
+        school_casper_recommended: false,
+        school_casper_exam_notes: [],
     },
 
     school_english_proficiency_exams: {
@@ -391,19 +391,19 @@ export const defaultSchool: School = {
         school_toefl_exempt_with_masters_degree: null,
         school_toefl_exempt_with_doctoral_degree: null,
 
-        school_teofl_ibt_minimum_total_score_required: null,
-        school_teofl_ibt_minimum_reading_score_required: null,
-        school_teofl_ibt_minimum_writing_score_required: null,
-        school_teofl_ibt_minimum_listening_score_required: null,
-        school_teofl_ibt_minimum_speaking_score_required: null,
-        school_teofl_ibt_minimum_score_notes: null,
+        school_toefl_ibt_minimum_total_score_required: null,
+        school_toefl_ibt_minimum_reading_score_required: null,
+        school_toefl_ibt_minimum_writing_score_required: null,
+        school_toefl_ibt_minimum_listening_score_required: null,
+        school_toefl_ibt_minimum_speaking_score_required: null,
+        school_toefl_ibt_minimum_score_notes: null,
 
-        school_teofl_pbt_minimum_total_score_required: null,
-        school_teofl_pbt_minimum_reading_score_required: null,
-        school_teofl_pbt_minimum_writing_score_required: null,
-        school_teofl_pbt_minimum_listening_score_required: null,
-        school_teofl_pbt_minimum_speaking_score_required: null,
-        school_teofl_pbt_minimum_score_notes: null,
+        school_toefl_pbt_minimum_total_score_required: null,
+        school_toefl_pbt_minimum_reading_score_required: null,
+        school_toefl_pbt_minimum_writing_score_required: null,
+        school_toefl_pbt_minimum_listening_score_required: null,
+        school_toefl_pbt_minimum_speaking_score_required: null,
+        school_toefl_pbt_minimum_score_notes: null,
 
         school_ielt_required: null,
         school_ielt_minimum_total_score_required: null,

@@ -65,6 +65,10 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                     school_minimum_gre_scores_required: null,
                 }
             })
+            setSelection({
+                number: '',
+                duration: '',
+            })
         }
     }, [newSchool.school_gre.school_gre_required, newSchool.school_gre.school_gre_recommended]);
 
@@ -120,7 +124,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                     }
                 }
             })
-        }
+        } 
     }, [selection])
 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isGroup: boolean) => {
