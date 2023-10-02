@@ -316,8 +316,8 @@ export const categories: CategoryType[] = [
         fields: [],
     },
     {
-        hash: '#GRE',
-        name: 'GRE',
+        hash: '#exams',
+        name: 'Exams',
         fields: [],
     },
     {
