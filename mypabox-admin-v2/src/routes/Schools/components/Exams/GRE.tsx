@@ -423,25 +423,27 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
                 {newSchool.school_gre.school_minimum_gre_scores_required && (
                 <>
-                    <div className={`mt-8 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Verbal Score</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_verbal_score' value={newSchool.school_gre.school_gre_minimum_verbal_score as number} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                <div className={`mt-8 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                    <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Scores</label> 
+                    <div className='mt-2'>
+                        <label className="text-xl font-medium bg-white">Verbal Score</label>   
+                        <input onChange={handleInput} name='school_gre_minimum_verbal_score' value={newSchool.school_gre.school_gre_minimum_verbal_score as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                        </div>
+                    <div className='mt-8'>
+                        <label className="text-xl font-medium bg-white">Quantitative Score</label>   
+                        <input onChange={handleInput} name='school_gre_minimum_quantitative_score' value={newSchool.school_gre.school_gre_minimum_quantitative_score as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
                     </div>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Quantitative Score</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_quantitative_score' value={newSchool.school_gre.school_gre_minimum_quantitative_score as number} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                    <div className='mt-8'>
+                        <label className="text-xl font-medium bg-white">Analytical Writing Score</label>   
+                        <input onChange={handleInput} name='school_gre_minimum_analytical_writing_score' value={newSchool.school_gre.school_gre_minimum_analytical_writing_score as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
                     </div>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Analytical Writing Score</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_analytical_writing_score' value={newSchool.school_gre.school_gre_minimum_analytical_writing_score as number} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                    <div className='mt-8'>
+                        <label className="text-xl font-medium bg-white">Combined Score</label>   
+                        <input onChange={handleInput} name='school_gre_minimum_combined_score' value={newSchool.school_gre.school_gre_minimum_combined_score as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
                     </div>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Combined Score</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_combined_score' value={newSchool.school_gre.school_gre_minimum_combined_score as number} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
-                    </div>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Score Notes</label>   
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_score_notes');}} className=" block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <div className='mt-8'>
+                        <label className="text-xl font-medium bg-white">Minimum GRE Score Notes</label>   
+                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_score_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_gre_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
@@ -459,26 +461,28 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         ))}
                         </div>       
                     </div>
-
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Verbal Percentile</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_verbal_percentile' value={newSchool.school_gre.school_gre_minimum_verbal_percentile as number} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                </div>
+                <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                    <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Percentiles</label> 
+                    <div className='mt-2'>
+                        <label className="text-xl font-medium bg-white">Verbal Percentile</label>   
+                        <input onChange={handleInput} name='school_gre_minimum_verbal_percentile' value={newSchool.school_gre.school_gre_minimum_verbal_percentile as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
                     </div>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Quantitative Percentile</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_quantitative_percentile' value={newSchool.school_gre.school_gre_minimum_quantitative_percentile as number} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                    <div className='mt-8'>
+                        <label className="text-xl font-medium bg-white">Quantitative Percentile</label>   
+                        <input onChange={handleInput} name='school_gre_minimum_quantitative_percentile' value={newSchool.school_gre.school_gre_minimum_quantitative_percentile as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
                     </div>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Analytical Writing Percentile</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_analytical_writing_percentile' value={newSchool.school_gre.school_gre_minimum_analytical_writing_percentile as number} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                    <div className='mt-8'>
+                        <label className="text-xl font-medium bg-white">Analytical Writing Percentile</label>   
+                        <input onChange={handleInput} name='school_gre_minimum_analytical_writing_percentile' value={newSchool.school_gre.school_gre_minimum_analytical_writing_percentile as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
                     </div>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Combined Percentile</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_combined_percentile' value={newSchool.school_gre.school_gre_minimum_combined_percentile as number} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                    <div className='mt-8'>
+                        <label className="text-xl font-medium bg-white">Combined Percentile</label>   
+                        <input onChange={handleInput} name='school_gre_minimum_combined_percentile' value={newSchool.school_gre.school_gre_minimum_combined_percentile as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
                     </div>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum GRE Percentile Notes</label>   
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_percentile_notes');}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <div className='mt-8'>
+                        <label className="text-xl font-medium bg-white">Minimum GRE Percentile Notes</label>   
+                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_percentile_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_gre_percentile_notes?.length ? 'mt-3' : 'mt-0'}`}>
@@ -496,6 +500,9 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         ))}
                         </div>   
                     </div>
+                </div>
+
+                    
                 </>
                 )}
             </div>

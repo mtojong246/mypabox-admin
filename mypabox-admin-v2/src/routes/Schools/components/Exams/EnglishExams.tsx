@@ -331,96 +331,104 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     </div>
 
                     <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL IBT Minimum Total Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_ibt_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">TOEFL IBT Minimum Scores Required</label>
+                        <div className='mt-2'>
+                            <label className="text-xl font-medium bg-white">Total Score</label>   
+                            <input onChange={handleInput} name='school_toefl_ibt_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL IBT Minimum Reading Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_ibt_minimum_reading_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <div className='mt-8'>
+                            <label className="text-xl font-medium bg-white">Reading Score</label>   
+                            <input onChange={handleInput} name='school_toefl_ibt_minimum_reading_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL IBT Minimum Writing Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_ibt_minimum_writing_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <div className='mt-8'>
+                            <label className="text-xl font-medium bg-white">Writing Score</label>   
+                            <input onChange={handleInput} name='school_toefl_ibt_minimum_writing_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL IBT Minimum Listening Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_ibt_minimum_listening_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <div className='mt-8'>
+                            <label className="text-xl font-medium bg-white">Listening Score</label>   
+                            <input onChange={handleInput} name='school_toefl_ibt_minimum_listening_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL IBT Minimum Speaking Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_ibt_minimum_speaking_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <div className='mt-8'>
+                            <label className="text-xl font-medium bg-white">Speaking Score</label>   
+                            <input onChange={handleInput} name='school_toefl_ibt_minimum_speaking_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL IBT Minimum Score Notes</label>   
-                        <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_ibt_minimum_score_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                            Add Note
-                        </button>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_ibt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_toefl_ibt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                        <div className='mt-8'>
+                            <label className="text-xl font-medium bg-white">TOEFL IBT Minimum Score Notes</label>   
+                            <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_ibt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                                Add Note
+                            </button>
+                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                            {newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.map((note, i) => (
+                                <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                    <div className='flex justify-between items-center w-full mb-1'>
+                                        <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                        <div className='flex gap-2'>
+                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_ibt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i, 'school_toefl_ibt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        </div>
                                     </div>
+                                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                     </div>
 
+                    
                     <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL PBT Minimum Total Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_pbt_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white text-orange-600">TOEFL PBT Minimum Scores Required</label>   
+                        <div className='mt-2'>
+                            <label className="text-xl font-medium bg-white">Total Score</label>   
+                            <input onChange={handleInput} name='school_toefl_pbt_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL PBT Minimum Reading Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_pbt_minimum_reading_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <div className='mt-8'>
+                            <label className="text-xl font-medium bg-white">Reading Score</label>   
+                            <input onChange={handleInput} name='school_toefl_pbt_minimum_reading_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL PBT Minimum Writing Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_pbt_minimum_writing_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <div className="mt-8">
+                            <label className="text-xl font-medium bg-white">Writing Score</label>   
+                            <input onChange={handleInput} name='school_toefl_pbt_minimum_writing_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL PBT Minimum Listening Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_pbt_minimum_listening_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <div className="mt-8">
+                            <label className="text-xl font-medium bg-white">Listening Score</label>   
+                            <input onChange={handleInput} name='school_toefl_pbt_minimum_listening_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL PBT Minimum Speaking Score Required</label>   
-                        <input onChange={handleInput} name='school_toefl_pbt_minimum_speaking_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    </div>
+                        <div className="mt-8">
+                            <label className="text-xl font-medium bg-white">Speaking Score</label>   
+                            <input onChange={handleInput} name='school_toefl_pbt_minimum_speaking_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        </div>
 
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL PBT Minimum Score Notes</label>   
-                        <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_pbt_minimum_score_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                            Add Note
-                        </button>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_pbt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_toefl_pbt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                        <div className="mt-8">
+                            <label className="text-xl font-medium bg-white">TOEFL PBT Minimum Score Notes</label>   
+                            <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_pbt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                                Add Note
+                            </button>
+                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                            {newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.map((note, i) => (
+                                <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                                    <div className='flex justify-between items-center w-full mb-1'>
+                                        <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                        <div className='flex gap-2'>
+                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_pbt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i, 'school_toefl_pbt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        </div>
                                     </div>
+                                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+                        </div>
                     </div>
-                    </div>
+                    
                     </>
                     )}
 
