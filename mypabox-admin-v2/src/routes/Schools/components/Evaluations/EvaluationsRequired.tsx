@@ -1,7 +1,8 @@
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react";
 import { School } from "../../../../types/schools.types";
 import CreatableSelect from 'react-select';
 import Select from 'react-select';
+import AddRequiredOption from "./AddRequiredOption";
 
 const evaluatorOptions = [
     {value: 'PA', label: 'PA'},
@@ -20,7 +21,13 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
     const [ selection, setSelection ] = useState({
         number: '',
         duration: '',
-    })
+    });
+    const [ openOptions, setOpenOptions ] = useState(false);
+
+    const toggleOptions = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenOptions(!openOptions);
+    }
 
     useEffect(() => {
         if (newSchool.school_evaluations_required.input) {
@@ -96,7 +103,10 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
         })
     }
 
+    
+
     return (
+        <>
         <div className={`mt-10 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Evaluations Required</label>  
             <div className='w-full mt-2 mb-4'>
@@ -125,7 +135,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
                     </div> 
                     <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Optional Evaluators Required</label>  
-                        <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={toggleOptions} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Option
                         </button> 
                     </div> 
@@ -136,6 +146,8 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
                 Add Note
             </button>
         </div>
+        {openOptions && <AddRequiredOption newSchool={newSchool} setNewSchool={setNewSchool} toggleOptions={toggleOptions}/>}
+        </>
 
     )
 }
