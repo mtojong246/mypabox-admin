@@ -24,7 +24,14 @@ interface Options {
     school_minimum_time_evaluator_knows_applicant: string;
 }
 
-export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptions }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, toggleOptions: (e: MouseEvent<HTMLButtonElement>) => void,}) {
+export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptions, editedOption, setEditedOption, groupIndex }: { 
+    newSchool: School, 
+    setNewSchool: Dispatch<SetStateAction<School>>, 
+    toggleOptions: (e: MouseEvent<HTMLButtonElement>) => void,
+    editedOption: Options | null,
+    setEditedOption: Dispatch<SetStateAction<Options | null>>,
+    groupIndex: number | null,
+}) {
     const [ selection, setSelection ] = useState({
         number: '',
         duration: '',
@@ -43,7 +50,30 @@ export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptio
         ...options,
         school_minimum_time_evaluator_knows_applicant: selection.number + ' ' + selection.duration,
     })
-   }, [selection])
+   }, [selection]);
+
+   useEffect(() => {
+    if (editedOption) {
+        setOptions(editedOption);
+        const arr = editedOption.school_minimum_time_evaluator_knows_applicant.split(' ');
+        setSelection({
+            number: arr[0],
+            duration: arr[1],
+        })
+    } else {
+        setOptions({
+            school_minimum_number_of_evaluators_required_in_group: 0,
+            school_required_optional_group_evaluator_title: [],
+            school_minimum_time_evaluator_knows_applicant: '',
+       });
+       setSelection({
+        number: '',
+        duration: '',
+    })
+    }
+   }, [editedOption]);
+
+
 
    const handleNumber = (e: ChangeEvent<HTMLInputElement>) => {
         setSelection({
@@ -87,12 +117,39 @@ export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptio
             }
         })
     }
+
+    const updateOption = () => {
+        setNewSchool({
+            ...newSchool,
+            school_evaluations_required: {
+                ...newSchool.school_evaluations_required,
+                school_optional_evaluators_required: newSchool.school_evaluations_required.school_optional_evaluators_required!.map((opt,i) => {
+                    if (i === groupIndex) {
+                        return { ...options }
+                    } else {
+                        return { ...opt }
+                    }
+                })
+            }
+        })
+    };
+
+    const addOrUpdateOption = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if (editedOption) {
+            updateOption();
+        } else {
+            addOption();
+        }
+        toggleOptions(e);
+        setEditedOption(null);
+    }
     
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                 <div className='relative w-full max-w-[900px] max-h-[700px] overflow-y-scroll rounded-lg p-4 bg-white'>
-                    <p className='text-xl font-semibold mb-8'>Add Required Optional Evaluators</p>
+                    <p className='text-xl font-semibold mb-8'>{editedOption ? 'Edit' : 'Add'} Required Optional Evaluators</p>
                     <div className='w-full mb-8'>
                         <label className='text-lg font-medium'>Minimum Number of Evaluators Required:</label>
                         <input onChange={handleInput} value={options.school_minimum_number_of_evaluators_required_in_group} className='w-32 focus:outline-none border border-[#B4B4B4] h-[56px] px-3 rounded mt-2 block' />
@@ -121,13 +178,13 @@ export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptio
                     <div className='w-full mb-8'>
                         <label className='font-medium text-lg'>Minimum Time Evaluator Knows Applicant:</label>
                         <div className='flex justify-start items-center gap-2 mt-2'>
-                            <input onChange={handleNumber} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                            <input onChange={handleNumber} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                             <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={timeOptions} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="w-1/3 focus:outline-none"/>
                         </div> 
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
-                        <button onClick={toggleOptions} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[56px] rounded-md'>Cancel</button>
-                        <button onClick={(e) => {toggleOptions(e); addOption()}} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[56px] rounded-md'>Add Option</button>
+                        <button onClick={(e) => {toggleOptions(e); setEditedOption(null)}} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[56px] rounded-md'>Cancel</button>
+                        <button onClick={addOrUpdateOption} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[56px] rounded-md'>{editedOption ? 'Edit' : 'Add'} Option</button>
                     </div>
                 </div>
             </div>

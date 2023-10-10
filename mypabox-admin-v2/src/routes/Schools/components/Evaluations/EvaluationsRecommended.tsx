@@ -3,6 +3,8 @@ import { School } from "../../../../types/schools.types";
 import CreatableSelect from 'react-select';
 import Select from 'react-select';
 import AddRecommendedOption from "./AddRecommendedOption";
+import { AiOutlineClose } from 'react-icons/ai'
+import { FiEdit3 } from 'react-icons/fi'
 
 const evaluatorOptions = [
     {value: 'PA', label: 'PA'},
@@ -17,12 +19,20 @@ const timeOptions = [
     {value: 'years', label: 'years'}
 ]
 
+interface Options {
+    school_minimum_number_evaluators_recommended_in_group: number;
+    school_recommended_optional_group_evaluator_title: string[];
+    school_minimum_time_evaluator_knows_applicant: string;
+}
+
 export default function EvaluationsRecommended({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>}) {
     const [ selection, setSelection ] = useState({
         number: '',
         duration: '',
     });
     const [ openOptions, setOpenOptions ] = useState(false);
+    const [ editedOption, setEditedOption ] = useState<Options | null>(null);
+    const [ groupIndex, setGroupIndex ] = useState<number | null>(null);
 
     const toggleOptions = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -102,6 +112,17 @@ export default function EvaluationsRecommended({ newSchool, setNewSchool }: { ne
         })
     };
 
+    const deleteOption = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_evaluations_recommended: {
+                ...newSchool.school_evaluations_recommended,
+                school_optional_evaluators_recommended: newSchool.school_evaluations_recommended.school_optional_evaluators_recommended!.filter((opt,i) => i !== index)
+            }
+        })
+    }
+
 
     return (
         <>
@@ -136,6 +157,32 @@ export default function EvaluationsRecommended({ newSchool, setNewSchool }: { ne
                         <button onClick={toggleOptions} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Option
                         </button> 
+                        {newSchool.school_evaluations_recommended.school_optional_evaluators_recommended && (
+                        <div className={`flex flex-col justify-center items-center gap-5 ${newSchool.school_evaluations_recommended.school_optional_evaluators_recommended.length ? 'mt-5' : 'mt-0'}`}>
+                        {newSchool.school_evaluations_recommended.school_optional_evaluators_recommended.map((group, i) => (
+                            <div className='p-4 border border-[#545454] rounded w-full'>
+                                <div className='flex justify-between items-center w-full'>
+                                    <p className='font-bold text-xl'>{group.school_minimum_number_evaluators_recommended_in_group} <span className='font-normal'>evaluators are required with the following titles:</span></p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleOptions(e); setEditedOption(group); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteOption(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center items-center gap-4 mt-4'>
+                                {group.school_recommended_optional_group_evaluator_title.map(title => {
+
+                                        return (
+                                            <div className='p-3 border border-[#B4B4B4] rounded w-full'>
+                                                <p className='font-semibold'>{title}</p>
+                                            </div>
+                                        )
+                                })}
+                                </div>
+                                <p className='mt-4 text-lg font-semibold'>Minimum Time Evalutor Knows Applicant: <span className='font-normal'>{group.school_minimum_time_evaluator_knows_applicant}</span></p>
+                            </div>
+                        ))}
+                        </div>
+                        )}
                     </div> 
                 </>
             )}
@@ -144,7 +191,7 @@ export default function EvaluationsRecommended({ newSchool, setNewSchool }: { ne
                 Add Note
             </button>
         </div>
-        {openOptions && <AddRecommendedOption newSchool={newSchool} setNewSchool={setNewSchool} toggleOptions={toggleOptions}/>}
+        {openOptions && <AddRecommendedOption newSchool={newSchool} setNewSchool={setNewSchool} toggleOptions={toggleOptions} editedOption={editedOption} setEditedOption={setEditedOption} groupIndex={groupIndex}/>}
         </>
     )
 }

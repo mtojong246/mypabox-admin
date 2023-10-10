@@ -3,6 +3,8 @@ import { School } from "../../../../types/schools.types";
 import CreatableSelect from 'react-select';
 import Select from 'react-select';
 import AddRequiredOption from "./AddRequiredOption";
+import { AiOutlineClose } from 'react-icons/ai'
+import { FiEdit3 } from 'react-icons/fi'
 
 const evaluatorOptions = [
     {value: 'PA', label: 'PA'},
@@ -17,12 +19,20 @@ const timeOptions = [
     {value: 'years', label: 'years'}
 ]
 
+interface Options {
+    school_minimum_number_of_evaluators_required_in_group: number;
+    school_required_optional_group_evaluator_title: string[];
+    school_minimum_time_evaluator_knows_applicant: string;
+}
+
 export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>}) {
     const [ selection, setSelection ] = useState({
         number: '',
         duration: '',
     });
     const [ openOptions, setOpenOptions ] = useState(false);
+    const [ editedOption, setEditedOption ] = useState<Options | null>(null);
+    const [ groupIndex, setGroupIndex ] = useState<number | null>(null);
 
     const toggleOptions = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -101,6 +111,17 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
             ...selection,
             number: e.target.value,
         })
+    };
+
+    const deleteOption = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_evaluations_required: {
+                ...newSchool.school_evaluations_required,
+                school_optional_evaluators_required: newSchool.school_evaluations_required.school_optional_evaluators_required!.filter((opt,i) => i !== index)
+            }
+        })
     }
 
     
@@ -138,6 +159,32 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
                         <button onClick={toggleOptions} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Option
                         </button> 
+                        {newSchool.school_evaluations_required.school_optional_evaluators_required && (
+                        <div className={`flex flex-col justify-center items-center gap-5 ${newSchool.school_evaluations_required.school_optional_evaluators_required!.length ? 'mt-5' : 'mt-0'}`}>
+                        {newSchool.school_evaluations_required.school_optional_evaluators_required!.map((group, i) => (
+                            <div className='p-4 border border-[#545454] rounded w-full'>
+                                <div className='flex justify-between items-center w-full'>
+                                    <p className='font-bold text-xl'>{group.school_minimum_number_of_evaluators_required_in_group} <span className='font-normal'>evaluators are required with the following titles:</span></p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleOptions(e); setEditedOption(group); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteOption(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center items-center gap-4 mt-4'>
+                                {group.school_required_optional_group_evaluator_title.map(title => {
+
+                                        return (
+                                            <div className='p-3 border border-[#B4B4B4] rounded w-full'>
+                                                <p className='font-semibold'>{title}</p>
+                                            </div>
+                                        )
+                                })}
+                                </div>
+                                <p className='mt-4 text-lg font-semibold'>Minimum Time Evalutor Knows Applicant: <span className='font-normal'>{group.school_minimum_time_evaluator_knows_applicant}</span></p>
+                            </div>
+                        ))}
+                        </div>
+                        )}
                     </div> 
                 </>
             )}
@@ -146,7 +193,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
                 Add Note
             </button>
         </div>
-        {openOptions && <AddRequiredOption newSchool={newSchool} setNewSchool={setNewSchool} toggleOptions={toggleOptions}/>}
+        {openOptions && <AddRequiredOption newSchool={newSchool} setNewSchool={setNewSchool} toggleOptions={toggleOptions} editedOption={editedOption} setEditedOption={setEditedOption} groupIndex={groupIndex}/>}
         </>
 
     )
