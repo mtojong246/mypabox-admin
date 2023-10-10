@@ -421,6 +421,24 @@ export const defaultSchool: School = {
         school_itep_academic_plus_minimum_total_score_required: null,
         school_itep_academic_plus_minimum_score_notes: [],
 
+    },
+
+    school_evaluations_required: {
+        input: false,
+        school_minimum_number_of_evaluations_required: null,
+        school_required_evaluator_title: null,
+        school_minimum_time_evaluator_knows_applicant: null,
+        school_optional_evaluators_required: null,
+        school_evaluations_required_notes: [],
+    },
+
+    school_evaluations_recommended: {
+        input: false,
+        school_minimum_number_of_evaluations_recommended: null,
+        school_recommended_evaluator_title: null,
+        school_minimum_time_evaluator_knows_applicant: null,
+        school_optional_evaluators_recommended: null,
+        school_evaluations_recommended_notes: [],
     }
 
 }

@@ -14,6 +14,7 @@ import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
 import DeletePopUp from "./DeletePopUp";
 import Experience from "./Experience/Experience";
 import Exams from "./Exams/Exams";
+import Evaluations from "./Evaluations/Evaluations";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -300,6 +301,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             {tab === '#experience' && <Experience newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#pa-shadowing' && <PAShadowing newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#exams' && <Exams newSchool={newSchool} setNewSchool={setNewSchool} />}
+            {tab === '#evaluations' && <Evaluations newSchool={newSchool} setNewSchool={setNewSchool} />}
             {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
             removeNote={removeNote} removeField={removeField} inputType={inputType} /> : ''}
         </>

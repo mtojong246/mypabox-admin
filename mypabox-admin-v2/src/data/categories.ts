@@ -321,8 +321,13 @@ export const categories: CategoryType[] = [
         fields: [],
     },
     {
-        hash: '#letters-of-recommendation',
-        name: 'Letters of Recommendation',
+        hash: '#evaluations',
+        name: 'Evaluations',
+        fields: [],
+    },
+    {
+        hash: '#international-students',
+        name: 'International Students',
         fields: [],
     },
     {
@@ -331,8 +336,8 @@ export const categories: CategoryType[] = [
         fields: [],
     },
     {
-        hash: '#additional-notes',
-        name: 'Additional Notes',
+        hash: '#applications',
+        name: 'Applications',
         fields: [],
     },
 ];
