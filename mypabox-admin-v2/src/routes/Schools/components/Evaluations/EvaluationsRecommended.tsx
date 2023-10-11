@@ -1,10 +1,12 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react";
-import { School } from "../../../../types/schools.types";
+import { Note, School } from "../../../../types/schools.types";
 import CreatableSelect from 'react-select';
 import Select from 'react-select';
 import AddRecommendedOption from "./AddRecommendedOption";
 import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi'
+import { FiEdit3 } from 'react-icons/fi';
+import AddNote from "../Prereqs/AddNote";
+import ReactQuill from "react-quill";
 
 const evaluatorOptions = [
     {value: 'PA', label: 'PA'},
@@ -33,6 +35,14 @@ export default function EvaluationsRecommended({ newSchool, setNewSchool }: { ne
     const [ openOptions, setOpenOptions ] = useState(false);
     const [ editedOption, setEditedOption ] = useState<Options | null>(null);
     const [ groupIndex, setGroupIndex ] = useState<number | null>(null);
+    const [ index, setIndex ] = useState<number | null>(null);
+    const [ editedNote, setEditedNote ] = useState<Note | null>(null);
+    const [ notePopup, setNotePopup ] = useState(false);
+
+    const toggleNotePopup = (e:any) => {
+        e.preventDefault();
+        setNotePopup(!notePopup)
+    }
 
     const toggleOptions = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -121,6 +131,43 @@ export default function EvaluationsRecommended({ newSchool, setNewSchool }: { ne
                 school_optional_evaluators_recommended: newSchool.school_evaluations_recommended.school_optional_evaluators_recommended!.filter((opt,i) => i !== index)
             }
         })
+    };
+
+    const addNote = (note: Note) => {
+        setNewSchool({
+            ...newSchool,
+            school_evaluations_recommended: {
+                ...newSchool.school_evaluations_recommended,
+                school_evaluations_recommended_notes: newSchool.school_evaluations_recommended.school_evaluations_recommended_notes.concat(note)
+            }
+        })
+    };
+
+    const updateNote = (note: Note) => {
+        setNewSchool({
+            ...newSchool,
+            school_evaluations_recommended: {
+                ...newSchool.school_evaluations_recommended,
+                school_evaluations_recommended_notes: newSchool.school_evaluations_recommended.school_evaluations_recommended_notes.map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
+            }
+        })
+    };
+
+    const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_evaluations_recommended: {
+                ...newSchool.school_evaluations_recommended,
+                school_evaluations_recommended_notes: newSchool.school_evaluations_recommended.school_evaluations_recommended_notes.filter((n,i) => i !== index)
+            }
+        })
     }
 
 
@@ -187,11 +234,28 @@ export default function EvaluationsRecommended({ newSchool, setNewSchool }: { ne
                 </>
             )}
             {newSchool.school_evaluations_recommended.input && <label className='font-medium text-xl inline-block mt-8'>Notes:</label>}
-            <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+            <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Note
             </button>
+            {newSchool.school_evaluations_recommended.school_evaluations_recommended_notes && (
+            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_evaluations_recommended.school_evaluations_recommended_notes.length ? 'mt-3' : 'mt-0'}`}>
+                {newSchool.school_evaluations_recommended.school_evaluations_recommended_notes.map((note, i) => (
+                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                        <div className='flex justify-between items-center w-full mb-1'>
+                            <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                            <div className='flex gap-2'>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            </div>
+                        </div>
+                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                    </div>
+                ))}
+            </div>
+            )}
         </div>
         {openOptions && <AddRecommendedOption newSchool={newSchool} setNewSchool={setNewSchool} toggleOptions={toggleOptions} editedOption={editedOption} setEditedOption={setEditedOption} groupIndex={groupIndex}/>}
+        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )
 }
