@@ -186,10 +186,10 @@ export default function CommunityService({ newSchool, setNewSchool }: { newSchoo
     
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] text-xl bg-white">Community Service</label>   
+        <div className={`mt-20 relative max-w-[900px] border py-5 px-8 block rounded border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Community Service</label>   
             
-            <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_community_service.school_community_service_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+            <div className={`mt-7 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_community_service.school_community_service_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Community Service Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -199,7 +199,7 @@ export default function CommunityService({ newSchool, setNewSchool }: { newSchoo
                     </label>
                 </div>
                 {newSchool.school_community_service.school_minimum_community_service_hours_required && (
-                <div className={`mt-8 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                <div className={`mt-7 mb-5 mx-5 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Community Service Hours Required</label>   
                     <input onChange={handleInput} value={newSchool.school_community_service.school_minimum_community_service_hours_required?.input} name='school_minimum_community_service_hours_required' className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mb-4' />  
                     <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_community_service_hours_required'); setNoteName('school_minimum_community_service_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
@@ -223,7 +223,7 @@ export default function CommunityService({ newSchool, setNewSchool }: { newSchoo
                 )}
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_community_service.school_community_service_recommended ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+            <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_community_service.school_community_service_recommended ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Community Service Recommended</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -233,7 +233,7 @@ export default function CommunityService({ newSchool, setNewSchool }: { newSchoo
                     </label>
                 </div>
                 {newSchool.school_community_service.school_minimum_community_service_hours_recommended && (
-                <div className={`mt-8 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                <div className={`mt-7 mx-5 mb-5 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Community Service Hours Recommended</label>   
                     <input onChange={handleInput} value={newSchool.school_community_service.school_minimum_community_service_hours_recommended?.input} name='school_minimum_community_service_hours_recommended' className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mb-4' />  
                     <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_community_service_hours_recommended'); setNoteName('school_minimum_community_service_hours_recommended_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
@@ -257,12 +257,12 @@ export default function CommunityService({ newSchool, setNewSchool }: { newSchoo
                 )}
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average Community Service Hours Accepted Previous Cycle</label>   
                 <input onChange={handleInput} value={newSchool.school_community_service.school_average_community_service_hours_accepted_previous_cycle} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
             </div>
 
-            <div className='w-full mt-10'>
+            <div className='w-full mt-8 mb-5'>
                 <label className='font-medium text-xl'>Notes:</label>
                 <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note

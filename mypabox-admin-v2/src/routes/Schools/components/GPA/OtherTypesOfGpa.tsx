@@ -29,8 +29,8 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
     return (
         <>
         {newSchool.school_other_types_of_gpa_evaluated.map((field, i) => (
-        <div className={`${i>0 ? 'mt-10' : 'mt-28'} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] text-xl bg-white">Other Types of GPA Evaluated <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label> 
+        <div className={`${i>0 ? 'mt-10' : 'mt-28'} relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Other Types of GPA Evaluated <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label> 
             
             <>
                 <div className={`w-full mt-4`}>
@@ -40,7 +40,7 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                     </div>
                     <CreatableSelect options={typeOfGpa} 
                     value={field.type_of_gpa_evaluated ? {value: field.type_of_gpa_evaluated, label: field.type_of_gpa_evaluated} : null } 
-                    className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3" 
+                    className="w-full focus:outline-none rounded-lg mt-3" 
                     onChange={(e) => handleSelect(e, 'type_of_gpa_evaluated', i, 'school_other_types_of_gpa_evaluated')}/>
                     <p className='text-[#4573D2] text-sm mt-1 pl-3'>*Note: Type to create a new option</p>
                 </div>
@@ -89,7 +89,7 @@ export default function OtherTypesOfGpa({ newSchool, deleteField, handleSelect, 
                 ))}
             </>
             {i === newSchool.school_other_types_of_gpa_evaluated.length-1 && (
-            <button className="w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={(e) => addField(e, 'school_other_types_of_gpa_evaluated')}>
+            <button className="mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={(e) => addField(e, 'school_other_types_of_gpa_evaluated')}>
                 + Add New Field
             </button>
             )}

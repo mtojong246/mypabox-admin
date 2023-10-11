@@ -134,6 +134,10 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
 
     const addOrUpdateOption = (e:MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        if (!options.school_recommended_optional_group_evaluator_title.length) {
+            alert('Please add at least one evaluator');
+            return;
+        }
         if (editedOption) {
             updateOption();
         } else {
@@ -166,7 +170,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                             return (
                                 <div className='p-4 border border-[#B4B4B4] rounded-lg w-full'>
                                     <div className='flex justify-between items-center w-full'>
-                                        <p className='font-bold'>{opt}</p>
+                                        <p className='font-bold text-xl'>{opt}</p>
                                         <button onClick={(e) => deleteEvaluator(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                     </div>
                                 </div>

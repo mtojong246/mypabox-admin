@@ -233,6 +233,7 @@ export default function EvaluationsRecommended({ newSchool, setNewSchool }: { ne
                     </div> 
                 </>
             )}
+            <div className={`${newSchool.school_evaluations_recommended.input ? 'mx-5 mb-5' : 'mx-0 mb-0'}`}>
             {newSchool.school_evaluations_recommended.input && <label className='font-medium text-xl inline-block mt-8'>Notes:</label>}
             <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Note
@@ -253,6 +254,7 @@ export default function EvaluationsRecommended({ newSchool, setNewSchool }: { ne
                 ))}
             </div>
             )}
+            </div>
         </div>
         {openOptions && <AddRecommendedOption newSchool={newSchool} setNewSchool={setNewSchool} toggleOptions={toggleOptions} editedOption={editedOption} setEditedOption={setEditedOption} groupIndex={groupIndex}/>}
         {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}

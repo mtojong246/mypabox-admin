@@ -300,7 +300,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
 
                     {newSchool.school_english_proficiency_exams.school_toefl_required && (
                     <>
-                    <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-8 mx-5 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Frame TOEFL Needs To Be Completed</label>   
                         <div className='flex justify-start items-center gap-2'>
                             <input onChange={(e) => setSelection({...selection, number: e.target.value.trim()})} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
@@ -308,7 +308,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                         </div>     
                     </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-5 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL Exempt with Masters Degree</label>   
                         <div className='w-full mt-2'>
                             <label className="relative inline-flex items-center cursor-pointer">
@@ -319,7 +319,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                         </div>    
                     </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-5 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL Exempt with Doctoral Degree</label>   
                         <div className='w-full mt-2'>
                             <label className="relative inline-flex items-center cursor-pointer">
@@ -330,7 +330,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                         </div>    
                     </div>
 
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-5 relative max-w-[900px] py-5 px-8 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">TOEFL IBT Minimum Scores Required</label>
                         <div className='mt-2'>
                             <label className="text-xl font-medium bg-white">Total Score</label>   
@@ -357,7 +357,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                             <input onChange={handleInput} name='school_toefl_ibt_minimum_speaking_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                         </div>
 
-                        <div className='mt-8'>
+                        <div className='mt-8 mb-5'>
                             <label className="text-xl font-medium bg-white">TOEFL IBT Minimum Score Notes</label>   
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_ibt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
@@ -380,7 +380,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     </div>
 
                     
-                    <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] py-5 px-8 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white text-orange-600">TOEFL PBT Minimum Scores Required</label>   
                         <div className='mt-2'>
                             <label className="text-xl font-medium bg-white">Total Score</label>   
@@ -407,7 +407,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                             <input onChange={handleInput} name='school_toefl_pbt_minimum_speaking_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                         </div>
 
-                        <div className="mt-8">
+                        <div className="mt-8 mb-5">
                             <label className="text-xl font-medium bg-white">TOEFL PBT Minimum Score Notes</label>   
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_pbt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
@@ -445,7 +445,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     </div>
 
                     {newSchool.school_english_proficiency_exams.school_ielt_required && (
-                    <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">IELT Minimum Total Score Required</label>   
                         <input onChange={handleInput} name='school_ielt_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                         <button onClick={(e) => {toggleNotePopup(e); setName('school_ielt_minimum_score_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-4 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
@@ -480,7 +480,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     </div>
             
                     {newSchool.school_english_proficiency_exams.school_melab_required && (
-                    <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">MELAB Minimum Total Score Required</label>   
                         <input onChange={handleInput} name='school_melab_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_melab_minimum_total_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                         <button onClick={(e) => {toggleNotePopup(e); setName('school_melab_minimum_score_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-4 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
@@ -515,7 +515,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     </div>
 
                     {newSchool.school_english_proficiency_exams.school_pte_academic_required && (
-                    <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">PTE Academic Minimum Total Score Required</label>   
                         <input onChange={handleInput} name='school_pte_academic_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                         <button onClick={(e) => {toggleNotePopup(e); setName('school_pte_academic_minimum_score_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-4 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
@@ -550,7 +550,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     </div>
 
                     {newSchool.school_english_proficiency_exams.school_itep_academic_plus_required && (
-                    <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">ITEP Academic Minimum Total Score Required</label>   
                         <input onChange={handleInput} name='school_itep_academic_plus_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_total_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
                         <button onClick={(e) => {toggleNotePopup(e); setName('school_itep_academic_plus_minimum_score_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-4 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">

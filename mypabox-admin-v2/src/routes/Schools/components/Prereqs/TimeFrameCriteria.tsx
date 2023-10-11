@@ -192,9 +192,9 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
 
     return (
         <>
-            <div className={`mt-28 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white">Time Frame Criteria</label>   
-                <div className={`mt-8 relative w-full border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-28 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Time Frame Criteria</label>   
+                <div className={`mt-7 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All Courses Must Be Completed Within:</label> 
                     <div className='flex justify-start items-center gap-2 mb-4'>
                         <input onChange={(e) => {handleInput(e); setName('school_time_frame_all_courses_must_be_completed')}} name='school_time_frame_all_courses_must_be_completed' value={allSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
@@ -220,7 +220,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                 </div>
 
 
-                <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
+                <div className={`mt-12 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All SCIENCE Courses Must Be Completed Within:</label> 
                     <div className='flex justify-start items-center gap-2 mb-4'>
                         <input onChange={(e) => {handleInput(e); setName('school_time_frame_science_courses_must_be_completed')}} name='school_time_frame_science_courses_must_be_completed' value={scienceSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
@@ -246,7 +246,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                 </div>
 
 
-                <div className={`mt-14 relative w-full border p-5 block rounded-lg border-[#545454]`}>
+                <div className={`mt-12 relative w-full border p-5 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All MATH Courses Must Be Completed Within:</label> 
                     <div className='flex justify-start items-center gap-2 mb-4'>
                         <input onChange={(e) => {handleInput(e); setName('school_time_frame_math_courses_must_be_completed')}} name='school_time_frame_math_courses_must_be_completed' value={mathSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
@@ -272,7 +272,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                 </div>
 
 
-                <div className='w-full mt-10'>
+                <div className='w-full mt-8 mb-5'>
                     <label className='font-medium text-xl'>Notes:</label>
                     <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(false)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note

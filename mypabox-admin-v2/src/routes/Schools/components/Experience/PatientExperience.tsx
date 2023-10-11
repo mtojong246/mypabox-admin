@@ -203,10 +203,10 @@ export default function PatientExperience({newSchool, setNewSchool}: { newSchool
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] text-xl bg-white">Patient Experience</label>   
+        <div className={`mt-20 relative max-w-[900px] border py-5 px-8 block rounded border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Patient Experience</label>   
             
-            <div className={`mt-8 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_patient_experience.school_patient_experience_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+            <div className={`mt-7 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_patient_experience.school_patient_experience_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Patient Experience Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -217,7 +217,7 @@ export default function PatientExperience({newSchool, setNewSchool}: { newSchool
                 </div>
                 {newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required && newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed && (
                 <>
-                    <div className={`mt-8 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                    <div className={`mt-7 mx-5 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Patient Care Experience Hours Required</label>   
                         <input onChange={handleInput} value={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required?.input} name='school_minimum_patient_care_experience_hours_required' className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mb-4' />  
                         <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_patient_care_experience_hours_required'); setNoteName('school_minimum_patient_care_experience_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
@@ -239,7 +239,7 @@ export default function PatientExperience({newSchool, setNewSchool}: { newSchool
                         </div>            
                     </div>
 
-                    <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                    <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Frame Patient Care Experience Needs To Be Completed</label>   
                         <div className='flex justify-start items-center gap-2 mb-4'>
                             <input onChange={handleSelectionNumber} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
@@ -269,12 +269,12 @@ export default function PatientExperience({newSchool, setNewSchool}: { newSchool
 
             
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average Patient Care Experience Hours Accepted Previous Cycle</label>   
                 <input onChange={handleInput} value={newSchool.school_patient_experience.school_average_patient_care_experience_hours_accepted_previous_cycle} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
             </div>
 
-            <div className='w-full mt-10'>
+            <div className='w-full mt-8 mb-5'>
                 <label className='font-medium text-xl'>Notes:</label>
                 <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note

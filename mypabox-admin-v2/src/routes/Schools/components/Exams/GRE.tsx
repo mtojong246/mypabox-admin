@@ -268,7 +268,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
         <div className={`mt-20 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] left-[20px] text-xl bg-white">GRE</label>   
 
-            <div className={`mt-6 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+            <div className={`mt-7 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -423,7 +423,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
                 {newSchool.school_gre.school_minimum_gre_scores_required && (
                 <>
-                <div className={`mt-8 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                <div className={`mt-8 mx-5 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Scores</label> 
                     <div className='mt-2'>
                         <label className="text-xl font-medium bg-white">Verbal Score</label>   
@@ -441,7 +441,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         <label className="text-xl font-medium bg-white">Combined Score</label>   
                         <input onChange={handleInput} name='school_gre_minimum_combined_score' value={newSchool.school_gre.school_gre_minimum_combined_score as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
                     </div>
-                    <div className='mt-8'>
+                    <div className='mt-8 mb-5'>
                         <label className="text-xl font-medium bg-white">Minimum GRE Score Notes</label>   
                         <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_score_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
@@ -462,7 +462,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         </div>       
                     </div>
                 </div>
-                <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Percentiles</label> 
                     <div className='mt-2'>
                         <label className="text-xl font-medium bg-white">Verbal Percentile</label>   
@@ -480,7 +480,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         <label className="text-xl font-medium bg-white">Combined Percentile</label>   
                         <input onChange={handleInput} name='school_gre_minimum_combined_percentile' value={newSchool.school_gre.school_gre_minimum_combined_percentile as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
                     </div>
-                    <div className='mt-8'>
+                    <div className='mt-8 mb-5'>
                         <label className="text-xl font-medium bg-white">Minimum GRE Percentile Notes</label>   
                         <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_percentile_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
