@@ -39,6 +39,32 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
     const [ notePopup, setNotePopup ] = useState(false);
 
+    const [ evaluator, setEvaluator ] = useState('');
+
+    const addEvaluator = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if (newSchool.school_evaluations_required.school_required_evaluator_title?.includes(evaluator)) return;
+        if (!evaluator) return;
+        setNewSchool({
+            ...newSchool,
+            school_evaluations_required: {
+                ...newSchool.school_evaluations_required,
+                school_required_evaluator_title: newSchool.school_evaluations_required.school_required_evaluator_title!.concat(evaluator),
+            }
+        })
+    };
+
+    const deleteEvaluator = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_evaluations_required: {
+                ...newSchool.school_evaluations_required,
+                school_required_evaluator_title: newSchool.school_evaluations_required.school_required_evaluator_title!.filter((e,i) => i !== index)
+            }
+        })
+    }
+
     const toggleNotePopup = (e:any) => {
         e.preventDefault();
         setNotePopup(!notePopup)
@@ -56,7 +82,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
                 school_evaluations_required: {
                     ...newSchool.school_evaluations_required,
                     school_minimum_number_of_evaluations_required: 0,
-                    school_required_evaluator_title: '',
+                    school_required_evaluator_title: [],
                     school_minimum_time_evaluator_knows_applicant: '',
                     school_optional_evaluators_required: [],
                 }
@@ -106,15 +132,15 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
         })
     }
 
-    const handleSelect = (e:any, name: string) => {
-        setNewSchool({
-            ...newSchool,
-            school_evaluations_required: {
-                ...newSchool.school_evaluations_required,
-                [name]: e.value,
-            }
-        })
-    }
+    // const handleSelect = (e:any, name: string) => {
+    //     setNewSchool({
+    //         ...newSchool,
+    //         school_evaluations_required: {
+    //             ...newSchool.school_evaluations_required,
+    //             [name]: e.value,
+    //         }
+    //     })
+    // }
 
     const handleNumber = (e: ChangeEvent<HTMLInputElement>) => {
         setSelection({
@@ -192,7 +218,26 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
                     </div> 
                     <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Required Evaluator Title</label> 
-                        <CreatableSelect onChange={(e) => handleSelect(e, 'school_required_evaluator_title')} options={evaluatorOptions} value={newSchool.school_evaluations_required.school_required_evaluator_title ? {value: newSchool.school_evaluations_required.school_required_evaluator_title, label: newSchool.school_evaluations_required.school_required_evaluator_title} : null} className="w-1/3 focus:outline-none"/> 
+                        <div className='flex justify-start items-center gap-2'>
+                            <CreatableSelect options={evaluatorOptions} onChange={(e:any) => setEvaluator(e.value)} className="w-1/3 focus:outline-none"/> 
+                            <button onClick={addEvaluator} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded-md px-5 h-[56px] hover:text-white hover:bg-[#F06A6A]">
+                                Add Evaluator
+                            </button>
+                        </div>
+                        {newSchool.school_evaluations_required.school_required_evaluator_title && (
+                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_evaluations_required.school_required_evaluator_title.length ? 'mt-3' : 'mt-0'}`}>
+                            {newSchool.school_evaluations_required.school_required_evaluator_title.map((opt, i) => {
+                                return (
+                                    <div className='p-4 border border-[#B4B4B4] rounded-lg w-full'>
+                                        <div className='flex justify-between items-center w-full'>
+                                            <p className='font-bold text-xl'>{opt}</p>
+                                            <button onClick={(e) => deleteEvaluator(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                            </div>
+                            )}
                     </div> 
                     <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Evaluator Knows Applicant</label> 
