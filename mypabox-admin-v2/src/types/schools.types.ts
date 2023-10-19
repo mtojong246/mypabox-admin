@@ -445,6 +445,41 @@ export interface School {
         school_evaluations_recommended_notes: Note[];
     }
 
+    school_international_students_accepted: {
+        input: boolean;
+        school_international_students_notes: Note[];
+    }
+
+    school_certifications_required: {
+        input: boolean;
+        school_certifications_required_options: string[] | null;
+        school_certification_notes: Note[];
+    }
+
+    school_application_submitted_on_caspa: {
+        input: boolean;
+        school_caspa_application_deadline_date: string | null;
+        school_caspa_application_deadline_type: string | null;
+        school_caspa_application_notes: Note[];
+    }
+
+    school_application_submitted_directly_to_school: {
+        input: boolean;
+        school_application_direct_to_school_deadline: string | null;
+        school_application_direct_to_school_fee: number | null;
+        school_application_direct_to_school_notes: Note[];
+    }
+
+    school_supplemental_application_required: {
+        input: boolean;
+        school_supplemental_application_deadline: string | null;
+        school_supplemental_application_fee: number | null;
+        school_supplemental_application_link: string | null;
+        school_supplemental_application_link_provided_with_invite_only: boolean | null;
+        school_supplemental_application_notes: Note[];
+    }
+
+    
 
 
 }

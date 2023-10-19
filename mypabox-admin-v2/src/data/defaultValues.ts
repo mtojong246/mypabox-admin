@@ -439,6 +439,40 @@ export const defaultSchool: School = {
         school_minimum_time_evaluator_knows_applicant: null,
         school_optional_evaluators_recommended: null,
         school_evaluations_recommended_notes: [],
+    },
+
+    school_international_students_accepted: {
+        input: false,
+        school_international_students_notes: [],
+    },
+
+    school_certifications_required: {
+        input: false,
+        school_certifications_required_options: null,
+        school_certification_notes: [],
+    },
+
+    school_application_submitted_on_caspa: {
+        input: false,
+        school_caspa_application_deadline_date: null,
+        school_caspa_application_deadline_type: null,
+        school_caspa_application_notes: [],
+    },
+
+    school_application_submitted_directly_to_school: {
+        input: false,
+        school_application_direct_to_school_deadline: null,
+        school_application_direct_to_school_fee: null,
+        school_application_direct_to_school_notes: [],
+    },
+
+    school_supplemental_application_required: {
+        input: false,
+        school_supplemental_application_deadline: null,
+        school_supplemental_application_fee: null,
+        school_supplemental_application_link: null,
+        school_supplemental_application_link_provided_with_invite_only: null,
+        school_supplemental_application_notes: [],
     }
 
 }
