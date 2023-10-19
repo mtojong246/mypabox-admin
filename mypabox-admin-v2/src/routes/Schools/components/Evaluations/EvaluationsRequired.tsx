@@ -1,6 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react";
 import { Note, School } from "../../../../types/schools.types";
-import CreatableSelect from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
 import AddRequiredOption from "./AddRequiredOption";
 import { AiOutlineClose } from 'react-icons/ai'

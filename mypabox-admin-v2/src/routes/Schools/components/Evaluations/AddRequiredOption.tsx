@@ -1,6 +1,6 @@
 import { AiOutlineClose } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi'
-import CreatableSelect from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
 import { School } from '../../../../types/schools.types';
 import { Dispatch, SetStateAction, MouseEvent, useState, useEffect, ChangeEvent } from 'react';

@@ -7,7 +7,7 @@ import {
   MouseEvent,
 } from "react";
 import { Note, School } from "../../../../types/schools.types";
-import CreatableSelect from "react-select";
+import CreatableSelect from "react-select/creatable";
 import Select from "react-select";
 import AddRecommendedOption from "./AddRecommendedOption";
 import { AiOutlineClose } from "react-icons/ai";
