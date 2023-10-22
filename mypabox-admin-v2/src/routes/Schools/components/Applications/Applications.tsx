@@ -1,11 +1,6 @@
-import { School, Note } from "../../../../types/schools.types";
-import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent } from "react"
-import ReactQuill from "react-quill";
-import CreatableSelect from 'react-select/creatable';
-import AddNote from "../Prereqs/AddNote";
+import { School} from "../../../../types/schools.types";
+import { Dispatch, SetStateAction} from "react"
 
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi';
 import ApplicationsCaspa from "./ApplicationsCaspa";
 import ApplicationsDirectly from "./ApplicationsDirectly";
 import SupplementalApplications from "./SupplementalApplications";

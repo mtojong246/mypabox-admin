@@ -14,6 +14,14 @@ const options = [
 ]
 
 export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+    const [index, setIndex] = useState<number | null>(null);
+    const [editedNote, setEditedNote] = useState<Note | null>(null);
+    const [notePopup, setNotePopup] = useState(false);
+
+    const toggleNotePopup = (e: any) => {
+        e.preventDefault();
+        setNotePopup(!notePopup);
+      };
 
     useEffect(() => {
         if (newSchool.school_application_submitted_on_caspa.input) {
@@ -67,6 +75,43 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
         })
     };
 
+    const addNote = (note: Note) => {
+        setNewSchool({
+            ...newSchool,
+            school_application_submitted_on_caspa: {
+                ...newSchool.school_application_submitted_on_caspa,
+                school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.concat(note),
+            }
+        })
+    };
+
+    const updateNote = (note: Note) => {
+        setNewSchool({
+            ...newSchool,
+            school_application_submitted_on_caspa: {
+                ...newSchool.school_application_submitted_on_caspa,
+                school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
+            }
+        })
+    };
+
+    const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_application_submitted_on_caspa: {
+                ...newSchool.school_application_submitted_on_caspa,
+                school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.filter((n,i) => i !== index)
+            }
+        })
+    };
+
     return (
         <>
         <div className={`mt-10 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
@@ -92,12 +137,12 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
             )}
             <div className={`${newSchool.school_application_submitted_on_caspa.input ? 'mx-5 mb-5' : 'mx-0 mb-0'}`}>
             {newSchool.school_application_submitted_on_caspa.input && <label className='font-medium text-xl inline-block mt-8'>Notes:</label>}
-            <button className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+            <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Note
             </button>
-            {/* {newSchool.school_certifications_required.school_certification_notes && (
-                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certification_notes.length ? 'mt-3' : 'mt-0'}`}>
-                    {newSchool.school_certifications_required.school_certification_notes.map((note, i) => (
+            {newSchool.school_application_submitted_on_caspa.school_caspa_application_notes && (
+                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
@@ -111,9 +156,9 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
                     ))}
                 </div>
             )}
-            </div> */}
             </div>
-            </div>
+        </div>
+        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )
 }
