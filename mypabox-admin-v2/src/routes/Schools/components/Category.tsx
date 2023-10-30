@@ -21,6 +21,7 @@ import Applications from "./Applications/Applications";
 import GeneralInfo from "./GeneralInfo/GeneralInfo";
 import DegreeInfo from "./GeneralInfo/DegreeInfo";
 import AccreditationStatus from "./GeneralInfo/AccreditationStatus";
+import MissionStatement from "./GeneralInfo/MissionStatement";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -307,6 +308,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             {tab === '#general-info' && <GeneralInfo newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#degree-info' && <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#accreditation-status' && <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#mission-statement' && <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} openNotePopup={openNotePopup} handleInputChange={handleInputChange} openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup}
             />}
             {tab === '#prerequisites' && <Prereqs newSchool={newSchool} setNewSchool={setNewSchool}/>}
