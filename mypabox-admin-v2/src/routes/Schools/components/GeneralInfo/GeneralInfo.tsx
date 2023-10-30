@@ -1,0 +1,438 @@
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { School, Note, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
+import ReactQuill from "react-quill";
+import { AiOutlineClose } from "react-icons/ai";
+import { FiEdit3 } from "react-icons/fi";
+import countries from "../../../../data/countries.json";
+import Select from 'react-select';
+import AddNote from "../Prereqs/AddNote";
+
+const fields = [
+    {
+        name: 'School Name',
+        value: 'school_name',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'School Logo',
+        value: 'school_logo',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'Street Address',
+        value: 'school_street',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'City',
+        value: 'school_city',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'State',
+        value: 'school_state',
+        margin: 'mt-12',
+        type: 'select',
+    },
+    {
+        name: 'Zip',
+        value: 'school_zip_code',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'Country',
+        value: 'school_country',
+        margin: 'mt-12',
+        type: 'select',
+    },
+    {
+        name: 'Website',
+        value: 'school_website',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'School Email',
+        value: 'school_email',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'School Phone Number',
+        value: 'school_phone_number',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'Campus Location',
+        value: 'school_campus_location',
+        margin: 'mt-28',
+        type: 'text',
+    },
+    {
+        name: 'Start Month',
+        value: 'school_start_month',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'Class Capacity',
+        value: 'school_class_capacity',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'Duration (Full-time)',
+        value: 'school_duration_full_time',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'Duration (Part-time)',
+        value: 'school_duration_part_time',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'Seat Deposit (In-state)',
+        value: 'school_seat_deposit_in_state',
+        margin: 'mt-28',
+        type: 'text',
+    },
+    {
+        name: 'Seat Deposit (Out-of-state)',
+        value: 'school_seat_deposit_out_of_state',
+        margin: 'mt-12',
+        type: 'text',
+    },
+    {
+        name: 'Rolling Admissions',
+        value: 'school_rolling_admissions',
+        margin: 'mt-28',
+        type: 'bool',
+    },
+    {
+        name: 'Non-rolling Admissions',
+        value: 'school_nonrolling_admissions',
+        margin: 'mt-12',
+        type: 'bool',
+    },
+    {
+        name: 'Pre-PA Curriculum',
+        value: 'school_pre_pa_curriculum',
+        margin: 'mt-12',
+        type: 'bool',
+    },
+    {
+        name: 'Direct High School Entry',
+        value: 'school_direct_high_school_entry',
+        margin: 'mt-12',
+        type: 'bool',
+    },
+    {
+        name: 'Part-time Option',
+        value: 'school_part_time_option',
+        margin: 'mt-12',
+        type: 'bool',
+    },
+    {
+        name: 'Online Learning',
+        value: 'school_online_learning',
+        margin: 'mt-12',
+        type: 'bool',
+    },
+    {
+        name: 'On-campus Housing',
+        value: 'school_on_campus_housing',
+        margin: 'mt-12',
+        type: 'bool',
+    },
+    {
+        name: 'Cadaver Lab',
+        value: 'school_cadaver_lab',
+        margin: 'mt-12',
+        type: 'bool',
+    },
+    {
+        name: 'Faith-based Learning',
+        value: 'school_faith_based_learning',
+        margin: 'mt-12',
+        type: 'bool',
+    },
+    {
+        name: 'Military Personnel Preference',
+        value: 'school_military_personnel_preference',
+        margin: 'mt-12',
+        type: 'bool',
+    },
+    {
+        name: 'General Information Notes',
+        value: 'school_general_information',
+        margin: 'mt-28',
+        type: 'editor',
+    }
+]
+
+export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+    const [stateNames, setStateNames] = useState<any>([]);
+    const [countryNames, setCountryNames] = useState<any>([]);
+
+    const [index, setIndex] = useState<number | null>(null);
+    const [editedNote, setEditedNote] = useState<Note | null>(null);
+    const [notePopup, setNotePopup] = useState(false);
+    const [name, setName] = useState('');
+
+    const toggleNotePopup = (e: any) => {
+        e.preventDefault();
+        setNotePopup(!notePopup);
+      };
+
+    useEffect(() => {
+        setCountryNames(countries.map(country => ({ value: country.name, label: country.name, 
+          target: {name: "school_country", type: 'text', value: country.name }})))
+    
+        setStateNames(countries.filter(country => country.name === newSchool.school_country.input)[0]?.states
+         .map(state => ({ value: state.name, label: state.name, target: {name: "school_state", type: 'text', 
+         value: state.name, } })))
+    
+    }, [newSchool.school_country.input]);
+
+    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.name as keyof School;
+        const field = newSchool[name] as StringInput | NumberInput;
+        let value: string | number = e.target.value;
+        if (typeof field.input === 'number') {
+            value = Number(e.target.value)
+        } 
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                input: value,
+            }
+        })
+    };
+
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.name as keyof School;
+        const field = newSchool[name] as BooleanInput;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                input: e.target.checked,
+            }
+        })
+    };
+
+    const handleSelect = (e: any) => {
+        const name = e.target.name as keyof School;
+        const field = newSchool[name] as StringInput;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                input: e.value,
+            }
+        })
+    };
+
+    const handleQuill = (e:any) => {
+        setNewSchool({
+            ...newSchool,
+            school_general_information: e,
+        })
+    };
+
+    const addNote = (note: Note) => {
+        const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                notes: (field.notes as Note[]).concat(note),
+            }
+        })
+    };
+
+    const updateNote = (note: Note) => {
+        const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                notes: (field.notes as Note[]).map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
+            }
+        })
+    };
+
+    const deleteNote = (e: any, index: number, name: string) => {
+        e.preventDefault();
+        const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                notes: (field.notes as Note[]).filter((n,i) => i !== index)
+            }
+        })
+    };
+
+
+    return (
+        <>
+        {fields.map((cat) => {
+
+        if (cat.type === 'text') {
+            return (
+            <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
+                <div className='flex justify-center items-center gap-2'>
+                    <input className="grow focus:outline-none border border-[#B4B4B4] p-4 rounded" 
+                    value={(newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number} name={cat.value} onChange={handleInput}/>
+                    {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        Add Note
+                    </button>)}
+                </div>
+                {
+                (newSchool[cat.value as keyof School] as StringInput | NumberInput).notes ? (
+                <>
+                <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes?.map((note: any, i: number) => {
+                    return (
+                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                        <div className='flex justify-between items-start w-full mb-1'>
+                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                                {note.type}:
+                            </p>
+                            <div className='flex gap-2'>
+                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            </div>
+                            </div> 
+                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                    </div>
+                    )})}
+                </div>
+                </>
+                ) : ''
+                }
+            </div>
+            )
+
+        // ** SELECT INPUT ** //
+
+        } else if (cat.type === 'select') {
+            return (
+            <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
+                <div className='flex justify-center items-center gap-2'>
+                    <Select className="grow focus:outline-none rounded" name={cat.value} 
+                    options={cat.value === 'school_state' ? stateNames : countryNames} onChange={handleSelect}/>
+                    {(newSchool[cat.value as keyof School] as StringInput).notes && <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]" >
+                        Add Note
+                    </button>}
+                </div>
+                {
+                (newSchool[cat.value as keyof School] as StringInput).notes ? (
+                <>
+                <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
+                    {(newSchool[cat.value as keyof School] as StringInput).notes?.map((note: any, i: number) => {
+                    return (
+                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                        <div className='flex justify-between items-start w-full mb-1'>
+                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                                {note.type}:
+                            </p>
+                            <div className='flex gap-2'>
+                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            </div>
+                            </div> 
+                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                    </div>
+                    )})}
+                </div>
+                </>
+                ) : ''
+                }
+            </div>
+            )
+
+        // ** BOOLEAN INPUT ** //
+
+        } else if (cat.type === 'bool') {
+            return (
+            <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
+                <div className='flex justify-start items-center gap-2'>
+                    <div className='mt-2 grow'>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" className="sr-only peer" name={cat.value} onChange={handleCheck}/>
+                        <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                        <span className="ml-3 text-xl text-black">
+                        {(newSchool[cat.value as keyof School] as BooleanInput).input ? 'True' : 'False'}
+                        </span>
+                    </label>
+                    </div>
+                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        Add Note
+                    </button>
+                </div>
+                
+                {
+                (newSchool[cat.value as keyof School] as BooleanInput).notes ? (
+                <>
+                <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as BooleanInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
+                    {(newSchool[cat.value as keyof School] as BooleanInput).notes?.map((note: any, i: number) => {
+                    return (
+                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                        <div className='flex justify-between items-start w-full mb-1'>
+                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                                {note.type}:
+                            </p>
+                            <div className='flex gap-2'>
+                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            </div>
+                            </div> 
+                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                    </div>
+                    )})}
+                </div>
+                </>
+                ) : ''
+                }
+            </div>
+            )
+
+        // ** TEXT EDITOR ** //
+
+        } else if (cat.type === 'editor') {
+            return (
+            <div className={`${cat.margin} text-xl w-full`}>
+                <p>{cat.name}</p>
+                <ReactQuill className='mt-4 h-96 rounded-2xl max-w-[900px]' theme="snow" value={newSchool[cat.value as keyof School] as string} 
+                onChange={handleQuill}/>
+            </div>
+            )
+
+        }
+
+        })}
+        {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />
+      )}
+        </>
+    )
+}

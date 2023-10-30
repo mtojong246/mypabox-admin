@@ -52,10 +52,11 @@
   border-color: #B4B4B4 !important;
 }
 
-.ql-container {
+.ql-container.ql-snow {
   border-radius: 0 0 5px 5px;
   border: 2px solid #B4B4B4 !important;
 }
+
 
 .css-13cymwt-control, .css-t3ipsp-control {
   height: 58px;

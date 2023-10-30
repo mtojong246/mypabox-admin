@@ -18,6 +18,9 @@ import Evaluations from "./Evaluations/Evaluations";
 import InternationalStudents from "./InternationalStudents/InternationalStudents";
 import Certifications from "./Certifications/Certifications";
 import Applications from "./Applications/Applications";
+import GeneralInfo from "./GeneralInfo/GeneralInfo";
+import DegreeInfo from "./GeneralInfo/DegreeInfo";
+import AccreditationStatus from "./GeneralInfo/AccreditationStatus";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -119,7 +122,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     
     return (
         <form className='pb-24 min-h-screen'>
-        {category.fields && category.fields.map((cat) => {
+        {/* {category.fields && category.fields.map((cat) => {
 
         // ** TEXT INPUT ** //
 
@@ -299,8 +302,11 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             )
         }
         // NOTE: GPA section lives in separate component due to variable data field types and logic 
-        })}
+        })} */}
         <>
+            {tab === '#general-info' && <GeneralInfo newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#degree-info' && <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#accreditation-status' && <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} openNotePopup={openNotePopup} handleInputChange={handleInputChange} openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup}
             />}
             {tab === '#prerequisites' && <Prereqs newSchool={newSchool} setNewSchool={setNewSchool}/>}
