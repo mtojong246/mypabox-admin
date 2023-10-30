@@ -22,6 +22,8 @@ import GeneralInfo from "./GeneralInfo/GeneralInfo";
 import DegreeInfo from "./GeneralInfo/DegreeInfo";
 import AccreditationStatus from "./GeneralInfo/AccreditationStatus";
 import MissionStatement from "./GeneralInfo/MissionStatement";
+import Tuition from "./GeneralInfo/Tuition";
+import PANCEPassRate from "./GeneralInfo/PANCEPassRate";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -309,8 +311,9 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             {tab === '#degree-info' && <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#accreditation-status' && <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#mission-statement' && <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool}/>}
-            {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} openNotePopup={openNotePopup} handleInputChange={handleInputChange} openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup}
-            />}
+            {tab === '#tuition' && <Tuition newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#pance-pass-rate' && <PANCEPassRate newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} openNotePopup={openNotePopup} handleInputChange={handleInputChange} openEditPopup={openEditPopup} handleDeletePopup={handleDeletePopup}/>}
             {tab === '#prerequisites' && <Prereqs newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#experience' && <Experience newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#pa-shadowing' && <PAShadowing newSchool={newSchool} setNewSchool={setNewSchool}/>}
