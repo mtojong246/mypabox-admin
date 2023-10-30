@@ -4,35 +4,27 @@ export const defaultSchool: School = {
     id: 0,
     school_name: {
         input: "",
-        notes: [],
     },
     school_logo: {
         input: "",
-        notes: [],
     },
     school_street: {
         input: "",
-        notes: [],
     },
     school_city: {
         input: "",
-        notes: [],
     },
     school_state: {
         input: "",
-        notes: [],
     },
     school_zip_code: {
         input: "",
-        notes: [],
     },
     school_country: {
         input: "",
-        notes: [],
     },
     school_website: {
         input: "",
-        notes: [],
     },
     school_email: {
         input: "",

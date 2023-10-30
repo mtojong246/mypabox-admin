@@ -125,32 +125,35 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
 
         if (cat.type === 'text') {
             return (
-            <div className={`${cat.margin} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+            <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
-                <input className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mb-4" 
+                <input className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded" 
                 value={(newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number} name={cat.value} onChange={handleInputChange} />
-                <button name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
-                Add Note
-                </button>
+                
                 {
                 (newSchool[cat.value as keyof School] as StringInput | NumberInput).notes ? (
+                <>
+                <button name='add' value={cat.value} className="mt-4 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
+                    Add Note
+                </button>
                 <div className="w-full">
                     {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes?.map((note: any, i: number) => {
                     return (
                     <div className='flex justify-center items-start gap-2 mt-4'>
-                        <div className="grow p-4 rounded-md border border-black">
+                        <div className="grow p-4 rounded border border-black">
                         <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                             {note.type}:
                         </p>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                        <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                     )})}
                 </div>
+                </>
                 ) : ''
                 }
             </div>
@@ -160,11 +163,11 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
 
         } else if (cat.type === 'select') {
             return (
-            <div className={`${cat.margin} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+            <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
-                <Select className="w-full focus:outline-none rounded-lg mb-4" name={cat.value} 
+                <Select className="w-full focus:outline-none rounded mb-4" name={cat.value} 
                 options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : cat.options} onChange={handleInputChange} />
-                <button value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
+                <button value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
                 Add Note
                 </button>
                 {
@@ -174,15 +177,15 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                     
                     return (
                     <div className='flex justify-center items-start gap-2 mt-4'>
-                        <div className="grow p-4 rounded-md border border-black">
+                        <div className="grow p-4 rounded border border-black">
                         <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                             {note.type}:
                         </p>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                        <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                     )})}
@@ -196,7 +199,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
 
         } else if (cat.type === 'bool') {
             return (
-            <div className={`${cat.margin} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+            <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
                 <div className='mb-4 mt-2 w-full'>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -207,7 +210,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                     </span>
                 </label>
                 </div>
-                <button value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
+                <button value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
                 Add Note
                 </button>
                 {
@@ -217,15 +220,15 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                     
                     return (
                     <div className='flex justify-center items-start gap-2 mt-4'>
-                        <div className="grow p-4 rounded-md border border-black">
+                        <div className="grow p-4 rounded border border-black">
                         <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                             {note.type}:
                         </p>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                        <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                        <button value={cat.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                     )})}
@@ -250,24 +253,24 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
 
         } else if (cat.type === 'fields') {
             return (
-                <div className={`${cat.margin} relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+                <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
                     <label className="absolute top-[-16px] text-xl bg-white">Types of Degrees Offered</label>
-                    <button value="school_type_of_degree_offered" className="w-56 pl-4 text-red-500 border border-[#F06A6A] rounded-md h-14 text-xl" 
+                    <button value="school_type_of_degree_offered" className="w-56 pl-4 text-red-500 border border-[#F06A6A] rounded h-14 text-xl" 
                     onClick={addInputFields}>
                     <AiOutlinePlus className="absolute ml-2 mt-[6px]"/>
                     Add more fields
                     </button>
-                    <button value="school_type_of_degree_offered" className="w-32 ml-4 border text-red-500 border-[#F06A6A] rounded-md h-14 text-xl" 
+                    <button value="school_type_of_degree_offered" className="w-32 ml-4 border text-red-500 border-[#F06A6A] rounded h-14 text-xl" 
                     onClick={openNotePopup}>
                     Add Note
                     </button>
                     {inputList.map((input: any, index: any) => {
                     return (         
                         <div className='flex justify-center items-start gap-2 mt-4'>
-                            <input className="grow focus:outline-none border border-[#B4B4B4] p-4 rounded-lg" 
+                            <input className="grow focus:outline-none border border-[#B4B4B4] p-4 rounded" 
                         value={input.input} name='school_type_of_degree_offered' onChange={e => handleFieldChange(e, index)} />
                             {index < 1 ? null : (
-                            <button onClick={(e) => handleDeletePopup(e, index, 'inputField')} value='school_type_of_degree_offered'><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                            <button onClick={(e) => handleDeletePopup(e, index, 'inputField')} value='school_type_of_degree_offered'><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                             )}
                         </div>
                     )})
@@ -277,15 +280,15 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
                             {(newSchool[cat.value as keyof School] as BooleanInput).notes?.map((note: any, i: number) => {
                             return (
                                 <div className='flex justify-center items-start gap-2 mt-4'>
-                                    <div className="grow p-4 rounded-md border border-black">
+                                    <div className="grow p-4 rounded border border-black">
                                     <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                                         {note.type}:
                                     </p>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                     </div>
                                     <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                                        <button value='school_type_of_degree_offered' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                                        <button value='school_type_of_degree_offered' onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                                        <button value='school_type_of_degree_offered' onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                                        <button value='school_type_of_degree_offered' onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                                     </div>
                                 </div>
                             )})}

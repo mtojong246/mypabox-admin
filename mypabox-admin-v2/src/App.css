@@ -48,16 +48,19 @@
 
 .ql-toolbar {
   border-radius: 5px 5px 0 0;
+  border-width: 2px 2px 0px 2px !important;
+  border-color: #B4B4B4 !important;
 }
 
 .ql-container {
   border-radius: 0 0 5px 5px;
+  border: 2px solid #B4B4B4 !important;
 }
 
 .css-13cymwt-control, .css-t3ipsp-control {
   height: 58px;
   font-size: 20px;
-  border-radius: 7px !important;
+  border-radius: 5px !important;
 }
 
 .css-1fdsijx-ValueContainer {

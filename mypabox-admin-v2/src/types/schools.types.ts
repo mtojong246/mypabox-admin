@@ -96,16 +96,20 @@ export interface SchoolPrereqRecommendedCourse {
     school_recommended_course_note_section: string;
 }
 
+export interface NoNoteString {
+    input: string;
+}
+
 export interface School {
     id: number;
-    school_name: StringInput;
-    school_logo: StringInput;
-    school_street: StringInput;
-    school_city: StringInput;
-    school_state: StringInput;
-    school_zip_code: StringInput;
-    school_country: StringInput;
-    school_website: StringInput;
+    school_name: NoNoteString;
+    school_logo: NoNoteString;
+    school_street: NoNoteString;
+    school_city: NoNoteString;
+    school_state: NoNoteString;
+    school_zip_code: NoNoteString;
+    school_country: NoNoteString;
+    school_website: NoNoteString;
     school_email: StringInput;
     school_phone_number: StringInput;
 
