@@ -1,12 +1,13 @@
-import { School, NumberInput, Note, OtherTypesOfGpaEvaluted, PreviousCycle, MinimumGpaSpecificCourse } from "../../../../types/schools.types";
-import { ChangeEvent, Dispatch, SetStateAction, MouseEvent, useEffect, useState } from "react";
+import { School, NumberInput, Note } from "../../../../types/schools.types";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import { FiEdit3 } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import OtherTypesOfGpa from "./OtherTypesOfGpa";
 import SpecificCourse from "./SpecificCourse";
-import AddOrEditGpaNote from "./AddOrEditGpaNote";
-import DeletePopupGpa from "./DeletePopupGpa";
+
+import AddNote from "../Prereqs/AddNote";
+import PreviousCycleSection from "./PreviousCycleSection";
 
 //*******TO DO*******:
 //  Fixed radio input so that option stays highlighted after selected 
@@ -41,51 +42,61 @@ const gpaRecommended = [
     }
 ]
 
-const previousCycle = [
-    {
-        label: 'Average Overall GPA Accepted:',
-        value: 'average_overall_gpa_accepted_previous_year'
-    },
-    {
-        label: 'Average Science GPA Accepted:',
-        value: 'average_science_gpa_accepted_previous_year',
-    },
-    {
-        label: 'Average Prerequisite GPA Accepted:',
-        value: 'average_prerequisite_gpa_accepted_previous_year'
-    }
-]
 
-
-const otherGpaDefault = {
-    gpa_value_required_or_recommended: "required",
-    minimum_gpa_value_needed: 0,
-    minimum_number_of_credits_evaluated: 0,
-    type_of_gpa_evaluated: "",
-    notes: [],
-}
-
-const specificCourseDefault = {
-    minimum_gpa_required_for_course: 0,
-    courseID: "",
-    notes: [],
-}
-
-export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInputChange, openEditPopup, handleDeletePopup }: { 
+export default function GPA({ newSchool, setNewSchool, handleInputChange }: { 
     newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, 
-    openNotePopup: (e: MouseEvent<HTMLButtonElement>) => void, 
     handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void, 
-    openEditPopup: (e: MouseEvent<HTMLButtonElement>, note: Note, index: number) => void,
-    handleDeletePopup: (e: any , i: SetStateAction<number>, input: string) => void,
 }) {
 
-    const [ isEdit, setIsEdit ] = useState(false);
-    const [ openNote, setOpenNote ] = useState(false);
-    const [ openDelete, setOpenDelete ] = useState(false);
-    const [ keyString, setKey ] = useState('');
-    const [ index, setIndex ] = useState(0);
-    const [ noteIndex, setNoteIndex ] = useState(0);
-    const [ currentNote, setCurrentNote ] = useState<Note>({} as Note)
+    const [index, setIndex] = useState<number | null>(null);
+    const [editedNote, setEditedNote] = useState<Note | null>(null);
+    const [notePopup, setNotePopup] = useState(false);
+    const [name, setName] = useState('');
+
+    const toggleNotePopup = (e: any) => {
+        e.preventDefault();
+        setNotePopup(!notePopup);
+      };
+
+      const addNote = (note: Note) => {
+        const field = newSchool[name as keyof School] as NumberInput;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                notes: (field.notes as Note[]).concat(note),
+            }
+        })
+    };
+
+    const updateNote = (note: Note) => {
+        const field = newSchool[name as keyof School] as NumberInput;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                notes: (field.notes as Note[]).map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
+            }
+        })
+    };
+
+    const deleteNote = (e: any, index: number, name: string) => {
+        e.preventDefault();
+        const field = newSchool[name as keyof School] as NumberInput;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                notes: (field.notes as Note[]).filter((n,i) => i !== index)
+            }
+        })
+    };
 
     useEffect(() => {
         // Resets inputs if value change to false
@@ -126,47 +137,6 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         }
     }, [newSchool.school_minimum_gpa_required, newSchool.school_minimum_gpa_recommended])
 
-    // Handles input changes for objects with multiple fields 
-    const handleObjInput = (e: ChangeEvent<HTMLInputElement>, index: number, key: string, name: string) => {
-        const value = e.target.value;
-        let objToBeUpdated = {};
-        if (key === "school_other_types_of_gpa_evaluated") {
-            objToBeUpdated = newSchool.school_other_types_of_gpa_evaluated.find((obj,i) => i === index) as OtherTypesOfGpaEvaluted;
-        } else {
-            objToBeUpdated = newSchool.school_minimum_gpa_for_specific_course.find((obj, i) => i === index) as MinimumGpaSpecificCourse;
-        }
-
-        const updatedObj = {
-            ...objToBeUpdated,
-            [name]: value,
-        }
-        setNewSchool({
-            ...newSchool,
-            [key]: (newSchool[key as keyof School] as OtherTypesOfGpaEvaluted[] | MinimumGpaSpecificCourse[]).map((field, i) => {
-                if (i === index) {
-                    return updatedObj;
-                } else {
-                    return field;
-                }
-            }) 
-        })
-
-    }
-
-    // Handles input change specifically for 'Average GPA Accepted Previous Cycle'
-    const handlePreviousCycle = (e: ChangeEvent<HTMLInputElement>) => {
-        const field = newSchool.school_average_gpa_accepted_previous_cycle[e.target.name as keyof PreviousCycle];
-        setNewSchool({
-            ...newSchool,
-            school_average_gpa_accepted_previous_cycle: {
-                ...newSchool.school_average_gpa_accepted_previous_cycle,
-                [e.target.name as keyof PreviousCycle]: {
-                    ...field,
-                    input: e.target.value,
-                }
-            }
-        })
-    }
     
     // Handles boolean inputs 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
@@ -177,213 +147,11 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         })
     }
 
-    // Handles select inputs 
-    const handleSelect = (e: any, name: string, index: number, key: string) => {
-        let objToBeUpdated = {};
-        if (key === "school_other_types_of_gpa_evaluated") {
-            objToBeUpdated = newSchool.school_other_types_of_gpa_evaluated.find((obj,i) => i === index) as OtherTypesOfGpaEvaluted;
-        } else {
-            objToBeUpdated = newSchool.school_minimum_gpa_for_specific_course.find((obj, i) => i === index) as MinimumGpaSpecificCourse;
-        }
-        const updatedObj = {
-            ...objToBeUpdated,
-            [name]: e.value,
-        }
-        setNewSchool({
-            ...newSchool,
-            [key]: (newSchool[key as keyof School] as OtherTypesOfGpaEvaluted[] | MinimumGpaSpecificCourse[]).map((field, i) => {
-                if (i === index) {
-                    return updatedObj;
-                } else {
-                    return field;
-                }
-            }) 
-        })
-    }
-
     const handleQuill = (e: any) => {
         setNewSchool({
             ...newSchool,
             school_gpa_general_note: e
         })
-    }
-
-    // Adds field to objects 
-    const addField = (e: MouseEvent<HTMLButtonElement>, key: string) => {
-        e.preventDefault();
-        let updatedField = [];
-        if (key === "school_other_types_of_gpa_evaluated") {
-            updatedField = newSchool.school_other_types_of_gpa_evaluated.concat(otherGpaDefault);
-        } else {
-            updatedField = newSchool.school_minimum_gpa_for_specific_course.concat(specificCourseDefault);
-        }
-        setNewSchool({
-            ...newSchool,
-            [key]: updatedField,
-        })
-    }
-
-    // Deletes specific field from objects 
-    const deleteField = (e: MouseEvent<HTMLButtonElement>, index: number, key: string) => {
-        e.preventDefault();
-        let updatedField = [];
-        if (key === 'school_other_types_of_gpa_evaluated') {
-            updatedField = newSchool.school_other_types_of_gpa_evaluated.filter((field, i)=> i !== index);
-        } else {
-            updatedField = newSchool.school_minimum_gpa_for_specific_course.filter((field, i) => i !== index)
-        }
-        setNewSchool({
-            ...newSchool,
-            [key]: updatedField,
-        })
-    }
-
-    //* Handler functions for specific GPA inputs */
-
-    // Opens popup for adding or editing notes 
-    const toggleNote = (e: MouseEvent<HTMLButtonElement>, edit: boolean) => {
-        e.preventDefault();
-        setIsEdit(edit);
-        setOpenNote(!openNote);
-    }
-
-    // Opens delete note popup
-    const toggleDelete = (e: MouseEvent<HTMLButtonElement>, i: number) => {
-        e.preventDefault();
-        setOpenDelete(!openDelete);
-        setNoteIndex(i);
-    }
-
-    // Points to specific data field and index 
-    const setKeyAndIndex = (key: string, index: number) => {
-        setKey(key);
-        setIndex(index);
-    }
-
-    // Adds notes to array and object data fields 
-    const addNote = (e: MouseEvent<HTMLButtonElement>, key: string, index: number, type: string, note: string) => {
-        e.preventDefault();
-        let obj = {} as OtherTypesOfGpaEvaluted | MinimumGpaSpecificCourse;
-        if (key === 'school_other_types_of_gpa_evaluated' || key === 'school_minimum_gpa_for_specific_course') {
-            if (key === 'school_other_types_of_gpa_evaluated') {
-                obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === index) as OtherTypesOfGpaEvaluted;
-            } else if (key === 'school_minimum_gpa_for_specific_course') {
-                obj = newSchool.school_minimum_gpa_for_specific_course.find((obj,i) => i === index) as MinimumGpaSpecificCourse
-            }
-            const currentField = newSchool[key as keyof School] as OtherTypesOfGpaEvaluted[] | MinimumGpaSpecificCourse[];
-            const updatedObj = { ...obj, notes: obj.notes.concat({type, note}) }
-            const updatedField = currentField.map((field, i) => {
-                if (i === index) {
-                    return updatedObj;
-                } 
-                return field;
-            })
-            setNewSchool({
-                ...newSchool,
-                [key]: updatedField,
-            })
-        } else {
-            const field = newSchool.school_average_gpa_accepted_previous_cycle[key as keyof PreviousCycle];
-            setNewSchool({
-                ...newSchool,
-                school_average_gpa_accepted_previous_cycle: {
-                    ...newSchool.school_average_gpa_accepted_previous_cycle,
-                    [key]: {
-                        ...field,
-                        notes: field.notes.concat({type, note})
-                    }
-                }
-            })
-        }     
-        
-    }
-
-    // Edits notes for array and object data field 
-    const editNote = (e: MouseEvent<HTMLButtonElement>, key: string, index: number, noteIndex: number, type: string, note: string) => {
-        e.preventDefault();
-        let obj = {} as OtherTypesOfGpaEvaluted | MinimumGpaSpecificCourse;
-        if (key === 'school_other_types_of_gpa_evaluated' || key === 'school_minimum_gpa_for_specific_course') {
-            if (key === 'school_other_types_of_gpa_evaluated') {
-                obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === index) as OtherTypesOfGpaEvaluted;
-            } else if (key === 'school_minimum_gpa_for_specific_course') {
-                obj = newSchool.school_minimum_gpa_for_specific_course.find((obj,i) => i === index) as MinimumGpaSpecificCourse
-            }
-            const currentField = newSchool[key as keyof School] as OtherTypesOfGpaEvaluted[] | MinimumGpaSpecificCourse[];
-            const updatedObj = { ...obj, notes: obj.notes.map((n, i) => {
-                if (i === noteIndex) {
-                    return { type, note }
-                } else {
-                    return { ...n }
-                }
-            }) }
-            const updatedField = currentField.map((field, i) => {
-                if (i === index) {
-                    return updatedObj;
-                } 
-                return field;
-            })
-            setNewSchool({
-                ...newSchool,
-                [key]: updatedField,
-            })
-        } else {
-            const field = newSchool.school_average_gpa_accepted_previous_cycle[key as keyof PreviousCycle];
-            setNewSchool({
-                ...newSchool,
-                school_average_gpa_accepted_previous_cycle: {
-                    ...newSchool.school_average_gpa_accepted_previous_cycle,
-                    [key]: {
-                        ...field,
-                        notes: field.notes.map((n, i) => {
-                            if (i === noteIndex) {
-                                return { type, note }
-                            } else {
-                                return { ...n }
-                            }
-                        })
-                    }
-                }
-            })
-        }     
-        
-    }
-
-    // Removes note from array and object data fields 
-    const removeNote = (e: MouseEvent<HTMLButtonElement>, key: string, index: number, noteIndex: number) => {
-        e.preventDefault();
-        let obj = {} as OtherTypesOfGpaEvaluted | MinimumGpaSpecificCourse;
-        if (key === 'school_other_types_of_gpa_evaluated' || key === 'school_minimum_gpa_for_specific_course') {
-            if (key === 'school_other_types_of_gpa_evaluated') {
-                obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === index) as OtherTypesOfGpaEvaluted;
-            } else if (key === 'school_minimum_gpa_for_specific_course') {
-                obj = newSchool.school_minimum_gpa_for_specific_course.find((obj,i) => i === index) as MinimumGpaSpecificCourse
-            }
-            const currentField = newSchool[key as keyof School] as OtherTypesOfGpaEvaluted[] | MinimumGpaSpecificCourse[];
-            const updatedObj = { ...obj, notes: obj.notes.filter((note, i) => i !== noteIndex) }
-            const updatedField = currentField.map((field, i) => {
-                if (i === index) {
-                    return updatedObj;
-                } 
-                return field;
-            })
-            setNewSchool({
-                ...newSchool,
-                [key]: updatedField,
-            })
-
-        } else {
-            const field = newSchool.school_average_gpa_accepted_previous_cycle[key as keyof PreviousCycle];
-            setNewSchool({
-                ...newSchool,
-                school_average_gpa_accepted_previous_cycle: {
-                    ...newSchool.school_average_gpa_accepted_previous_cycle,
-                    [key]: {
-                        ...field,
-                        notes: field.notes.filter((note, i) => i !== noteIndex)
-                    }
-                }
-            })
-        }
     }
 
 
@@ -410,7 +178,7 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
                                 <label className='text-xl'>{gpa.label}</label>
                                 <div className='flex justify-start items-center gap-4 mt-3'>
                                     <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
-                                    <button name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
+                                    <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
                                         Add Note
                                     </button>
                                 </div>
@@ -424,8 +192,8 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
                                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                     </div>
                                     <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                                        <button value={gpa.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                                        <button value={gpa.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(gpa.value)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                                        <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                                     </div>
                                 </div>
                             ))}
@@ -454,7 +222,7 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
                         <label className='text-xl'>{gpa.label}</label>
                         <div className='flex justify-start items-center gap-4 mt-3'>
                             <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
-                            <button name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]" onClick={openNotePopup}>
+                            <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                         </div>
@@ -468,8 +236,8 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                             <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                                <button value={gpa.value} onClick={(e) => openEditPopup(e, note, i)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                                <button value={gpa.value} onClick={(e) => handleDeletePopup(e, i, 'note')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(gpa.value)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                                <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                             </div>
                         </div>
                     ))}
@@ -479,43 +247,11 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
             )}
         </div>
 
-        <OtherTypesOfGpa newSchool={newSchool} deleteField={deleteField} handleSelect={handleSelect} handleObjInput={handleObjInput} 
-      addField={addField} toggleNote={toggleNote} setKeyAndIndex={setKeyAndIndex} toggleDelete={toggleDelete} setNoteIndex={setNoteIndex} setCurrentNote={setCurrentNote}/>
+        <OtherTypesOfGpa newSchool={newSchool} setNewSchool={setNewSchool}/>
 
-        <SpecificCourse newSchool={newSchool} deleteField={deleteField} handleSelect={handleSelect} handleObjInput={handleObjInput}
-        addField={addField} toggleNote={toggleNote} setKeyAndIndex={setKeyAndIndex} toggleDelete={toggleDelete} setNoteIndex={setNoteIndex} setCurrentNote={setCurrentNote}/>
+        <SpecificCourse newSchool={newSchool} setNewSchool={setNewSchool}/>
 
-        <div className={`mt-28 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Average GPA Accepted Previous Cycle</label>   
-            {previousCycle.map((gpa,i) => (
-                <>
-                    <div className={`w-full mt-4 ${i === previousCycle.length - 1 ? 'mb-5' : 'mb-0'}`}>
-                        <label className='text-xl'>{gpa.label}</label>
-                        <div className='flex justify-start items-center gap-4 mt-3'>
-                            <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' value={(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input} name={gpa.value} onChange={handlePreviousCycle} />
-                            <button className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]"
-                            onClick={(e) => {toggleNote(e, false); setKey(gpa.value)}}>
-                                Add Note
-                            </button>
-                        </div>
-                    </div>
-                    {(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).notes && (newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).notes?.map((note: Note, i: number) => (
-                        <div className='flex justify-center items-start gap-2 mt-4'>
-                            <div className="grow p-4 rounded-md border border-black">
-                                <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                    {note.type}:
-                                </p>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                            <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                                <button value={gpa.value} onClick={(e) => {toggleNote(e, true); setCurrentNote(note); setKey(gpa.value); setNoteIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                                <button value={gpa.value} onClick={(e) => {toggleDelete(e, i); setKey(gpa.value)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
-                            </div>
-                        </div>
-                    ))}
-                </>
-                ))}               
-        </div>
+        <PreviousCycleSection newSchool={newSchool} setNewSchool={setNewSchool} />
         
         <div className={`mt-28 text-xl w-full`}>
                 <p>GPA General Notes</p>
@@ -524,8 +260,8 @@ export default function GPA({ newSchool, setNewSchool, openNotePopup, handleInpu
         </div>
         </>
         )}
-        {openNote && <AddOrEditGpaNote toggleNote={toggleNote} isEdit={isEdit} addNote={addNote} keyString={keyString} index={index} editNote={editNote} noteIndex={noteIndex} currentNote={currentNote}/>}
-        {openDelete && <DeletePopupGpa toggleDelete={toggleDelete} removeNote={removeNote} keyString={keyString} index={index} noteIndex={noteIndex}/>}
+        {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />)}
+
         </>
     )
 }
