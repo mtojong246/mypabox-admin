@@ -5,6 +5,7 @@ import AddNote from "../Prereqs/AddNote";
 
 import { AiOutlineClose } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi';
+import { BiDollar } from 'react-icons/bi';
 
 export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
     const [index, setIndex] = useState<number | null>(null);
@@ -114,13 +115,16 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
                 </div>
                 {newSchool.school_application_submitted_directly_to_school.input && (
                 <>
-                    <div className={`mt-8 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Application Submission Deadline</label> 
-                        <input onChange={handleInput} value={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline!} name='school_application_direct_to_school_deadline' type='date' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[58px] text-lg rounded-lg' />  
+                        <input onChange={handleInput} value={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline!} name='school_application_direct_to_school_deadline' type='date' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[58px] text-lg rounded' />  
                     </div> 
-                    <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Application Submission Fee</label> 
-                        <input onChange={handleInput} value={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_fee!} name='school_application_direct_to_school_fee' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[58px] text-lg rounded-lg' />  
+                        <div className='flex justify-start items-center gap-1 w-1/3 border border-[#B4B4B4] rounded p-3'>
+                            <BiDollar className='h-5 w-5 text-[#717171]'/>
+                            <input onChange={handleInput} value={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_fee!} name='school_application_direct_to_school_fee' className='grow focus:outline-none border-none' />  
+                        </div>
                     </div> 
                 </>
             )}

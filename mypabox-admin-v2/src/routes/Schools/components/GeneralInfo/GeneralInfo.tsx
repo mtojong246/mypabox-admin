@@ -114,20 +114,6 @@ const fields = [
         required: false,
     },
     {
-        name: 'Seat Deposit (In-state)',
-        value: 'school_seat_deposit_in_state',
-        margin: 'mt-28',
-        type: 'text',
-        required: false,
-    },
-    {
-        name: 'Seat Deposit (Out-of-state)',
-        value: 'school_seat_deposit_out_of_state',
-        margin: 'mt-12',
-        type: 'text',
-        required: false,
-    },
-    {
         name: 'Rolling Admissions',
         value: 'school_rolling_admissions',
         margin: 'mt-28',
@@ -338,12 +324,12 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
 
         if (cat.type === 'text') {
             return (
-            <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+            <div className={`${cat.margin} relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}{cat.required && <span className='text-red-600'>*</span>}</label>
-                <div className='flex justify-center items-center gap-2'>
-                    <input className="grow focus:outline-none border border-[#B4B4B4] p-4 rounded" 
+                <div className='flex justify-center items-center gap-3'>
+                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
                     value={(newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number} name={cat.value} onChange={handleInput}/>
-                    {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>)}
                 </div>
@@ -379,10 +365,10 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
             return (
             <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
-                <div className='flex justify-center items-center gap-2'>
+                <div className='flex justify-center items-center gap-3'>
                     <Select className="grow focus:outline-none rounded"
                     options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} onChange={(e:any) => handleSelect(e, cat.value)}/>
-                    {(newSchool[cat.value as keyof School] as StringInput).notes && <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]" >
+                    {(newSchool[cat.value as keyof School] as StringInput).notes && <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                         Add Note
                     </button>}
                 </div>
@@ -418,7 +404,7 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
             return (
             <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
-                <div className='flex justify-start items-center gap-2'>
+                <div className='flex justify-start items-center gap-3'>
                     <div className='mt-2 grow'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" className="sr-only peer" name={cat.value} onChange={handleCheck}/>
@@ -428,7 +414,7 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
                         </span>
                     </label>
                     </div>
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                 </div>
@@ -465,7 +451,7 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
             return (
             <div className={`${cat.margin} text-xl w-full`}>
                 <p>{cat.name}</p>
-                <ReactQuill className='mt-4 h-96 rounded-2xl max-w-[900px]' theme="snow" value={newSchool[cat.value as keyof School] as string} 
+                <ReactQuill className='mt-4 h-60 rounded-2xl max-w-[900px]' theme="snow" value={newSchool[cat.value as keyof School] as string} 
                 onChange={handleQuill}/>
             </div>
             )

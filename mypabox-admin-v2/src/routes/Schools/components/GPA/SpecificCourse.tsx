@@ -177,12 +177,12 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Minimum GPA Required:</label>
-                    <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_required_for_course')} className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded mt-3 block'
+                    <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_required_for_course')} className='w-32 focus:outline-none border border-[#B4B4B4] p-3 rounded mt-3 block'
                     value={field.minimum_gpa_required_for_course} name='minimum_gpa_required_for_course'/>
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Notes:</label>
-                    <button name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-3 block" 
+                    <button name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-3 block" 
                     onClick={(e) => {toggleNotePopup(e); setObjIndex(i)}}>
                         Add Note
                     </button>
@@ -204,7 +204,7 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
 
             </>
             {i === newSchool.school_minimum_gpa_for_specific_course.length-1 && (
-            <button className="mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
+            <button className="mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
                 + Add New Field
             </button>
             )}

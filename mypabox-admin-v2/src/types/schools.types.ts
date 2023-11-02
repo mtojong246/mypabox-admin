@@ -116,8 +116,8 @@ export interface School {
     school_campus_location: StringInput;
     school_start_month: StringInput;
     school_class_capacity: NumberInput;
-    school_duration_full_time: StringInput;
-    school_duration_part_time: StringInput;
+    school_duration_full_time: NumberInput;
+    school_duration_part_time: NumberInput;
 
     school_seat_deposit_in_state: NumberInput;
     school_seat_deposit_out_of_state: NumberInput;
@@ -140,13 +140,11 @@ export interface School {
     school_bachelors_degree_required: BooleanInput;
 
     school_accreditation_status: StringInput;
-    school_acceditation_status_general_note: string;
 
     school_mission_statement: string;
 
     school_in_state_tuition: NumberInput;
     school_out_of_state_tuition: NumberInput;
-    school_tuition_general_note: string;
 
     school_first_time_pass_rate: NumberInput;
     school_average_five_year_first_time_pass_rate: NumberInput;

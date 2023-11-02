@@ -159,7 +159,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
         <>
         {newSchool && (
             <>
-            <div className={`mt-10 relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+            <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                     <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA Required</label>   
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
@@ -203,7 +203,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
                     )}
             </div>
 
-            <div className={`mt-10 relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+            <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA Recommended</label>   
             <div className='w-full mt-2'>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -255,7 +255,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
         
         <div className={`mt-28 text-xl w-full`}>
                 <p>GPA General Notes</p>
-                <ReactQuill className='mt-4 h-96 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_gpa_general_note} 
+                <ReactQuill className='mt-4 h-60 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_gpa_general_note} 
                 onChange={handleQuill}/>
         </div>
         </>

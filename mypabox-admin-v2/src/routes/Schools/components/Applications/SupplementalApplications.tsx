@@ -5,6 +5,7 @@ import AddNote from "../Prereqs/AddNote";
 
 import { AiOutlineClose } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi';
+import { BiDollar } from 'react-icons/bi';
 
 export default function SupplementalApplications({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
     const [index, setIndex] = useState<number | null>(null);
@@ -107,7 +108,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool }: { 
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`mt-20 relative max-w-[900px] border p-4 block rounded-lg border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Supplemental Application Required</label>  
                 <div className='w-full mt-2 mb-4'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -118,19 +119,22 @@ export default function SupplementalApplications({ newSchool, setNewSchool }: { 
                 </div>
                 {newSchool.school_supplemental_application_required.input && (
                 <>
-                    <div className={`mt-8 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Supplemental Application Deadline</label> 
-                        <input onChange={handleInput} value={newSchool.school_supplemental_application_required.school_supplemental_application_deadline!} name='school_supplemental_application_deadline' type='date' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[58px] text-lg rounded-lg' />  
+                        <input onChange={handleInput} value={newSchool.school_supplemental_application_required.school_supplemental_application_deadline!} name='school_supplemental_application_deadline' type='date' className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 h-[58px] text-lg rounded-lg' />  
                     </div> 
-                    <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Supplemental Application Fee</label> 
-                        <input onChange={handleInput} value={newSchool.school_supplemental_application_required.school_supplemental_application_fee!} name='school_supplemental_application_fee' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[58px] text-lg rounded-lg' />  
+                        <div className='flex justify-start items-center gap-1 w-1/3 border border-[#B4B4B4] rounded p-3'>
+                            <BiDollar className='h-5 w-5 text-[#717171]'/>
+                            <input onChange={handleInput} value={newSchool.school_supplemental_application_required.school_supplemental_application_fee!} name='school_supplemental_application_fee' className='grow focus:outline-none border-none' />  
+                        </div>
                     </div> 
-                    <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Supplemental Application Link</label> 
                         <input onChange={handleInput} value={newSchool.school_supplemental_application_required.school_supplemental_application_link!} name='school_supplemental_application_link' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[58px] text-lg rounded-lg' />  
                     </div> 
-                    <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded-lg border-[#545454] border`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Supplemental Application Link Provided With Invite Only</label> 
                         <div className='w-full mt-2'>
                             <label className="relative inline-flex items-center cursor-pointer">

@@ -106,8 +106,8 @@ export default function PreviousCycleSection({newSchool, setNewSchool}: { newSch
                     <div className={`w-full mt-4 ${i === previousCycle.length - 1 ? 'mb-5' : 'mb-0'}`}>
                         <label className='text-xl'>{gpa.label}</label>
                         <div className='flex justify-start items-center gap-4 mt-3'>
-                            <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input} name={gpa.value} onChange={handleInput} />
-                            <button className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]"
+                            <input className='w-32 focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input} name={gpa.value} onChange={handleInput} />
+                            <button className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]"
                             onClick={(e) => {toggleNotePopup(e); setName(gpa.value)}}>
                                 Add Note
                             </button>

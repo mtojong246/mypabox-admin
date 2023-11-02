@@ -81,12 +81,12 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
 
     return (
         <>
-        <div className={`mt-12 relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+        <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">First Time Pass Rate</label>
-                <div className='flex justify-center items-center gap-2'>
-                    <input className="grow focus:outline-none border border-[#B4B4B4] p-4 rounded" 
+                <div className='flex justify-center items-center gap-3'>
+                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
                     value={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' onChange={handleInput}/>
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName('school_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e:any) => {toggleNotePopup(e); setName('school_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                 </div>
@@ -115,12 +115,12 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
                 }
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white">Five Year Average First Time Pass Rate</label>
-                <div className='flex justify-center items-center gap-2'>
-                    <input className="grow focus:outline-none border border-[#B4B4B4] p-4 rounded" 
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] text-xl bg-white">Five Year Average First-Time Pass Rate</label>
+                <div className='flex justify-center items-center gap-3'>
+                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
                     value={newSchool.school_average_five_year_first_time_pass_rate.input} name='school_average_five_year_first_time_pass_rate' onChange={handleInput}/>
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName('school_average_five_year_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e:any) => {toggleNotePopup(e); setName('school_average_five_year_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                 </div>
@@ -150,8 +150,8 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
             </div>
 
             <div className={`mt-28 text-xl w-full`}>
-                <p>Tuition General Notes</p>
-                <ReactQuill className='mt-4 h-96 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_pance_pass_rate_note} 
+                <p>PANCE Pass Rate Notes</p>
+                <ReactQuill className='mt-4 h-60 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_pance_pass_rate_note} 
                 onChange={handleQuill}/>
             </div>
 

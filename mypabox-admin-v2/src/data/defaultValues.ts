@@ -48,11 +48,11 @@ export const defaultSchool: School = {
         notes: [],
     },
     school_duration_full_time: {
-        input: "",
+        input: 0,
         notes: [],
     },
     school_duration_part_time: {
-        input: "",
+        input: 0,
         notes: [],
     },
 
@@ -126,7 +126,6 @@ export const defaultSchool: School = {
         input: "",
         notes: []
     },
-    school_acceditation_status_general_note: "",
     school_mission_statement: "",
     school_in_state_tuition: {
         input: 0,
@@ -136,7 +135,6 @@ export const defaultSchool: School = {
         input: 0,
         notes: []
     },
-    school_tuition_general_note: "",
     school_first_time_pass_rate: {
         input: 0,
         notes: []

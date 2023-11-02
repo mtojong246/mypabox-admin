@@ -42,12 +42,12 @@ export default function AccreditationStatus({newSchool, setNewSchool}: { newScho
         setNotePopup(!notePopup);
       };
 
-      const handleQuill = (e:any) => {
-        setNewSchool({
-            ...newSchool,
-            school_acceditation_status_general_note: e,
-        })
-    };
+    //   const handleQuill = (e:any) => {
+    //     setNewSchool({
+    //         ...newSchool,
+    //         school_acceditation_status_general_note: e,
+    //     })
+    // };
 
     const handleSelect = (e: any) => {
         setNewSchool({
@@ -98,12 +98,12 @@ export default function AccreditationStatus({newSchool, setNewSchool}: { newScho
 
     return (
         <>
-        <div className={`mt-12 relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+        <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Accreditation Status</label>
-                <div className='flex justify-center items-center gap-2'>
+                <div className='flex justify-center items-center gap-3'>
                     <Select className="grow focus:outline-none rounded"
                     options={options} onChange={handleSelect}/>
-                    <button onClick={(e:any) => {toggleNotePopup(e)}} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]" >
+                    <button onClick={(e:any) => {toggleNotePopup(e)}} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                         Add Note
                     </button>
                 </div>
@@ -132,11 +132,6 @@ export default function AccreditationStatus({newSchool, setNewSchool}: { newScho
                 }
             </div>
 
-            <div className={`mt-28 text-xl w-full`}>
-                <p>Accreditation Status General Notes</p>
-                <ReactQuill className='mt-4 h-96 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_acceditation_status_general_note}
-                onChange={handleQuill}/>
-            </div>
             {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />)}
         </>
     )
