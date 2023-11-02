@@ -119,7 +119,7 @@ export default function BooleanInputs({
           <div
             className={`${
               i > 0 ? "mt-10" : "mt-28"
-            } relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}
+            } relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}
           >
             <label className="absolute top-[-16px] text-xl bg-white">
               {data.name}
@@ -145,7 +145,7 @@ export default function BooleanInputs({
                 setValue(data.value);
                 setNotes(data.notes);
               }}
-              className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]"
+              className="border text-[#F06A6A] border-[#F06A6A] rounded h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]"
             >
               Add Note
             </button>
@@ -176,7 +176,7 @@ export default function BooleanInputs({
                           setEditedNote(note);
                         }}
                       >
-                        <FiEdit3 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]" />
+                        <FiEdit3 className="h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]" />
                       </button>
                       <button
                         onClick={(e) => {
@@ -184,7 +184,7 @@ export default function BooleanInputs({
                           
                         }}
                       >
-                        <AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]" />
+                        <AiOutlineClose className="h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]" />
                       </button>
                     </div>
                   </div>

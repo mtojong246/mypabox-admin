@@ -113,7 +113,7 @@ export default function AddRequiredCourses({ toggleRequiredCourses, editedRequir
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
-                <div className='w-full max-w-[900px] rounded-lg p-4 bg-white'>
+                <div className='w-full max-w-[900px] rounded p-4 bg-white'>
                     <p className='text-xl font-semibold mb-8'>{editedRequiredCourse ? 'Edit' : 'Add'} Required Course</p>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
@@ -142,8 +142,8 @@ export default function AddRequiredCourses({ toggleRequiredCourses, editedRequir
                         <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={requiredCourse.school_required_course_note_section}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
-                        <button onClick={(e) => {toggleRequiredCourses(e); setEditedRequiredCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded-md'>Cancel</button>
-                        <button onClick={(e) => addOrEditCourse(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded-md'>{editedRequiredCourse ? 'Edit' : 'Add'} course</button>
+                        <button onClick={(e) => {toggleRequiredCourses(e); setEditedRequiredCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded'>Cancel</button>
+                        <button onClick={(e) => addOrEditCourse(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded'>{editedRequiredCourse ? 'Edit' : 'Add'} course</button>
                     </div>
                 </div>
             </div>

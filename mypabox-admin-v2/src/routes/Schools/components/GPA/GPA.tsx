@@ -159,7 +159,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
         <>
         {newSchool && (
             <>
-            <div className={`mt-10 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+            <div className={`mt-10 relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
                     <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA Required</label>   
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
@@ -177,8 +177,8 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
                             <div className={`w-full mt-5 mx-5 ${i === gpaRequired.length - 1 ? 'mb-5' : 'mb-0'}`}>
                                 <label className='text-xl'>{gpa.label}</label>
                                 <div className='flex justify-start items-center gap-4 mt-3'>
-                                    <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
-                                    <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                                    <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
+                                    <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
                                         Add Note
                                     </button>
                                 </div>
@@ -203,7 +203,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
                     )}
             </div>
 
-            <div className={`mt-10 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+            <div className={`mt-10 relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA Recommended</label>   
             <div className='w-full mt-2'>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -221,8 +221,8 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
                     <div className={`w-full mt-5 mx-5 ${i === gpaRecommended.length - 1 ? 'mb-5' : 'mb-0'}`}>
                         <label className='text-xl'>{gpa.label}</label>
                         <div className='flex justify-start items-center gap-4 mt-3'>
-                            <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
-                            <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                            <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
+                            <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                         </div>

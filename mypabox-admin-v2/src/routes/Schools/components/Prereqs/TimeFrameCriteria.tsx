@@ -192,15 +192,15 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
 
     return (
         <>
-            <div className={`mt-28 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
+            <div className={`mt-28 relative max-w-[900px] border py-5 px-8 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Time Frame Criteria</label>   
-                <div className={`mt-7 relative w-full border p-5 block rounded-lg border-[#545454]`}>
+                <div className={`mt-7 relative w-full border p-5 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All Courses Must Be Completed Within:</label> 
                     <div className='flex justify-start items-center gap-2 mb-4'>
-                        <input onChange={(e) => {handleInput(e); setName('school_time_frame_all_courses_must_be_completed')}} name='school_time_frame_all_courses_must_be_completed' value={allSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        <input onChange={(e) => {handleInput(e); setName('school_time_frame_all_courses_must_be_completed')}} name='school_time_frame_all_courses_must_be_completed' value={allSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded' />  
                         <Select options={options} value={allSelection.duration ? {value: allSelection.duration, label: allSelection.duration} : null} onChange={(e) => {handleSelect(e, 'school_time_frame_all_courses_must_be_completed'); setName('school_time_frame_all_courses_must_be_completed')}} className="w-1/3 focus:outline-none"/>
                     </div>
-                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                     </button>
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -209,8 +209,8 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button name='school_time_frame_all_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                    <button name='school_time_frame_all_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -220,13 +220,13 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                 </div>
 
 
-                <div className={`mt-12 relative w-full border p-5 block rounded-lg border-[#545454]`}>
+                <div className={`mt-12 relative w-full border p-5 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All SCIENCE Courses Must Be Completed Within:</label> 
                     <div className='flex justify-start items-center gap-2 mb-4'>
-                        <input onChange={(e) => {handleInput(e); setName('school_time_frame_science_courses_must_be_completed')}} name='school_time_frame_science_courses_must_be_completed' value={scienceSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        <input onChange={(e) => {handleInput(e); setName('school_time_frame_science_courses_must_be_completed')}} name='school_time_frame_science_courses_must_be_completed' value={scienceSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded' />  
                         <Select options={options} value={scienceSelection.duration ? {value: scienceSelection.duration, label: scienceSelection.duration} : null} onChange={(e) => {handleSelect(e, 'school_time_frame_science_courses_must_be_completed'); setName('school_time_frame_science_courses_must_be_completed')}}  className="w-1/3 focus:outline-none"/>
                     </div>
-                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                     </button>
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -235,8 +235,8 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button name='school_time_frame_science_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                    <button name='school_time_frame_science_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -246,13 +246,13 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                 </div>
 
 
-                <div className={`mt-12 relative w-full border p-5 block rounded-lg border-[#545454]`}>
+                <div className={`mt-12 relative w-full border p-5 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All MATH Courses Must Be Completed Within:</label> 
                     <div className='flex justify-start items-center gap-2 mb-4'>
-                        <input onChange={(e) => {handleInput(e); setName('school_time_frame_math_courses_must_be_completed')}} name='school_time_frame_math_courses_must_be_completed' value={mathSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                        <input onChange={(e) => {handleInput(e); setName('school_time_frame_math_courses_must_be_completed')}} name='school_time_frame_math_courses_must_be_completed' value={mathSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded' />  
                         <Select options={options} value={mathSelection.duration ? {value: mathSelection.duration, label: mathSelection.duration} : null} onChange={(e) => {handleSelect(e, 'school_time_frame_math_courses_must_be_completed'); setName('school_time_frame_math_courses_must_be_completed')}} className="w-1/3 focus:outline-none"/>
                     </div>
-                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                     </button>
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -261,8 +261,8 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button name='school_time_frame_math_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                    <button name='school_time_frame_math_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -274,7 +274,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
 
                 <div className='w-full mt-8 mb-5'>
                     <label className='font-medium text-xl'>Notes:</label>
-                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(false)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(false)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.length ? 'mt-3' : 'mt-0'}`}>
@@ -283,8 +283,8 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool }: {
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(false);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i, false); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(false);}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                    <button onClick={(e) => {deleteNote(e, i, false); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

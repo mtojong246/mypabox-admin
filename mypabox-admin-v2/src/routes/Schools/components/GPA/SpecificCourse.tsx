@@ -159,7 +159,7 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
     return (
         <>
         {newSchool.school_minimum_gpa_for_specific_course.map((field, i) => (
-        <div className={`${i>0 ? 'mt-10' : 'mt-28'} relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`${i>0 ? 'mt-10' : 'mt-28'} relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA for Specific Course <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label>
             
             <>
@@ -169,7 +169,7 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
                         <button onClick={(e) => deleteField(e,i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
                     </div>
                     <Select
-                    className="w-full focus:outline-none rounded-lg mt-3" 
+                    className="w-full focus:outline-none rounded mt-3" 
                     onChange={(e) => handleSelect(e, 'courseID', i)}
                     options={courseOptions}
                     value={field.courseID && courseOptions ? { value: field.courseID, label: courseOptions.find(course => course.value === field.courseID)?.label } : null}/>
@@ -177,34 +177,34 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Minimum GPA Required:</label>
-                    <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_required_for_course')} className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mt-3 block'
+                    <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_required_for_course')} className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded mt-3 block'
                     value={field.minimum_gpa_required_for_course} name='minimum_gpa_required_for_course'/>
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Notes:</label>
-                    <button name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-3 block" 
+                    <button name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-3 block" 
                     onClick={(e) => {toggleNotePopup(e); setObjIndex(i)}}>
                         Add Note
                     </button>
                 </div>
                 {field.notes && field.notes.map((note, index) => (
                     <div className='flex justify-center items-start gap-2 mt-4'>
-                        <div className="grow p-4 rounded-md border border-black">
+                        <div className="grow p-4 rounded border border-black">
                             <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                                 {note.type}:
                             </p>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                         <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                            <button value='school_minimum_gpa_for_specific_course' onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setObjIndex(i); setIndex(index)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                            <button value='school_minimum_gpa_for_specific_course' onClick={(e:any) => deleteNote(e, i, index)} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                            <button value='school_minimum_gpa_for_specific_course' onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setObjIndex(i); setIndex(index)}} ><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-[#4573D2] text-white'/></button>
+                            <button value='school_minimum_gpa_for_specific_course' onClick={(e:any) => deleteNote(e, i, index)} ><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
                         </div>
                     </div>
                 ))}
 
             </>
             {i === newSchool.school_minimum_gpa_for_specific_course.length-1 && (
-            <button className="mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
+            <button className="mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
                 + Add New Field
             </button>
             )}

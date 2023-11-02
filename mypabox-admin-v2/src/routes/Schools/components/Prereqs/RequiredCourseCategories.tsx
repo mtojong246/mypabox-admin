@@ -26,9 +26,9 @@ export default function RequiredCourseCategories({ toggleRequiredCourseCategorie
     }
     
     return (
-        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`mt-20 relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Required Course Categories</label>   
-            <button onClick={toggleRequiredCourseCategories} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+            <button onClick={toggleRequiredCourseCategories} className="border text-[#F06A6A] border-[#F06A6A] rounded h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Category
             </button>
             <div className={`flex flex-col justify-center items-center gap-5 ${newSchool.school_prereq_required_course_categories.length ? 'mt-5' : 'mt-0'}`}>
@@ -46,8 +46,8 @@ export default function RequiredCourseCategories({ toggleRequiredCourseCategorie
                                 </span>
                             </p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(category); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteCategory(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(category); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteCategory(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                             </div>
                         </div>
                         {category.school_required_course_category_extra_included_courses.length > 0 && (

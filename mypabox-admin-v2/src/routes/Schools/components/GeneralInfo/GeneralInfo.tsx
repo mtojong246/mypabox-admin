@@ -13,169 +13,212 @@ const fields = [
         value: 'school_name',
         margin: 'mt-12',
         type: 'text',
+        required: true,
     },
     {
         name: 'School Logo',
         value: 'school_logo',
         margin: 'mt-12',
         type: 'text',
+        required: false,
     },
     {
         name: 'Street Address',
         value: 'school_street',
         margin: 'mt-12',
         type: 'text',
+        required: true,
     },
     {
         name: 'City',
         value: 'school_city',
         margin: 'mt-12',
         type: 'text',
-    },
-    {
-        name: 'State',
-        value: 'school_state',
-        margin: 'mt-12',
-        type: 'select',
-    },
-    {
-        name: 'Zip',
-        value: 'school_zip_code',
-        margin: 'mt-12',
-        type: 'text',
+        required: true,
     },
     {
         name: 'Country',
         value: 'school_country',
         margin: 'mt-12',
         type: 'select',
+        required: true,
+    },
+    {
+        name: 'State',
+        value: 'school_state',
+        margin: 'mt-12',
+        type: 'select',
+        required: true,
+    },
+    {
+        name: 'Zip',
+        value: 'school_zip_code',
+        margin: 'mt-12',
+        type: 'text',
+        required: true,
     },
     {
         name: 'Website',
         value: 'school_website',
         margin: 'mt-12',
         type: 'text',
+        required: true,
     },
     {
         name: 'School Email',
         value: 'school_email',
         margin: 'mt-12',
         type: 'text',
+        required: false,
     },
     {
         name: 'School Phone Number',
         value: 'school_phone_number',
         margin: 'mt-12',
         type: 'text',
+        required: false,
     },
     {
         name: 'Campus Location',
         value: 'school_campus_location',
         margin: 'mt-28',
         type: 'text',
+        required: false,
     },
     {
         name: 'Start Month',
         value: 'school_start_month',
         margin: 'mt-12',
-        type: 'text',
+        type: 'select',
+        required: false,
     },
     {
         name: 'Class Capacity',
         value: 'school_class_capacity',
         margin: 'mt-12',
         type: 'text',
+        required: false,
     },
     {
         name: 'Duration (Full-time)',
         value: 'school_duration_full_time',
         margin: 'mt-12',
         type: 'text',
+        required: false,
     },
     {
         name: 'Duration (Part-time)',
         value: 'school_duration_part_time',
         margin: 'mt-12',
         type: 'text',
+        required: false,
     },
     {
         name: 'Seat Deposit (In-state)',
         value: 'school_seat_deposit_in_state',
         margin: 'mt-28',
         type: 'text',
+        required: false,
     },
     {
         name: 'Seat Deposit (Out-of-state)',
         value: 'school_seat_deposit_out_of_state',
         margin: 'mt-12',
         type: 'text',
+        required: false,
     },
     {
         name: 'Rolling Admissions',
         value: 'school_rolling_admissions',
         margin: 'mt-28',
         type: 'bool',
+        required: false,
     },
     {
         name: 'Non-rolling Admissions',
         value: 'school_nonrolling_admissions',
         margin: 'mt-12',
         type: 'bool',
+        required: false,
     },
     {
         name: 'Pre-PA Curriculum',
         value: 'school_pre_pa_curriculum',
         margin: 'mt-12',
         type: 'bool',
+        required: false,
     },
     {
         name: 'Direct High School Entry',
         value: 'school_direct_high_school_entry',
         margin: 'mt-12',
         type: 'bool',
+        required: false,
     },
     {
         name: 'Part-time Option',
         value: 'school_part_time_option',
         margin: 'mt-12',
         type: 'bool',
+        required: false,
     },
     {
         name: 'Online Learning',
         value: 'school_online_learning',
         margin: 'mt-12',
         type: 'bool',
+        required: false,
     },
     {
         name: 'On-campus Housing',
         value: 'school_on_campus_housing',
         margin: 'mt-12',
         type: 'bool',
+        required: false,
     },
     {
         name: 'Cadaver Lab',
         value: 'school_cadaver_lab',
         margin: 'mt-12',
         type: 'bool',
+        required: false,
     },
     {
         name: 'Faith-based Learning',
         value: 'school_faith_based_learning',
         margin: 'mt-12',
         type: 'bool',
+        required: false,
     },
     {
         name: 'Military Personnel Preference',
         value: 'school_military_personnel_preference',
         margin: 'mt-12',
         type: 'bool',
+        required: false,
     },
     {
         name: 'General Information Notes',
         value: 'school_general_information',
         margin: 'mt-28',
         type: 'editor',
+        required: false,
     }
+];
+
+const months = [
+    {value: 'January', label: 'January'},
+    {value: 'February', label: 'February'},
+    {value: 'March', label:'March'},
+    {value: 'April', label: 'April'},
+    {value: 'May', label: 'May'},
+    {value: 'June', label: 'June'},
+    {value: 'July', label: 'July'},
+    {value: 'August', label: 'August'},
+    {value: 'September', label: 'September'},
+    {value: 'October', label: 'October'},
+    {value: 'November', label: 'November'},
+    {value: 'December', label: 'December'}
 ]
 
 export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
@@ -230,9 +273,8 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
         })
     };
 
-    const handleSelect = (e: any) => {
-        const name = e.target.name as keyof School;
-        const field = newSchool[name] as StringInput;
+    const handleSelect = (e: any, name: string) => {
+        const field = newSchool[name as keyof School] as StringInput;
         setNewSchool({
             ...newSchool,
             [name]: {
@@ -297,7 +339,7 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
         if (cat.type === 'text') {
             return (
             <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
+                <label className="absolute top-[-16px] text-xl bg-white">{cat.name}{cat.required && <span className='text-red-600'>*</span>}</label>
                 <div className='flex justify-center items-center gap-2'>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-4 rounded" 
                     value={(newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number} name={cat.value} onChange={handleInput}/>
@@ -338,8 +380,8 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
             <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
                 <div className='flex justify-center items-center gap-2'>
-                    <Select className="grow focus:outline-none rounded" name={cat.value} 
-                    options={cat.value === 'school_state' ? stateNames : countryNames} onChange={handleSelect}/>
+                    <Select className="grow focus:outline-none rounded"
+                    options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} onChange={(e:any) => handleSelect(e, cat.value)}/>
                     {(newSchool[cat.value as keyof School] as StringInput).notes && <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]" >
                         Add Note
                     </button>}
