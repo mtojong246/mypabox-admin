@@ -204,11 +204,11 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border py-5 px-8 block rounded border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Healthcare Experience</label>   
+        <div className={`mt-20 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Healthcare Experience (HCE)</label>   
             
-            <div className={`mt-7 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_healthcare_experience.school_healthcare_experience_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">Healthcare Experience Required</label>   
+            <div className={`mt-7 relative max-w-[900px] border-2 p-5 block rounded ${newSchool.school_healthcare_experience.school_healthcare_experience_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
+                <label className="absolute top-[-16px] text-xl font-medium bg-white">HCE Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input onChange={handleCheck} checked={newSchool.school_healthcare_experience.school_healthcare_experience_required ? true : false} type="checkbox" className="sr-only peer"/>
@@ -218,12 +218,14 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                 </div>
                 {newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required && newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed && (
                 <>
-                    <div className={`mt-7 mx-5 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Healthcare Experience Hours Required</label>   
-                        <input onChange={handleInput} value={newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input} name='school_minimum_healthcare_experience_hours_required' className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg mb-4' />  
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_healthcare_experience_hours_required'); setNoteName('school_minimum_healthcare_experience_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                            Add Note
-                        </button> 
+                    <div className={`mt-7 mx-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum HCE Hours Required</label>   
+                        <div className='flex justify-center items-center gap-3'>
+                            <input onChange={handleInput} value={newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input} name='school_minimum_healthcare_experience_hours_required' className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
+                            <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_healthcare_experience_hours_required'); setNoteName('school_minimum_healthcare_experience_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                                Add Note
+                            </button> 
+                        </div>
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.school_minimum_healthcare_experience_hours_required_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.school_minimum_healthcare_experience_hours_required_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -240,15 +242,15 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                         </div>               
                     </div>
 
-                    <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Frame Healthcare Experience Needs To Be Completed</label>   
-                        <div className='flex justify-start items-center gap-2 mb-4'>
-                            <input onChange={handleSelectionNumber} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                            <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={options} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="w-1/3 focus:outline-none"/>
-                        </div>
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed'); setNoteName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                            Add Note
-                        </button> 
+                    <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Frame HCE Needs To Be Completed</label>  
+                        <div className='flex justify-center items-center gap-3'>
+                            <input onChange={handleSelectionNumber} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
+                            <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={options} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="grow focus:outline-none"/>
+                            <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed'); setNoteName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                                Add Note
+                            </button> 
+                        </div> 
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -270,14 +272,14 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
 
             
 
-            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">Average Healthcare Experience Hours Accepted Previous Cycle</label>   
-                <input onChange={handleInput} value={newSchool.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                <label className="absolute top-[-16px] text-xl font-medium bg-white">Average HCE Hours Accepted Previous Cycle</label>   
+                <input onChange={handleInput} value={newSchool.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle ? newSchool.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
             <div className='w-full mt-8 mb-5'>
                 <label className='font-medium text-xl'>Notes:</label>
-                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_healthcare_experience.school_healthcare_experience_general_notes.length ? 'mt-3' : 'mt-0'}`}>

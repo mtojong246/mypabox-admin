@@ -174,10 +174,10 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
                     <>
                         {gpaRequired.map((gpa,i) => (
                         <>
-                            <div className={`w-full mt-5 mx-5 ${i === gpaRequired.length - 1 ? 'mb-5' : 'mb-0'}`}>
+                            <div className={`max-w-[900px] mt-5 mx-5 ${i === gpaRequired.length - 1 ? 'mb-5' : 'mb-0'}`}>
                                 <label className='text-xl'>{gpa.label}</label>
                                 <div className='flex justify-start items-center gap-4 mt-3'>
-                                    <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
+                                    <input className='grow focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
                                     <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
                                         Add Note
                                     </button>
@@ -218,10 +218,10 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
             <>
                 {gpaRecommended.map((gpa,i) => (
                 <>
-                    <div className={`w-full mt-5 mx-5 ${i === gpaRecommended.length - 1 ? 'mb-5' : 'mb-0'}`}>
+                    <div className={`max-w-[900px] mt-5 mx-5 ${i === gpaRecommended.length - 1 ? 'mb-5' : 'mb-0'}`}>
                         <label className='text-xl'>{gpa.label}</label>
                         <div className='flex justify-start items-center gap-4 mt-3'>
-                            <input className='w-32 focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput).input} name={gpa.value} onChange={handleInputChange} />
+                            <input className='grow focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
                             <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>

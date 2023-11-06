@@ -139,7 +139,7 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
         <>
         {newSchool && (
             <>
-                <div className={`mt-10 relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}>
+                <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                     <label className="absolute top-[-16px] text-xl bg-white">PA Shadowing Hours Required</label>
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
@@ -149,14 +149,15 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                         </label>
                     </div>
                     {newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required !== null && (
-                        <div className={`mt-7 mx-4 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                        <div className={`mt-7 mx-4 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                             <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum PA Shadowing Hours Required</label>   
-                            <input onChange={(e) => handleInputInCategory(e, 'school_pa_shadowing_required')} name='school_minimum_pa_shadowing_hours_required' value={newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                            <input onChange={(e) => handleInputInCategory(e, 'school_pa_shadowing_required')} name='school_minimum_pa_shadowing_hours_required' value={newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required ? newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required : ''} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                         </div>
                     )}
-                    <div className={`w-full ${newSchool.school_pa_shadowing_required.input ? 'mt-8 mx-5 mb-5' : 'mt-4 mx-0 mb-0'}`}>
+                    {newSchool.school_pa_shadowing_required.input && (
+                    <div className={`w-full mt-8 mx-5 mb-5`}>
                         {newSchool.school_pa_shadowing_required.input && (<label className='font-medium text-xl'>Notes:</label>)}
-                        <button onClick={(e) => {toggleNotePopup(e); setName('school_pa_shadowing_required'); setNoteName('school_minimum_pa_shadowing_hours_required_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setName('school_pa_shadowing_required'); setNoteName('school_minimum_pa_shadowing_hours_required_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required_notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -174,10 +175,11 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                         ))}
                         </div>       
                     </div>
+                    )}
                 </div>
 
 
-                <div className={`mt-20 relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}>
+                <div className={`mt-20 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                     <label className="absolute top-[-16px] text-xl bg-white">PA Shadowing Hours Recommended</label>
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
@@ -187,14 +189,15 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                         </label>
                     </div>
                     {newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended !== null && (
-                        <div className={`mt-7 mx-4 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+                        <div className={`mt-7 mx-4 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                             <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum PA Shadowing Hours Recommended</label>   
-                            <input onChange={(e) => handleInputInCategory(e, 'school_pa_shadowing_recommended')} name='school_minimum_pa_shadowing_hours_recommended' value={newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                            <input onChange={(e) => handleInputInCategory(e, 'school_pa_shadowing_recommended')} name='school_minimum_pa_shadowing_hours_recommended' value={newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended ? newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended : ''} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                         </div>
                     )}
-                    <div className={`w-full ${newSchool.school_pa_shadowing_recommended.input ? 'mt-8 mx-5 mb-5' : 'mt-4 mx-0 mb-0'}`}>
+                    {newSchool.school_pa_shadowing_recommended.input && (
+                    <div className={`w-full mt-8 mx-5 mb-5`}>
                         {newSchool.school_pa_shadowing_recommended.input && (<label className='font-medium text-xl'>Notes:</label>)}
-                        <button onClick={(e) => {toggleNotePopup(e); setName('school_pa_shadowing_recommended'); setNoteName('school_minimum_pa_shadowing_hours_recommended_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setName('school_pa_shadowing_recommended'); setNoteName('school_minimum_pa_shadowing_hours_recommended_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended_notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -212,14 +215,17 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                         ))}
                         </div>    
                     </div>
+                    )}
                 </div>
 
-                <div className={`mt-20 relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}>
+                <div className={`mt-20 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                     <label className="absolute top-[-16px] text-xl bg-white">Average PA Shadowing Hours Accepted Previous Cycle</label>
-                    <input onChange={handleInput} value={newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.input} className='block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
-                    <button onClick={(e) => {toggleNotePopup(e); setName('school_average_pa_shadowing_hours_accepted_previous_cycle'); setNoteName('school_average_pa_shadowing_hours_accepted_previous_cycle_notes')}}className="mt-4 block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                        Add Note
-                    </button>
+                    <div className='flex justify-center items-center gap-3'>
+                        <input onChange={handleInput} value={newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.input ? newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.input : ''} className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
+                        <button onClick={(e) => {toggleNotePopup(e); setName('school_average_pa_shadowing_hours_accepted_previous_cycle'); setNoteName('school_average_pa_shadowing_hours_accepted_previous_cycle_notes')}}className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                            Add Note
+                        </button>
+                    </div>
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>

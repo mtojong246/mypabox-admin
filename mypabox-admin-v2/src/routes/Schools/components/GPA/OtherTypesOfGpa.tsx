@@ -187,11 +187,11 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool}: { newSchool: 
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Minimum GPA Valued Needed:</label>
-                    <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_value_needed')} className='w-32 focus:outline-none border border-[#B4B4B4] p-3 rounded mt-3 block' value={field.minimum_gpa_value_needed} name='minimum_gpa_value_needed'/>
+                    <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_value_needed')} className='w-32 focus:outline-none border border-[#B4B4B4] p-3 rounded mt-3 block' value={field.minimum_gpa_value_needed ? field.minimum_gpa_value_needed : ''} name='minimum_gpa_value_needed'/>
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Minimum Number of Credits Evaluated:</label>
-                    <input onChange={(e) => handleObjInput(e, i, 'minimum_number_of_credits_evaluated')} className='w-32 focus:outline-none border border-[#B4B4B4] p-3 rounded mt-3 block' value={field.minimum_number_of_credits_evaluated} name='minimum_number_of_credits_evaluated' />
+                    <input onChange={(e) => handleObjInput(e, i, 'minimum_number_of_credits_evaluated')} className='w-32 focus:outline-none border border-[#B4B4B4] p-3 rounded mt-3 block' value={field.minimum_number_of_credits_evaluated ? field.minimum_number_of_credits_evaluated : ''} name='minimum_number_of_credits_evaluated' />
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Notes:</label>

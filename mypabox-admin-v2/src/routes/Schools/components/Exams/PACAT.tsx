@@ -103,11 +103,11 @@ export default function PACAT({ newSchool, setNewSchool }: { newSchool: School, 
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">PACAT</label>   
+        <div className={`mt-20 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">PA-CAT</label>   
 
-            <div className={`mt-6 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">PACAT Required</label>   
+            <div className={`mt-6 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
+                <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input onChange={handleCheck} name='school_pacat_required' checked={newSchool.school_pacat.school_pacat_required ? true : false} type="checkbox" className="sr-only peer"/>
@@ -117,8 +117,8 @@ export default function PACAT({ newSchool, setNewSchool }: { newSchool: School, 
                 </div>
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">PACAT Recommended</label>   
+            <div className={`mt-12 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
+                <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Recommended</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input onChange={handleCheck} name='school_pacat_recommended' checked={newSchool.school_pacat.school_pacat_recommended ? true : false} type="checkbox" className="sr-only peer"/>
@@ -129,26 +129,26 @@ export default function PACAT({ newSchool, setNewSchool }: { newSchool: School, 
             </div>
             {pacatRequiredOrRecommended && (
             <>
-                <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                    <label className="absolute top-[-16px] text-xl font-medium bg-white">PACAT Exam School Code</label>   
-                    <input onChange={handleInput} name='school_pacat_exam_school_code' value={newSchool.school_pacat.school_pacat_exam_school_code as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                    <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Exam School Code</label>   
+                    <input onChange={handleInput} name='school_pacat_exam_school_code' value={newSchool.school_pacat.school_pacat_exam_school_code as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
                 </div>
 
-                <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                    <label className="absolute top-[-16px] text-xl font-medium bg-white">PACAT Exam Scaled Minimum Score Required</label>   
-                    <input onChange={handleInput} name='school_pacat_exam_scaled_minimum_score_required' value={newSchool.school_pacat.school_pacat_exam_scaled_minimum_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                    <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Exam Scaled Minimum Score Required</label>   
+                    <input onChange={handleInput} name='school_pacat_exam_scaled_minimum_score_required' value={newSchool.school_pacat.school_pacat_exam_scaled_minimum_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
                 </div>
 
-                <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                    <label className="absolute top-[-16px] text-xl font-medium bg-white">PACAT Exam Group Scaled Minimum Score Required</label>   
-                    <input onChange={handleInput} name='school_pacat_exam_group_scaled_minimum_score_required' value={newSchool.school_pacat.school_pacat_exam_group_scaled_minimum_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                    <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Exam Group Scaled Minimum Score Required</label>   
+                    <input onChange={handleInput} name='school_pacat_exam_group_scaled_minimum_score_required' value={newSchool.school_pacat.school_pacat_exam_group_scaled_minimum_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
                 </div>
             </>
             )}
 
             <div className={`w-full mt-8 mb-5`}>
                 <label className='font-medium text-xl'>Notes:</label>
-                <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_pacat.school_pacat_exam_notes.length ? 'mt-3' : 'mt-0'}`}>

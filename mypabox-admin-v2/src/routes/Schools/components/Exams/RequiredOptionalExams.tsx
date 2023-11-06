@@ -28,9 +28,9 @@ export default function RequiredOptionalExams({ newSchool, setNewSchool }: { new
 
     return (
         <>
-        <div className={`mt-10 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Required Optional Exams</label>   
-            <button onClick={toggleOptions} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+            <button onClick={toggleOptions} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Option
             </button>
             <div className={`flex flex-col justify-center items-center gap-5 ${newSchool.school_required_optional_exams.length ? 'mt-5' : 'mt-0'}`}>

@@ -63,11 +63,11 @@ export default function Casper({ newSchool, setNewSchool }: { newSchool: School,
     
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Casper</label>   
+        <div className={`mt-20 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">CASPer</label>   
 
-            <div className={`mt-6 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">Casper Required</label>   
+            <div className={`mt-6 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
+                <label className="absolute top-[-16px] text-xl font-medium bg-white">CASPer Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input onChange={handleCheck} name='school_casper_required' checked={newSchool.school_casper.school_casper_required ? true : false} type="checkbox" className="sr-only peer"/>
@@ -77,8 +77,8 @@ export default function Casper({ newSchool, setNewSchool }: { newSchool: School,
                 </div>
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">Casper Recommended</label>   
+            <div className={`mt-12 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
+                <label className="absolute top-[-16px] text-xl font-medium bg-white">CASPer Recommended</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input onChange={handleCheck} name='school_casper_recommended' checked={newSchool.school_casper.school_casper_recommended ? true : false} type="checkbox" className="sr-only peer"/>
@@ -90,7 +90,7 @@ export default function Casper({ newSchool, setNewSchool }: { newSchool: School,
 
             <div className={`w-full mt-8 mb-5`}>
                 <label className='font-medium text-xl'>Notes:</label>
-                <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_casper.school_casper_exam_notes.length ? 'mt-3' : 'mt-0'}`}>

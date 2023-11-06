@@ -117,9 +117,9 @@ export default function Certifications({ newSchool, setNewSchool }: { newSchool:
 
     return (
         <>
-        <div className={`mt-10 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Certifications Required</label>  
-            <div className='w-full mt-2 mb-4'>
+            <div className='w-full mt-2'>
                 <label className="relative inline-flex items-center cursor-pointer">
                     <input onChange={handleCheck} checked={newSchool.school_certifications_required.input ? true : false} type="checkbox" className="sr-only peer"/>
                     <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
@@ -127,11 +127,11 @@ export default function Certifications({ newSchool, setNewSchool }: { newSchool:
                 </label>
             </div>
             {newSchool.school_certifications_required.input && (
-                <div className={`mt-8 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">Required Certifications</label> 
-                    <div className='flex justify-start items-center gap-2'>
-                        <CreatableSelect options={options} onChange={(e:any) => setCertification(e.value)} className="w-1/3 focus:outline-none"/> 
-                        <button onClick={addCertification} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded-md px-5 h-[56px] hover:text-white hover:bg-[#F06A6A]">
+                    <div className='flex justify-start items-center gap-3'>
+                        <CreatableSelect options={options} onChange={(e:any) => setCertification(e.value)} className="grow focus:outline-none"/> 
+                        <button onClick={addCertification} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                             Add Certification
                         </button>
                     </div>
@@ -139,7 +139,7 @@ export default function Certifications({ newSchool, setNewSchool }: { newSchool:
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certifications_required_options!.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_certifications_required.school_certifications_required_options!.map((opt, i) => {
                             return (
-                                <div className='p-4 border border-[#B4B4B4] rounded-lg w-full'>
+                                <div className='p-3 border-2 border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full'>
                                         <p className='font-bold text-xl'>{opt}</p>
                                         <button onClick={(e) => deleteCertification(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
@@ -151,9 +151,10 @@ export default function Certifications({ newSchool, setNewSchool }: { newSchool:
                         )}
                 </div> 
             )}
+            {newSchool.school_certifications_required.input && (
             <div className={`${newSchool.school_certifications_required.input ? 'mx-5 mb-5' : 'mx-0 mb-0'}`}>
-            {newSchool.school_certifications_required.input && <label className='font-medium text-xl inline-block mt-8'>Notes:</label>}
-            <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+            <label className='font-medium text-xl inline-block mt-8'>Notes:</label>
+            <button onClick={toggleNotePopup} className="mt-2 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Note
             </button>
             {newSchool.school_certifications_required.school_certification_notes && (
@@ -173,6 +174,7 @@ export default function Certifications({ newSchool, setNewSchool }: { newSchool:
                 </div>
             )}
             </div>
+            )}
         </div>
         {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>

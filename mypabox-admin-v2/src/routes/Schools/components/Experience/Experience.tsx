@@ -72,18 +72,20 @@ export default function Experience({ newSchool, setNewSchool }: { newSchool: Sch
         <>
         {newSchool && (
             <>
-                <div className={`mt-10 relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}>
-                    <label className="absolute top-[-16px] text-xl bg-white">Paid Experience Required</label>   
-                    <div className="mb-4 mt-2 w-full">
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input onChange={handleInput} checked={newSchool.school_paid_experience_required.input ? true : false} type="checkbox" className="sr-only peer"/>
-                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                            <span className="ml-3 text-xl text-black">{newSchool.school_paid_experience_required.input ? 'True' : 'False'}</span>
-                        </label>
-                    </div>
-                    <button onClick={(e) => {toggleNotePopup(e);}} className="border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                        Add Note
-                    </button>
+                <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+                    <label className="absolute top-[-16px] text-xl bg-white">Paid Experience Required</label>  
+                    <div className='flex justify-start items-center gap-3'>
+                        <div className="mt-2 grow">
+                            <label className="relative inline-flex items-center cursor-pointer">
+                                <input onChange={handleInput} checked={newSchool.school_paid_experience_required.input ? true : false} type="checkbox" className="sr-only peer"/>
+                                <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                                <span className="ml-3 text-xl text-black">{newSchool.school_paid_experience_required.input ? 'True' : 'False'}</span>
+                            </label>
+                        </div>
+                        <button onClick={(e) => {toggleNotePopup(e);}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                            Add Note
+                        </button>
+                    </div> 
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_paid_experience_required.school_paid_experience_required_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_paid_experience_required.school_paid_experience_required_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>

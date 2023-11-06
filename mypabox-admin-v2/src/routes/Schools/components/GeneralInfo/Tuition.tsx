@@ -83,7 +83,7 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
                 <div className='flex justify-center items-center gap-3'>
                     <div className='flex justify-start items-center gap-1 grow border border-[#B4B4B4] rounded p-3'>
                         <BiDollar className='h-5 w-5 text-[#717171]'/>
-                        <input className="grow focus:outline-none border-none" value={newSchool.school_in_state_tuition.input} name='school_in_state_tuition' onChange={handleInput}/>
+                        <input className="grow focus:outline-none border-none" value={newSchool.school_in_state_tuition.input ? newSchool.school_in_state_tuition.input : ''} name='school_in_state_tuition' onChange={handleInput}/>
                     </div>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_in_state_tuition')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
@@ -119,7 +119,7 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
                 <div className='flex justify-center items-center gap-3'>
                     <div className='flex justify-start items-center gap-1 grow border border-[#B4B4B4] rounded p-3'>
                             <BiDollar className='h-5 w-5 text-[#717171]'/>
-                            <input className="grow focus:outline-none border-none" value={newSchool.school_out_of_state_tuition.input} name='school_out_of_state_tuition' onChange={handleInput}/>
+                            <input className="grow focus:outline-none border-none" value={newSchool.school_out_of_state_tuition.input ? newSchool.school_out_of_state_tuition.input : ''} name='school_out_of_state_tuition' onChange={handleInput}/>
                     </div>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_out_of_state_tuition')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
@@ -155,7 +155,7 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
                 <div className='flex justify-center items-center gap-3'>
                     <div className='flex justify-start items-center gap-1 grow border border-[#B4B4B4] rounded p-3'>
                             <BiDollar className='h-5 w-5 text-[#717171]'/>
-                            <input className="grow focus:outline-none border-none" value={newSchool.school_seat_deposit_in_state.input} name='school_seat_deposit_in_state' onChange={handleInput}/>
+                            <input className="grow focus:outline-none border-none" value={newSchool.school_seat_deposit_in_state.input ? newSchool.school_seat_deposit_in_state.input : ''} name='school_seat_deposit_in_state' onChange={handleInput}/>
                     </div>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_seat_deposit_in_state')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
@@ -191,7 +191,7 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
                 <div className='flex justify-center items-center gap-3'>
                     <div className='flex justify-start items-center gap-1 grow border border-[#B4B4B4] rounded p-3'>
                             <BiDollar className='h-5 w-5 text-[#717171]'/>
-                            <input className="grow focus:outline-none border-none" value={newSchool.school_seat_deposit_out_of_state.input} name='school_seat_deposit_out_of_state' onChange={handleInput}/>
+                            <input className="grow focus:outline-none border-none" value={newSchool.school_seat_deposit_out_of_state.input ? newSchool.school_seat_deposit_out_of_state.input : ''} name='school_seat_deposit_out_of_state' onChange={handleInput}/>
                     </div>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_seat_deposit_out_of_state')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note

@@ -236,12 +236,12 @@ export default function EvaluationsRecommended({
   return (
     <>
       <div
-        className={`mt-20 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}
+        className={`mt-20 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}
       >
         <label className="absolute top-[-16px] text-xl bg-white">
           Evaluations Recommended
         </label>
-        <div className="w-full mt-2 mb-4">
+        <div className="w-full mt-2">
           <label className="relative inline-flex items-center cursor-pointer">
             <input
               onChange={handleCheck}
@@ -262,7 +262,7 @@ export default function EvaluationsRecommended({
         {newSchool.school_evaluations_recommended.input && (
           <>
             <div
-              className={`mt-8 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}
+              className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}
             >
               <label className="absolute top-[-16px] text-xl font-medium bg-white">
                 Minimum Number of Evaluations Recommended
@@ -272,9 +272,10 @@ export default function EvaluationsRecommended({
                 name="school_minimum_number_of_evaluations_recommended"
                 value={
                   newSchool.school_evaluations_recommended
-                    .school_minimum_number_of_evaluations_recommended as number
+                    .school_minimum_number_of_evaluations_recommended ? newSchool.school_evaluations_recommended
+                    .school_minimum_number_of_evaluations_recommended : ''
                 }
-                className="w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg"
+                className="w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded"
               />
             </div>
             <div
@@ -287,11 +288,11 @@ export default function EvaluationsRecommended({
                 <CreatableSelect
                   options={evaluatorOptions}
                   onChange={(e: any) => setEvaluator(e.value)}
-                  className="w-1/3 focus:outline-none"
+                  className="grow focus:outline-none"
                 />
                 <button
                   onClick={addEvaluator}
-                  className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded-md px-5 h-[56px] hover:text-white hover:bg-[#F06A6A]"
+                  className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]"
                 >
                   Add Evaluator
                 </button>
@@ -324,7 +325,7 @@ export default function EvaluationsRecommended({
               )}
             </div>
             <div
-              className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}
+              className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}
             >
               <label className="absolute top-[-16px] text-xl font-medium bg-white">
                 Minimum Time Evaluator Knows Applicant
@@ -332,7 +333,7 @@ export default function EvaluationsRecommended({
               <div className="flex justify-start items-center gap-2">
                 <input
                   onChange={handleNumber}
-                  className="w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg"
+                  className="w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded"
                 />
                 <Select
                   onChange={(e: any) =>
@@ -344,19 +345,19 @@ export default function EvaluationsRecommended({
                       ? { value: selection.duration, label: selection.duration }
                       : null
                   }
-                  className="w-1/3 focus:outline-none"
+                  className="grow focus:outline-none"
                 />
               </div>
             </div>
             <div
-              className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}
+              className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}
             >
               <label className="absolute top-[-16px] text-xl font-medium bg-white">
                 Optional Evaluators Recommended
               </label>
               <button
                 onClick={toggleOptions}
-                className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]"
+                className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]"
               >
                 Add Option
               </button>
@@ -425,21 +426,16 @@ export default function EvaluationsRecommended({
             </div>
           </>
         )}
+        {newSchool.school_evaluations_recommended.input && (
         <div
-          className={`${
-            newSchool.school_evaluations_recommended.input
-              ? "mx-5 mb-5"
-              : "mx-0 mb-0"
-          }`}
+          className={`mx-5 mb-5`}
         >
-          {newSchool.school_evaluations_recommended.input && (
             <label className="font-medium text-xl inline-block mt-8">
               Notes:
             </label>
-          )}
           <button
             onClick={toggleNotePopup}
-            className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]"
+            className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]"
           >
             Add Note
           </button>
@@ -493,6 +489,7 @@ export default function EvaluationsRecommended({
             </div>
           )}
         </div>
+        )}
       </div>
       {openOptions && (
         <AddRecommendedOption

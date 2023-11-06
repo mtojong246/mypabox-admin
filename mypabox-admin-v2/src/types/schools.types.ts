@@ -98,7 +98,7 @@ export interface SchoolPrereqRecommendedCourse {
 
 export interface NoNoteString {
     input: string;
-}
+};
 
 export interface School {
     id: number;

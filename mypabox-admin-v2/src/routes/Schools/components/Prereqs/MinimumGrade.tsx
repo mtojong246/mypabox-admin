@@ -93,12 +93,14 @@ export default function MinimumGrade({ newSchool, setNewSchool }: {
 
     return (
         <>
-        <div className={`mt-28 relative max-w-[900px] border p-5 block rounded border-[#B4B4B4]`}>
+        <div className={`mt-28 relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Minimum Grade Required for All Courses</label>   
-            <Select className="w-1/3 focus:outline-none rounded mb-4" options={options} value={selection ? {value: selection, label: selection} : null} onChange={handleSelect}/>
-            <button onClick={toggleNotePopup} className="border text-[#F06A6A] border-[#F06A6A] rounded h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                Add Note
-            </button>
+            <div className='flex justify-start items-center gap-3'>
+                <Select className="grow focus:outline-none rounded" options={options} value={selection ? {value: selection, label: selection} : null} onChange={handleSelect}/>
+                <button onClick={toggleNotePopup} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    Add Note
+                </button>
+            </div>
             <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_grade_criteria.school_grade_criteria_note_section.length ? 'mt-3' : 'mt-0'}`}>
             {newSchool.school_grade_criteria.school_grade_criteria_note_section.map((note, i) => (
                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>

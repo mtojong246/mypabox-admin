@@ -265,10 +265,10 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`mt-20 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] left-[20px] text-xl bg-white">GRE</label>   
 
-            <div className={`mt-7 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+            <div className={`mt-7 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Required</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -279,7 +279,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+            <div className={`mt-12 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Recommended</label>   
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -293,25 +293,25 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
             {gpaRequiredOrRecommended && (
             <>
 
-            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">CASPA GRE Insitution Code</label>   
-                <input onChange={handleInput} name='school_caspa_gre_institution_code' value={newSchool.school_gre.school_caspa_gre_institution_code as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                <label className="absolute top-[-16px] text-xl font-medium bg-white">CASPA GRE Institution Code</label>   
+                <input onChange={handleInput} name='school_caspa_gre_institution_code' value={newSchool.school_gre.school_caspa_gre_institution_code ? newSchool.school_gre.school_caspa_gre_institution_code : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Insitution Code</label>   
-                <input onChange={handleInput} name='school_gre_institution_code' value={newSchool.school_gre.school_gre_institution_code as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <input onChange={handleInput} name='school_gre_institution_code' value={newSchool.school_gre.school_gre_institution_code ? newSchool.school_gre.school_gre_institution_code : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Minimum Time Frame GRE Must Be Completed</label>
-                <div className='flex justify-start items-center gap-2 mb-4'>
-                    <input onChange={(e) => setSelection({...selection, number: e.target.value.trim()})} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                    <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} options={options} className="w-1/3 focus:outline-none"/>
-                </div>    
-                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true); setName('school_minimum_time_frame_gre_must_be_completed'); setNoteName('school_minimum_time_frame_gre_must_be_completed_notes')}} className="mt-4 block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                    Add Note
-                </button>
+                <div className='flex justify-start items-center gap-3 '>
+                    <input onChange={(e) => setSelection({...selection, number: e.target.value.trim()})} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
+                    <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} options={options} className="grow focus:outline-none"/>      
+                    <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true); setName('school_minimum_time_frame_gre_must_be_completed'); setNoteName('school_minimum_time_frame_gre_must_be_completed_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        Add Note
+                    </button>
+                </div>
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed?.school_minimum_time_frame_gre_must_be_completed_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed?.school_minimum_time_frame_gre_must_be_completed_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -328,17 +328,20 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>        
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">MCAT Accepted In Place of GRE</label>
-                <div className="mt-2 w-full">
-                <label className="relative inline-flex items-center cursor-pointer">
-                    <input onChange={(e) => handleCheck(e, true)} name='school_mcat_accepted_in_place_of_gre' checked={newSchool.school_gre.school_mcat_accepted_in_place_of_gre?.input ? true : false} type="checkbox" className="sr-only peer" />
-                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                    <span className="ml-3 text-xl text-black">{newSchool.school_gre.school_mcat_accepted_in_place_of_gre?.input ? 'True' : 'False'}</span>
-                </label>
-                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true); setName('school_mcat_accepted_in_place_of_gre'); setNoteName('school_mcat_accepted_in_place_of_gre_notes')}} className="mt-4 block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                    Add Note
-                </button>
+                <div className='flex justify-center items-center gap-3'>
+                <div className="mt-2 grow">
+                    <label className="relative inline-flex items-center cursor-pointer">
+                        <input onChange={(e) => handleCheck(e, true)} name='school_mcat_accepted_in_place_of_gre' checked={newSchool.school_gre.school_mcat_accepted_in_place_of_gre?.input ? true : false} type="checkbox" className="sr-only peer" />
+                        <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                        <span className="ml-3 text-xl text-black">{newSchool.school_gre.school_mcat_accepted_in_place_of_gre?.input ? 'True' : 'False'}</span>
+                    </label>
+                    </div> 
+                    <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true); setName('school_mcat_accepted_in_place_of_gre'); setNoteName('school_mcat_accepted_in_place_of_gre_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        Add Note
+                    </button>
+                </div>
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_mcat_accepted_in_place_of_gre?.school_mcat_accepted_in_place_of_gre_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_gre.school_mcat_accepted_in_place_of_gre?.school_mcat_accepted_in_place_of_gre_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -352,21 +355,24 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                     </div>
                 ))}
-                </div>        
+                       
                 </div>
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">GRE Exempt with Masters Degree</label>
-                <div className="mt-2 w-full">
-                <label className="relative inline-flex items-center cursor-pointer">
-                    <input onChange={(e) => handleCheck(e, true)} name='school_gre_exempt_with_masters_degree' checked={newSchool.school_gre.school_gre_exempt_with_masters_degree?.input ? true : false} type="checkbox" className="sr-only peer" />
-                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                    <span className="ml-3 text-xl text-black">{newSchool.school_gre.school_gre_exempt_with_masters_degree?.input ? 'True' : 'False'}</span>
-                </label>
-                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true); setName('school_gre_exempt_with_masters_degree'); setNoteName('school_gre_exempt_with_masters_degree_notes')}} className="mt-4 block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                    Add Note
-                </button>
+                <div className='flex justify-center items-center gap-3'>
+                    <div className="mt-2 grow">
+                        <label className="relative inline-flex items-center cursor-pointer">
+                            <input onChange={(e) => handleCheck(e, true)} name='school_gre_exempt_with_masters_degree' checked={newSchool.school_gre.school_gre_exempt_with_masters_degree?.input ? true : false} type="checkbox" className="sr-only peer" />
+                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                            <span className="ml-3 text-xl text-black">{newSchool.school_gre.school_gre_exempt_with_masters_degree?.input ? 'True' : 'False'}</span>
+                        </label>
+                    </div>
+                    <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true); setName('school_gre_exempt_with_masters_degree'); setNoteName('school_gre_exempt_with_masters_degree_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        Add Note
+                    </button>
+                </div>
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_gre_exempt_with_masters_degree?.school_gre_exempt_with_masters_degree_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_gre.school_gre_exempt_with_masters_degree?.school_gre_exempt_with_masters_degree_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -381,20 +387,22 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                     </div>
                 ))}
                 </div>        
-                </div>
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">GRE Exempt with Doctoral Degree</label>
-                <div className="mt-2 w-full">
-                <label className="relative inline-flex items-center cursor-pointer">
-                    <input onChange={(e) => handleCheck(e, true)} name='school_gre_exempt_with_phd_degree' checked={newSchool.school_gre.school_gre_exempt_with_phd_degree?.input ? true : false} type="checkbox" className="sr-only peer" />
-                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                    <span className="ml-3 text-xl text-black">{newSchool.school_gre.school_gre_exempt_with_phd_degree?.input ? 'True' : 'False'}</span>
-                </label>
-                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true); setName('school_gre_exempt_with_phd_degree'); setNoteName('school_gre_exempt_with_phd_degree_notes')}} className="mt-4 block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                    Add Note
-                </button>
+                <div className='flex justify-center items-center gap-3'>
+                    <div className="mt-2 grow">
+                        <label className="relative inline-flex items-center cursor-pointer">
+                            <input onChange={(e) => handleCheck(e, true)} name='school_gre_exempt_with_phd_degree' checked={newSchool.school_gre.school_gre_exempt_with_phd_degree?.input ? true : false} type="checkbox" className="sr-only peer" />
+                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                            <span className="ml-3 text-xl text-black">{newSchool.school_gre.school_gre_exempt_with_phd_degree?.input ? 'True' : 'False'}</span>
+                        </label>
+                    </div>
+                    <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true); setName('school_gre_exempt_with_phd_degree'); setNoteName('school_gre_exempt_with_phd_degree_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        Add Note
+                    </button>
+                </div>
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_gre_exempt_with_phd_degree?.school_gre_exempt_with_phd_degree_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_gre.school_gre_exempt_with_phd_degree?.school_gre_exempt_with_phd_degree_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -409,10 +417,10 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                     </div>
                 ))}
                 </div>   
-                </div>
+               
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] p-5 block rounded-lg ${newSchool.school_gre.school_minimum_gre_scores_required ? 'border-[#4573D2] border-2' : 'border-[#545454] border'}`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_gre.school_minimum_gre_scores_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Minimum GRE Scores Required</label>
                 <div className={`${newSchool.school_gre.school_minimum_gre_scores_required ? 'mb-4' : 'mb-0'} mt-2 w-full`}>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -423,27 +431,27 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
                 {newSchool.school_gre.school_minimum_gre_scores_required && (
                 <>
-                <div className={`mt-8 mx-5 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#545454]`}>
+                <div className={`mt-8 mx-5 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Scores</label> 
                     <div className='mt-2'>
                         <label className="text-xl font-medium bg-white">Verbal Score</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_verbal_score' value={newSchool.school_gre.school_gre_minimum_verbal_score as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                        <input onChange={handleInput} name='school_gre_minimum_verbal_score' value={newSchool.school_gre.school_gre_minimum_verbal_score ? newSchool.school_gre.school_gre_minimum_verbal_score : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                         </div>
                     <div className='mt-8'>
                         <label className="text-xl font-medium bg-white">Quantitative Score</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_quantitative_score' value={newSchool.school_gre.school_gre_minimum_quantitative_score as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                        <input onChange={handleInput} name='school_gre_minimum_quantitative_score' value={newSchool.school_gre.school_gre_minimum_quantitative_score ? newSchool.school_gre.school_gre_minimum_quantitative_score : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                     </div>
                     <div className='mt-8'>
                         <label className="text-xl font-medium bg-white">Analytical Writing Score</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_analytical_writing_score' value={newSchool.school_gre.school_gre_minimum_analytical_writing_score as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                        <input onChange={handleInput} name='school_gre_minimum_analytical_writing_score' value={newSchool.school_gre.school_gre_minimum_analytical_writing_score ? newSchool.school_gre.school_gre_minimum_analytical_writing_score : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                     </div>
                     <div className='mt-8'>
                         <label className="text-xl font-medium bg-white">Combined Score</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_combined_score' value={newSchool.school_gre.school_gre_minimum_combined_score as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                        <input onChange={handleInput} name='school_gre_minimum_combined_score' value={newSchool.school_gre.school_gre_minimum_combined_score ? newSchool.school_gre.school_gre_minimum_combined_score : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                     </div>
                     <div className='mt-8 mb-5'>
                         <label className="text-xl font-medium bg-white">Minimum GRE Score Notes</label>   
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_score_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_score_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_gre_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
@@ -462,27 +470,27 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         </div>       
                     </div>
                 </div>
-                <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border py-5 px-8 block rounded-lg border-[#545454]`}>
+                <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Percentiles</label> 
                     <div className='mt-2'>
                         <label className="text-xl font-medium bg-white">Verbal Percentile</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_verbal_percentile' value={newSchool.school_gre.school_gre_minimum_verbal_percentile as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                        <input onChange={handleInput} name='school_gre_minimum_verbal_percentile' value={newSchool.school_gre.school_gre_minimum_verbal_percentile ? newSchool.school_gre.school_gre_minimum_verbal_percentile : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                     </div>
                     <div className='mt-8'>
                         <label className="text-xl font-medium bg-white">Quantitative Percentile</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_quantitative_percentile' value={newSchool.school_gre.school_gre_minimum_quantitative_percentile as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                        <input onChange={handleInput} name='school_gre_minimum_quantitative_percentile' value={newSchool.school_gre.school_gre_minimum_quantitative_percentile ? newSchool.school_gre.school_gre_minimum_quantitative_percentile : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                     </div>
                     <div className='mt-8'>
                         <label className="text-xl font-medium bg-white">Analytical Writing Percentile</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_analytical_writing_percentile' value={newSchool.school_gre.school_gre_minimum_analytical_writing_percentile as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                        <input onChange={handleInput} name='school_gre_minimum_analytical_writing_percentile' value={newSchool.school_gre.school_gre_minimum_analytical_writing_percentile ? newSchool.school_gre.school_gre_minimum_analytical_writing_percentile : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                     </div>
                     <div className='mt-8'>
                         <label className="text-xl font-medium bg-white">Combined Percentile</label>   
-                        <input onChange={handleInput} name='school_gre_minimum_combined_percentile' value={newSchool.school_gre.school_gre_minimum_combined_percentile as number} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />     
+                        <input onChange={handleInput} name='school_gre_minimum_combined_percentile' value={newSchool.school_gre.school_gre_minimum_combined_percentile ?newSchool.school_gre.school_gre_minimum_combined_percentile : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                     </div>
                     <div className='mt-8 mb-5'>
                         <label className="text-xl font-medium bg-white">Minimum GRE Percentile Notes</label>   
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_percentile_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded-md h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_percentile_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_gre_percentile_notes?.length ? 'mt-3' : 'mt-0'}`}>
@@ -509,49 +517,49 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
             </>
             )}
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Verbal Score Accepted Previous Year</label>   
-                <input onChange={handleInput} name='school_average_gre_verbal_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <input onChange={handleInput} name='school_average_gre_verbal_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Quantitative Score Accepted Previous Year</label>   
-                <input onChange={handleInput} name='school_average_gre_quantitative_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <input onChange={handleInput} name='school_average_gre_quantitative_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Analytical Writing Score Accepted Previous Year</label>   
-                <input onChange={handleInput} name='school_average_gre_analytical_writing_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <input onChange={handleInput} name='school_average_gre_analytical_writing_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Combined Score Accepted Previous Year</label>   
-                <input onChange={handleInput} name='school_average_gre_combined_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <input onChange={handleInput} name='school_average_gre_combined_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Verbal Percentile Accepted Previous Year</label>   
-                <input onChange={handleInput} name='school_average_gre_verbal_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <input onChange={handleInput} name='school_average_gre_verbal_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Quantitative Percentile Accepted Previous Year</label>   
-                <input onChange={handleInput} name='school_average_gre_quantitative_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <input onChange={handleInput} name='school_average_gre_quantitative_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Analytical Writing Percentile Accepted Previous Year</label>   
-                <input onChange={handleInput} name='school_average_gre_analytical_writing_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <input onChange={handleInput} name='school_average_gre_analytical_writing_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border p-5 block rounded-lg border-[#545454]`}>
+            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Combined Percentile Accepted Previous Year</label>   
-                <input onChange={handleInput} name='school_average_gre_combined_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />           
+                <input onChange={handleInput} name='school_average_gre_combined_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
             <div className={`w-full mt-8 mb-5`}>
                 <label className='font-medium text-xl'>Notes:</label>
-                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_gre_general_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_gre_general_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_gre_general_notes.length ? 'mt-3' : 'mt-0'}`}>

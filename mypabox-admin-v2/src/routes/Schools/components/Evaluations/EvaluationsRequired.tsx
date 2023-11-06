@@ -201,9 +201,9 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
 
     return (
         <>
-        <div className={`mt-10 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+        <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] text-xl bg-white">Evaluations Required</label>  
-            <div className='w-full mt-2 mb-4'>
+            <div className='w-full mt-2'>
                 <label className="relative inline-flex items-center cursor-pointer">
                     <input onChange={handleCheck} checked={newSchool.school_evaluations_required.input ? true : false} type="checkbox" className="sr-only peer"/>
                     <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
@@ -212,15 +212,15 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
             </div>
             {newSchool.school_evaluations_required.input && (
                 <>
-                    <div className={`mt-8 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Number of Evaluations Required</label>  
-                        <input onChange={handleInput} name='school_minimum_number_of_evaluations_required' value={newSchool.school_evaluations_required.school_minimum_number_of_evaluations_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />
+                        <input onChange={handleInput} name='school_minimum_number_of_evaluations_required' value={newSchool.school_evaluations_required.school_minimum_number_of_evaluations_required ? newSchool.school_evaluations_required.school_minimum_number_of_evaluations_required : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />
                     </div> 
-                    <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Required Evaluator Title</label> 
                         <div className='flex justify-start items-center gap-2'>
-                            <CreatableSelect options={evaluatorOptions} onChange={(e:any) => setEvaluator(e.value)} className="w-1/3 focus:outline-none"/> 
-                            <button onClick={addEvaluator} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded-md px-5 h-[56px] hover:text-white hover:bg-[#F06A6A]">
+                            <CreatableSelect options={evaluatorOptions} onChange={(e:any) => setEvaluator(e.value)} className="grow focus:outline-none"/> 
+                            <button onClick={addEvaluator} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                                 Add Evaluator
                             </button>
                         </div>
@@ -239,16 +239,16 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
                             </div>
                             )}
                     </div> 
-                    <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Evaluator Knows Applicant</label> 
                         <div className='flex justify-start items-center gap-2'>
-                            <input onChange={handleNumber} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
-                            <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={timeOptions} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="w-1/3 focus:outline-none"/>
+                            <input onChange={handleNumber} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
+                            <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={timeOptions} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="grow focus:outline-none"/>
                         </div>      
                     </div> 
-                    <div className={`mt-12 mx-4 relative max-w-[900px] p-5 block rounded-lg border-[#545454] border`}>
+                    <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Optional Evaluators Required</label>  
-                        <button onClick={toggleOptions} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={toggleOptions} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Option
                         </button> 
                         {newSchool.school_evaluations_required.school_optional_evaluators_required && (
@@ -280,9 +280,10 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
                     </div> 
                 </>
             )}
-            <div className={`${newSchool.school_evaluations_required.input ? 'mx-5 mb-5' : 'mx-0 mb-0'}`}>
-            {newSchool.school_evaluations_required.input && <label className='font-medium text-xl inline-block mt-8'>Notes:</label>}
-            <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded-md mt-2 h-14 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+            {newSchool.school_evaluations_required.input && (
+            <div className={`mx-5 mb-5`}>
+            <label className='font-medium text-xl inline-block mt-8'>Notes:</label>
+            <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Note
             </button>
             {newSchool.school_evaluations_required.school_evaluations_required_notes && (
@@ -302,6 +303,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
             </div>
             )}
             </div>
+            )}
         </div>
         {openOptions && <AddRequiredOption newSchool={newSchool} setNewSchool={setNewSchool} toggleOptions={toggleOptions} editedOption={editedOption} setEditedOption={setEditedOption} groupIndex={groupIndex}/>}
         {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
