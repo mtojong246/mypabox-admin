@@ -153,20 +153,20 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                         <p className='text-xl font-semibold mb-8'>{editedRequiredOption ? 'Edit' : 'Add'} Required Optional Exam</p>
                         <div className='w-full mb-8'>
                             <label className='text-lg font-medium'>Minimum number of exams to be completed:</label>
-                            <input onChange={handleInput} value={option.school_minimum_number_of_exams_to_be_completed} className='w-32 focus:outline-none border border-[#B4B4B4] h-[56px] px-3 rounded mt-2 block' />
+                            <input onChange={handleInput} value={option.school_minimum_number_of_exams_to_be_completed ? option.school_minimum_number_of_exams_to_be_completed : ''} className='w-32 focus:outline-none border border-[#B4B4B4] h-[50px] px-3 rounded mt-2 block' />
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium text-lg'>Exams:</label>
                             <div className='w-full flex justify-between items-center gap-4 mt-2'>
                                 <CreatableSelect options={options} onChange={(e:any) => setSelectedExam(e.value)} value={selectedExam ? {value: selectedExam, label: selectedExam} : null} className="grow focus:outline-none rounded-lg" />
-                                <button onClick={addExam} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded-md px-5 h-[56px] hover:text-white hover:bg-[#F06A6A]">
+                                <button onClick={addExam} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                                     Add Exam
                                 </button>
                             </div>
                             <div className={`flex flex-col justify-center items-center gap-3 ${option.school_required_optional_exams_list.length ? 'mt-3' : 'mt-0'}`}>
                             {option.school_required_optional_exams_list.map((opt, i) => {
                                 return (
-                                    <div className='p-4 border border-[#B4B4B4] rounded-lg w-full'>
+                                    <div className='py-2 pl-3 pr-2 border border-[#B4B4B4] rounded w-full'>
                                         <div className='flex justify-between items-center w-full'>
                                             <p className='font-bold'>{opt}</p>
                                             <button onClick={(e) => deleteExam(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
@@ -178,7 +178,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Notes:</label>
-                            <button onClick={toggleNotePopup} className="text-lg block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded-md px-5 h-[56px] hover:text-white hover:bg-[#F06A6A]">
+                            <button onClick={toggleNotePopup} className="text-lg block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                             <div className={`flex flex-col justify-center items-center gap-3 ${option.school_optional_exams_notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -197,8 +197,8 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                             </div>
                         </div>
                         <div className='w-full flex justify-end items-center gap-3'>
-                            <button onClick={(e) => {toggleOptions(e); setEditedRequiredOption(null)}} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[56px] rounded-md'>Cancel</button>
-                            <button onClick={addOrUpdateOption} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[56px] rounded-md'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
+                            <button onClick={(e) => {toggleOptions(e); setEditedRequiredOption(null)}} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[50px] rounded'>Cancel</button>
+                            <button onClick={addOrUpdateOption} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[50px] rounded'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
                         </div>
                     </div>
                 </div>

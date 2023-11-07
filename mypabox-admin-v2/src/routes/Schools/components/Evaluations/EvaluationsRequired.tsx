@@ -17,8 +17,8 @@ const evaluatorOptions = [
 ];
 
 const timeOptions = [
-    {value: 'months', label: 'months'},
-    {value: 'years', label: 'years'}
+    {value: 'Months', label: 'Months'},
+    {value: 'Years', label: 'Years'}
 ]
 
 interface Options {

@@ -7,9 +7,9 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi'
 
 const options = [
-    { value: 'weeks', label: 'weeks' },
-    { value: 'months', label: 'months' },
-    { value: 'years', label: 'years' }
+    { value: 'Weeks', label: 'Weeks' },
+    { value: 'Months', label: 'Months' },
+    { value: 'Years', label: 'Years' }
 ]
 
 export default function GRE({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
@@ -293,17 +293,17 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
             {gpaRequiredOrRecommended && (
             <>
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">CASPA GRE Institution Code</label>   
                 <input onChange={handleInput} name='school_caspa_gre_institution_code' value={newSchool.school_gre.school_caspa_gre_institution_code ? newSchool.school_gre.school_caspa_gre_institution_code : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Insitution Code</label>   
                 <input onChange={handleInput} name='school_gre_institution_code' value={newSchool.school_gre.school_gre_institution_code ? newSchool.school_gre.school_gre_institution_code : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Minimum Time Frame GRE Must Be Completed</label>
                 <div className='flex justify-start items-center gap-3 '>
                     <input onChange={(e) => setSelection({...selection, number: e.target.value.trim()})} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
@@ -328,7 +328,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>        
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">MCAT Accepted In Place of GRE</label>
                 <div className='flex justify-center items-center gap-3'>
                 <div className="mt-2 grow">
@@ -359,7 +359,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">GRE Exempt with Masters Degree</label>
                 <div className='flex justify-center items-center gap-3'>
                     <div className="mt-2 grow">
@@ -389,7 +389,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>        
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">GRE Exempt with Doctoral Degree</label>
                 <div className='flex justify-center items-center gap-3'>
                     <div className="mt-2 grow">
@@ -420,7 +420,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                
             </div>
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_gre.school_minimum_gre_scores_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_gre.school_minimum_gre_scores_required ? 'border-[#4573D2]' : 'border-orange-600'}`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Minimum GRE Scores Required</label>
                 <div className={`${newSchool.school_gre.school_minimum_gre_scores_required ? 'mb-4' : 'mb-0'} mt-2 w-full`}>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -514,48 +514,50 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </>
                 )}
             </div>
-            </>
-            )}
-
-            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Verbal Score Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_verbal_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Quantitative Score Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_quantitative_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Analytical Writing Score Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_analytical_writing_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Combined Score Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_combined_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Verbal Percentile Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_verbal_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Quantitative Percentile Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_quantitative_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Analytical Writing Percentile Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_analytical_writing_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
 
-            <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Combined Percentile Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_combined_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
+            </>
+            )}
+
+            
 
             <div className={`w-full mt-8 mb-5`}>
                 <label className='font-medium text-xl'>Notes:</label>

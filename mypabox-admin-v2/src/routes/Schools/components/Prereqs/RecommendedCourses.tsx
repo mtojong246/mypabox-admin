@@ -29,7 +29,7 @@ export default function RecommendedCourses({ toggleRecommendedCourses, newSchool
             <button onClick={toggleRecommendedCourses} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Course
             </button>
-            <div className={`flex flex-col justify-center items-center gap-4 ${newSchool.school_prereq_recommended_courses.length ? 'mt-5' : 'mt-0'}`}>
+            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prereq_recommended_courses.length ? 'mt-3' : 'mt-0'}`}>
             {courses && newSchool.school_prereq_recommended_courses.map((course, i) => {
                 const selectedCourse = courses.find(c => c.unique_id === course.school_recommended_course_id)
                 if (selectedCourse) {
@@ -45,8 +45,8 @@ export default function RecommendedCourses({ toggleRecommendedCourses, newSchool
                                     </span>
                                 </p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(course); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteCourse(e,i)}><AiOutlineClose className='h-7 w-7 border-2rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(course); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                    <button onClick={(e) => deleteCourse(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             {course.school_recommended_course_note_section ? (

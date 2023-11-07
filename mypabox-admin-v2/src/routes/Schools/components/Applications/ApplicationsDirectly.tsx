@@ -104,7 +104,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+        <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Application Submitted Directly To School</label>  
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">

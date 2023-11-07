@@ -250,15 +250,15 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Total number of credit hours that need to be completed:</label>
-                            <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_credits_need_to_be_completed} name='school_required_course_category_number_of_credits_need_to_be_completed' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                            <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_credits_need_to_be_completed ? requiredCategory.school_required_course_category_number_of_credits_need_to_be_completed : ''} name='school_required_course_category_number_of_credits_need_to_be_completed' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Total number of quarter hours that need to be completed:</label>
-                            <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_quarter_hours_need_to_be_completed} name='school_required_course_category_number_of_quarter_hours_need_to_be_completed' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                            <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_quarter_hours_need_to_be_completed ? requiredCategory.school_required_course_category_number_of_quarter_hours_need_to_be_completed : ''} name='school_required_course_category_number_of_quarter_hours_need_to_be_completed' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Total number of courses that need lab:</label>
-                            <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_courses_that_need_lab} name='school_required_course_category_number_of_courses_that_need_lab' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                            <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_courses_that_need_lab ? requiredCategory.school_required_course_category_number_of_courses_that_need_lab : ''} name='school_required_course_category_number_of_courses_that_need_lab' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
                         </div>
 
 

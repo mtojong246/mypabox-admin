@@ -8,9 +8,9 @@ import { AiOutlineClose } from 'react-icons/ai'
 import AddNote from "../Prereqs/AddNote"
 
 const options = [
-    { value: 'weeks', label: 'weeks' },
-    { value: 'months', label: 'months' },
-    { value: 'years', label: 'years' }
+    { value: 'Weeks', label: 'Weeks' },
+    { value: 'Months', label: 'Months' },
+    { value: 'Years', label: 'Years' }
 ]
 
 export default function PatientExperience({newSchool, setNewSchool}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {

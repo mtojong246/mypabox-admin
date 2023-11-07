@@ -138,7 +138,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                         <p className='text-xl font-semibold mb-8'>{editedRequiredOption ? 'Edit' : 'Add'} Required Optional Group</p>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Minimum number of courses that need to be completed:</label>
-                            <input onChange={handleInput} value={group.school_minimum_number_of_courses_to_be_completed} className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                            <input onChange={handleInput} value={group.school_minimum_number_of_courses_to_be_completed ? group.school_minimum_number_of_courses_to_be_completed : ''} className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Courses:</label>

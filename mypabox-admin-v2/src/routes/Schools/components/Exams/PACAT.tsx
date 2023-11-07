@@ -129,19 +129,19 @@ export default function PACAT({ newSchool, setNewSchool }: { newSchool: School, 
             </div>
             {pacatRequiredOrRecommended && (
             <>
-                <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Exam School Code</label>   
-                    <input onChange={handleInput} name='school_pacat_exam_school_code' value={newSchool.school_pacat.school_pacat_exam_school_code as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                    <input onChange={handleInput} name='school_pacat_exam_school_code' value={newSchool.school_pacat.school_pacat_exam_school_code ? newSchool.school_pacat.school_pacat_exam_school_code : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
                 </div>
 
-                <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Exam Scaled Minimum Score Required</label>   
-                    <input onChange={handleInput} name='school_pacat_exam_scaled_minimum_score_required' value={newSchool.school_pacat.school_pacat_exam_scaled_minimum_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                    <input onChange={handleInput} name='school_pacat_exam_scaled_minimum_score_required' value={newSchool.school_pacat.school_pacat_exam_scaled_minimum_score_required ? newSchool.school_pacat.school_pacat_exam_scaled_minimum_score_required : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
                 </div>
 
-                <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Exam Group Scaled Minimum Score Required</label>   
-                    <input onChange={handleInput} name='school_pacat_exam_group_scaled_minimum_score_required' value={newSchool.school_pacat.school_pacat_exam_group_scaled_minimum_score_required as number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                    <input onChange={handleInput} name='school_pacat_exam_group_scaled_minimum_score_required' value={newSchool.school_pacat.school_pacat_exam_group_scaled_minimum_score_required ? newSchool.school_pacat.school_pacat_exam_group_scaled_minimum_score_required : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
                 </div>
             </>
             )}

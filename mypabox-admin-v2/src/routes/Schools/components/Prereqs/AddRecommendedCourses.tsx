@@ -128,11 +128,11 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, edited
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Credits:</label>
-                        <input onChange={handleInput} value={recommendedCourse.school_recommended_course_credit_hours} name='school_recommended_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                        <input onChange={handleInput} value={recommendedCourse.school_recommended_course_credit_hours ? recommendedCourse.school_recommended_course_credit_hours : ''} name='school_recommended_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Quarter hours:</label>
-                        <input onChange={handleInput} value={recommendedCourse.school_recommended_course_quarter_hours} name='school_recommended_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                        <input onChange={handleInput} value={recommendedCourse.school_recommended_course_quarter_hours ? recommendedCourse.school_recommended_course_quarter_hours : ''} name='school_recommended_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>

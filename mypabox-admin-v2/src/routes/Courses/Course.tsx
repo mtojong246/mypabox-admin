@@ -103,8 +103,6 @@ export default function Courses() {
         toggleModal();
     }
 
-
-
     return (
     <>
     <div className="w-screen px-10 pb-10 font-['Noto Sans']">

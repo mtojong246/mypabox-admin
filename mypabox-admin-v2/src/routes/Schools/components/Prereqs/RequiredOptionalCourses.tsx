@@ -29,11 +29,11 @@ export default function RequiredOptionalCourses({ toggleRequiredOptionalCourses,
             <button onClick={toggleRequiredOptionalCourses} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Option
             </button>
-            <div className={`flex flex-col justify-center items-center gap-5 ${newSchool.school_prereq_required_optional_courses.length ? 'mt-5' : 'mt-0'}`}>
+            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prereq_required_optional_courses.length ? 'mt-3' : 'mt-0'}`}>
             {newSchool.school_prereq_required_optional_courses.map((group, i) => (
-                <div className='p-4 border border-[#545454] rounded w-full'>
+                <div className='p-3 border border-[#545454] rounded w-full'>
                     <div className='flex justify-between items-center w-full'>
-                        <p className='font-bold text-xl'>{group.school_minimum_number_of_courses_to_be_completed} <span className='font-normal'>of the following courses need to be completed:</span></p>
+                        <p className='font-bold text-lg'>{group.school_minimum_number_of_courses_to_be_completed} <span className='font-normal'>of the following courses need to be completed:</span></p>
                         <div className='flex gap-2'>
                             <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(group); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
                             <button onClick={(e) => deleteOption(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>

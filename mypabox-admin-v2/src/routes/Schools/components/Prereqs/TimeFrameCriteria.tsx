@@ -8,9 +8,9 @@ import ReactQuill from 'react-quill';
 import AddNote from './AddNote';
 
 const options = [
-    { value: 'weeks', label: 'weeks' },
-    { value: 'months', label: 'months' },
-    { value: 'years', label: 'years' }
+    { value: 'Weeks', label: 'Weeks' },
+    { value: 'Months', label: 'Months' },
+    { value: 'Years', label: 'Years' }
 ]
 
 export default function TimeFrameCriteria({ newSchool, setNewSchool }: { 

@@ -115,7 +115,7 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
     return (
         <>
         <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white">Application Submitted On Caspa</label>  
+                <label className="absolute top-[-16px] text-xl bg-white">Application Submitted On CASPA</label>  
                 <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input onChange={handleCheck} checked={newSchool.school_application_submitted_on_caspa.input? true : false} type="checkbox" className="sr-only peer"/>

@@ -116,6 +116,13 @@ export default function AddSchool() {
 
     // Sends newSchool data to db 
     const handleSave = async (e: MouseEvent<HTMLButtonElement>, id: number) => {
+
+        if ((e.target as HTMLButtonElement).value === 'done') {
+          if (!newSchool.school_name.input || !newSchool.school_street.input || !newSchool.school_city.input || !newSchool.school_zip_code.input || !newSchool.school_website.input) {
+            alert('Please input required fields ');
+            return;
+          }
+        }
       
         try {
             // Sends API request with new school data to firestore 
@@ -153,14 +160,15 @@ export default function AddSchool() {
                 localStorage.setItem('newSchool', JSON.stringify(updatedSchool[0]));
                 setNewSchool(updatedSchool[0] as School)
 
-                // Switches to next tab after save 
-                const currentCategory = categories.find(cat => cat.hash === tab);
-                if (currentCategory) {
-                  const nextIndex = categories.indexOf(currentCategory) + 1;
-                  setTab(categories[nextIndex].hash)
-                }
-                
-                alert('Progress saved')
+                if ((e.target as HTMLButtonElement).value === 'save') {
+                  // Switches to next tab after save 
+                  const currentCategory = categories.find(cat => cat.hash === tab);
+                  if (currentCategory) {
+                    const nextIndex = categories.indexOf(currentCategory) + 1;
+                    setTab(categories[nextIndex].hash)
+                  }
+                  alert('Progress saved');
+                } 
               }
             } catch (error: any) {
               alert('Error retrieving updated school');
@@ -228,7 +236,9 @@ export default function AddSchool() {
         }
       }
       setNewSchool(updatedSchool);
-    }
+    };
+
+  
 
   return (
     <div className={`w-screen px-10 ont-['Noto Sans']`}>
@@ -237,12 +247,12 @@ export default function AddSchool() {
         ${window.scrollY === 180 ? '' : 'pb-2'}`}>
           <p className={`text-4xl ${window.scrollY === 180 ? '' : '-mt-32'} font-medium`}>Add School</p>
           <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
-            <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border ml-[50em] border-red-400 text-red-400 py-3 px-4 
-            rounded-lg hover:text-white hover:bg-red-400'>
+            <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border-2 border-red-400 text-red-400 h-[50px] px-4 
+            rounded hover:text-white hover:bg-red-400'>
                 Save & Next
               </button>
-              <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border border-blue-500 text-blue-500 rounded-lg 
-              py-3 px-4 hover:text-white hover:bg-blue-500'>
+              <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border-2 border-blue-500 text-blue-500 rounded 
+              h-[50px] px-4 hover:text-white hover:bg-blue-500'>
                 Done
               </button>
           </div>
@@ -251,9 +261,9 @@ export default function AddSchool() {
           <div className={`text-md pt-4 sticky ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
-              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={() => setTab(category.hash)} 
-              className={`focus:text-red-500 decoration-red-500 whitespace-nowrap ${location.hash === category.hash ? 
-              'text-red-500 decoration-red-500 underline underline-offset-[12px]' : ''}`}>
+              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={(e:any) => {setTab(category.hash); handleSave(e, newSchool.id)}} 
+              className={`focus:text-red-500 decoration-red-500 whitespace-nowrap ${category.hash === tab ? 
+              'text-red-500' : ''}`}>
                 {category.name}
               </Link>
             ))}

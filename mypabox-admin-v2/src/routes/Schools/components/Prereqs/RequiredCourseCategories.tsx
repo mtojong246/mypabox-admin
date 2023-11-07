@@ -27,16 +27,16 @@ export default function RequiredCourseCategories({ toggleRequiredCourseCategorie
     
     return (
         <div className={`mt-20 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] text-xl bg-white">Required Course Categories</label>   
+            <label className="absolute top-[-16px] text-xl bg-white">Required Course Category</label>   
             <button onClick={toggleRequiredCourseCategories} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Category
             </button>
-            <div className={`flex flex-col justify-center items-center gap-5 ${newSchool.school_prereq_required_course_categories.length ? 'mt-5' : 'mt-0'}`}>
+            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prereq_required_course_categories.length ? 'mt-3' : 'mt-0'}`}>
             {newSchool.school_prereq_required_course_categories.map((category, i) => {
                 const selectedCategory = categories.find(c => c.id === category.school_required_course_category);
                 if (selectedCategory) {
                     return (
-                    <div className='p-4 border border-[#545454] rounded w-full'>
+                    <div className='p-3 border border-[#545454] rounded w-full'>
                         <div className='flex justify-between items-center w-full'>
                             <p className='font-bold text-xl'>{selectedCategory.category_name}
                                 <span className='font-semibold text-base inline-block pl-3 text-[#6A6A6A]'>
