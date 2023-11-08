@@ -1,22 +1,63 @@
 import { School, Note } from "../../../../types/schools.types";
-import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent } from "react"
+import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent} from "react"
 import ReactQuill from "react-quill";
-import Select from 'react-select'
+import Select, {StylesConfig} from 'react-select'
 import AddNote from "../Prereqs/AddNote";
+
 
 import { AiOutlineClose } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi';
 
 const options = [
-    {value: 'Verified', label: 'Verified'},
-    {value: 'Completed', label: 'Completed'},
-    {value: 'Submitted', label: 'Submitted'},
-]
+    {value: 'Verified', label: 'Verified', color: '#87EA6E', focus: '#CFEEC7'},
+    {value: 'Completed', label: 'Completed', color: '#F2EC63', focus: '#F4F1B5'},
+    {value: 'Submitted', label: 'Submitted', color: '#71D6EC', focus: '#BAE8F2'},
+];
+
+
+interface ColorOptions {value: string, label: string, color: string, focus: string}
+
+
+const dot = (color:string = 'transparent') => ({
+    alignItems: 'center',
+    display: 'flex',
+  
+    ':before': {
+      backgroundColor: color ,
+      borderRadius: 10,
+      content: '" "',
+      display: 'block',
+      marginRight: 10,
+      height: 10,
+      width: 10,
+    },
+  });
+
+const colorStyles: StylesConfig<ColorOptions> = {
+    control: (styles) => ({...styles, backgroundColor: 'white'}),
+    option: (styles, {data, isDisabled, isFocused, isSelected}) => {
+        return {
+            ...styles,
+            backgroundColor: isDisabled ? undefined : isSelected ? data.color : isFocused ? data.focus : undefined,
+            color: isDisabled ? '#ccc' : isSelected ? 'white' : isFocused ? 'white' : data.color,
+            cursor: isDisabled ? 'not-allowed' : 'default',
+            ':active': {
+                ...styles[':active'],
+                backgroundColor: !isDisabled ? isSelected ? data.color : data.focus : undefined,
+            }
+        }
+    },
+    input: (styles) => ({...styles, ...dot()}),
+    placeholder: (styles) => ({...styles, ...dot('#ccc')}),
+    singleValue: (styles, {data}) => ({...styles, ...dot(data.color)})
+}
+
 
 export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
     const [index, setIndex] = useState<number | null>(null);
     const [editedNote, setEditedNote] = useState<Note | null>(null);
     const [notePopup, setNotePopup] = useState(false);
+    const [ color, setColor ] = useState('');
 
     const toggleNotePopup = (e: any) => {
         e.preventDefault();
@@ -43,7 +84,12 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
                 }
             })
         }
-    }, [newSchool.school_application_submitted_on_caspa.input])
+    }, [newSchool.school_application_submitted_on_caspa.input]);
+
+    useEffect(() => {
+        const obj = options.find(opt => opt.value === newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_type);
+        if (obj) setColor(obj.color);
+    }, [newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_type])
 
     const handleCheck = (e:ChangeEvent<HTMLInputElement>) => {
         setNewSchool({
@@ -112,6 +158,8 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
         })
     };
 
+    console.log(color)
+
     return (
         <>
         <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
@@ -131,7 +179,7 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
                     </div> 
                     <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Application Submission Deadline Type</label> 
-                        <Select onChange={handleSelect} value={newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_type ? {value: newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_type, label: newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_type} : null} options={options} className="w-1/3 focus:outline-none"/>
+                        <Select styles={colorStyles} onChange={handleSelect} options={options} className="w-1/3 focus:outline-none" value={newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_type ? {value: newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_type, label: newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_type, color: color, focus: ''} : null}/>
                     </div> 
                 </>
             )}
