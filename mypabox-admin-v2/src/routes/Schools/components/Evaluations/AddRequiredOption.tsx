@@ -4,6 +4,9 @@ import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
 import { School } from '../../../../types/schools.types';
 import { Dispatch, SetStateAction, MouseEvent, useState, useEffect, ChangeEvent } from 'react';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 
 const evaluatorOptions = [
     {value: 'PA', label: 'PA'},
@@ -156,20 +159,27 @@ export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptio
                     <p className='text-xl font-semibold mb-8'>{editedOption ? 'Edit' : 'Add'} Required Optional Evaluators</p>
                     <div className='w-full mb-8'>
                         <label className='text-lg font-medium'>Minimum Number of Evaluators Required:</label>
-                        <input onChange={handleInput} value={options.school_minimum_number_of_evaluators_required_in_group} className='w-32 focus:outline-none border border-[#B4B4B4] h-[56px] px-3 rounded mt-2 block' />
+                        <input onChange={handleInput} value={options.school_minimum_number_of_evaluators_required_in_group ? options.school_minimum_number_of_evaluators_required_in_group : ''} className='w-32 focus:outline-none border border-[#B4B4B4] h-[50px] px-3 rounded mt-2 block' />
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium text-lg'>Evaluator titles:</label>
                         <div className='w-full flex justify-between items-center gap-4 mt-2'>
-                            <CreatableSelect onChange={(e:any) => setEvaluator(e.value)} options={evaluatorOptions} className="grow focus:outline-none rounded-lg" />
-                            <button onClick={addEvaluator} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded-md px-5 h-[56px] hover:text-white hover:bg-[#F06A6A]">
+                            <div className='grow flex justify-center items-start gap-1'>
+                                <CreatableSelect onChange={(e:any) => setEvaluator(e.value)} options={evaluatorOptions} className="grow focus:outline-none rounded" />
+                                <Tooltip title="Type and press enter to create new option" placement='right'>
+                                    <IconButton style={{padding: '0px'}}>
+                                        <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                            <button onClick={addEvaluator} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                                 Add Evaluator
                             </button>
                         </div>
                         <div className={`flex flex-col justify-center items-center gap-3 ${options.school_required_optional_group_evaluator_title.length ? 'mt-3' : 'mt-0'}`}>
                         {options.school_required_optional_group_evaluator_title.map((opt, i) => {
                             return (
-                                <div className='p-4 border border-[#B4B4B4] rounded-lg w-full'>
+                                <div className='py-2 pl-3 pr-2 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full'>
                                         <p className='font-bold text-xl'>{opt}</p>
                                         <button onClick={(e) => deleteEvaluator(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
@@ -182,13 +192,13 @@ export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptio
                     <div className='w-full mb-8'>
                         <label className='font-medium text-lg'>Minimum Time Evaluator Knows Applicant:</label>
                         <div className='flex justify-start items-center gap-2 mt-2'>
-                            <input onChange={handleNumber} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-4 rounded-lg' />  
+                            <input onChange={handleNumber} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
                             <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={timeOptions} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="w-1/3 focus:outline-none"/>
                         </div> 
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
-                        <button onClick={(e) => {toggleOptions(e); setEditedOption(null)}} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[56px] rounded-md'>Cancel</button>
-                        <button onClick={addOrUpdateOption} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[56px] rounded-md'>{editedOption ? 'Edit' : 'Add'} Option</button>
+                        <button onClick={(e) => {toggleOptions(e); setEditedOption(null)}} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[50px] rounded'>Cancel</button>
+                        <button onClick={addOrUpdateOption} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[50px] rounded'>{editedOption ? 'Edit' : 'Add'} Option</button>
                     </div>
                 </div>
             </div>

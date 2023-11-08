@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { selectSchools } from "../../app/selectors/schools.selectors";
 import { useState, useEffect, ChangeEvent, MouseEvent, useContext } from "react";
-import { addDocToSchoolCollection, getDocsById } from "../../utils/firebase/firebase.utils";
+import { addDocToSchoolCollection, getDocsById, deleteSchoolDoc } from "../../utils/firebase/firebase.utils";
 import { addSchool } from "../../app/slices/schools";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import AddNote from "./components/AddNote";
@@ -14,6 +14,12 @@ import EditNote from "./components/EditNote";
 import { Note } from "../../types/schools.types";
 import { categories } from "../../data/categories";
 import { SchoolContext } from "../../useContext";
+
+
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 
@@ -35,6 +41,21 @@ export default function AddSchool() {
     const position = window.scrollY;
     setScrollPosition(position);
   };
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -118,11 +139,9 @@ export default function AddSchool() {
     // Sends newSchool data to db 
     const handleSave = async (e: MouseEvent<HTMLButtonElement>, id: number) => {
 
-        if ((e.target as HTMLButtonElement).value === 'done') {
-          if (!newSchool.school_name.input || !newSchool.school_street.input || !newSchool.school_city.input || !newSchool.school_zip_code.input || !newSchool.school_website.input) {
-            alert('Please input required fields ');
-            return;
-          }
+        if (!newSchool.school_name.input || !newSchool.school_street.input || !newSchool.school_city.input || !newSchool.school_zip_code.input || !newSchool.school_website.input) {
+          alert('Please input required fields ');
+          return;
         }
       
         try {
@@ -161,20 +180,47 @@ export default function AddSchool() {
                 localStorage.setItem('newSchool', JSON.stringify(updatedSchool[0]));
                 setNewSchool(updatedSchool[0] as School)
 
-                if ((e.target as HTMLButtonElement).value === 'save') {
-                  // Switches to next tab after save 
-                  const currentCategory = categories.find(cat => cat.hash === tab);
-                  if (currentCategory) {
-                    const nextIndex = categories.indexOf(currentCategory) + 1;
-                    setTab(categories[nextIndex].hash)
-                  }
-                  alert('Progress saved');
-                } 
+                if ((e.target as HTMLButtonElement).value === 'save') handleClick();
+
+                // if ((e.target as HTMLButtonElement).value === 'save') {
+                //   // Switches to next tab after save 
+                //   const currentCategory = categories.find(cat => cat.hash === tab);
+                //   if (currentCategory) {
+                //     const nextIndex = categories.indexOf(currentCategory) + 1;
+                //     setTab(categories[nextIndex].hash)
+                //   }
+                //   alert('Progress saved');
+                // } 
               }
             } catch (error: any) {
               alert('Error retrieving updated school');
             }   
         }
+    };
+
+    const navigateTabs = (hash: string) => {
+      if (!newSchool.school_name.input || !newSchool.school_street.input || !newSchool.school_city.input || !newSchool.school_zip_code.input || !newSchool.school_website.input) {
+        return;
+      } else {
+        navigate(`/schools/add-school${hash}`);
+        setTab(hash);
+      }
+    }
+
+    const cancel = async (e:MouseEvent<HTMLButtonElement>) => {
+
+      try {
+
+        await deleteSchoolDoc(newSchool.id.toString());
+        navigate('/schools');
+        localStorage.removeItem('newSchool');
+        setNewSchool(defaultSchool);
+
+      } catch (error: any) {
+
+        alert("Error deleting school");
+
+      }
     }
 
     // Opens note popup and sets value of "Add note" button to "currentInput", 
@@ -239,6 +285,22 @@ export default function AddSchool() {
       setNewSchool(updatedSchool);
     };
 
+    const action = (
+      <>
+        <Button color="primary" size="small" onClick={handleClose}>
+          UNDO
+        </Button>
+        <IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={handleClose}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </>
+    );
+
   return (
     <div className={`w-screen px-10 ont-['Noto Sans']`}>
       <div className={`w-full max-w-[1800px] mx-auto`}>
@@ -246,25 +308,27 @@ export default function AddSchool() {
         ${window.scrollY === 180 ? '' : 'pb-2'}`}>
           <p className={`text-4xl ${window.scrollY === 180 ? '' : '-mt-32'} font-medium`}>Add School</p>
           <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
-            <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border-2 border-red-400 text-red-400 h-[50px] px-4 
-            rounded hover:text-white hover:bg-red-400'>
-                Save & Next
+            <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border-2 border-[#4FC769] text-[#4FC769] h-[50px] px-5 
+            rounded hover:text-white hover:bg-[#4FC769]'>
+                Save
               </button>
               <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border-2 border-blue-500 text-blue-500 rounded 
-              h-[50px] px-4 hover:text-white hover:bg-blue-500'>
-                Done
+              h-[50px] px-5 hover:text-white hover:bg-blue-500'>
+                Finish
               </button>
+              <button onClick={cancel} className='border-2 border-red-400 text-red-400 rounded 
+              h-[50px] px-5 hover:text-white hover:bg-red-400'>Cancel</button>
           </div>
         </div>
         <div className={`flex justify-start items-start gap-10 `}>
           <div className={`text-md pt-4 sticky ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
-              <Link to={{ pathname: '/schools/add-school', hash: `${category.hash}` }} onClick={(e:any) => {setTab(category.hash); handleSave(e, newSchool.id)}} 
-              className={`focus:text-red-500 decoration-red-500 whitespace-nowrap ${category.hash === tab ? 
+              <button onClick={(e:any) => {handleSave(e, newSchool.id); navigateTabs(category.hash)}} 
+              className={`whitespace-nowrap ${category.hash === tab ? 
               'text-red-500' : ''}`}>
                 {category.name}
-              </Link>
+              </button>
             ))}
             </div>
           </div>
@@ -278,6 +342,13 @@ export default function AddSchool() {
     </div>
     {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
     {openEdit && <EditNote currentInput={currentInput} note={note} index={index} toggleEdit={toggleEdit} editNote={editNote}/>}
+    {<Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message="Progress Saved"
+        action={action}
+      />}
 
   </div>
   )

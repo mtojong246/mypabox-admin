@@ -7,6 +7,9 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi';
 import AddNote from "../Prereqs/AddNote";
 import ReactQuill from "react-quill";
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 
 const evaluatorOptions = [
     {value: 'PA', label: 'PA'},
@@ -219,7 +222,14 @@ export default function EvaluationsRequired({ newSchool, setNewSchool }: { newSc
                     <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Required Evaluator Title</label> 
                         <div className='flex justify-start items-center gap-2'>
-                            <CreatableSelect options={evaluatorOptions} onChange={(e:any) => setEvaluator(e.value)} className="grow focus:outline-none"/> 
+                            <div className='grow flex justify-center items-start gap-1'>
+                                <CreatableSelect options={evaluatorOptions} onChange={(e:any) => setEvaluator(e.value)} className="grow focus:outline-none"/> 
+                                <Tooltip title="Type and press enter to create new option" placement='right'>
+                                    <IconButton style={{padding: '0px'}}>
+                                        <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
                             <button onClick={addEvaluator} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                                 Add Evaluator
                             </button>

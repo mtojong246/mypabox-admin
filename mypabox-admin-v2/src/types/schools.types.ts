@@ -43,6 +43,7 @@ export interface MinimumGpaSpecificCourse {
 
 export interface PreviousCycle {
     average_overall_gpa_accepted_previous_year: NumberInput;
+    average_bcp_gpa_accepted_previous_year: NumberInput;
     average_science_gpa_accepted_previous_year: NumberInput;
     average_prerequisite_gpa_accepted_previous_year: NumberInput;
 }
@@ -177,6 +178,7 @@ export interface School {
 
     school_average_gpa_accepted_previous_cycle: {
         average_overall_gpa_accepted_previous_year: NumberInput;
+        average_bcp_gpa_accepted_previous_year: NumberInput;
         average_science_gpa_accepted_previous_year: NumberInput;
         average_prerequisite_gpa_accepted_previous_year: NumberInput;
     }

@@ -7,6 +7,9 @@ import countries from "../../../../data/countries.json";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import AddNote from "../Prereqs/AddNote";
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 
 const fields = [
     {
@@ -528,8 +531,15 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">School Phone Number</label>
                 <div className='flex justify-center items-center gap-3'>
-                    <CreatableSelect className="w-1/4 focus:outline-none rounded"
-                    options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setPhone({...phone, category: e.value})}/>
+                    <div className='w-1/4 flex justify-center items-start gap-1'>
+                        <CreatableSelect className="grow focus:outline-none rounded"
+                        options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setPhone({...phone, category: e.value})}/>
+                        <Tooltip title="Type and press enter to create new option" placement='right'>
+                            <IconButton style={{padding: '0px'}}>
+                                <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
+                            </IconButton>
+                        </Tooltip>
+                    </div>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={phone.number} onChange={(e:any) => setPhone({...phone, number: e.target.value})}/>
                     <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={addPhone}>Add Number</button>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
@@ -572,8 +582,15 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">School Email</label>
                 <div className='flex justify-center items-center gap-3'>
-                    <CreatableSelect className="w-1/4 focus:outline-none rounded"
-                    options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setEmail({...email, category: e.value})}/>
+                    <div className='w-1/4 flex justify-center items-start gap-1'>
+                        <CreatableSelect className="grow focus:outline-none rounded"
+                        options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setEmail({...email, category: e.value})}/>
+                        <Tooltip title="Type and press enter to create new option" placement='right'>
+                            <IconButton style={{padding: '0px'}}>
+                                <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
+                            </IconButton>
+                        </Tooltip>
+                    </div>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={email.email} onChange={(e:any) => setEmail({...email, email: e.target.value})}/>
                     <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={addEmail}>Add Email</button>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >

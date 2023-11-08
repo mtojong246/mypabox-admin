@@ -111,6 +111,21 @@ export const addDocToSchoolCollection = async (data: School, id: number) => {
 
         console.log('error adding school' , error.code);
     }
+};
+
+export const deleteSchoolDoc = async (id: string) => {
+    const docRef = doc(db, 'schools', id);
+
+    try {
+        // Removes course from document 
+        await deleteDoc(docRef)
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error deleting school' , error.code);
+    }
 }
 
 // **************[COURSES DATA FUNCTION HANDLERS]**************

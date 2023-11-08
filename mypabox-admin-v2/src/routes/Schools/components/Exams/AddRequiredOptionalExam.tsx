@@ -5,6 +5,9 @@ import ReactQuill from 'react-quill';
 import { AiOutlineClose } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi'
 import AddNote from '../Prereqs/AddNote';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 
 const options = [
     {value: 'GRE', label: 'GRE'},
@@ -158,7 +161,14 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                         <div className='w-full mb-8'>
                             <label className='font-medium text-lg'>Exams:</label>
                             <div className='w-full flex justify-between items-center gap-4 mt-2'>
-                                <CreatableSelect options={options} onChange={(e:any) => setSelectedExam(e.value)} value={selectedExam ? {value: selectedExam, label: selectedExam} : null} className="grow focus:outline-none rounded-lg" />
+                                <div className='grow flex justify-center items-start gap-1'>
+                                    <CreatableSelect options={options} onChange={(e:any) => setSelectedExam(e.value)} value={selectedExam ? {value: selectedExam, label: selectedExam} : null} className="grow focus:outline-none rounded-lg" />
+                                    <Tooltip title="Type and press enter to create new option" placement='right'>
+                                        <IconButton style={{padding: '0px'}}>
+                                            <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
+                                        </IconButton>
+                                    </Tooltip>
+                                </div>
                                 <button onClick={addExam} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                                     Add Exam
                                 </button>

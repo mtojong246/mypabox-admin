@@ -188,17 +188,15 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
                     </button>
                 </div>
                 {field.notes && field.notes.map((note, index) => (
-                    <div className='flex justify-center items-start gap-2 mt-4'>
-                        <div className="grow p-4 rounded border border-black">
-                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                {note.type}:
-                            </p>
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full mt-3'>
+                        <div className='flex justify-between items-center w-full mb-1'>
+                            <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                            <div className='flex gap-2'>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setObjIndex(i); setIndex(index)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteNote(e, i, index)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            </div>
                         </div>
-                        <div className='flex flex-col-reverse justify-start items-center gap-1'>
-                            <button value='school_minimum_gpa_for_specific_course' onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setObjIndex(i); setIndex(index)}} ><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-[#4573D2] text-white'/></button>
-                            <button value='school_minimum_gpa_for_specific_course' onClick={(e:any) => deleteNote(e, i, index)} ><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
-                        </div>
+                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                     </div>
                 ))}
 

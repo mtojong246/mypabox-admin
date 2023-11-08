@@ -191,6 +191,10 @@ export const defaultSchool: School = {
             input: 0,
             notes: [],
         },
+        average_bcp_gpa_accepted_previous_year: {
+            input: 0,
+            notes: [],
+        },
         average_science_gpa_accepted_previous_year: {
             input: 0,
             notes: [],
