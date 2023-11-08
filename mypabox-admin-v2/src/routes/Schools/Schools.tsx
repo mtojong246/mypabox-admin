@@ -119,7 +119,11 @@ const Schools = () => {
     }
 
     fetchCategories();
-  }, [dispatch, navigate])
+  }, [dispatch, navigate]);
+
+  useEffect(() => {
+    localStorage.removeItem('newSchool');
+  }, [])
 
   const addSchoolButton = () => {
     navigate('/schools/add-school#general-info')

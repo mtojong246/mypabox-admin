@@ -110,8 +110,20 @@ export interface School {
     school_zip_code: NoNoteString;
     school_country: NoNoteString;
     school_website: NoNoteString;
-    school_email: StringInput;
-    school_phone_number: StringInput;
+    school_email: {
+        input: {
+            category: string;
+            email: string;
+        }[],
+        notes: Note[];
+    }
+    school_phone_number: {
+        input: {
+            category: string;
+            number: string;
+        }[];
+        notes: Note[];
+    }
 
     school_campus_location: StringInput;
     school_start_month: StringInput;

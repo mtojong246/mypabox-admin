@@ -59,12 +59,13 @@ export default function AddSchool() {
       const sortedSchools = arrayToSort.sort((a,b) => a.id - b.id);
       const id = (sortedSchools[sortedSchools.length - 1]).id + 1; 
       setNewSchool({
-          ...newSchool,
+          ...defaultSchool,
           id,
       })
     }
     
-   }, [schools])
+   }, [schools]);
+
 
    // Sets initial tab value to General Info
    useEffect(() => {
@@ -237,8 +238,6 @@ export default function AddSchool() {
       }
       setNewSchool(updatedSchool);
     };
-
-  
 
   return (
     <div className={`w-screen px-10 ont-['Noto Sans']`}>

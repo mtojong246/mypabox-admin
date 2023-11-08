@@ -27,11 +27,11 @@ export const defaultSchool: School = {
         input: "",
     },
     school_email: {
-        input: "",
+        input: [],
         notes: [],
     },
     school_phone_number: {
-        input: "",
+        input: [],
         notes: [],
     },
 

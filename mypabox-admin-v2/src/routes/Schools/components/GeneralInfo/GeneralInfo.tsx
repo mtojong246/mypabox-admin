@@ -5,6 +5,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FiEdit3 } from "react-icons/fi";
 import countries from "../../../../data/countries.json";
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import AddNote from "../Prereqs/AddNote";
 
 const fields = [
@@ -68,14 +69,14 @@ const fields = [
         name: 'School Email',
         value: 'school_email',
         margin: 'mt-12',
-        type: 'text',
+        type: 'email',
         required: false,
     },
     {
         name: 'School Phone Number',
         value: 'school_phone_number',
         margin: 'mt-12',
-        type: 'text',
+        type: 'number',
         required: false,
     },
     {
@@ -216,6 +217,16 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
     const [notePopup, setNotePopup] = useState(false);
     const [name, setName] = useState('');
 
+    const [phone, setPhone] = useState({
+        category: '',
+        number: '',
+    });
+
+    const [email, setEmail] = useState({
+        category: '',
+        email: '',
+    })
+
     const toggleNotePopup = (e: any) => {
         e.preventDefault();
         setNotePopup(!notePopup);
@@ -317,6 +328,62 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
         })
     };
 
+    const addPhone = (e:any) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_phone_number: {
+                ...newSchool.school_phone_number,
+                input: newSchool.school_phone_number.input.concat(phone),
+            }
+        })
+        setPhone({
+            ...phone,
+            number: '',
+        })
+        
+    };
+
+    const addEmail = (e:any) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_email: {
+                ...newSchool.school_email,
+                input: newSchool.school_email.input.concat(email),
+            }
+        })
+        setEmail({
+            ...email,
+            email: '',
+        })
+        
+    };
+
+    const deletePhone = (e:any, index:number) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_phone_number: {
+                ...newSchool.school_phone_number,
+                input: newSchool.school_phone_number.input.filter((n,i) => i !== index)
+            }
+        })
+    };
+
+    const deleteEmail = (e:any, index: number) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            school_email: {
+                ...newSchool.school_email,
+                input: newSchool.school_email.input.filter((n,i) => i !== index),
+            }
+        })
+    }
+
+
+
 
     return (
         <>
@@ -363,7 +430,7 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
 
         } else if (cat.type === 'select') {
             return (
-            <div className={`${cat.margin} relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+            <div className={`${cat.margin} relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
                 <div className='flex justify-center items-center gap-3'>
                     <Select className="grow focus:outline-none rounded"
@@ -456,6 +523,95 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
             </div>
             )
 
+        } else if (cat.type === 'number') {
+            return (
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] text-xl bg-white">School Phone Number</label>
+                <div className='flex justify-center items-center gap-3'>
+                    <CreatableSelect className="w-1/4 focus:outline-none rounded"
+                    options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setPhone({...phone, category: e.value})}/>
+                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={phone.number} onChange={(e:any) => setPhone({...phone, number: e.target.value})}/>
+                    <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={addPhone}>Add Number</button>
+                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                        Add Note
+                    </button>
+                </div>
+                {newSchool.school_phone_number.input && newSchool.school_phone_number.input.map((num, i) => (
+                    <div className='w-full flex justify-between items-center py-2 pl-3 pr-2 mt-3 rounded border border-[#B4B4B4]'>
+                        <p className='text-lg font-semibold'>{num.category}: <span className='font-normal inline-block ml-1'>{num.number}</span></p>
+                        <button onClick={(e:any) => deletePhone(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                    </div>
+                ))}
+                {newSchool.school_phone_number.notes.length ? (
+                <>
+                <label className='text-lg font-bold inline-block mt-6'>Notes</label>
+                <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_phone_number.notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {newSchool.school_phone_number.notes.map((note: any, i: number) => {
+                    return (
+                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                        <div className='flex justify-between items-start w-full mb-1'>
+                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                                {note.type}:
+                            </p>
+                            <div className='flex gap-2'>
+                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            </div>
+                            </div> 
+                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                    </div>
+                    )})}
+                </div>
+                </>
+                ) : ''
+                }
+            </div>
+            )
+        } else if (cat.type === 'email') {
+            return (
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] text-xl bg-white">School Email</label>
+                <div className='flex justify-center items-center gap-3'>
+                    <CreatableSelect className="w-1/4 focus:outline-none rounded"
+                    options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setEmail({...email, category: e.value})}/>
+                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={email.email} onChange={(e:any) => setEmail({...email, email: e.target.value})}/>
+                    <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={addEmail}>Add Email</button>
+                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                        Add Note
+                    </button>
+                </div>
+                {newSchool.school_email.input && newSchool.school_email.input.map((em, i) => (
+                    <div className='w-full flex justify-between items-center py-2 pl-3 pr-2 mt-3 rounded border border-[#B4B4B4]'>
+                        <p className='text-lg font-semibold'>{em.category}: <span className='font-normal inline-block ml-1'>{em.email}</span></p>
+                        <button onClick={(e:any) => deleteEmail(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                    </div>
+                ))}
+                {
+                newSchool.school_email.notes.length ? (
+                <>
+                <label className='text-lg font-bold inline-block mt-6'>Notes</label>
+                <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_email.notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {newSchool.school_email.notes.map((note: any, i: number) => {
+                    return (
+                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                        <div className='flex justify-between items-start w-full mb-1'>
+                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                                {note.type}:
+                            </p>
+                            <div className='flex gap-2'>
+                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
+                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            </div>
+                            </div> 
+                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                    </div>
+                    )})}
+                </div>
+                </>
+                ) : ''
+                }
+            </div>
+            )
         }
 
         })}
