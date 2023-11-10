@@ -118,7 +118,7 @@ export const deleteSchoolDoc = async (id: string) => {
 
     try {
         // Removes course from document 
-        await deleteDoc(docRef)
+        await deleteDoc(docRef);
     } catch (error: any) {
         if (error.code === 'permission-denied') {
             throw new Error(error.code);

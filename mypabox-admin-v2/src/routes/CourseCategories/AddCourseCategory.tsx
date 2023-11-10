@@ -11,6 +11,9 @@ import { addCategory } from "../../app/slices/categories";
 import { addCourse } from "../../app/slices/courses";
 import { Course } from "../../types/courses.types";
 import AddNewCourse from "./AddNewCourse";
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 
 interface SelectType {
     value: string;
@@ -111,22 +114,32 @@ export default function AddCourseCategory() {
                 <div className='w-full max-w-[1800px] mx-auto'>
                     <div className={`w-full flex justify-between items-center pb-10`}>
                         <p className='text-4xl font-medium'>Add Course Category</p>
-                        <button onClick={handleSave} className='text-lg border-2 border-[#4573D2] text-[#4573D2] font-medium rounded-xl py-2 px-4'>
-                            Save
-                        </button>
+                        <div className='flex justify-center items-center gap-3'>
+                            <button onClick={handleSave} className='text-lg border-2 border-[#4573D2] text-[#4573D2] font-medium rounded py-2 px-4 hover:text-white hover:bg-[#4573D2]'>
+                                Save
+                            </button>
+                            <button onClick={() => navigate('/categories')} className='px-5 h-[50px] border-2 border-red-400 text-red-400 text-lg font-medium rounded hover:text-white hover:bg-red-400'>Cancel</button>
+                        </div>
                     </div>
                     {category && (
                     <div className='w-full'>
-                        <div className={` mt-2 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+                        <div className={` mt-2 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                             <label className="absolute top-[-16px] text-xl bg-white">Category Name</label>
-                            <input name='category_name' value={category.category_name} onChange={handleInput} className="w-full focus:outline-none border border-[#B4B4B4] p-2 rounded-lg" />
+                            <input name='category_name' value={category.category_name} onChange={handleInput} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" />
                         </div>
-                        <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+                        <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                             <label className="absolute top-[-16px] text-xl bg-white">Courses</label>
                             <div className='w-full flex justify-between items-center gap-4'>
-                                <CreatableSelect className="w-full focus:outline-none rounded-lg"
-                                options={courseOptions} value={selection ? {value: selection, label: selection} : null} onChange={(e) => setSelection((e as {value: '', label: ''}).value)}/>
-                                <button onClick={handleSelection} className='w-[64px] h-[36px] border-2 border-[#4573D2] text-[#4573D2] font-medium rounded-md'>Add</button>
+                                <div className='flex justify-center items-start gap-1 w-full'>
+                                    <CreatableSelect className="w-full focus:outline-none"
+                                    options={courseOptions} value={selection ? {value: selection, label: selection} : null} onChange={(e) => setSelection((e as {value: '', label: ''}).value)}/>
+                                    <Tooltip title="Type and press enter to create new course" placement='right'>
+                                        <IconButton style={{padding: '0px'}}>
+                                            <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
+                                        </IconButton>
+                                    </Tooltip>
+                                </div>
+                                <button onClick={handleSelection} className='px-5 h-[50px] border-2 border-[#4573D2] text-[#4573D2] text-lg font-medium rounded hover:text-white hover:bg-[#4573D2]'>Add</button>
                             </div>
                             {category.courses && category.courses.map((course, i) => (
                                 <div className={`flex flex-column justify-between items-center py-2 ${i === 0 ? 'border-none mt-4' : 'border-t mt-0'} border-[#B4B4B4]`}>

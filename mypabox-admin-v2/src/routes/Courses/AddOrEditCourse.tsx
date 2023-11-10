@@ -9,6 +9,7 @@ import Select from 'react-select';
 import { addCourse, editCourse } from "../../app/slices/courses";
 import { addCoursesDoc, updateCoursesDoc } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
 
 export default function AddOrEditCourse() {
@@ -18,6 +19,7 @@ export default function AddOrEditCourse() {
     const courses = useSelector(selectCourses);
     const edit = useSelector(selectMode);
     const [ course, setCourse ] = useState<Course>({} as Course);
+    const [ isLoading, setIsLoading ] = useState(false);
 
     const gpa = [
         { value: 'Science', label: 'Science' },
@@ -83,6 +85,7 @@ export default function AddOrEditCourse() {
 
     // Handles save for both add and edit modes 
     const handleSave = async () => {
+        setIsLoading(true);
         try {
             if (!edit) {
                 const newCourse = await addCoursesDoc(course);
@@ -94,6 +97,7 @@ export default function AddOrEditCourse() {
                 dispatch(editCourse(course))
             }
             // Navigates back to courses page when successful 
+            setIsLoading(false);
             navigate('/courses')
         } catch (error: any) {
             if (error.message === 'permission-denied') {
@@ -111,27 +115,30 @@ export default function AddOrEditCourse() {
     return (
         <div className="w-screen p-10 font-['Noto Sans']">
             <div className='w-full max-w-[1800px] mx-auto'>
-                <div className={`w-full flex justify-between items-center pb-10 border-b border-[#DCDCDC]`}>
+                <div className={`w-full flex justify-between items-end pb-5 border-b border-[#DCDCDC]`}>
                     <p className='text-4xl font-medium'>{edit ? 'Edit Course' : 'Add Course'}</p>
-                    <button onClick={handleSave} className='border border-blue-500 text-blue-500 rounded-lg py-3 px-4 hover:text-white hover:bg-blue-500'>
-                        Save
-                    </button>
+                    <div className='flex justify-center items-center gap-3'>
+                        <button onClick={handleSave} className='border-2 border-blue-500 text-blue-500 rounded font-medium py-2 px-4 hover:text-white hover:bg-blue-500 flex justify-center items-center'>
+                            {isLoading ? <CircularProgress color='inherit' style={{height: '30px', width: '30px'}} /> : 'Save'}
+                        </button>
+                        <button onClick={() => navigate('/courses')} className='border-2 border-red-400 text-red-400 rounded font-medium py-2 px-4 hover:text-white hover:bg-red-400 flex justify-center items-center'>Cancel</button>
+                    </div>
                 </div>
                 {course && (
                 <div className='w-full'>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+                    <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                         <label className="absolute top-[-16px] text-xl bg-white">Course Name</label>
-                        <input name='course_name' value={course.course_name} onChange={handleInputChange} className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg" />
+                        <input name='course_name' value={course.course_name} onChange={handleInputChange} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" />
                     </div>
-                    <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+                    <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                         <label className="absolute top-[-16px] text-xl bg-white">GPA Calculation</label>
-                        <Select className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg"
+                        <Select className="w-full focus:outline-none"
                         options={gpa} value={course.gpa_calculation ? {value: `${course.gpa_calculation}`, label: `${course.gpa_calculation}`} : null} onChange={(e) => handleSelectChange(e, 'gpa_calculation')} />
                     </div>
                     {course.gpa_calculation && (
-                        <div className={`mt-12 relative max-w-[900px] border p-5 block rounded-lg border-[#B4B4B4]`}>
+                        <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                             <label className="absolute top-[-16px] text-xl bg-white">Subject Category</label>
-                            <Select className="w-full focus:outline-none border border-[#B4B4B4] p-4 rounded-lg"
+                            <Select className="w-full focus:outline-none"
                             options={course.gpa_calculation === 'Science' ? science : nonScience } value={course.subject_category ? {value: `${course.subject_category}`, label: `${course.subject_category}`} : null} onChange={(e) => handleSelectChange(e, 'subject_category')} />
                         </div>
                     )}

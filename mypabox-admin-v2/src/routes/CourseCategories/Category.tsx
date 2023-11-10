@@ -82,9 +82,9 @@ export default function Category({ category }: { category: CategoryType }) {
                 <div className='w-full flex justify-between items-center pb-3 border-b border-[#E5E5E5]'>
                     <p className='font-medium text-xl pl-3'>{category.category_name}</p>
                     <div className='flex justify-center items-center gap-3 pr-3 text-sm'>
-                        <button onClick={toggleCoursesPopup} className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded-md px-2 py-1'>+ Add course</button>
-                        <button onClick={toggleSubPopup} className='border-2 border-[#FF8F0B] text-[#FF8F0B] font-medium rounded-md px-2 py-1'>+ Add subcategory</button>
-                        <button onClick={toggleDeleteCategory}><AiOutlineClose className='h-[32px] w-[32px] border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                        <button onClick={toggleCoursesPopup} className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-2 py-1 hover:text-white hover:bg-[#4573D2]'>+ Add course</button>
+                        <button onClick={toggleSubPopup} className='border-2 border-[#FF8F0B] text-[#FF8F0B] font-medium rounded px-2 py-1 hover:text-white hover:bg-[#FF8F0B]'>+ Add subcategory</button>
+                        <button onClick={toggleDeleteCategory}><AiOutlineClose className='h-[32px] w-[32px] border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                     </div>
                 </div>
                 <div className='w-full py-3 border-b border-[#E5E5E5]'>

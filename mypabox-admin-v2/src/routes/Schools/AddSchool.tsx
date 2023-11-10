@@ -1,7 +1,7 @@
 import { defaultSchool } from "../../data/defaultValues";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { selectSchools } from "../../app/selectors/schools.selectors";
+import { selectIsEdit, selectSchools } from "../../app/selectors/schools.selectors";
 import { useState, useEffect, ChangeEvent, MouseEvent, useContext } from "react";
 import { addDocToSchoolCollection, getDocsById, deleteSchoolDoc } from "../../utils/firebase/firebase.utils";
 import { addSchool } from "../../app/slices/schools";
@@ -20,11 +20,12 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export default function AddSchool() {
   const schools = useSelector(selectSchools);
+  const isEdit = useSelector(selectIsEdit);
   const [ newSchool, setNewSchool ] = useState(defaultSchool);
   const [ currentInput, setCurrentInput ] = useState('');
   const [ note, setNote ] = useState<Note>({} as Note);
@@ -43,6 +44,8 @@ export default function AddSchool() {
   };
 
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   const handleClick = () => {
     setOpen(true);
@@ -138,11 +141,18 @@ export default function AddSchool() {
 
     // Sends newSchool data to db 
     const handleSave = async (e: MouseEvent<HTMLButtonElement>, id: number) => {
+        if ((e.target as HTMLButtonElement).value === 'done') {
+          setIsDone(true);
+        } else {
+          setIsLoading(true);
+        }
 
         if (!newSchool.school_name.input || !newSchool.school_street.input || !newSchool.school_city.input || !newSchool.school_zip_code.input || !newSchool.school_website.input) {
+          setIsLoading(false);
+          setIsDone(false);
           alert('Please input required fields ');
           return;
-        }
+        };
       
         try {
             // Sends API request with new school data to firestore 
@@ -167,6 +177,8 @@ export default function AddSchool() {
 
         // If button = 'Done', take back to schools page. Otherwise save progress 
         if ((e.target as HTMLButtonElement).value === 'done') {
+            setIsLoading(false);
+            setIsDone(false);
             navigate('/schools');
             // Remove newSchool from local storage 
             localStorage.removeItem('newSchool');
@@ -178,7 +190,9 @@ export default function AddSchool() {
               if (updatedSchool) {
                 // Saves current school data to local storage 
                 localStorage.setItem('newSchool', JSON.stringify(updatedSchool[0]));
-                setNewSchool(updatedSchool[0] as School)
+                setNewSchool(updatedSchool[0] as School);
+                setIsLoading(false);
+                setIsDone(false);
 
                 if ((e.target as HTMLButtonElement).value === 'save') handleClick();
 
@@ -208,19 +222,27 @@ export default function AddSchool() {
     }
 
     const cancel = async (e:MouseEvent<HTMLButtonElement>) => {
-
-      try {
-
-        await deleteSchoolDoc(newSchool.id.toString());
+      if (isEdit) {
         navigate('/schools');
         localStorage.removeItem('newSchool');
         setNewSchool(defaultSchool);
 
-      } catch (error: any) {
+      } else {
 
-        alert("Error deleting school");
+        try {
 
+          await deleteSchoolDoc(newSchool.id.toString());
+          navigate('/schools');
+          localStorage.removeItem('newSchool');
+          setNewSchool(defaultSchool);
+  
+        } catch (error: any) {
+  
+          alert("Error deleting school");
+  
+        }
       }
+      
     }
 
     // Opens note popup and sets value of "Add note" button to "currentInput", 
@@ -285,6 +307,7 @@ export default function AddSchool() {
       setNewSchool(updatedSchool);
     };
 
+    // snackbar alert when progress saves
     const action = (
       <>
         <Button color="primary" size="small" onClick={handleClose}>
@@ -308,13 +331,13 @@ export default function AddSchool() {
         ${window.scrollY === 180 ? '' : 'pb-2'}`}>
           <p className={`text-4xl ${window.scrollY === 180 ? '' : '-mt-32'} font-medium`}>Add School</p>
           <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
-            <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border-2 border-[#4FC769] text-[#4FC769] h-[50px] px-5 
-            rounded hover:text-white hover:bg-[#4FC769]'>
-                Save
+            <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border-2 border-[#4FC769] text-[#4FC769] h-[50px] w-[84px] 
+            rounded hover:text-white hover:bg-[#4FC769] flex justify-center items-center'>
+                {isLoading ? <CircularProgress color='inherit' style={{height: '30px', width: '30px'}}/> : 'Save'}
               </button>
               <button onClick={(e) => handleSave(e, newSchool.id)} value='done' className='border-2 border-blue-500 text-blue-500 rounded 
-              h-[50px] px-5 hover:text-white hover:bg-blue-500'>
-                Finish
+              h-[50px] w-[84px] hover:text-white hover:bg-blue-500 flex justify-center items-center'>
+                {isDone ? <CircularProgress color='inherit' style={{height: '30px', width: '30px'}}/>  : 'Finish'}
               </button>
               <button onClick={cancel} className='border-2 border-red-400 text-red-400 rounded 
               h-[50px] px-5 hover:text-white hover:bg-red-400'>Cancel</button>

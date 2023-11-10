@@ -10,6 +10,7 @@ import { filterCourses } from '../../app/slices/courses';
 import { selectCourses } from '../../app/selectors/courses.selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/store';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [openFilter, setOpenFilter] = useState(false)
@@ -49,16 +50,16 @@ const Navbar = () => {
         items-center gap-12`}>
           {/* Logo image */}
           <div className='flex justify-center items-center gap-1'>
-            <RxHamburgerMenu className='text-white text-4xl z-30' onClick={handleToggleSideMenu}/>
-            <img src={logo} alt="myPAbox" className="h-14" />
+            <RxHamburgerMenu className='text-white text-4xl z-30 cursor-pointer' onClick={handleToggleSideMenu}/>
+            <Link to='/schools'><img src={logo} alt="myPAbox" className="h-14" /></Link>
           </div>
           {location.pathname === '/schools' ? (
             <>
               
               {/* Search field that allows you to filter through schools */}
-              <input type='input' className=' rounded-lg p-2 max-w-[700px] grow focus:outline-none 
+              <input type='input' className=' rounded py-2 px-3 max-w-[700px] grow focus:outline-none 
               text-xl placeholder:select-none bg-[#424244]' value={schoolName} onChange={handleSchoolName} 
-              placeholder='Search' />
+              placeholder='Search name' />
 
               {/* Select component that allows you to select multiple states */}
               <button onClick={handleOpenFilter}>

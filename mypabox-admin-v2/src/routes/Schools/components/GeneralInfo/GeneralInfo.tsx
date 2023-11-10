@@ -396,8 +396,8 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
             return (
             <div className={`${cat.margin} relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">{cat.name}{cat.required && <span className='text-red-600'>*</span>}</label>
-                <div className='flex justify-center items-center gap-3'>
-                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
+                <div className='flex justify-start items-center gap-3'>
+                   <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={cat.value === 'school_duration_full_time' || cat.value === 'school_duration_part_time' ? '# of months' : ''}
                     value={((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number) : ''} name={cat.value} onChange={handleInput}/>
                     {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note

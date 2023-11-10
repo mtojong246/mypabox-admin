@@ -52,13 +52,13 @@ export default function CourseCategories() {
         <>
         <div className="w-screen px-10 pb-10 font-['Noto Sans']">
             <div className='w-full max-w-[1800px] mx-auto'>
-                <div className={`w-full flex justify-between items-start sticky top-0 pt-10 pb-10 bg-white`}>
+                <div className={`w-full flex justify-between items-start sticky top-0 pt-10 pb-4 bg-white`}>
                     <div>
-                        <p className='text-5xl font-medium'>Course Categories</p>
-                        <p className='text-xl mt-3'>Total: {categories && categories.length}</p>
+                        <p className='text-[48px] font-medium'>Course Categories</p>
+                        <p className='text-xl'>Total: {categories && categories.length}</p>
                     </div>
                     <Link to='/categories/add-category'>
-                        <button className={`text-lg border-2 border-[#F06A6A] text-[#F06A6A] font-medium rounded-xl py-2 px-4`}>
+                        <button className={`text-lg border-2 border-[#F06A6A] text-[#F06A6A] font-medium rounded py-2 px-4 hover:text-white hover:bg-[#F06A6A]`}>
                             + Add Course Category
                         </button>
                     </Link>

@@ -21,6 +21,7 @@ export default function Courses() {
     const [ filteredCourses, setFilteredCourses ] = useState<Course[]>([]);
     const [ openModal, setOpenModal ] = useState(false);
     const [ toBeDeleted, setToBeDeleted ] = useState('');
+    const [ isLoading, setIsLoading ] = useState(false);
 
     useEffect(() => {
 
@@ -75,11 +76,13 @@ export default function Courses() {
 
 
     const handleDelete = async (id: string) => {
+        setIsLoading(true)
         try {
             await deleteCoursesDoc(id);
             dispatch(deleteCourse(id));
             toggleModal();
             setFilteredCourses(filteredCourses.filter(course => course.unique_id !== id))
+            setIsLoading(false)
         } catch (error: any) {
             if (error.message === 'permission-denied') {
                 alert("Access denied. Please log in using the appropriate credentials");
@@ -90,6 +93,7 @@ export default function Courses() {
                 return;
             }
         }
+        setIsLoading(false)
     }
 
     // Toggles delete popup
@@ -109,18 +113,18 @@ export default function Courses() {
       <div className='w-full max-w-[1800px] mx-auto'>
             <div className={`w-full flex justify-between items-start sticky top-0 pt-10 pb-4 bg-white border-b border-[#DCDCDC]`}>
                 <div>
-                    <p className='text-5xl font-medium'>Courses</p>
-                    <p className='text-xl mt-3'>Total: {filteredCourses && filteredCourses.length}</p>
+                    <p className='text-[48px] font-medium'>Courses</p>
+                    <p className='text-xl'>Total: {filteredCourses && filteredCourses.length}</p>
                 </div>
                 <Link to='/courses/add-course'>
-                    <button className={`text-lg border-2 border-[#F06A6A] text-[#F06A6A] rounded-xl py-2 px-4`}>
+                    <button className={`text-lg border-2 border-[#F06A6A] text-[#F06A6A] rounded font-medium px-4 py-2 hover:text-white hover:bg-[#F06A6A]`}>
                         + Add Course
                     </button>
                 </Link>
             </div>
             <div className='w-full flex flex-col justify-start items-center'>
             {filteredCourses && filteredCourses.map(course => (      
-                <div className='w-full flex justify-between items-end py-3 border-b border-[#E5E5E5]' key={course.unique_id}>
+                <div className='w-full flex justify-between items-start py-3 border-b border-[#E5E5E5]' key={course.unique_id}>
                     <div>
                         <p className='text-lg font-medium mb-1'>{course.course_name}</p>
                         <p className='text-sm'>GPA Calculation: {course.gpa_calculation}</p>
@@ -128,15 +132,15 @@ export default function Courses() {
                         <p className='text-sm text-[#8B8B8B]'>{course.unique_id}</p>
                     </div>
                     <div className='flex justify-center items-center gap-2'>
-                        <Link to={`/courses/edit-course/${course.unique_id}`}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-[#4573D2] text-white'/></Link>
-                        <button value={course.unique_id} onClick={setDelete}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-[#F06A6A] text-white'/></button>
+                        <Link to={`/courses/edit-course/${course.unique_id}`}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></Link>
+                        <button value={course.unique_id} onClick={setDelete}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                     </div>
                 </div>
             ))}
             </div>
         </div>
     </div>
-    {openModal && <DeletePopup toggleModal={toggleModal} toBeDeleted={toBeDeleted} handleDelete={handleDelete}/>}
+    {openModal && <DeletePopup toggleModal={toggleModal} toBeDeleted={toBeDeleted} handleDelete={handleDelete} isLoading={isLoading}/>}
     </>
     )
 }

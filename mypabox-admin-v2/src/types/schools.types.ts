@@ -502,6 +502,7 @@ export interface School {
 
 export interface SchoolState {
     schools: School[];
+    isEdit: boolean;
 }
 
 export interface DataPoints {

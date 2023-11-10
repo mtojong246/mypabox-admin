@@ -1,8 +1,8 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSchools } from '../../app/selectors/schools.selectors';
 import {  getSchoolsAndDocuments, getAllCourses, getAllCategories } from '../../utils/firebase/firebase.utils';
-import { setSchools } from '../../app/slices/schools';
+import { setIsEdit, setSchools } from '../../app/slices/schools';
 import { AppDispatch } from '../../app/store';
 import { SchoolContext } from '../../useContext';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,9 @@ import { Course } from '../../types/courses.types';
 import { CategoryType } from '../../types/categories.types';
 import { setCourses } from '../../app/slices/courses';
 import { setCategories } from '../../app/slices/categories';
+import { FiEdit3 } from 'react-icons/fi'
+import { AiOutlineClose } from 'react-icons/ai'
+import DeleteSchoolPopup from './DeleteSchoolPopup';
 
 
 const Schools = () => {
@@ -18,6 +21,13 @@ const Schools = () => {
   const dispatch: AppDispatch = useDispatch()
   const { stateSearch, schoolName, setStateSearch, toggleSideMenu } = useContext(SchoolContext)
   const navigate = useNavigate();
+  const [ deletePopup, setDeletePopup ] = useState(false);
+  const [ name, setName ] = useState('');
+
+  const toggleDelete = (e:any) => {
+    e.preventDefault();
+    setDeletePopup(!deletePopup)
+  }
 
   useEffect(() => {
     setStateSearch([])
@@ -126,10 +136,25 @@ const Schools = () => {
   }, [])
 
   const addSchoolButton = () => {
-    navigate('/schools/add-school#general-info')
+    dispatch(setIsEdit(false));
+    navigate('/schools/add-school#general-info');
+  };
+
+  const editSchool = (school: School) => {
+    dispatch(setIsEdit(true));
+    localStorage.setItem('newSchool', JSON.stringify(school));
+    navigate('/schools/add-school#general-info');
+  };
+
+  const deleteSchool = (e:any, schoolName: string) => {
+    setName(schoolName);
+    toggleDelete(e)
   }
 
+
+
   return (
+    <>
     <div className="w-screen p-10 font-['Noto Sans']">
       <div className='w-full max-w-[1800px] mx-auto'>
 
@@ -139,18 +164,18 @@ const Schools = () => {
           that are shown are the school who's state is included in the stateSearch array
           After the filters are ran, the remaining schools array is then mapped through and the schools data is displayed
       */}
-      <div className={`w-full flex justify-between items-start ${toggleSideMenu ? 'pl-72 xl:pl-36' : ''}`}>
+      <div className={`w-full flex justify-between items-start`}>
         <div >
-          <p className='text-5xl font-medium'>Schools</p>
-          <p className='text-xl mt-2'>Total: {schools.length}</p>
+          <p className='text-[48px] font-medium'>Schools</p>
+          <p className='text-xl'>Total: {schools.length}</p>
         </div>
 
         <button className={`text-lg border-2 
-        border-[#F06A6A] text-[#F06A6A] rounded-xl py-2 px-4`} onClick={addSchoolButton}>
+        border-[#F06A6A] text-[#F06A6A] rounded py-2 px-4 hover:text-white hover:bg-[#F06A6A]`} onClick={addSchoolButton}>
           + Add School
         </button>
       </div>
-      <div className={`w-full max-w-[1800px] ${toggleSideMenu ? 'pl-72 xl:pl-36' : ''}`}>
+      <div className={`w-full max-w-[1800px]`}>
       <div className={`w-full rounded-t-xl shadow-lg 
       shadow-gray-600 mt-16`}>
         <table className='w-full'>
@@ -159,6 +184,7 @@ const Schools = () => {
               <th scope="col" className='font-normal text-2xl text-left p-[10px]'>Name</th>
               <th scope="col" className='font-normal text-2xl text-left p-[10px]'>City</th>
               <th scope="col" className='font-normal text-2xl text-left p-[10px]'>State</th>
+              <th scope='col' className='font-normal text-2xl text-left p-[10px]'></th>
             </tr>
           </thead>
           <tbody>
@@ -169,6 +195,10 @@ const Schools = () => {
                   <td className='text-xl text-left p-[10px]'>{d.school_name.input}</td>
                   <td className='text-xl text-left p-[10px]'>{d.school_city.input}</td>
                   <td className='text-xl text-left p-[10px]'>{d.school_state.input}</td>
+                  <td className='flex justify-end items-center p-[10px]'>
+                    <button onClick={() => editSchool(d)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                    <button onClick={(e:any) => deleteSchool(e, d.school_name.input)} className='ml-2'><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                  </td>
                 </tr>
               )
             )
@@ -180,6 +210,8 @@ const Schools = () => {
       </div>
       {/* If openForm is true, the add school form will be shown, if not it will stay hidden */}
     </div>
+    {deletePopup && <DeleteSchoolPopup toggleDelete={toggleDelete} name={name}/>}
+    </>
   )
 }
 

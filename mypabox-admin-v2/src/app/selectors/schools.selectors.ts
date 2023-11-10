@@ -10,3 +10,8 @@ export const selectSchools = createSelector(
     [selectSchoolReducer],
     (schoolSlice) => schoolSlice.schools
 );
+
+export const selectIsEdit = createSelector(
+    [selectSchoolReducer],
+    (schoolSlice) => schoolSlice.isEdit,
+)

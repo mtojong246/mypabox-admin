@@ -3,6 +3,7 @@ import { SchoolState } from "../../types/schools.types";
 
 const initialState: SchoolState = {
     schools: [],
+    isEdit: false,
 }
 
 const schoolSlice = createSlice({
@@ -14,10 +15,13 @@ const schoolSlice = createSlice({
         },
         addSchool: (state, action) => {
             state.schools.push(action.payload)
+        },
+        setIsEdit: (state, action) => {
+            state.isEdit = action.payload
         }
     }
 })
 
-export const { setSchools, addSchool } = schoolSlice.actions;
+export const { setSchools, addSchool, setIsEdit } = schoolSlice.actions;
 
 export const schoolReducer = schoolSlice.reducer;
