@@ -77,7 +77,12 @@ export default function AddSchool() {
     const storedSchool = localStorage.getItem('newSchool');
     if (storedSchool) {
       setNewSchool(JSON.parse(storedSchool))
-    } else {
+    } else if (!schools.length) {
+      setNewSchool({
+        ...defaultSchool,
+        id: 1,
+      })
+   } else {
       // Autoincrements id when adding a new school to db 
       const arrayToSort = [...schools];
       const sortedSchools = arrayToSort.sort((a,b) => a.id - b.id);
@@ -329,7 +334,7 @@ export default function AddSchool() {
       <div className={`w-full max-w-[1800px] mx-auto`}>
         <div className={`w-full flex justify-between items-center pt-[120px] sticky bg-white z-10 top-0 border-b border-[#DCDCDC]
         ${window.scrollY === 180 ? '' : 'pb-2'}`}>
-          <p className={`text-4xl ${window.scrollY === 180 ? '' : '-mt-32'} font-medium`}>Add School</p>
+          <p className={`text-4xl ${window.scrollY === 180 ? '' : '-mt-28'} font-medium`}>{isEdit ? 'Edit School' : 'Add School'}</p>
           <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
             <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border-2 border-[#4FC769] text-[#4FC769] h-[50px] w-[84px] 
             rounded hover:text-white hover:bg-[#4FC769] flex justify-center items-center'>

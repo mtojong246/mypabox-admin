@@ -155,7 +155,7 @@ const Schools = () => {
 
   return (
     <>
-    <div className="w-screen p-10 font-['Noto Sans']">
+    <div className="w-screen font-['Noto Sans']">
       <div className='w-full max-w-[1800px] mx-auto'>
 
       {/* Filter 1: The school name is converted to all lowercase letters and then the includes method is ran so that the only
@@ -164,7 +164,7 @@ const Schools = () => {
           that are shown are the school who's state is included in the stateSearch array
           After the filters are ran, the remaining schools array is then mapped through and the schools data is displayed
       */}
-      <div className={`w-full flex justify-between items-start`}>
+      <div className={`w-full flex justify-between items-start p-10 bg-white sticky top-0 z-10`}>
         <div >
           <p className='text-[48px] font-medium'>Schools</p>
           <p className='text-xl'>Total: {schools.length}</p>
@@ -175,16 +175,16 @@ const Schools = () => {
           + Add School
         </button>
       </div>
-      <div className={`w-full max-w-[1800px]`}>
+      <div className={`w-full max-w-[1800px] px-10 pb-10`}>
       <div className={`w-full rounded-t-xl shadow-lg 
-      shadow-gray-600 mt-16`}>
-        <table className='w-full'>
-          <thead className='bg-[#eeeef2] mt-8'>
+      shadow-gray-600`}>
+        <table className='w-full relative'>
+          <thead className='bg-[#eeeef2] mt-8 sticky top-[175px] z-20'>
             <tr>
-              <th scope="col" className='font-normal text-2xl text-left p-[10px]'>Name</th>
-              <th scope="col" className='font-normal text-2xl text-left p-[10px]'>City</th>
-              <th scope="col" className='font-normal text-2xl text-left p-[10px]'>State</th>
-              <th scope='col' className='font-normal text-2xl text-left p-[10px]'></th>
+              <th scope="col" className='font-semibold text-xl text-left p-[10px]'>Name</th>
+              <th scope="col" className='font-semibold text-xl text-left p-[10px]'>City</th>
+              <th scope="col" className='font-semibold text-xl text-left p-[10px]'>State</th>
+              <th scope='col' className='font-semibold text-xl text-left p-[10px]'></th>
             </tr>
           </thead>
           <tbody>
