@@ -129,19 +129,19 @@ export default function AddCourseToOption({ toggleCoursePopup, addCourse, edited
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Credits:</label>
-                        <input onChange={handleInput} value={optionalCourse.school_optional_course_credit_hours} name='school_optional_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                        <input onChange={handleInput} value={optionalCourse.school_optional_course_credit_hours ? optionalCourse.school_optional_course_credit_hours : ''} name='school_optional_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Quarter hours:</label>
-                        <input onChange={handleInput} value={optionalCourse.school_optional_course_quarter_hours}  name='school_optional_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                        <input onChange={handleInput} value={optionalCourse.school_optional_course_quarter_hours ? optionalCourse.school_optional_course_quarter_hours : ''}  name='school_optional_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>
                         <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={optionalCourse.school_optional_course_note_section}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
-                        <button onClick={(e) => {toggleCoursePopup(e); setEditedCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded'>Cancel</button>
-                        <button onClick={(e) => addOrUpdateCourse(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded'>{editedCourse ? 'Edit' : 'Add'} course</button>
+                        <button onClick={(e) => {toggleCoursePopup(e); setEditedCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
+                        <button onClick={(e) => addOrUpdateCourse(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:text-white hover:bg-[#3558A0]'>{editedCourse ? 'Edit' : 'Add'} course</button>
                     </div>
                 </div>
             </div>

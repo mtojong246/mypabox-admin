@@ -161,8 +161,8 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                                                     </span>
                                                 </p>
                                                 <div className='flex gap-2'>
-                                                    <button onClick={(e) => {toggleCoursePopup(e); setEditedCourse(course); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                                    <button onClick={(e) => deleteCourse(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                                    <button onClick={(e) => {toggleCoursePopup(e); setEditedCourse(course); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                                    <button onClick={(e) => deleteCourse(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
                                             {course.school_optional_course_note_section ? (
@@ -190,8 +190,8 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -200,8 +200,8 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                             </div>
                         </div>
                         <div className='w-full flex justify-end items-center gap-3'>
-                            <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded'>Cancel</button>
-                            <button onClick={(e) => addOrUpdateGroup(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
+                            <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
+                            <button onClick={(e) => addOrUpdateGroup(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:bg-[#3558A0]'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
                         </div>
                     </div>
                 </div>

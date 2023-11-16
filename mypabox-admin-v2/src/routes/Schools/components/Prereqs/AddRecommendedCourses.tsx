@@ -139,8 +139,8 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, edited
                         <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={recommendedCourse.school_recommended_course_note_section}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
-                        <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded'>Cancel</button>
-                        <button onClick={(e) => addOrEditCourse(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded'>{editedRecommendedCourse ? 'Edit' : 'Add'} course</button>
+                        <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
+                        <button onClick={(e) => addOrEditCourse(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:text-white hover:bg-[#3558A0]'>{editedRecommendedCourse ? 'Edit' : 'Add'} course</button>
                     </div>
                 </div>
             </div>

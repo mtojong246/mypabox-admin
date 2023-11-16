@@ -23,8 +23,9 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
                 ...newSchool,
                 school_application_submitted_directly_to_school: {
                     ...newSchool.school_application_submitted_directly_to_school,
-                    school_application_direct_to_school_deadline: '',
-                    school_application_direct_to_school_fee: 0,
+                    school_application_direct_to_school_deadline: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline ? newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline : '',
+                    school_application_direct_to_school_fee: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_fee ? newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_fee : 0,
+                    school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes ? newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes : []
                 }
             })
         } else {
@@ -34,6 +35,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
                     ...newSchool.school_application_submitted_directly_to_school,
                     school_application_direct_to_school_deadline: null,
                     school_application_direct_to_school_fee: null,
+                    school_application_direct_to_school_notes: []
                 }
             })
         }
@@ -130,19 +132,19 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
             )}
             {newSchool.school_application_submitted_directly_to_school.input && (
             <div className={`mx-5 mb-5`}>
-            <label className='font-medium text-xl inline-block mt-8'>Notes:</label>
+            <label className='font-medium inline-block mt-6 text-xl'>Notes:</label>
             <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Note
             </button>
-            {newSchool.school_supplemental_application_required.school_supplemental_application_notes && (
-                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_supplemental_application_required.school_supplemental_application_notes.length ? 'mt-3' : 'mt-0'}`}>
-                    {newSchool.school_supplemental_application_required.school_supplemental_application_notes.map((note, i) => (
+            {newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes && (
+                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

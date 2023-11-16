@@ -13,7 +13,7 @@ export interface StringInput {
 }
 
 export interface StringInputWithFields {
-    fields: AdditionalField[];
+    fields: string[];
     notes: Note[];
 }
 
@@ -164,14 +164,14 @@ export interface School {
     school_pance_pass_rate_note: string;
 
     school_minimum_gpa_required: boolean;
-    school_minimum_overall_gpa_required: NumberInput;
-    school_minimum_science_gpa_required: NumberInput;
-    school_minimum_prerequisite_gpa_required: NumberInput;
+    school_minimum_overall_gpa_required: NumberInput | null;
+    school_minimum_science_gpa_required: NumberInput | null;
+    school_minimum_prerequisite_gpa_required: NumberInput | null;
 
     school_minimum_gpa_recommended: boolean;
-    school_minimum_overall_gpa_recommended: NumberInput;
-    school_minimum_science_gpa_recommended: NumberInput;
-    school_minimum_prerequisite_gpa_recommended: NumberInput;
+    school_minimum_overall_gpa_recommended: NumberInput | null;
+    school_minimum_science_gpa_recommended: NumberInput | null;
+    school_minimum_prerequisite_gpa_recommended: NumberInput | null;
 
     school_other_types_of_gpa_evaluated: OtherTypesOfGpaEvaluted[];
     school_minimum_gpa_for_specific_course: MinimumGpaSpecificCourse[];
@@ -230,13 +230,13 @@ export interface School {
     school_prerequisite_completion_criteria: {
         school_all_courses_most_be_completed_before_applying: boolean;
         school_courses_can_be_in_progress_while_applying: boolean;
-        school_maximum_number_of_courses_pending_while_applying?: NumberInput;
-        school_maximum_number_of_credits_pending_while_applying?: NumberInput;
-        school_maximum_number_of_science_courses_pending_while_applying?: NumberInput;
-        school_maximum_number_of_non_science_courses_pending_while_applying?: NumberInput;
-        school_minimum_grade_required_for_pending_courses?: StringInput;
-        school_date_pending_courses_must_be_completed?: StringInput;
-        school_semester_pending_courses_must_be_completed?: StringInput;
+        school_maximum_number_of_courses_pending_while_applying: NumberInput | null;
+        school_maximum_number_of_credits_pending_while_applying: NumberInput | null;
+        school_maximum_number_of_science_courses_pending_while_applying: NumberInput | null;
+        school_maximum_number_of_non_science_courses_pending_while_applying: NumberInput | null;
+        school_minimum_grade_required_for_pending_courses: StringInput | null;
+        school_date_pending_courses_must_be_completed: StringInput | null;
+        school_semester_pending_courses_must_be_completed: StringInput | null;
         school_prerequisite_completion_criteria_note_section: Note[];
     }
 

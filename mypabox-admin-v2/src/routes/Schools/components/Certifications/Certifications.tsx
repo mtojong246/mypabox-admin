@@ -25,7 +25,7 @@ export default function Certifications({ newSchool, setNewSchool }: { newSchool:
                 ...newSchool,
                 school_certifications_required: {
                     ...newSchool.school_certifications_required,
-                    school_certifications_required_options: [],
+                    school_certifications_required_options: newSchool.school_certifications_required.school_certifications_required_options ? newSchool.school_certifications_required.school_certifications_required_options : [],
                 }
             })
         } else {
@@ -136,13 +136,13 @@ export default function Certifications({ newSchool, setNewSchool }: { newSchool:
                         </button>
                     </div>
                     {newSchool.school_certifications_required.school_certifications_required_options && (
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certifications_required_options!.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_certifications_required.school_certifications_required_options!.map((opt, i) => {
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certifications_required_options && newSchool.school_certifications_required.school_certifications_required_options!.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_certifications_required.school_certifications_required_options && newSchool.school_certifications_required.school_certifications_required_options!.map((opt, i) => {
                             return (
-                                <div className='p-3 border-2 border-[#B4B4B4] rounded w-full'>
+                                <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full'>
-                                        <p className='font-bold text-xl'>{opt}</p>
-                                        <button onClick={(e) => deleteCertification(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <p className='font-medium'>{opt}</p>
+                                        <button onClick={(e) => deleteCertification(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                             )
@@ -164,8 +164,8 @@ export default function Certifications({ newSchool, setNewSchool }: { newSchool:
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

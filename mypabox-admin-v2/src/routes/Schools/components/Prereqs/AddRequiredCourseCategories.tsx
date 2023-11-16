@@ -276,8 +276,8 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                             <div className='flex justify-between items-center w-full'>
                                                 <p className='font-bold'>{selectedCourse?.course_name}</p>
                                                 <div className='flex gap-2'>
-                                                    <button onClick={(e) => {toggleCoursePopup(e); setIndex(i); setEditedCourse(course); setExcluded(false)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                                    <button onClick={(e) => deleteCourse(e, i, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                                    <button onClick={(e) => {toggleCoursePopup(e); setIndex(i); setEditedCourse(course); setExcluded(false)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                                    <button onClick={(e) => deleteCourse(e, i, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
                                             {course.school_required_course_note ? (
@@ -310,8 +310,8 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                             <div className='flex justify-between items-center w-full'>
                                                 <p className='font-bold'>{selectedCourse?.course_name}</p>
                                                 <div className='flex gap-2'>
-                                                    <button onClick={(e) => {toggleCoursePopup(e); setIndex(i); setEditedCourse(course); setExcluded(true)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                                    <button onClick={(e) => deleteCourse(e, i, true)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                                    <button onClick={(e) => {toggleCoursePopup(e); setIndex(i); setEditedCourse(course); setExcluded(true)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                                    <button onClick={(e) => deleteCourse(e, i, true)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
                                             {course.school_required_course_note ? (
@@ -341,8 +341,8 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -353,8 +353,8 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
 
 
                         <div className='w-full flex justify-end items-center gap-3'>
-                            <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded'>Cancel</button>
-                            <button onClick={(e) => addOrUpdateCategory(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded'>{editedRequiredCategory ? 'Edit' : 'Add'} category</button>
+                            <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
+                            <button onClick={(e) => addOrUpdateCategory(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:text-white hover:bg-[#3558A0]'>{editedRequiredCategory ? 'Edit' : 'Add'} category</button>
                         </div>
                     </div>
                 </div>

@@ -178,7 +178,7 @@ export default function BooleanInputs({
                           setEditedNote(note);
                         }}
                       >
-                        <FiEdit3 className="h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]" />
+                        <FiEdit3 className="h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" />
                       </button>
                       <button
                         onClick={(e) => {
@@ -186,7 +186,7 @@ export default function BooleanInputs({
                           
                         }}
                       >
-                        <AiOutlineClose className="h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]" />
+                        <AiOutlineClose className="h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" />
                       </button>
                     </div>
                   </div>

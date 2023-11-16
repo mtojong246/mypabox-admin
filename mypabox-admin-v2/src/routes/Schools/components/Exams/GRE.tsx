@@ -37,31 +37,39 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 ...newSchool,
                 school_gre: {
                     ...newSchool.school_gre,
-                    school_caspa_gre_institution_code: 0,
-                    school_gre_institution_code: 0,
+                    school_caspa_gre_institution_code: newSchool.school_gre.school_caspa_gre_institution_code ? newSchool.school_gre.school_caspa_gre_institution_code : 0,
+                    school_gre_institution_code: newSchool.school_gre.school_gre_institution_code ? newSchool.school_gre.school_gre_institution_code : 0,
 
                     school_minimum_time_frame_gre_must_be_completed: {
-                        input: '',
-                        school_minimum_time_frame_gre_must_be_completed_notes: [],
+                        input: newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed && newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed.input ? newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed.input : '',
+                        school_minimum_time_frame_gre_must_be_completed_notes: newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed && newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed.school_minimum_time_frame_gre_must_be_completed_notes ? newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed.school_minimum_time_frame_gre_must_be_completed_notes : [],
                     },
             
                     school_mcat_accepted_in_place_of_gre: {
-                        input: false,
-                        school_mcat_accepted_in_place_of_gre_notes: [],
+                        input: newSchool.school_gre.school_mcat_accepted_in_place_of_gre && newSchool.school_gre.school_mcat_accepted_in_place_of_gre.input ? newSchool.school_gre.school_mcat_accepted_in_place_of_gre.input : false,
+                        school_mcat_accepted_in_place_of_gre_notes: newSchool.school_gre.school_mcat_accepted_in_place_of_gre && newSchool.school_gre.school_mcat_accepted_in_place_of_gre.school_mcat_accepted_in_place_of_gre_notes ? newSchool.school_gre.school_mcat_accepted_in_place_of_gre.school_mcat_accepted_in_place_of_gre_notes : [],
                     },
             
                     school_gre_exempt_with_masters_degree: {
-                        input: false,
-                        school_gre_exempt_with_masters_degree_notes: [],
+                        input: newSchool.school_gre.school_gre_exempt_with_masters_degree && newSchool.school_gre.school_gre_exempt_with_masters_degree.input ? newSchool.school_gre.school_gre_exempt_with_masters_degree.input : false,
+                        school_gre_exempt_with_masters_degree_notes: newSchool.school_gre.school_gre_exempt_with_masters_degree && newSchool.school_gre.school_gre_exempt_with_masters_degree.school_gre_exempt_with_masters_degree_notes ? newSchool.school_gre.school_gre_exempt_with_masters_degree.school_gre_exempt_with_masters_degree_notes : [],
                     },
             
                     school_gre_exempt_with_phd_degree: {
-                        input: false,
-                        school_gre_exempt_with_phd_degree_notes: [],
+                        input: newSchool.school_gre.school_gre_exempt_with_phd_degree && newSchool.school_gre.school_gre_exempt_with_phd_degree.input ? newSchool.school_gre.school_gre_exempt_with_phd_degree.input : false,
+                        school_gre_exempt_with_phd_degree_notes: newSchool.school_gre.school_gre_exempt_with_phd_degree && newSchool.school_gre.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes ? newSchool.school_gre.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes : [],
                     },
                     school_minimum_gre_scores_required: false,
                 }
-            })
+            });
+
+            if (newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed) {
+                const array = newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed.input.split(' ');
+                setSelection({
+                    number: array[0],
+                    duration: array[1]
+                })
+            }
         } else if ((newSchool.school_gre.school_gre_required || newSchool.school_gre.school_gre_recommended) && gpaRequiredOrRecommended) {
             return 
         } else if (!newSchool.school_gre.school_gre_required && !newSchool.school_gre.school_gre_recommended) {
@@ -92,17 +100,17 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 ...newSchool,
                 school_gre: {
                     ...newSchool.school_gre,
-                    school_gre_minimum_verbal_score: 0,
-                    school_gre_minimum_quantitative_score: 0,
-                    school_gre_minimum_analytical_writing_score: 0,
-                    school_gre_minimum_combined_score: 0,
-                    school_minimum_gre_score_notes: [],
+                    school_gre_minimum_verbal_score: newSchool.school_gre.school_gre_minimum_verbal_score ? newSchool.school_gre.school_gre_minimum_verbal_score : 0,
+                    school_gre_minimum_quantitative_score: newSchool.school_gre.school_gre_minimum_quantitative_score ? newSchool.school_gre.school_gre_minimum_quantitative_score : 0,
+                    school_gre_minimum_analytical_writing_score: newSchool.school_gre.school_gre_minimum_analytical_writing_score ? newSchool.school_gre.school_gre_minimum_analytical_writing_score : 0,
+                    school_gre_minimum_combined_score: newSchool.school_gre.school_gre_minimum_combined_score ? newSchool.school_gre.school_gre_minimum_combined_score : 0,
+                    school_minimum_gre_score_notes: newSchool.school_gre.school_minimum_gre_score_notes ? newSchool.school_gre.school_minimum_gre_score_notes : [],
 
-                    school_gre_minimum_verbal_percentile: 0,
-                    school_gre_minimum_quantitative_percentile: 0,
-                    school_gre_minimum_analytical_writing_percentile: 0,
-                    school_gre_minimum_combined_percentile: 0,
-                    school_minimum_gre_percentile_notes: [],
+                    school_gre_minimum_verbal_percentile: newSchool.school_gre.school_gre_minimum_verbal_percentile ? newSchool.school_gre.school_gre_minimum_verbal_percentile : 0,
+                    school_gre_minimum_quantitative_percentile: newSchool.school_gre.school_gre_minimum_quantitative_percentile ? newSchool.school_gre.school_gre_minimum_quantitative_percentile : 0,
+                    school_gre_minimum_analytical_writing_percentile: newSchool.school_gre.school_gre_minimum_analytical_writing_percentile ? newSchool.school_gre.school_gre_minimum_analytical_writing_percentile : 0,
+                    school_gre_minimum_combined_percentile: newSchool.school_gre.school_gre_minimum_combined_percentile ? newSchool.school_gre.school_gre_minimum_combined_percentile : 0,
+                    school_minimum_gre_percentile_notes: newSchool.school_gre.school_minimum_gre_percentile_notes ? newSchool.school_gre.school_minimum_gre_percentile_notes : [],
                 }
             })
         } else {
@@ -312,14 +320,14 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         Add Note
                     </button>
                 </div>
-                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed?.school_minimum_time_frame_gre_must_be_completed_notes.length ? 'mt-3' : 'mt-0'}`}>
-                {newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed?.school_minimum_time_frame_gre_must_be_completed_notes.map((note, i) => (
+                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed && newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed?.school_minimum_time_frame_gre_must_be_completed_notes.length ? 'mt-3' : 'mt-0'}`}>
+                {newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed && newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed?.school_minimum_time_frame_gre_must_be_completed_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true); setName('school_minimum_time_frame_gre_must_be_completed'); setNoteName('school_minimum_time_frame_gre_must_be_completed_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteNote(e, i, 'school_minimum_time_frame_gre_must_be_completed', 'school_minimum_time_frame_gre_must_be_completed_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true); setName('school_minimum_time_frame_gre_must_be_completed'); setNoteName('school_minimum_time_frame_gre_must_be_completed_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteNote(e, i, 'school_minimum_time_frame_gre_must_be_completed', 'school_minimum_time_frame_gre_must_be_completed_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -328,6 +336,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>        
             </div>
 
+            {newSchool.school_gre.school_mcat_accepted_in_place_of_gre && (
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">MCAT Accepted In Place of GRE</label>
                 <div className='flex justify-center items-center gap-3'>
@@ -348,8 +357,8 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true); setName('school_mcat_accepted_in_place_of_gre'); setNoteName('school_mcat_accepted_in_place_of_gre_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteNote(e, i, 'school_mcat_accepted_in_place_of_gre', 'school_mcat_accepted_in_place_of_gre_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true); setName('school_mcat_accepted_in_place_of_gre'); setNoteName('school_mcat_accepted_in_place_of_gre_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteNote(e, i, 'school_mcat_accepted_in_place_of_gre', 'school_mcat_accepted_in_place_of_gre_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -358,7 +367,9 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                        
                 </div>
             </div>
+            )}
 
+            {newSchool.school_gre.school_gre_exempt_with_masters_degree && (
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">GRE Exempt with Masters Degree</label>
                 <div className='flex justify-center items-center gap-3'>
@@ -379,8 +390,8 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true); setName('school_gre_exempt_with_masters_degree'); setNoteName('school_gre_exempt_with_masters_degree_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteNote(e, i, 'school_gre_exempt_with_masters_degree', 'school_gre_exempt_with_masters_degree_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true); setName('school_gre_exempt_with_masters_degree'); setNoteName('school_gre_exempt_with_masters_degree_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteNote(e, i, 'school_gre_exempt_with_masters_degree', 'school_gre_exempt_with_masters_degree_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -388,7 +399,9 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 ))}
                 </div>        
             </div>
+            )}
 
+            {newSchool.school_gre.school_gre_exempt_with_phd_degree && (
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">GRE Exempt with Doctoral Degree</label>
                 <div className='flex justify-center items-center gap-3'>
@@ -409,8 +422,8 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true); setName('school_gre_exempt_with_phd_degree'); setNoteName('school_gre_exempt_with_phd_degree_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteNote(e, i, 'school_gre_exempt_with_phd_degree', 'school_gre_exempt_with_phd_degree_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true); setName('school_gre_exempt_with_phd_degree'); setNoteName('school_gre_exempt_with_phd_degree_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteNote(e, i, 'school_gre_exempt_with_phd_degree', 'school_gre_exempt_with_phd_degree_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -419,6 +432,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>   
                
             </div>
+            )}
 
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_gre.school_minimum_gre_scores_required ? 'border-[#4573D2]' : 'border-orange-600'}`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Minimum GRE Scores Required</label>
@@ -460,8 +474,8 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_gre_score_notes');}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_minimum_gre_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_gre_score_notes');}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteNote(e, i, 'school_minimum_gre_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -499,8 +513,8 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_gre_percentile_notes');}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_minimum_gre_percentile_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_gre_percentile_notes');}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteNote(e, i, 'school_minimum_gre_percentile_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -570,8 +584,8 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_gre_general_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteNote(e, i, 'school_gre_general_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_gre_general_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteNote(e, i, 'school_gre_general_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

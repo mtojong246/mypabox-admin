@@ -145,7 +145,7 @@ export default function AddSchool() {
     }
 
     // Sends newSchool data to db 
-    const handleSave = async (e: MouseEvent<HTMLButtonElement>, id: number) => {
+    const handleSave = async (e: MouseEvent<HTMLButtonElement>, id: number, hash?: string) => {
         if ((e.target as HTMLButtonElement).value === 'done') {
           setIsDone(true);
         } else {
@@ -214,6 +214,10 @@ export default function AddSchool() {
             } catch (error: any) {
               alert('Error retrieving updated school');
             }   
+        }
+
+        if (hash) {
+          navigateTabs(hash)
         }
     };
 
@@ -352,7 +356,7 @@ export default function AddSchool() {
           <div className={`text-md pt-4 sticky ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
-              <button onClick={(e:any) => {handleSave(e, newSchool.id); navigateTabs(category.hash)}} 
+              <button onClick={(e:any) => {handleSave(e, newSchool.id, category.hash)}} 
               className={`whitespace-nowrap ${category.hash === tab ? 
               'text-red-500' : ''}`}>
                 {category.name}

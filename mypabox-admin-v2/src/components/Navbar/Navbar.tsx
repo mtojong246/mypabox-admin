@@ -46,11 +46,11 @@ const Navbar = () => {
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
       {location.pathname === '/' ? '' : (
-        <div className={`sticky z-30 bg-[#252628] py-[10px] px-5 w-screen font-['Noto Sans'] flex justify-between 
+        <div className={`sticky z-40 bg-[#252628] py-[10px] px-5 w-screen font-['Noto Sans'] flex justify-between 
         items-center gap-12`}>
           {/* Logo image */}
           <div className='flex justify-center items-center gap-1'>
-            <RxHamburgerMenu className='text-white text-4xl z-30 cursor-pointer' onClick={handleToggleSideMenu}/>
+            <RxHamburgerMenu className='text-white text-4xl z-40 cursor-pointer' onClick={handleToggleSideMenu}/>
             <Link to='/schools'><img src={logo} alt="myPAbox" className="h-14" /></Link>
           </div>
           {location.pathname === '/schools' ? (
@@ -58,7 +58,7 @@ const Navbar = () => {
               
               {/* Search field that allows you to filter through schools */}
               <input type='input' className=' rounded py-2 px-3 max-w-[700px] grow focus:outline-none 
-              text-xl placeholder:select-none bg-[#424244]' value={schoolName} onChange={handleSchoolName} 
+               placeholder:select-none bg-[#424244]' value={schoolName} onChange={handleSchoolName} 
               placeholder='Search name' />
 
               {/* Select component that allows you to select multiple states */}
@@ -71,6 +71,7 @@ const Navbar = () => {
                 className="w-[15em] text-left"
                 classNamePrefix="select"
                 placeholder="Select State"
+                id='select-state'
               />
               </button>       
             </>

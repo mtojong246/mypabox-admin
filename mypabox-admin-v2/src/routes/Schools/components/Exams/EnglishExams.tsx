@@ -28,7 +28,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
     }
 
     useEffect(() => {
-        if (newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed) {
+        if (newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed !== null) {
             setNewSchool({
                 ...newSchool,
                 school_english_proficiency_exams: {
@@ -45,11 +45,11 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...newSchool.school_english_proficiency_exams,
-                    school_toefl_required: false,
-                    school_ielt_required: false,
-                    school_melab_required: false,
-                    school_pte_academic_required: false,
-                    school_itep_academic_plus_required: false,
+                    school_toefl_required: newSchool.school_english_proficiency_exams.school_toefl_required ? newSchool.school_english_proficiency_exams.school_toefl_required : false,
+                    school_ielt_required: newSchool.school_english_proficiency_exams.school_ielt_required ? newSchool.school_english_proficiency_exams.school_ielt_required : false,
+                    school_melab_required: newSchool.school_english_proficiency_exams.school_melab_required ? newSchool.school_english_proficiency_exams.school_melab_required : false,
+                    school_pte_academic_required: newSchool.school_english_proficiency_exams.school_pte_academic_required ? newSchool.school_english_proficiency_exams.school_pte_academic_required : false,
+                    school_itep_academic_plus_required: newSchool.school_english_proficiency_exams.school_itep_academic_plus_required ? newSchool.school_english_proficiency_exams.school_itep_academic_plus_required : false,
                 }
             })
         } else {
@@ -71,31 +71,40 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
         }
     }, [newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required]);
 
+
+
     useEffect(() => {
         if (newSchool.school_english_proficiency_exams.school_toefl_required) {
             setNewSchool({
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...newSchool.school_english_proficiency_exams,
-                    school_minimum_time_frame_toefl_needs_to_be_completed: '',
-                    school_toefl_exempt_with_masters_degree: false,
-                    school_toefl_exempt_with_doctoral_degree: false,
+                    school_minimum_time_frame_toefl_needs_to_be_completed: newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed ? newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed : '',
+                    school_toefl_exempt_with_masters_degree: newSchool.school_english_proficiency_exams.school_toefl_exempt_with_masters_degree ? newSchool.school_english_proficiency_exams.school_toefl_exempt_with_masters_degree : false,
+                    school_toefl_exempt_with_doctoral_degree: newSchool.school_english_proficiency_exams.school_toefl_exempt_with_doctoral_degree ? newSchool.school_english_proficiency_exams.school_toefl_exempt_with_doctoral_degree : false,
 
-                    school_toefl_ibt_minimum_total_score_required: 0,
-                    school_toefl_ibt_minimum_reading_score_required: 0,
-                    school_toefl_ibt_minimum_writing_score_required: 0,
-                    school_toefl_ibt_minimum_listening_score_required: 0,
-                    school_toefl_ibt_minimum_speaking_score_required: 0,
-                    school_toefl_ibt_minimum_score_notes: [],
+                    school_toefl_ibt_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required : 0,
+                    school_toefl_ibt_minimum_reading_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required : 0,
+                    school_toefl_ibt_minimum_writing_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required : 0,
+                    school_toefl_ibt_minimum_listening_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required : 0,
+                    school_toefl_ibt_minimum_speaking_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required : 0,
+                    school_toefl_ibt_minimum_score_notes: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes : [],
 
-                    school_toefl_pbt_minimum_total_score_required: 0,
-                    school_toefl_pbt_minimum_reading_score_required: 0,
-                    school_toefl_pbt_minimum_writing_score_required: 0,
-                    school_toefl_pbt_minimum_listening_score_required: 0,
-                    school_toefl_pbt_minimum_speaking_score_required: 0,
-                    school_toefl_pbt_minimum_score_notes: [],
+                    school_toefl_pbt_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required : 0,
+                    school_toefl_pbt_minimum_reading_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required : 0,
+                    school_toefl_pbt_minimum_writing_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required : 0,
+                    school_toefl_pbt_minimum_listening_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required : 0,
+                    school_toefl_pbt_minimum_speaking_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required : 0,
+                    school_toefl_pbt_minimum_score_notes: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes : [],
                 }
-            })
+            });
+            if (newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed) {
+                const array = newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed.split(' ');
+                setSelection({
+                    number: array[0],
+                    duration: array[1]
+                })
+            }
         } else {
             setNewSchool({
                 ...newSchool,
@@ -127,14 +136,15 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
         }
     }, [newSchool.school_english_proficiency_exams.school_toefl_required]);
 
+
     useEffect(() => {
         if (newSchool.school_english_proficiency_exams.school_ielt_required) {
             setNewSchool({
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...newSchool.school_english_proficiency_exams,
-                    school_ielt_minimum_total_score_required: 0,
-                    school_ielt_minimum_score_notes: [],
+                    school_ielt_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required : 0,
+                    school_ielt_minimum_score_notes: newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes : [],
                 }
             })
         } else {
@@ -155,8 +165,8 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...newSchool.school_english_proficiency_exams,
-                    school_melab_minimum_total_score_required: 0,
-                    school_melab_minimum_score_notes: [],
+                    school_melab_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_melab_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_melab_minimum_total_score_required : 0,
+                    school_melab_minimum_score_notes: newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes : [],
                 }
             })
         } else {
@@ -178,8 +188,8 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...newSchool.school_english_proficiency_exams,
-                    school_pte_academic_minimum_total_score_required: 0,
-                    school_pte_academic_minimum_score_notes: [],
+                    school_pte_academic_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required : 0,
+                    school_pte_academic_minimum_score_notes: newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes : [],
                 }
             })
         } else {
@@ -192,7 +202,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                 }
             })
         }
-    }, [newSchool.school_english_proficiency_exams.school_pte_academic_required])
+    }, [newSchool.school_english_proficiency_exams.school_pte_academic_required]);
 
 
 
@@ -202,8 +212,8 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...newSchool.school_english_proficiency_exams,
-                    school_itep_academic_plus_minimum_total_score_required: 0,
-                    school_itep_academic_plus_minimum_score_notes: [],
+                    school_itep_academic_plus_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_total_score_required : 0,
+                    school_itep_academic_plus_minimum_score_notes: newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes : [],
                 }
             })
         } else {
@@ -362,14 +372,14 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_ibt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                            {newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.map((note, i) => (
+                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                            {newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_ibt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i, 'school_toefl_ibt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_ibt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i, 'school_toefl_ibt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -412,14 +422,14 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_pbt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                            {newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.map((note, i) => (
+                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                            {newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_pbt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i, 'school_toefl_pbt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_pbt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i, 'school_toefl_pbt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -453,14 +463,14 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                                 Add Note
                             </button>
                         </div>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes?.map((note, i) => (
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_ielt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_ielt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_ielt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteNote(e, i, 'school_ielt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -490,14 +500,14 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                                 Add Note
                             </button>
                         </div>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes?.map((note, i) => (
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes && newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes && newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_melab_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_melab_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_melab_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteNote(e, i, 'school_melab_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -522,19 +532,19 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">PTE Academic Minimum Total Score Required</label>   
                         <div className='flex justify-center items-center gap-3'>
-                            <input onChange={handleInput} name='school_pte_academic_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required as number} className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
+                            <input onChange={handleInput} name='school_pte_academic_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required : ''} className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_pte_academic_minimum_score_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                         </div>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes?.map((note, i) => (
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes && newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes && newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_pte_academic_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_pte_academic_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_pte_academic_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteNote(e, i, 'school_pte_academic_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -564,14 +574,14 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                                 Add Note
                             </button>
                         </div>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes?.map((note, i) => (
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes && newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes && newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_itep_academic_plus_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_itep_academic_plus_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_itep_academic_plus_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteNote(e, i, 'school_itep_academic_plus_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

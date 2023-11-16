@@ -132,8 +132,8 @@ export default function Courses() {
                         <p className='text-sm text-[#8B8B8B]'>{course.unique_id}</p>
                     </div>
                     <div className='flex justify-center items-center gap-2'>
-                        <Link to={`/courses/edit-course/${course.unique_id}`}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></Link>
-                        <button value={course.unique_id} onClick={setDelete}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                        <Link to={`/courses/edit-course/${course.unique_id}`}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></Link>
+                        <button value={course.unique_id} onClick={setDelete}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                     </div>
                 </div>
             ))}

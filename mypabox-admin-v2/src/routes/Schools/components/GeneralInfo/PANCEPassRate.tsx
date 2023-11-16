@@ -98,12 +98,12 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
                     return (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_first_time_pass_rate')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e:any) => {deleteNote(e, i, 'school_first_time_pass_rate')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_first_time_pass_rate')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e:any) => {deleteNote(e, i, 'school_first_time_pass_rate')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -132,12 +132,12 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
                     return (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_average_five_year_first_time_pass_rate')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e:any) => {deleteNote(e, i, 'school_average_five_year_first_time_pass_rate')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_average_five_year_first_time_pass_rate')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e:any) => {deleteNote(e, i, 'school_average_five_year_first_time_pass_rate')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

@@ -45,8 +45,8 @@ export default function RecommendedCourses({ toggleRecommendedCourses, newSchool
                                     </span>
                                 </p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(course); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteCourse(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(course); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button onClick={(e) => deleteCourse(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             {course.school_recommended_course_note_section ? (

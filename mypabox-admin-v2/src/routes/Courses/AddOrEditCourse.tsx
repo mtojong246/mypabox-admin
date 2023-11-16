@@ -118,7 +118,7 @@ export default function AddOrEditCourse() {
                 <div className={`w-full flex justify-between items-end pb-5 border-b border-[#DCDCDC]`}>
                     <p className='text-4xl font-medium'>{edit ? 'Edit Course' : 'Add Course'}</p>
                     <div className='flex justify-center items-center gap-3'>
-                        <button onClick={handleSave} className='border-2 border-blue-500 text-blue-500 rounded font-medium py-2 px-4 hover:text-white hover:bg-blue-500 flex justify-center items-center'>
+                        <button onClick={handleSave} className='border-2 border-blue-500 text-blue-500 rounded font-medium w-[72px] h-[44px] flex justify-center items-center hover:text-white hover:bg-blue-500 flex justify-center items-center'>
                             {isLoading ? <CircularProgress color='inherit' style={{height: '30px', width: '30px'}} /> : 'Save'}
                         </button>
                         <button onClick={() => navigate('/courses')} className='border-2 border-red-400 text-red-400 rounded font-medium py-2 px-4 hover:text-white hover:bg-red-400 flex justify-center items-center'>Cancel</button>

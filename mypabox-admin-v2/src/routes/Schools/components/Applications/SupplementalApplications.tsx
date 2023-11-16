@@ -23,10 +23,11 @@ export default function SupplementalApplications({ newSchool, setNewSchool }: { 
                 ...newSchool,
                 school_supplemental_application_required: {
                     ...newSchool.school_supplemental_application_required,
-                    school_supplemental_application_deadline: '',
-                    school_supplemental_application_fee: 0,
-                    school_supplemental_application_link: '',
-                    school_supplemental_application_link_provided_with_invite_only: false,
+                    school_supplemental_application_deadline: newSchool.school_supplemental_application_required.school_supplemental_application_deadline ? newSchool.school_supplemental_application_required.school_supplemental_application_deadline : '',
+                    school_supplemental_application_fee: newSchool.school_supplemental_application_required.school_supplemental_application_fee ? newSchool.school_supplemental_application_required.school_supplemental_application_fee : 0,
+                    school_supplemental_application_link: newSchool.school_supplemental_application_required.school_supplemental_application_link ? newSchool.school_supplemental_application_required.school_supplemental_application_link : '',
+                    school_supplemental_application_link_provided_with_invite_only: newSchool.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only ? newSchool.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only : false,
+                    school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes ? newSchool.school_supplemental_application_required.school_supplemental_application_notes : [],
                 }
             })
         } else {
@@ -38,6 +39,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool }: { 
                     school_supplemental_application_fee: null,
                     school_supplemental_application_link: null,
                     school_supplemental_application_link_provided_with_invite_only: null,
+                    school_supplemental_application_notes: []
                 }
             })
         }
@@ -148,7 +150,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool }: { 
             )}
             {newSchool.school_supplemental_application_required.input && (
             <div className={`mx-5 mb-5`}>
-            <label className='font-medium text-xl inline-block mt-8'>Notes:</label>
+            <label className='font-medium inline-block mt-6 text-xl'>Notes:</label>
             <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Note
             </button>
@@ -159,8 +161,8 @@ export default function SupplementalApplications({ newSchool, setNewSchool }: { 
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

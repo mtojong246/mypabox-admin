@@ -178,8 +178,8 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                                 return (
                                     <div className='py-2 pl-3 pr-2 border border-[#B4B4B4] rounded w-full'>
                                         <div className='flex justify-between items-center w-full'>
-                                            <p className='font-bold'>{opt}</p>
-                                            <button onClick={(e) => deleteExam(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <p className='font-medium'>{opt}</p>
+                                            <button onClick={(e) => deleteExam(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                 )
@@ -197,8 +197,8 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -207,8 +207,8 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                             </div>
                         </div>
                         <div className='w-full flex justify-end items-center gap-3'>
-                            <button onClick={(e) => {toggleOptions(e); setEditedRequiredOption(null)}} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[50px] rounded'>Cancel</button>
-                            <button onClick={addOrUpdateOption} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[50px] rounded'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
+                            <button onClick={(e) => {toggleOptions(e); setEditedRequiredOption(null)}} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[50px] rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
+                            <button onClick={addOrUpdateOption} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[50px] rounded hover:bg-[#3558A0]'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
                         </div>
                     </div>
                 </div>

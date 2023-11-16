@@ -46,8 +46,8 @@ export default function RequiredCourseCategories({ toggleRequiredCourseCategorie
                                 </span>
                             </p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(category); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteCategory(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(category); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteCategory(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         {category.school_required_course_category_extra_included_courses.length > 0 && (

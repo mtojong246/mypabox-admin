@@ -23,9 +23,9 @@ export default function PACAT({ newSchool, setNewSchool }: { newSchool: School, 
                 ...newSchool,
                 school_pacat: {
                     ...newSchool.school_pacat,
-                    school_pacat_exam_school_code: 0,
-                    school_pacat_exam_scaled_minimum_score_required: 0,
-                    school_pacat_exam_group_scaled_minimum_score_required: 0,
+                    school_pacat_exam_school_code: newSchool.school_pacat.school_pacat_exam_school_code ? newSchool.school_pacat.school_pacat_exam_school_code : 0,
+                    school_pacat_exam_scaled_minimum_score_required: newSchool.school_pacat.school_pacat_exam_scaled_minimum_score_required ? newSchool.school_pacat.school_pacat_exam_scaled_minimum_score_required : 0,
+                    school_pacat_exam_group_scaled_minimum_score_required: newSchool.school_pacat.school_pacat_exam_group_scaled_minimum_score_required ? newSchool.school_pacat.school_pacat_exam_group_scaled_minimum_score_required : 0,
                 }
             })
         } else if ((newSchool.school_pacat.school_pacat_required || newSchool.school_pacat.school_pacat_recommended) && pacatRequiredOrRecommended) {
@@ -157,8 +157,8 @@ export default function PACAT({ newSchool, setNewSchool }: { newSchool: School, 
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

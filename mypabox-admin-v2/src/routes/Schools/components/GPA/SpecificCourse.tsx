@@ -182,18 +182,18 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
                 </div>
                 <div className='w-full mt-8'>
                     <label className='text-xl'>Notes:</label>
-                    <button name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-3 block" 
+                    <button name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-2 block" 
                     onClick={(e) => {toggleNotePopup(e); setObjIndex(i)}}>
                         Add Note
                     </button>
                 </div>
                 {field.notes && field.notes.map((note, index) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full mt-3'>
-                        <div className='flex justify-between items-center w-full mb-1'>
+                        <div className='flex justify-between items-center w-full mb-4'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setObjIndex(i); setIndex(index)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteNote(e, i, index)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setObjIndex(i); setIndex(index)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e) => deleteNote(e, i, index)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -201,10 +201,12 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
                 ))}
 
             </>
-            {i === newSchool.school_minimum_gpa_for_specific_course.length-1 && (
+            {i === newSchool.school_minimum_gpa_for_specific_course.length-1 ? (
             <button className="mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
                 + Add New Field
             </button>
+            ) : (
+                <div className='w-full mb-5'></div>
             )}
         </div>
         ))}

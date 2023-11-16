@@ -35,8 +35,8 @@ export default function RequiredOptionalCourses({ toggleRequiredOptionalCourses,
                     <div className='flex justify-between items-center w-full'>
                         <p className='font-bold text-lg'>{group.school_minimum_number_of_courses_to_be_completed} <span className='font-normal'>of the following courses need to be completed:</span></p>
                         <div className='flex gap-2'>
-                            <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(group); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                            <button onClick={(e) => deleteOption(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(group); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                            <button onClick={(e) => deleteOption(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                         </div>
                     </div>
                     <div className='flex flex-col justify-center items-center gap-4 mt-4'>

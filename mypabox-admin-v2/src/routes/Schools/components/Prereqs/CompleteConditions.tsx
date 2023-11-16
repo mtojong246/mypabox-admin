@@ -51,46 +51,50 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                 ...newSchool,
                 school_prerequisite_completion_criteria: {
                     ...newSchool.school_prerequisite_completion_criteria,
-                    school_maximum_number_of_courses_pending_while_applying: {
+                    school_maximum_number_of_courses_pending_while_applying: newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying ? newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying : {
                         input: 0,
                         notes: [],
                     },
-                    school_maximum_number_of_credits_pending_while_applying: {
+                    school_maximum_number_of_credits_pending_while_applying: newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying ? newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying : {
                         input: 0,
                         notes: [],
                     },
-                    school_maximum_number_of_science_courses_pending_while_applying: {
+                    school_maximum_number_of_science_courses_pending_while_applying: newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying ? newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying : {
                         input: 0,
                         notes: [],
                     },
-                    school_maximum_number_of_non_science_courses_pending_while_applying: {
+                    school_maximum_number_of_non_science_courses_pending_while_applying: newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying ? newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying : {
                         input: 0,
                         notes: [],
                     },
-                    school_minimum_grade_required_for_pending_courses: {
+                    school_minimum_grade_required_for_pending_courses: newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses ?  newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses : {
                         input: '',
                         notes: [],
                     },
-                    school_date_pending_courses_must_be_completed: {
+                    school_date_pending_courses_must_be_completed: newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed ?  newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed : {
                         input: '',
                         notes: [],
                     },
-                    school_semester_pending_courses_must_be_completed: {
+                    school_semester_pending_courses_must_be_completed: newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed ? newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed : {
                         input: '',
                         notes: [],
                     },
                 }
             })
         } else {
-            const updatedSchool = {...newSchool};
-            delete updatedSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying;
-            delete updatedSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying;
-            delete updatedSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying;
-            delete updatedSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying;
-            delete updatedSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses;
-            delete updatedSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed;
-            delete updatedSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed;
-            setNewSchool(updatedSchool)
+            setNewSchool({
+                ...newSchool,
+                school_prerequisite_completion_criteria: {
+                    ...newSchool.school_prerequisite_completion_criteria,
+                    school_maximum_number_of_courses_pending_while_applying: null,
+                    school_maximum_number_of_credits_pending_while_applying: null,
+                    school_maximum_number_of_science_courses_pending_while_applying: null,
+                    school_maximum_number_of_non_science_courses_pending_while_applying: null,
+                    school_minimum_grade_required_for_pending_courses: null,
+                    school_date_pending_courses_must_be_completed: null,
+                    school_semester_pending_courses_must_be_completed: null,
+                }
+            })
         }
     }, [newSchool.school_prerequisite_completion_criteria.school_courses_can_be_in_progress_while_applying])
 
@@ -262,8 +266,8 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_maximum_number_of_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button name='school_maximum_number_of_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -287,8 +291,8 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_credits_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_maximum_number_of_credits_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_credits_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button name='school_maximum_number_of_credits_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -312,8 +316,8 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_science_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_maximum_number_of_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_science_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button name='school_maximum_number_of_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -337,8 +341,8 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_non_science_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_maximum_number_of_non_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_maximum_number_of_non_science_courses_pending_while_applying')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button name='school_maximum_number_of_non_science_courses_pending_while_applying' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -362,8 +366,8 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_minimum_grade_required_for_pending_courses')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_minimum_grade_required_for_pending_courses' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_minimum_grade_required_for_pending_courses')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button name='school_minimum_grade_required_for_pending_courses' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -387,8 +391,8 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_date_pending_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_date_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_date_pending_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button name='school_date_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -412,8 +416,8 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_semester_pending_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button name='school_semester_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_semester_pending_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button name='school_semester_pending_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -436,8 +440,8 @@ export default function CompleteConditions({ newSchool, setNewSchool }: {
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(false);}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i, false); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(false);}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button onClick={(e) => {deleteNote(e, i, false); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

@@ -58,6 +58,69 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
         setNotePopup(!notePopup);
       };
 
+      useEffect(() => {
+        if (newSchool.school_minimum_gpa_required) {
+            setNewSchool({
+                ...newSchool,
+                school_minimum_overall_gpa_required: {
+                    ...newSchool.school_minimum_overall_gpa_required,
+                    input: newSchool.school_minimum_overall_gpa_required?.input ? newSchool.school_minimum_overall_gpa_required.input : 0,
+                    notes: newSchool.school_minimum_overall_gpa_required?.notes ? newSchool.school_minimum_overall_gpa_required.notes : [],
+                },
+                school_minimum_science_gpa_required: {
+                    ...newSchool.school_minimum_science_gpa_required,
+                    input: newSchool.school_minimum_science_gpa_required?.input ? newSchool.school_minimum_science_gpa_required.input : 0,
+                    notes: newSchool.school_minimum_science_gpa_required?.notes ? newSchool.school_minimum_science_gpa_required.notes : [],
+                },
+                school_minimum_prerequisite_gpa_required: {
+                    ...newSchool.school_minimum_prerequisite_gpa_required,
+                    input: newSchool.school_minimum_prerequisite_gpa_required?.input ? newSchool.school_minimum_prerequisite_gpa_required.input : 0,
+                    notes: newSchool.school_minimum_prerequisite_gpa_required?.notes ? newSchool.school_minimum_prerequisite_gpa_required?.notes : [],
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                school_minimum_overall_gpa_required: null,
+                school_minimum_prerequisite_gpa_required: null,
+                school_minimum_science_gpa_required: null,
+            })
+        }
+      }, [newSchool.school_minimum_gpa_required]);
+
+      console.log(newSchool.school_minimum_gpa_required, newSchool.school_minimum_overall_gpa_required)
+
+
+      useEffect(() => {
+        if (newSchool.school_minimum_gpa_recommended) {
+            setNewSchool({
+                ...newSchool,
+                school_minimum_overall_gpa_recommended: {
+                    ...newSchool.school_minimum_overall_gpa_recommended,
+                    input: newSchool.school_minimum_overall_gpa_recommended?.input ? newSchool.school_minimum_overall_gpa_recommended?.input : 0,
+                    notes: newSchool.school_minimum_overall_gpa_recommended?.notes ? newSchool.school_minimum_overall_gpa_recommended?.notes : [],
+                },
+                school_minimum_science_gpa_recommended: {
+                    ...newSchool.school_minimum_science_gpa_recommended,
+                    input: newSchool.school_minimum_science_gpa_recommended?.input ? newSchool.school_minimum_science_gpa_recommended?.input : 0,
+                    notes: newSchool.school_minimum_science_gpa_recommended?.notes ? newSchool.school_minimum_science_gpa_recommended?.notes : [],
+                },
+                school_minimum_prerequisite_gpa_recommended: {
+                    ...newSchool.school_minimum_prerequisite_gpa_recommended,
+                    input: newSchool.school_minimum_prerequisite_gpa_recommended?.input ? newSchool.school_minimum_prerequisite_gpa_recommended?.input : 0,
+                    notes: newSchool.school_minimum_prerequisite_gpa_recommended?.notes ? newSchool.school_minimum_prerequisite_gpa_recommended?.notes : [],
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                school_minimum_overall_gpa_recommended: null,
+                school_minimum_science_gpa_recommended: null,
+                school_minimum_prerequisite_gpa_recommended: null
+            })
+        }
+      }, [newSchool.school_minimum_gpa_recommended])
+
       const addNote = (note: Note) => {
         const field = newSchool[name as keyof School] as NumberInput;
         setNewSchool({
@@ -98,44 +161,44 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
         })
     };
 
-    useEffect(() => {
-        // Resets inputs if value change to false
-        if (!newSchool.school_minimum_gpa_required) {
-            setNewSchool({
-                ...newSchool,
-                school_minimum_overall_gpa_required: {
-                    input: 0,
-                    notes: [],
-                },
-                school_minimum_science_gpa_required: {
-                    input: 0,
-                    notes: []
-                },
-                school_minimum_prerequisite_gpa_required: {
-                    input: 0,
-                    notes: []
-                }
-            })
-        }
+    // useEffect(() => {
+    //     // Resets inputs if value change to false
+    //     if (!newSchool.school_minimum_gpa_required) {
+    //         setNewSchool({
+    //             ...newSchool,
+    //             school_minimum_overall_gpa_required: {
+    //                 input: 0,
+    //                 notes: [],
+    //             },
+    //             school_minimum_science_gpa_required: {
+    //                 input: 0,
+    //                 notes: []
+    //             },
+    //             school_minimum_prerequisite_gpa_required: {
+    //                 input: 0,
+    //                 notes: []
+    //             }
+    //         })
+    //     }
 
-        if (!newSchool.school_minimum_gpa_recommended) {
-            setNewSchool({
-                ...newSchool,
-                school_minimum_overall_gpa_recommended: {
-                    input: 0,
-                    notes: [],
-                },
-                school_minimum_science_gpa_recommended: {
-                    input: 0,
-                    notes: []
-                },
-                school_minimum_prerequisite_gpa_recommended: {
-                    input: 0,
-                    notes: []
-                }
-            })
-        }
-    }, [newSchool.school_minimum_gpa_required, newSchool.school_minimum_gpa_recommended])
+    //     if (!newSchool.school_minimum_gpa_recommended) {
+    //         setNewSchool({
+    //             ...newSchool,
+    //             school_minimum_overall_gpa_recommended: {
+    //                 input: 0,
+    //                 notes: [],
+    //             },
+    //             school_minimum_science_gpa_recommended: {
+    //                 input: 0,
+    //                 notes: []
+    //             },
+    //             school_minimum_prerequisite_gpa_recommended: {
+    //                 input: 0,
+    //                 notes: []
+    //             }
+    //         })
+    //     }
+    // }, [newSchool.school_minimum_gpa_required, newSchool.school_minimum_gpa_recommended])
 
     
     // Handles boolean inputs 
@@ -155,6 +218,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
     }
 
 
+
     return (
         <>
         {newSchool && (
@@ -163,7 +227,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
                     <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA Required</label>   
                     <div className='w-full mt-2'>
                         <label className="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" className="sr-only peer" name='school_minimum_gpa_required' onChange={handleCheck} />
+                            <input type="checkbox" className="sr-only peer" name='school_minimum_gpa_required' onChange={handleCheck} checked={newSchool.school_minimum_gpa_required ? true : false}/>
                             <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
                             <span className="ml-3 text-xl text-black">
                             {newSchool.school_minimum_gpa_required ? 'True' : 'False'}
@@ -177,19 +241,19 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
                             <div className={`max-w-[900px] mt-5 mx-5 ${i === gpaRequired.length - 1 ? 'mb-5' : 'mb-0'}`}>
                                 <label className='text-xl'>{gpa.label}</label>
                                 <div className='flex justify-start items-center gap-4 mt-3'>
-                                    <input className='grow focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
+                                    <input className='grow focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
                                     <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
                                         Add Note
                                     </button>
                                 </div>
                             </div>
-                            {(newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
+                            {(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3 mx-5'>
-                                    <div className='flex justify-between items-center w-full mb-1'>
+                                    <div className='flex justify-between items-center w-full mb-4'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -205,7 +269,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
             <label className="absolute top-[-16px] text-xl bg-white">Minimum GPA Recommended</label>   
             <div className='w-full mt-2'>
                 <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" className="sr-only peer" name='school_minimum_gpa_recommended' onChange={handleCheck} />
+                    <input type="checkbox" className="sr-only peer" name='school_minimum_gpa_recommended' onChange={handleCheck} checked={newSchool.school_minimum_gpa_recommended ? true : false}/>
                     <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
                     <span className="ml-3 text-xl text-black">
                     {newSchool.school_minimum_gpa_recommended ? 'True' : 'False'}
@@ -219,19 +283,19 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
                     <div className={`max-w-[900px] mt-5 mx-5 ${i === gpaRecommended.length - 1 ? 'mb-5' : 'mb-0'}`}>
                         <label className='text-xl'>{gpa.label}</label>
                         <div className='flex justify-start items-center gap-4 mt-3'>
-                            <input className='grow focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
+                            <input className='grow focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
                             <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                         </div>
                     </div>
-                    {(newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
+                    {(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3 mx-5'>
-                            <div className='flex justify-between items-center w-full mb-1'>
+                            <div className='flex justify-between items-center w-full mb-4'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

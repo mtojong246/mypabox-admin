@@ -113,9 +113,7 @@ export const defaultSchool: School = {
         notes: [],
     },
     school_type_of_degree_offered: {
-        fields: [{
-            input: "",
-        }],
+        fields: [],
         notes: [],
     },
     school_bachelors_degree_required: {
@@ -145,31 +143,13 @@ export const defaultSchool: School = {
     },
     school_pance_pass_rate_note: '',
     school_minimum_gpa_required: false,
-    school_minimum_overall_gpa_required: {
-        input: 0,
-        notes: []
-    },
-    school_minimum_science_gpa_required: {
-        input: 0,
-        notes: []
-    },
-    school_minimum_prerequisite_gpa_required: {
-        input: 0,
-        notes: []
-    },
+    school_minimum_overall_gpa_required: null,
+    school_minimum_science_gpa_required: null,
+    school_minimum_prerequisite_gpa_required: null,
     school_minimum_gpa_recommended: false,
-    school_minimum_overall_gpa_recommended: {
-        input: 0,
-        notes: []
-    },
-    school_minimum_science_gpa_recommended: {
-        input: 0,
-        notes: []
-    },
-    school_minimum_prerequisite_gpa_recommended: {
-        input: 0,
-        notes: []
-    },
+    school_minimum_overall_gpa_recommended: null,
+    school_minimum_science_gpa_recommended: null,
+    school_minimum_prerequisite_gpa_recommended: null,
     school_other_types_of_gpa_evaluated: [
         {
             gpa_value_required_or_recommended: "required",
@@ -260,6 +240,13 @@ export const defaultSchool: School = {
     school_prerequisite_completion_criteria: {
         school_all_courses_most_be_completed_before_applying: false,
         school_courses_can_be_in_progress_while_applying: false,
+        school_maximum_number_of_courses_pending_while_applying: null,
+        school_maximum_number_of_credits_pending_while_applying: null,
+        school_maximum_number_of_science_courses_pending_while_applying: null,
+        school_maximum_number_of_non_science_courses_pending_while_applying: null,
+        school_minimum_grade_required_for_pending_courses: null,
+        school_date_pending_courses_must_be_completed: null,
+        school_semester_pending_courses_must_be_completed: null,
         school_prerequisite_completion_criteria_note_section: [],
     },
 

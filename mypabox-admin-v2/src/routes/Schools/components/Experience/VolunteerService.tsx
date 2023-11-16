@@ -111,8 +111,8 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                 school_volunteer_service: {
                     ...newSchool.school_volunteer_service,
                     school_minimum_volunteer_service_hours_recommended: {
-                        input: 0,
-                        school_minimum_volunteer_service_hours_recommended_notes: [],
+                        input: newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.input ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.input : 0,
+                        school_minimum_volunteer_service_hours_recommended_notes: newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.school_minimum_volunteer_service_hours_recommended_notes ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.school_minimum_volunteer_service_hours_recommended_notes : [],
                     },
                 }
             })
@@ -134,8 +134,8 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                 school_volunteer_service: {
                     ...newSchool.school_volunteer_service,
                     school_minimum_volunteer_service_hours_required: {
-                        input: 0,
-                        school_minimum_volunteer_service_hours_required_notes: [],
+                        input: newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.input ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.input : 0,
+                        school_minimum_volunteer_service_hours_required_notes: newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.school_minimum_volunteer_service_hours_required_notes ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.school_minimum_volunteer_service_hours_required_notes : []
                     },
                 }
             })
@@ -148,7 +148,8 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                 }
             })
         }
-    }, [newSchool.school_volunteer_service.school_volunteer_service_required])
+    }, [newSchool.school_volunteer_service.school_volunteer_service_required]);
+
     
     const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
         setNewSchool({
@@ -213,8 +214,8 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_volunteer_service_hours_required'); setNoteName('school_minimum_volunteer_service_hours_required_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i, 'school_minimum_volunteer_service_hours_required', 'school_minimum_volunteer_service_hours_required_notes'); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_volunteer_service_hours_required'); setNoteName('school_minimum_volunteer_service_hours_required_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button onClick={(e) => {deleteNote(e, i, 'school_minimum_volunteer_service_hours_required', 'school_minimum_volunteer_service_hours_required_notes'); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -249,8 +250,8 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_volunteer_service_hours_recommended'); setNoteName('school_minimum_volunteer_service_hours_recommended_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i, 'school_minimum_volunteer_service_hours_recommended', 'school_minimum_volunteer_service_hours_recommended_notes');  }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_volunteer_service_hours_recommended'); setNoteName('school_minimum_volunteer_service_hours_recommended_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button onClick={(e) => {deleteNote(e, i, 'school_minimum_volunteer_service_hours_recommended', 'school_minimum_volunteer_service_hours_recommended_notes');  }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -277,8 +278,8 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => {deleteNote(e, i)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e) => {deleteNote(e, i)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

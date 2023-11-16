@@ -66,7 +66,7 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                 ...newSchool,
                 school_pa_shadowing_required: {
                     ...newSchool.school_pa_shadowing_required,
-                    school_minimum_pa_shadowing_hours_required: 0,
+                    school_minimum_pa_shadowing_hours_required: newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required ? newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required : 0,
                 }
             })
         } else {
@@ -86,7 +86,7 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                 ...newSchool,
                 school_pa_shadowing_recommended: {
                     ...newSchool.school_pa_shadowing_recommended,
-                    school_minimum_pa_shadowing_hours_recommended: 0,
+                    school_minimum_pa_shadowing_hours_recommended: newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended ? newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended : 0,
                 }
             })
         } else {
@@ -155,7 +155,7 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                         </div>
                     )}
                     {newSchool.school_pa_shadowing_required.input && (
-                    <div className={`w-full mt-8 mx-5 mb-5`}>
+                    <div className={`max-w-[900px] mt-8 mx-5 mb-5`}>
                         {newSchool.school_pa_shadowing_required.input && (<label className='font-medium text-xl'>Notes:</label>)}
                         <button onClick={(e) => {toggleNotePopup(e); setName('school_pa_shadowing_required'); setNoteName('school_minimum_pa_shadowing_hours_required_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
@@ -166,8 +166,8 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_pa_shadowing_required'); setNoteName('school_minimum_pa_shadowing_hours_required_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => {deleteNote(e, i, 'school_pa_shadowing_required', 'school_minimum_pa_shadowing_hours_required_notes');}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_pa_shadowing_required'); setNoteName('school_minimum_pa_shadowing_hours_required_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => {deleteNote(e, i, 'school_pa_shadowing_required', 'school_minimum_pa_shadowing_hours_required_notes');}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -195,7 +195,7 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                         </div>
                     )}
                     {newSchool.school_pa_shadowing_recommended.input && (
-                    <div className={`w-full mt-8 mx-5 mb-5`}>
+                    <div className={`max-w-[900px] mt-8 mx-5 mb-5`}>
                         {newSchool.school_pa_shadowing_recommended.input && (<label className='font-medium text-xl'>Notes:</label>)}
                         <button onClick={(e) => {toggleNotePopup(e); setName('school_pa_shadowing_recommended'); setNoteName('school_minimum_pa_shadowing_hours_recommended_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
@@ -206,8 +206,8 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                     <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_pa_shadowing_recommended'); setNoteName('school_minimum_pa_shadowing_hours_recommended_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => {deleteNote(e, i, 'school_pa_shadowing_recommended', 'school_minimum_pa_shadowing_hours_recommended_notes');}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_pa_shadowing_recommended'); setNoteName('school_minimum_pa_shadowing_hours_recommended_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => {deleteNote(e, i, 'school_pa_shadowing_recommended', 'school_minimum_pa_shadowing_hours_recommended_notes');}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -232,8 +232,8 @@ export default function PAShadowing({ newSchool, setNewSchool }: { newSchool: Sc
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_average_pa_shadowing_hours_accepted_previous_cycle'); setNoteName('school_average_pa_shadowing_hours_accepted_previous_cycle_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i, 'school_average_pa_shadowing_hours_accepted_previous_cycle', 'school_average_pa_shadowing_hours_accepted_previous_cycle_notes');}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_average_pa_shadowing_hours_accepted_previous_cycle'); setNoteName('school_average_pa_shadowing_hours_accepted_previous_cycle_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button onClick={(e) => {deleteNote(e, i, 'school_average_pa_shadowing_hours_accepted_previous_cycle', 'school_average_pa_shadowing_hours_accepted_previous_cycle_notes');}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

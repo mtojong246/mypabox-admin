@@ -97,12 +97,12 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
                     return (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_in_state_tuition')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e:any) => {deleteNote(e, i, 'school_in_state_tuition')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_in_state_tuition')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e:any) => {deleteNote(e, i, 'school_in_state_tuition')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -133,12 +133,12 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
                     return (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_out_of_state_tuition')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e:any) => {deleteNote(e, i, 'school_out_of_state_tuition')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_out_of_state_tuition')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e:any) => {deleteNote(e, i, 'school_out_of_state_tuition')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -169,12 +169,12 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
                     return (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_seat_deposit_in_state')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e:any) => {deleteNote(e, i, 'school_seat_deposit_in_state')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_seat_deposit_in_state')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e:any) => {deleteNote(e, i, 'school_seat_deposit_in_state')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -205,12 +205,12 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
                     return (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-4 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_seat_deposit_out_of_state')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e:any) => {deleteNote(e, i, 'school_seat_deposit_out_of_state')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_seat_deposit_out_of_state')}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e:any) => {deleteNote(e, i, 'school_seat_deposit_out_of_state')}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
