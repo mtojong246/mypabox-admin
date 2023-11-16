@@ -396,11 +396,11 @@ export const defaultSchool: School = {
 
         school_pte_academic_required: null,
         school_pte_academic_minimum_total_score_required: null,
-        school_pte_academic_minimum_score_notes: [],
+        school_pte_academic_minimum_score_notes: null,
 
         school_itep_academic_plus_required: null,
         school_itep_academic_plus_minimum_total_score_required: null,
-        school_itep_academic_plus_minimum_score_notes: [],
+        school_itep_academic_plus_minimum_score_notes: null,
 
     },
 

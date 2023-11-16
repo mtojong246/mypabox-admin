@@ -72,7 +72,6 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
     }, [newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required]);
 
 
-
     useEffect(() => {
         if (newSchool.school_english_proficiency_exams.school_toefl_required) {
             setNewSchool({
@@ -191,19 +190,19 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     school_pte_academic_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required : 0,
                     school_pte_academic_minimum_score_notes: newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes : [],
                 }
-            })
+            });
+            
         } else {
             setNewSchool({
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...newSchool.school_english_proficiency_exams,
                     school_pte_academic_minimum_total_score_required: null,
-                    school_pte_academic_minimum_score_notes: [],
+                    school_pte_academic_minimum_score_notes: null,
                 }
             })
         }
     }, [newSchool.school_english_proficiency_exams.school_pte_academic_required]);
-
 
 
     useEffect(() => {
@@ -222,11 +221,11 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                 school_english_proficiency_exams: {
                     ...newSchool.school_english_proficiency_exams,
                     school_itep_academic_plus_minimum_total_score_required: null,
-                    school_itep_academic_plus_minimum_score_notes: [],
+                    school_itep_academic_plus_minimum_score_notes: null,
                 }
             })
         }
-    }, [newSchool.school_english_proficiency_exams.school_pte_academic_required])
+    }, [newSchool.school_english_proficiency_exams.school_itep_academic_plus_required]);
     
     const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
         setNewSchool({
