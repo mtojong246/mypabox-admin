@@ -238,27 +238,28 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
                     <>
                         {gpaRequired.map((gpa,i) => (
                         <>
-                            <div className={`max-w-[900px] mt-5 mx-5 ${i === gpaRequired.length - 1 ? 'mb-5' : 'mb-0'}`}>
-                                <label className='text-xl'>{gpa.label}</label>
-                                <div className='flex justify-start items-center gap-4 mt-3'>
-                                    <input className='grow focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
-                                    <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                            <div className={`${i === 0 ? 'mt-8' : 'mt-12'} mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
+                                <label className='absolute top-[-16px] text-xl font-medium bg-white'>{gpa.label}</label>
+                                <div className='flex justify-start items-center gap-4'>
+                                    <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
+                                    <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                                         Add Note
                                     </button>
                                 </div>
-                            </div>
-                            {(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
-                                <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3 mx-5'>
-                                    <div className='flex justify-between items-center w-full mb-4'>
-                                        <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                        <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                {(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
+                                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3'>
+                                        <div className='flex justify-between items-center w-full mb-1'>
+                                            <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                            <div className='flex gap-2'>
+                                                <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                                <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                            </div>
                                         </div>
+                                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                     </div>
-                                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                                ))}
                                 </div>
-                            ))}
+                                <div className='w-full mb-4'></div>
                         </>
                         ))}
                     </>
@@ -280,27 +281,28 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange }: {
             <>
                 {gpaRecommended.map((gpa,i) => (
                 <>
-                    <div className={`max-w-[900px] mt-5 mx-5 ${i === gpaRecommended.length - 1 ? 'mb-5' : 'mb-0'}`}>
-                        <label className='text-xl'>{gpa.label}</label>
-                        <div className='flex justify-start items-center gap-4 mt-3'>
-                            <input className='grow focus:outline-none border border-[#B4B4B4] p-4 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
-                            <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-14 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <div className={`${i === 0 ? 'mt-8' : 'mt-12'} mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
+                        <label className='absolute top-[-16px] text-xl font-medium bg-white'>{gpa.label}</label>
+                        <div className='flex justify-start items-center gap-4'>
+                            <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} />
+                            <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                         </div>
-                    </div>
-                    {(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3 mx-5'>
-                            <div className='flex justify-between items-center w-full mb-4'>
-                                <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                        {(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                    </div>
                                 </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    <div className='w-full mb-4'></div>
                 </>
                 ))}
             </>

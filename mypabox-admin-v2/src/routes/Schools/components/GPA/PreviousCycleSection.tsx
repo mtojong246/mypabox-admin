@@ -103,32 +103,34 @@ export default function PreviousCycleSection({newSchool, setNewSchool}: { newSch
 
     return (
         <>
-        <div className={`mt-28 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
+        <div className={`mt-28 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
             <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Average GPA Accepted Previous Cycle</label>   
             {previousCycle.map((gpa,i) => (
                 <>
-                    <div className={`max-w-[900px] mt-4 ${i === previousCycle.length - 1 ? 'mb-5' : 'mb-0'}`}>
-                        <label className='text-xl'>{gpa.label}</label>
-                        <div className='flex justify-start items-center gap-4 mt-3'>
+                    <div className={`${i === 0 ? 'mt-8' : 'mt-12'} mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
+                        <label className='absolute top-[-16px] text-xl font-medium bg-white'>{gpa.label}</label>
+                        <div className='flex justify-start items-center gap-4'>
                             <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input ? (newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input : ''} name={gpa.value} onChange={handleInput} />
                             <button className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]"
                             onClick={(e) => {toggleNotePopup(e); setName(gpa.value)}}>
                                 Add Note
                             </button>
                         </div>
-                    </div>
-                    {(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).notes && (newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).notes?.map((note: Note, i: number) => (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full mt-3'>
-                            <div className='flex justify-between items-center w-full mb-4'>
-                                <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                    
+                        {(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).notes && (newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).notes?.map((note: Note, i: number) => (
+                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full mt-3'>
+                                <div className='flex justify-between items-center w-full mb-1'>
+                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                                    <div className='flex gap-2'>
+                                        <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                        <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                    </div>
                                 </div>
+                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    <div className='w-full mb-4'></div>
                 </>
                 ))}               
         </div>
