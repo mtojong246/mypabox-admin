@@ -133,6 +133,7 @@ export default function BooleanInputs({
                   name={data.value}
                   onChange={(e) => handleChecked(e, data.input)}
                   value={field[data.input as keyof object]}
+                  checked={field[data.input as keyof object] ? true : false}
                 />
                 <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
                 <span className="ml-3 text-xl text-black">

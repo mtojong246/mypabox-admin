@@ -23,8 +23,8 @@ export default function Applications({ newSchool, setNewSchool }: { newSchool: S
 
     return (
         <>
-            {!newSchool.school_application_submitted_directly_to_school.input && (<ApplicationsCaspa newSchool={newSchool} setNewSchool={setNewSchool} />)}
-            {!newSchool.school_application_submitted_on_caspa.input && (<ApplicationsDirectly newSchool={newSchool} setNewSchool={setNewSchool}/>)}
+            {(<ApplicationsCaspa newSchool={newSchool} setNewSchool={setNewSchool} />)}
+            {(<ApplicationsDirectly newSchool={newSchool} setNewSchool={setNewSchool}/>)}
             <SupplementalApplications newSchool={newSchool} setNewSchool={setNewSchool}/>
         </>
     )

@@ -116,7 +116,7 @@ export default function AddSchool() {
                 ...newSchool,
                 [name]: {
                     ...field, 
-                    input: e.target.value,
+                    input: (typeof field.input) === 'number' ? Number(e.target.value) : e.target.value,
                 }
             })
         // Input changes to opposite of its previous value 

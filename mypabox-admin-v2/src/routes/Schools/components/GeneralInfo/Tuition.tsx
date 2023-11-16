@@ -24,7 +24,7 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
             ...newSchool,
             [name]: {
                 ...field,
-                input: e.target.value,
+                input: Number(e.target.value),
             }
         })
     };

@@ -162,7 +162,7 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
 
 
     return (
-        <>
+        <div className={`${newSchool.school_application_submitted_directly_to_school.input ? 'hidden' : 'block'}`}>
         <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Application Submitted On CASPA</label>  
                 <div className='w-full mt-2'>
@@ -176,7 +176,7 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
                 <>
                     <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Application Submission Deadline</label> 
-                        <input onChange={handleInput} value={newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_date!} type='date' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[50px] text-lg rounded' />  
+                        <input onChange={handleInput} value={newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_date ? newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_date : ''} type='date' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[50px] text-lg rounded' />  
                     </div> 
                     <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Application Submission Deadline Type</label> 
@@ -210,6 +210,6 @@ export default function ApplicationsCaspa({ newSchool, setNewSchool }: { newScho
             )}
         </div>
         {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
-        </>
+        </div>
     )
 }

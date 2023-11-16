@@ -38,8 +38,11 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
                     school_application_direct_to_school_notes: []
                 }
             })
+            console.log(newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline)
         }
-    }, [newSchool.school_application_submitted_directly_to_school.input])
+    }, [newSchool.school_application_submitted_directly_to_school.input]);
+
+    console.log(newSchool.school_application_submitted_directly_to_school.input, newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline)
 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
         setNewSchool({
@@ -105,7 +108,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
     };
 
     return (
-        <>
+        <div className={`${newSchool.school_application_submitted_on_caspa.input ? 'hidden' : 'block'}`}>
         <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Application Submitted Directly To School</label>  
                 <div className='w-full mt-2'>
@@ -119,7 +122,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
                 <>
                     <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Application Submission Deadline</label> 
-                        <input onChange={handleInput} value={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline!} name='school_application_direct_to_school_deadline' type='date' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[50px] text-lg rounded' />  
+                        <input onChange={handleInput} value={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline ? newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline : ''} name='school_application_direct_to_school_deadline' type='date' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[50px] text-lg rounded' />  
                     </div> 
                     <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Application Submission Fee</label> 
@@ -156,6 +159,6 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
             )}
         </div>
         {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
-        </>
+        </div>
     )
 }
