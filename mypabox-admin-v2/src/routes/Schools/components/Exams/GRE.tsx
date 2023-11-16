@@ -59,7 +59,17 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                         input: newSchool.school_gre.school_gre_exempt_with_phd_degree && newSchool.school_gre.school_gre_exempt_with_phd_degree.input ? newSchool.school_gre.school_gre_exempt_with_phd_degree.input : false,
                         school_gre_exempt_with_phd_degree_notes: newSchool.school_gre.school_gre_exempt_with_phd_degree && newSchool.school_gre.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes ? newSchool.school_gre.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes : [],
                     },
-                    school_minimum_gre_scores_required: false,
+                    school_minimum_gre_scores_required: newSchool.school_gre.school_minimum_gre_scores_required ? newSchool.school_gre.school_minimum_gre_scores_required : false,
+
+                    school_average_gre_verbal_score_accepted_previous_year: newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year : 0,
+                    school_average_gre_quantitative_score_accepted_previous_year: newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year : 0,
+                    school_average_gre_analytical_writing_score_accepted_previous_year: newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year : 0,
+                    school_average_gre_combined_score_accepted_previous_year: newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year : 0,
+            
+                    school_average_gre_verbal_percentile_accepted_previous_year: newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year : 0,
+                    school_average_gre_quantitative_percentile_accepted_previous_year: newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year : 0,
+                    school_average_gre_analytical_writing_percentile_accepted_previous_year: newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year : 0,
+                    school_average_gre_combined_percentile_accepted_previous_year: newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year : 0,
                 }
             });
 
@@ -85,6 +95,18 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                     school_gre_exempt_with_masters_degree: null,
                     school_gre_exempt_with_phd_degree: null,
                     school_minimum_gre_scores_required: null,
+
+                    school_average_gre_verbal_score_accepted_previous_year: null,
+                    school_average_gre_quantitative_score_accepted_previous_year: null,
+                    school_average_gre_analytical_writing_score_accepted_previous_year: null,
+                    school_average_gre_combined_score_accepted_previous_year: null,
+            
+                    school_average_gre_verbal_percentile_accepted_previous_year: null,
+                    school_average_gre_quantitative_percentile_accepted_previous_year: null,
+                    school_average_gre_analytical_writing_percentile_accepted_previous_year: null,
+                    school_average_gre_combined_percentile_accepted_previous_year: null,
+
+
                 }
             })
             setSelection({
@@ -93,6 +115,8 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
             })
         }
     }, [newSchool.school_gre.school_gre_required, newSchool.school_gre.school_gre_recommended]);
+
+    console.log(newSchool.school_gre.school_gre_required, newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year)
 
     useEffect(() => {
         if (newSchool.school_gre.school_minimum_gre_scores_required) {
@@ -111,6 +135,8 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                     school_gre_minimum_analytical_writing_percentile: newSchool.school_gre.school_gre_minimum_analytical_writing_percentile ? newSchool.school_gre.school_gre_minimum_analytical_writing_percentile : 0,
                     school_gre_minimum_combined_percentile: newSchool.school_gre.school_gre_minimum_combined_percentile ? newSchool.school_gre.school_gre_minimum_combined_percentile : 0,
                     school_minimum_gre_percentile_notes: newSchool.school_gre.school_minimum_gre_percentile_notes ? newSchool.school_gre.school_minimum_gre_percentile_notes : [],
+
+                    
                 }
             })
         } else {
@@ -129,6 +155,8 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                     school_gre_minimum_analytical_writing_percentile: null,
                     school_gre_minimum_combined_percentile: null,
                     school_minimum_gre_percentile_notes: null,
+
+                    
                 }
             })
         }

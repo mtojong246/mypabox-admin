@@ -365,15 +365,15 @@ export interface School {
         school_gre_minimum_combined_percentile: number | null;
         school_minimum_gre_percentile_notes: Note[] | null;
 
-        school_average_gre_verbal_score_accepted_previous_year: number;
-        school_average_gre_quantitative_score_accepted_previous_year: number;
-        school_average_gre_analytical_writing_score_accepted_previous_year: number;
-        school_average_gre_combined_score_accepted_previous_year: number;
+        school_average_gre_verbal_score_accepted_previous_year: number | null;
+        school_average_gre_quantitative_score_accepted_previous_year: number | null;
+        school_average_gre_analytical_writing_score_accepted_previous_year: number | null;
+        school_average_gre_combined_score_accepted_previous_year: number | null;
 
-        school_average_gre_verbal_percentile_accepted_previous_year: number;
-        school_average_gre_quantitative_percentile_accepted_previous_year: number;
-        school_average_gre_analytical_writing_percentile_accepted_previous_year: number;
-        school_average_gre_combined_percentile_accepted_previous_year: number;
+        school_average_gre_verbal_percentile_accepted_previous_year: number | null;
+        school_average_gre_quantitative_percentile_accepted_previous_year: number | null;
+        school_average_gre_analytical_writing_percentile_accepted_previous_year: number | null;
+        school_average_gre_combined_percentile_accepted_previous_year: number | null;
 
         school_gre_general_notes: Note[];
 
