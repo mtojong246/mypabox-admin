@@ -113,7 +113,7 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
     }
 
     return (
-        <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
+        <div className='fixed top-0 left-0 right-0 bottom-0 z-50'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                 <div className='w-full max-w-[900px] rounded p-4 bg-white'>
                     <p className='text-xl font-semibold mb-8'>{excluded && editedCourse ? 'Edit Excluded Course' : !excluded && editedCourse ? 'Edit Included Course' : excluded && !editedCourse ? 'Add Excluded Course' : 'Add Included Course'}</p>

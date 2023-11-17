@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, createContext, useState } from 'react'
+import React, { FC, ReactNode, createContext, useEffect, useState } from 'react'
 
 interface Props {
   children: React.ReactNode;
@@ -26,6 +26,7 @@ const SchoolContext = createContext({
   setOpenForm: (v: boolean) => {},
   setShow: (v: boolean) => {},
   setStateSearch: (newValue: Array<Object>) => {},
+  setToggleSideMenu: (e:any) => {},
   
 });
 
@@ -70,6 +71,8 @@ const SchoolContextProvider: FC<Props> = ({ children }: { children: ReactNode })
     setCity(e.target.value)
   }
 
+
+
   const handleToggleSideMenu = () => {
     setToggleSideMenu(!toggleSideMenu)
   }
@@ -77,7 +80,7 @@ const SchoolContextProvider: FC<Props> = ({ children }: { children: ReactNode })
   return (
     <SchoolContext.Provider value={{ handleCity, handleState, handleName, handleOpenForm, handleStateSearch, handleSchoolName,
       schoolName, state, city, name, openForm, stateSearch, setName, setState, setCity, setOpenForm, setStateSearch,
-      handleToggleSideMenu, toggleSideMenu, show, setShow }}>
+      handleToggleSideMenu, toggleSideMenu, show, setShow, setToggleSideMenu }}>
       {children}
     </SchoolContext.Provider>
   )

@@ -30,9 +30,9 @@ export default function DeleteSchoolPopup({toggleDelete, name}: {toggleDelete: (
     }
 
     return (
-        <div className='fixed top-0 left-0 right-0 bottom-0'>
-            <div onClick={toggleDelete} className='fixed bg-black opacity-20 top-0 left-0 right-0 bottom-0'></div>
-            <div className='w-full max-w-[600px] rounded-lg p-4 bg-white absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]'>
+        <div className='fixed top-0 left-0 right-0 bottom-0 z-50'>
+            <div onClick={toggleDelete} className='fixed bg-black opacity-20 top-0 left-0 right-0 bottom-0 z-20'></div>
+            <div className='w-full max-w-[600px] rounded-lg p-4 bg-white absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] z-30'>
                 <div className='w-full flex justify-between items-start gap-8'>
                     <p className='text-xl font-bold'>Delete <q>{name}</q>?</p>
                     <button onClick={toggleDelete}><AiOutlineClose className='text-black text-xl'/></button>

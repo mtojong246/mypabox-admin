@@ -19,7 +19,7 @@ import DeleteSchoolPopup from './DeleteSchoolPopup';
 const Schools = () => {
   const schools = useSelector(selectSchools);
   const dispatch: AppDispatch = useDispatch()
-  const { stateSearch, schoolName, setStateSearch, toggleSideMenu } = useContext(SchoolContext)
+  const { stateSearch, schoolName, setStateSearch, setToggleSideMenu } = useContext(SchoolContext)
   const navigate = useNavigate();
   const [ deletePopup, setDeletePopup ] = useState(false);
   const [ name, setName ] = useState('');
@@ -133,7 +133,9 @@ const Schools = () => {
 
   useEffect(() => {
     localStorage.removeItem('newSchool');
+    setToggleSideMenu(false)
   }, [])
+  
 
   const addSchoolButton = () => {
     dispatch(setIsEdit(false));
