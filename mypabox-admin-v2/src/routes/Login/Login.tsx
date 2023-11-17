@@ -108,7 +108,7 @@ export default function Login() {
             focus:outline-none bg-gray-200 flex justify-between items-center p-4'>
               <input
                 type={showPassword}
-                className="grow bg-gray-200"
+                className="grow bg-gray-200 focus:outline-none"
                 placeholder="Password"
                 value={password}
                 name="password"
