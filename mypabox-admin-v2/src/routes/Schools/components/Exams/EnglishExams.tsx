@@ -1,6 +1,6 @@
 import Select from 'react-select'
 import { School, Note } from '../../../../types/schools.types'
-import { Dispatch, SetStateAction, ChangeEvent, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, ChangeEvent, useEffect, useState, useRef } from 'react'
 import AddNote from '../Prereqs/AddNote'
 import { AiOutlineClose } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi'
@@ -50,8 +50,38 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     school_melab_required: newSchool.school_english_proficiency_exams.school_melab_required ? newSchool.school_english_proficiency_exams.school_melab_required : false,
                     school_pte_academic_required: newSchool.school_english_proficiency_exams.school_pte_academic_required ? newSchool.school_english_proficiency_exams.school_pte_academic_required : false,
                     school_itep_academic_plus_required: newSchool.school_english_proficiency_exams.school_itep_academic_plus_required ? newSchool.school_english_proficiency_exams.school_itep_academic_plus_required : false,
+
+                    school_ielt_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required : 0,
+                    school_ielt_minimum_score_notes: newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes : [],
+
+                    school_melab_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_melab_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_melab_minimum_total_score_required : 0,
+                    school_melab_minimum_score_notes: newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes : [],
+
+                    school_pte_academic_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required : 0,
+                    school_pte_academic_minimum_score_notes: newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes : [],
+
+                    school_itep_academic_plus_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_total_score_required : 0,
+                    school_itep_academic_plus_minimum_score_notes: newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes : [],
+
+                    school_minimum_time_frame_toefl_needs_to_be_completed: newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed ? newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed : '',
+                    school_toefl_exempt_with_masters_degree: newSchool.school_english_proficiency_exams.school_toefl_exempt_with_masters_degree ? newSchool.school_english_proficiency_exams.school_toefl_exempt_with_masters_degree : false,
+                    school_toefl_exempt_with_doctoral_degree: newSchool.school_english_proficiency_exams.school_toefl_exempt_with_doctoral_degree ? newSchool.school_english_proficiency_exams.school_toefl_exempt_with_doctoral_degree : false,
+
+                    school_toefl_ibt_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required : 0,
+                    school_toefl_ibt_minimum_reading_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required : 0,
+                    school_toefl_ibt_minimum_writing_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required : 0,
+                    school_toefl_ibt_minimum_listening_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required : 0,
+                    school_toefl_ibt_minimum_speaking_score_required: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required : 0,
+                    school_toefl_ibt_minimum_score_notes: newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes : [],
+
+                    school_toefl_pbt_minimum_total_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required : 0,
+                    school_toefl_pbt_minimum_reading_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required : 0,
+                    school_toefl_pbt_minimum_writing_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required : 0,
+                    school_toefl_pbt_minimum_listening_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required : 0,
+                    school_toefl_pbt_minimum_speaking_score_required: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required : 0,
+                    school_toefl_pbt_minimum_score_notes: newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes : [],
                 }
-            })
+            });
         } else {
             setNewSchool({
                 ...newSchool,
@@ -62,14 +92,45 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     school_melab_required: null,
                     school_pte_academic_required: null,
                     school_itep_academic_plus_required: null,
+
+                    school_ielt_minimum_total_score_required: null,
+                    school_ielt_minimum_score_notes: null,
+
+                    school_melab_minimum_total_score_required: null,
+                    school_melab_minimum_score_notes: null,
+
+                    school_pte_academic_minimum_total_score_required: null,
+                    school_pte_academic_minimum_score_notes: null,
+
+                    school_itep_academic_plus_minimum_total_score_required: null,
+                    school_itep_academic_plus_minimum_score_notes: null,
+
+                    school_minimum_time_frame_toefl_needs_to_be_completed: null,
+                    school_toefl_exempt_with_masters_degree: null,
+                    school_toefl_exempt_with_doctoral_degree: null,
+
+                    school_toefl_ibt_minimum_total_score_required: null,
+                    school_toefl_ibt_minimum_reading_score_required: null,
+                    school_toefl_ibt_minimum_writing_score_required: null,
+                    school_toefl_ibt_minimum_listening_score_required: null,
+                    school_toefl_ibt_minimum_speaking_score_required: null,
+                    school_toefl_ibt_minimum_score_notes: null,
+
+                    school_toefl_pbt_minimum_total_score_required: null,
+                    school_toefl_pbt_minimum_reading_score_required: null,
+                    school_toefl_pbt_minimum_writing_score_required: null,
+                    school_toefl_pbt_minimum_listening_score_required: null,
+                    school_toefl_pbt_minimum_speaking_score_required: null,
+                    school_toefl_pbt_minimum_score_notes: null,
                 }
             })
             setSelection({
                 number: '',
                 duration: '',
-            })
+            });
         }
     }, [newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required]);
+
 
 
     useEffect(() => {
@@ -104,7 +165,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                     duration: array[1]
                 })
             }
-        } else {
+        } else if (!newSchool.school_english_proficiency_exams.school_toefl_required){
             setNewSchool({
                 ...newSchool,
                 school_english_proficiency_exams: {
@@ -156,7 +217,8 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
                 }
             })
         }
-    }, [newSchool.school_english_proficiency_exams.school_ielt_required])
+    }, [newSchool.school_english_proficiency_exams.school_ielt_required]);
+
 
     useEffect(() => {
         if (newSchool.school_english_proficiency_exams.school_melab_required) {
@@ -228,6 +290,7 @@ export default function EnglishExams({ newSchool, setNewSchool }: { newSchool: S
     }, [newSchool.school_english_proficiency_exams.school_itep_academic_plus_required]);
     
     const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+
         setNewSchool({
             ...newSchool,
             school_english_proficiency_exams: {
