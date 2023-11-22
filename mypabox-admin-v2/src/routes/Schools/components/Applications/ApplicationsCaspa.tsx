@@ -9,9 +9,9 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi';
 
 const options = [
-    {value: 'Verified', label: 'Verified', color: '#87EA6E', focus: '#CFEEC7'},
-    {value: 'Completed', label: 'Completed', color: '#F2EC63', focus: '#F4F1B5'},
-    {value: 'Submitted', label: 'Submitted', color: '#71D6EC', focus: '#BAE8F2'},
+    {value: 'Verified', label: 'Verified', color: '#27AE60', focus: '#27AE60'},
+    {value: 'Completed', label: 'Completed', color: '#F39C12', focus: '#F39C12'},
+    {value: 'Submitted', label: 'Submitted', color: '#3498DB', focus: '#3498DB'},
 ];
 
 
