@@ -383,6 +383,15 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
                 input: newSchool.school_email.input.filter((n,i) => i !== index),
             }
         })
+    };
+
+
+    const setPhoneFormat = (e:any) => {
+        const value = e.target.value.replace(/(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)/, '$1$2$3-$4$5$6-$7$8$9$10');
+        setPhone({
+            ...phone,
+            number: value,
+        })
     }
 
 
@@ -540,7 +549,7 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
                             </IconButton>
                         </Tooltip>
                     </div>
-                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={phone.number} onChange={(e:any) => setPhone({...phone, number: e.target.value})}/>
+                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={phone.number} onChange={setPhoneFormat}/>
                     <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={addPhone}>Add Number</button>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                         Add Note
