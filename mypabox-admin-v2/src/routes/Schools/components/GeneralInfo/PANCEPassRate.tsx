@@ -89,7 +89,7 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
 
     return (
         <>
-        <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+        <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">First Time Pass Rate</label>
                 <div className='flex justify-center items-center gap-3'>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 

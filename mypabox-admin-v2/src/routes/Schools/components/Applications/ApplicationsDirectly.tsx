@@ -55,17 +55,11 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
     };
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        let value: string | number = "";
-        if ((e.target.name.toString()) === 'school_application_direct_to_school_fee') {
-            value = Number(e.target.value)
-        } else {
-            value = e.target.value
-        }
         setNewSchool({
             ...newSchool,
             school_application_submitted_directly_to_school: {
                 ...newSchool.school_application_submitted_directly_to_school,
-                [e.target.name]: value,
+                [e.target.name]: e.target.value,
             }
         })
     };

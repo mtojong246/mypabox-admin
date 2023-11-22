@@ -96,7 +96,7 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
 
     return (
         <>
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+            <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">In-State Tuition</label>
                 <div className='flex justify-center items-center gap-3'>
                     <div className='flex justify-start items-center gap-1 grow border border-[#B4B4B4] rounded p-3'>

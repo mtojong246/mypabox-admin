@@ -116,7 +116,7 @@ export default function AddSchool() {
                 ...newSchool,
                 [name]: {
                     ...field, 
-                    input: (typeof field.input) === 'number' ? Number(e.target.value) : e.target.value,
+                    input: e.target.value
                 }
             })
         // Input changes to opposite of its previous value 
@@ -333,6 +333,8 @@ export default function AddSchool() {
       </>
     );
 
+    console.log(tab)
+
   return (
     <div className={`w-screen px-10 ont-['Noto Sans']`}>
       <div className={`w-full max-w-[1800px] mx-auto`}>
@@ -353,7 +355,7 @@ export default function AddSchool() {
           </div>
         </div>
         <div className={`flex justify-start items-start gap-10 `}>
-          <div className={`text-md pt-4 sticky ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
+          <div className={`text-md py-4 sticky border-r border-[#DCDCDC] ${tab === '#accreditation-status' || tab === '#mission-statement' ? 'min-h-0' : 'min-h-screen'} pr-10 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {categories.map(category => (
               <button onClick={(e:any) => {handleSave(e, newSchool.id, category.hash)}} 
@@ -365,7 +367,7 @@ export default function AddSchool() {
             </div>
           </div>
 
-        <div className='border-l border-[#DCDCDC] pl-10 grow'>
+        <div className={`grow`}>
           <Category tab={tab} newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}
           handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} />
         </div>

@@ -56,17 +56,11 @@ export default function SupplementalApplications({ newSchool, setNewSchool }: { 
     };
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        let value: string | number = "";
-        if ((e.target.name.toString()) === 'school_supplemental_application_fee') {
-            value = Number(e.target.value)
-        } else {
-            value = e.target.value
-        }
         setNewSchool({
             ...newSchool,
             school_supplemental_application_required: {
                 ...newSchool.school_supplemental_application_required,
-                [e.target.name]: value,
+                [e.target.name]: e.target.value,
             }
         })
     };

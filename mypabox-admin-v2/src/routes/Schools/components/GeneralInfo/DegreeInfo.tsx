@@ -133,7 +133,7 @@ export default function DegreeInfo({newSchool, setNewSchool}: { newSchool: Schoo
       
     return (
         <>
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+            <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Types of Degrees Offered</label>
                 {/* <button value="school_type_of_degree_offered" className="w-56 pl-4 text-[#F06A6A] border border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" 
                 onClick={addInputFields}>

@@ -98,7 +98,7 @@ export default function AccreditationStatus({newSchool, setNewSchool}: { newScho
 
     return (
         <>
-        <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+        <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Accreditation Status</label>
                 <div className='flex justify-center items-center gap-3'>
                     <Select className="grow focus:outline-none rounded"

@@ -12,7 +12,7 @@ export default function MissionStatement({newSchool, setNewSchool}: { newSchool:
     };
     
     return (
-        <div className={`mt-12 text-xl w-full`}>
+        <div className={`mt-10 text-xl w-full`}>
             <p>Mission Statement</p>
             <ReactQuill className='mt-4 h-60 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_mission_statement}
             onChange={handleQuill}/>

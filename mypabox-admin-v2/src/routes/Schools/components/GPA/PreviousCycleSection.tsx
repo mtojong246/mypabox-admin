@@ -40,7 +40,7 @@ export default function PreviousCycleSection({newSchool, setNewSchool}: { newSch
                 ...newSchool.school_average_gpa_accepted_previous_cycle,
                 [name]: {
                     ...field,
-                    input: Number(e.target.value),
+                    input: e.target.value
                 }
             }
         })

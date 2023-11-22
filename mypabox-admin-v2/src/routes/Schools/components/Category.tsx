@@ -124,7 +124,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     // }
     
     return (
-        <form className='pb-24 min-h-screen'>
+        <form className={`pb-24 `}>
         <>
             {tab === '#general-info' && <GeneralInfo newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#degree-info' && <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool}/>}

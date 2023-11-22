@@ -15,7 +15,7 @@ const fields = [
     {
         name: 'School Name',
         value: 'school_name',
-        margin: 'mt-12',
+        margin: 'mt-10',
         type: 'text',
         required: true,
     },
@@ -249,9 +249,6 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
         const name = e.target.name as keyof School;
         const field = newSchool[name] as StringInput | NumberInput;
         let value: string | number = e.target.value;
-        if (typeof field.input === 'number') {
-            value = Number(e.target.value)
-        } 
         setNewSchool({
             ...newSchool,
             [name]: {
