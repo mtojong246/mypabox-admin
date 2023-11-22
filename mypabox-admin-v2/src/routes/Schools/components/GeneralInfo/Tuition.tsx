@@ -20,13 +20,31 @@ export default function Tuition({newSchool, setNewSchool}: { newSchool: School, 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof School;
         const field = newSchool[name] as StringInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                input: Number(e.target.value),
+        if (e.target.value === '') {
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.value,
+                }
+            })
+        } else {
+            const conversion = parseInt(e.target.value.replace(/,/g, ''));
+            if (isNaN(conversion)) {
+                return
+            } else {
+                const value = conversion.toLocaleString();
+                setNewSchool({
+                    ...newSchool,
+                    [name]: {
+                        ...field,
+                        input: value,
+                    }
+                })
             }
-        })
+        }
+        
+        
     };
 
     // const handleQuill = (e:any) => {
