@@ -159,8 +159,8 @@ export interface School {
     school_in_state_tuition: NumberInput;
     school_out_of_state_tuition: NumberInput;
 
-    school_first_time_pass_rate: NumberInput;
-    school_average_five_year_first_time_pass_rate: NumberInput;
+    school_first_time_pass_rate: StringInput;
+    school_average_five_year_first_time_pass_rate: StringInput;
     school_pance_pass_rate_note: string;
 
     school_minimum_gpa_required: boolean;

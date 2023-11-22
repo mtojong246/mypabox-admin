@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState, useEffect } from "react";
 import { School, Note, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
 import { AiOutlineClose } from "react-icons/ai";
@@ -19,17 +19,25 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof School;
         const field = newSchool[name] as StringInput | NumberInput;
-        let value: string | number = e.target.value;
-        if (typeof field.input === 'number') {
-            value = Number(e.target.value)
-        } 
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                input: value,
-            }
-        })
+        const value = e.target.value.replace('%', '')
+        if (value) {
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: value + '%',
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: '',
+                }
+            })
+        }
+        
     };
 
     const handleQuill = (e:any) => {
@@ -85,7 +93,7 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
                 <label className="absolute top-[-16px] text-xl bg-white">First Time Pass Rate</label>
                 <div className='flex justify-center items-center gap-3'>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
-                    value={newSchool.school_first_time_pass_rate.input ? newSchool.school_first_time_pass_rate.input : ''} name='school_first_time_pass_rate' onChange={handleInput}/>
+                    value={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' onChange={handleInput}/>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>

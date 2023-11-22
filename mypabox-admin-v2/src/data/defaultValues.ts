@@ -134,11 +134,11 @@ export const defaultSchool: School = {
         notes: []
     },
     school_first_time_pass_rate: {
-        input: 0,
+        input: '',
         notes: []
     },
     school_average_five_year_first_time_pass_rate: {
-        input: 0,
+        input: '',
         notes: []
     },
     school_pance_pass_rate_note: '',
