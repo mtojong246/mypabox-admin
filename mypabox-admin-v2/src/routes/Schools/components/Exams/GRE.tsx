@@ -296,7 +296,6 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
         }
     }
 
-    
 
 
     return (
@@ -475,7 +474,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 <>
                 <div className={`mt-8 mx-5 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Scores</label> 
-                    <div className='mt-2'>
+                    <div className='mt-4'>
                         <label className="text-xl font-medium bg-white">Verbal Score</label>   
                         <input onChange={handleInput} name='school_gre_minimum_verbal_score' value={newSchool.school_gre.school_gre_minimum_verbal_score ? newSchool.school_gre.school_gre_minimum_verbal_score : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                         </div>
@@ -514,7 +513,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </div>
                 <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Percentiles</label> 
-                    <div className='mt-2'>
+                    <div className='mt-4'>
                         <label className="text-xl font-medium bg-white">Verbal Percentile</label>   
                         <input onChange={handleInput} name='school_gre_minimum_verbal_percentile' value={newSchool.school_gre.school_gre_minimum_verbal_percentile ? newSchool.school_gre.school_gre_minimum_verbal_percentile : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />     
                     </div>
@@ -556,8 +555,48 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
                 </>
                 )}
             </div>
+
+            <div className={`mt-12 relative max-w-[900px] border-2 py-5 px-8 block rounded border-orange-600`}>
+                <label className="font-medium absolute top-[-16px] text-xl bg-white">Average GRE Scores Accepted Previous Year</label>
+                <div className='mt-4'>
+                    <label className="text-xl font-medium bg-white">Verbal Score</label>   
+                    <input onChange={handleInput} name='school_average_gre_verbal_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                </div>
+                <div className='mt-8'>
+                    <label className="text-xl font-medium bg-white">Quantitative Score</label>   
+                    <input onChange={handleInput} name='school_average_gre_quantitative_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                </div>
+                <div className='mt-8'>
+                    <label className="text-xl font-medium bg-white">Analytical Writing Score</label>   
+                    <input onChange={handleInput} name='school_average_gre_analytical_writing_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                </div>
+                <div className='mt-8 mb-5'>
+                    <label className="text-xl font-medium bg-white">Combined Score</label>   
+                    <input onChange={handleInput} name='school_average_gre_combined_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                </div>
+            </div>
+
+            <div className={`mt-12 relative max-w-[900px] border-2 py-5 px-8 block rounded border-orange-600`}>
+                <label className="font-medium absolute top-[-16px] text-xl bg-white">Average GRE Percentiles Accepted Previous Year</label>
+                <div className='mt-4'>
+                    <label className="text-xl font-medium bg-white">Verbal Percentile</label>   
+                    <input onChange={handleInput} name='school_average_gre_verbal_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                </div>
+                <div className='mt-8'>
+                    <label className="text-xl font-medium bg-white">Quantitative Percentile</label>   
+                    <input onChange={handleInput} name='school_average_gre_quantitative_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                </div>
+                <div className='mt-8'>
+                    <label className="text-xl font-medium bg-white">Analytical Writing Percentile</label>   
+                    <input onChange={handleInput} name='school_average_gre_analytical_writing_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                </div>
+                <div className='mt-8 mb-5'>
+                    <label className="text-xl font-medium bg-white">Combined Percentile</label>   
+                    <input onChange={handleInput} name='school_average_gre_combined_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                </div>
+            </div>
             
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
+            {/* <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Verbal Score Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_verbal_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
@@ -575,9 +614,9 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Combined Score Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_combined_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
-            </div>
+            </div> */}
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
+            {/* <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Verbal Percentile Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_verbal_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
             </div>
@@ -595,7 +634,7 @@ export default function GRE({ newSchool, setNewSchool }: { newSchool: School, se
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average GRE Combined Percentile Accepted Previous Year</label>   
                 <input onChange={handleInput} name='school_average_gre_combined_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
-            </div>
+            </div> */}
             </>
             )}
 
