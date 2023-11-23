@@ -482,14 +482,14 @@ export interface School {
     school_application_submitted_directly_to_school: {
         input: boolean;
         school_application_direct_to_school_deadline: string | null;
-        school_application_direct_to_school_fee: number | null;
+        school_application_direct_to_school_fee: number | string | null;
         school_application_direct_to_school_notes: Note[];
     }
 
     school_supplemental_application_required: {
         input: boolean;
         school_supplemental_application_deadline: string | null;
-        school_supplemental_application_fee: number | null;
+        school_supplemental_application_fee: number | string | null;
         school_supplemental_application_link: string | null;
         school_supplemental_application_link_provided_with_invite_only: boolean | null;
         school_supplemental_application_notes: Note[];

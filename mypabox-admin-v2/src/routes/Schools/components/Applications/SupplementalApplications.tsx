@@ -56,13 +56,39 @@ export default function SupplementalApplications({ newSchool, setNewSchool }: { 
     };
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewSchool({
-            ...newSchool,
-            school_supplemental_application_required: {
-                ...newSchool.school_supplemental_application_required,
-                [e.target.name]: e.target.value,
+        if (e.target.name === 'school_supplemental_application_fee') {
+            if (e.target.value === '') {
+                setNewSchool({
+                    ...newSchool,
+                    school_supplemental_application_required: {
+                        ...newSchool.school_supplemental_application_required,
+                        [e.target.name]: '',
+                    }
+                })
+            } else {
+                const conversion = parseInt(e.target.value.replace(/,/g, ''));
+                if (isNaN(conversion)) {
+                    return
+                } else {
+                    const value = conversion.toLocaleString();
+                    setNewSchool({
+                        ...newSchool,
+                        school_supplemental_application_required: {
+                            ...newSchool.school_supplemental_application_required,
+                            [e.target.name]: value,
+                        }
+                    })
+                }
             }
-        })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                school_supplemental_application_required: {
+                    ...newSchool.school_supplemental_application_required,
+                    [e.target.name]: e.target.value,
+                }
+            })
+        }
     };
 
     const addNote = (note: Note) => {

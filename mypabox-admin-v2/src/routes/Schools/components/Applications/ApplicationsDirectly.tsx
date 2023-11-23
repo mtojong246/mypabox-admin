@@ -55,13 +55,39 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool }: { newS
     };
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewSchool({
-            ...newSchool,
-            school_application_submitted_directly_to_school: {
-                ...newSchool.school_application_submitted_directly_to_school,
-                [e.target.name]: e.target.value,
+        if (e.target.name === 'school_application_direct_to_school_fee') {
+            if (e.target.value === '') {
+                setNewSchool({
+                    ...newSchool,
+                    school_application_submitted_directly_to_school: {
+                        ...newSchool.school_application_submitted_directly_to_school,
+                        [e.target.name]: '',
+                    }
+                })
+            } else {
+                const conversion = parseInt(e.target.value.replace(/,/g, ''));
+                if (isNaN(conversion)) {
+                    return
+                } else {
+                    const value = conversion.toLocaleString();
+                    setNewSchool({
+                        ...newSchool,
+                        school_application_submitted_directly_to_school: {
+                            ...newSchool.school_application_submitted_directly_to_school,
+                            [e.target.name]: value,
+                        }
+                    })
+                }
             }
-        })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                school_application_submitted_directly_to_school: {
+                    ...newSchool.school_application_submitted_directly_to_school,
+                    [e.target.name]: e.target.value,
+                }
+            })
+        }
     };
 
     const addNote = (note: Note) => {
