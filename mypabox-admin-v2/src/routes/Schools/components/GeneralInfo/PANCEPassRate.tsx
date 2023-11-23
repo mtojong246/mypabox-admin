@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState, useEffect, KeyboardEventHandler } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState, KeyboardEvent } from "react";
 import { School, Note, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
 import { AiOutlineClose } from "react-icons/ai";
@@ -43,25 +43,55 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof School;
         const field = newSchool[name] as StringInput | NumberInput;
+        let value = e.target.value;
+        if (e.target.value.includes('%')) {
+            value = e.target.value.replace('%', '')
+        }
             setNewSchool({
                 ...newSchool,
                 [name]: {
                     ...field,
-                    input: e.target.value,
+                    input: value + '%',
                 }
             })
         
     };
 
-
-    const addPercentage = (e:any) => {
-        if ((e.target.value as string) === '') return;
-        if ((e.target.value as string).includes('%')) {
-            (e.target.value as string).slice(0,-1);
-        } else {
-            e.target.value += '%'
-        } 
+    const keyDownFirst = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Backspace') {
+            setNewSchool({
+                ...newSchool,
+                school_first_time_pass_rate: {
+                    ...newSchool.school_first_time_pass_rate,
+                    input: newSchool.school_first_time_pass_rate.input.replace('%', '')
+                }
+            })
+        }
     }
+
+    const keyDownFive = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Backspace') {
+            setNewSchool({
+                ...newSchool,
+                school_average_five_year_first_time_pass_rate: {
+                    ...newSchool.school_average_five_year_first_time_pass_rate,
+                    input: newSchool.school_average_five_year_first_time_pass_rate.input.replace('%', '')
+                }
+            })
+        }
+    }
+
+
+    // const addPercentage = (e:any) => {
+    //     const name = e.target.name as keyof School;
+    //     const field = newSchool[name] as StringInput | NumberInput;
+    //     if ((e.target.value as string) === '') return;
+    //     if ((e.target.value as string).includes('%')) {
+    //         (e.target.value as string).slice(0,-1);
+    //     } else {
+    //         e.target.value += '%'
+    //     } 
+    // }
 
 
     
@@ -119,7 +149,7 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
                 <label className="absolute top-[-16px] text-xl bg-white">First Time Pass Rate</label>
                 <div className='flex justify-center items-center gap-3'>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
-                    value={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' onChange={handleInput} onBlur={addPercentage}/>
+                    value={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' onChange={handleInput} onKeyDown={keyDownFirst}/>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
@@ -153,7 +183,7 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
                 <label className="absolute top-[-16px] text-xl bg-white">Five Year Average First-Time Pass Rate</label>
                 <div className='flex justify-center items-center gap-3'>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
-                    value={newSchool.school_average_five_year_first_time_pass_rate.input ? newSchool.school_average_five_year_first_time_pass_rate.input : ''} name='school_average_five_year_first_time_pass_rate' onChange={handleInput} onBlur={addPercentage}/>
+                    value={newSchool.school_average_five_year_first_time_pass_rate.input ? newSchool.school_average_five_year_first_time_pass_rate.input : ''} name='school_average_five_year_first_time_pass_rate' onChange={handleInput} onKeyDown={keyDownFive}/>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_average_five_year_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
