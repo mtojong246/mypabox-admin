@@ -333,7 +333,6 @@ export default function AddSchool() {
       </>
     );
 
-    console.log(tab)
 
   return (
     <div className={`w-screen px-10 ont-['Noto Sans']`}>
