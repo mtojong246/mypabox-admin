@@ -7,10 +7,11 @@ import { SchoolContext } from '../../useContext';
 
 // Array of objects, each representing a navigation item
 const NAV_ITEMS = [
-  { path: "/schools", label: "Schools", left: "21.5em" },
-  { path: "/courses", label: "Courses", left: "29em" },
-  { path: "/categories", label: "Course Categories", left: "36.5em" },
-  { path: "/users", label: "Users", left: "49em" },
+  { path: "/schools", label: "Schools"},
+  { path: "/courses", label: "Courses"},
+  { path: "/categories", label: "Course Categories"},
+  { path: "/staff", label: "Staff"},
+  { path: "/users", label: "Users"},
 ];
 
 const Sidebar = () => {
@@ -40,7 +41,6 @@ const Sidebar = () => {
               <Link
                 to={item.path}
                 className=" text-white text-lg active:underline focus:underline hover:underline border-3 border-black"
-                style={{ left: item.left }}
                 onClick={handleToggleSideMenu}
               >
                 {item.label}

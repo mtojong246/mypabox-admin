@@ -9,6 +9,7 @@ import Courses from './routes/Courses/Course';
 import AddOrEditCourse from './routes/Courses/AddOrEditCourse';
 import CourseCategories from './routes/CourseCategories/CourseCategories';
 import AddCourseCategory from './routes/CourseCategories/AddCourseCategory';
+import Staff from './routes/Staff/Staff';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path='courses/edit-course/:id' element={<AddOrEditCourse />} />
           <Route path='categories' element={<CourseCategories />} />
           <Route path='categories/add-category' element={<AddCourseCategory />} />
+          <Route path='staff' element={<Staff />} />
         </Routes>
       </Router>
     </div>
