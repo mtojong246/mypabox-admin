@@ -1,14 +1,60 @@
 import { RxCaretRight } from "react-icons/rx";
 import { RxCaretDown } from "react-icons/rx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddTask from "./AddTask";
+import { getAllUsers } from "../../utils/firebase/firebase.utils";
+import { User } from "../../types/users.types";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { selectUsers } from "../../app/selectors/users.selectors";
+import { setUsers } from "../../app/slices/users";
 
 export default function Staff() {
+    const users = useSelector(selectUsers);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [ openPermissions, setOpenPermissions ] = useState(false);
     const [ openActive, setOpenActive ] = useState(false);
     const [ openCompleted, setOpenCompleted ] = useState(false);
     const [ openArchived, setOpenArchived ] = useState(false);
     const [ openAddTask, setOpenAddTask ] = useState(false);
+
+    useEffect(() => {
+
+        const fetchUsers = async () => {
+            try {
+                const allUsers = await getAllUsers();
+                let userData: User[] = [];
+                if (allUsers) {
+                    allUsers.forEach(user => (
+                        userData.push({
+                            name: user.displayName,
+                            email: user.email,
+                            isSuperAdmin: user.isSuperAdmin,
+                            permissions: user.permissions,
+                            activeTasks: user.activeTasks,
+                            completedTasks: user.completedTasks,
+                            archivedTasks: user.archivedTasks,
+                        })
+                    )) 
+                    dispatch(setUsers(userData))
+                }
+ 
+            } catch (error: any) {
+                if (error.message === 'permission-denied') {
+                    alert("Access denied. Please log in using the appropriate credentials");
+                    navigate('/');
+                    return;
+                  } else {
+                    alert('Error loading user data')
+                  }
+            }
+        }
+
+        fetchUsers();
+
+    }, [dispatch, navigate]);
+
 
     const togglePermissions = (e:any) => {
         e.preventDefault();
@@ -37,19 +83,22 @@ export default function Staff() {
 
     return (
         <>
+        {users && (
+            <>
             <div className="w-screen font-['Noto Sans']">
                 <div className='w-full max-w-[1800px] mx-auto'>
                     <div className='w-full p-10 bg-white sticky top-0 z-10'>
                         <p className='text-[48px] font-medium'>Staff</p>
-                        <p className='text-xl'>Total: </p>
+                        <p className='text-xl'>Total: {users.length}</p>
                     </div>
                 </div>
-                <div className={`w-full max-w-[1800px] px-10 pb-10 flex flex-column justify-start items-center gap-10`}>
+                <div className={`w-full max-w-[1800px] px-10 pb-10 flex flex-col justify-start items-center gap-10`}>
+                {users.map(user => (
                     <div className='w-full border border-[#E5E5E5] rounded-md'>
                         <div className='w-full p-3 border-b border-[#E5E5E5] flex justify-between items-start'>
                             <div>
-                                <p className='text-[22px] font-medium mb-1'>Name</p>
-                                <p className='font-bold text-sm'>Email: <span className='font-normal'>name@email.com</span></p>
+                                <p className='text-[22px] font-medium mb-1'>{user.name}</p>
+                                <p className='font-bold text-sm'>Email: <span className='font-normal'>{user.email}</span></p>
                             </div>
                             <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={toggleOpenTask}>+ Add Task</button>
                         </div>
@@ -117,9 +166,12 @@ export default function Staff() {
                             </div>
                         </div>
                     </div>
+                ))}
                 </div>
             </div>
             {openAddTask && <AddTask toggleOpenTask={toggleOpenTask}/>} 
+            </>
+        )}
         </>
     )
 }

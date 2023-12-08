@@ -9,6 +9,8 @@ import { CourseState } from "../types/courses.types";
 import { courseReducer } from "./slices/courses";
 import { CategoryState } from "../types/categories.types";
 import { categoryReducer } from "./slices/categories";
+import { UserState } from "../types/users.types";
+import { userReducer } from "./slices/users";
 
 export interface AppState {
   login: loginState,
@@ -16,6 +18,7 @@ export interface AppState {
   addSchool: addSchoolState,
   courses: CourseState,
   categories: CategoryState,
+  users: UserState,
 }
 
 // combines all reducers into one root reducer
@@ -25,4 +28,5 @@ export const rootReducer = combineReducers({
     addSchool: addSchoolReducer,
     courses: courseReducer, 
     categories: categoryReducer, 
+    users: userReducer,
 })

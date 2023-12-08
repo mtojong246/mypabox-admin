@@ -16,8 +16,6 @@ export default function AddTask({toggleOpenTask}: {toggleOpenTask: (e:any) => vo
         setStateSchools(names)
     }, [selectedState])
 
-    console.log(stateSchools)
-
 
     return (
         <div className='fixed top-0 bottom-0 left-0 right-0 z-[100] p-10 flex justify-center items-center'>

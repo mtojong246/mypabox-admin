@@ -410,4 +410,22 @@ export const signOutUser = async () => {
 }
 
 // Auth state listener
-export const onAuthStateChangedListener = (callback: (user: User | null) => void) => onAuthStateChanged(auth, callback)
+export const onAuthStateChangedListener = (callback: (user: User | null) => void) => onAuthStateChanged(auth, callback);
+
+// Gets all users
+export const getAllUsers = async () => {
+    const collectionRef = collection(db, 'users');
+    const q = query(collectionRef);
+
+    try {
+        // Gets documents based on query parameters 
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error fetching user data' , error.code);
+    }
+}
