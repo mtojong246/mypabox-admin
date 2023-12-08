@@ -1,12 +1,14 @@
 import { RxCaretRight } from "react-icons/rx";
 import { RxCaretDown } from "react-icons/rx";
 import { useState } from "react";
+import AddTask from "./AddTask";
 
 export default function Staff() {
     const [ openPermissions, setOpenPermissions ] = useState(false);
     const [ openActive, setOpenActive ] = useState(false);
     const [ openCompleted, setOpenCompleted ] = useState(false);
     const [ openArchived, setOpenArchived ] = useState(false);
+    const [ openAddTask, setOpenAddTask ] = useState(false);
 
     const togglePermissions = (e:any) => {
         e.preventDefault();
@@ -26,6 +28,11 @@ export default function Staff() {
     const toggleArchived = (e:any) => {
         e.preventDefault();
         setOpenArchived(!openArchived);
+    };
+
+    const toggleOpenTask = (e:any) => {
+        e.preventDefault();
+        setOpenAddTask(!openAddTask);
     }
 
     return (
@@ -44,7 +51,7 @@ export default function Staff() {
                                 <p className='text-[22px] font-medium mb-1'>Name</p>
                                 <p className='font-bold text-sm'>Email: <span className='font-normal'>name@email.com</span></p>
                             </div>
-                            <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]'>+ Add Task</button>
+                            <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={toggleOpenTask}>+ Add Task</button>
                         </div>
                         <div className='w-full border-b border-[#E5E5E5] relative'>
                             <div className='absolute top-0 bottom-0 right-0 left-0' onClick={togglePermissions}></div>
@@ -52,6 +59,7 @@ export default function Staff() {
                                 {openPermissions ? <RxCaretDown className='mr-3 w-5 h-5 text-[#B4B4B4]' /> : <RxCaretRight className='mr-3 w-5 h-5 text-[#B4B4B4]'/>}
                                 <p className='text-sm'>{openPermissions ? 'Hide' : 'View'} Permissions</p>
                             </div>
+                            {openPermissions && (
                             <div className='border border-[#A4A4A4] mx-3 mb-3 rounded'>
                                 <div className='p-3 border-b border-[#A4A4A4] flex justify-start items-center'>
                                     <label className="relative inline-flex items-center cursor-pointer">
@@ -82,6 +90,7 @@ export default function Staff() {
                                     </label>
                                 </div>
                             </div>
+                        )}
                         </div>
                         <div className='w-full border-b border-[#E5E5E5] relative'>
                             <div className='absolute top-0 bottom-0 right-0 left-0' onClick={toggleActive}></div>
@@ -110,6 +119,7 @@ export default function Staff() {
                     </div>
                 </div>
             </div>
+            {openAddTask && <AddTask toggleOpenTask={toggleOpenTask}/>} 
         </>
     )
 }
