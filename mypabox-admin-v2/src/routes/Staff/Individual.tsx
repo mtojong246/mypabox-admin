@@ -1,12 +1,12 @@
 import { FaRegStar } from "react-icons/fa";
 import { RxCaretRight } from "react-icons/rx";
 import { RxCaretDown } from "react-icons/rx";
-import { User } from "../../types/users.types";
-import { useState } from "react";
+import { UserObject } from "../../types/users.types";
+import { useState, SetStateAction, Dispatch } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 
-export default function Individual({user, toggleOpenTask}: {user: User, toggleOpenTask: (e:any) => void}) {
+export default function Individual({user, toggleOpenTask, setAssignee}: {user: UserObject, toggleOpenTask: (e:any) => void, setAssignee: SetStateAction<Dispatch<any>>}) {
     const [ openPermissions, setOpenPermissions ] = useState(false);
     const [ openActive, setOpenActive ] = useState(false);
     const [ openCompleted, setOpenCompleted ] = useState(false);
@@ -35,6 +35,7 @@ export default function Individual({user, toggleOpenTask}: {user: User, toggleOp
 
 
 
+
     return (
         <div className='w-full border border-[#E5E5E5] rounded-md'>
             <div className='w-full p-3 border-b border-[#E5E5E5] flex justify-between items-start'>
@@ -45,7 +46,7 @@ export default function Individual({user, toggleOpenTask}: {user: User, toggleOp
                     </div>
                     <p className='font-bold text-sm'>Email: <span className='font-normal'>{user.email}</span></p>
                 </div>
-                {!user.isSuperAdmin && <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={toggleOpenTask}>+ Add Task</button>}
+                {!user.isSuperAdmin && <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.name} as any)}}>+ Add Task</button>}
             </div>
             {!user.isSuperAdmin && (
             <>
@@ -126,9 +127,8 @@ export default function Individual({user, toggleOpenTask}: {user: User, toggleOp
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
                                 <p className='ml-1 text-sm font-semibold'>Emory University</p>
                                 <div className='flex justify-center items-center gap-2'>
-                                    <button className='border-2 border-[#4573D2] text-sm text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]'>Edit Task</button>
-                                    <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Mark as complete</button>
-                                    <button className=''><FaRegTrashAlt className='h-8 w-8 text-[#F06A6A] hover:text-white hover:bg-[#F06A6A] border-2 border-[#F06A6A] rounded px-1 py-1'/></button>
+                                    <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Make active</button>
+                                    <button className='border-2 border-[#FF8F0B] text-sm text-[#FF8F0B] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#FF8F0B]'>Move to archive</button>
                                 </div>
                             </div>
                             <div className='p-3'>
@@ -149,11 +149,12 @@ export default function Individual({user, toggleOpenTask}: {user: User, toggleOp
                     <div className='flex flex-col justify-start items-center gap-3 mx-3 mb-3 relative z-10'>
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
-                                <p className='ml-1 text-sm font-semibold'>Emory University</p>
+                                <div className='flex justify-start items-center gap-2'>
+                                    <p className='ml-1 text-sm font-semibold'>Emory University</p>
+                                    <p className='text-sm text-[#B4B4B4]'>11-24-2023</p>
+                                </div>
                                 <div className='flex justify-center items-center gap-2'>
-                                    <button className='border-2 border-[#4573D2] text-sm text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]'>Edit Task</button>
-                                    <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Mark as complete</button>
-                                    <button className=''><FaRegTrashAlt className='h-8 w-8 text-[#F06A6A] hover:text-white hover:bg-[#F06A6A] border-2 border-[#F06A6A] rounded px-1 py-1'/></button>
+                                    <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Make active</button>
                                 </div>
                             </div>
                             <div className='p-3'>

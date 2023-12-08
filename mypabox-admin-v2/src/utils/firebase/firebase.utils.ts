@@ -5,6 +5,7 @@ import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where, d
 import { School } from "../../types/schools.types";
 import { Course } from "../../types/courses.types";
 import { CategoryCourse, CategoryType } from "../../types/categories.types";
+import { UserObject } from "../../types/users.types";
 
 interface AdditionalInfo {
     displayName?: string;
@@ -420,7 +421,10 @@ export const getAllUsers = async () => {
     try {
         // Gets documents based on query parameters 
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+        return querySnapshot.docs.map((docSnapshot) => ({
+            data: docSnapshot.data(),
+            id: docSnapshot.id,
+        }))
     } catch (error: any) {
         if (error.code === 'permission-denied') {
             throw new Error(error.code);
@@ -428,4 +432,19 @@ export const getAllUsers = async () => {
 
         console.log('error fetching user data' , error.code);
     }
+};
+
+export const updateUsersDoc = async (data: UserObject, id: string) => {
+    const docRef = doc(db, 'users', id);
+
+        try {
+            await setDoc(docRef, data)
+        } catch (error: any) {
+            if (error.code === 'permission-denied') {
+                throw new Error(error.code);
+            }
+    
+            console.log('error updating course' , error.code);
+        }
+    
 }

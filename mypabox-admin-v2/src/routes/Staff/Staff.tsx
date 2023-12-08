@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import AddTask from "./AddTask";
 import { getAllUsers } from "../../utils/firebase/firebase.utils";
-import { User } from "../../types/users.types";
+import { UserObject } from "../../types/users.types";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectUsers } from "../../app/selectors/users.selectors";
@@ -13,23 +13,30 @@ export default function Staff() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [ openAddTask, setOpenAddTask ] = useState(false);
+    const [ assignee, setAssignee ] = useState({
+        id: '',
+        name: '',
+    });
+
+    console.log(assignee)
 
     useEffect(() => {
 
         const fetchUsers = async () => {
             try {
                 const allUsers = await getAllUsers();
-                let userData: User[] = [];
+                let userData: UserObject[] = [];
                 if (allUsers) {
                     allUsers.forEach(user => (
                         userData.push({
-                            name: user.displayName,
-                            email: user.email,
-                            isSuperAdmin: user.isSuperAdmin,
-                            permissions: user.permissions,
-                            activeTasks: user.activeTasks,
-                            completedTasks: user.completedTasks,
-                            archivedTasks: user.archivedTasks,
+                            id: user.id,
+                            name: user.data.displayName,
+                            email: user.data.email,
+                            isSuperAdmin: user.data.isSuperAdmin,
+                            permissions: user.data.permissions,
+                            activeTasks: user.data.activeTasks,
+                            completedTasks: user.data.completedTasks,
+                            archivedTasks: user.data.archivedTasks,
                         })
                     )) 
                     dispatch(setUsers(userData))
@@ -69,11 +76,11 @@ export default function Staff() {
                 </div>
                 <div className={`w-full max-w-[1800px] px-10 pb-10 flex flex-col justify-start items-center gap-10`}>
                 {users.map(user => (
-                    <Individual user={user} toggleOpenTask={toggleOpenTask}/>
+                    <Individual user={user} toggleOpenTask={toggleOpenTask} setAssignee={setAssignee}/>
                 ))}
                 </div>
             </div>
-            {openAddTask && <AddTask toggleOpenTask={toggleOpenTask}/>} 
+            {openAddTask && <AddTask toggleOpenTask={toggleOpenTask} assignee={assignee} users={users}/>} 
             </>
         )}
         </>

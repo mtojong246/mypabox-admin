@@ -1,4 +1,5 @@
-export interface User {
+export interface UserObject {
+    id: string;
     name: string;
     email: string;
     isSuperAdmin: boolean;
@@ -27,5 +28,5 @@ export interface User {
 };
 
 export interface UserState {
-    users: User[]
+    users: UserObject[]
 }
