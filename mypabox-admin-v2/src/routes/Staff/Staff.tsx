@@ -18,8 +18,6 @@ export default function Staff() {
         name: '',
     });
 
-    console.log(assignee)
-
     useEffect(() => {
 
         const fetchUsers = async () => {
@@ -30,7 +28,7 @@ export default function Staff() {
                     allUsers.forEach(user => (
                         userData.push({
                             id: user.id,
-                            name: user.data.displayName,
+                            displayName: user.data.displayName,
                             email: user.data.email,
                             isSuperAdmin: user.data.isSuperAdmin,
                             permissions: user.data.permissions,
@@ -61,7 +59,9 @@ export default function Staff() {
     const toggleOpenTask = (e:any) => {
         e.preventDefault();
         setOpenAddTask(!openAddTask);
-    }
+    };
+
+    console.log(users[0])
 
     return (
         <>

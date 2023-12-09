@@ -41,12 +41,12 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
             <div className='w-full p-3 border-b border-[#E5E5E5] flex justify-between items-start'>
                 <div>
                     <div className='flex justify-start items-center gap-1 mb-1'>
-                        <p className='text-[22px] font-medium'>{user.name}</p>
+                        <p className='text-[22px] font-medium'>{user.displayName}</p>
                         {user.isSuperAdmin && <FaRegStar className='h-5 w-5 text-[#FF8F0B]' />}
                     </div>
                     <p className='font-bold text-sm'>Email: <span className='font-normal'>{user.email}</span></p>
                 </div>
-                {!user.isSuperAdmin && <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.name} as any)}}>+ Add Task</button>}
+                {!user.isSuperAdmin && <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.displayName} as any)}}>+ Add Task</button>}
             </div>
             {!user.isSuperAdmin && (
             <>
@@ -57,7 +57,7 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
                         <p className='text-sm'>{openPermissions ? 'Hide' : 'View'} Permissions</p>
                     </div>
                     {openPermissions && (
-                    <div className='border border-[#A4A4A4] mx-3 mb-3 rounded relative z-10'>
+                    <div className='border-2 border-[#A4A4A4] mx-3 mb-3 rounded relative z-10'>
                         <div className='p-3 border-b border-[#A4A4A4] flex justify-start items-center'>
                             <label className="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" className="sr-only peer" />
@@ -94,23 +94,38 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
                     <div className='flex justify-start items-center p-3'>
                         {openActive ? <RxCaretDown className='mr-3 w-5 h-5 text-[#B4B4B4]' /> : <RxCaretRight className='mr-3 w-5 h-5 text-[#B4B4B4]'/>}
                         <p className='text-sm mr-2'>{openActive ? 'Hide' : 'View'} Active Tasks</p>
-                        <p className='text-sm text-[#B4B4B4]'>(0)</p>
+                        <p className='text-sm text-[#B4B4B4]'>({user.activeTasks.length})</p>
                     </div>
                     {openActive && (
-                    <div className='flex flex-col justify-start items-center gap-3 mx-3 mb-3 relative z-10'>
+                    <div className='flex flex-col justify-start items-center gap-6 mx-3 mb-3 mt-1 relative z-10'>
+                        {user.activeTasks.length !== 0 && user.activeTasks.map(task => (
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
-                                <p className='ml-1 text-sm font-semibold'>Emory University</p>
+                                <p className='ml-1 font-semibold'>{task.state}</p>
                                 <div className='flex justify-center items-center gap-2'>
                                     <button className='border-2 border-[#4573D2] text-sm text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]'>Edit Task</button>
                                     <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Mark as complete</button>
                                     <button className=''><FaRegTrashAlt className='h-8 w-8 text-[#F06A6A] hover:text-white hover:bg-[#F06A6A] border-2 border-[#F06A6A] rounded px-1 py-1'/></button>
                                 </div>
                             </div>
-                            <div className='p-3'>
-                                <p className='text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            {task.schools.length !== 0 && (
+                            <div className={`p-3 ${task.description ? 'border-b' : 'border-0'} border-[#A4A4A4]`}>
+                                <div className='w-full border border-black rounded'>
+                                    {task.schools.map((school,i) => (
+                                    <div className={`p-2 flex justify-between items-center ${i !== task.schools.length-1 ? 'border-b' : 'border-0'} border-black`}>
+                                        <p className='ml-1 text-sm font-semibold'>{school}</p>
+                                    </div> 
+                                    ))}
+                                </div>
                             </div>
+                            )}
+                            {task.description && (
+                            <div className='p-3'>
+                                <p className='text-sm'>{task.description}</p>
+                            </div>
+                            )}
                         </div>
+                        ))}
                     </div>
                     )}
                 </div>
@@ -125,10 +140,17 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
                     <div className='flex flex-col justify-start items-center gap-3 mx-3 mb-3 relative z-10'>
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
-                                <p className='ml-1 text-sm font-semibold'>Emory University</p>
+                                <p className='ml-1 text-sm font-semibold'>Georgia</p>
                                 <div className='flex justify-center items-center gap-2'>
                                     <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Make active</button>
                                     <button className='border-2 border-[#FF8F0B] text-sm text-[#FF8F0B] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#FF8F0B]'>Move to archive</button>
+                                </div>
+                            </div>
+                            <div className='p-3 border-b border-[#A4A4A4]'>
+                                <div className='w-full border border-black rounded'>
+                                    <div className='p-2 flex justify-between items-center'>
+                                        <p className='ml-1 text-sm font-semibold'>Emory University</p>
+                                    </div>
                                 </div>
                             </div>
                             <div className='p-3'>
@@ -150,11 +172,18 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
                                 <div className='flex justify-start items-center gap-2'>
-                                    <p className='ml-1 text-sm font-semibold'>Emory University</p>
+                                    <p className='ml-1 text-sm font-semibold'>Georgia</p>
                                     <p className='text-sm text-[#B4B4B4]'>11-24-2023</p>
                                 </div>
                                 <div className='flex justify-center items-center gap-2'>
                                     <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Make active</button>
+                                </div>
+                            </div>
+                            <div className='p-3 border-b border-[#A4A4A4]'>
+                                <div className='w-full border border-black rounded'>
+                                    <div className='p-2 flex justify-between items-center'>
+                                        <p className='ml-1 text-sm font-semibold'>Emory University</p>
+                                    </div>
                                 </div>
                             </div>
                             <div className='p-3'>

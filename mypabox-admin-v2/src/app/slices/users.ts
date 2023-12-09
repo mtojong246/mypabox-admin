@@ -12,10 +12,19 @@ const userSlice = createSlice({
         setUsers: (state, action) => {
             state.users = action.payload;
         },
+        editUsers: (state, action) => {
+            state.users = state.users.map(user => {
+                if (user.id === action.payload.id) {
+                    return { ...action.payload }
+                } else {
+                    return { ...user }
+                }
+            })
+        }
     }
 })
 
-export const { setUsers } = userSlice.actions;
+export const { setUsers, editUsers } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
 

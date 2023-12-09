@@ -1,6 +1,6 @@
 export interface UserObject {
     id: string;
-    name: string;
+    displayName: string;
     email: string;
     isSuperAdmin: boolean;
     permissions: {
@@ -13,18 +13,18 @@ export interface UserObject {
         state: string;
         schools: string[];
         description: string | null;
-    }[] | null;
+    }[];
     completedTasks: {
         state: string;
         schools: string[];
         description: string | null;
-    }[] | null;
+    }[];
     archivedTasks: {
         state: string;
         schools: string[];
         description: string | null;
         timestamp: string | null;
-    }[] | null;
+    }[];
 };
 
 export interface UserState {
