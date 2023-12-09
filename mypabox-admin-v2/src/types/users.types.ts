@@ -31,6 +31,7 @@ export interface Task {
     state: string;
     schools: string[];
     description: string | null;
+    timestamp?: string | null;
 }
 
 export interface UserState {

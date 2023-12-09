@@ -51,6 +51,59 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
         }
     }
 
+    // Moves task from active to completed
+    const markAsComplete = async (e:MouseEvent<HTMLButtonElement>, task: Task, index: number) => {
+        e.preventDefault();
+        const updatedUser = {
+            ...user,
+            activeTasks: user.activeTasks.filter((t,i) => i !== index),
+            completedTasks: user.completedTasks.concat(task)
+        };
+        try {
+            await updateUsersDoc(updatedUser, updatedUser.id);
+            dispatch(editUsers(updatedUser));
+        } catch (err: any) {
+            alert('Error moving active task to completed tasks');
+        }
+    };
+
+    // Moves completed or archived task back to active tasks
+    const makeActive = async (e:MouseEvent<HTMLButtonElement>, task: Task, index: number, type: string) => {
+        e.preventDefault();
+
+        const updatedUser = {
+            ...user,
+            activeTasks: user.activeTasks.concat(task),
+            completedTasks: type === 'completed' ? user.completedTasks.filter((t,i) => i !== index) : user.completedTasks,
+            archivedTasks: type === 'archived' ? user.archivedTasks.filter((t,i) => i !== index) : user.archivedTasks,
+        }
+
+        try {
+            await updateUsersDoc(updatedUser, updatedUser.id);
+            dispatch(editUsers(updatedUser));
+        } catch (err: any) {
+            alert('Error making task active');
+        }
+    };
+
+    const moveToArchive = async (e:MouseEvent<HTMLButtonElement>, task: Task, index: number) => {
+        e.preventDefault();
+        const date = new Date().toDateString();
+        const updatedUser = {
+            ...user,
+            completedTasks: user.completedTasks.filter((t,i) => i !== index),
+            archivedTasks: user.archivedTasks.concat({...task, timestamp: date})
+        };
+        try {
+            await updateUsersDoc(updatedUser, updatedUser.id);
+            dispatch(editUsers(updatedUser));
+        } catch (err: any) {
+            alert('Error moving active task to completed tasks');
+        }
+    };
+
+
+
 
 
 
@@ -115,14 +168,14 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                         <p className='text-sm text-[#B4B4B4]'>({user.activeTasks.length})</p>
                     </div>
                     {openActive && (
-                    <div className='flex flex-col justify-start items-center gap-6 mx-3 mb-3 mt-1 relative z-10'>
+                    <div className={`flex flex-col justify-start items-center gap-3 ${user.activeTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
                         {user.activeTasks.length !== 0 && user.activeTasks.map((task,i) => (
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
                                 <p className='ml-1 font-semibold'>{task.state}</p>
                                 <div className='flex justify-center items-center gap-2'>
                                     <button onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.displayName} as any); setEditedTask(task); setEditedIndex(i)}} className='border-2 border-[#4573D2] text-sm text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]'>Edit Task</button>
-                                    <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Mark as complete</button>
+                                    <button onClick={(e:MouseEvent<HTMLButtonElement>) => markAsComplete(e, task, i)} className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Mark as complete</button>
                                     <button onClick={(e:MouseEvent<HTMLButtonElement>) => deleteTask(e, user.id, i)}><FaRegTrashAlt className='h-8 w-8 text-[#F06A6A] hover:text-white hover:bg-[#F06A6A] border-2 border-[#F06A6A] rounded px-1 py-1'/></button>
                                 </div>
                             </div>
@@ -152,29 +205,37 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                     <div className='flex justify-start items-center p-3'>
                         {openCompleted ? <RxCaretDown className='mr-3 w-5 h-5 text-[#B4B4B4]' /> : <RxCaretRight className='mr-3 w-5 h-5 text-[#B4B4B4]'/>}
                         <p className='text-sm mr-2'>{openCompleted ? 'Hide' : 'View'} Completed Tasks</p>
-                        <p className='text-sm text-[#B4B4B4]'>(0)</p>
+                        <p className='text-sm text-[#B4B4B4]'>({user.completedTasks.length})</p>
                     </div>
                     {openCompleted && (
-                    <div className='flex flex-col justify-start items-center gap-3 mx-3 mb-3 relative z-10'>
+                    <div className={`flex flex-col justify-start items-center gap-3 ${user.completedTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
+                        {user.completedTasks.length !== 0 && user.completedTasks.map((task,i) => (
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
-                                <p className='ml-1 text-sm font-semibold'>Georgia</p>
+                                <p className='ml-1 text-sm font-semibold'>{task.state}</p>
                                 <div className='flex justify-center items-center gap-2'>
-                                    <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Make active</button>
-                                    <button className='border-2 border-[#FF8F0B] text-sm text-[#FF8F0B] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#FF8F0B]'>Move to archive</button>
+                                    <button onClick={(e:MouseEvent<HTMLButtonElement>) => makeActive(e, task, i, 'completed')} className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Make active</button>
+                                    <button onClick={(e:MouseEvent<HTMLButtonElement>) => moveToArchive(e, task, i)} className='border-2 border-[#FF8F0B] text-sm text-[#FF8F0B] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#FF8F0B]'>Move to archive</button>
                                 </div>
                             </div>
-                            <div className='p-3 border-b border-[#A4A4A4]'>
+                            {task.schools.length !== 0 && (
+                            <div className={`p-3 ${task.description ? 'border-b' : 'border-0'} border-[#A4A4A4]`}>
                                 <div className='w-full border border-black rounded'>
-                                    <div className='p-2 flex justify-between items-center'>
-                                        <p className='ml-1 text-sm font-semibold'>Emory University</p>
+                                    {task.schools.map((school,i) => (
+                                    <div className={`p-2 flex justify-between items-center ${i !== task.schools.length-1 ? 'border-b' : 'border-0'} border-black`}>
+                                        <p className='ml-1 text-sm font-semibold'>{school}</p>
                                     </div>
+                                    ))}
                                 </div>
                             </div>
+                            )}
+                            {task.description && (
                             <div className='p-3'>
-                                <p className='text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p className='text-sm'>{task.description}</p>
                             </div>
+                            )}
                         </div>
+                        ))}
                     </div>
                     )}
                 </div>
@@ -183,31 +244,39 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                     <div className='flex justify-start items-center p-3'>
                         {openArchived ? <RxCaretDown className='mr-3 w-5 h-5 text-[#B4B4B4]' /> : <RxCaretRight className='mr-3 w-5 h-5 text-[#B4B4B4]'/>}
                         <p className='text-sm mr-2'>{openArchived ? 'Hide' : 'View'} Archived Tasks</p>
-                        <p className='text-sm text-[#B4B4B4]'>(0)</p>
+                        <p className='text-sm text-[#B4B4B4]'>({user.archivedTasks.length})</p>
                     </div>
                     {openArchived && (
-                    <div className='flex flex-col justify-start items-center gap-3 mx-3 mb-3 relative z-10'>
+                    <div className={`flex flex-col justify-start items-center gap-3 ${user.archivedTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
+                        {user.archivedTasks.length !== 0 && user.archivedTasks.map((task,i) => (
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
                                 <div className='flex justify-start items-center gap-2'>
-                                    <p className='ml-1 text-sm font-semibold'>Georgia</p>
-                                    <p className='text-sm text-[#B4B4B4]'>11-24-2023</p>
+                                    <p className='ml-1 text-sm font-semibold'>{task.state}</p>
+                                    <p className='text-sm text-[#B4B4B4]'>{task.timestamp}</p>
                                 </div>
                                 <div className='flex justify-center items-center gap-2'>
-                                    <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Make active</button>
+                                    <button onClick={(e:MouseEvent<HTMLButtonElement>) => makeActive(e, {state: task.state, schools: task.schools, description: task.description}, i, 'archived')} className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Make active</button>
                                 </div>
                             </div>
-                            <div className='p-3 border-b border-[#A4A4A4]'>
+                            {task.schools.length !== 0 && (
+                            <div className={`p-3 ${task.description ? 'border-b' : 'border-0'} border-[#A4A4A4]`}>
                                 <div className='w-full border border-black rounded'>
-                                    <div className='p-2 flex justify-between items-center'>
-                                        <p className='ml-1 text-sm font-semibold'>Emory University</p>
+                                    {task.schools.map((school,i) => (
+                                    <div className={`p-2 flex justify-between items-center ${i !== task.schools.length-1 ? 'border-b' : 'border-0'} border-black`}>
+                                        <p className='ml-1 text-sm font-semibold'>{school}</p>
                                     </div>
+                                    ))}
                                 </div>
                             </div>
+                            )}
+                            {task.description && (
                             <div className='p-3'>
-                                <p className='text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p className='text-sm'>{task.description}</p>
                             </div>
+                            )}
                         </div>
+                        ))}
                     </div>
                     )}
                 </div>
