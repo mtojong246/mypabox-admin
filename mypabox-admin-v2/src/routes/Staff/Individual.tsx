@@ -2,8 +2,11 @@ import { FaRegStar } from "react-icons/fa";
 import { RxCaretRight } from "react-icons/rx";
 import { RxCaretDown } from "react-icons/rx";
 import { UserObject } from "../../types/users.types";
-import { useState, SetStateAction, Dispatch } from "react";
+import { useState, SetStateAction, Dispatch, MouseEvent } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { editUsers } from "../../app/slices/users";
+import { updateUsersDoc } from "../../utils/firebase/firebase.utils";
 
 
 export default function Individual({user, toggleOpenTask, setAssignee}: {user: UserObject, toggleOpenTask: (e:any) => void, setAssignee: SetStateAction<Dispatch<any>>}) {
@@ -11,6 +14,7 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
     const [ openActive, setOpenActive ] = useState(false);
     const [ openCompleted, setOpenCompleted ] = useState(false);
     const [ openArchived, setOpenArchived ] = useState(false);
+    const dispatch = useDispatch();
 
 
     const togglePermissions = (e:any) => {
@@ -32,6 +36,20 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
         e.preventDefault();
         setOpenArchived(!openArchived);
     };
+
+    const deleteTask = async (e: MouseEvent<HTMLButtonElement>, id: string, index: number) => {
+        e.preventDefault();
+        const updatedUser: UserObject = {
+            ...user,
+            activeTasks: user.activeTasks.filter((t,i) => i !== index)
+        }
+        try {
+            await updateUsersDoc(updatedUser, id);
+            dispatch(editUsers(updatedUser))
+        } catch (error:any) {
+            alert('Error deleting task')
+        }
+    }
 
 
 
@@ -98,14 +116,14 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
                     </div>
                     {openActive && (
                     <div className='flex flex-col justify-start items-center gap-6 mx-3 mb-3 mt-1 relative z-10'>
-                        {user.activeTasks.length !== 0 && user.activeTasks.map(task => (
+                        {user.activeTasks.length !== 0 && user.activeTasks.map((task,i) => (
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
                                 <p className='ml-1 font-semibold'>{task.state}</p>
                                 <div className='flex justify-center items-center gap-2'>
                                     <button className='border-2 border-[#4573D2] text-sm text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]'>Edit Task</button>
                                     <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Mark as complete</button>
-                                    <button className=''><FaRegTrashAlt className='h-8 w-8 text-[#F06A6A] hover:text-white hover:bg-[#F06A6A] border-2 border-[#F06A6A] rounded px-1 py-1'/></button>
+                                    <button onClick={(e:MouseEvent<HTMLButtonElement>) => deleteTask(e, user.id, i)}><FaRegTrashAlt className='h-8 w-8 text-[#F06A6A] hover:text-white hover:bg-[#F06A6A] border-2 border-[#F06A6A] rounded px-1 py-1'/></button>
                                 </div>
                             </div>
                             {task.schools.length !== 0 && (
