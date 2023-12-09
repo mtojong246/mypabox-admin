@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { selectUsers } from "../../app/selectors/users.selectors";
 import { setUsers } from "../../app/slices/users";
 import Individual from "./Individual";
+import { selectLogin } from "../../app/selectors/login.selector";
 
 
 export default function Staff() {
+    const login = useSelector(selectLogin);
     const users = useSelector(selectUsers);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -20,6 +22,7 @@ export default function Staff() {
     });
     const [ editedTask, setEditedTask ] = useState<Task | null>(null);
     const [ editedIndex, setEditedIndex ] = useState(0);
+    const [ isAdmin, setIsAdmin ] = useState(false);
     
 
     useEffect(() => {
@@ -59,6 +62,18 @@ export default function Staff() {
 
     }, [dispatch, navigate]);
 
+    useEffect(() => {
+        const loggedInUser = users.find(user => user.email === login);
+        if (loggedInUser) {
+            if (loggedInUser.isSuperAdmin) {
+                setIsAdmin(true);
+            } else {
+                setIsAdmin(false);
+            }
+        }
+    }, [login]);
+
+
 
     const toggleOpenTask = (e:any) => {
         e.preventDefault();
@@ -80,7 +95,7 @@ export default function Staff() {
                 </div>
                 <div className={`w-full max-w-[1800px] px-10 pb-10 flex flex-col justify-start items-center gap-10`}>
                 {users.map(user => (
-                    <Individual user={user} toggleOpenTask={toggleOpenTask} setAssignee={setAssignee} setEditedTask={setEditedTask} setEditedIndex={setEditedIndex}/>
+                    <Individual user={user} toggleOpenTask={toggleOpenTask} setAssignee={setAssignee} setEditedTask={setEditedTask} setEditedIndex={setEditedIndex} isAdmin={isAdmin}/>
                 ))}
                 </div>
             </div>
