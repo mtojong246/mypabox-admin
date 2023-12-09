@@ -2,7 +2,7 @@ import { FaRegStar } from "react-icons/fa";
 import { RxCaretRight } from "react-icons/rx";
 import { RxCaretDown } from "react-icons/rx";
 import { Task, UserObject } from "../../types/users.types";
-import { useState, SetStateAction, Dispatch, MouseEvent } from "react";
+import { useState, SetStateAction, Dispatch, MouseEvent, ChangeEvent } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { editUsers } from "../../app/slices/users";
@@ -98,9 +98,25 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
             await updateUsersDoc(updatedUser, updatedUser.id);
             dispatch(editUsers(updatedUser));
         } catch (err: any) {
-            alert('Error moving active task to completed tasks');
+            alert('Error moving to archive');
         }
     };
+
+    const handleCheck = async (e:ChangeEvent<HTMLInputElement>) => {
+        const updatedUser = {
+            ...user,
+            permissions: {
+                ...user.permissions,
+                [e.target.name]: e.target.checked,
+            }
+        }
+        try {
+            await updateUsersDoc(updatedUser, updatedUser.id);
+            dispatch(editUsers(updatedUser));
+        } catch (err: any) {
+            alert('Error editing permissions');
+        }
+    }
 
 
 
@@ -131,28 +147,28 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                     <div className='border-2 border-[#A4A4A4] mx-3 mb-3 rounded relative z-10'>
                         <div className='p-3 border-b border-[#A4A4A4] flex justify-start items-center'>
                             <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" className="sr-only peer" />
+                                <input type="checkbox" className="sr-only peer" onChange={handleCheck} name='canEdit' checked={user.permissions.canEdit ? true : false}/>
                                 <div className="w-[36px] h-5 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-600"></div>
                                 <span className="ml-3 text-sm text-black">Edit input fields</span>
                             </label>
                         </div>
                         <div className='p-3 border-b border-[#A4A4A4] flex justify-start items-center'>
                             <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" className="sr-only peer" />
+                                <input type="checkbox" className="sr-only peer" onChange={handleCheck} name='canVerify' checked={user.permissions.canVerify ? true : false}/>
                                 <div className="w-[36px] h-5 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-600"></div>
                                 <span className="ml-3 text-sm text-black">Verify input fields</span>
                             </label>
                         </div>
                         <div className='p-3 border-b border-[#A4A4A4] flex justify-start items-center'>
                             <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" className="sr-only peer" />
+                                <input type="checkbox" className="sr-only peer" onChange={handleCheck} name='canMakeLive' checked={user.permissions.canMakeLive ? true : false}/>
                                 <div className="w-[36px] h-5 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-600"></div>
                                 <span className="ml-3 text-sm text-black">Make school data live</span>
                             </label>
                         </div>
                         <div className='p-3 flex justify-start items-center'>
                             <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" className="sr-only peer" />
+                                <input type="checkbox" className="sr-only peer" onChange={handleCheck} name='canAddOrDelete' checked={user.permissions.canAddOrDelete ? true : false}/>
                                 <div className="w-[36px] h-5 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-600"></div>
                                 <span className="ml-3 text-sm text-black">Add / delete school data</span>
                             </label>
@@ -168,7 +184,7 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                         <p className='text-sm text-[#B4B4B4]'>({user.activeTasks.length})</p>
                     </div>
                     {openActive && (
-                    <div className={`flex flex-col justify-start items-center gap-3 ${user.activeTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
+                    <div className={`flex flex-col justify-start items-center gap-6 ${user.activeTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
                         {user.activeTasks.length !== 0 && user.activeTasks.map((task,i) => (
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
@@ -208,7 +224,7 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                         <p className='text-sm text-[#B4B4B4]'>({user.completedTasks.length})</p>
                     </div>
                     {openCompleted && (
-                    <div className={`flex flex-col justify-start items-center gap-3 ${user.completedTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
+                    <div className={`flex flex-col justify-start items-center gap-6 ${user.completedTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
                         {user.completedTasks.length !== 0 && user.completedTasks.map((task,i) => (
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
@@ -247,7 +263,7 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                         <p className='text-sm text-[#B4B4B4]'>({user.archivedTasks.length})</p>
                     </div>
                     {openArchived && (
-                    <div className={`flex flex-col justify-start items-center gap-3 ${user.archivedTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
+                    <div className={`flex flex-col justify-start items-center gap-6 ${user.archivedTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
                         {user.archivedTasks.length !== 0 && user.archivedTasks.map((task,i) => (
                         <div className='w-full border-2 border-[#A4A4A4] rounded'>
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
