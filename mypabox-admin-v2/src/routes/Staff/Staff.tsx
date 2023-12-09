@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import AddTask from "./AddTask";
 import { getAllUsers } from "../../utils/firebase/firebase.utils";
-import { UserObject } from "../../types/users.types";
+import { UserObject, Task } from "../../types/users.types";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectUsers } from "../../app/selectors/users.selectors";
 import { setUsers } from "../../app/slices/users";
 import Individual from "./Individual";
+
 
 export default function Staff() {
     const users = useSelector(selectUsers);
@@ -17,6 +18,9 @@ export default function Staff() {
         id: '',
         name: '',
     });
+    const [ editedTask, setEditedTask ] = useState<Task | null>(null);
+    const [ editedIndex, setEditedIndex ] = useState(0);
+    
 
     useEffect(() => {
 
@@ -76,11 +80,11 @@ export default function Staff() {
                 </div>
                 <div className={`w-full max-w-[1800px] px-10 pb-10 flex flex-col justify-start items-center gap-10`}>
                 {users.map(user => (
-                    <Individual user={user} toggleOpenTask={toggleOpenTask} setAssignee={setAssignee}/>
+                    <Individual user={user} toggleOpenTask={toggleOpenTask} setAssignee={setAssignee} setEditedTask={setEditedTask} setEditedIndex={setEditedIndex}/>
                 ))}
                 </div>
             </div>
-            {openAddTask && <AddTask toggleOpenTask={toggleOpenTask} assignee={assignee} users={users}/>} 
+            {openAddTask && <AddTask toggleOpenTask={toggleOpenTask} assignee={assignee} users={users} editedTask={editedTask} editedIndex={editedIndex}/>} 
             </>
         )}
         </>

@@ -27,6 +27,12 @@ export interface UserObject {
     }[];
 };
 
+export interface Task {
+    state: string;
+    schools: string[];
+    description: string | null;
+}
+
 export interface UserState {
     users: UserObject[]
 }

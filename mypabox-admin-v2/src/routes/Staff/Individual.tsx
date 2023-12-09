@@ -1,7 +1,7 @@
 import { FaRegStar } from "react-icons/fa";
 import { RxCaretRight } from "react-icons/rx";
 import { RxCaretDown } from "react-icons/rx";
-import { UserObject } from "../../types/users.types";
+import { Task, UserObject } from "../../types/users.types";
 import { useState, SetStateAction, Dispatch, MouseEvent } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ import { editUsers } from "../../app/slices/users";
 import { updateUsersDoc } from "../../utils/firebase/firebase.utils";
 
 
-export default function Individual({user, toggleOpenTask, setAssignee}: {user: UserObject, toggleOpenTask: (e:any) => void, setAssignee: SetStateAction<Dispatch<any>>}) {
+export default function Individual({user, toggleOpenTask, setAssignee, setEditedTask, setEditedIndex}: {user: UserObject, toggleOpenTask: (e:any) => void, setAssignee: Dispatch<SetStateAction<any>>, setEditedTask: Dispatch<SetStateAction<Task | null>>, setEditedIndex: Dispatch<SetStateAction<number>>}) {
     const [ openPermissions, setOpenPermissions ] = useState(false);
     const [ openActive, setOpenActive ] = useState(false);
     const [ openCompleted, setOpenCompleted ] = useState(false);
@@ -64,7 +64,7 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
                     </div>
                     <p className='font-bold text-sm'>Email: <span className='font-normal'>{user.email}</span></p>
                 </div>
-                {!user.isSuperAdmin && <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.displayName} as any)}}>+ Add Task</button>}
+                {!user.isSuperAdmin && <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.displayName} as any); setEditedTask(null)}}>+ Add Task</button>}
             </div>
             {!user.isSuperAdmin && (
             <>
@@ -121,7 +121,7 @@ export default function Individual({user, toggleOpenTask, setAssignee}: {user: U
                             <div className='p-2 border-b border-[#A4A4A4] flex justify-between items-center'>
                                 <p className='ml-1 font-semibold'>{task.state}</p>
                                 <div className='flex justify-center items-center gap-2'>
-                                    <button className='border-2 border-[#4573D2] text-sm text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]'>Edit Task</button>
+                                    <button onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.displayName} as any); setEditedTask(task); setEditedIndex(i)}} className='border-2 border-[#4573D2] text-sm text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]'>Edit Task</button>
                                     <button className='border-2 border-[#4FC769] text-sm text-[#4FC769] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4FC769]'>Mark as complete</button>
                                     <button onClick={(e:MouseEvent<HTMLButtonElement>) => deleteTask(e, user.id, i)}><FaRegTrashAlt className='h-8 w-8 text-[#F06A6A] hover:text-white hover:bg-[#F06A6A] border-2 border-[#F06A6A] rounded px-1 py-1'/></button>
                                 </div>
