@@ -107,6 +107,24 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
         }
     };
 
+    const makeAllActive = async (e:MouseEvent<HTMLButtonElement>, tasks: Task[]) => {
+        e.preventDefault();
+        if (tasks.length === 0) return;
+        const updatedTasks = tasks.map(task => ({state: task.state, schools: task.schools, description: task.description}));
+        const updatedUser = {
+            ...user,
+            activeTasks: user.activeTasks.concat(updatedTasks),
+            archivedTasks: []
+        };
+        try {
+            await updateUsersDoc(updatedUser, updatedUser.id);
+            dispatch(editUsers(updatedUser));
+        } catch (err: any) {
+            alert('Error making all tasks active');
+        }
+        
+    }
+
     const handleCheck = async (e:ChangeEvent<HTMLInputElement>) => {
         const updatedUser = {
             ...user,
@@ -144,7 +162,7 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
             <>
                 <div className={`w-full ${!user.isSuperAdmin && 'border-b'} border-[#E5E5E5] relative`}>
                     <div className='absolute top-0 bottom-0 right-0 left-0' onClick={togglePermissions}></div>
-                    <div className='flex justify-start items-center p-3'>
+                    <div className='flex justify-start items-center px-3 py-4'>
                         {openPermissions ? <RxCaretDown className='mr-3 w-5 h-5 text-[#B4B4B4]' /> : <RxCaretRight className='mr-3 w-5 h-5 text-[#B4B4B4]'/>}
                         <p className='text-sm'>{openPermissions ? 'Hide' : 'View'} Permissions</p>
                     </div>
@@ -199,7 +217,7 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                 </div>
                 <div className='w-full border-b border-[#E5E5E5] relative'>
                     <div className='absolute top-0 bottom-0 right-0 left-0' onClick={toggleActive}></div>
-                    <div className='flex justify-start items-center p-3'>
+                    <div className='flex justify-start items-center px-3 py-4'>
                         {openActive ? <RxCaretDown className='mr-3 w-5 h-5 text-[#B4B4B4]' /> : <RxCaretRight className='mr-3 w-5 h-5 text-[#B4B4B4]'/>}
                         <p className='text-sm mr-2'>{openActive ? 'Hide' : 'View'} Active Tasks</p>
                         <p className='text-sm text-[#B4B4B4]'>({user.activeTasks.length})</p>
@@ -239,7 +257,7 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                 </div>
                 <div className='w-full border-b border-[#E5E5E5] relative'>
                     <div className='absolute top-0 bottom-0 right-0 left-0' onClick={toggleCompleted}></div>
-                    <div className='flex justify-start items-center p-3'>
+                    <div className='flex justify-start items-center px-3 py-4'>
                         {openCompleted ? <RxCaretDown className='mr-3 w-5 h-5 text-[#B4B4B4]' /> : <RxCaretRight className='mr-3 w-5 h-5 text-[#B4B4B4]'/>}
                         <p className='text-sm mr-2'>{openCompleted ? 'Hide' : 'View'} Completed Tasks</p>
                         <p className='text-sm text-[#B4B4B4]'>({user.completedTasks.length})</p>
@@ -278,10 +296,13 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                 </div>
                 <div className='w-full border-b border-[#E5E5E5] relative'>
                     <div className='absolute top-0 bottom-0 right-0 left-0' onClick={toggleArchived}></div>
-                    <div className='flex justify-start items-center p-3'>
-                        {openArchived ? <RxCaretDown className='mr-3 w-5 h-5 text-[#B4B4B4]' /> : <RxCaretRight className='mr-3 w-5 h-5 text-[#B4B4B4]'/>}
-                        <p className='text-sm mr-2'>{openArchived ? 'Hide' : 'View'} Archived Tasks</p>
-                        <p className='text-sm text-[#B4B4B4]'>({user.archivedTasks.length})</p>
+                    <div className='flex justify-between items-center py-[10px] px-3'>
+                        <div className='flex justify-start items-center'>
+                            {openArchived ? <RxCaretDown className='mr-3 w-5 h-5 text-[#B4B4B4]' /> : <RxCaretRight className='mr-3 w-5 h-5 text-[#B4B4B4]'/>}
+                            <p className='text-sm mr-2'>{openArchived ? 'Hide' : 'View'} Archived Tasks</p>
+                            <p className='text-sm text-[#B4B4B4]'>({user.archivedTasks.length})</p>
+                        </div>
+                        {isAdmin && <button onClick={(e:MouseEvent<HTMLButtonElement>) => makeAllActive(e, user.archivedTasks)} className='relative z-10 border-2 border-[#4573D2] text-sm text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]'>Make all active</button>}
                     </div>
                     {openArchived && (
                     <div className={`flex flex-col justify-start items-center gap-6 ${user.archivedTasks.length !== 0 ? 'mx-3 mb-3' : 'mx-0 mb-0'} relative z-10`}>
