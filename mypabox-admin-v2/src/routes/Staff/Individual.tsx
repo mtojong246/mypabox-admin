@@ -148,7 +148,7 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
 
     return (
         <div className='w-full border border-[#E5E5E5] rounded-md'>
-            <div className='w-full p-3 border-b border-[#E5E5E5] flex justify-between items-start'>
+            <div className={`w-full p-3 ${user.isSuperAdmin ? 'border-0' : 'border-b'} border-[#E5E5E5] flex justify-between items-start`}>
                 <div>
                     <div className='flex justify-start items-center gap-1 mb-1'>
                         <p className='text-[22px] font-medium'>{user.displayName}</p>
@@ -294,7 +294,7 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                     </div>
                     )}
                 </div>
-                <div className='w-full border-b border-[#E5E5E5] relative'>
+                <div className='w-full relative'>
                     <div className='absolute top-0 bottom-0 right-0 left-0' onClick={toggleArchived}></div>
                     <div className='flex justify-between items-center py-[10px] px-3'>
                         <div className='flex justify-start items-center'>

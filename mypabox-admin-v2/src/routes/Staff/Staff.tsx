@@ -80,7 +80,6 @@ export default function Staff() {
         setOpenAddTask(!openAddTask);
     };
 
-    console.log(users[0])
 
     return (
         <>

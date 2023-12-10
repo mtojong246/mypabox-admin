@@ -103,6 +103,7 @@ export interface NoNoteString {
 
 export interface School {
     id: number;
+    isLive: boolean;
     school_name: NoNoteString;
     school_logo: NoNoteString;
     school_street: NoNoteString;

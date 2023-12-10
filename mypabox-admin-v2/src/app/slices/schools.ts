@@ -18,10 +18,19 @@ const schoolSlice = createSlice({
         },
         setIsEdit: (state, action) => {
             state.isEdit = action.payload
+        },
+        editSchoolData: (state, action) => {
+            state.schools = state.schools.map(school => {
+                if (school.id === action.payload.id) {
+                    return { ...action.payload }
+                } else {
+                    return { ...school }
+                }
+            })
         }
     }
 })
 
-export const { setSchools, addSchool, setIsEdit } = schoolSlice.actions;
+export const { setSchools, addSchool, setIsEdit, editSchoolData } = schoolSlice.actions;
 
 export const schoolReducer = schoolSlice.reducer;

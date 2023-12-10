@@ -2,6 +2,7 @@ import { School } from "../types/schools.types"
 
 export const defaultSchool: School = {
     id: 0,
+    isLive: true,
     school_name: {
         input: "",
     },
