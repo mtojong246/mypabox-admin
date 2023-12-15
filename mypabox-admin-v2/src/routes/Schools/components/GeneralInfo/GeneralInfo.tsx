@@ -16,6 +16,8 @@ import { UserObject } from "../../../../types/users.types";
 import { PiCheckCircle } from "react-icons/pi";
 import { PiWarningCircle } from "react-icons/pi";
 import { LuUndo2 } from "react-icons/lu";
+import { GoLink } from "react-icons/go";
+import LinkPopup from "../../LinkPopup";
 
 
 
@@ -229,6 +231,16 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
     const [editedNote, setEditedNote] = useState<Note | null>(null);
     const [notePopup, setNotePopup] = useState(false);
     const [name, setName] = useState('');
+    const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    })
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    }
 
     const [phone, setPhone] = useState({
         category: '',
@@ -427,17 +439,36 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         })
     };
 
-    const confirmEdit = (e:MouseEvent<HTMLButtonElement>) => {
+    const confirmEdit = (e:MouseEvent<HTMLButtonElement>, original?: string) => {
         e.preventDefault();
         const name = `edited_${e.currentTarget.name}` as keyof School;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...newSchool[name] as object,
-                prev: (e.currentTarget as HTMLButtonElement).value,
-                isEditMode: false,
-            }
-        })
+        if (!original) {
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...newSchool[name] as object,
+                    prev: (e.currentTarget as HTMLButtonElement).value,
+                    isEditMode: false,
+                    link: '',
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                [original]: {
+                    ...newSchool[original as keyof School] as StringInput | NumberInput,
+                    input: (e.currentTarget as HTMLButtonElement).value,
+                },
+                [name]: {
+                    ...newSchool[name] as object,
+                    input: '',
+                    prev: '',
+                    isEditMode: false,
+                    link: '',
+                }
+            })
+        }
+        
     };
 
     const undoEdit = (e:MouseEvent<HTMLButtonElement>) => {
@@ -449,6 +480,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                 input: (newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string}).prev,
                 prev: '',
                 isEditMode: false,
+                link: '',
             }
         })
 
@@ -463,11 +495,26 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                 input: '',
                 prev: '',
                 isEditMode: false,
+                link: '',
             }
         })
     };
 
-    console.log(newSchool.edited_school_name)
+    const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            [linkObj.name]: {
+                ...newSchool[linkObj.name as keyof School] as object,
+                link: newLink,
+            }
+        });
+        setLinkObj({
+            link: '',
+            name: '',
+        })
+    }
+
 
 
     return (
@@ -476,15 +523,25 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
         if (cat.type === 'text') {
             const name = `edited_${cat.value}` as keyof School;
-            const field = newSchool[name] as {input: string, isEditMode: boolean};
+            const field = newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string};
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
                     <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!field.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-start items-start gap-3'>
                     {loggedInUser.permissions.canVerify ? (
+                        <>
+                        {field.input ? (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            <input disabled className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={cat.value === 'school_duration_full_time' || cat.value === 'school_duration_part_time' ? '# of months' : ''}
+                            value={field.input} name={cat.value}/>
+                            <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${field.input ? 'line-through' : 'no-underline'}`} value={(newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number}/>
+                        </div>
+                        ) : (
                         <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={cat.value === 'school_duration_full_time' || cat.value === 'school_duration_part_time' ? '# of months' : ''}
                         value={((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number) : ''} name={cat.value} onChange={(e:ChangeEvent<HTMLInputElement>) => handleInput(e,false)}/>
+                        )}
+                        </>
                     ) : (
                         <div className='flex flex-col justify-start items-start gap-3 grow'>
                             {(field.input || field.isEditMode) && <input disabled={field.isEditMode ? false : true} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={cat.value === 'school_duration_full_time' || cat.value === 'school_duration_part_time' ? '# of months' : ''}
@@ -520,13 +577,29 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     ) : ''
                     }
                 </div>
-                {isEdit && <div className='flex flex-col justify-start items-start gap-3'>
+                {isEdit && <div className='flex flex-col justify-start items-start gap-2'>
                     <div className='flex justify-start items-start gap-2'>
-                        {!loggedInUser.permissions.canVerify && !field.isEditMode && <button name={cat.value} onClick={enableEditMode}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
-                        {!loggedInUser.permissions.canVerify && field.isEditMode && <button name={cat.value} onClick={confirmEdit} value={field.input}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
-                        {!loggedInUser.permissions.canVerify && field.isEditMode && <button name={cat.value} onClick={undoEdit}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
-                        {!loggedInUser.permissions.canVerify && !field.isEditMode && field.input && <button name={cat.value} onClick={revertEdit}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                        {!loggedInUser.permissions.canVerify ? (
+                        <>
+                            {!field.isEditMode && <button name={cat.value} onClick={enableEditMode}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
+                            {field.isEditMode && <button name={cat.value} onClick={confirmEdit} value={field.input}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
+                            {field.isEditMode && <button name={cat.value} onClick={undoEdit}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                            {!field.isEditMode && field.input && <button name={cat.value} onClick={revertEdit}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                        </>
+                        ) : (
+                        <>
+                            {field.input && <button name={cat.value} value={field.input} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, cat.value)}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
+                            {field.input && <button name={cat.value} onClick={revertEdit}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                        </>
+                        )}
                     </div>
+                    {!loggedInUser.permissions.canVerify && (
+                        <>
+                        {!field.link && field.isEditMode && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: '', name})}} className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Add</span></button>}
+                        {field.link && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: field.link, name})}}  className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Edit</span></button>}
+                    </>
+                    )}
+                    {loggedInUser.permissions.canVerify && field.link && <a href={field.link} className="flex justify-center items-center gap-1 no-underline border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold" target="_blank" rel="noreferrer"><GoLink className="h-5 w-5"/><span>View</span></a>}
                 </div>}
             </div>
             )
@@ -736,6 +809,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         })}
         {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />
       )}
+        {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
         </>
     )
 }
