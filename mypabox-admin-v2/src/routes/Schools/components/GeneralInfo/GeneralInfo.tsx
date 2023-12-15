@@ -1,7 +1,8 @@
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react";
 import { School, Note, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
 import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineCheck } from "react-icons/ai";
 import { FiEdit3 } from "react-icons/fi";
 import countries from "../../../../data/countries.json";
 import Select from 'react-select';
@@ -10,6 +11,15 @@ import AddNote from "../Prereqs/AddNote";
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import { UserObject } from "../../../../types/users.types";
+
+import { PiCheckCircle } from "react-icons/pi";
+import { PiWarningCircle } from "react-icons/pi";
+import { LuUndo2 } from "react-icons/lu";
+
+
+
+
 
 const fields = [
     {
@@ -211,7 +221,7 @@ const months = [
     {value: 'December', label: 'December'}
 ]
 
-export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEdit}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
     const [stateNames, setStateNames] = useState<any>([]);
     const [countryNames, setCountryNames] = useState<any>([]);
 
@@ -245,17 +255,31 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
     
     }, [newSchool.school_country.input]);
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        const name = e.target.name as keyof School;
-        const field = newSchool[name] as StringInput | NumberInput;
-        let value: string | number = e.target.value;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                input: value,
-            }
-        })
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const name = e.target.name as keyof School;
+            const field = newSchool[name] as StringInput | NumberInput;
+            let value: string | number = e.target.value;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: value,
+                }
+            })
+        } else {
+            const name = `edited_${e.currentTarget.name}` as keyof School;
+            const field = newSchool[name] as object;
+            let value: string | number = e.target.value;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: value,
+                }
+            })
+        }
+        
     };
 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
@@ -391,7 +415,59 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
         })
     }
 
+    const enableEditMode = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const name = `edited_${e.currentTarget.name}` as keyof School;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...newSchool[name] as object,
+                isEditMode: true,
+            }
+        })
+    };
 
+    const confirmEdit = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const name = `edited_${e.currentTarget.name}` as keyof School;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...newSchool[name] as object,
+                prev: (e.currentTarget as HTMLButtonElement).value,
+                isEditMode: false,
+            }
+        })
+    };
+
+    const undoEdit = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const name = `edited_${e.currentTarget.name}` as keyof School;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                input: (newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string}).prev,
+                prev: '',
+                isEditMode: false,
+            }
+        })
+
+    }
+
+    const revertEdit = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const name = `edited_${e.currentTarget.name}` as keyof School;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                input: '',
+                prev: '',
+                isEditMode: false,
+            }
+        })
+    };
+
+    console.log(newSchool.edited_school_name)
 
 
     return (
@@ -399,39 +475,59 @@ export default function GeneralInfo({newSchool, setNewSchool}: { newSchool: Scho
         {fields.map((cat) => {
 
         if (cat.type === 'text') {
+            const name = `edited_${cat.value}` as keyof School;
+            const field = newSchool[name] as {input: string, isEditMode: boolean};
             return (
-            <div className={`${cat.margin} relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white">{cat.name}{cat.required && <span className='text-red-600'>*</span>}</label>
-                <div className='flex justify-start items-center gap-3'>
-                   <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={cat.value === 'school_duration_full_time' || cat.value === 'school_duration_part_time' ? '# of months' : ''}
-                    value={((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number) : ''} name={cat.value} onChange={handleInput}/>
-                    {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
-                        Add Note
-                    </button>)}
-                </div>
-                {
-                (newSchool[cat.value as keyof School] as StringInput | NumberInput).notes ? (
-                <>
-                <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes.length ? 'mt-3' : 'mt-0'}`}>
-                    {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes?.map((note: any, i: number) => {
-                    return (
-                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                        <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                {note.type}:
-                            </p>
-                            <div className='flex gap-2'>
-                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                            </div>
-                            </div> 
-                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+            <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
+                <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
+                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!field.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                    <div className='flex justify-start items-start gap-3'>
+                    {loggedInUser.permissions.canVerify ? (
+                        <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={cat.value === 'school_duration_full_time' || cat.value === 'school_duration_part_time' ? '# of months' : ''}
+                        value={((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number) : ''} name={cat.value} onChange={(e:ChangeEvent<HTMLInputElement>) => handleInput(e,false)}/>
+                    ) : (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            {(field.input || field.isEditMode) && <input disabled={field.isEditMode ? false : true} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={cat.value === 'school_duration_full_time' || cat.value === 'school_duration_part_time' ? '# of months' : ''}
+                            value={field.input} name={cat.value} onChange={(e:ChangeEvent<HTMLInputElement>) => handleInput(e, true)}/>}
+                            <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${field.input || field.isEditMode ? 'line-through' : 'no-underline'}`} value={(newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number}/>
+                        </div>
+                    )}
+                        {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                            Add Note
+                        </button>)}
                     </div>
-                    )})}
+                    {
+                    (newSchool[cat.value as keyof School] as StringInput | NumberInput).notes ? (
+                    <>
+                    <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes?.map((note: any, i: number) => {
+                        return (
+                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                            <div className='flex justify-between items-start w-full mb-1'>
+                                <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                                    {note.type}:
+                                </p>
+                                <div className='flex gap-2'>
+                                    <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                </div>
+                                </div> 
+                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                        </div>
+                        )})}
+                    </div>
+                    </>
+                    ) : ''
+                    }
                 </div>
-                </>
-                ) : ''
-                }
+                {isEdit && <div className='flex flex-col justify-start items-start gap-3'>
+                    <div className='flex justify-start items-start gap-2'>
+                        {!loggedInUser.permissions.canVerify && !field.isEditMode && <button name={cat.value} onClick={enableEditMode}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
+                        {!loggedInUser.permissions.canVerify && field.isEditMode && <button name={cat.value} onClick={confirmEdit} value={field.input}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
+                        {!loggedInUser.permissions.canVerify && field.isEditMode && <button name={cat.value} onClick={undoEdit}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                        {!loggedInUser.permissions.canVerify && !field.isEditMode && field.input && <button name={cat.value} onClick={revertEdit}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                    </div>
+                </div>}
             </div>
             )
 

@@ -24,6 +24,11 @@ import AccreditationStatus from "./GeneralInfo/AccreditationStatus";
 import MissionStatement from "./GeneralInfo/MissionStatement";
 import Tuition from "./GeneralInfo/Tuition";
 import PANCEPassRate from "./GeneralInfo/PANCEPassRate";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../../../app/selectors/login.selector";
+import { selectUsers } from "../../../app/selectors/users.selectors";
+import { UserObject } from "../../../types/users.types";
+import { selectIsEdit } from "../../../app/selectors/schools.selectors";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -44,7 +49,33 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     const [deletePopUp, setDeletePopUp] = useState(false)
     const [eventTarget, setEventTarget] = useState()
     const [index, setIndex] = useState(0)
-    const [inputType, setInputType] = useState('')
+    const [inputType, setInputType] = useState('');
+
+    const login = useSelector(selectLogin);
+    const users = useSelector(selectUsers);
+    const isEdit = useSelector(selectIsEdit);
+    const [ loggedInUser, setLoggedInUser ] = useState<UserObject>({
+        id: '',
+        displayName: '',
+        email: '',
+        isSuperAdmin: false,
+        permissions: {
+            canEdit: false,
+            canVerify: false,
+            canMakeLive: false,
+            canAddOrDelete: false,
+        },
+        activeTasks: [],
+        completedTasks: [],
+        archivedTasks: [],
+      });
+
+    useEffect(() => {
+        const currentUser = users.find(user => user.email === login);
+        if (currentUser) {
+            setLoggedInUser(currentUser);
+        }
+    }, [login]);
 
     useEffect(() => {
         const newCategory = categories.find(cat => cat.hash === tab);
@@ -126,7 +157,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     return (
         <form className={`pb-24 `}>
         <>
-            {tab === '#general-info' && <GeneralInfo newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#general-info' && <GeneralInfo newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#degree-info' && <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#accreditation-status' && <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#mission-statement' && <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool}/>}

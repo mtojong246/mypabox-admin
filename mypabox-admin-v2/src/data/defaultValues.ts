@@ -6,26 +6,74 @@ export const defaultSchool: School = {
     school_name: {
         input: "",
     },
+    edited_school_name: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
+    },
     school_logo: {
         input: "",
+    },
+    edited_school_logo: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
     },
     school_street: {
         input: "",
     },
+    edited_school_street: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
+    },
     school_city: {
         input: "",
+    },
+    edited_school_city: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
     },
     school_state: {
         input: "",
     },
+    edited_school_state: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
+    },
     school_zip_code: {
         input: "",
+    },
+    edited_school_zip_code: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
     },
     school_country: {
         input: "",
     },
+    edited_school_country: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
+    },
     school_website: {
         input: "",
+    },
+    edited_school_website: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
     },
     school_email: {
         input: [],
@@ -40,21 +88,51 @@ export const defaultSchool: School = {
         input: "",
         notes: [],
     },
+    edited_school_campus_location: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
+    },
     school_start_month: {
         input: "",
         notes: [],
+    },
+    edited_school_start_month: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
     },
     school_class_capacity: {
         input: 0,
         notes: [],
     },
+    edited_school_class_capacity: {
+        input: 0,
+        prev: 0,
+        isEditMode: false,
+        link: '',
+    },
     school_duration_full_time: {
         input: 0,
         notes: [],
     },
+    edited_school_duration_full_time: {
+        input: 0,
+        prev: 0,
+        isEditMode: false,
+        link: '',
+    },
     school_duration_part_time: {
         input: 0,
         notes: [],
+    },
+    edited_school_duration_part_time: {
+        input: 0,
+        prev: 0,
+        isEditMode: false,
+        link: '',
     },
 
     school_seat_deposit_in_state: {

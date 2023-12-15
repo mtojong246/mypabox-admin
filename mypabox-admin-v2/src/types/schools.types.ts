@@ -105,13 +105,61 @@ export interface School {
     id: number;
     isLive: boolean;
     school_name: NoNoteString;
+    edited_school_name: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_logo: NoNoteString;
+    edited_school_logo: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_street: NoNoteString;
+    edited_school_street: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_city: NoNoteString;
+    edited_school_city: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_state: NoNoteString;
+    edited_school_state: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_zip_code: NoNoteString;
+    edited_school_zip_code: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_country: NoNoteString;
+    edited_school_country: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_website: NoNoteString;
+    edited_school_website: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_email: {
         input: {
             category: string;
@@ -128,10 +176,40 @@ export interface School {
     }
 
     school_campus_location: StringInput;
+    edited_school_campus_location: {
+        input: string,
+        prev: string;
+        isEditMode: boolean,
+        link: string;
+    };
     school_start_month: StringInput;
+    edited_school_start_month: {
+        input: string,
+        prev: string;
+        isEditMode: boolean,
+        link: string;
+    };
     school_class_capacity: NumberInput;
+    edited_school_class_capacity: {
+        input: number,
+        prev: number,
+        isEditMode: boolean,
+        link: string;
+    };
     school_duration_full_time: NumberInput;
+    edited_school_duration_full_time: {
+        input: number,
+        prev: number,
+        isEditMode: boolean,
+        link: string;
+    };
     school_duration_part_time: NumberInput;
+    edited_school_duration_part_time: {
+        input: number,
+        prev: number
+        isEditMode: boolean,
+        link: string;
+    };
 
     school_seat_deposit_in_state: NumberInput;
     school_seat_deposit_out_of_state: NumberInput;
