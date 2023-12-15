@@ -215,15 +215,75 @@ export interface School {
     school_seat_deposit_out_of_state: NumberInput;
 
     school_rolling_admissions: BooleanInput;
+    edited_school_rolling_admissions: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
     school_nonrolling_admissions: BooleanInput;
+    edited_school_nonrolling_admissions: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
     school_pre_pa_curriculum: BooleanInput;
+    edited_school_pre_pa_curriculum: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
     school_direct_high_school_entry: BooleanInput;
+    edited_school_direct_high_school_entry: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
     school_part_time_option: BooleanInput;
+    edited_school_part_time_option: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
     school_online_learning: BooleanInput;
+    edited_school_online_learning: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
     school_on_campus_housing: BooleanInput;
+    edited_school_on_campus_housing: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
     school_cadaver_lab: BooleanInput;
+    edited_school_cadaver_lab: {
+        input: boolean | null, 
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
     school_faith_based_learning: BooleanInput;
+    edited_school_faith_based_learning: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
     school_military_personnel_preference: BooleanInput;
+    edited_school_military_personnel_preference: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    };
 
     school_general_information: string;
 

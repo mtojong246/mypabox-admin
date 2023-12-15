@@ -135,22 +135,6 @@ export default function DegreeInfo({newSchool, setNewSchool}: { newSchool: Schoo
         <>
             <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
                 <label className="absolute top-[-16px] text-xl bg-white">Types of Degrees Offered</label>
-                {/* <button value="school_type_of_degree_offered" className="w-56 pl-4 text-[#F06A6A] border border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" 
-                onClick={addInputFields}>
-                <AiOutlinePlus className="absolute ml-2 mt-[6px]"/>
-                Add more fields
-                </button> */}
-                {/* {inputList.map((input: any, index: any) => {
-                return (         
-                    <div className='flex justify-center items-start gap-2 mt-3'>
-                        <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
-                    value={input.input} name='school_type_of_degree_offered' onChange={e => handleFieldChange(e, index)} />
-                        {index < 1 ? null : (
-                        <button onClick={(e:any) => removeField(e, index)} value='school_type_of_degree_offered'><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
-                        )}
-                    </div>
-                )})
-                } */}
                 <div className='flex justify-center items-center gap-2'>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" onChange={(e:ChangeEvent<HTMLInputElement>) => setField(e.target.value)} value={field}/>
                     <button className='border rounded border-[#4573D2] text-[#4573D2] px-5 h-[50px] text-xl hover:text-white hover:bg-[#4573D2]' onClick={addField}>Add type</button>

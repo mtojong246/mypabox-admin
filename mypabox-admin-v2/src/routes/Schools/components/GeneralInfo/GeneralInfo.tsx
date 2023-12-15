@@ -19,6 +19,8 @@ import { LuUndo2 } from "react-icons/lu";
 import { GoLink } from "react-icons/go";
 import LinkPopup from "../../LinkPopup";
 
+import { enableEditMode, confirmEdit, undoEdit, revertEdit, confirmEditBool, undoEditBool, revertEditBool } from "./GeneralInfoFunctions";
+
 
 
 
@@ -294,16 +296,29 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         
     };
 
-    const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-        const name = e.target.name as keyof School;
-        const field = newSchool[name] as BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                input: e.target.checked,
-            }
-        })
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const name = e.target.name as keyof School;
+            const field = newSchool[name] as BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        } else {
+            const name = `edited_${e.currentTarget.name}` as keyof School;
+            const field = newSchool[name] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        }
+        
     };
 
     const handleSelect = (e: any, name: string) => {
@@ -427,79 +442,6 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         })
     }
 
-    const enableEditMode = (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...newSchool[name] as object,
-                isEditMode: true,
-            }
-        })
-    };
-
-    const confirmEdit = (e:MouseEvent<HTMLButtonElement>, original?: string) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        if (!original) {
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...newSchool[name] as object,
-                    prev: (e.currentTarget as HTMLButtonElement).value,
-                    isEditMode: false,
-                    link: '',
-                }
-            })
-        } else {
-            setNewSchool({
-                ...newSchool,
-                [original]: {
-                    ...newSchool[original as keyof School] as StringInput | NumberInput,
-                    input: (e.currentTarget as HTMLButtonElement).value,
-                },
-                [name]: {
-                    ...newSchool[name] as object,
-                    input: '',
-                    prev: '',
-                    isEditMode: false,
-                    link: '',
-                }
-            })
-        }
-        
-    };
-
-    const undoEdit = (e:MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                input: (newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string}).prev,
-                prev: '',
-                isEditMode: false,
-                link: '',
-            }
-        })
-
-    }
-
-    const revertEdit = (e:MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                input: '',
-                prev: '',
-                isEditMode: false,
-                link: '',
-            }
-        })
-    };
-
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
         setNewSchool({
@@ -581,15 +523,15 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     <div className='flex justify-start items-start gap-2'>
                         {!loggedInUser.permissions.canVerify ? (
                         <>
-                            {!field.isEditMode && <button name={cat.value} onClick={enableEditMode}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
-                            {field.isEditMode && <button name={cat.value} onClick={confirmEdit} value={field.input}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
-                            {field.isEditMode && <button name={cat.value} onClick={undoEdit}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
-                            {!field.isEditMode && field.input && <button name={cat.value} onClick={revertEdit}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                            {!field.isEditMode && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => enableEditMode(e,newSchool, setNewSchool)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
+                            {field.isEditMode && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, newSchool, setNewSchool)} value={field.input}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
+                            {field.isEditMode && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => undoEdit(e, newSchool, setNewSchool)}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                            {(!field.isEditMode && field.input) ? (<button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEdit(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>) : null}
                         </>
                         ) : (
                         <>
-                            {field.input && <button name={cat.value} value={field.input} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, cat.value)}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
-                            {field.input && <button name={cat.value} onClick={revertEdit}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                            {field.input && <button name={cat.value} value={field.input} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, newSchool, setNewSchool, cat.value)}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
+                            {field.input && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEdit(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
                         </>
                         )}
                     </div>
@@ -646,47 +588,123 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         // ** BOOLEAN INPUT ** //
 
         } else if (cat.type === 'bool') {
+            const name = `edited_${cat.value}` as keyof School;
+            const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
             return (
-            <div className={`${cat.margin} relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
-                <div className='flex justify-start items-center gap-3'>
-                    <div className='mt-2 grow'>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" className="sr-only peer" name={cat.value} onChange={handleCheck} checked={(newSchool[cat.value as keyof School] as BooleanInput).input ? true : false}  />
-                        <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                        <span className="ml-3 text-xl text-black">
-                        {(newSchool[cat.value as keyof School] as BooleanInput).input ? 'True' : 'False'}
-                        </span>
-                    </label>
-                    </div>
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
-                        Add Note
-                    </button>
-                </div>
-                
-                {
-                (newSchool[cat.value as keyof School] as BooleanInput).notes ? (
-                <>
-                <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as BooleanInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
-                    {(newSchool[cat.value as keyof School] as BooleanInput).notes?.map((note: any, i: number) => {
-                    return (
-                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                        <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                {note.type}:
-                            </p>
-                            <div className='flex gap-2'>
-                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+            <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
+                <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
+                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!field.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                    <div className='flex justify-start items-start gap-3'>
+                    {loggedInUser.permissions.canVerify ? (
+                        <>
+                        {field.input !== null ? (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            <div className='mt-2 w-full'>
+                                <label className="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" disabled className="sr-only peer" name={cat.value} checked={field.input ? true : false}  />
+                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                                    <span className="ml-3 text-xl text-black">
+                                    {field.input ? 'True' : 'False'}
+                                    </span>
+                                </label>
                             </div>
-                            </div> 
-                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                            <div className='mt-2 w-full'>
+                                <label className="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" disabled className="sr-only peer" name={cat.value} checked={(newSchool[cat.value as keyof School] as BooleanInput).input ? true : false}  />
+                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                                    <span className={`ml-3 text-xl text-black ${field.input ? 'line-through' : 'no-underline'}`}>
+                                    {(newSchool[cat.value as keyof School] as BooleanInput).input ? 'True' : 'False'}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        ): (
+                        <div className='mt-2 grow'>
+                            <label className="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" className="sr-only peer" name={cat.value} onChange={(e:ChangeEvent<HTMLInputElement>) => handleCheck(e, false)} checked={(newSchool[cat.value as keyof School] as BooleanInput).input ? true : false}  />
+                                <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                                <span className="ml-3 text-xl text-black">
+                                {(newSchool[cat.value as keyof School] as BooleanInput).input ? 'True' : 'False'}
+                                </span>
+                            </label>
+                        </div>
+                        )}
+                        </>
+                    ): (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            {(field.input !== null || field.isEditMode) && <div className='mt-2 w-full'>
+                                <label className="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" disabled={field.isEditMode ? false : true} className="sr-only peer" name={cat.value} onChange={(e:ChangeEvent<HTMLInputElement>) => handleCheck(e, true)} checked={field.input ? true : false}  />
+                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                                    <span className="ml-3 text-xl text-black">
+                                    {field.input ? 'True' : 'False'}
+                                    </span>
+                                </label>
+                            </div>}
+                            <div className='mt-2 w-full'>
+                                <label className="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" disabled className="sr-only peer" name={cat.value} checked={(newSchool[cat.value as keyof School] as BooleanInput).input ? true : false}  />
+                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
+                                    <span className={`ml-3 text-xl text-black ${field.input || field.isEditMode ? 'line-through' : 'no-underline'}`}>
+                                    {(newSchool[cat.value as keyof School] as BooleanInput).input ? 'True' : 'False'}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        )}
+                        <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                            Add Note
+                        </button>
                     </div>
-                    )})}
+                    
+                    {
+                    (newSchool[cat.value as keyof School] as BooleanInput).notes ? (
+                    <>
+                    <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as BooleanInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {(newSchool[cat.value as keyof School] as BooleanInput).notes?.map((note: any, i: number) => {
+                        return (
+                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                            <div className='flex justify-between items-start w-full mb-1'>
+                                <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                                    {note.type}:
+                                </p>
+                                <div className='flex gap-2'>
+                                    <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                </div>
+                                </div> 
+                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                        </div>
+                        )})}
+                    </div>
+                    </>
+                    ) : ''
+                    }
                 </div>
-                </>
-                ) : ''
-                }
+                {isEdit && <div className='flex flex-col justify-start items-start gap-2'>
+                    <div className='flex justify-start items-start gap-2'>
+                        {!loggedInUser.permissions.canVerify ? (
+                        <>
+                            {!field.isEditMode && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => enableEditMode(e,newSchool, setNewSchool)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
+                            {field.isEditMode && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEditBool(e, newSchool, setNewSchool)} value={field.input !== null ? field.input.toString() : ''}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
+                            {field.isEditMode && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => undoEditBool(e, newSchool, setNewSchool)}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                            {(!field.isEditMode && field.input !== null) ? (<button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEditBool(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>) : null}
+                        </>
+                        ) : (
+                        <>
+                            {field.input !== null && <button name={cat.value} value={field.input.toString()} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEditBool(e, newSchool, setNewSchool, cat.value)}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
+                            {field.input !== null && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEditBool(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                        </>
+                        )}
+                    </div>
+                    {!loggedInUser.permissions.canVerify && (
+                        <>
+                        {!field.link && field.isEditMode && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: '', name})}} className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Add</span></button>}
+                        {field.link && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: field.link, name})}}  className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Edit</span></button>}
+                    </>
+                    )}
+                    {loggedInUser.permissions.canVerify && field.link && <a href={field.link} className="flex justify-center items-center gap-1 no-underline border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold" target="_blank" rel="noreferrer"><GoLink className="h-5 w-5"/><span>View</span></a>}
+                </div>}
             </div>
             )
 

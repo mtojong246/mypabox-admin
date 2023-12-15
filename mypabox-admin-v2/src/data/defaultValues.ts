@@ -148,41 +148,101 @@ export const defaultSchool: School = {
         input: false,
         notes: [],
     },
+    edited_school_rolling_admissions: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
     school_nonrolling_admissions: {
         input: false,
         notes: [],
+    },
+    edited_school_nonrolling_admissions: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
     },
     school_pre_pa_curriculum: {
         input: false,
         notes: [],
     },
+    edited_school_pre_pa_curriculum: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
     school_direct_high_school_entry: {
         input: false,
         notes: [],
+    },
+    edited_school_direct_high_school_entry: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
     },
     school_part_time_option: {
         input: false,
         notes: [],
     },
+    edited_school_part_time_option: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
     school_online_learning: {
         input: false,
         notes: [],
+    },
+    edited_school_online_learning: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
     },
     school_on_campus_housing: {
         input: false,
         notes: [],
     },
+    edited_school_on_campus_housing: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
     school_cadaver_lab: {
         input: false,
         notes: [],
+    },
+    edited_school_cadaver_lab: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
     },
     school_faith_based_learning: {
         input: false,
         notes: [],
     },
+    edited_school_faith_based_learning: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
     school_military_personnel_preference: {
         input: false,
         notes: [],
+    },
+    edited_school_military_personnel_preference: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
     },
 
     school_general_information: "",
