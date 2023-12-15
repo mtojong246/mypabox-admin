@@ -139,9 +139,21 @@ export const defaultSchool: School = {
         input: 0,
         notes: [],
     },
+    edited_school_seat_deposit_in_state: {
+        input: 0,
+        prev: 0,
+        isEditMode: false,
+        link: '',
+    },
     school_seat_deposit_out_of_state: {
         input: 0,
         notes: [],
+    },
+    edited_school_seat_deposit_out_of_state: {
+        input: 0,
+        prev: 0,
+        isEditMode: false,
+        link: '',
     },
 
     school_rolling_admissions: {
@@ -251,6 +263,12 @@ export const defaultSchool: School = {
         input: false,
         notes: [],
     },
+    edited_school_dual_degree_program: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
     school_type_of_degree_offered: {
         fields: [],
         notes: [],
@@ -259,26 +277,62 @@ export const defaultSchool: School = {
         input: false,
         notes: [],
     },
+    edited_school_bachelors_degree_required: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
     school_accreditation_status: {
         input: "",
         notes: []
+    },
+    edited_school_accreditation_status: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
     },
     school_mission_statement: "",
     school_in_state_tuition: {
         input: 0,
         notes: []
     },
+    edited_school_in_state_tuition: {
+        input: 0,
+        prev: 0,
+        isEditMode: false,
+        link: '',
+    },
     school_out_of_state_tuition: {
         input: 0,
         notes: []
+    },
+    edited_school_out_of_state_tuition: {
+        input: 0,
+        prev: 0,
+        isEditMode: false,
+        link: '',
     },
     school_first_time_pass_rate: {
         input: '',
         notes: []
     },
+    edited_school_first_time_pass_rate: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
+    },
     school_average_five_year_first_time_pass_rate: {
         input: '',
         notes: []
+    },
+    edited_school_average_five_year_first_time_pass_rate: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
     },
     school_pance_pass_rate_note: '',
     school_minimum_gpa_required: false,

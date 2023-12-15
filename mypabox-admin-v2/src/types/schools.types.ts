@@ -212,7 +212,19 @@ export interface School {
     };
 
     school_seat_deposit_in_state: NumberInput;
+    edited_school_seat_deposit_in_state: {
+        input: number;
+        prev: number;
+        isEditMode: boolean;
+        link: string;
+    }
     school_seat_deposit_out_of_state: NumberInput;
+    edited_school_seat_deposit_out_of_state: {
+        input: number;
+        prev: number;
+        isEditMode: boolean;
+        link: string;
+    }
 
     school_rolling_admissions: BooleanInput;
     edited_school_rolling_admissions: {
@@ -288,18 +300,60 @@ export interface School {
     school_general_information: string;
 
     school_dual_degree_program: BooleanInput;
+    edited_school_dual_degree_program: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    }
     school_type_of_degree_offered: StringInputWithFields;
     school_bachelors_degree_required: BooleanInput;
+    edited_school_bachelors_degree_required: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+    }
 
     school_accreditation_status: StringInput;
+    edited_school_accreditation_status: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
 
     school_mission_statement: string;
 
     school_in_state_tuition: NumberInput;
+    edited_school_in_state_tuition: {
+        input: number,
+        prev: number
+        isEditMode: boolean,
+        link: string;
+    }
     school_out_of_state_tuition: NumberInput;
+    edited_school_out_of_state_tuition: {
+        input: number,
+        prev: number
+        isEditMode: boolean,
+        link: string;
+    }
 
     school_first_time_pass_rate: StringInput;
+    edited_school_first_time_pass_rate: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_average_five_year_first_time_pass_rate: StringInput;
+    edited_school_average_five_year_first_time_pass_rate: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
     school_pance_pass_rate_note: string;
 
     school_minimum_gpa_required: boolean;

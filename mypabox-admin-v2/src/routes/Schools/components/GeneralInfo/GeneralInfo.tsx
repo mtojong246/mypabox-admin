@@ -321,15 +321,28 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         
     };
 
-    const handleSelect = (e: any, name: string) => {
-        const field = newSchool[name as keyof School] as StringInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                input: e.value,
-            }
-        })
+    const handleSelect = (e: any, name: string, isEditedInput: boolean) => {
+        console.log(e, name, isEditedInput)
+        if (!isEditedInput) {
+            const field = newSchool[name as keyof School] as StringInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.value,
+                }
+            })
+        } else {
+            const field = newSchool[name as keyof School] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.value,
+                }
+            })
+        }
+        
     };
 
     const handleQuill = (e:any) => {
@@ -491,7 +504,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                             <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${field.input || field.isEditMode ? 'line-through' : 'no-underline'}`} value={(newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number}/>
                         </div>
                     )}
-                        {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                        {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>)}
                     </div>
@@ -530,8 +543,8 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                         </>
                         ) : (
                         <>
-                            {field.input && <button name={cat.value} value={field.input} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, newSchool, setNewSchool, cat.value)}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
-                            {field.input && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEdit(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                            {field.input ? <button name={cat.value} value={field.input} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, newSchool, setNewSchool, cat.value)}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button> : null}
+                            {field.input ? <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEdit(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button> : null} 
                         </>
                         )}
                     </div>
@@ -549,39 +562,87 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         // ** SELECT INPUT ** //
 
         } else if (cat.type === 'select') {
+            const name = `edited_${cat.value}` as keyof School;
+            const field = newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string};
             return (
-            <div className={`${cat.margin} relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white">{cat.name}</label>
-                <div className='flex justify-center items-center gap-3'>
-                    <Select className="grow focus:outline-none rounded"
-                    options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} onChange={(e:any) => handleSelect(e, cat.value)} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>
-                    {(newSchool[cat.value as keyof School] as StringInput).notes && <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
-                        Add Note
-                    </button>}
-                </div>
-                {
-                (newSchool[cat.value as keyof School] as StringInput).notes ? (
-                <>
-                <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
-                    {(newSchool[cat.value as keyof School] as StringInput).notes?.map((note: any, i: number) => {
-                    return (
-                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                        <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                {note.type}:
-                            </p>
-                            <div className='flex gap-2'>
-                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+            <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
+                <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
+                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!field.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                    <div className='flex justify-center items-start gap-3'>
+                    {loggedInUser.permissions.canVerify ? (
+                        <>
+                        {field.input ? (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            <Select isDisabled className="w-full focus:outline-none rounded"
+                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.edited_school_state.input ? {value: newSchool.edited_school_state.input, label: newSchool.edited_school_state.input} : cat.value === 'school_country' && newSchool.edited_school_country.input ? {value: newSchool.edited_school_country.input, label: newSchool.edited_school_country.input} : cat.value === 'school_start_month' && newSchool.edited_school_start_month.input ? {value: newSchool.edited_school_start_month.input, label: newSchool.edited_school_start_month.input} : null}/>
+                            <Select isDisabled className={`w-full focus:outline-none rounded ${field.input ? 'line-through' : 'no-underline'}`}
+                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>
                             </div>
-                            </div> 
-                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                        ) : (
+                        <Select className="grow focus:outline-none rounded"
+                        options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} onChange={(e:any) => handleSelect(e, cat.value, false)} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>
+                        )}
+                        </>
+                    ) : (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            {(field.input || field.isEditMode) && <Select onChange={(e:any) => handleSelect(e, name, true)} isDisabled={field.isEditMode ? false : true} className="w-full focus:outline-none rounded"
+                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.edited_school_state.input ? {value: newSchool.edited_school_state.input, label: newSchool.edited_school_state.input} : cat.value === 'school_country' && newSchool.edited_school_country.input ? {value: newSchool.edited_school_country.input, label: newSchool.edited_school_country.input} : cat.value === 'school_start_month' && newSchool.edited_school_start_month.input ? {value: newSchool.edited_school_start_month.input, label: newSchool.edited_school_start_month.input} : null}/>}
+                            <Select isDisabled className={`w-full focus:outline-none rounded ${field.input ? 'line-through' : 'no-underline'}`}
+                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>
+                        </div>
+                    )}
+                        {(newSchool[cat.value as keyof School] as StringInput).notes && <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                            Add Note
+                        </button>}
                     </div>
-                    )})}
+                    {
+                    (newSchool[cat.value as keyof School] as StringInput).notes ? (
+                    <>
+                    <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {(newSchool[cat.value as keyof School] as StringInput).notes?.map((note: any, i: number) => {
+                        return (
+                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                            <div className='flex justify-between items-start w-full mb-1'>
+                                <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
+                                    {note.type}:
+                                </p>
+                                <div className='flex gap-2'>
+                                    <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                </div>
+                                </div> 
+                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                        </div>
+                        )})}
+                    </div>
+                    </>
+                    ) : ''
+                    }
                 </div>
-                </>
-                ) : ''
-                }
+                {isEdit && <div className='flex flex-col justify-start items-start gap-2'>
+                    <div className='flex justify-start items-start gap-2'>
+                        {!loggedInUser.permissions.canVerify ? (
+                        <>
+                            {!field.isEditMode && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => enableEditMode(e,newSchool, setNewSchool)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
+                            {field.isEditMode && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, newSchool, setNewSchool)} value={field.input}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
+                            {field.isEditMode && <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => undoEdit(e, newSchool, setNewSchool)}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
+                            {(!field.isEditMode && field.input) ? (<button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEdit(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>) : null}
+                        </>
+                        ) : (
+                        <>
+                            {field.input ? <button name={cat.value} value={field.input} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, newSchool, setNewSchool, cat.value)}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button> : null}
+                            {field.input ? <button name={cat.value} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEdit(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button> : null} 
+                        </>
+                        )}
+                    </div>
+                    {!loggedInUser.permissions.canVerify && (
+                        <>
+                        {!field.link && field.isEditMode && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: '', name})}} className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Add</span></button>}
+                        {field.link && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: field.link, name})}}  className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Edit</span></button>}
+                    </>
+                    )}
+                    {loggedInUser.permissions.canVerify && field.link && <a href={field.link} className="flex justify-center items-center gap-1 no-underline border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold" target="_blank" rel="noreferrer"><GoLink className="h-5 w-5"/><span>View</span></a>}
+                </div>}
             </div>
             )
 
@@ -652,7 +713,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                             </div>
                         </div>
                         )}
-                        <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
@@ -735,7 +796,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     </div>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={phone.number} onChange={setPhoneFormat}/>
                     <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={addPhone}>Add Number</button>
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                         Add Note
                     </button>
                 </div>
@@ -786,7 +847,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     </div>
                     <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={email.email} onChange={(e:any) => setEmail({...email, email: e.target.value})}/>
                     <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={addEmail}>Add Email</button>
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                         Add Note
                     </button>
                 </div>
