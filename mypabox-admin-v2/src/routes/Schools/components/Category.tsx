@@ -161,7 +161,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             {tab === '#degree-info' && <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#accreditation-status' && <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#mission-statement' && <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool}/>}
-            {tab === '#tuition' && <Tuition newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#tuition' && <Tuition newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#pance-pass-rate' && <PANCEPassRate newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}/>}
             {tab === '#prerequisites' && <Prereqs newSchool={newSchool} setNewSchool={setNewSchool}/>}
