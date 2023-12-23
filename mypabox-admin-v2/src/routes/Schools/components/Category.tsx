@@ -160,18 +160,18 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             {tab === '#general-info' && <GeneralInfo newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#degree-info' && <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#accreditation-status' && <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
-            {tab === '#mission-statement' && <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#mission-statement' && <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#tuition' && <Tuition newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
-            {tab === '#pance-pass-rate' && <PANCEPassRate newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#pance-pass-rate' && <PANCEPassRate newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}/>}
             {tab === '#prerequisites' && <Prereqs newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#experience' && <Experience newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#pa-shadowing' && <PAShadowing newSchool={newSchool} setNewSchool={setNewSchool}/>}
             {tab === '#exams' && <Exams newSchool={newSchool} setNewSchool={setNewSchool} />}
             {tab === '#evaluations' && <Evaluations newSchool={newSchool} setNewSchool={setNewSchool} />}
-            {tab === '#international-students' && <InternationalStudents newSchool={newSchool} setNewSchool={setNewSchool} />}
-            {tab === '#certifications' && <Certifications newSchool={newSchool} setNewSchool={setNewSchool} />}
-            {tab === '#applications' && <Applications newSchool={newSchool} setNewSchool={setNewSchool}/>}
+            {tab === '#international-students' && <InternationalStudents newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
+            {tab === '#certifications' && <Certifications newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
+            {tab === '#applications' && <Applications newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
             removeNote={removeNote} removeField={removeField} inputType={inputType} /> : ''}
         </>

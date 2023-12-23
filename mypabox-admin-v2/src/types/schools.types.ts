@@ -323,7 +323,15 @@ export interface School {
         link: string;
     }
 
-    school_mission_statement: string;
+    school_mission_statement: {
+        input: string;
+    }
+    edited_school_mission_statement: {
+        input: string;
+        prev: string;
+        isEditMode: boolean;
+        link: string;
+    }
 
     school_in_state_tuition: NumberInput;
     edited_school_in_state_tuition: {
@@ -357,9 +365,33 @@ export interface School {
     school_pance_pass_rate_note: string;
 
     school_minimum_gpa_required: boolean;
+    edited_school_minimum_gpa_required: {
+        input: boolean | null;
+        prev: boolean | null;
+        isEditMode: boolean;
+        link: string;
+    }
     school_minimum_overall_gpa_required: NumberInput | null;
+    edited_school_minimum_overall_gpa_required: {
+        input: number | null;
+        verified_input: number | null;
+        prev: number | null;
+        isEditMode: boolean;        
+    }
     school_minimum_science_gpa_required: NumberInput | null;
+    edited_school_minimum_science_gpa_required: {
+        input: number | null;
+        verified_input: number | null;
+        prev: number | null;
+        isEditMode: boolean;   
+    }
     school_minimum_prerequisite_gpa_required: NumberInput | null;
+    edited_school_minimum_prerequisite_gpa_required: {
+        input: number | null;
+        verified_input: number | null;
+        prev: number | null;
+        isEditMode: boolean;   
+    }
 
     school_minimum_gpa_recommended: boolean;
     school_minimum_overall_gpa_recommended: NumberInput | null;
@@ -658,11 +690,38 @@ export interface School {
         input: boolean;
         school_international_students_notes: Note[];
     }
+    edited_school_international_students_accepted: {
+        input: boolean | null;
+        prev: boolean | null;
+        isEditMode: boolean;
+        link: string;
+    }
 
     school_certifications_required: {
         input: boolean;
         school_certifications_required_options: string[] | null;
         school_certification_notes: Note[];
+    }
+
+    edited_school_certifications_required: {
+        input: boolean | null;
+        prev: boolean | null;
+        isEditMode: boolean;
+        link: string;
+        edited_school_certifications_required_options: {
+            verified_input: string[];
+            input: {
+                name: string;
+                isCorrect: boolean;
+                isNew: boolean;
+            }[];
+            prev: {
+                name: string;
+                isCorrect: boolean;
+                isNew: boolean;
+            }[];
+            isEditMode: boolean;
+        }
     }
 
     school_application_submitted_on_caspa: {
@@ -672,11 +731,45 @@ export interface School {
         school_caspa_application_notes: Note[];
     }
 
+    edited_school_application_submitted_on_caspa: {
+        input: boolean | null;
+        prev: boolean | null;
+        isEditMode: boolean;
+        link: string;
+        edited_school_caspa_application_deadline_date: {
+            input: string | null;
+            prev: string | null;
+            isEditMode: boolean;
+        }
+        edited_school_caspa_application_deadline_type: {
+            input: string | null;
+            prev: string | null;
+            isEditMode: boolean;
+        }
+    }
+
     school_application_submitted_directly_to_school: {
         input: boolean;
         school_application_direct_to_school_deadline: string | null;
         school_application_direct_to_school_fee: number | string | null;
         school_application_direct_to_school_notes: Note[];
+    }
+
+    edited_school_application_submitted_directly_to_school: {
+        input: boolean | null;
+        prev: boolean | null;
+        isEditMode: boolean;
+        link: string;
+        edited_school_application_direct_to_school_deadline: {
+            input: string | null;
+            prev: string | null;
+            isEditMode: boolean;
+        }
+        edited_school_application_direct_to_school_fee: {
+            input: number | string | null;
+            prev: number | string | null;
+            isEditMode: boolean;
+        }
     }
 
     school_supplemental_application_required: {
@@ -686,6 +779,28 @@ export interface School {
         school_supplemental_application_link: string | null;
         school_supplemental_application_link_provided_with_invite_only: boolean | null;
         school_supplemental_application_notes: Note[];
+    }
+
+    edited_school_supplemental_application_required: {
+        input: boolean | null;
+        prev: boolean | null;
+        isEditMode: boolean;
+        link: string;
+        edited_school_supplemental_application_deadline: {
+            input: string | null;
+            prev: string | null;
+            isEditMode: boolean;
+        }
+        edited_school_supplemental_application_fee: {
+            input: number | string | null;
+            prev: number | string | null;
+            isEditMode: boolean;
+        }
+        edited_school_supplemental_application_link_provided_with_invite_only: {
+            input: boolean | null;
+            prev: boolean | null;
+            isEditMode: boolean;
+        }
     }
 
     

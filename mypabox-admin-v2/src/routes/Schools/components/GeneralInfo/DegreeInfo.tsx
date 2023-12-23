@@ -1,16 +1,16 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent } from "react";
 import { School, Note, BooleanInput, StringInputWithFields } from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
-import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import { FiEdit3 } from "react-icons/fi";
 import AddNote from "../Prereqs/AddNote";
 import { PiCheckCircle } from "react-icons/pi";
 import { PiWarningCircle } from "react-icons/pi";
-import { LuUndo2 } from "react-icons/lu";
-import { GoLink } from "react-icons/go";
 import LinkPopup from "../../LinkPopup";
+import EditButtons from "../../Assets/EditButtons";
+import BooleanFields from "../../Assets/BooleanFields";
 
-import { enableEditMode, confirmEditBool, undoEditBool, revertEditBool } from "./GeneralInfoFunctions";
+import { enableEditModeBool, confirmEditBool, undoEditBool, revertEditBool } from "./GeneralInfoFunctions";
 import { UserObject } from "../../../../types/users.types";
 
 export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdit}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
@@ -136,16 +136,29 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
         })
     };
 
-    const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-        const name = e.target.name as keyof School;
-        const field = newSchool[name] as BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                input: e.target.checked,
-            }
-        })
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const name = e.target.name as keyof School;
+            const field = newSchool[name] as BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        } else {
+            const name = `edited_${e.currentTarget.name}` as keyof School;
+            const field = newSchool[name] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        }
+        
     };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -163,7 +176,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
         })
     }
 
-
+    console.log(newSchool.edited_school_dual_degree_program)
 
       
     return (
@@ -213,66 +226,9 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
 
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Dual-Degree Program<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!newSchool.edited_school_dual_degree_program.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_dual_degree_program.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Dual-Degree Program<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_dual_degree_program.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_dual_degree_program.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-start items-start gap-2'>
-                    {loggedInUser.permissions.canVerify ? (
-                        <>
-                        {newSchool.edited_school_dual_degree_program.input !== null ? (
-                        <div className='flex flex-col justify-start items-start gap-3 grow'>
-                            <div className='w-full mt-2'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" disabled className="sr-only peer" name='edited_school_dual_degree_program' checked={newSchool.edited_school_dual_degree_program.input ? true : false}/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className="ml-3 text-xl text-black">
-                                    {newSchool.edited_school_dual_degree_program.input ? 'True' : 'False'}
-                                    </span>
-                                </label>
-                            </div>
-                            <div className='w-full mt-2'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input disabled type="checkbox" className="sr-only peer" name='school_dual_degree_program' checked={newSchool.school_dual_degree_program.input ? true : false}/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className={`ml-3 text-xl text-black ${newSchool.edited_school_dual_degree_program.input ? 'line-through' : 'no-underline'}`}>
-                                    {newSchool.school_dual_degree_program.input ? 'True' : 'False'}
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        ): (
-                        <div className='w-full mt-2'>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" className="sr-only peer" name='school_dual_degree_program' onChange={handleCheck} checked={newSchool.school_dual_degree_program.input ? true : false}/>
-                                <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                <span className="ml-3 text-xl text-black">
-                                {newSchool.school_dual_degree_program.input ? 'True' : 'False'}
-                                </span>
-                            </label>
-                        </div>
-                        )}
-                        </>
-                    ) : (
-                        <div className='flex flex-col justify-start items-start gap-3 grow'>
-                            {(newSchool.edited_school_dual_degree_program.input !== null || newSchool.edited_school_dual_degree_program.isEditMode) && <div className='w-full mt-2'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" disabled={newSchool.edited_school_dual_degree_program.isEditMode ? false : true} onChange={handleCheck} className="sr-only peer" name='edited_school_dual_degree_program' checked={newSchool.edited_school_dual_degree_program.input ? true : false}/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className="ml-3 text-xl text-black">
-                                    {newSchool.edited_school_dual_degree_program.input ? 'True' : 'False'}
-                                    </span>
-                                </label>
-                            </div>}
-                            <div className='w-full mt-2'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input disabled type="checkbox" className="sr-only peer" name='school_dual_degree_program' checked={newSchool.school_dual_degree_program.input ? true : false}/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className={`ml-3 text-xl text-black ${newSchool.edited_school_dual_degree_program.input ? 'line-through' : 'no-underline'}`}>
-                                    {newSchool.school_dual_degree_program.input ? 'True' : 'False'}
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                    )}
-                        
+                        <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_dual_degree_program.input} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} originalInput={newSchool.school_dual_degree_program.input} name='school_dual_degree_program' handleCheck={handleCheck}/>         
                         <button disabled={loggedInUser.isSuperAdmin ? false : true} onClick={(e:any) => {toggleNotePopup(e); setName('school_dual_degree_program')}} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
@@ -302,94 +258,16 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                     ) : ''
                     }
                 </div>
-                {isEdit && <div className='flex flex-col justify-start items-start gap-2'>
-                    <div className='flex justify-start items-start gap-2'>
-                        {!loggedInUser.permissions.canVerify ? (
-                        <>
-                            {!newSchool.edited_school_dual_degree_program.isEditMode && <button name='school_dual_degree_program' onClick={(e:MouseEvent<HTMLButtonElement>) => enableEditMode(e,newSchool, setNewSchool)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
-                            {newSchool.edited_school_dual_degree_program.isEditMode && <button name='school_dual_degree_program' onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEditBool(e, newSchool, setNewSchool)} value={newSchool.edited_school_dual_degree_program.input !== null ? newSchool.edited_school_dual_degree_program.input.toString() : ''}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
-                            {newSchool.edited_school_dual_degree_program.isEditMode && <button name='school_dual_degree_program' onClick={(e:MouseEvent<HTMLButtonElement>) => undoEditBool(e, newSchool, setNewSchool)}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
-                            {(!newSchool.edited_school_dual_degree_program.isEditMode && newSchool.edited_school_dual_degree_program.input !== null) ? (<button name='school_dual_degree_program' onClick={(e:MouseEvent<HTMLButtonElement>) => revertEditBool(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>) : null}
-                        </>
-                        ) : (
-                        <>
-                            {newSchool.edited_school_dual_degree_program.input !== null && <button name='school_dual_degree_program' value={newSchool.edited_school_dual_degree_program.input.toString()} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEditBool(e, newSchool, setNewSchool, 'school_dual_degree_program')}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
-                            {newSchool.edited_school_dual_degree_program.input !== null && <button name='school_dual_degree_program' onClick={(e:MouseEvent<HTMLButtonElement>) => revertEditBool(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
-                        </>
-                        )}
-                    </div>
-                    {!loggedInUser.permissions.canVerify && (
-                        <>
-                        {!newSchool.edited_school_dual_degree_program.link && newSchool.edited_school_dual_degree_program.isEditMode && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: '', name: 'edited_school_dual_degree_program'})}} className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Add</span></button>}
-                        {newSchool.edited_school_dual_degree_program.link && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: newSchool.edited_school_dual_degree_program.link, name: 'edited_school_dual_degree_program'})}}  className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Edit</span></button>}
-                    </>
-                    )}
-                    {loggedInUser.permissions.canVerify && newSchool.edited_school_dual_degree_program.link && <a href={newSchool.edited_school_dual_degree_program.link} className="flex justify-center items-center gap-1 no-underline border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold" target="_blank" rel="noreferrer"><GoLink className="h-5 w-5"/><span>View</span></a>}
-                </div>}
+                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} input={newSchool.edited_school_dual_degree_program.input} link={newSchool.edited_school_dual_degree_program.link} 
+                   setLinkObj={setLinkObj} name='school_dual_degree_program' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
+                />}
             </div>
 
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Bachelors Degree Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!newSchool.edited_school_bachelors_degree_required.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_bachelors_degree_required.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Bachelors Degree Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_bachelors_degree_required.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_bachelors_degree_required.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-start items-start gap-2'>
-                    {loggedInUser.permissions.canVerify ? (
-                        <>
-                        {newSchool.edited_school_dual_degree_program.input !== null ? (
-                        <div className='flex flex-col justify-start items-start gap-3 grow'>
-                            <div className='mt-2 w-full'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input disabled type="checkbox" className="sr-only peer" name='edited_school_bachelors_degree_required' checked={newSchool.edited_school_bachelors_degree_required.input ? true : false}/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className="ml-3 text-xl text-black">
-                                    {newSchool.edited_school_bachelors_degree_required.input ? 'True' : 'False'}
-                                    </span>
-                                </label>
-                            </div>
-                            <div className='mt-2 w-full'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input disabled type="checkbox" className="sr-only peer" name='school_bachelors_degree_required' checked={newSchool.school_bachelors_degree_required.input ? true : false}/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className={`ml-3 text-xl text-black ${newSchool.edited_school_bachelors_degree_required.input ? 'line-through' : 'no-underline'}`}>
-                                    {newSchool.school_bachelors_degree_required.input ? 'True' : 'False'}
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        ): (
-                            <div className='mt-2 w-full'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" className="sr-only peer" name='school_bachelors_degree_required' onChange={handleCheck} checked={newSchool.school_bachelors_degree_required.input ? true : false}/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className="ml-3 text-xl text-black">
-                                    {newSchool.school_bachelors_degree_required.input ? 'True' : 'False'}
-                                    </span>
-                                </label>
-                            </div>
-                        )}
-                        </>
-                    ) : (
-                        <div className='flex flex-col justify-start items-start gap-3 grow'>
-                            {(newSchool.edited_school_bachelors_degree_required.input !== null || newSchool.edited_school_bachelors_degree_required.isEditMode) && <div className='mt-2 w-full'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" className="sr-only peer" name='edited_school_bachelors_degree_required' onChange={handleCheck} checked={newSchool.edited_school_bachelors_degree_required.input ? true : false}/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className="ml-3 text-xl text-black">
-                                    {newSchool.edited_school_bachelors_degree_required.input ? 'True' : 'False'}
-                                    </span>
-                                </label>
-                            </div>}
-                            <div className='mt-2 w-full'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input disabled type="checkbox" className="sr-only peer" name='school_bachelors_degree_required' checked={newSchool.school_bachelors_degree_required.input ? true : false}/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className={`ml-3 text-xl text-black ${newSchool.edited_school_bachelors_degree_required.input ? 'line-through' : 'no-underline'}`}>
-                                    {newSchool.school_bachelors_degree_required.input ? 'True' : 'False'}
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                    )}
-                        
+                        <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_bachelors_degree_required.input} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} originalInput={newSchool.school_bachelors_degree_required.input} name='school_bachelors_degree_required' handleCheck={handleCheck}/>
                         <button disabled={loggedInUser.isSuperAdmin ? false : true} onClick={(e:any) => {toggleNotePopup(e); setName('school_bachelors_degree_required')}} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
@@ -419,30 +297,9 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                     ) : ''
                     }
                 </div>
-                {isEdit && <div className='flex flex-col justify-start items-start gap-2'>
-                    <div className='flex justify-start items-start gap-2'>
-                        {!loggedInUser.permissions.canVerify ? (
-                        <>
-                            {!newSchool.edited_school_bachelors_degree_required.isEditMode && <button name='school_bachelors_degree_required' onClick={(e:MouseEvent<HTMLButtonElement>) => enableEditMode(e,newSchool, setNewSchool)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
-                            {newSchool.edited_school_bachelors_degree_required.isEditMode && <button name='school_bachelors_degree_required' onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEditBool(e, newSchool, setNewSchool)} value={newSchool.edited_school_bachelors_degree_required.input !== null ? newSchool.edited_school_bachelors_degree_required.input.toString() : ''}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
-                            {newSchool.edited_school_bachelors_degree_required.isEditMode && <button name='school_bachelors_degree_required' onClick={(e:MouseEvent<HTMLButtonElement>) => undoEditBool(e, newSchool, setNewSchool)}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
-                            {(!newSchool.edited_school_bachelors_degree_required.isEditMode && newSchool.edited_school_bachelors_degree_required.input !== null) ? (<button name='school_bachelors_degree_required' onClick={(e:MouseEvent<HTMLButtonElement>) => revertEditBool(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>) : null}
-                        </>
-                        ) : (
-                        <>
-                            {newSchool.edited_school_bachelors_degree_required.input !== null && <button name='school_bachelors_degree_required' value={newSchool.edited_school_bachelors_degree_required.input.toString()} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEditBool(e, newSchool, setNewSchool, 'school_bachelors_degree_required')}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
-                            {newSchool.edited_school_bachelors_degree_required.input !== null && <button name='school_bachelors_degree_required' onClick={(e:MouseEvent<HTMLButtonElement>) => revertEditBool(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
-                        </>
-                        )}
-                    </div>
-                    {!loggedInUser.permissions.canVerify && (
-                        <>
-                        {!newSchool.edited_school_bachelors_degree_required.link && newSchool.edited_school_bachelors_degree_required.isEditMode && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: '', name: 'edited_school_bachelors_degree_required'})}} className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Add</span></button>}
-                        {newSchool.edited_school_bachelors_degree_required.link && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: newSchool.edited_school_bachelors_degree_required.link, name: 'edited_school_bachelors_degree_required'})}}  className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Edit</span></button>}
-                    </>
-                    )}
-                    {loggedInUser.permissions.canVerify && newSchool.edited_school_bachelors_degree_required.link && <a href={newSchool.edited_school_bachelors_degree_required.link} className="flex justify-center items-center gap-1 no-underline border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold" target="_blank" rel="noreferrer"><GoLink className="h-5 w-5"/><span>View</span></a>}
-                </div>}
+                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} input={newSchool.edited_school_bachelors_degree_required.input} link={newSchool.edited_school_bachelors_degree_required.link} 
+                   setLinkObj={setLinkObj} name='school_bachelors_degree_required' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
+                />}
             </div>
             {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
 

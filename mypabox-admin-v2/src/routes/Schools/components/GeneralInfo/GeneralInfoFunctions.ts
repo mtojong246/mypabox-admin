@@ -14,9 +14,26 @@ export const enableEditMode = (e: MouseEvent<HTMLButtonElement>, newSchool: Scho
     })
 };
 
+export const enableEditModeBool = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
+    e.preventDefault();
+    const name = `edited_${e.currentTarget.name}` as keyof School;
+    const original = e.currentTarget.name as keyof School;
+    const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
+    const originalField = newSchool[original] as BooleanInput;
+    setNewSchool({
+        ...newSchool,
+        [name]: {
+            ...field,
+            input: field.input === null ? originalField.input : field.input,
+            isEditMode: true,
+        }
+    })
+}
+
 export const confirmEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, original?: string) => {
     e.preventDefault();
     const name = `edited_${e.currentTarget.name}` as keyof School;
+    
     if (!original) {
         setNewSchool({
             ...newSchool,
@@ -49,13 +66,16 @@ export const confirmEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, 
 export const confirmEditBool = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, original?: string) => {
     e.preventDefault();
     const name = `edited_${e.currentTarget.name}` as keyof School;
+    const originalName = e.currentTarget.name as keyof School;
+    const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
+    const originalField = newSchool[originalName] as BooleanInput;
     const value = (e.currentTarget as HTMLButtonElement).value === 'true' ? true : false;
     if (!original) {
         setNewSchool({
             ...newSchool,
             [name]: {
-                ...newSchool[name] as object,
-                prev: value,
+                input: field.input === originalField.input ? null : field.input,
+                prev: field.input === originalField.input ? null : value,
                 isEditMode: false,
                 link: '',
             }
@@ -95,10 +115,13 @@ export const undoEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, set
 export const undoEditBool = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
     e.preventDefault();
     const name = `edited_${e.currentTarget.name}` as keyof School;
+    const original = e.currentTarget.name as keyof School;
+    const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
+    const originalField = newSchool[original] as BooleanInput;
     setNewSchool({
         ...newSchool,
         [name]: {
-            input: (newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string}).prev,
+            input: field.input === originalField.input ? null : field.prev,
             prev: null,
             isEditMode: false,
             link: '',

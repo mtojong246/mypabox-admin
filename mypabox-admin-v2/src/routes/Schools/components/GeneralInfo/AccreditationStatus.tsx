@@ -1,16 +1,16 @@
 import { Dispatch, SetStateAction, useState, MouseEvent } from "react";
 import { School, Note} from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
-import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import { FiEdit3 } from "react-icons/fi";
 import Select from 'react-select';
 import AddNote from "../Prereqs/AddNote";
 
 import { PiCheckCircle } from "react-icons/pi";
 import { PiWarningCircle } from "react-icons/pi";
-import { LuUndo2 } from "react-icons/lu";
-import { GoLink } from "react-icons/go";
 import LinkPopup from "../../LinkPopup";
+
+import EditButtons from "../../Assets/EditButtons";
 
 import { enableEditMode, confirmEdit, undoEdit, revertEdit} from "./GeneralInfoFunctions";
 import { UserObject } from "../../../../types/users.types";
@@ -204,30 +204,9 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                 ) : ''
                 }
             </div>
-            {isEdit && <div className='flex flex-col justify-start items-start gap-2'>
-                <div className='flex justify-start items-start gap-2'>
-                    {!loggedInUser.permissions.canVerify ? (
-                    <>
-                        {!field.isEditMode && <button name={original} onClick={(e:MouseEvent<HTMLButtonElement>) => enableEditMode(e,newSchool, setNewSchool)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
-                        {field.isEditMode && <button name={original} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, newSchool, setNewSchool)} value={field.input}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>}
-                        {field.isEditMode && <button name={original} onClick={(e:MouseEvent<HTMLButtonElement>) => undoEdit(e, newSchool, setNewSchool)}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>}
-                        {(!field.isEditMode && field.input) ? (<button name={original} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEdit(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>) : null}
-                    </>
-                    ) : (
-                    <>
-                        {field.input ? <button name={original} value={field.input} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEdit(e, newSchool, setNewSchool, original)}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button> : null}
-                        {field.input ? <button name={original} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEdit(e, newSchool, setNewSchool)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button> : null} 
-                    </>
-                    )}
-                </div>
-                {!loggedInUser.permissions.canVerify && (
-                    <>
-                    {!field.link && field.isEditMode && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: '', name})}} className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Add</span></button>}
-                    {field.link && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: field.link, name})}}  className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Edit</span></button>}
-                </>
-                )}
-                {loggedInUser.permissions.canVerify && field.link && <a href={field.link} className="flex justify-center items-center gap-1 no-underline border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold" target="_blank" rel="noreferrer"><GoLink className="h-5 w-5"/><span>View</span></a>}
-            </div>}
+            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
+                   setLinkObj={setLinkObj} name={original} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
+            />}
         </div>
             {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
             {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />)}

@@ -1,11 +1,20 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState, KeyboardEvent, SyntheticEvent } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState, KeyboardEvent, MouseEvent } from "react";
 import { School, Note, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiEdit3 } from "react-icons/fi";
 import AddNote from "../Prereqs/AddNote";
+import { UserObject } from "../../../../types/users.types";
 
-export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+import { PiCheckCircle } from "react-icons/pi";
+import { PiWarningCircle } from "react-icons/pi";
+import LinkPopup from "../../LinkPopup";
+
+import EditButtons from "../../Assets/EditButtons";
+
+import { enableEditMode, confirmEdit, undoEdit, revertEdit } from "./GeneralInfoFunctions";
+
+export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, isEdit}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
     const [index, setIndex] = useState<number | null>(null);
     const [editedNote, setEditedNote] = useState<Note | null>(null);
     const [notePopup, setNotePopup] = useState(false);
@@ -14,34 +23,22 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
     const [firstSelected, setFirstSelected] = useState('');
     const [fiveSelected, setFiveSelected] = useState('');
 
+    const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    })
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    }
+
     const toggleNotePopup = (e: any) => {
         e.preventDefault();
         setNotePopup(!notePopup);
       };
 
-    // const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    //     const name = e.target.name as keyof School;
-    //     const field = newSchool[name] as StringInput | NumberInput;
-    //     const value = e.target.value.replace('%', '')
-    //     if (value) {
-    //         setNewSchool({
-    //             ...newSchool,
-    //             [name]: {
-    //                 ...field,
-    //                 input: value + '%',
-    //             }
-    //         })
-    //     } else {
-    //         setNewSchool({
-    //             ...newSchool,
-    //             [name]: {
-    //                 ...field,
-    //                 input: '',
-    //             }
-    //         })
-    //     }
-        
-    // };
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof School;
@@ -186,14 +183,50 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
         })
     };
 
+    const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+        e.preventDefault();
+        setNewSchool({
+            ...newSchool,
+            [linkObj.name]: {
+                ...newSchool[linkObj.name as keyof School] as object,
+                link: newLink,
+            }
+        });
+        setLinkObj({
+            link: '',
+            name: '',
+        })
+    }
+
     return (
         <>
-        <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`} onMouseUp={mouseUp}>
-                <label className="absolute top-[-16px] text-xl bg-white">First Time Pass Rate</label>
-                <div className='flex justify-center items-center gap-3'>
-                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
-                    value={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' onChange={handleInput} onKeyDown={keyDownFirst} />
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName('school_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+        <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
+        <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`} onMouseUp={mouseUp}>
+        <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">First Time Pass Rate<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!newSchool.edited_school_first_time_pass_rate.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_first_time_pass_rate.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <div className='flex justify-center items-start gap-3'>
+                    {loggedInUser.permissions.canVerify ? (
+                        <>
+                        {newSchool.edited_school_first_time_pass_rate.input ? (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            <input disabled className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" 
+                            value={newSchool.edited_school_first_time_pass_rate.input} name='edited_school_first_time_pass_rate' onKeyDown={keyDownFirst} />
+                            <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${newSchool.edited_school_first_time_pass_rate.input ? 'line-through' : 'no-underline'}`}
+                            value={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' onKeyDown={keyDownFirst} />
+                        </div>
+                        ) : (
+                            <input className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" 
+                            value={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' onChange={handleInput} onKeyDown={keyDownFirst} />
+                        )}
+                        </>
+                    ) : (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            {(newSchool.edited_school_first_time_pass_rate.input || newSchool.edited_school_first_time_pass_rate.isEditMode) && <input disabled={newSchool.edited_school_first_time_pass_rate.isEditMode ? false : true} onChange={handleInput} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" 
+                            value={newSchool.edited_school_first_time_pass_rate.input} name='edited_school_first_time_pass_rate' onKeyDown={keyDownFirst} />}
+                            <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${newSchool.edited_school_first_time_pass_rate.input ? 'line-through' : 'no-underline'}`}
+                            value={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' onKeyDown={keyDownFirst} />
+                        </div>
+                    )}
+                    <button disabled={loggedInUser.isSuperAdmin ? false : true} onClick={(e:any) => {toggleNotePopup(e); setName('school_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                 </div>
@@ -221,13 +254,39 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
                 ) : ''
                 }
             </div>
+            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_first_time_pass_rate.isEditMode} input={newSchool.edited_school_first_time_pass_rate.input} link={newSchool.edited_school_first_time_pass_rate.link} 
+                   setLinkObj={setLinkObj} name='school_first_time_pass_rate' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
+            />}
+            </div>
 
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`} onMouseUp={mouseUp2}>
-                <label className="absolute top-[-16px] text-xl bg-white">Five Year Average First-Time Pass Rate</label>
-                <div className='flex justify-center items-center gap-3'>
-                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" 
-                    value={newSchool.school_average_five_year_first_time_pass_rate.input ? newSchool.school_average_five_year_first_time_pass_rate.input : ''} name='school_average_five_year_first_time_pass_rate' onChange={handleInput} onKeyDown={keyDownFive} />
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName('school_average_five_year_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+            <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
+            <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`} onMouseUp={mouseUp2}>
+            <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Five Year Average First-Time Pass Rate<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!newSchool.edited_school_average_five_year_first_time_pass_rate.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_average_five_year_first_time_pass_rate.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <div className='flex justify-center items-start gap-3'>
+                    {loggedInUser.permissions.canVerify ? (
+                        <>
+                        {newSchool.edited_school_average_five_year_first_time_pass_rate.input ? (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            <input disabled className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" 
+                            value={newSchool.edited_school_average_five_year_first_time_pass_rate.input ? newSchool.edited_school_average_five_year_first_time_pass_rate.input : ''} name='edited_school_average_five_year_first_time_pass_rate'  onKeyDown={keyDownFive} />
+                            <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${newSchool.edited_school_average_five_year_first_time_pass_rate.input ? 'line-through' : 'no-underline'}`} 
+                            value={newSchool.school_average_five_year_first_time_pass_rate.input ? newSchool.school_average_five_year_first_time_pass_rate.input : ''} name='school_average_five_year_first_time_pass_rate' onKeyDown={keyDownFive} />
+                        </div>
+                        ) : (
+                            <input className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" 
+                            value={newSchool.school_average_five_year_first_time_pass_rate.input ? newSchool.school_average_five_year_first_time_pass_rate.input : ''} name='school_average_five_year_first_time_pass_rate' onChange={handleInput} onKeyDown={keyDownFive} />
+                        )}
+                        </>
+                    ) : (
+                        <div className='flex flex-col justify-start items-start gap-3 grow'>
+                            {(newSchool.edited_school_average_five_year_first_time_pass_rate.input || newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode) && <input disabled={newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode ? false : true} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" 
+                            value={newSchool.edited_school_average_five_year_first_time_pass_rate.input ? newSchool.edited_school_average_five_year_first_time_pass_rate.input : ''} name='edited_school_average_five_year_first_time_pass_rate' onChange={handleInput}  onKeyDown={keyDownFive} />}
+                            <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${newSchool.edited_school_average_five_year_first_time_pass_rate.input ? 'line-through' : 'no-underline'}`} 
+                            value={newSchool.school_average_five_year_first_time_pass_rate.input ? newSchool.school_average_five_year_first_time_pass_rate.input : ''} name='school_average_five_year_first_time_pass_rate' onKeyDown={keyDownFive} />
+                        </div>
+                    )}
+                    
+                    <button disabled={loggedInUser.isSuperAdmin ? false : true} onClick={(e:any) => {toggleNotePopup(e); setName('school_average_five_year_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                 </div>
@@ -255,6 +314,10 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
                 ) : ''
                 }
             </div>
+            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode} input={newSchool.edited_school_average_five_year_first_time_pass_rate.input} link={newSchool.edited_school_average_five_year_first_time_pass_rate.link} 
+                   setLinkObj={setLinkObj} name='school_average_five_year_first_time_pass_rate' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
+            />}
+            </div>
 
             <div className={`mt-28 text-xl w-full`}>
                 <p>PANCE Pass Rate Notes</p>
@@ -262,6 +325,7 @@ export default function PANCEPassRate({newSchool, setNewSchool}: { newSchool: Sc
                 onChange={handleQuill}/>
             </div>
 
+            {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
             {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />)}
         </>
     )

@@ -293,7 +293,15 @@ export const defaultSchool: School = {
         isEditMode: false,
         link: '',
     },
-    school_mission_statement: "",
+    school_mission_statement: {
+        input: '',
+    },
+    edited_school_mission_statement: {
+        input: '',
+        prev: '',
+        isEditMode: false,
+        link: '',
+    },
     school_in_state_tuition: {
         input: 0,
         notes: []
@@ -336,9 +344,35 @@ export const defaultSchool: School = {
     },
     school_pance_pass_rate_note: '',
     school_minimum_gpa_required: false,
+    edited_school_minimum_gpa_required: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
     school_minimum_overall_gpa_required: null,
+    edited_school_minimum_overall_gpa_required: {
+        input: null,
+        verified_input: null,
+        prev: null,
+        isEditMode: false,
+    },
     school_minimum_science_gpa_required: null,
+    edited_school_minimum_science_gpa_required: {
+        input: null,
+        verified_input: null,
+        prev: null,
+        isEditMode: false,
+    },
     school_minimum_prerequisite_gpa_required: null,
+    edited_school_minimum_prerequisite_gpa_required: {
+        input: null,
+        verified_input: null,
+        prev: null,
+        isEditMode: false,
+    },
+
+
     school_minimum_gpa_recommended: false,
     school_minimum_overall_gpa_recommended: null,
     school_minimum_science_gpa_recommended: null,
@@ -619,6 +653,12 @@ export const defaultSchool: School = {
         input: false,
         school_international_students_notes: [],
     },
+    edited_school_international_students_accepted: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
 
     school_certifications_required: {
         input: false,
@@ -626,11 +666,40 @@ export const defaultSchool: School = {
         school_certification_notes: [],
     },
 
+    edited_school_certifications_required: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+        edited_school_certifications_required_options: {
+            verified_input: [],
+            input: [],
+            prev: [],
+            isEditMode: false,
+        },
+    },
+
     school_application_submitted_on_caspa: {
         input: false,
         school_caspa_application_deadline_date: null,
         school_caspa_application_deadline_type: null,
         school_caspa_application_notes: [],
+    },
+    edited_school_application_submitted_on_caspa: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+        edited_school_caspa_application_deadline_date: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_caspa_application_deadline_type: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        }
     },
 
     school_application_submitted_directly_to_school: {
@@ -640,6 +709,23 @@ export const defaultSchool: School = {
         school_application_direct_to_school_notes: [],
     },
 
+    edited_school_application_submitted_directly_to_school: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+        edited_school_application_direct_to_school_deadline: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_application_direct_to_school_fee: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        }
+    },
+
     school_supplemental_application_required: {
         input: false,
         school_supplemental_application_deadline: null,
@@ -647,6 +733,28 @@ export const defaultSchool: School = {
         school_supplemental_application_link: null,
         school_supplemental_application_link_provided_with_invite_only: null,
         school_supplemental_application_notes: [],
+    },
+
+    edited_school_supplemental_application_required: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+        edited_school_supplemental_application_deadline: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_supplemental_application_fee: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_supplemental_application_link_provided_with_invite_only: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        }
     }
 
 }

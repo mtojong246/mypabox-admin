@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useEffect } from "react"
 import ApplicationsCaspa from "./ApplicationsCaspa";
 import ApplicationsDirectly from "./ApplicationsDirectly";
 import SupplementalApplications from "./SupplementalApplications";
+import { UserObject } from "../../../../types/users.types";
 
 // school_application_submitted_on_caspa: {
 //     input: false,
@@ -19,11 +20,11 @@ import SupplementalApplications from "./SupplementalApplications";
 //     school_application_direct_to_school_notes: [],
 // },
 
-export default function Applications({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+export default function Applications({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
 
     return (
         <>
-            {(<ApplicationsCaspa newSchool={newSchool} setNewSchool={setNewSchool} />)}
+            {(<ApplicationsCaspa newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>)}
             {(<ApplicationsDirectly newSchool={newSchool} setNewSchool={setNewSchool}/>)}
             <SupplementalApplications newSchool={newSchool} setNewSchool={setNewSchool}/>
         </>
