@@ -394,9 +394,33 @@ export interface School {
     }
 
     school_minimum_gpa_recommended: boolean;
+    edited_school_minimum_gpa_recommended: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string,
+    }
     school_minimum_overall_gpa_recommended: NumberInput | null;
+    edited_school_minimum_overall_gpa_recommended: {
+        input: number |  null;
+        verified_input: number | null;
+        prev: number | null;
+        isEditMode: boolean;
+    }
     school_minimum_science_gpa_recommended: NumberInput | null;
+    edited_school_minimum_science_gpa_recommended: {
+        input: number |  null;
+        verified_input: number | null;
+        prev: number | null;
+        isEditMode: boolean;  
+    }
     school_minimum_prerequisite_gpa_recommended: NumberInput | null;
+    edited_school_minimum_prerequisite_gpa_recommended: {
+        input: number |  null;
+        verified_input: number | null;
+        prev: number | null;
+        isEditMode: boolean;  
+    }
 
     school_other_types_of_gpa_evaluated: OtherTypesOfGpaEvaluted[];
     school_minimum_gpa_for_specific_course: MinimumGpaSpecificCourse[];

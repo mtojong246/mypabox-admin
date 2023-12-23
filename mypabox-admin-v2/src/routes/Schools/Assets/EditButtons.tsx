@@ -11,10 +11,10 @@ export default function EditButtons({ loggedInUser, isEditMode, input, link, nam
     loggedInUser: UserObject, 
     isEditMode: boolean, 
     input: string | number | boolean | null, 
-    link: string,
+    link?: string,
     name: string,
-    toggleLinkPopup: (e: MouseEvent<HTMLButtonElement>) => void,
-    setLinkObj: Dispatch<SetStateAction<{link: string, name: string}>>,
+    toggleLinkPopup?: (e: MouseEvent<HTMLButtonElement>) => void,
+    setLinkObj?: Dispatch<SetStateAction<{link: string, name: string}>>,
     enableEditMode: (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => void,
     confirmEdit: (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, original?: string) => void,
     undoEdit: (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => void,
@@ -40,7 +40,7 @@ export default function EditButtons({ loggedInUser, isEditMode, input, link, nam
                 </>
                 )}
             </div>
-            {!loggedInUser.permissions.canVerify && (
+            {!loggedInUser.permissions.canVerify && link !== null && setLinkObj && toggleLinkPopup && (
                 <>
                 {!link && isEditMode && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: '', name})}} className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Add</span></button>}
                 {link && <button onClick={(e:MouseEvent<HTMLButtonElement>) => {toggleLinkPopup(e); setLinkObj({link: link, name})}}  className='flex justify-center items-center gap-1 border-2 rounded-md py-1 px-2 border-[#FF8F0B] text-[#FF8F0B] hover:bg-[#FF8F0B] hover:text-white font-semibold'><GoLink className="h-5 w-5"/><span>Edit</span></button>}

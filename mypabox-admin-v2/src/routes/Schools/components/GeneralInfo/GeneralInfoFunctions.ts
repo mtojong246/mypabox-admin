@@ -74,10 +74,10 @@ export const confirmEditBool = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
         setNewSchool({
             ...newSchool,
             [name]: {
+                ...newSchool[name as keyof School] as object,
                 input: field.input === originalField.input ? null : field.input,
                 prev: field.input === originalField.input ? null : value,
                 isEditMode: false,
-                link: '',
             }
         })
     } else {
@@ -121,10 +121,10 @@ export const undoEditBool = (e:MouseEvent<HTMLButtonElement>, newSchool: School,
     setNewSchool({
         ...newSchool,
         [name]: {
+            ...newSchool[name as keyof School] as object,
             input: field.input === originalField.input ? null : field.prev,
             prev: null,
             isEditMode: false,
-            link: '',
         }
     })
 }

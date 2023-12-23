@@ -374,9 +374,33 @@ export const defaultSchool: School = {
 
 
     school_minimum_gpa_recommended: false,
+    edited_school_minimum_gpa_recommended: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
     school_minimum_overall_gpa_recommended: null,
+    edited_school_minimum_overall_gpa_recommended: {
+        input: null,
+        verified_input: null,
+        prev: null,
+        isEditMode: false,
+    },
     school_minimum_science_gpa_recommended: null,
+    edited_school_minimum_science_gpa_recommended: {
+        input: null,
+        verified_input: null,
+        prev: null,
+        isEditMode: false,
+    },
     school_minimum_prerequisite_gpa_recommended: null,
+    edited_school_minimum_prerequisite_gpa_recommended: {
+        input: null,
+        verified_input: null,
+        prev: null,
+        isEditMode: false,
+    },
     school_other_types_of_gpa_evaluated: [
         {
             gpa_value_required_or_recommended: "required",

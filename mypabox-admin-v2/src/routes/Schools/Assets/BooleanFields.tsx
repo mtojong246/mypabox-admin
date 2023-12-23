@@ -15,7 +15,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
         {loggedInUser.permissions.canVerify ? (
             <>
             {input !== null ? (
-            <div className='grow'>
+            <div className='mt-2 grow'>
                 <div className='flex justify-start items-start gap-6'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" disabled className="sr-only peer" name={name} checked={input ? true : false}  />
@@ -34,7 +34,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
                 </div>
             </div>
             ): (
-            <div className='grow'>
+            <div className='mt-2 grow'>
                 <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" className="sr-only peer" name={name} onChange={(e:ChangeEvent<HTMLInputElement>) => handleCheck(e, false)} checked={originalInput ? true : false}  />
                     <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
