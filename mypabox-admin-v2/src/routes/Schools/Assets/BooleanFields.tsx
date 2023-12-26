@@ -46,7 +46,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
             )}
             </>
         ): (
-            <div className='grow'>
+            <div className='grow mt-2 mb-[6px]'>
                 <div className=' flex justify-start items-start gap-6'>
                     {(input !== null || isEditMode) && <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" disabled={isEditMode ? false : true} className="sr-only peer" name={name} onChange={(e:ChangeEvent<HTMLInputElement>) => handleCheck(e, true)} checked={input ? true : false}  />

@@ -26,9 +26,9 @@ export default function InputFields({ loggedInUser, input, isEditMode, originalI
                 </>
             ) : (
                 <div className='flex flex-col justify-start items-start gap-3 grow'>
-                    {(input || isEditMode) && <input disabled={isEditMode ? false : true} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={name === 'school_duration_full_time' || name === 'school_duration_part_time' ? '# of months' : ''}
+                    {(input !== null || isEditMode) && <input disabled={isEditMode ? false : true} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={name === 'school_duration_full_time' || name === 'school_duration_part_time' ? '# of months' : ''}
                     value={input ? input : ''} name={name} onChange={(e:ChangeEvent<HTMLInputElement>) => handleInput(e, true)}/>}
-                    <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${input || isEditMode ? 'line-through' : 'no-underline'}`} value={originalInput as string | number}/>
+                    {<input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${input || isEditMode ? 'line-through' : 'no-underline'}`} value={originalInput as string | number}/>}
                 </div>
             )}
         </>

@@ -609,10 +609,55 @@ export const defaultSchool: School = {
         school_pacat_exam_notes: [],
     },
 
+    edited_school_pacat: {
+        link: '',
+        edited_school_pacat_required: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_pacat_recommended: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_pacat_exam_school_code: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_pacat_exam_scaled_minimum_score_required: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_pacat_exam_group_scaled_minimum_score_required: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+
+
+    },
+
     school_casper: {
         school_casper_required: false,
         school_casper_recommended: false,
         school_casper_exam_notes: [],
+    },
+
+    edited_school_casper: {
+        link: '',
+        edited_school_casper_required: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_casper_recommended: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        }
     },
 
     school_english_proficiency_exams: {

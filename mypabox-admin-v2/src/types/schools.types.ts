@@ -637,10 +637,55 @@ export interface School {
         school_pacat_exam_notes: Note[]
     }
 
+    edited_school_pacat: {
+        link: string;
+        edited_school_pacat_required: {
+            input: boolean | null;
+            prev: boolean | null;
+            isEditMode: boolean;
+        };
+        edited_school_pacat_recommended: {
+            input: boolean | null;
+            prev: boolean | null;
+            isEditMode: boolean;
+        };
+        edited_school_pacat_exam_school_code: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        };
+        edited_school_pacat_exam_scaled_minimum_score_required: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+        edited_school_pacat_exam_group_scaled_minimum_score_required: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+
+
+    }
+
     school_casper: {
         school_casper_required: boolean;
         school_casper_recommended: boolean;
         school_casper_exam_notes: Note[]
+    }
+
+    edited_school_casper: {
+        link: string;
+        edited_school_casper_required: {
+            input: boolean | null;
+            prev: boolean | null;
+            isEditMode: boolean;
+        };
+        edited_school_casper_recommended: {
+            input: boolean | null;
+            prev: boolean | null;
+            isEditMode: boolean;
+        }
     }
 
     school_english_proficiency_exams: {
