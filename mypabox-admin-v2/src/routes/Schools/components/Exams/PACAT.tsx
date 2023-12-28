@@ -25,6 +25,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
         link: '',
         name: '',
     });
+    const [ open, setOpen ] = useState(false);
 
     const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -73,7 +74,8 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
         } else {
             setEditedRecommendedOrRequired(false);
         }
-    }, [newSchool.edited_school_pacat])
+    }, [newSchool.edited_school_pacat]);
+
 
     useEffect(() => {
         if (newSchool.edited_school_pacat.edited_school_pacat_required.isEditMode || newSchool.edited_school_pacat.edited_school_pacat_recommended.isEditMode || newSchool.edited_school_pacat.edited_school_pacat_exam_school_code.isEditMode || newSchool.edited_school_pacat.edited_school_pacat_exam_group_scaled_minimum_score_required.isEditMode || newSchool.edited_school_pacat.edited_school_pacat_exam_scaled_minimum_score_required.isEditMode) {
@@ -84,12 +86,13 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
     }, [newSchool.edited_school_pacat])
 
     useEffect(() => {
-        if (newSchool.edited_school_pacat.edited_school_pacat_required.input !== null || newSchool.edited_school_pacat.edited_school_pacat_recommended.input !== null || editedRecommendedOrRequired) {
-            setHasInputs(true)
+        if (newSchool.edited_school_pacat.edited_school_pacat_required.input !== null || newSchool.edited_school_pacat.edited_school_pacat_recommended.input !== null) {
+            setHasInputs(true);
         } else {
             setHasInputs(null)
         }
-    }, [newSchool.edited_school_pacat, editedRecommendedOrRequired])
+    }, [newSchool.edited_school_pacat, editedRecommendedOrRequired]);
+
 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
         if (!isEditedInput) {
@@ -378,11 +381,12 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
     };
 
 
+
     return (
         <>
         <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">PA-CAT<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasBeenEdited ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasBeenEdited ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+            <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">PA-CAT<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className={`mt-6 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Required</label>   
                     <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_pacat.edited_school_pacat_required.input} isEditMode={newSchool.edited_school_pacat.edited_school_pacat_required.isEditMode}
@@ -397,7 +401,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
                     />
 
                 </div>
-                {(pacatRequiredOrRecommended || editedRecommendedOrRequired) && (
+                {(pacatRequiredOrRecommended || editedRecommendedOrRequired )&& (
                 <>
                     <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Exam School Code</label>   

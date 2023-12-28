@@ -15,7 +15,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
         {loggedInUser.permissions.canVerify ? (
             <>
             {input !== null ? (
-            <div className='mt-2 grow'>
+            <div className='mt-2 mb-[6px] grow'>
                 <div className='flex justify-start items-start gap-6'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" disabled className="sr-only peer" name={name} checked={input ? true : false}  />
@@ -27,7 +27,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" disabled className="sr-only peer" name={name} checked={originalInput ? true : false}  />
                         <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                        <span className={`ml-3 text-xl text-black ${input ? 'line-through' : 'no-underline'}`}>
+                        <span className={`ml-3 text-xl text-black ${input !== null ? 'line-through' : 'no-underline'}`}>
                         {originalInput ? 'True' : 'False'}
                         </span>
                     </label>
@@ -58,7 +58,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
                     {input !== originalInput ? <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" disabled className="sr-only peer" name={name} checked={originalInput ? true : false}  />
                         <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                        <span className={`ml-3 text-xl text-black ${input || isEditMode ? 'line-through' : 'no-underline'}`}>
+                        <span className={`ml-3 text-xl text-black ${input !== null || isEditMode ? 'line-through' : 'no-underline'}`}>
                         {originalInput ? 'True' : 'False'}
                         </span>
                     </label> : null}

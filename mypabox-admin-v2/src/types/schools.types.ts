@@ -558,15 +558,46 @@ export interface School {
         school_minimum_pa_shadowing_hours_required_notes: Note[];
     }
 
+    edited_school_pa_shadowing_required: {
+        input: boolean | null;
+        prev: boolean | null;
+        isEditMode: boolean;
+        link: string;
+        edited_school_minimum_pa_shadowing_hours_required: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+    }
+
     school_pa_shadowing_recommended: {
         input: boolean;
         school_minimum_pa_shadowing_hours_recommended: number | null;
         school_minimum_pa_shadowing_hours_recommended_notes: Note[];
     }
 
+    edited_school_pa_shadowing_recommended: {
+        input: boolean | null;
+        prev: boolean | null;
+        isEditMode: boolean;
+        link: string;
+        edited_school_minimum_pa_shadowing_hours_recommended: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+    }
+
     school_average_pa_shadowing_hours_accepted_previous_cycle: {
         input: number;
         school_average_pa_shadowing_hours_accepted_previous_cycle_notes: Note[]
+    }
+
+    edited_school_average_pa_shadowing_hours_accepted_previous_cycle: {
+        input: number | null;
+        prev: number | null;
+        isEditMode: boolean;
+        link: string;
     }
 
     school_required_optional_exams: {

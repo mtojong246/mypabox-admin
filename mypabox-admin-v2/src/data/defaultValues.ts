@@ -546,16 +546,48 @@ export const defaultSchool: School = {
         school_minimum_pa_shadowing_hours_required_notes: [],
     },
 
+    edited_school_pa_shadowing_required: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+        edited_school_minimum_pa_shadowing_hours_required: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        }
+    },
+
     school_pa_shadowing_recommended: {
         input: false,
         school_minimum_pa_shadowing_hours_recommended: null,
         school_minimum_pa_shadowing_hours_recommended_notes: [],
     },
 
+    edited_school_pa_shadowing_recommended: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+        edited_school_minimum_pa_shadowing_hours_recommended: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        }
+    },
+
     school_average_pa_shadowing_hours_accepted_previous_cycle: {
         input: 0,
         school_average_pa_shadowing_hours_accepted_previous_cycle_notes: [],
     },
+
+    edited_school_average_pa_shadowing_hours_accepted_previous_cycle: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
+
 
     school_required_optional_exams: [],
 

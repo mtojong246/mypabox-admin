@@ -23,6 +23,8 @@ export default function EditButtons({ loggedInUser, isEditMode, input, link, nam
     setNewSchool: Dispatch<SetStateAction<School>>,
 
 }) {
+
+
     return (
         <div className='flex flex-col justify-start items-start gap-2'>
             <div className='flex justify-start items-start gap-2'>

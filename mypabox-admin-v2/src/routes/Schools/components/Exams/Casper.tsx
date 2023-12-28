@@ -39,9 +39,9 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
 
     useEffect(() => {
         if (newSchool.edited_school_casper.edited_school_casper_recommended.input !== null || newSchool.edited_school_casper.edited_school_casper_required.input !== null) {
-            setHasInputs(true)
+            setHasInputs(true);
         } else {
-            setHasInputs(null)
+            setHasInputs(null);
         }
     }, [newSchool.edited_school_casper])
 
@@ -169,6 +169,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
                     }
                 }
             })
+            
         } else {
             setNewSchool({
                 ...newSchool,
@@ -194,6 +195,8 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
             })
         }
     };
+
+    console.log(newSchool.edited_school_casper)
 
     const undoEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
         e.preventDefault();
@@ -239,7 +242,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
         <>
         <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
             <div className={`relative grow max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">CASPer<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasBeenEdited ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasBeenEdited ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">CASPer<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className={`mt-6 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">CASPer Required</label>   
                     <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_casper.edited_school_casper_required.input} isEditMode={newSchool.edited_school_casper.edited_school_casper_required.isEditMode} name='school_casper_required' 
