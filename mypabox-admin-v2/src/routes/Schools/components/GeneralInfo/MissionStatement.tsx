@@ -81,7 +81,7 @@ export default function MissionStatement({newSchool, setNewSchool, loggedInUser,
                         </>
                     ) : (
                         <div className='flex flex-col justify-start items-start gap-3 grow'>
-                            {(newSchool.edited_school_mission_statement.input || newSchool.edited_school_mission_statement.isEditMode) && <ReactQuill readOnly={newSchool.edited_school_mission_statement.isEditMode ? false : true} className='h-60 mb-16 rounded-2xl w-full' theme="snow" value={newSchool.edited_school_mission_statement.input}
+                            {(newSchool.edited_school_mission_statement.input || newSchool.edited_school_mission_statement.isEditMode) && <ReactQuill readOnly={newSchool.edited_school_mission_statement.isEditMode ? false : true} className='h-60 mb-16 rounded-2xl w-full' theme="snow" value={newSchool.edited_school_mission_statement.input ? newSchool.edited_school_mission_statement.input : ''}
                             onChange={(e:any) => handleQuill(e, true)}/>}
                             <ReactQuill readOnly className={`h-60 rounded-2xl w-full ${newSchool.edited_school_mission_statement.input ? 'line-through' : 'no-underline'}`} theme="snow" value={newSchool.school_mission_statement.input}
                             />

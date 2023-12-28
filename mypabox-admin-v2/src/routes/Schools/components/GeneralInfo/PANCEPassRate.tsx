@@ -221,7 +221,7 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
                     ) : (
                         <div className='flex flex-col justify-start items-start gap-3 grow'>
                             {(newSchool.edited_school_first_time_pass_rate.input || newSchool.edited_school_first_time_pass_rate.isEditMode) && <input disabled={newSchool.edited_school_first_time_pass_rate.isEditMode ? false : true} onChange={handleInput} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" 
-                            value={newSchool.edited_school_first_time_pass_rate.input} name='edited_school_first_time_pass_rate' onKeyDown={keyDownFirst} />}
+                            value={newSchool.edited_school_first_time_pass_rate.input ? newSchool.edited_school_first_time_pass_rate.input : ''} name='edited_school_first_time_pass_rate' onKeyDown={keyDownFirst} />}
                             <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${newSchool.edited_school_first_time_pass_rate.input ? 'line-through' : 'no-underline'}`}
                             value={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' onKeyDown={keyDownFirst} />
                         </div>

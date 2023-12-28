@@ -1,5 +1,5 @@
 import { School} from "../../../../types/schools.types";
-import { Dispatch, SetStateAction, useEffect } from "react"
+import { Dispatch, SetStateAction, ChangeEvent} from "react"
 
 import ApplicationsCaspa from "./ApplicationsCaspa";
 import ApplicationsDirectly from "./ApplicationsDirectly";
@@ -22,11 +22,148 @@ import { UserObject } from "../../../../types/users.types";
 
 export default function Applications({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
 
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const name = e.target.name as keyof School;
+            const field = newSchool[name] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        } else {
+            const name = `edited_${e.currentTarget.name}` as keyof School;
+            const field = newSchool[name] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        }
+        
+    };
+
+    const handleCheckInCategory = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
+        const field = newSchool[category as keyof School] as object;
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                [category]: {
+                    ...field,
+                    [e.target.name]: e.target.value,
+                }
+            })
+        } else {
+            const name = `edited_${e.target.name}`;
+            setNewSchool({
+                ...newSchool,
+                [category]: {
+                    ...field,
+                    [name]: {
+                        ...field[name as keyof object] as object,
+                        input: e.target.checked,
+                    }
+                }
+            })
+        }
+    }
+
+    const handleInputInCategory = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
+        const field = newSchool[category as keyof School] as object;
+        if (!isEditedInput) {
+            if (e.target.name === 'school_supplemental_application_fee' || e.target.name === 'school_application_direct_to_school_fee') {
+                if (e.target.value === '') {
+                    setNewSchool({
+                        ...newSchool,
+                        [category]: {
+                            ...field,
+                            [e.target.name]: '',
+                        }
+                    })
+                } else {
+                    const conversion = parseInt(e.target.value.replace(/,/g, ''));
+                    if (isNaN(conversion)) {
+                        return
+                    } else {
+                        const value = conversion.toLocaleString();
+                        setNewSchool({
+                            ...newSchool,
+                            [category]: {
+                                ...field,
+                                [e.target.name]: value,
+                            }
+                        })
+                    }
+                }
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    [category]: {
+                        ...field,
+                        [e.target.name]: e.target.value,
+                    }
+                })
+            }
+        } else {
+            const name = `edited_${e.target.name}`;
+            if (e.target.name === 'school_supplemental_application_fee' || e.target.name === 'school_application_direct_to_school_fee') {
+                if (e.target.value === '') {
+                    setNewSchool({
+                        ...newSchool,
+                        [category]: {
+                            ...field,
+                            [name]: {
+                                ...field[name as keyof object] as object,
+                                input: '',
+                            }
+                        }
+                    })
+                } else {
+                    const conversion = parseInt(e.target.value.replace(/,/g, ''));
+                    if (isNaN(conversion)) {
+                        return
+                    } else {
+                        const value = conversion.toLocaleString();
+                        setNewSchool({
+                            ...newSchool,
+                            [category]: {
+                                ...field,
+                                [name]: {
+                                    ...field[name as keyof object] as object,
+                                    input: value,
+                                }
+                            }
+                        })
+                    }
+                }
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    [category]: {
+                        ...field,
+                        [name]: {
+                            ...field[name as keyof object] as object,
+                            input: e.target.value,
+                        }
+                    }
+                })
+            }
+        } 
+    };
+
     return (
         <>
-            {(<ApplicationsCaspa newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>)}
-            {(<ApplicationsDirectly newSchool={newSchool} setNewSchool={setNewSchool}/>)}
-            <SupplementalApplications newSchool={newSchool} setNewSchool={setNewSchool}/>
+            {(<ApplicationsCaspa newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit} handleCheck={handleCheck}
+            handleInputInCategory={handleInputInCategory}
+            />)}
+            {(<ApplicationsDirectly newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit} handleCheck={handleCheck}
+             handleInputInCategory={handleInputInCategory} /> )}
+            <SupplementalApplications newSchool={newSchool} setNewSchool={setNewSchool}  loggedInUser={loggedInUser} isEdit={isEdit} handleCheck={handleCheck}
+             handleInputInCategory={handleInputInCategory} handleCheckInCategory={handleCheckInCategory}/>
         </>
     )
 }

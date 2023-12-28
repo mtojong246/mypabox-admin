@@ -106,57 +106,57 @@ export interface School {
     isLive: boolean;
     school_name: NoNoteString;
     edited_school_name: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
     school_logo: NoNoteString;
     edited_school_logo: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
     school_street: NoNoteString;
     edited_school_street: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
     school_city: NoNoteString;
     edited_school_city: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
     school_state: NoNoteString;
     edited_school_state: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
     school_zip_code: NoNoteString;
     edited_school_zip_code: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
     school_country: NoNoteString;
     edited_school_country: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
     school_website: NoNoteString;
     edited_school_website: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
@@ -177,51 +177,51 @@ export interface School {
 
     school_campus_location: StringInput;
     edited_school_campus_location: {
-        input: string,
-        prev: string;
+        input: string | null,
+        prev: string | null;
         isEditMode: boolean,
         link: string;
     };
     school_start_month: StringInput;
     edited_school_start_month: {
-        input: string,
-        prev: string;
+        input: string | null,
+        prev: string | null;
         isEditMode: boolean,
         link: string;
     };
     school_class_capacity: NumberInput;
     edited_school_class_capacity: {
-        input: number,
-        prev: number,
+        input: number | null,
+        prev: number | null,
         isEditMode: boolean,
         link: string;
     };
     school_duration_full_time: NumberInput;
     edited_school_duration_full_time: {
-        input: number,
-        prev: number,
+        input: number | null,
+        prev: number | null,
         isEditMode: boolean,
         link: string;
     };
     school_duration_part_time: NumberInput;
     edited_school_duration_part_time: {
-        input: number,
-        prev: number
+        input: number | null,
+        prev: number | null,
         isEditMode: boolean,
         link: string;
     };
 
     school_seat_deposit_in_state: NumberInput;
     edited_school_seat_deposit_in_state: {
-        input: number;
-        prev: number;
+        input: number | null;
+        prev: number | null;
         isEditMode: boolean;
         link: string;
     }
     school_seat_deposit_out_of_state: NumberInput;
     edited_school_seat_deposit_out_of_state: {
-        input: number;
-        prev: number;
+        input: number | null;
+        prev: number | null;
         isEditMode: boolean;
         link: string;
     }
@@ -317,8 +317,8 @@ export interface School {
 
     school_accreditation_status: StringInput;
     edited_school_accreditation_status: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
@@ -327,38 +327,38 @@ export interface School {
         input: string;
     }
     edited_school_mission_statement: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
 
     school_in_state_tuition: NumberInput;
     edited_school_in_state_tuition: {
-        input: number,
-        prev: number
+        input: number | null,
+        prev: number | null;
         isEditMode: boolean,
         link: string;
     }
     school_out_of_state_tuition: NumberInput;
     edited_school_out_of_state_tuition: {
-        input: number,
-        prev: number
+        input: number | null,
+        prev: number | null;
         isEditMode: boolean,
         link: string;
     }
 
     school_first_time_pass_rate: StringInput;
     edited_school_first_time_pass_rate: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
     school_average_five_year_first_time_pass_rate: StringInput;
     edited_school_average_five_year_first_time_pass_rate: {
-        input: string;
-        prev: string;
+        input: string | null;
+        prev: string | null;
         isEditMode: boolean;
         link: string;
     }
@@ -881,6 +881,7 @@ export interface School {
         school_supplemental_application_notes: Note[];
     }
 
+    
     edited_school_supplemental_application_required: {
         input: boolean | null;
         prev: boolean | null;
@@ -892,8 +893,13 @@ export interface School {
             isEditMode: boolean;
         }
         edited_school_supplemental_application_fee: {
-            input: number | string | null;
-            prev: number | string | null;
+            input: string | number | null;
+            prev: string | number | null;
+            isEditMode: boolean;
+        }
+        edited_school_supplemental_application_link: {
+            input: string | null;
+            prev: string | null;
             isEditMode: boolean;
         }
         edited_school_supplemental_application_link_provided_with_invite_only: {
@@ -902,7 +908,6 @@ export interface School {
             isEditMode: boolean;
         }
     }
-
     
 
 

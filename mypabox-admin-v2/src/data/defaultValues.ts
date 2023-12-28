@@ -7,8 +7,8 @@ export const defaultSchool: School = {
         input: "",
     },
     edited_school_name: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -16,8 +16,8 @@ export const defaultSchool: School = {
         input: "",
     },
     edited_school_logo: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -25,8 +25,8 @@ export const defaultSchool: School = {
         input: "",
     },
     edited_school_street: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -34,8 +34,8 @@ export const defaultSchool: School = {
         input: "",
     },
     edited_school_city: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -43,8 +43,8 @@ export const defaultSchool: School = {
         input: "",
     },
     edited_school_state: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -52,8 +52,8 @@ export const defaultSchool: School = {
         input: "",
     },
     edited_school_zip_code: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -61,8 +61,8 @@ export const defaultSchool: School = {
         input: "",
     },
     edited_school_country: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -70,8 +70,8 @@ export const defaultSchool: School = {
         input: "",
     },
     edited_school_website: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -89,8 +89,8 @@ export const defaultSchool: School = {
         notes: [],
     },
     edited_school_campus_location: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -99,8 +99,8 @@ export const defaultSchool: School = {
         notes: [],
     },
     edited_school_start_month: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -109,8 +109,8 @@ export const defaultSchool: School = {
         notes: [],
     },
     edited_school_class_capacity: {
-        input: 0,
-        prev: 0,
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -119,8 +119,8 @@ export const defaultSchool: School = {
         notes: [],
     },
     edited_school_duration_full_time: {
-        input: 0,
-        prev: 0,
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -129,8 +129,8 @@ export const defaultSchool: School = {
         notes: [],
     },
     edited_school_duration_part_time: {
-        input: 0,
-        prev: 0,
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -140,8 +140,8 @@ export const defaultSchool: School = {
         notes: [],
     },
     edited_school_seat_deposit_in_state: {
-        input: 0,
-        prev: 0,
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -150,8 +150,8 @@ export const defaultSchool: School = {
         notes: [],
     },
     edited_school_seat_deposit_out_of_state: {
-        input: 0,
-        prev: 0,
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -288,8 +288,8 @@ export const defaultSchool: School = {
         notes: []
     },
     edited_school_accreditation_status: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -297,8 +297,8 @@ export const defaultSchool: School = {
         input: '',
     },
     edited_school_mission_statement: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -307,8 +307,8 @@ export const defaultSchool: School = {
         notes: []
     },
     edited_school_in_state_tuition: {
-        input: 0,
-        prev: 0,
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -317,8 +317,8 @@ export const defaultSchool: School = {
         notes: []
     },
     edited_school_out_of_state_tuition: {
-        input: 0,
-        prev: 0,
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -327,8 +327,8 @@ export const defaultSchool: School = {
         notes: []
     },
     edited_school_first_time_pass_rate: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -337,8 +337,8 @@ export const defaultSchool: School = {
         notes: []
     },
     edited_school_average_five_year_first_time_pass_rate: {
-        input: '',
-        prev: '',
+        input: null,
+        prev: null,
         isEditMode: false,
         link: '',
     },
@@ -847,6 +847,11 @@ export const defaultSchool: School = {
             isEditMode: false,
         },
         edited_school_supplemental_application_fee: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_supplemental_application_link: {
             input: null,
             prev: null,
             isEditMode: false,
