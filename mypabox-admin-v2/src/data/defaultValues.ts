@@ -343,64 +343,117 @@ export const defaultSchool: School = {
         link: '',
     },
     school_pance_pass_rate_note: '',
-    school_minimum_gpa_required: false,
+
+    school_minimum_gpa_required: {
+        input: false,
+        school_minimum_overall_gpa_required: null,
+        school_minimum_science_gpa_required: null,
+        school_minimum_prerequisite_gpa_required: null,
+    },
+
     edited_school_minimum_gpa_required: {
         input: null,
         prev: null,
         isEditMode: false,
         link: '',
-    },
-    school_minimum_overall_gpa_required: null,
-    edited_school_minimum_overall_gpa_required: {
-        input: null,
-        verified_input: null,
-        prev: null,
-        isEditMode: false,
-    },
-    school_minimum_science_gpa_required: null,
-    edited_school_minimum_science_gpa_required: {
-        input: null,
-        verified_input: null,
-        prev: null,
-        isEditMode: false,
-    },
-    school_minimum_prerequisite_gpa_required: null,
-    edited_school_minimum_prerequisite_gpa_required: {
-        input: null,
-        verified_input: null,
-        prev: null,
-        isEditMode: false,
+        edited_school_minimum_overall_gpa_required: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_minimum_science_gpa_required: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_minimum_prerequisite_gpa_required: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
     },
 
+    school_minimum_gpa_recommended: {
+        input: false,
+        school_minimum_overall_gpa_recommended: null,
+        school_minimum_science_gpa_recommended: null,
+        school_minimum_prerequisite_gpa_recommended: null,
+    },
 
-    school_minimum_gpa_recommended: false,
     edited_school_minimum_gpa_recommended: {
         input: null,
         prev: null,
         isEditMode: false,
         link: '',
+        edited_school_minimum_overall_gpa_recommended: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_minimum_science_gpa_recommended: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_school_minimum_prerequisite_gpa_recommended: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
     },
-    school_minimum_overall_gpa_recommended: null,
-    edited_school_minimum_overall_gpa_recommended: {
-        input: null,
-        verified_input: null,
-        prev: null,
-        isEditMode: false,
-    },
-    school_minimum_science_gpa_recommended: null,
-    edited_school_minimum_science_gpa_recommended: {
-        input: null,
-        verified_input: null,
-        prev: null,
-        isEditMode: false,
-    },
-    school_minimum_prerequisite_gpa_recommended: null,
-    edited_school_minimum_prerequisite_gpa_recommended: {
-        input: null,
-        verified_input: null,
-        prev: null,
-        isEditMode: false,
-    },
+
+    // school_minimum_gpa_required: false,
+    // edited_school_minimum_gpa_required: {
+    //     input: null,
+    //     prev: null,
+    //     isEditMode: false,
+    //     link: '',
+    // },
+    // school_minimum_overall_gpa_required: null,
+    // edited_school_minimum_overall_gpa_required: {
+    //     input: null,
+    //     prev: null,
+    //     isEditMode: false,
+    // },
+    // school_minimum_science_gpa_required: null,
+    // edited_school_minimum_science_gpa_required: {
+    //     input: null,
+    //     prev: null,
+    //     isEditMode: false,
+    // },
+    // school_minimum_prerequisite_gpa_required: null,
+    // edited_school_minimum_prerequisite_gpa_required: {
+    //     input: null,
+    //     prev: null,
+    //     isEditMode: false,
+    // },
+
+
+    // school_minimum_gpa_recommended: false,
+    // edited_school_minimum_gpa_recommended: {
+    //     input: null,
+    //     prev: null,
+    //     isEditMode: false,
+    //     link: '',
+    // },
+    // school_minimum_overall_gpa_recommended: null,
+    // edited_school_minimum_overall_gpa_recommended: {
+    //     input: null,
+    //     prev: null,
+    //     isEditMode: false,
+    // },
+    // school_minimum_science_gpa_recommended: null,
+    // edited_school_minimum_science_gpa_recommended: {
+    //     input: null,
+    //     prev: null,
+    //     isEditMode: false,
+    // },
+    // school_minimum_prerequisite_gpa_recommended: null,
+    // edited_school_minimum_prerequisite_gpa_recommended: {
+    //     input: null,
+    //     prev: null,
+    //     isEditMode: false,
+    // },
     school_other_types_of_gpa_evaluated: [
         {
             gpa_value_required_or_recommended: "required",
@@ -433,6 +486,31 @@ export const defaultSchool: School = {
         average_prerequisite_gpa_accepted_previous_year: {
             input: 0,
             notes: [],
+        },
+    },
+
+    edited_school_average_gpa_accepted_previous_cycle: {
+        link: '',
+        isEditMode: false,
+        edited_average_overall_gpa_accepted_previous_year: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_average_bcp_gpa_accepted_previous_year: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_average_science_gpa_accepted_previous_year: {
+            input: null,
+            prev: null,
+            isEditMode: false,
+        },
+        edited_average_prerequisite_gpa_accepted_previous_year: {
+            input: null,
+            prev: null,
+            isEditMode: false,
         },
     },
     school_gpa_general_note: "",

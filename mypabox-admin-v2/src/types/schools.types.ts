@@ -364,63 +364,115 @@ export interface School {
     }
     school_pance_pass_rate_note: string;
 
-    school_minimum_gpa_required: boolean;
+    school_minimum_gpa_required: {
+        input: boolean;
+        school_minimum_overall_gpa_required: NumberInput | null;
+        school_minimum_science_gpa_required: NumberInput | null;
+        school_minimum_prerequisite_gpa_required: NumberInput | null;
+    }
+
     edited_school_minimum_gpa_required: {
         input: boolean | null;
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
-    }
-    school_minimum_overall_gpa_required: NumberInput | null;
-    edited_school_minimum_overall_gpa_required: {
-        input: number | null;
-        verified_input: number | null;
-        prev: number | null;
-        isEditMode: boolean;        
-    }
-    school_minimum_science_gpa_required: NumberInput | null;
-    edited_school_minimum_science_gpa_required: {
-        input: number | null;
-        verified_input: number | null;
-        prev: number | null;
-        isEditMode: boolean;   
-    }
-    school_minimum_prerequisite_gpa_required: NumberInput | null;
-    edited_school_minimum_prerequisite_gpa_required: {
-        input: number | null;
-        verified_input: number | null;
-        prev: number | null;
-        isEditMode: boolean;   
+        edited_school_minimum_overall_gpa_required: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+        edited_school_minimum_science_gpa_required: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+        edited_school_minimum_prerequisite_gpa_required: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
     }
 
-    school_minimum_gpa_recommended: boolean;
+    // school_minimum_gpa_required: boolean;
+    // edited_school_minimum_gpa_required: {
+    //     input: boolean | null;
+    //     prev: boolean | null;
+    //     isEditMode: boolean;
+    //     link: string;
+    // }
+    // school_minimum_overall_gpa_required: NumberInput | null;
+    // edited_school_minimum_overall_gpa_required: {
+    //     input: number | null;
+    //     prev: number | null;
+    //     isEditMode: boolean;        
+    // }
+    // school_minimum_science_gpa_required: NumberInput | null;
+    // edited_school_minimum_science_gpa_required: {
+    //     input: number | null;
+    //     prev: number | null;
+    //     isEditMode: boolean;   
+    // }
+    // school_minimum_prerequisite_gpa_required: NumberInput | null;
+    // edited_school_minimum_prerequisite_gpa_required: {
+    //     input: number | null;
+    //     prev: number | null;
+    //     isEditMode: boolean;   
+    // }
+
+    school_minimum_gpa_recommended: {
+        input: boolean;
+        school_minimum_overall_gpa_recommended: NumberInput | null;
+        school_minimum_science_gpa_recommended: NumberInput | null;
+        school_minimum_prerequisite_gpa_recommended: NumberInput | null;
+    }
+
     edited_school_minimum_gpa_recommended: {
-        input: boolean | null,
+        input: boolean | null;
         prev: boolean | null,
         isEditMode: boolean,
         link: string,
+        edited_school_minimum_overall_gpa_recommended: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+        edited_school_minimum_science_gpa_recommended: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+        edited_school_minimum_prerequisite_gpa_recommended: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
     }
-    school_minimum_overall_gpa_recommended: NumberInput | null;
-    edited_school_minimum_overall_gpa_recommended: {
-        input: number |  null;
-        verified_input: number | null;
-        prev: number | null;
-        isEditMode: boolean;
-    }
-    school_minimum_science_gpa_recommended: NumberInput | null;
-    edited_school_minimum_science_gpa_recommended: {
-        input: number |  null;
-        verified_input: number | null;
-        prev: number | null;
-        isEditMode: boolean;  
-    }
-    school_minimum_prerequisite_gpa_recommended: NumberInput | null;
-    edited_school_minimum_prerequisite_gpa_recommended: {
-        input: number |  null;
-        verified_input: number | null;
-        prev: number | null;
-        isEditMode: boolean;  
-    }
+
+    // school_minimum_gpa_recommended: boolean;
+    // edited_school_minimum_gpa_recommended: {
+    //     input: boolean | null,
+    //     prev: boolean | null,
+    //     isEditMode: boolean,
+    //     link: string,
+    // }
+    // school_minimum_overall_gpa_recommended: NumberInput | null;
+    // edited_school_minimum_overall_gpa_recommended: {
+    //     input: number |  null;
+    //     prev: number | null;
+    //     isEditMode: boolean;
+    // }
+    // school_minimum_science_gpa_recommended: NumberInput | null;
+    // edited_school_minimum_science_gpa_recommended: {
+    //     input: number |  null;
+    //     prev: number | null;
+    //     isEditMode: boolean;  
+    // }
+    // school_minimum_prerequisite_gpa_recommended: NumberInput | null;
+    // edited_school_minimum_prerequisite_gpa_recommended: {
+    //     input: number |  null;
+    //     prev: number | null;
+    //     isEditMode: boolean;  
+    // }
 
     school_other_types_of_gpa_evaluated: OtherTypesOfGpaEvaluted[];
     school_minimum_gpa_for_specific_course: MinimumGpaSpecificCourse[];
@@ -430,6 +482,31 @@ export interface School {
         average_bcp_gpa_accepted_previous_year: NumberInput;
         average_science_gpa_accepted_previous_year: NumberInput;
         average_prerequisite_gpa_accepted_previous_year: NumberInput;
+    }
+
+    edited_school_average_gpa_accepted_previous_cycle: {
+        link: string;
+        isEditMode: boolean;
+        edited_average_overall_gpa_accepted_previous_year: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+        edited_average_bcp_gpa_accepted_previous_year: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+        edited_average_science_gpa_accepted_previous_year: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
+        edited_average_prerequisite_gpa_accepted_previous_year: {
+            input: number | null;
+            prev: number | null;
+            isEditMode: boolean;
+        }
     }
 
     school_gpa_general_note: string;

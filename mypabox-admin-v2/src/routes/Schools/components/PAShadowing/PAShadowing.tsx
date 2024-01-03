@@ -258,7 +258,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
         })
     };
 
-    console.log(isRecOpen, newSchool.edited_school_pa_shadowing_recommended, newSchool.school_pa_shadowing_recommended)
+    console.log(newSchool.school_pa_shadowing_recommended, newSchool.edited_school_pa_shadowing_recommended)
     
     return (
         <>

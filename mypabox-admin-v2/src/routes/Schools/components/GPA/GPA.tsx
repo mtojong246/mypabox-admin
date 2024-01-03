@@ -13,20 +13,11 @@ import PreviousCycleSection from "./PreviousCycleSection";
 import { UserObject } from "../../../../types/users.types";
 
 import LinkPopup from "../../LinkPopup";
-import { revertEditBool } from "../GeneralInfo/GeneralInfoFunctions";
 import BooleanFields from "../../Assets/BooleanFields";
 import EditButtons from "../../Assets/EditButtons";
-import InputFields from "../../Assets/InputsFields";
+import InputFieldsGroup from "../../Assets/InputsFieldsGroup";
+import { confirmEditGroup, enableEditModeGroup, revertEditGroup, undoEditGroup } from "./GPAFunctions";
 
-//*******TO DO*******:
-//  Fixed radio input so that option stays highlighted after selected 
-
-interface InnerGPA {
-    input: number | null;
-    verified_input: number | null;
-    prev: number | null;
-    isEditMode: boolean;  
-}
 
 const gpaRequired = [
     {
@@ -71,6 +62,11 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
     const [notePopup, setNotePopup] = useState(false);
     const [name, setName] = useState('');
 
+    const [ isRecOpen, setIsRecOpen ] = useState(false);
+    const [ isReqOpen, setIsReqOpen ] = useState(false);
+    const [ recHasInputs, setRecHasInputs ] = useState<boolean | null>(null);
+    const [ reqHasInputs, setReqHasInputs ] = useState<boolean | null>(null);
+
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
@@ -88,105 +84,127 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
       };
 
       useEffect(() => {
-        if (newSchool.school_minimum_gpa_required) {
+        if (newSchool.school_minimum_gpa_required.input) {
             setNewSchool({
                 ...newSchool,
-                school_minimum_overall_gpa_required: {
-                    ...newSchool.school_minimum_overall_gpa_required,
-                    input: newSchool.school_minimum_overall_gpa_required?.input ? newSchool.school_minimum_overall_gpa_required.input : 0,
-                    notes: newSchool.school_minimum_overall_gpa_required?.notes ? newSchool.school_minimum_overall_gpa_required.notes : [],
-                },
-                school_minimum_science_gpa_required: {
-                    ...newSchool.school_minimum_science_gpa_required,
-                    input: newSchool.school_minimum_science_gpa_required?.input ? newSchool.school_minimum_science_gpa_required.input : 0,
-                    notes: newSchool.school_minimum_science_gpa_required?.notes ? newSchool.school_minimum_science_gpa_required.notes : [],
-                },
-                school_minimum_prerequisite_gpa_required: {
-                    ...newSchool.school_minimum_prerequisite_gpa_required,
-                    input: newSchool.school_minimum_prerequisite_gpa_required?.input ? newSchool.school_minimum_prerequisite_gpa_required.input : 0,
-                    notes: newSchool.school_minimum_prerequisite_gpa_required?.notes ? newSchool.school_minimum_prerequisite_gpa_required?.notes : [],
+                school_minimum_gpa_required: {
+                    ...newSchool.school_minimum_gpa_required,
+                    school_minimum_overall_gpa_required: {
+                        ...newSchool.school_minimum_gpa_required.school_minimum_overall_gpa_required,
+                        input: newSchool.school_minimum_gpa_required.school_minimum_overall_gpa_required?.input ? newSchool.school_minimum_gpa_required.school_minimum_overall_gpa_required?.input : 0,
+                        notes: newSchool.school_minimum_gpa_required.school_minimum_overall_gpa_required?.notes ? newSchool.school_minimum_gpa_required.school_minimum_overall_gpa_required.notes : [],
+                    },
+                    school_minimum_science_gpa_required: {
+                        ...newSchool.school_minimum_gpa_required.school_minimum_science_gpa_required,
+                        input: newSchool.school_minimum_gpa_required.school_minimum_science_gpa_required?.input ? newSchool.school_minimum_gpa_required.school_minimum_science_gpa_required.input : 0,
+                        notes: newSchool.school_minimum_gpa_required.school_minimum_science_gpa_required?.notes ? newSchool.school_minimum_gpa_required.school_minimum_science_gpa_required.notes : [],
+                    },
+                    school_minimum_prerequisite_gpa_required: {
+                        ...newSchool.school_minimum_gpa_required.school_minimum_prerequisite_gpa_required,
+                        input: newSchool.school_minimum_gpa_required.school_minimum_prerequisite_gpa_required?.input ? newSchool.school_minimum_gpa_required.school_minimum_prerequisite_gpa_required.input : 0,
+                        notes: newSchool.school_minimum_gpa_required.school_minimum_prerequisite_gpa_required?.notes ? newSchool.school_minimum_gpa_required.school_minimum_prerequisite_gpa_required?.notes : [],
+                    },
                 }
             })
         } else {
             setNewSchool({
                 ...newSchool,
-                school_minimum_overall_gpa_required: null,
-                school_minimum_prerequisite_gpa_required: null,
-                school_minimum_science_gpa_required: null,
+                school_minimum_gpa_required: {
+                    ...newSchool.school_minimum_gpa_required,
+                    school_minimum_overall_gpa_required: null,
+                    school_minimum_prerequisite_gpa_required: null,
+                    school_minimum_science_gpa_required: null,
+                }
             })
         }
-      }, [newSchool.school_minimum_gpa_required]);
+      }, [newSchool.school_minimum_gpa_required.input]);
 
 
       useEffect(() => {
-        if (newSchool.school_minimum_gpa_recommended) {
+        if (newSchool.school_minimum_gpa_recommended.input) {
             setNewSchool({
                 ...newSchool,
-                school_minimum_overall_gpa_recommended: {
-                    ...newSchool.school_minimum_overall_gpa_recommended,
-                    input: newSchool.school_minimum_overall_gpa_recommended?.input ? newSchool.school_minimum_overall_gpa_recommended?.input : 0,
-                    notes: newSchool.school_minimum_overall_gpa_recommended?.notes ? newSchool.school_minimum_overall_gpa_recommended?.notes : [],
-                },
-                school_minimum_science_gpa_recommended: {
-                    ...newSchool.school_minimum_science_gpa_recommended,
-                    input: newSchool.school_minimum_science_gpa_recommended?.input ? newSchool.school_minimum_science_gpa_recommended?.input : 0,
-                    notes: newSchool.school_minimum_science_gpa_recommended?.notes ? newSchool.school_minimum_science_gpa_recommended?.notes : [],
-                },
-                school_minimum_prerequisite_gpa_recommended: {
-                    ...newSchool.school_minimum_prerequisite_gpa_recommended,
-                    input: newSchool.school_minimum_prerequisite_gpa_recommended?.input ? newSchool.school_minimum_prerequisite_gpa_recommended?.input : 0,
-                    notes: newSchool.school_minimum_prerequisite_gpa_recommended?.notes ? newSchool.school_minimum_prerequisite_gpa_recommended?.notes : [],
+                school_minimum_gpa_recommended: {
+                    ...newSchool.school_minimum_gpa_recommended,
+                    school_minimum_overall_gpa_recommended: {
+                        ...newSchool.school_minimum_gpa_recommended.school_minimum_overall_gpa_recommended,
+                        input: newSchool.school_minimum_gpa_recommended.school_minimum_overall_gpa_recommended?.input ? newSchool.school_minimum_gpa_recommended.school_minimum_overall_gpa_recommended?.input : 0,
+                        notes: newSchool.school_minimum_gpa_recommended.school_minimum_overall_gpa_recommended?.notes ? newSchool.school_minimum_gpa_recommended.school_minimum_overall_gpa_recommended?.notes : [],
+                    },
+                    school_minimum_science_gpa_recommended: {
+                        ...newSchool.school_minimum_gpa_recommended.school_minimum_science_gpa_recommended,
+                        input: newSchool.school_minimum_gpa_recommended.school_minimum_science_gpa_recommended?.input ? newSchool.school_minimum_gpa_recommended.school_minimum_science_gpa_recommended?.input : 0,
+                        notes: newSchool.school_minimum_gpa_recommended.school_minimum_science_gpa_recommended?.notes ? newSchool.school_minimum_gpa_recommended.school_minimum_science_gpa_recommended?.notes : [],
+                    },
+                    school_minimum_prerequisite_gpa_recommended: {
+                        ...newSchool.school_minimum_gpa_recommended.school_minimum_prerequisite_gpa_recommended,
+                        input: newSchool.school_minimum_gpa_recommended.school_minimum_prerequisite_gpa_recommended?.input ? newSchool.school_minimum_gpa_recommended.school_minimum_prerequisite_gpa_recommended?.input : 0,
+                        notes: newSchool.school_minimum_gpa_recommended.school_minimum_prerequisite_gpa_recommended?.notes ? newSchool.school_minimum_gpa_recommended.school_minimum_prerequisite_gpa_recommended?.notes : [],
+                    }
                 }
             })
         } else {
             setNewSchool({
                 ...newSchool,
-                school_minimum_overall_gpa_recommended: null,
-                school_minimum_science_gpa_recommended: null,
-                school_minimum_prerequisite_gpa_recommended: null
-            })
-        }
-      }, [newSchool.school_minimum_gpa_recommended]);
-
-      useEffect(() => {
-        if (newSchool.edited_school_minimum_gpa_required.input === false) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_minimum_overall_gpa_required: {
-                    ...newSchool.edited_school_minimum_overall_gpa_required,
-                    input: null,
-                },
-                edited_school_minimum_science_gpa_required: {
-                    ...newSchool.edited_school_minimum_science_gpa_required,
-                    input: null,
-                },
-                edited_school_minimum_prerequisite_gpa_required: {
-                    ...newSchool.edited_school_minimum_prerequisite_gpa_required,
-                    input: null,
+                school_minimum_gpa_recommended: {
+                    ...newSchool.school_minimum_gpa_recommended,
+                    school_minimum_overall_gpa_recommended: null,
+                    school_minimum_prerequisite_gpa_recommended: null,
+                    school_minimum_science_gpa_recommended: null,
                 }
             })
         }
-      }, [newSchool.edited_school_minimum_gpa_required.input]);
+      }, [newSchool.school_minimum_gpa_recommended.input]);
 
       useEffect(() => {
-        if (newSchool.edited_school_minimum_gpa_recommended.input === false) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_minimum_overall_gpa_recommended: {
-                    ...newSchool.edited_school_minimum_overall_gpa_recommended,
-                    input: null
-                },
-                edited_school_minimum_science_gpa_recommended: {
-                    ...newSchool.edited_school_minimum_science_gpa_recommended,
-                    input: null,
-                },
-                edited_school_minimum_prerequisite_gpa_recommended: {
-                    ...newSchool.edited_school_minimum_prerequisite_gpa_recommended,
-                    input: null,
-                }
-            })
+        if (newSchool.edited_school_minimum_gpa_required.input === null) {
+            if (newSchool.school_minimum_gpa_required.input) {
+                setIsReqOpen(true);
+            } else {
+                setIsReqOpen(false);
+            }
+        } else {
+            if (newSchool.edited_school_minimum_gpa_required.input) {
+                setIsReqOpen(true);
+            } else {
+                setIsReqOpen(false);
+            }
         }
-      }, [newSchool.edited_school_minimum_gpa_recommended.input])
+      }, [newSchool.edited_school_minimum_gpa_required.input, newSchool.school_minimum_gpa_required.input]);
+
+      useEffect(() => {
+        if (newSchool.edited_school_minimum_gpa_recommended.input === null) {
+            if (newSchool.school_minimum_gpa_recommended.input) {
+                setIsRecOpen(true);
+            } else {
+                setIsRecOpen(false);
+            }
+        } else {
+            if (newSchool.edited_school_minimum_gpa_recommended.input) {
+                setIsRecOpen(true);
+            } else {
+                setIsRecOpen(false);
+            }
+        }
+      }, [newSchool.edited_school_minimum_gpa_recommended.input, newSchool.school_minimum_gpa_recommended.input]);
+
+      useEffect(() => {
+        if (newSchool.edited_school_minimum_gpa_required.input !== null || newSchool.edited_school_minimum_gpa_required.edited_school_minimum_overall_gpa_required.input !== null || newSchool.edited_school_minimum_gpa_required.edited_school_minimum_prerequisite_gpa_required.input !== null 
+            || newSchool.edited_school_minimum_gpa_required.edited_school_minimum_science_gpa_required.input !== null) {
+                setReqHasInputs(true)
+        } else {
+                setReqHasInputs(null)
+        };
+
+        if (newSchool.edited_school_minimum_gpa_recommended.input !== null || newSchool.edited_school_minimum_gpa_recommended.edited_school_minimum_overall_gpa_recommended.input !== null || newSchool.edited_school_minimum_gpa_recommended.edited_school_minimum_prerequisite_gpa_recommended.input !== null 
+            || newSchool.edited_school_minimum_gpa_recommended.edited_school_minimum_science_gpa_recommended.input !== null) {
+                setRecHasInputs(true)
+        } else {
+                setRecHasInputs(null)
+        }
+        
+      }, [newSchool.edited_school_minimum_gpa_required, newSchool.edited_school_minimum_gpa_recommended])
+
 
 
       const addNote = (note: Note) => {
@@ -273,9 +291,13 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
         if (!isEditedInput) {
             const name = e.target.name as keyof School;
+            const field = newSchool[name] as object;
             setNewSchool({
                 ...newSchool,
-                [name]: e.target.checked,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
             })
         } else {
             const name = `edited_${e.target.name}` as keyof School;
@@ -314,179 +336,220 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
         })
     }
 
-    const enableEditMode = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        const original = e.currentTarget.name as keyof School;
-        const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
-        const originalField = newSchool[original] as boolean;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                input: field.input === null ? originalField : field.input,
-                isEditMode: true,
-            }
-        })
-    }
+    // const enableEditMode = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
+    //     e.preventDefault();
+    //     const name = `edited_${e.currentTarget.name}` as keyof School;
+    //     const original = e.currentTarget.name as keyof School;
+    //     const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
+    //     const originalField = newSchool[original] as boolean;
+    //     setNewSchool({
+    //         ...newSchool,
+    //         [name]: {
+    //             ...field,
+    //             input: field.input === null ? originalField : field.input,
+    //             isEditMode: true,
+    //         }
+    //     })
+    // }
 
-    const enableEditModeInner = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        const original = e.currentTarget.name as keyof School;
-        const field = newSchool[name] as InnerGPA;
-        const originalField = newSchool[original] as NumberInput | null;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                input: field.input === null && originalField ? originalField.input : field.input,
-                isEditMode: true,
-            }
-        })
+    // const enableEditModeInner = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
+    //     e.preventDefault();
+    //     const name = `edited_${e.currentTarget.name}` as keyof School;
+    //     const original = e.currentTarget.name as keyof School;
+    //     const field = newSchool[name] as InnerGPA;
+    //     const originalField = newSchool[original] as NumberInput | null;
+    //     setNewSchool({
+    //         ...newSchool,
+    //         [name]: {
+    //             ...field,
+    //             input: field.input === null && originalField ? originalField.input : field.input,
+    //             isEditMode: true,
+    //         }
+    //     })
 
-    }
+    // }
 
-    const confirmEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, original?: string) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        const originalName = e.currentTarget.name as keyof School;
-        const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
-        const originalField = newSchool[originalName] as boolean;
-        const value = (e.currentTarget as HTMLButtonElement).value === 'true' ? true : false;
-        if (!original) {
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...newSchool[name as keyof School] as object,
-                    input: field.input === originalField ? null : field.input,
-                    prev: field.input === originalField ? null : value,
-                    isEditMode: false,
-                }
-            })
-        } else {
-            setNewSchool({
-                ...newSchool,
-                [original]: value,
-                [name]: {
-                    ...newSchool[name] as object,
-                    input: null,
-                    prev: null,
-                    isEditMode: false,
-                    link: '',
-                },
-            })
-        }
-    }
+    // const confirmEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, original?: string) => {
+    //     e.preventDefault();
+    //     const name = `edited_${e.currentTarget.name}` as keyof School;
+    //     const originalName = e.currentTarget.name as keyof School;
+    //     const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
+    //     const originalField = newSchool[originalName] as boolean;
+    //     const value = (e.currentTarget as HTMLButtonElement).value === 'true' ? true : false;
+    //     if (!original) {
+    //         setNewSchool({
+    //             ...newSchool,
+    //             [name]: {
+    //                 ...newSchool[name as keyof School] as object,
+    //                 input: field.input === originalField ? null : field.input,
+    //                 prev: field.input === originalField ? null : value,
+    //                 isEditMode: false,
+    //             }
+    //         })
+    //     } else {
+    //         setNewSchool({
+    //             ...newSchool,
+    //             [original]: value,
+    //             [name]: {
+    //                 ...newSchool[name] as object,
+    //                 input: null,
+    //                 prev: null,
+    //                 isEditMode: false,
+    //                 link: '',
+    //             },
+    //         })
+    //     }
+    // }
 
-    const confirmEditInner = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, original?: string) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        const originalName = e.currentTarget.name as keyof School;
-        const field = newSchool[name] as InnerGPA;
-        const originalField = newSchool[originalName] as NumberInput | null;
-        const value = (e.currentTarget as HTMLButtonElement).value;
-        if (!original) {
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    input: originalField && field.input === originalField.input ? null : field.input,
-                    prev: originalField && field.input === originalField.input ? null : value,
-                    isEditMode: false,
-                }
-            })
-        } else {
-            setNewSchool({
-                ...newSchool,
-                [original]: {
-                    ...originalField,
-                    input: value,
-                },
-                [name]: {
-                    ...field,
-                    input: null,
-                    prev: null,
-                    isEditMode: false,
-                }
-            })
-        }
-    }
+    // const confirmEditInner = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, original?: string) => {
+    //     e.preventDefault();
+    //     const name = `edited_${e.currentTarget.name}` as keyof School;
+    //     const originalName = e.currentTarget.name as keyof School;
+    //     const field = newSchool[name] as InnerGPA;
+    //     const originalField = newSchool[originalName] as NumberInput | null;
+    //     const value = (e.currentTarget as HTMLButtonElement).value;
+    //     if (!original) {
+    //         setNewSchool({
+    //             ...newSchool,
+    //             [name]: {
+    //                 ...field,
+    //                 input: originalField && field.input === originalField.input ? null : field.input,
+    //                 prev: originalField && field.input === originalField.input ? null : value,
+    //                 isEditMode: false,
+    //             }
+    //         })
+    //     } else {
+    //         setNewSchool({
+    //             ...newSchool,
+    //             [original]: {
+    //                 ...originalField,
+    //                 input: value,
+    //             },
+    //             [name]: {
+    //                 ...field,
+    //                 input: null,
+    //                 prev: null,
+    //                 isEditMode: false,
+    //             }
+    //         })
+    //     }
+    // }
 
-    const undoEdit= (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        const original = e.currentTarget.name as keyof School;
-        const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
-        const originalField = newSchool[original] as boolean;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...newSchool[name as keyof School] as object,
-                input: field.input === originalField ? null : field.prev,
-                prev: null,
-                isEditMode: false,
-            }
-        })
-    };
+    // const undoEdit= (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
+    //     e.preventDefault();
+    //     const name = `edited_${e.currentTarget.name}` as keyof School;
+    //     const original = e.currentTarget.name as keyof School;
+    //     const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
+    //     const originalField = newSchool[original] as boolean;
+    //     setNewSchool({
+    //         ...newSchool,
+    //         [name]: {
+    //             ...newSchool[name as keyof School] as object,
+    //             input: field.input === originalField ? null : field.prev,
+    //             prev: null,
+    //             isEditMode: false,
+    //         }
+    //     })
+    // };
 
-    const undoEditInner = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        const original = e.currentTarget.name as keyof School;
-        const field = newSchool[name] as InnerGPA;
-        const originalField = newSchool[original] as NumberInput | null;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...newSchool[name as keyof School] as object,
-                input: originalField && field.input === originalField.input ? null : field.prev,
-                prev: null,
-                isEditMode: false,
-            }
-        })
-    };
+    // const undoEditInner = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
+    //     e.preventDefault();
+    //     const name = `edited_${e.currentTarget.name}` as keyof School;
+    //     const original = e.currentTarget.name as keyof School;
+    //     const field = newSchool[name] as InnerGPA;
+    //     const originalField = newSchool[original] as NumberInput | null;
+    //     setNewSchool({
+    //         ...newSchool,
+    //         [name]: {
+    //             ...newSchool[name as keyof School] as object,
+    //             input: originalField && field.input === originalField.input ? null : field.prev,
+    //             prev: null,
+    //             isEditMode: false,
+    //         }
+    //     })
+    // };
 
-    const revertEditInner = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
-        e.preventDefault();
-        const name = `edited_${e.currentTarget.name}` as keyof School;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                input: null,
-                verified_input: null,
-                prev: null,
-                isEditMode: false,
-                link: '',
-            }
-        })
-    };
+    // const revertEditInner = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
+    //     e.preventDefault();
+    //     const name = `edited_${e.currentTarget.name}` as keyof School;
+    //     setNewSchool({
+    //         ...newSchool,
+    //         [name]: {
+    //             input: null,
+    //             verified_input: null,
+    //             prev: null,
+    //             isEditMode: false,
+    //             link: '',
+    //         }
+    //     })
+    // };
 
     
 
-    const handleInput = (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+    // const handleInput = (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+    //     if (!isEditedInput) {
+    //         const name = e.target.name as keyof School;
+    //         const field = newSchool[name] as NumberInput;
+    //         setNewSchool({
+    //             ...newSchool,
+    //             [name]: {
+    //                 ...field,
+    //                 input: e.target.value,
+    //             }
+    //         })
+    //     } else {
+    //         const name = `edited_${e.target.name}` as keyof School;
+    //         const field = newSchool[name] as object;
+    //         setNewSchool({
+    //             ...newSchool,
+    //             [name]: {
+    //                 ...field,
+    //                 input: e.target.value,
+    //             }
+    //         })
+    //     }
+    // };
+
+    const handleInputInCategory = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
+        const field = newSchool[category as keyof School] as object;
         if (!isEditedInput) {
-            const name = e.target.name as keyof School;
-            const field = newSchool[name] as NumberInput;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    input: e.target.value,
-                }
-            })
+            if (category === 'school_minimum_gpa_required' || category === 'school_minimum_gpa_recommended') {
+                setNewSchool({
+                    ...newSchool,
+                    [category]: {
+                        ...field,
+                        [e.target.name]: {
+                            ...(field[e.target.name as keyof object] as NumberInput),
+                            input: e.target.value
+                        },
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    [category]: {
+                        ...field,
+                        [e.target.name]: e.target.value
+                    }
+                })
+            }
+            
         } else {
-            const name = `edited_${e.target.name}` as keyof School;
-            const field = newSchool[name] as InnerGPA;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    input: e.target.value,
-                }
-            })
-        }
-    }
+            const name = `edited_${e.target.name}`;
+                setNewSchool({
+                    ...newSchool,
+                    [category]: {
+                        ...field,
+                        [name]: {
+                            ...field[name as keyof object] as object,
+                            input: e.target.value,
+                        }
+                    }
+                })
+        } 
+    };
+
+    console.log(newSchool.school_minimum_gpa_recommended, newSchool.edited_school_minimum_gpa_recommended)
 
 
     return (
@@ -495,24 +558,25 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
             <>
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_required.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_required.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!reqHasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${reqHasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                         <div className='my-2'>
                         <BooleanFields input={newSchool.edited_school_minimum_gpa_required.input} isEditMode={newSchool.edited_school_minimum_gpa_required.isEditMode} loggedInUser={loggedInUser} 
-                        originalInput={newSchool.school_minimum_gpa_required} name='school_minimum_gpa_required' handleCheck={handleCheck}
+                        originalInput={newSchool.school_minimum_gpa_required.input} name='school_minimum_gpa_required' handleCheck={handleCheck}
                         />
                         </div>
-                        {(newSchool.school_minimum_gpa_required || newSchool.edited_school_minimum_gpa_required.input === true) && (
+                        {isReqOpen && (
                         <>
                             {gpaRequired.map((gpa,i) => {
+                                const name = `edited_${gpa.value}`;
+                                const field = newSchool.edited_school_minimum_gpa_required[name as keyof object] as {input: number | null, prev: number | null, isEditMode: boolean};
+                                const originalField = newSchool.school_minimum_gpa_required[gpa.value as keyof object] as NumberInput | null;
                             return (
                             <>
                             <div className={`${i === 0 ? 'mt-8' : 'mt-12'} mb-4 flex justify-start items-start gap-3 max-w-[900px] w-full`}>
                                 <div className={`relative ml-4 p-4 block grow rounded border-[#545454] border-2`}>
                                     <label className='absolute top-[-16px] text-xl font-medium bg-white'>{gpa.label}</label>
                                     <div className='flex justify-start items-start gap-4'>
-                                        <InputFields loggedInUser={loggedInUser} input={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).input} isEditMode={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).isEditMode} originalInput={newSchool[gpa.value as keyof School] ? (newSchool[gpa.value as keyof School] as NumberInput).input : null} name={gpa.value}
-                                        handleInput={handleInput}
-                                        />
+                                        <InputFieldsGroup loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={originalField ? originalField.input : null} name={gpa.value} category='school_minimum_gpa_required' handleInput={handleInputInCategory} />
                                         {/* <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} /> */}
                                         <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                                             Add Note
@@ -532,9 +596,9 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                                     ))}
                                 </div>
                                 <div className='mr-4'>
-                                <EditButtons loggedInUser={loggedInUser} input={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).input} isEditMode={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).isEditMode} name={gpa.value}
+                                {/* <EditButtons loggedInUser={loggedInUser} input={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).input} isEditMode={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).isEditMode} name={gpa.value}
                                 enableEditMode={enableEditModeInner} confirmEdit={confirmEditInner} undoEdit={undoEditInner} revertEdit={revertEditInner} newSchool={newSchool} setNewSchool={setNewSchool}
-                                />
+                                /> */}
                                 </div>
                             </div>
                             </>
@@ -542,28 +606,32 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                         </>
                         )}
                 </div>
-                <EditButtons loggedInUser={loggedInUser} input={newSchool.edited_school_minimum_gpa_required.input} isEditMode={newSchool.edited_school_minimum_gpa_required.isEditMode} link={newSchool.edited_school_minimum_gpa_required.link} name='school_minimum_gpa_required' 
-                toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
-                 />
+                {isEdit && <EditButtons loggedInUser={loggedInUser} input={reqHasInputs} isEditMode={newSchool.edited_school_minimum_gpa_required.isEditMode} link={newSchool.edited_school_minimum_gpa_required.link} name='school_minimum_gpa_required' 
+                toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup} newSchool={newSchool} setNewSchool={setNewSchool}
+                 />}
             </div>
 
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Recommended<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_recommended.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_recommended.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Recommended<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!recHasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${recHasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className="my-2">
-                <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_minimum_gpa_recommended.input} isEditMode={newSchool.edited_school_minimum_gpa_recommended.isEditMode} originalInput={newSchool.school_minimum_gpa_recommended} name='school_minimum_gpa_recommended'
+                <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_minimum_gpa_recommended.input} isEditMode={newSchool.edited_school_minimum_gpa_recommended.isEditMode} originalInput={newSchool.school_minimum_gpa_recommended.input} name='school_minimum_gpa_recommended'
                 handleCheck={handleCheck}/>
                 </div>
-                {(newSchool.school_minimum_gpa_recommended || newSchool.edited_school_minimum_gpa_recommended.input === true) &&  (
+                {isRecOpen &&  (
                 <>
-                    {gpaRecommended.map((gpa,i) => (
+                    {gpaRecommended.map((gpa,i) => {
+                        const name = `edited_${gpa.value}`;
+                        const field = newSchool.edited_school_minimum_gpa_recommended[name as keyof object] as {input: number | null, prev: number | null, isEditMode: boolean};
+                        const originalField = newSchool.school_minimum_gpa_recommended[gpa.value as keyof object] as NumberInput | null;
+                    return (
                     <>
                     <div className={`${i === 0 ? 'mt-8' : 'mt-12'} mb-4 flex justify-start items-start gap-3 max-w-[900px] w-full`}>
                         <div className={` ml-4 relative grow p-4 block rounded border-[#545454] border-2`}>
                             <label className='absolute top-[-16px] text-xl font-medium bg-white'>{gpa.label}</label>
                             <div className='flex justify-start items-center gap-4'>
-                                <InputFields loggedInUser={loggedInUser} input={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).input} isEditMode={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).isEditMode} originalInput={newSchool[gpa.value as keyof School] ? (newSchool[gpa.value as keyof School] as NumberInput).input : null} name={gpa.value}
-                                handleInput={handleInput}
+                                <InputFieldsGroup loggedInUser={loggedInUser} isEditMode={field.isEditMode} originalInput={originalField ? originalField.input : null} input={field.input} handleInput={handleInputInCategory} 
+                                category="school_minimum_gpa_recommended" name={gpa.value}
                                 />
                                 {/* <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} /> */}
                                 <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
@@ -584,26 +652,27 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                             ))}
                         </div>
                         <div className='mr-4'>
-                            <EditButtons loggedInUser={loggedInUser} input={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).input} isEditMode={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).isEditMode} name={gpa.value}
+                            {/* <EditButtons loggedInUser={loggedInUser} input={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).input} isEditMode={(newSchool[`edited_${gpa.value}` as keyof School] as InnerGPA).isEditMode} name={gpa.value}
                             enableEditMode={enableEditModeInner} confirmEdit={confirmEditInner} undoEdit={undoEditInner} revertEdit={revertEditInner} newSchool={newSchool} setNewSchool={setNewSchool}
-                            />
+                            /> */}
                         </div>
                     </div>
                     </>
-                    ))}
+                    )
+                })}
                 </>
                 )}
             </div>
-            <EditButtons loggedInUser={loggedInUser} input={newSchool.edited_school_minimum_gpa_recommended.input} isEditMode={newSchool.edited_school_minimum_gpa_recommended.isEditMode} name='school_minimum_gpa_recommended' link={newSchool.edited_school_minimum_gpa_recommended.link} confirmEdit={confirmEdit} 
-            toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} enableEditMode={enableEditMode} undoEdit={undoEdit} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
-            />
+            {isEdit && <EditButtons loggedInUser={loggedInUser} input={recHasInputs} isEditMode={newSchool.edited_school_minimum_gpa_recommended.isEditMode} name='school_minimum_gpa_recommended' link={newSchool.edited_school_minimum_gpa_recommended.link} confirmEdit={confirmEditGroup} 
+            toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup} newSchool={newSchool} setNewSchool={setNewSchool}
+            />}
         </div>
 
         <OtherTypesOfGpa newSchool={newSchool} setNewSchool={setNewSchool}/>
 
         <SpecificCourse newSchool={newSchool} setNewSchool={setNewSchool}/>
 
-        <PreviousCycleSection newSchool={newSchool} setNewSchool={setNewSchool} />
+        <PreviousCycleSection newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit} handleInputInCategory={handleInputInCategory}/>
         
         <div className={`mt-28 text-xl w-full`}>
                 <p>GPA General Notes</p>

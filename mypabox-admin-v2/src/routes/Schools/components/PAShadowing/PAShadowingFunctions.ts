@@ -148,29 +148,29 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 [name]: {
                     ...field,
-                    input:field.input === originalField.input ? null : field.input,
-                    prev: field.input === originalField.input ? null : field.input,
+                    input:field.input,
+                    prev: field.input,
                     isEditMode: false,
                     edited_school_minimum_pa_shadowing_hours_required: {
-                        input: field.edited_school_minimum_pa_shadowing_hours_required.input === originalField.school_minimum_pa_shadowing_hours_required ? null : field.edited_school_minimum_pa_shadowing_hours_required.input,
-                        prev: field.edited_school_minimum_pa_shadowing_hours_required.input === originalField.school_minimum_pa_shadowing_hours_required ? null : field.edited_school_minimum_pa_shadowing_hours_required.input,
+                        input: field.edited_school_minimum_pa_shadowing_hours_required.input,
+                        prev: field.edited_school_minimum_pa_shadowing_hours_required.input,
                         isEditMode: false,
                     }
                 }
             })
-        } else {
+        } else if (name === 'edited_school_pa_shadowing_recommended') {
             const field = newSchool[name] as EditRecommended;
             const originalField = newSchool[originalName] as Recommended;
             setNewSchool({
                 ...newSchool,
                 [name]: {
                     ...field,
-                    input:field.input === originalField.input ? null : field.input,
-                    prev: field.input === originalField.input ? null : field.input,
+                    input:field.input,
+                    prev: field.input,
                     isEditMode: false,
-                    edited_school_minimum_pa_shadowing_hours_required: {
-                        input: field.edited_school_minimum_pa_shadowing_hours_recommended.input === originalField.school_minimum_pa_shadowing_hours_recommended ? null : field.edited_school_minimum_pa_shadowing_hours_recommended.input,
-                        prev: field.edited_school_minimum_pa_shadowing_hours_recommended.input === originalField.school_minimum_pa_shadowing_hours_recommended ? null : field.edited_school_minimum_pa_shadowing_hours_recommended.input,
+                    edited_school_minimum_pa_shadowing_hours_recommended: {
+                        input: field.edited_school_minimum_pa_shadowing_hours_recommended.input,
+                        prev: field.edited_school_minimum_pa_shadowing_hours_recommended.input,
                         isEditMode: false,
                     }
                 }
@@ -201,7 +201,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     }
                 }
             })
-        } else {
+        } else if (name === 'edited_school_pa_shadowing_recommended') {
             const field = newSchool[name] as EditRecommended;
             const originalField = newSchool[originalName] as Recommended;
             setNewSchool({
