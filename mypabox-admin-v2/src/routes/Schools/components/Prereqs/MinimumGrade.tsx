@@ -1,11 +1,16 @@
-import Select from 'react-select';
 import { School } from '../../../../types/schools.types';
-import { Dispatch, SetStateAction, useState, useEffect} from 'react';
+import { Dispatch, SetStateAction, useState, useEffect, MouseEvent} from 'react';
 import AddNote from './AddNote';
 import { Note } from '../../../../types/schools.types';
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import ReactQuill from 'react-quill';
+import { PiCheckCircle, PiWarningCircle } from 'react-icons/pi';
+import { enableEditModeGroup, revertEditGroup, confirmEditGroup, undoEditGroup } from './CriteriaFunctions';
+import LinkPopup from '../../LinkPopup';
+import { UserObject } from '../../../../types/users.types';
+import EditButtons from '../../Assets/EditButtons';
+import SelectFieldsGroup from '../../Assets/SelectFieldsGroup';
 
 const options = [
     { value: 'A+', label: 'A+' },
@@ -22,14 +27,27 @@ const options = [
     { value: 'D-', label: 'D-' },
 ]
 
-export default function MinimumGrade({ newSchool, setNewSchool }: {  
+export default function MinimumGrade({ newSchool, setNewSchool, loggedInUser, isEdit }: {  
     newSchool: School,
-    setNewSchool: Dispatch<SetStateAction<School>>
+    setNewSchool: Dispatch<SetStateAction<School>>,
+    loggedInUser: UserObject,
+    isEdit: boolean
 }) {
     const [ selection, setSelection ] = useState('');
     const [ openNote, setOpenNote ] = useState(false);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
     const [ index, setIndex ] = useState(0);
+
+    const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    })
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    }
 
     const toggleNotePopup = (e: any) => {
         e.preventDefault();
@@ -40,15 +58,30 @@ export default function MinimumGrade({ newSchool, setNewSchool }: {
         setSelection(newSchool.school_grade_criteria.school_minimum_grade_required_for_all_courses)
     }, [newSchool.school_grade_criteria.school_minimum_grade_required_for_all_courses])
 
-    const handleSelect = (e: any) => {
-        const field = newSchool.school_grade_criteria;
-        setNewSchool({
-            ...newSchool,
-            school_grade_criteria: {
-                ...field,
-                school_minimum_grade_required_for_all_courses: e.value,
-            }
-        })
+    const handleSelect = (e: any, category: string, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const field = newSchool.school_grade_criteria;
+            setNewSchool({
+                ...newSchool,
+                school_grade_criteria: {
+                    ...field,
+                    school_minimum_grade_required_for_all_courses: e.value,
+                }
+            })
+        } else {
+            const field = newSchool.edited_school_grade_criteria;
+            setNewSchool({
+                ...newSchool,
+                edited_school_grade_criteria: {
+                    ...field,
+                    edited_school_minimum_grade_required_for_all_courses: {
+                        ...field.edited_school_minimum_grade_required_for_all_courses,
+                        input: e.value,
+                    }
+                }
+            })
+        }
+        
     }
 
     const addNote = (note: Note) => {
@@ -91,12 +124,32 @@ export default function MinimumGrade({ newSchool, setNewSchool }: {
         })
     }
 
+    const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+        e.preventDefault();
+        const linkName = `edited_${linkObj.name}`
+        setNewSchool({
+            ...newSchool,
+            [linkName]: {
+                ...newSchool[linkName as keyof School] as object,
+                link: newLink,
+            }
+        });
+        setLinkObj({
+            link: '',
+            name: '',
+        })
+    };
+
     return (
         <>
-        <div className={`mt-28 relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] text-xl bg-white">Minimum Grade Required for All Courses</label>   
+        <div className={`mt-28 flex justify-start items-start gap-3 w-full`}>
+        <div className={`grow relative max-w-[900px] border-2 p-5 block rounded border-[#B4B4B4]`}>
+            <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum Grade Required for All Courses<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_grade_criteria.edited_school_minimum_grade_required_for_all_courses.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_grade_criteria.edited_school_minimum_grade_required_for_all_courses.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
             <div className='flex justify-start items-center gap-3'>
-                <Select className="grow focus:outline-none rounded" options={options} value={selection ? {value: selection, label: selection} : null} onChange={handleSelect}/>
+                <SelectFieldsGroup loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_grade_criteria.isEditMode} input={newSchool.edited_school_grade_criteria.edited_school_minimum_grade_required_for_all_courses.input} 
+                originalInput={newSchool.school_grade_criteria.school_minimum_grade_required_for_all_courses} name='school_minimum_grade_required_for_all_courses' category='school_grade_criteria' handleSelect={handleSelect} options={options}
+                />
+                {/* <Select className="grow focus:outline-none rounded" options={options} value={selection ? {value: selection, label: selection} : null} onChange={handleSelect}/> */}
                 <button onClick={toggleNotePopup} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
@@ -116,6 +169,12 @@ export default function MinimumGrade({ newSchool, setNewSchool }: {
             ))}
             </div>
         </div>
+        {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_grade_criteria.isEditMode} input={newSchool.edited_school_grade_criteria.edited_school_minimum_grade_required_for_all_courses.input} 
+        name='school_grade_criteria' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup} newSchool={newSchool} setNewSchool={setNewSchool}
+        toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} link={newSchool.edited_school_grade_criteria.link}
+        />}
+        </div>
+        {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
         {openNote && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )

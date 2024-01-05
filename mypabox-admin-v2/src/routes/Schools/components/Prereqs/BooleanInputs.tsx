@@ -1,10 +1,17 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent } from "react";
 import { School } from "../../../../types/schools.types";
 import { Note } from "../../../../types/schools.types";
 import { FiEdit3 } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import ReactQuill from "react-quill";
 import AddNote from "./AddNote";
+import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from "./PrereqBoolFunctions";
+import BooleanFieldsGroup from "../../Assets/BooleanFieldsGroup";
+import { UserObject } from "../../../../types/users.types";
+import EditButtons from "../../Assets/EditButtons";
+import LinkPopup from "../../LinkPopup";
+import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+
 
 const dataArray = [
   {
@@ -42,31 +49,75 @@ const dataArray = [
 export default function BooleanInputs({
   newSchool,
   setNewSchool,
+  loggedInUser,
+  isEdit,
 }: {
   newSchool: School;
   setNewSchool: Dispatch<SetStateAction<School>>;
+  loggedInUser: UserObject;
+  isEdit: boolean;
 }) {
   const [index, setIndex] = useState(0);
   const [value, setValue] = useState("");
   const [notes, setNotes] = useState("");
   const [openNote, setOpenNote] = useState(false);
   const [editedNote, setEditedNote] = useState<Note | null>(null);
+  const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    });
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    }
+
+    const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+      e.preventDefault();
+      const linkName = `edited_${linkObj.name}`
+      setNewSchool({
+          ...newSchool,
+          [linkName]: {
+              ...newSchool[linkName as keyof School] as object,
+              link: newLink,
+          }
+      });
+      setLinkObj({
+          link: '',
+          name: '',
+      })
+  };
 
   const toggleNotePopup = (e: any) => {
     e.preventDefault();
     setOpenNote(!openNote);
   };
 
-  const handleChecked = (e: ChangeEvent<HTMLInputElement>, input: string) => {
-    const name = e.target.name as keyof School;
-    const field = newSchool[name] as object;
-    setNewSchool({
-      ...newSchool,
-      [name]: {
-        ...field,
-        [input]: e.target.checked,
-      },
-    });
+  const handleChecked = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
+    const field = newSchool[category as keyof School] as object;
+    if (!isEditedInput) {
+      setNewSchool({
+        ...newSchool,
+        [category]: {
+          ...field,
+          [e.target.name]: e.target.checked,
+        },
+      });
+    } else {
+      const name = `edited_${e.target.name}` as keyof object;
+      setNewSchool({
+        ...newSchool,
+        [category]: {
+          ...field,
+          [name]: {
+            ...field[name] as object,
+            input: e.target.checked,
+          }
+        },
+      });
+    }
+    
   };
 
   const addNote = (note: Note) => {
@@ -116,16 +167,18 @@ export default function BooleanInputs({
       {dataArray.map((data, i) => {
         let field = newSchool[data.value as keyof School] as object;
         return (
+         <div className={`${
+          i > 0 ? "mt-10" : "mt-28"
+        } flex justify-start items-start gap-3 w-full`}>
           <div
-            className={`${
-              i > 0 ? "mt-10" : "mt-28"
-            } relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}
+            className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}
           >
-            <label className="absolute top-[-16px] text-xl bg-white">
-              {data.name}
-            </label>
-            <div className='flex justify-center items-center'>
-            <div className="mt-2 grow">
+            <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">{data.name}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+            <div className='flex justify-center items-start'>
+              <BooleanFieldsGroup loggedInUser={loggedInUser} isEditMode={(newSchool[`edited_${data.value}` as keyof School] as any).isEditMode} input={(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input}
+              originalInput={field[data.input as keyof object]} name={data.input} category={data.value} handleCheck={handleChecked}
+              />
+            {/* <div className="mt-2 grow">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
@@ -140,7 +193,7 @@ export default function BooleanInputs({
                   {field[data.input as keyof object] ? "True" : "False"}
                 </span>
               </label>
-            </div>
+            </div> */}
             <button
               onClick={(e) => {
                 toggleNotePopup(e);
@@ -201,6 +254,11 @@ export default function BooleanInputs({
               ))}
             </div>
           </div>
+          {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={(newSchool[`edited_${data.value}` as keyof School] as any).isEditMode} input={(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input} 
+          name={data.value} toggleLinkPopup={toggleLinkPopup} link={(newSchool[`edited_${data.value}` as keyof School] as any).link} setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup}
+          revertEdit={revertEditGroup} newSchool={newSchool} setNewSchool={setNewSchool}
+          />}
+        </div>
         );
       })}
       {openNote && (
@@ -212,6 +270,7 @@ export default function BooleanInputs({
           updateNote={updateNote}
         />
       )}
+      {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
     </>
   );
 }

@@ -16,20 +16,20 @@ export default function InputFields({ loggedInUser, input, isEditMode, originalI
                 <>
                 {input !== null ? (
                 <div className='flex flex-col justify-start items-start gap-3 grow'>
-                    <input disabled className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={name === 'school_duration_full_time' || name === 'school_duration_part_time' ? '# of months' : ''}
+                    <input type={name === 'school_date_pending_courses_must_be_completed' ? 'date' : 'text'} disabled className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={name === 'school_duration_full_time' || name === 'school_duration_part_time' ? '# of months' : ''}
                     value={input ? input : ''} name={name}/>
-                    <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${input ? 'line-through' : 'no-underline'}`} value={(originalInput as string | number) ? (originalInput as string | number) : ''}/>
+                    <input type={name === 'school_date_pending_courses_must_be_completed' ? 'date' : 'text'} disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${input ? 'line-through' : 'no-underline'}`} value={(originalInput as string | number) ? (originalInput as string | number) : ''}/>
                 </div>
                 ) : (
-                <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={name === 'school_duration_full_time' || name === 'school_duration_part_time' ? '# of months' : ''}
+                <input type={name === 'school_date_pending_courses_must_be_completed' ? 'date' : 'text'} className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={name === 'school_duration_full_time' || name === 'school_duration_part_time' ? '# of months' : ''}
                 value={(originalInput as string | number) ? (originalInput as string | number) : ''} name={name} onChange={(e:ChangeEvent<HTMLInputElement>) => handleInput(e, false)}/>
                 )}
                 </>
             ) : (
                 <div className='flex flex-col justify-start items-start gap-3 grow'>
-                    {(input !== null || isEditMode) && <input disabled={isEditMode ? false : true} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={name === 'school_duration_full_time' || name === 'school_duration_part_time' ? '# of months' : ''}
+                    {(input !== null || isEditMode) && <input type={name === 'school_date_pending_courses_must_be_completed' ? 'date' : 'text'} disabled={isEditMode ? false : true} className="w-full focus:outline-none border border-[#B4B4B4] p-3 rounded" placeholder={name === 'school_duration_full_time' || name === 'school_duration_part_time' ? '# of months' : ''}
                     value={input ? input : ''} name={name} onChange={(e:ChangeEvent<HTMLInputElement>) => handleInput(e, true)}/>}
-                    {(!isEditMode || (isEditMode && (input !== originalInput))) && <input disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${input || isEditMode ? 'line-through' : 'no-underline'}`} value={(originalInput as string | number) ? (originalInput as string | number) : ''}/>}
+                    {(!isEditMode || (isEditMode && (input !== originalInput))) && <input type={name === 'school_date_pending_courses_must_be_completed' ? 'date' : 'text'} disabled className={`w-full focus:outline-none border border-[#B4B4B4] p-3 rounded ${input || isEditMode ? 'line-through' : 'no-underline'}`} value={(originalInput as string | number) ? (originalInput as string | number) : ''}/>}
                 </div>
             )}
         </>

@@ -12,9 +12,10 @@ import MinimumGrade from "./MinimumGrade";
 import TimeFrameCriteria from "./TimeFrameCriteria";
 import BooleanInputs from "./BooleanInputs";
 import CompleteConditions from "./CompleteConditions";
+import { UserObject } from "../../../../types/users.types";
 
 
-export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+export default function Prereqs({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
     const [ openRequiredCourses, setOpenRequiredCourses ] = useState(false);
     const [ openRequiredCourseCategories, setOpenRequiredCourseCategories ] = useState(false);
     const [ openRequiredOptionalCourses, setOpenRequiredOptionalCourses ] = useState(false);
@@ -81,10 +82,10 @@ export default function Prereqs({ newSchool, setNewSchool }: { newSchool: School
                 <RequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredOption={setEditedRequiredOption} setGroupIndex={setGroupIndex}/>
                 <RequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRequiredCategory={setEditedRequiredCategory} setGroupIndex={setGroupIndex}/>
                 <RecommendedCourses toggleRecommendedCourses={toggleRecommendedCourses} newSchool={newSchool} setNewSchool={setNewSchool} setEditedRecommendedCourse={setEditedRecommendedCourse} setGroupIndex={setGroupIndex}/>
-                <MinimumGrade newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <TimeFrameCriteria newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <BooleanInputs newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <CompleteConditions newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <MinimumGrade newSchool={newSchool} setNewSchool={setNewSchool}loggedInUser={loggedInUser} isEdit={isEdit}/>
+                <TimeFrameCriteria newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
+                <BooleanInputs newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
+                <CompleteConditions newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
             </>
         )}
         {openRequiredCourses && <AddRequiredCourses toggleRequiredCourses={toggleRequiredCourses} editedRequiredCourse={editedRequiredCourse} setEditedRequiredCourse={setEditedRequiredCourse} addCourseOrCategory={addCourseOrCategory} updateCourseOrCategory={updateCourseOrCategory} newSchool={newSchool}/>}

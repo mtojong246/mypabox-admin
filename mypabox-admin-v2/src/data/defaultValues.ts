@@ -525,6 +525,15 @@ export const defaultSchool: School = {
         school_grade_criteria_note_section: [],
     },
 
+    edited_school_grade_criteria: {
+        link: '',
+        isEditMode: false,
+        edited_school_minimum_grade_required_for_all_courses: {
+            input: null,
+            prev: null,
+        }
+    },
+
     school_time_frame_criteria: {
         school_time_frame_all_courses_must_be_completed: {
             input: '',
@@ -541,9 +550,35 @@ export const defaultSchool: School = {
         school_time_frame_criteria_note_section: [],
     },
 
+    edited_school_time_frame_criteria: {
+        link: '',
+        isEditMode: false,
+        edited_school_time_frame_all_courses_must_be_completed: {
+            input: null,
+            prev: null,
+        },
+        edited_school_time_frame_math_courses_must_be_completed: {
+            input: null,
+            prev: null,
+        },
+        edited_school_time_frame_science_courses_must_be_completed: {
+            input: null,
+            prev: null,
+        }
+    },
+
     school_pass_fail_criteria: {
         school_pass_fail_grade_accepted: false,
         school_pass_fail_grade_criteria_note_section: [],
+    },
+
+    edited_school_pass_fail_criteria: {
+        link: '',
+        isEditMode: false,
+        edited_school_pass_fail_grade_accepted: {
+            input: null,
+            prev: null,
+        }
     },
 
     school_ap_criteria: {
@@ -551,9 +586,27 @@ export const defaultSchool: School = {
         school_ap_courses_criteria_note_section: [],
     },
 
+    edited_school_ap_criteria: {
+        link: '',
+        isEditMode: false,
+        edited_school_ap_courses_accepted: {
+            input: null,
+            prev: null,
+        }
+    },
+
     school_community_college_criteria: {
         school_community_college_credits_accepted: false,
         school_community_college_criteria_note_section: [],
+    },
+
+    edited_school_community_college_criteria: {
+        link: '',
+        isEditMode: false,
+        edited_school_community_college_credits_accepted: {
+            input: null,
+            prev: null,
+        }
     },
 
     school_clep_criteria: {
@@ -561,9 +614,27 @@ export const defaultSchool: School = {
         school_clep_credits_criteria_note_section: [],
     },
 
+    edited_school_clep_criteria: {
+        link: '',
+        isEditMode: false,
+        edited_school_clep_credits_accepted: {
+            input: null,
+            prev: null,
+        }
+    },
+
     school_online_courses_criteria: {
         school_online_courses_accepted: false,
         school_online_courses_criteria_note_section: [],
+    },
+
+    edited_school_online_courses_criteria: {
+        link: '',
+        isEditMode: false,
+        edited_school_online_courses_accepted: {
+            input: null,
+            prev: null,
+        }
     },
 
     school_prerequisite_completion_criteria: {
@@ -579,9 +650,58 @@ export const defaultSchool: School = {
         school_prerequisite_completion_criteria_note_section: [],
     },
 
+    edited_school_prerequisite_completion_criteria: {
+        link: '',
+        isEditMode: false,
+        edited_school_all_courses_most_be_completed_before_applying: {
+            input: null,
+            prev: null,
+        },
+        edited_school_courses_can_be_in_progress_while_applying: {
+            input: null,
+            prev: null,
+        },
+        edited_school_maximum_number_of_courses_pending_while_applying: {
+            input: null,
+            prev: null,
+        },
+        edited_school_maximum_number_of_credits_pending_while_applying: {
+            input: null,
+            prev: null,
+        },
+        edited_school_maximum_number_of_science_courses_pending_while_applying: {
+            input: null,
+            prev: null,
+        },
+        edited_school_maximum_number_of_non_science_courses_pending_while_applying: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_grade_required_for_pending_courses: {
+            input: null,
+            prev: null,
+        },
+        edited_school_date_pending_courses_must_be_completed: {
+            input: null,
+            prev: null,
+        },
+        edited_school_semester_pending_courses_must_be_completed: {
+            input: null,
+            prev: null,
+        },
+    },
+    
+
     school_paid_experience_required: {
         input: false,
         school_paid_experience_required_notes: [],
+    },
+
+    edited_school_paid_experience_required: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
     },
 
     school_patient_experience: {
@@ -592,12 +712,54 @@ export const defaultSchool: School = {
         school_patient_care_experience_general_notes: [],
     },
 
+    edited_school_patient_experience: {
+        link: '',
+        isEditMode: false,
+        edited_school_patient_experience_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_patient_care_experience_hours_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed: {
+            input: null,
+            prev: null,
+        },
+        edited_edited_school_average_patient_care_experience_hours_accepted_previous_cycle:{
+            input: null,
+            prev: null,
+        },
+    },
+
     school_healthcare_experience: {
         school_healthcare_experience_required: false,
         school_minimum_healthcare_experience_hours_required: null,
         school_minimum_time_frame_healthcare_experience_needs_to_be_completed: null,
         school_average_healthcare_experience_hours_accepted_previous_cycle: 0,
         school_healthcare_experience_general_notes: [],
+    },
+
+    edited_school_healthcare_experience: {
+        link: '',
+        isEditMode: false,
+        edited_school_healthcare_experience_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_healthcare_experience_hours_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
+            input: null,
+            prev: null,
+        },
+        edited_school_average_healthcare_experience_hours_accepted_previous_cycle: {
+            input: null,
+            prev: null,
+        },
     },
 
     school_community_service: {
@@ -609,6 +771,31 @@ export const defaultSchool: School = {
         school_community_service_general_notes: [],
     },
 
+    edited_school_community_service: {
+        link: '',
+        isEditMode: false,
+        edited_school_community_service_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_community_service_hours_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_community_service_recommended: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_community_service_hours_recommended: {
+            input: null,
+            prev: null,
+        },
+        edited_school_average_community_service_hours_accepted_previous_cycle: {
+            input: null,
+            prev: null,
+        },
+    },
+
     school_volunteer_service: {
         school_volunteer_service_required: false,
         school_minimum_volunteer_service_hours_required: null,
@@ -616,6 +803,31 @@ export const defaultSchool: School = {
         school_minimum_volunteer_service_hours_recommended: null,
         school_average_volunteer_service_hours_accepted_previous_cycle: 0,
         school_volunteer_service_general_notes: [],
+    },
+
+    edited_school_volunteer_service: {
+        link: '',
+        isEditMode: false,
+        edited_school_volunteer_service_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_volunteer_service_hours_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_volunteer_service_recommended:  {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_volunteer_service_hours_recommended:  {
+            input: null,
+            prev: null,
+        },
+        edited_school_average_volunteer_service_hours_accepted_previous_cycle:  {
+            input: null,
+            prev: null,
+        },
     },
 
     school_pa_shadowing_required: {

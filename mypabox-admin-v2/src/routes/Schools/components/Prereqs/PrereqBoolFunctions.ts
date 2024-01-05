@@ -1,0 +1,402 @@
+import { MouseEvent, Dispatch, SetStateAction } from "react";
+import { School} from "../../../../types/schools.types";
+
+
+
+export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
+    e.preventDefault();
+    const name = `edited_${e.currentTarget.name}` as keyof School;
+    if (name === 'edited_school_pass_fail_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: true,
+                edited_school_pass_fail_grade_accepted: {
+                    ...field.edited_school_pass_fail_grade_accepted,
+                    input: field.edited_school_pass_fail_grade_accepted.input === null ? newSchool.school_pass_fail_criteria.school_pass_fail_grade_accepted : field.edited_school_pass_fail_grade_accepted.input,
+                }
+            }
+        })
+    } else if (name === 'edited_school_ap_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: true,
+                edited_school_ap_courses_accepted: {
+                    ...field.edited_school_ap_courses_accepted,
+                    input: field.edited_school_ap_courses_accepted.input === null ? newSchool.school_ap_criteria.school_ap_courses_accepted : field.edited_school_ap_courses_accepted.input,
+                }
+            }
+        })
+    } else if (name === 'edited_school_community_college_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: true,
+                edited_school_community_college_credits_accepted: {
+                    ...field.edited_school_community_college_credits_accepted,
+                    input: field.edited_school_community_college_credits_accepted.input === null ? newSchool.school_community_college_criteria.school_community_college_credits_accepted : field.edited_school_community_college_credits_accepted.input,
+                }
+            }
+        })
+    } else if (name === 'edited_school_clep_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: true,
+                edited_school_clep_credits_accepted: {
+                    ...field.edited_school_clep_credits_accepted,
+                    input: field.edited_school_clep_credits_accepted.input === null ? newSchool.school_clep_criteria.school_clep_credits_accepted : field.edited_school_clep_credits_accepted.input,
+                }
+            }
+        })
+    } else if (name === 'edited_school_online_courses_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: true,
+                edited_school_online_courses_accepted: {
+                    ...field.edited_school_online_courses_accepted,
+                    input: field.edited_school_online_courses_accepted.input === null ? newSchool.school_online_courses_criteria.school_online_courses_accepted : field.edited_school_online_courses_accepted.input,
+                }
+            }
+        })
+    }
+}
+
+
+export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, original?: string) => {
+    e.preventDefault();
+    const name = `edited_${e.currentTarget.name}` as keyof School;
+    if (!original) {
+        if (name === 'edited_school_pass_fail_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_pass_fail_grade_accepted: {
+                        ...field.edited_school_pass_fail_grade_accepted,
+                        input: field.edited_school_pass_fail_grade_accepted.input,
+                        prev: field.edited_school_pass_fail_grade_accepted.input,
+                    }
+                }
+            })
+         } else if (name === 'edited_school_ap_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_ap_courses_accepted: {
+                        ...field.edited_school_ap_courses_accepted,
+                        input: field.edited_school_ap_courses_accepted.input,
+                        prev: field.edited_school_ap_courses_accepted.input,
+                    }
+                }
+            })
+        } else if (name === 'edited_school_community_college_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_community_college_credits_accepted: {
+                        ...field.edited_school_community_college_credits_accepted,
+                        input: field.edited_school_community_college_credits_accepted.input,
+                        prev: field.edited_school_community_college_credits_accepted.input,
+                    }
+                }
+            })
+        } else if (name === 'edited_school_clep_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_clep_credits_accepted: {
+                        ...field.edited_school_clep_credits_accepted,
+                        input: field.edited_school_clep_credits_accepted.input,
+                        prev: field.edited_school_clep_credits_accepted.input,
+                    }
+                }
+            })
+        } else if (name === 'edited_school_online_courses_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_online_courses_accepted: {
+                        ...field.edited_school_online_courses_accepted,
+                        input: field.edited_school_online_courses_accepted.input,
+                        prev: field.edited_school_online_courses_accepted.input,
+                    }
+                }
+            })
+        }
+    } else {
+        if (name === 'edited_school_pass_fail_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                school_pass_fail_criteria: {
+                    ...newSchool.school_pass_fail_criteria,
+                    school_pass_fail_grade_accepted: field.edited_school_pass_fail_grade_accepted.input!,
+                },
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_pass_fail_grade_accepted: {
+                        ...field.edited_school_pass_fail_grade_accepted,
+                        input: null,
+                        prev: null,
+                    }
+                }
+            })
+         } else if (name === 'edited_school_ap_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                school_ap_criteria: {
+                    ...newSchool.school_ap_criteria,
+                    school_ap_courses_accepted: field.edited_school_ap_courses_accepted.input!,
+                },
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_ap_courses_accepted: {
+                        ...field.edited_school_ap_courses_accepted,
+                        input: null,
+                        prev: null,
+                    }
+                }
+            })
+        } else if (name === 'edited_school_community_college_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                school_community_college_criteria: {
+                    ...newSchool.school_community_college_criteria,
+                    school_community_college_credits_accepted: field.edited_school_community_college_credits_accepted.input!,
+                },
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_community_college_credits_accepted: {
+                        ...field.edited_school_community_college_credits_accepted,
+                        input: null,
+                        prev: null,
+                    }
+                }
+            })
+        } else if (name === 'edited_school_clep_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                school_clep_criteria: {
+                    ...newSchool.school_clep_criteria,
+                    school_clep_credits_accepted: field.edited_school_clep_credits_accepted.input!,
+                },  
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_clep_credits_accepted: {
+                        ...field.edited_school_clep_credits_accepted,
+                        input: null,
+                        prev: null,
+                    }
+                }
+            })
+        } else if (name === 'edited_school_online_courses_criteria') {
+            const field = newSchool[name];
+            setNewSchool({
+                ...newSchool,
+                school_online_courses_criteria: {
+                    ...newSchool.school_online_courses_criteria,
+                    school_online_courses_accepted: field.edited_school_online_courses_accepted.input!,
+                },
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    edited_school_online_courses_accepted: {
+                        ...field.edited_school_online_courses_accepted,
+                        input: null,
+                        prev: null,
+                    }
+                }
+            })
+        }
+}
+
+}
+
+export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
+    e.preventDefault();
+    const name = `edited_${e.currentTarget.name}` as keyof School;
+    if (name === 'edited_school_pass_fail_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                edited_school_pass_fail_grade_accepted: {
+                    ...field.edited_school_pass_fail_grade_accepted,
+                    input: null,
+                    prev: null,
+                }
+            }
+        })
+     } else if (name === 'edited_school_ap_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                edited_school_ap_courses_accepted: {
+                    ...field.edited_school_ap_courses_accepted,
+                    input: null,
+                    prev: null,
+                }
+            }
+        })
+    } else if (name === 'edited_school_community_college_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                edited_school_community_college_credits_accepted: {
+                    ...field.edited_school_community_college_credits_accepted,
+                    input: null,
+                    prev: null,
+                }
+            }
+        })
+    } else if (name === 'edited_school_clep_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                edited_school_clep_credits_accepted: {
+                    ...field.edited_school_clep_credits_accepted,
+                    input: null,
+                    prev: null,
+                }
+            }
+        })
+    } else if (name === 'edited_school_online_courses_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                edited_school_online_courses_accepted: {
+                    ...field.edited_school_online_courses_accepted,
+                    input: null,
+                    prev: null,
+                }
+            }
+        })
+    }
+
+}
+
+export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
+    e.preventDefault();
+    const name = `edited_${e.currentTarget.name}` as keyof School;
+    if (name === 'edited_school_pass_fail_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: false,
+                edited_school_pass_fail_grade_accepted: {
+                    ...field.edited_school_pass_fail_grade_accepted,
+                    input: field.edited_school_pass_fail_grade_accepted.prev,
+                    prev: null,
+                }
+            }
+        })
+     } else if (name === 'edited_school_ap_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: false,
+                edited_school_ap_courses_accepted: {
+                    ...field.edited_school_ap_courses_accepted,
+                    input: field.edited_school_ap_courses_accepted.prev,
+                    prev: null,
+                }
+            }
+        })
+    } else if (name === 'edited_school_community_college_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: false,
+                edited_school_community_college_credits_accepted: {
+                    ...field.edited_school_community_college_credits_accepted,
+                    input: field.edited_school_community_college_credits_accepted.prev,
+                    prev: null,
+                }
+            }
+        })
+    } else if (name === 'edited_school_clep_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: false,
+                edited_school_clep_credits_accepted: {
+                    ...field.edited_school_clep_credits_accepted,
+                    input: field.edited_school_clep_credits_accepted.prev,
+                    prev: null,
+                }
+            }
+        })
+    } else if (name === 'edited_school_online_courses_criteria') {
+        const field = newSchool[name];
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: false,
+                edited_school_online_courses_accepted: {
+                    ...field.edited_school_online_courses_accepted,
+                    input: field.edited_school_online_courses_accepted.prev,
+                    prev: null,
+                }
+            }
+        })
+    }
+
+}
+

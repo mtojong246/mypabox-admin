@@ -69,21 +69,20 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
     }, [newSchool.school_pacat.school_pacat_required, newSchool.school_pacat.school_pacat_recommended]);
 
     useEffect(() => {
-        if ((newSchool.edited_school_pacat.edited_school_pacat_required.input !== null && newSchool.edited_school_pacat.edited_school_pacat_required.input === true) || (newSchool.edited_school_pacat.edited_school_pacat_recommended.input !== null && newSchool.edited_school_pacat.edited_school_pacat_recommended.input === true)) {
-            setEditedRecommendedOrRequired(true);
+        if (newSchool.edited_school_pacat.edited_school_pacat_required.input === null && newSchool.edited_school_pacat.edited_school_pacat_recommended.input === null) {
+            if (pacatRequiredOrRecommended) {
+                setOpen(true);
+            } else {
+                setOpen(false);
+            }
         } else {
-            setEditedRecommendedOrRequired(false);
+            if (newSchool.edited_school_pacat.edited_school_pacat_required.input || newSchool.edited_school_pacat.edited_school_pacat_recommended.input) {
+                setOpen(true);
+            } else {
+                setOpen(false);
+            }
         }
-    }, [newSchool.edited_school_pacat]);
-
-
-    useEffect(() => {
-        if (newSchool.edited_school_pacat.edited_school_pacat_required.isEditMode || newSchool.edited_school_pacat.edited_school_pacat_recommended.isEditMode || newSchool.edited_school_pacat.edited_school_pacat_exam_school_code.isEditMode || newSchool.edited_school_pacat.edited_school_pacat_exam_group_scaled_minimum_score_required.isEditMode || newSchool.edited_school_pacat.edited_school_pacat_exam_scaled_minimum_score_required.isEditMode) {
-            setHasBeenEdited(true);
-        } else {
-            setHasBeenEdited(false);
-        }
-    }, [newSchool.edited_school_pacat])
+    }, [newSchool.edited_school_pacat.edited_school_pacat_required, newSchool.edited_school_pacat.edited_school_pacat_recommended, pacatRequiredOrRecommended])
 
     useEffect(() => {
         if (newSchool.edited_school_pacat.edited_school_pacat_required.input !== null || newSchool.edited_school_pacat.edited_school_pacat_recommended.input !== null) {
@@ -241,28 +240,28 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
                 edited_school_pacat: {
                     ...newSchool.edited_school_pacat,
                     edited_school_pacat_required: {
-                        input: newSchool.edited_school_pacat.edited_school_pacat_required.input === newSchool.school_pacat.school_pacat_required ? null : newSchool.edited_school_pacat.edited_school_pacat_required.input,
-                        prev: newSchool.edited_school_pacat.edited_school_pacat_required.input === newSchool.school_pacat.school_pacat_required ? null : newSchool.edited_school_pacat.edited_school_pacat_required.input,
+                        input: newSchool.edited_school_pacat.edited_school_pacat_required.input,
+                        prev: newSchool.edited_school_pacat.edited_school_pacat_required.input,
                         isEditMode: false,
                     },
                     edited_school_pacat_recommended: {
-                        input: newSchool.edited_school_pacat.edited_school_pacat_recommended.input === newSchool.school_pacat.school_pacat_recommended ? null : newSchool.edited_school_pacat.edited_school_pacat_recommended.input,
-                        prev: newSchool.edited_school_pacat.edited_school_pacat_recommended.input === newSchool.school_pacat.school_pacat_recommended ? null : newSchool.edited_school_pacat.edited_school_pacat_recommended.input,
+                        input: newSchool.edited_school_pacat.edited_school_pacat_recommended.input,
+                        prev: newSchool.edited_school_pacat.edited_school_pacat_recommended.input,
                         isEditMode: false,
                     },
                     edited_school_pacat_exam_school_code: {
-                        input: newSchool.edited_school_pacat.edited_school_pacat_exam_school_code.input === newSchool.school_pacat.school_pacat_exam_school_code ? null : newSchool.edited_school_pacat.edited_school_pacat_exam_school_code.input,
-                        prev: newSchool.edited_school_pacat.edited_school_pacat_exam_school_code.input === newSchool.school_pacat.school_pacat_exam_school_code ? null : newSchool.edited_school_pacat.edited_school_pacat_exam_school_code.input,
+                        input: newSchool.edited_school_pacat.edited_school_pacat_exam_school_code.input,
+                        prev: newSchool.edited_school_pacat.edited_school_pacat_exam_school_code.input,
                         isEditMode: false,
                     },
                     edited_school_pacat_exam_scaled_minimum_score_required: {
-                        input: newSchool.edited_school_pacat.edited_school_pacat_exam_scaled_minimum_score_required.input === newSchool.school_pacat.school_pacat_exam_scaled_minimum_score_required ? null : newSchool.edited_school_pacat.edited_school_pacat_exam_scaled_minimum_score_required.input,
-                        prev: newSchool.edited_school_pacat.edited_school_pacat_exam_scaled_minimum_score_required.input === newSchool.school_pacat.school_pacat_exam_scaled_minimum_score_required ? null : newSchool.edited_school_pacat.edited_school_pacat_exam_scaled_minimum_score_required.input,
+                        input: newSchool.edited_school_pacat.edited_school_pacat_exam_scaled_minimum_score_required.input,
+                        prev: newSchool.edited_school_pacat.edited_school_pacat_exam_scaled_minimum_score_required.input,
                         isEditMode: false,
                     },
                     edited_school_pacat_exam_group_scaled_minimum_score_required: {
-                        input: newSchool.edited_school_pacat.edited_school_pacat_exam_group_scaled_minimum_score_required.input === newSchool.school_pacat.school_pacat_exam_group_scaled_minimum_score_required? null : newSchool.edited_school_pacat.edited_school_pacat_exam_group_scaled_minimum_score_required.input,
-                        prev: newSchool.edited_school_pacat.edited_school_pacat_exam_group_scaled_minimum_score_required.input === newSchool.school_pacat.school_pacat_exam_group_scaled_minimum_score_required? null : newSchool.edited_school_pacat.edited_school_pacat_exam_group_scaled_minimum_score_required.input,
+                        input: newSchool.edited_school_pacat.edited_school_pacat_exam_group_scaled_minimum_score_required.input,
+                        prev: newSchool.edited_school_pacat.edited_school_pacat_exam_group_scaled_minimum_score_required.input,
                         isEditMode: false,
                     }
                 }
@@ -401,7 +400,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
                     />
 
                 </div>
-                {(pacatRequiredOrRecommended || editedRecommendedOrRequired )&& (
+                {open && (
                 <>
                     <div className={`mt-14 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">PA-CAT Exam School Code</label>   
@@ -448,7 +447,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
                 </div>
                 
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} input={hasInputs} isEditMode={hasBeenEdited} name="school_pacat" link={newSchool.edited_school_pacat.link} toggleLinkPopup={toggleLinkPopup}
+            {isEdit && <EditButtons loggedInUser={loggedInUser} input={hasInputs} isEditMode={newSchool.edited_school_pacat.edited_school_pacat_required.isEditMode} name="school_pacat" link={newSchool.edited_school_pacat.link} toggleLinkPopup={toggleLinkPopup}
             setLinkObj={setLinkObj} enableEditMode={enableEditMode} confirmEdit={confirmEdit} revertEdit={revertEdit} undoEdit={undoEdit} newSchool={newSchool} setNewSchool={setNewSchool}
             />}
         </div>
