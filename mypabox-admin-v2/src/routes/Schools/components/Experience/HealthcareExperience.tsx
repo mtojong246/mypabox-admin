@@ -1,11 +1,18 @@
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react"
 import { School, Note } from "../../../../types/schools.types"
-import Select from 'react-select';
 
 import ReactQuill from "react-quill";
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
-import AddNote from "../Prereqs/AddNote"
+import AddNote from "../Prereqs/AddNote";
+import LinkPopup from "../../LinkPopup";
+import { enableEditModeGroup, revertEditGroup, confirmEditGroup, undoEditGroup } from "./ExperienceFunctions";
+import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import BooleanFields from "../../Assets/BooleanFields";
+import { UserObject } from "../../../../types/users.types";
+import InputFields from "../../Assets/InputsFields";
+import SelectInputsFields from "../../Assets/SelectInputsFields";
+import EditButtons from "../../Assets/EditButtons";
 
 const options = [
     { value: 'Weeks', label: 'Weeks' },
@@ -13,17 +20,51 @@ const options = [
     { value: 'Years', label: 'Years' }
 ]
 
-export default function HealthcareExperience({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+export default function HealthcareExperience({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
     const [ selection, setSelection ] = useState({
         number: '',
         duration: '',
-    })
+    });
+    const [ editedSelection, setEditedSelection ] = useState<{number: string | null, duration: string | null}>({
+        number: null,
+        duration: null,
+    }) 
     const [ notePopup, setNotePopup ] = useState(false);
     const [ index, setIndex ] = useState<number | null>(null);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
     const [ isGroup, setIsGroup ] = useState(false);
     const [ name, setName ] = useState('');
     const [ noteName, setNoteName ] = useState('');
+    const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    });
+
+    const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
+    const [ isOpen, setIsOpen ] = useState(false);
+
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    }
+
+    const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+        e.preventDefault();
+        const linkName = `edited_${linkObj.name}`
+        setNewSchool({
+            ...newSchool,
+            [linkName]: {
+                ...newSchool[linkName as keyof School] as object,
+                link: newLink,
+            }
+        });
+        setLinkObj({
+            link: '',
+            name: '',
+        })
+    };
 
     const toggleNotePopup = (e:any) => {
         e.preventDefault();
@@ -113,7 +154,31 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                 }
             })
         }
-    }
+    };
+
+    useEffect(() => {
+        if (newSchool.edited_school_healthcare_experience.edited_school_healthcare_experience_required.input !== null) {
+            setHasInputs(true);
+        } else {
+            setHasInputs(null)
+        }
+    },[newSchool.edited_school_healthcare_experience.edited_school_healthcare_experience_required] );
+
+    useEffect(() => {
+        if (newSchool.edited_school_healthcare_experience.edited_school_healthcare_experience_required.input === null) {
+            if (newSchool.school_healthcare_experience.school_healthcare_experience_required && newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed && newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required) {
+                setIsOpen(true);
+            } else {
+                setIsOpen(false);
+            }
+        } else {
+            if (newSchool.edited_school_healthcare_experience.edited_school_healthcare_experience_required.input) {
+                setIsOpen(true);
+            } else {
+                setIsOpen(false);
+            }
+        }
+    }, [newSchool.edited_school_healthcare_experience.edited_school_healthcare_experience_required, newSchool.school_healthcare_experience.school_healthcare_experience_required])
 
 
     useEffect(() => {
@@ -154,7 +219,22 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                 duration: ''
             })
         }
-    }, [newSchool.school_healthcare_experience.school_healthcare_experience_required])
+    }, [newSchool.school_healthcare_experience.school_healthcare_experience_required]);
+
+    useEffect(() => {
+        if (newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input !== null) {
+            const array = newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input.split(' ');
+            setEditedSelection({
+                number: array[0],
+                duration: array[1],
+            })
+        } else {
+            setEditedSelection({
+                number: null,
+                duration: null,
+            })
+        }
+    }, [newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed])
 
     useEffect(() => {
         setNewSchool({
@@ -169,9 +249,9 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
         })
     }, [selection])
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        const field = newSchool.school_healthcare_experience[e.target.name as keyof object] as object;
-        if (e.target.name) {
+    const handleInputGroup = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const field = newSchool.school_healthcare_experience[e.target.name as keyof object] as object;
             setNewSchool({
                 ...newSchool,
                 school_healthcare_experience: {
@@ -182,7 +262,23 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                     }
                 }
             })
-        } else {
+        }
+        const name = `edited_${e.target.name}`
+        const field = newSchool.edited_school_healthcare_experience[name as keyof object] as {input: string | number | null, prev: string | number | null};
+            setNewSchool({
+                ...newSchool,
+                edited_school_healthcare_experience: {
+                    ...newSchool.edited_school_healthcare_experience,
+                    [name]: {
+                        ...field,
+                        input: e.target.value
+                    }
+                }
+            })
+    };
+
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
             setNewSchool({
                 ...newSchool,
                 school_healthcare_experience: {
@@ -190,52 +286,128 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                     school_average_healthcare_experience_hours_accepted_previous_cycle: Number(e.target.value)
                 }
             })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_healthcare_experience: {
+                    ...newSchool.edited_school_healthcare_experience,
+                    edited_school_average_healthcare_experience_hours_accepted_previous_cycle: {
+                        ...newSchool.edited_school_healthcare_experience.edited_school_average_healthcare_experience_hours_accepted_previous_cycle,
+                        input: Number(e.target.value)
+                    }
+                }
+            })
         }
     }
 
-    const handleSelectionNumber = (e: ChangeEvent<HTMLInputElement>) => {
-        setSelection({
-            ...selection,
-            number: e.target.value.trim(),
-        })
+    const handleSelectionNumber = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setSelection({
+                ...selection,
+                number: e.target.value.trim(),
+            })
+        } else {
+            setEditedSelection({
+                ...editedSelection,
+                number: e.target.value.trim(),
+            })
+            setNewSchool({
+                ...newSchool,
+                edited_school_healthcare_experience: {
+                    ...newSchool.edited_school_healthcare_experience,
+                    edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
+                        ...newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed,
+                        input: (e.target.value.trim()) + ' ' + editedSelection.duration,
+                    }
+                }
+            })
+        }
+        
+    };
+
+    const handleSelectionDuration = (e: any, category: string, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setSelection({
+                ...selection,
+                duration: e.value,
+            })
+        } else {
+            setEditedSelection({
+                ...editedSelection,
+                duration: e.value,
+            }) 
+            setNewSchool({
+                ...newSchool,
+                edited_school_healthcare_experience: {
+                    ...newSchool.edited_school_healthcare_experience,
+                    edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
+                        ...newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed,
+                        input: editedSelection.number + ' ' + e.value,
+                    }
+                }
+            })
+        }
     }
 
-    const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewSchool({
-            ...newSchool,
-            school_healthcare_experience: {
-                ...newSchool.school_healthcare_experience,
-                school_healthcare_experience_required: e.target.checked,
-            }
-        })
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_healthcare_experience: {
+                    ...newSchool.school_healthcare_experience,
+                    school_healthcare_experience_required: e.target.checked,
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_healthcare_experience: {
+                    ...newSchool.edited_school_healthcare_experience,
+                    edited_school_healthcare_experience_required: {
+                        ...newSchool.edited_school_healthcare_experience.edited_school_healthcare_experience_required,
+                        input: e.target.checked,
+                    }
+                }
+            })
+        }
+        
     };
+
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Healthcare Experience (HCE)</label>   
-            
+        <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
+        <div className={`grow relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
+        <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Healthcare Experience (HCE)<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>            
             <div className={`mt-7 relative max-w-[900px] border-2 p-5 block rounded ${newSchool.school_healthcare_experience.school_healthcare_experience_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">HCE Required</label>   
-                <div className='w-full mt-2'>
+                <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} input={newSchool.edited_school_healthcare_experience.edited_school_healthcare_experience_required.input}
+                originalInput={newSchool.school_healthcare_experience.school_healthcare_experience_required} name='school_healthcare_experience_required' handleCheck={handleCheck}
+                />
+                {/* <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input onChange={handleCheck} checked={newSchool.school_healthcare_experience.school_healthcare_experience_required ? true : false} type="checkbox" className="sr-only peer"/>
                         <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
                         <span className="ml-3 text-xl text-black">{newSchool.school_healthcare_experience.school_healthcare_experience_required ? 'True' : 'False'}</span>
                     </label>
-                </div>
-                {(newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required && newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed) && (
+                </div> */}
+                {isOpen && (
                 <>
                     <div className={`mt-7 mx-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum HCE Hours Required</label>   
                         <div className='flex justify-center items-center gap-3'>
-                            <input onChange={handleInput} value={newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input : ''} name='school_minimum_healthcare_experience_hours_required' className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
+                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} input={newSchool.edited_school_healthcare_experience.edited_school_minimum_healthcare_experience_hours_required.input}
+                            originalInput={newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.input : null} name='school_minimum_healthcare_experience_hours_required'
+                            handleInput={handleInputGroup}
+                            /> 
+                            {/* <input onChange={handleInput} value={newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input : ''} name='school_minimum_healthcare_experience_hours_required' className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
                             <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_healthcare_experience_hours_required'); setNoteName('school_minimum_healthcare_experience_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button> 
                         </div>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.school_minimum_healthcare_experience_hours_required_notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.school_minimum_healthcare_experience_hours_required_notes.map((note, i) => (
+                        {newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required && newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.school_minimum_healthcare_experience_hours_required_notes ? (
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required && newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.school_minimum_healthcare_experience_hours_required_notes ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required && newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.school_minimum_healthcare_experience_hours_required_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
@@ -247,20 +419,27 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                        </div>               
+                        </div>     
+                        ) : null}          
                     </div>
 
                     <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Frame HCE Needs To Be Completed</label>  
                         <div className='flex justify-center items-center gap-3'>
-                            <input onChange={handleSelectionNumber} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
-                            <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={options} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="grow focus:outline-none"/>
+                            <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} input={newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input}
+                            originalInput={newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input : null}
+                            name='school_minimum_time_frame_healthcare_experience_needs_to_be_completed' number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration} handleInput={handleSelectionNumber}
+                            handleSelect={handleSelectionDuration} options={options}
+                            />
+                            {/* <input onChange={handleSelectionNumber} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
+                            <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={options} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="grow focus:outline-none"/> */}
                             <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed'); setNoteName('school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button> 
                         </div> 
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes.map((note, i) => (
+                        {newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed &&  newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes? (
+                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed && newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed && newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
                                     <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
@@ -272,7 +451,8 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                        </div>               
+                        </div>     
+                        ) : null}          
                     </div>
                 </>
                 )}
@@ -282,7 +462,10 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
 
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average HCE Hours Accepted Previous Cycle</label>   
-                <input onChange={handleInput} value={newSchool.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle ? newSchool.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} input={newSchool.edited_school_healthcare_experience.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.input}
+                originalInput={newSchool.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle} name='school_average_healthcare_experience_hours_accepted_previous_cycle' handleInput={handleInput}
+                />
+                {/* <input onChange={handleInput} value={newSchool.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle ? newSchool.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />            */}
             </div>
 
             <div className='w-full mt-8 mb-5'>
@@ -306,6 +489,11 @@ export default function HealthcareExperience({ newSchool, setNewSchool }: { newS
                 </div>
             </div>
         </div>
+        {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} input={hasInputs} link={newSchool.edited_school_healthcare_experience.link} toggleLinkPopup={toggleLinkPopup}
+        setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup} name='school_healthcare_experience' newSchool={newSchool} setNewSchool={setNewSchool}
+        />}
+        </div>
+        {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
         {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )

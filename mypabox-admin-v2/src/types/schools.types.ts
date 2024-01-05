@@ -719,7 +719,7 @@ export interface School {
             input: string | null,
             prev: string | null,
         }
-        edited_edited_school_average_patient_care_experience_hours_accepted_previous_cycle: {
+        edited_school_average_patient_care_experience_hours_accepted_previous_cycle: {
             input: number | null,
             prev: number | null,
         }
@@ -788,7 +788,7 @@ export interface School {
         } 
         edited_school_community_service_recommended: {
             input: boolean | null,
-            prev: null,
+            prev: boolean | null,
         }
         edited_school_minimum_community_service_hours_recommended: {
             input: number | null,

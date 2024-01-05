@@ -1,5 +1,5 @@
 import { School, Note } from "../../../../types/schools.types"
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react"
+import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent } from "react"
 import PatientExperience from "./PatientExperience"
 import HealthcareExperience from "./HealthcareExperience"
 import CommunityService from "./CommunityService"
@@ -9,17 +9,47 @@ import ReactQuill from "react-quill";
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import AddNote from "../Prereqs/AddNote"
+import { UserObject } from "../../../../types/users.types"
 
-export default function Experience({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>}) {
+import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import LinkPopup from "../../LinkPopup"
+import EditButtons from "../../Assets/EditButtons"
+import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./ExperienceFunctions"
+import BooleanFields from "../../Assets/BooleanFields"
+
+
+export default function Experience({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean}) {
     
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewSchool({
-            ...newSchool,
-            school_paid_experience_required: {
-                ...newSchool.school_paid_experience_required,
-                input: e.target.checked,
-            }
-        })
+    const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    })
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    }
+
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_paid_experience_required: {
+                    ...newSchool.school_paid_experience_required,
+                    input: e.target.checked,
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_paid_experience_required: {
+                    ...newSchool.edited_school_paid_experience_required,
+                    input: e.target.checked,
+                }
+            })
+        }
+        
     }
 
     const [ notePopup, setNotePopup ] = useState(false);
@@ -66,22 +96,35 @@ export default function Experience({ newSchool, setNewSchool }: { newSchool: Sch
                     school_paid_experience_required_notes: newSchool.school_paid_experience_required.school_paid_experience_required_notes.filter((n,i) => i !== index)
                 }
             })
-    }
+    };
+
+    const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+        e.preventDefault();
+        const linkName = `edited_${linkObj.name}`
+        setNewSchool({
+            ...newSchool,
+            [linkName]: {
+                ...newSchool[linkName as keyof School] as object,
+                link: newLink,
+            }
+        });
+        setLinkObj({
+            link: '',
+            name: '',
+        })
+    };
+
     
     return (
         <>
         {newSchool && (
             <>
-                <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                    <label className="absolute top-[-16px] text-xl bg-white">Paid Experience Required</label>  
+            <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
+                <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Paid Experience Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_paid_experience_required.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_paid_experience_required.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-start items-center gap-3'>
-                        <div className="mt-2 grow">
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input onChange={handleInput} checked={newSchool.school_paid_experience_required.input ? true : false} type="checkbox" className="sr-only peer"/>
-                                <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                <span className="ml-3 text-xl text-black">{newSchool.school_paid_experience_required.input ? 'True' : 'False'}</span>
-                            </label>
-                        </div>
+                        <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_paid_experience_required.isEditMode} input={newSchool.edited_school_paid_experience_required.input} originalInput={newSchool.school_paid_experience_required.input}
+                        name='school_paid_experience_required' handleCheck={handleInput} />
                         <button onClick={(e) => {toggleNotePopup(e);}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
@@ -101,14 +144,19 @@ export default function Experience({ newSchool, setNewSchool }: { newSchool: Sch
                         ))}
                         </div>
                 </div>
+                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_paid_experience_required.isEditMode} input={newSchool.edited_school_paid_experience_required.input} link={newSchool.edited_school_paid_experience_required.link} 
+                toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool} name='school_paid_experience_required'
+                />}
+            </div>
 
 
-                <PatientExperience newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <CommunityService newSchool={newSchool} setNewSchool={setNewSchool}/>
-                <VolunteerService newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <PatientExperience newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
+                <HealthcareExperience newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
+                <CommunityService newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
+                <VolunteerService newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
             </>
         )}
+        {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
         {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )

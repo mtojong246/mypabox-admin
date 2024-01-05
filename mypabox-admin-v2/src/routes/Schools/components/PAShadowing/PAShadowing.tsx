@@ -258,7 +258,6 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
         })
     };
 
-    console.log(newSchool.school_pa_shadowing_recommended, newSchool.edited_school_pa_shadowing_recommended)
     
     return (
         <>

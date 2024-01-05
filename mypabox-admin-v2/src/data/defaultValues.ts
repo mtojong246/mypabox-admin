@@ -727,7 +727,7 @@ export const defaultSchool: School = {
             input: null,
             prev: null,
         },
-        edited_edited_school_average_patient_care_experience_hours_accepted_previous_cycle:{
+        edited_school_average_patient_care_experience_hours_accepted_previous_cycle:{
             input: null,
             prev: null,
         },

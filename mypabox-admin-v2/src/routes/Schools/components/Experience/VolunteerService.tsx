@@ -1,18 +1,56 @@
 import { School, Note } from "../../../../types/schools.types"
-import { Dispatch, SetStateAction, useEffect, ChangeEvent, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, ChangeEvent, useState, MouseEvent } from "react"
 
 import ReactQuill from "react-quill";
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import AddNote from "../Prereqs/AddNote"
+import LinkPopup from "../../LinkPopup";
+import { enableEditModeGroup, revertEditGroup, confirmEditGroup, undoEditGroup } from "./ExperienceFunctions";
+import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import BooleanFields from "../../Assets/BooleanFields";
+import { UserObject } from "../../../../types/users.types";
+import InputFields from "../../Assets/InputsFields";
+import EditButtons from "../../Assets/EditButtons";
 
-export default function VolunteerService({ newSchool, setNewSchool }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+export default function VolunteerService({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
     const [ notePopup, setNotePopup ] = useState(false);
     const [ index, setIndex ] = useState<number | null>(null);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
     const [ isGroup, setIsGroup ] = useState(false);
     const [ name, setName ] = useState('');
     const [ noteName, setNoteName ] = useState('');
+    const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    });
+
+    const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
+    const [ isReqOpen, setIsReqOpen ] = useState(false);
+    const [ isRecOpen, setIsRecOpen ] = useState(false);
+
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    }
+
+    const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+        e.preventDefault();
+        const linkName = `edited_${linkObj.name}`
+        setNewSchool({
+            ...newSchool,
+            [linkName]: {
+                ...newSchool[linkName as keyof School] as object,
+                link: newLink,
+            }
+        });
+        setLinkObj({
+            link: '',
+            name: '',
+        })
+    };
 
     const toggleNotePopup = (e:any) => {
         e.preventDefault();
@@ -105,6 +143,14 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
     }
 
     useEffect(() => {
+        if (newSchool.edited_school_volunteer_service.edited_school_volunteer_service_required.input !== null) {
+            setHasInputs(true);
+        } else {
+            setHasInputs(null)
+        }
+    }, [newSchool.edited_school_volunteer_service.edited_school_volunteer_service_required])
+
+    useEffect(() => {
         if (newSchool.school_volunteer_service.school_volunteer_service_recommended) {
             setNewSchool({
                 ...newSchool,
@@ -150,20 +196,66 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
         }
     }, [newSchool.school_volunteer_service.school_volunteer_service_required]);
 
-    
-    const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewSchool({
-            ...newSchool,
-            school_volunteer_service: {
-                ...newSchool.school_volunteer_service,
-                [e.target.name]: e.target.checked,
+    useEffect(() => {
+        if (newSchool.edited_school_volunteer_service.edited_school_volunteer_service_required.input === null) {
+            if (newSchool.school_volunteer_service.school_volunteer_service_required) {
+                setIsReqOpen(true)
+            } else {
+                setIsReqOpen(false)
             }
-        })
+        } else {
+            if (newSchool.edited_school_volunteer_service.edited_school_volunteer_service_required.input) {
+                setIsReqOpen(true)
+            } else {
+                setIsReqOpen(false)
+            }
+        }
+
+        if (newSchool.edited_school_volunteer_service.edited_school_volunteer_service_recommended.input === null) {
+            if (newSchool.school_volunteer_service.school_volunteer_service_recommended) {
+                setIsRecOpen(true)
+            } else {
+                setIsRecOpen(false)
+            }
+        } else {
+            if (newSchool.edited_school_volunteer_service.edited_school_volunteer_service_recommended.input) {
+                setIsRecOpen(true)
+            } else {
+                setIsRecOpen(false)
+            }
+        }
+    }, [newSchool.edited_school_volunteer_service.edited_school_volunteer_service_required,newSchool.school_volunteer_service.school_volunteer_service_required, newSchool.school_volunteer_service.school_volunteer_service_recommended,
+        newSchool.edited_school_volunteer_service.edited_school_volunteer_service_recommended])
+
+    
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_volunteer_service: {
+                    ...newSchool.school_volunteer_service,
+                    [e.target.name]: e.target.checked,
+                }
+            })
+        } else {
+            const name = `edited_${e.target.name}`;
+            setNewSchool({
+                ...newSchool,
+                edited_school_volunteer_service: {
+                    ...newSchool.edited_school_volunteer_service,
+                    [name]: {
+                        ...newSchool.edited_school_volunteer_service[name as keyof object] as object,
+                        input: e.target.checked,
+                    }
+                }
+            })
+        }
+        
     }
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        const field = newSchool.school_volunteer_service[e.target.name as keyof object] as object;
-        if (e.target.name) {
+    const handleInputGroup = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const field = newSchool.school_volunteer_service[e.target.name as keyof object] as object;
             setNewSchool({
                 ...newSchool,
                 school_volunteer_service: {
@@ -175,6 +267,23 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                 }
             })
         } else {
+            const name = `edited_${e.target.name}`;
+            const field = newSchool.edited_school_volunteer_service[name as keyof object] as object;
+            setNewSchool({
+                ...newSchool,
+                edited_school_volunteer_service: {
+                    ...newSchool.edited_school_volunteer_service,
+                    [name]: {
+                        ...field,
+                        input: e.target.value,
+                    }
+                }
+            })
+        }
+    }
+
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
             setNewSchool({
                 ...newSchool,
                 school_volunteer_service: {
@@ -182,32 +291,51 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                     school_average_volunteer_service_hours_accepted_previous_cycle: Number(e.target.value)
                 }
             })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_volunteer_service: {
+                    ...newSchool.edited_school_volunteer_service,
+                    edited_school_average_volunteer_service_hours_accepted_previous_cycle: {
+                        ...newSchool.edited_school_volunteer_service.edited_school_average_volunteer_service_hours_accepted_previous_cycle,
+                        input: Number(e.target.value)
+                    }
+                }
+            })
         }
     }
 
     return (
         <>
-        <div className={`mt-20 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] left-[20px] text-xl bg-white">Volunteer Service</label>   
+         <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
+        <div className={`grow relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
+        <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Volunteer Service<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>              
             
             <div className={`mt-7 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_volunteer_service.school_volunteer_service_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Volunteer Service Required</label>   
-                <div className='w-full mt-2'>
+                <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} input={newSchool.edited_school_volunteer_service.edited_school_volunteer_service_required.input}
+                originalInput={newSchool.school_volunteer_service.school_volunteer_service_required} name='school_volunteer_service_required' handleCheck={handleCheck}
+                />
+                {/* <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input name='school_volunteer_service_required' onChange={handleCheck} checked={newSchool.school_volunteer_service.school_volunteer_service_required ? true : false} type="checkbox" className="sr-only peer"/>
                         <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
                         <span className="ml-3 text-xl text-black">{newSchool.school_volunteer_service.school_volunteer_service_required ? 'True' : 'False'}</span>
                     </label>
-                </div>
-                {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required && (
+                </div> */}
+                {isReqOpen && (
                 <div className={`mt-7 mx-5 mb-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Volunteer Service Hours Required</label>   
                     <div className='flex justify-center items-center gap-3'>
-                        <input onChange={handleInput} value={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.input ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.input : ''} name='school_minimum_volunteer_service_hours_required' className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
+                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} input={newSchool.edited_school_volunteer_service.edited_school_minimum_volunteer_service_hours_required.input}
+                        originalInput={ newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required.input : null} name='school_minimum_volunteer_service_hours_required' handleInput={handleInputGroup}
+                        />
+                        {/* <input onChange={handleInput} value={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.input ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.input : ''} name='school_minimum_volunteer_service_hours_required' className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
                         <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_volunteer_service_hours_required'); setNoteName('school_minimum_volunteer_service_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
+                    {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required.school_minimum_volunteer_service_hours_required_notes && (
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.school_minimum_volunteer_service_hours_required_notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.school_minimum_volunteer_service_hours_required_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -221,29 +349,37 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                     ))}
-                    </div>               
+                    </div> 
+                    )}              
                 </div>
                 )}
             </div>
 
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_volunteer_service.school_volunteer_service_recommended ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Volunteer Service Recommended</label>   
-                <div className='w-full mt-2'>
+                <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} input={newSchool.edited_school_volunteer_service.edited_school_volunteer_service_recommended.input}
+                originalInput={newSchool.school_volunteer_service.school_volunteer_service_recommended} name='school_volunteer_service_recommended' handleCheck={handleCheck}
+                />
+                {/* <div className='w-full mt-2'>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input name='school_volunteer_service_recommended' onChange={handleCheck} checked={newSchool.school_volunteer_service.school_volunteer_service_recommended ? true : false} type="checkbox" className="sr-only peer"/>
                         <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
                         <span className="ml-3 text-xl text-black">{newSchool.school_volunteer_service.school_volunteer_service_recommended ? 'True' : 'False'}</span>
                     </label>
-                </div>
-                {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended && (
+                </div> */}
+                {isRecOpen && (
                 <div className={`mt-7 mx-5 mb-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Volunteer Service Hours Recommended</label>   
                     <div className='flex justify-center items-center gap-3'>
-                        <input onChange={handleInput} value={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.input ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.input : ''} name='school_minimum_volunteer_service_hours_recommended' className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
+                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} input={newSchool.edited_school_volunteer_service.edited_school_minimum_volunteer_service_hours_recommended.input}
+                        originalInput={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.input : null} name='school_minimum_volunteer_service_hours_recommended'handleInput={handleInputGroup}
+                        />
+                        {/* <input onChange={handleInput} value={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.input ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.input : ''} name='school_minimum_volunteer_service_hours_recommended' className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
                         <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_volunteer_service_hours_recommended'); setNoteName('school_minimum_volunteer_service_hours_recommended_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
+                    {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.school_minimum_volunteer_service_hours_recommended_notes && (
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.school_minimum_volunteer_service_hours_recommended_notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.school_minimum_volunteer_service_hours_recommended_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -257,14 +393,18 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                     ))}
-                    </div>                
+                    </div>    
+                    )}            
                 </div>
                 )}
             </div>
 
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Average Volunteer Service Hours Accepted Previous Cycle</label>   
-                <input onChange={handleInput} value={newSchool.school_volunteer_service.school_average_volunteer_service_hours_accepted_previous_cycle ? newSchool.school_volunteer_service.school_average_volunteer_service_hours_accepted_previous_cycle : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />           
+                <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} input={newSchool.edited_school_volunteer_service.edited_school_average_volunteer_service_hours_accepted_previous_cycle.input}
+                originalInput={newSchool.school_volunteer_service.school_average_volunteer_service_hours_accepted_previous_cycle} name='school_average_volunteer_service_hours_accepted_previous_cycle' handleInput={handleInput}
+                />
+                {/* <input onChange={handleInput} value={newSchool.school_volunteer_service.school_average_volunteer_service_hours_accepted_previous_cycle ? newSchool.school_volunteer_service.school_average_volunteer_service_hours_accepted_previous_cycle : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />            */}
             </div>
 
             <div className='w-full mt-8 mb-5'>
@@ -288,6 +428,11 @@ export default function VolunteerService({ newSchool, setNewSchool }: { newSchoo
                 </div>
             </div>
         </div>
+        {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} input={hasInputs} link={newSchool.edited_school_volunteer_service.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}
+        newSchool={newSchool} setNewSchool={setNewSchool} name='school_volunteer_service' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup}
+        />} 
+        </div>
+        {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
         {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )
