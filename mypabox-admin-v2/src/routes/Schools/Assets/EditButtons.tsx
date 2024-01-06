@@ -10,7 +10,7 @@ import { School } from "../../../types/schools.types";
 export default function EditButtons({ loggedInUser, isEditMode, input, link, name, toggleLinkPopup, setLinkObj, enableEditMode, confirmEdit, undoEdit, revertEdit, newSchool, setNewSchool }: { 
     loggedInUser: UserObject, 
     isEditMode: boolean, 
-    input: string | number | boolean | null, 
+    input: string | number | boolean | any[] | null, 
     link?: string,
     name: string,
     toggleLinkPopup?: (e: MouseEvent<HTMLButtonElement>) => void,

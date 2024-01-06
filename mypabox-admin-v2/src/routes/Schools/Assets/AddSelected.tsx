@@ -73,7 +73,7 @@ export default function AddSelected({ loggedInUser, input, isEditMode, setCertif
             <>
             <div className='flex justify-start items-center gap-3'>
                 <CreatableSelect isDisabled={isEditMode ? false : true} options={options} onChange={(e:any) => setCertification(e.value)} className="grow focus:outline-none"/> 
-                <button onClick={(e: MouseEvent<HTMLButtonElement>) => addCertification(e, true)} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
+                <button disabled={isEditMode ? false : true} onClick={(e: MouseEvent<HTMLButtonElement>) => addCertification(e, true)} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                     Add Certification
                 </button>
             </div>

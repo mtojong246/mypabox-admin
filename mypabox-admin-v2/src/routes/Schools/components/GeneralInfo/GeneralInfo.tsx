@@ -11,6 +11,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { UserObject } from "../../../../types/users.types";
+import AddPhoneOrEmail from "../../Assets/AddPhoneOrEmail";
 
 import { PiCheckCircle } from "react-icons/pi";
 import { PiWarningCircle } from "react-icons/pi";
@@ -22,6 +23,7 @@ import BooleanFields from "../../Assets/BooleanFields";
 import InputFields from "../../Assets/InputsFields";
 
 import { enableEditMode, confirmEdit, undoEdit, revertEdit, confirmEditBool, undoEditBool, revertEditBool, enableEditModeBool } from "./GeneralInfoFunctions";
+import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./EmailPhoneFunctions";
 
 
 
@@ -394,15 +396,31 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         })
     };
 
-    const addPhone = (e:any) => {
+    const addPhone = (e: MouseEvent<HTMLButtonElement>, isEditedInput: boolean) => {
         e.preventDefault();
-        setNewSchool({
+        if (!isEditedInput) {
+            setNewSchool({
             ...newSchool,
             school_phone_number: {
                 ...newSchool.school_phone_number,
                 input: newSchool.school_phone_number.input.concat(phone),
             }
-        })
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_phone_number: {
+                    ...newSchool.edited_school_phone_number,
+                    input: newSchool.edited_school_phone_number.input!.concat({
+                        category: phone.category,
+                        number: phone.number,
+                        isCorrect: true,
+                        isNew: true,
+                    })
+                }
+            })
+        }
+        
         setPhone({
             ...phone,
             number: '',
@@ -410,15 +428,31 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         
     };
 
-    const addEmail = (e:any) => {
+    const addEmail = (e: MouseEvent<HTMLButtonElement>, isEditedInput: boolean) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_email: {
-                ...newSchool.school_email,
-                input: newSchool.school_email.input.concat(email),
-            }
-        })
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_email: {
+                    ...newSchool.school_email,
+                    input: newSchool.school_email.input.concat(email),
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_email: {
+                    ...newSchool.edited_school_email,
+                    input: newSchool.edited_school_email.input!.concat({
+                        category: email.category,
+                        email: email.email,
+                        isCorrect: true,
+                        isNew: true,
+                    })
+                }
+            })
+        }
+        
         setEmail({
             ...email,
             email: '',
@@ -426,27 +460,106 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         
     };
 
-    const deletePhone = (e:any, index:number) => {
+    const deletePhone = (e:any, index:number, isNew: boolean, isEditedInput: boolean) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_phone_number: {
-                ...newSchool.school_phone_number,
-                input: newSchool.school_phone_number.input.filter((n,i) => i !== index)
-            }
-        })
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_phone_number: {
+                    ...newSchool.school_phone_number,
+                    input: newSchool.school_phone_number.input.filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_phone_number: {
+                    ...newSchool.edited_school_phone_number,
+                    input: isNew ? newSchool.edited_school_phone_number.input!.filter((inp, i) => i !== index) : 
+                    newSchool.edited_school_phone_number.input!.map((inp, i) => {
+                        if (i === index) {
+                            return {
+                                ...inp,
+                                isCorrect: false,
+                            }
+                        } else {
+                            return { ...inp }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
-    const deleteEmail = (e:any, index: number) => {
+    console.log(newSchool.edited_school_phone_number.input)
+
+    const deleteEmail = (e:any, index: number, isNew: boolean, isEditedInput: boolean) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_email: {
-                ...newSchool.school_email,
-                input: newSchool.school_email.input.filter((n,i) => i !== index),
-            }
-        })
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_email: {
+                    ...newSchool.school_email,
+                    input: newSchool.school_email.input.filter((n,i) => i !== index),
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_email: {
+                    ...newSchool.edited_school_email,
+                    input: isNew ? newSchool.edited_school_email.input!.filter((inp,i) => i !== index) : newSchool.edited_school_email.input!.map((inp,i) => {
+                        if (i === index) {
+                            return {
+                                ...inp, 
+                                isCorrect: false,
+                            }
+                        } else {
+                            return { ...inp }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
+
+    const undoChange = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+        if (e.currentTarget.name === 'school_email') {
+            setNewSchool({
+                ...newSchool,
+                edited_school_email: {
+                    ...newSchool.edited_school_email,
+                    input: newSchool.edited_school_email.input!.map((inp,i) => {
+                        if (i === index) {
+                            return {
+                                ...inp, 
+                                isCorrect: true,
+                            }
+                        } else { 
+                            return { ...inp }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_phone_number: {
+                    ...newSchool.edited_school_phone_number,
+                    input: newSchool.edited_school_phone_number.input!.map((inp, i) => {
+                        if (i === index) {
+                            return { ...inp, isCorrect: true }
+                        } else {
+                            return { ...inp }
+                        }
+                    })
+                }
+            })
+        }
+    } 
 
 
     const setPhoneFormat = (e:any) => {
@@ -648,9 +761,13 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
         } else if (cat.type === 'number') {
             return (
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white">School Phone Number</label>
-                <div className='flex justify-center items-center gap-3'>
+            <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
+            <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">School Phone Number<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_phone_number.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_phone_number.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <AddPhoneOrEmail loggedInUser={loggedInUser} input={newSchool.edited_school_phone_number.input} originalInput={newSchool.school_phone_number.input} isEditMode={newSchool.edited_school_phone_number.isEditMode} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
+                addFunc={addPhone} deleteFunc={deletePhone} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNotePopup} newSchool={newSchool}
+                />
+                {/* <div className='flex justify-center items-center gap-3'>
                     <div className='w-1/4 flex justify-center items-start gap-1'>
                         <CreatableSelect className="grow focus:outline-none rounded"
                         options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setPhone({...phone, category: e.value})}/>
@@ -671,7 +788,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                         <p className='text font-semibold'>{num.category}: <span className='font-normal inline-block ml-1'>{num.number}</span></p>
                         <button onClick={(e:any) => deletePhone(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                     </div>
-                ))}
+                ))} */}
                 {newSchool.school_phone_number.notes.length ? (
                 <>
                 <label className='font-semibold inline-block mt-6'>Notes:</label>
@@ -696,12 +813,21 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                 ) : ''
                 }
             </div>
+            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} input={newSchool.edited_school_phone_number.input} link={newSchool.edited_school_phone_number.link} 
+            setLinkObj={setLinkObj} toggleLinkPopup={toggleLinkPopup} undoEdit={undoEditGroup} confirmEdit={confirmEditGroup} enableEditMode={enableEditModeGroup} revertEdit={revertEditGroup} name="school_phone_number" newSchool={newSchool}
+            setNewSchool={setNewSchool}
+            />}
+            </div>
             )
         } else if (cat.type === 'email') {
             return (
-            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white">School Email</label>
-                <div className='flex justify-center items-center gap-3'>
+            <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
+            <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">School Email<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_email.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_email.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <AddPhoneOrEmail loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} originalInput={newSchool.school_email.input} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
+                addFunc={addEmail} deleteFunc={deleteEmail} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNotePopup} newSchool={newSchool}
+                />
+                {/* <div className='flex justify-center items-center gap-3'>
                     <div className='w-1/4 flex justify-center items-start gap-1'>
                         <CreatableSelect className="grow focus:outline-none rounded"
                         options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setEmail({...email, category: e.value})}/>
@@ -722,7 +848,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                         <p className='text font-semibold'>{em.category}: <span className='font-normal inline-block ml-1'>{em.email}</span></p>
                         <button onClick={(e:any) => deleteEmail(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                     </div>
-                ))}
+                ))} */}
                 {
                 newSchool.school_email.notes.length ? (
                 <>
@@ -747,6 +873,10 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                 </>
                 ) : ''
                 }
+            </div>
+            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} link={newSchool.edited_school_email.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}
+            confirmEdit={confirmEditGroup} enableEditMode={enableEditModeGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool} name='school_email'
+            />}
             </div>
             )
         }

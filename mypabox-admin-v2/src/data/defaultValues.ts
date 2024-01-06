@@ -79,9 +79,24 @@ export const defaultSchool: School = {
         input: [],
         notes: [],
     },
+
+    edited_school_email: {
+        link: '',
+        isEditMode: false,
+        input: null,
+        prev: null,
+    },
+    
     school_phone_number: {
         input: [],
         notes: [],
+    },
+
+    edited_school_phone_number: {
+        link: '',
+        isEditMode: false,
+        input: null,
+        prev: null,
     },
 
     school_campus_location: {

@@ -167,6 +167,24 @@ export interface School {
         }[],
         notes: Note[];
     }
+
+    edited_school_email: {
+        link: string;
+        isEditMode: boolean;
+        input: {
+            category: string;
+            email: string;
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null;
+        prev: {
+            category: string;
+            email: string;
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null;
+    }
+
     school_phone_number: {
         input: {
             category: string;
@@ -174,6 +192,24 @@ export interface School {
         }[];
         notes: Note[];
     }
+
+    edited_school_phone_number: {
+        link: string;
+        isEditMode: boolean;
+        input: {
+            category: string;
+            number: string;
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null;
+        prev: {
+            category: string,
+            number: string,
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null;
+    }
+
 
     school_campus_location: StringInput;
     edited_school_campus_location: {
