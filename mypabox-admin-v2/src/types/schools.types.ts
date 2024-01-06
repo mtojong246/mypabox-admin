@@ -1097,18 +1097,16 @@ export interface School {
         isEditMode: boolean;
         link: string;
         edited_school_certifications_required_options: {
-            verified_input: string[];
             input: {
                 name: string;
                 isCorrect: boolean;
                 isNew: boolean;
-            }[];
+            }[] | null;
             prev: {
                 name: string;
                 isCorrect: boolean;
                 isNew: boolean;
-            }[];
-            isEditMode: boolean;
+            }[] | null;
         }
     }
 

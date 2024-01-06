@@ -1063,10 +1063,8 @@ export const defaultSchool: School = {
         isEditMode: false,
         link: '',
         edited_school_certifications_required_options: {
-            verified_input: [],
-            input: [],
-            prev: [],
-            isEditMode: false,
+            input: null,
+            prev: null,
         },
     },
 
