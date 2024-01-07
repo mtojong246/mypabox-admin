@@ -4,16 +4,39 @@ import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import ReactQuill from "react-quill";
 import { School, SchoolPrereqRequiredCourse } from "../../../../types/schools.types";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState, useEffect, MouseEvent } from "react";
+import AddRequiredCourses from "./AddRequiredCourses";
+import LinkPopup from "../../LinkPopup";
 
-export default function RequiredCourses({ toggleRequiredCourses, newSchool, setNewSchool, setEditedRequiredCourse, setGroupIndex }: { 
-    toggleRequiredCourses: (e: any) => void, 
+import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import { UserObject } from "../../../../types/users.types";
+
+export default function RequiredCourses({ newSchool, setNewSchool, loggedInUser, isEdit }: { 
     newSchool: School, 
     setNewSchool: Dispatch<SetStateAction<School>>,
-    setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse | null>>,
-    setGroupIndex: Dispatch<SetStateAction<number | null>>
+    loggedInUser: UserObject,
+    isEdit: boolean
 }) {
-    const courses = useSelector(selectCourses)
+    const courses = useSelector(selectCourses);
+    const [ openRequiredCourses, setOpenRequiredCourses ] = useState(false);
+    const [ groupIndex, setGroupIndex ] = useState<number | null>(null);
+    const [ editedRequiredCourse, setEditedRequiredCourse ] = useState<SchoolPrereqRequiredCourse | null>(null);
+    const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    })
+
+    const toggleRequiredCourses = (e:any) => {
+        e.preventDefault();
+        setOpenRequiredCourses(!openRequiredCourses);
+    }
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    }
 
     const deleteCourse = (e:any, index: number) => {
         e.preventDefault();
@@ -21,11 +44,83 @@ export default function RequiredCourses({ toggleRequiredCourses, newSchool, setN
             ...newSchool,
             school_prereq_required_courses: newSchool.school_prereq_required_courses.filter((course,i) => i !== index)
         })
+    };
+
+    const addCourseOrCategory = (group: SchoolPrereqRequiredCourse, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const field = newSchool.school_prereq_required_courses;
+            setNewSchool({
+                ...newSchool,
+                school_prereq_required_courses: field.concat(group)
+            })
+        } else {
+            const field = newSchool.edited_school_prereq_required_courses;
+            setNewSchool({
+                ...newSchool,
+                edited_school_prereq_required_courses: {
+                    ...field,
+                    input: field.input!.concat({
+                        edited_school_required_course_credit_hours: group.school_required_course_credit_hours,
+                        edited_school_required_course_id: group.school_required_course_id,
+                        edited_school_required_course_lab: group.school_required_course_lab,
+                        edited_school_required_course_lab_preferred: group.school_required_course_lab_preferred,
+                        edited_school_required_course_note_section: group.school_required_course_note_section,
+                        edited_school_required_course_quarter_hours: group.school_required_course_quarter_hours,
+                        isCorrect: true,
+                        isNew: false,
+                    })
+                }
+            })
+        }
+        
     }
 
+    const updateCourseOrCategory = (group: SchoolPrereqRequiredCourse, type: string) => {
+       const name = type as keyof School;
+       const field = newSchool[name] as SchoolPrereqRequiredCourse[];
+       const newGroup = field.map((g,i) => {
+        if (i === groupIndex) {
+            return { ...group }
+        } else {
+            return { ...g }
+        }
+       })
+       setNewSchool({
+        ...newSchool,
+        [name]: newGroup,
+       })
+       setGroupIndex(null)
+    }
+
+    const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+        e.preventDefault();
+        const linkName = `edited_${linkObj.name}`
+        setNewSchool({
+            ...newSchool,
+            [linkName]: {
+                ...newSchool[linkName as keyof School] as object,
+                link: newLink,
+            }
+        });
+        setLinkObj({
+            link: '',
+            name: '',
+        })
+    };
+
+    useEffect(() => {
+        if (newSchool.edited_school_prereq_required_courses.input !== null) {
+            setHasInputs(true)
+        } else {
+            setHasInputs(null)
+        }
+    }, [newSchool.edited_school_prereq_required_courses.input])
+
     return (
-        <div className={`mt-10 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-            <label className="absolute top-[-16px] text-xl bg-white">Required Courses</label>   
+        <>
+        <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
+        <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+        <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Required Courses<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label> 
             <button onClick={toggleRequiredCourses} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Course
             </button>
@@ -63,5 +158,10 @@ export default function RequiredCourses({ toggleRequiredCourses, newSchool, setN
             })}
             </div>
         </div>
+        </div>
+        {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
+        {openRequiredCourses && <AddRequiredCourses toggleRequiredCourses={toggleRequiredCourses} editedRequiredCourse={editedRequiredCourse} setEditedRequiredCourse={setEditedRequiredCourse} addCourseOrCategory={addCourseOrCategory} updateCourseOrCategory={updateCourseOrCategory} newSchool={newSchool}/>}
+
+        </>
     )
 }

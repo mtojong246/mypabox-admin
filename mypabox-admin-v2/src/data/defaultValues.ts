@@ -478,6 +478,14 @@ export const defaultSchool: School = {
             notes: [],
         }
     ],
+
+    edited_school_other_types_of_gpa_evaluated: {
+        link: '',
+        isEditMode: false,
+        input: null,
+        prev: null,
+    },
+
     school_minimum_gpa_for_specific_course: [
         {
             minimum_gpa_required_for_course: 0,
@@ -485,6 +493,14 @@ export const defaultSchool: School = {
             notes: [],
         }
     ],
+
+    edited_school_minimum_gpa_for_specific_course: {
+        link: '',
+        isEditMode: false,
+        input: null,
+        prev: null,
+    },
+
     school_average_gpa_accepted_previous_cycle: {
         average_overall_gpa_accepted_previous_year: {
             input: 0,
@@ -534,6 +550,20 @@ export const defaultSchool: School = {
     school_prereq_required_optional_courses: [],
     school_prereq_required_course_categories: [],
     school_prereq_recommended_courses: [],
+
+    edited_school_prereq_required_courses: {
+        link: '',
+        isEditMode: false,
+        input: null,
+        prev: null,
+    },
+
+    edited_school_prereq_recommended_courses: {
+        link: '',
+        isEditMode: false,
+        input: null,
+        prev: null,
+    },
 
     school_grade_criteria: {
         school_minimum_grade_required_for_all_courses: '',

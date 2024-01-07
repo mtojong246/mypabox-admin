@@ -549,8 +549,6 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
         } 
     };
 
-    console.log(newSchool.school_minimum_gpa_recommended, newSchool.edited_school_minimum_gpa_recommended)
-
 
     return (
         <>
@@ -668,9 +666,9 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
             />}
         </div>
 
-        <OtherTypesOfGpa newSchool={newSchool} setNewSchool={setNewSchool}/>
+        <OtherTypesOfGpa newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
 
-        <SpecificCourse newSchool={newSchool} setNewSchool={setNewSchool}/>
+        <SpecificCourse newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
 
         <PreviousCycleSection newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit} handleInputInCategory={handleInputInCategory}/>
         

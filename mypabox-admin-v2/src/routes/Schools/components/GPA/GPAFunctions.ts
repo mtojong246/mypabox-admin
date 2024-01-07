@@ -96,21 +96,6 @@ interface EditedRecommended {
 
 
 
-// export const enableEditMode = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
-//     e.preventDefault();
-//     const name = `edited_${e.currentTarget.name}` as keyof School;
-//     const original = e.currentTarget.name as keyof School;
-//     const field = newSchool[name] as {input: number | null, prev: number | null, isEditMode: boolean, link: string};
-//     const originalField = newSchool[original] as PreviousCycle
-//     setNewSchool({
-//         ...newSchool,
-//         [name]: {
-//             ...field,
-//             input: field.input === null ? originalField.input : field.input,
-//             isEditMode: true,
-//         }
-//     })
-// };
 
 export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
     e.preventDefault();
@@ -196,6 +181,36 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                     input: field.edited_school_minimum_science_gpa_recommended.input === null ? originalField.school_minimum_science_gpa_recommended && originalField.school_minimum_science_gpa_recommended.input : field.edited_school_minimum_science_gpa_recommended.input,
                     isEditMode: true,
                 }
+            }
+        })
+    } else if (name === 'edited_school_other_types_of_gpa_evaluated') {
+        const field = newSchool.edited_school_other_types_of_gpa_evaluated;
+        const originalField = newSchool.school_other_types_of_gpa_evaluated;
+        setNewSchool({
+            ...newSchool,
+            edited_school_other_types_of_gpa_evaluated: {
+                ...field,
+                isEditMode: true,
+                input: field.input === null ? originalField.map(og => ({
+                    ...og,
+                    isCorrect: true,
+                    isNew: false,
+                })) : field.input,
+            }
+        })
+    } else if (name === 'edited_school_minimum_gpa_for_specific_course') {
+        const field = newSchool.edited_school_minimum_gpa_for_specific_course;
+        const originalField = newSchool.school_minimum_gpa_for_specific_course;
+        setNewSchool({
+            ...newSchool,
+            edited_school_minimum_gpa_for_specific_course: {
+                ...field,
+                isEditMode: true,
+                input: field.input === null ? originalField.map(og => ({
+                    ...og,
+                    isCorrect: true,
+                    isNew: false,
+                })) : field.input,
             }
         })
     }
@@ -299,6 +314,28 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         prev: field.edited_school_minimum_science_gpa_recommended.input,
                         isEditMode: false,
                     }
+                }
+            })
+        } else if (name === 'edited_school_other_types_of_gpa_evaluated') {
+            const field = newSchool.edited_school_other_types_of_gpa_evaluated;
+            setNewSchool({
+                ...newSchool,
+                edited_school_other_types_of_gpa_evaluated: {
+                    ...field,
+                    isEditMode: false,
+                    input: field.input,
+                    prev: field.input,
+                }
+            })
+        } else if (name === 'edited_school_minimum_gpa_for_specific_course') {
+            const field = newSchool.edited_school_minimum_gpa_for_specific_course;
+            setNewSchool({
+                ...newSchool,
+                edited_school_minimum_gpa_for_specific_course: {
+                    ...field,
+                    isEditMode: false,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         }
@@ -426,8 +463,46 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 },
             },
         })
-        console.log(field, originalField)
 
+    } else if (name === 'edited_school_other_types_of_gpa_evaluated') {
+        const field = newSchool.edited_school_other_types_of_gpa_evaluated;
+        const originalField = newSchool.school_other_types_of_gpa_evaluated;
+        const correctList = field.input!.filter(inp => inp.isCorrect)
+        setNewSchool({
+            ...newSchool,
+            school_other_types_of_gpa_evaluated: field.input ? correctList.map(list => ({
+                gpa_value_required_or_recommended: list.gpa_value_required_or_recommended,
+                minimum_gpa_value_needed: list.minimum_gpa_value_needed,
+                minimum_number_of_credits_evaluated: list.minimum_number_of_credits_evaluated,
+                type_of_gpa_evaluated: list.type_of_gpa_evaluated,
+                notes: list.notes,
+            })) : originalField,
+            edited_school_other_types_of_gpa_evaluated: {
+                link: '',
+                isEditMode: false,
+                input: null,
+                prev: null,
+            }
+                
+        })
+    } else if (name === 'edited_school_minimum_gpa_for_specific_course') {
+        const field = newSchool.edited_school_minimum_gpa_for_specific_course;
+        const originalField = newSchool.school_minimum_gpa_for_specific_course;
+        const correctList = field.input!.filter(inp => inp.isCorrect);
+        setNewSchool({
+            ...newSchool,
+            school_minimum_gpa_for_specific_course: field.input ? correctList.map(list => ({
+                minimum_gpa_required_for_course: list.minimum_gpa_required_for_course,
+                courseID: list.courseID,
+                notes: list.notes,
+            })): originalField,
+            edited_school_minimum_gpa_for_specific_course: {
+                link: '',
+                isEditMode: false,
+                input: null,
+                prev: null,
+            }
+        })
     }
 }
 
@@ -512,6 +587,26 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                     prev: null,
                     isEditMode: false,
                 }
+            }
+        })
+    } else if (name === 'edited_school_other_types_of_gpa_evaluated') {
+        setNewSchool({
+            ...newSchool,
+            edited_school_other_types_of_gpa_evaluated: {
+                link: '',
+                isEditMode: false,
+                input: null,
+                prev: null,
+            }
+        })
+    } else if (name === 'edited_school_minimum_gpa_for_specific_course') {
+        setNewSchool({
+            ...newSchool,
+            edited_school_minimum_gpa_for_specific_course: {
+                link: '',
+                isEditMode: false,
+                input: null,
+                prev: null,
             }
         })
     }
@@ -610,6 +705,28 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
                     isEditMode: false,
                 }
 
+            }
+        })
+    } else if (name === 'edited_school_other_types_of_gpa_evaluated') {
+        const field = newSchool.edited_school_other_types_of_gpa_evaluated;
+        setNewSchool({
+            ...newSchool,
+            edited_school_other_types_of_gpa_evaluated: {
+                ...field,
+                isEditMode: false,
+                input: field.prev,
+                prev: null,
+            }
+        })
+    } else if (name === 'edited_school_minimum_gpa_for_specific_course') {
+        const field = newSchool.edited_school_minimum_gpa_for_specific_course;
+        setNewSchool({
+            ...newSchool,
+            edited_school_minimum_gpa_for_specific_course: {
+                ...field,
+                isEditMode: false,
+                input: field.prev,
+                prev: null,
             }
         })
     }

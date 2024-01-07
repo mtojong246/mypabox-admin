@@ -6,8 +6,17 @@ import { selectCourses } from "../../../../app/selectors/courses.selectors";
 import ReactQuill from "react-quill";
 import { FiEdit3 } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
+import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import LinkPopup from "../../LinkPopup";
+import BooleanFields from "../../Assets/BooleanFields";
+import EditButtons from "../../Assets/EditButtons";
+import InputFieldsGroup from "../../Assets/InputsFieldsGroup";
+import { confirmEditGroup, enableEditModeGroup, revertEditGroup, undoEditGroup } from "./GPAFunctions";
 
 import AddNote from "../Prereqs/AddNote";
+import { UserObject } from "../../../../types/users.types";
+import SelectFieldsGroup from "../../Assets/SelectFieldsGroup";
+import InputFields from "../../Assets/InputsFields";
 
 const specificCourseDefault = {
     minimum_gpa_required_for_course: 0,
@@ -15,10 +24,34 @@ const specificCourseDefault = {
     notes: [],
 }
 
-export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>> }) {
+export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, isEdit}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
 
     const courses = useSelector(selectCourses);
     const [ courseOptions, setCourseOptions ] = useState<{value: string, label: string}[]>([]);
+    const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    });
+
+    const [ array, setArray ] = useState<any[]>([])
+
+    useEffect(() => {
+        if (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input === null) {
+            setArray(newSchool.school_minimum_gpa_for_specific_course)
+        } else if (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) {
+            setArray(newSchool.edited_school_minimum_gpa_for_specific_course.input) 
+        } else if (!loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input === null) {
+            setArray(newSchool.school_minimum_gpa_for_specific_course)
+        } else if (!loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) {
+            setArray(newSchool.edited_school_minimum_gpa_for_specific_course.input) 
+        }
+    }, [loggedInUser, newSchool.edited_school_minimum_gpa_for_specific_course , newSchool.school_minimum_gpa_for_specific_course])
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    }
 
     useEffect(() => {
         const options = courses.map(course => (
@@ -37,63 +70,176 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
         setNotePopup(!notePopup);
       };
 
+    // const addField = (e: MouseEvent<HTMLButtonElement>) => {
+    //     e.preventDefault();
+    //     const updatedField = newSchool.school_minimum_gpa_for_specific_course.concat(specificCourseDefault);
+    //     setNewSchool({
+    //         ...newSchool,
+    //         school_minimum_gpa_for_specific_course: updatedField,
+    //     })
+    // }
+
     const addField = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const updatedField = newSchool.school_minimum_gpa_for_specific_course.concat(specificCourseDefault);
-        setNewSchool({
-            ...newSchool,
-            school_minimum_gpa_for_specific_course: updatedField,
-        })
+        if (loggedInUser.permissions.canVerify) {
+            const updatedField = newSchool.school_minimum_gpa_for_specific_course.concat(specificCourseDefault);
+            setNewSchool({
+                ...newSchool,
+                school_minimum_gpa_for_specific_course: updatedField,
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_minimum_gpa_for_specific_course: {
+                    ...newSchool.edited_school_minimum_gpa_for_specific_course,
+                    input: newSchool.edited_school_minimum_gpa_for_specific_course.input!.concat({
+                        ...specificCourseDefault,
+                        isCorrect: true,
+                        isNew: true,
+                    })
+                }
+            })
+        }
+        
+        
     }
 
     // Deletes specific field from objects 
-    const deleteField = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+    // const deleteField = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+    //     e.preventDefault();
+    //     const updatedField = newSchool.school_minimum_gpa_for_specific_course.filter((field, i)=> i !== index);
+    //     setNewSchool({
+    //         ...newSchool,
+    //         school_minimum_gpa_for_specific_course: updatedField,
+    //     })
+    // }
+
+    const deleteField = (e: MouseEvent<HTMLButtonElement>, isNew: boolean, index: number) => {
         e.preventDefault();
-        const updatedField = newSchool.school_minimum_gpa_for_specific_course.filter((field, i)=> i !== index);
+        if (loggedInUser.permissions.canVerify) {
+            const updatedField = newSchool.school_minimum_gpa_for_specific_course.filter((field, i)=> i !== index);
+            setNewSchool({
+                ...newSchool,
+                school_minimum_gpa_for_specific_course: updatedField,
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_minimum_gpa_for_specific_course: {
+                    ...newSchool.edited_school_minimum_gpa_for_specific_course,
+                    input: isNew ? newSchool.edited_school_minimum_gpa_for_specific_course.input!.filter((inp, i) => i !== index) : newSchool.edited_school_minimum_gpa_for_specific_course.input!.map((inp, i) => {
+                        if (i === index) {
+                            return {...inp, isCorrect: false,}
+                        } else {
+                            return { ...inp }
+                        }
+                    })
+                }
+            })
+        }
+        
+    };
+
+    const undoDelete = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
         setNewSchool({
             ...newSchool,
-            school_minimum_gpa_for_specific_course: updatedField,
+            edited_school_minimum_gpa_for_specific_course: {
+                ...newSchool.edited_school_minimum_gpa_for_specific_course,
+                input: newSchool.edited_school_minimum_gpa_for_specific_course.input!.map((inp,i) => {
+                    if (i === index) {
+                        return { ...inp, isCorrect: true }
+                    } else {
+                        return { ...inp }
+                    }
+                }) 
+            }
         })
     }
 
-    const handleSelect = (e: any, name: string, index: number) => {
-        const objToBeUpdated = newSchool.school_minimum_gpa_for_specific_course.find((obj,i) => i === index) as MinimumGpaSpecificCourse;
-        const updatedObj = {
-            ...objToBeUpdated,
-            [name]: e.value,
-        }
-        setNewSchool({
-            ...newSchool,
-            school_minimum_gpa_for_specific_course: newSchool.school_minimum_gpa_for_specific_course.map((field, i) => {
-                if (i === index) {
-                    return updatedObj;
-                } else {
-                    return field;
+    const handleSelectInArray = (e: any, name: string, index: number, isEditedInput: boolean) => {
+
+        if (!isEditedInput) {
+            const objToBeUpdated = newSchool.school_minimum_gpa_for_specific_course.find((obj,i) => i === index) as MinimumGpaSpecificCourse;
+            const updatedObj = {
+                ...objToBeUpdated,
+                [name]: e.value,
+            }
+            setNewSchool({
+                ...newSchool,
+                school_minimum_gpa_for_specific_course: newSchool.school_minimum_gpa_for_specific_course.map((field, i) => {
+                    if (i === index) {
+                        return updatedObj;
+                    } else {
+                        return field;
+                    }
+                }) 
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_minimum_gpa_for_specific_course: {
+                    ...newSchool.edited_school_minimum_gpa_for_specific_course,
+                    input: newSchool.edited_school_minimum_gpa_for_specific_course.input!.map((inp,i) => {
+                        if (i === index) {
+                            return { ...inp, courseID: e.value }
+                        } else {
+                            return { ...inp }
+                        }
+                    })
                 }
-            }) 
-        })
+            })
+        }
+        
+    };
+    
+    console.log(newSchool.edited_school_minimum_gpa_for_specific_course.input, newSchool.school_minimum_gpa_for_specific_course)
+    const handleObjInput = (e: ChangeEvent<HTMLInputElement>,name: string,index: number,  isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const value = e.target.value;
+            const objToBeUpdated = newSchool.school_minimum_gpa_for_specific_course.find((obj,i) => i === index) as MinimumGpaSpecificCourse;
+    
+            const updatedObj = {
+                ...objToBeUpdated,
+                [name]: Number(value),
+            }
+            setNewSchool({
+                ...newSchool,
+                school_minimum_gpa_for_specific_course: newSchool.school_minimum_gpa_for_specific_course.map((field, i) => {
+                    if (i === index) {
+                        return updatedObj;
+                    } else {
+                        return field;
+                    }
+                }) 
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_minimum_gpa_for_specific_course: {
+                    ...newSchool.edited_school_minimum_gpa_for_specific_course,
+                    input: newSchool.edited_school_minimum_gpa_for_specific_course.input!.map((inp, i) => {
+                        if (i === index) {
+                            return { ...inp, minimum_gpa_required_for_course: Number(e.target.value) }
+                        } else {
+                            return { ...inp }
+                        }
+                    })
+                }
+            })
+        }
+        
+
     };
 
-    const handleObjInput = (e: ChangeEvent<HTMLInputElement>, index: number, name: string) => {
-        const value = e.target.value;
-        const objToBeUpdated = newSchool.school_minimum_gpa_for_specific_course.find((obj,i) => i === index) as MinimumGpaSpecificCourse;
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        console.log(e)
+        return;
+    }
 
-        const updatedObj = {
-            ...objToBeUpdated,
-            [name]: value,
-        }
-        setNewSchool({
-            ...newSchool,
-            school_minimum_gpa_for_specific_course: newSchool.school_minimum_gpa_for_specific_course.map((field, i) => {
-                if (i === index) {
-                    return updatedObj;
-                } else {
-                    return field;
-                }
-            }) 
-        })
-
-    };
+    const handleSelect =(e:any, category: string, isEditedInput: boolean) => {
+        return;
+    }
 
     const addNote = (note: Note) => {
         const obj = newSchool.school_minimum_gpa_for_specific_course.find((obj, i) => i === objIndex) as MinimumGpaSpecificCourse;
@@ -155,14 +301,36 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
             
     }
 
+    const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+        e.preventDefault();
+        const linkName = `edited_${linkObj.name}`
+        setNewSchool({
+            ...newSchool,
+            [linkName]: {
+                ...newSchool[linkName as keyof School] as object,
+                link: newLink,
+            }
+        });
+        setLinkObj({
+            link: '',
+            name: '',
+        })
+    }
+
 
     return (
         <>
-        {newSchool.school_minimum_gpa_for_specific_course.map((field, i) => (
-        <div className={`${i>0 ? 'mt-10' : 'mt-28'} relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+        {array.map((field, i) => {
+            const input = newSchool.edited_school_minimum_gpa_for_specific_course.input && newSchool.edited_school_minimum_gpa_for_specific_course.input.find((ind: any, index: number) => i === index )
+            const originalInput = newSchool.school_minimum_gpa_for_specific_course.find((ind: any, index: number) => i === index);
+        return (
+        <div className={`${i>0 ? 'mt-10' : 'mt-28'} flex justify-start items-start gap-3 w-full`}>
+        <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
             <div className='absolute top-[-16px] left-[20px] flex justify-between items-center w-full pr-[40px]'>
-                <label className="text-xl bg-white">Minimum GPA for Specific Course <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label> 
-                <button onClick={(e) => deleteField(e,i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
+                <label className={`flex justify-start items-center text-xl bg-white ${input ? input.isCorrect ? 'no-underline' : 'line-through' : 'no-underline'}`}>Minimum GPA for Specific Course <PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_for_specific_course.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_for_specific_course.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/> <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label> 
+                {!loggedInUser.permissions.canVerify && input && !input.isCorrect && !input.isNew ? 
+                <button disabled={!newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode ? true : false} onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)} className={`bg-[#4573D2] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#26354C] ${i > 0 ? 'block' : 'hidden'}`}>Undo</button> : 
+                    <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) ? true : false} onClick={(e) => deleteField(e, input!.isNew,i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#B52020] ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>}
             </div>
             
             <>
@@ -172,17 +340,21 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
                         <label className='text-xl'>Course Name</label>
                         <button onClick={(e) => deleteField(e,i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
                     </div> */}
-                    <Select
+                    <SelectFieldsGroup loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} input={input ? input.courseID : null} originalInput={originalInput ? originalInput.courseID : null}
+                    label={input && courseOptions.find(course => course.value === input.courseID)?.label} originalLabel={originalInput && courseOptions.find(course => course.value === originalInput.courseID)?.label}  name='courseID' category="school_minimum_gpa_for_specific_course" options={courseOptions} handleSelect={handleSelect} handleSelectInArray={handleSelectInArray} index={i}/>
+                    {/* <Select
                     className="w-full focus:outline-none rounded" 
                     onChange={(e) => handleSelect(e, 'courseID', i)}
                     options={courseOptions}
-                    value={field.courseID && courseOptions ? { value: field.courseID, label: courseOptions.find(course => course.value === field.courseID)?.label } : null}/>
+                    value={field.courseID && courseOptions ? { value: field.courseID, label: courseOptions.find(course => course.value === field.courseID)?.label } : null}/> */}
 
                 </div>
                 <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                     <label className='absolute top-[-16px] text-xl font-medium bg-white'>Minimum GPA Required</label>
-                    <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_required_for_course')} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded block'
-                    value={field.minimum_gpa_required_for_course ? field.minimum_gpa_required_for_course : ''} name='minimum_gpa_required_for_course'/>
+                    <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} input={input ? input.minimum_gpa_required_for_course : null} originalInput={originalInput ? originalInput.minimum_gpa_required_for_course : null}
+                    name='minimum_gpa_required_for_course' handleInput={handleInput} handleInputInArray={handleObjInput} index={i} />
+                    {/* <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_required_for_course')} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded block' */}
+                    {/* value={field.minimum_gpa_required_for_course ? field.minimum_gpa_required_for_course : ''} name='minimum_gpa_required_for_course'/> */}
                 </div>
                 <div className='w-full mt-8 mx-4'>
                     <label className='text-xl font-medium'>Notes:</label>
@@ -191,7 +363,7 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
                         Add Note
                     </button>
                 </div>
-                {field.notes && field.notes.map((note, index) => (
+                {field.notes && field.notes.map((note: Note, index: number) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3 mx-4'>
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
@@ -206,14 +378,20 @@ export default function SpecificCourse({newSchool, setNewSchool}: { newSchool: S
 
             </>
             {i === newSchool.school_minimum_gpa_for_specific_course.length-1 ? (
-            <button className="mx-4 mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
+            <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) ? true : false} className="mx-4 mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
                 + Add New Field
             </button>
             ) : (
                 <div className='w-full mb-5'></div>
             )}
         </div>
-        ))}
+        {isEdit && i === 0 && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} input={newSchool.edited_school_minimum_gpa_for_specific_course.input} link={newSchool.edited_school_minimum_gpa_for_specific_course.link}
+        toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} newSchool={newSchool} setNewSchool={setNewSchool} name='school_minimum_gpa_for_specific_course' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup}
+        revertEdit={revertEditGroup} undoEdit={undoEditGroup}
+        />}
+        </div>
+        )})}
+        {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
         {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />)}
         </>
     )

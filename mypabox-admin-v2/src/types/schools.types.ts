@@ -511,7 +511,52 @@ export interface School {
     // }
 
     school_other_types_of_gpa_evaluated: OtherTypesOfGpaEvaluted[];
+
+    edited_school_other_types_of_gpa_evaluated: {
+        link: string;
+        isEditMode: boolean;
+        input: {
+            gpa_value_required_or_recommended: string;
+            minimum_gpa_value_needed: number;
+            minimum_number_of_credits_evaluated: number;
+            type_of_gpa_evaluated: string;
+            notes: Note[];
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+        prev: {
+            gpa_value_required_or_recommended: string;
+            minimum_gpa_value_needed: number;
+            minimum_number_of_credits_evaluated: number;
+            type_of_gpa_evaluated: string;
+            notes: Note[];
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+        
+    }
+
     school_minimum_gpa_for_specific_course: MinimumGpaSpecificCourse[];
+
+    edited_school_minimum_gpa_for_specific_course: {
+        link: string;
+        isEditMode: boolean;
+        input: {
+            minimum_gpa_required_for_course: number,
+            courseID: string,
+            notes: Note[];
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+        prev: {
+            minimum_gpa_required_for_course: number,
+            courseID: string,
+            notes: Note[];
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+        
+    }
 
     school_average_gpa_accepted_previous_cycle: {
         average_overall_gpa_accepted_previous_year: NumberInput;
@@ -551,6 +596,58 @@ export interface School {
     school_prereq_required_optional_courses: SchoolPrereqRequiredOptionalCourse[];
     school_prereq_required_course_categories: SchoolPrereqRequiredCourseCategory[];
     school_prereq_recommended_courses: SchoolPrereqRecommendedCourse[];
+
+    edited_school_prereq_required_courses: {
+        link: string;
+        isEditMode: boolean;
+        input: {
+            edited_school_required_course_id: string;
+            edited_school_required_course_lab: boolean;
+            edited_school_required_course_lab_preferred: boolean;
+            edited_school_required_course_credit_hours: number;
+            edited_school_required_course_quarter_hours: number;
+            edited_school_required_course_note_section: string;
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+        prev: {
+            edited_school_required_course_id: string;
+            edited_school_required_course_lab: boolean;
+            edited_school_required_course_lab_preferred: boolean;
+            edited_school_required_course_credit_hours: number;
+            edited_school_required_course_quarter_hours: number;
+            edited_school_required_course_note_section: string;
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null, 
+    }
+
+    edited_school_prereq_recommended_courses: {
+        link: string;
+        isEditMode: boolean;
+        input: {
+            edited_school_recommended_course_id: string;
+            edited_school_recommended_course_lab: boolean;
+            edited_school_recommended_course_lab_preferred: boolean;
+            edited_school_recommended_course_credit_hours: number;
+            edited_school_recommended_course_quarter_hours: number;
+            edited_school_recommended_course_note_section: string;
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+        prev: {
+            edited_school_recommended_course_id: string;
+            edited_school_recommended_course_lab: boolean;
+            edited_school_recommended_course_lab_preferred: boolean;
+            edited_school_recommended_course_credit_hours: number;
+            edited_school_recommended_course_quarter_hours: number;
+            edited_school_recommended_course_note_section: string;
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+    }
+
+    
 
     school_grade_criteria: {
         school_minimum_grade_required_for_all_courses: string;
