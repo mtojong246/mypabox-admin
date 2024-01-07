@@ -986,7 +986,7 @@ export interface School {
                 name: string;
                 isCorrect: boolean;
                 isNew: boolean;
-            }
+            }[]
             school_optional_exams_notes: Note[];
             isCorrect: boolean;
             isNew: boolean;
@@ -997,7 +997,7 @@ export interface School {
                 name: string;
                 isCorrect: boolean;
                 isNew: boolean;
-            }
+            }[]
             school_optional_exams_notes: Note[];
             isCorrect: boolean;
             isNew: boolean;

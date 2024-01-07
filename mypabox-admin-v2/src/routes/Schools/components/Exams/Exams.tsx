@@ -12,7 +12,7 @@ export default function Exams({ newSchool, setNewSchool, loggedInUser, isEdit }:
         <>
         {newSchool && (
             <>
-                <RequiredOptionalExams newSchool={newSchool} setNewSchool={setNewSchool}/>
+                <RequiredOptionalExams newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
                 <GRE newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
                 <PACAT newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
                 <Casper newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>

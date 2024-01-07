@@ -218,6 +218,27 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                 }
             }
         })
+    } if (name === 'edited_school_required_optional_exams') {
+        const field = newSchool.edited_school_required_optional_exams;
+        const originalField = newSchool.school_required_optional_exams;
+        setNewSchool({
+            ...newSchool,
+            edited_school_required_optional_exams: {
+                ...field,
+                isEditMode: true,
+                input: field.input === null ? originalField.map(og => ({
+                    school_minimum_number_of_exams_to_be_completed: og.school_minimum_number_of_exams_to_be_completed,
+                    school_optional_exams_notes: og.school_optional_exams_notes,
+                    school_required_optional_exams_list: og.school_required_optional_exams_list.map(list => ({
+                        name: list,
+                        isCorrect: true,
+                        isNew: false,
+                    })),
+                    isCorrect: true,
+                    isNew: false,
+                })) : field.input,
+            }
+        })
     }
 }
 
@@ -483,6 +504,17 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         input: field.edited_school_itep_academic_plus_minimum_total_score_required.input,
                         prev: field.edited_school_itep_academic_plus_minimum_total_score_required.input,
                     }
+                }
+            })
+        } if (name === 'edited_school_required_optional_exams') {
+            const field = newSchool.edited_school_required_optional_exams;
+            setNewSchool({
+                ...newSchool,
+                edited_school_required_optional_exams: {
+                    ...field,
+                    isEditMode: false,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         }
@@ -778,6 +810,26 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     },
                 }
             })
+        } else if (name === 'edited_school_required_optional_exams') {
+            const field = newSchool.edited_school_required_optional_exams;
+            const originalField = newSchool.school_required_optional_exams;
+            const correctList = field.input!.filter(inp => inp.isCorrect)
+            if (correctList) {
+                setNewSchool({
+                    ...newSchool,
+                    school_required_optional_exams: field.input ? correctList.map(inp => ({
+                        school_minimum_number_of_exams_to_be_completed: inp.school_minimum_number_of_exams_to_be_completed,
+                        school_required_optional_exams_list: inp.school_required_optional_exams_list.filter(list => list.isCorrect).map(list => list.name),
+                        school_optional_exams_notes: inp.school_optional_exams_notes,
+                    })) : originalField,
+                    edited_school_required_optional_exams: {
+                        link:'',
+                        isEditMode: false,
+                        input: null,
+                        prev: null,
+                    }
+                })
+            }
         }
     }
 
@@ -1045,6 +1097,17 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
                 }
             }
         })
+    } if (name === 'edited_school_required_optional_exams') {
+        const field = newSchool.edited_school_required_optional_exams;
+        setNewSchool({
+            ...newSchool,
+            edited_school_required_optional_exams: {
+                ...field,
+                isEditMode: false,
+                input: field.prev,
+                prev: null,
+            }
+        })
     }
 }
 
@@ -1258,6 +1321,16 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                     input: null,
                     prev: null,
                 },
+            }
+        })
+    } if (name === 'edited_school_required_optional_exams') {
+        setNewSchool({
+            ...newSchool,
+            edited_school_required_optional_exams: {
+                link: '',
+                isEditMode: false,
+                input: null,
+                prev: null,
             }
         })
     }
