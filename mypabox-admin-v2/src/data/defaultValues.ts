@@ -926,6 +926,13 @@ export const defaultSchool: School = {
 
     school_required_optional_exams: [],
 
+    edited_school_required_optional_exams: {
+        isEditMode: false,
+        link: '',
+        input: null,
+        prev: null,
+    },
+
     school_gre: {
         school_gre_required: false,
         school_gre_recommended: false,
@@ -964,6 +971,121 @@ export const defaultSchool: School = {
         school_average_gre_combined_percentile_accepted_previous_year: null,
 
         school_gre_general_notes: [],
+
+    },
+
+    edited_school_gre: {
+        isEditMode: false,
+        link: '',
+        edited_school_gre_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_gre_recommended: {
+            input: null,
+            prev: null,
+        },
+        edited_school_caspa_gre_institution_code: {
+            input: null,
+            prev: null,
+        },
+        edited_school_gre_institution_code: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_minimum_time_frame_gre_must_be_completed: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_mcat_accepted_in_place_of_gre: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_gre_exempt_with_masters_degree: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_gre_exempt_with_phd_degree: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_minimum_gre_scores_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_gre_minimum_verbal_score: {
+            input: null,
+            prev: null,
+        },
+        edited_school_gre_minimum_quantitative_score: {
+            input: null,
+            prev: null,
+        },
+        edited_school_gre_minimum_analytical_writing_score: {
+            input: null,
+            prev: null,
+        },
+        edited_school_gre_minimum_combined_score: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_gre_minimum_verbal_percentile: {
+            input: null,
+            prev: null,
+        },
+        edited_school_gre_minimum_quantitative_percentile: {
+            input: null,
+            prev: null,
+        },
+        edited_school_gre_minimum_analytical_writing_percentile: {
+            input: null,
+            prev: null,
+        },
+        edited_school_gre_minimum_combined_percentile: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_average_gre_verbal_score_accepted_previous_year: {
+            input: null,
+            prev: null,
+        },
+        edited_school_average_gre_quantitative_score_accepted_previous_year: {
+            input: null,
+            prev: null,
+        },
+        edited_school_average_gre_analytical_writing_score_accepted_previous_year: {
+            input: null,
+            prev: null,
+        },
+        edited_school_average_gre_combined_score_accepted_previous_year:{
+            input: null,
+            prev: null,
+        },
+
+        edited_school_average_gre_verbal_percentile_accepted_previous_year: {
+            input: null,
+            prev: null,
+        },
+        edited_school_average_gre_quantitative_percentile_accepted_previous_year: {
+            input: null,
+            prev: null,
+        },
+        edited_school_average_gre_analytical_writing_percentile_accepted_previous_year: {
+            input: null,
+            prev: null,
+        },
+        edited_school_average_gre_combined_percentile_accepted_previous_year: {
+            input: null,
+            prev: null,
+        },
+
 
     },
 
@@ -1067,6 +1189,110 @@ export const defaultSchool: School = {
 
     },
 
+    edited_school_english_proficiency_exams: {
+        link: '',
+        isEditMode: false,
+        edited_school_english_proficiency_exams_required: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_toefl_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_time_frame_toefl_needs_to_be_completed: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_exempt_with_masters_degree: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_exempt_with_doctoral_degree: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_toefl_ibt_minimum_total_score_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_ibt_minimum_reading_score_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_ibt_minimum_writing_score_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_ibt_minimum_listening_score_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_ibt_minimum_speaking_score_required: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_toefl_pbt_minimum_total_score_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_pbt_minimum_reading_score_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_pbt_minimum_writing_score_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_pbt_minimum_listening_score_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_toefl_pbt_minimum_speaking_score_required: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_ielt_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_ielt_minimum_total_score_required: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_melab_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_melab_minimum_total_score_required:{
+            input: null,
+            prev: null,
+        },
+
+        edited_school_pte_academic_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_pte_academic_minimum_total_score_required: {
+            input: null,
+            prev: null,
+        },
+
+        edited_school_itep_academic_plus_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_itep_academic_plus_minimum_total_score_required: {
+            input: null,
+            prev: null,
+        },
+    },
+
     school_evaluations_required: {
         input: false,
         school_minimum_number_of_evaluations_required: null,
@@ -1076,6 +1302,29 @@ export const defaultSchool: School = {
         school_evaluations_required_notes: [],
     },
 
+    edited_school_evaluations_required: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+        edited_school_minimum_number_of_evaluations_required: {
+            input: null,
+            prev: null,
+        },
+        edited_school_required_evaluator_title: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_time_evaluator_knows_applicant: {
+            input: null,
+            prev: null,
+        },
+        edited_school_optional_evaluators_required: {
+            input: null,
+            prev: null,
+        },
+    },
+
     school_evaluations_recommended: {
         input: false,
         school_minimum_number_of_evaluations_recommended: null,
@@ -1083,6 +1332,29 @@ export const defaultSchool: School = {
         school_minimum_time_evaluator_knows_applicant: null,
         school_optional_evaluators_recommended: null,
         school_evaluations_recommended_notes: [],
+    },
+
+    edited_school_evaluations_recommended: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+        edited_school_minimum_number_of_evaluations_recommended: {
+            input: null,
+            prev: null,
+        },
+        edited_school_recommended_evaluator_title: {
+            input: null,
+            prev: null,
+        },
+        edited_school_minimum_time_evaluator_knows_applicant: {
+            input: null,
+            prev: null,
+        },
+        edited_school_optional_evaluators_recommended: {
+            input: null,
+            prev: null,
+        },
     },
 
     school_international_students_accepted: {

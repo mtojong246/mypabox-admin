@@ -5,7 +5,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
     loggedInUser: UserObject,
     input: boolean | null,
     isEditMode: boolean,
-    originalInput: boolean,
+    originalInput: boolean | null,
     name: string,
     handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
 
