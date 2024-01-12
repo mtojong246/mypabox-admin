@@ -5,7 +5,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
-export default function CreatableSelectField({loggedInUser, input, originalInput, isEditMode, name, category, options, handleSelect, index}: {
+export default function CreatableSelectField({loggedInUser, input, originalInput, isEditMode, name, category, options, handleSelect, index,}: {
     loggedInUser: UserObject, 
     input: string | null,
     originalInput: string | null,

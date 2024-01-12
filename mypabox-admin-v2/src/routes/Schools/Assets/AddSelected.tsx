@@ -84,8 +84,8 @@ export default function AddSelected({ loggedInUser, input, isEditMode, setCertif
                         <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full'>
                                 <p className={`font-medium ${opt.isCorrect ? 'no-underline' : 'line-through'}`}>{opt.name}</p>
-                                {!opt.isNew && !opt.isCorrect ? <button onClick={(e:MouseEvent<HTMLButtonElement>) => undoCertification(e, i)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" /></button>
-                                : <button onClick={(e: MouseEvent<HTMLButtonElement>) => deleteCertification(e,i, opt.isNew ,true)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>}
+                                {!opt.isNew && !opt.isCorrect ? <button disabled={isEditMode ? false : true} onClick={(e:MouseEvent<HTMLButtonElement>) => undoCertification(e, i)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" /></button>
+                                : <button disabled={isEditMode ? false : true} onClick={(e: MouseEvent<HTMLButtonElement>) => deleteCertification(e,i, opt.isNew ,true)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>}
                             </div>
                         </div>
                     )

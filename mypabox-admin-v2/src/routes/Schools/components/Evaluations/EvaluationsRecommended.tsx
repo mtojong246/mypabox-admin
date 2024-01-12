@@ -7,16 +7,23 @@ import {
   MouseEvent,
 } from "react";
 import { Note, School } from "../../../../types/schools.types";
-import CreatableSelect from "react-select/creatable";
-import Select from "react-select";
 import AddRecommendedOption from "./AddRecommendedOption";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiEdit3 } from "react-icons/fi";
 import AddNote from "../Prereqs/AddNote";
 import ReactQuill from "react-quill";
-import { AiOutlineInfoCircle } from 'react-icons/ai';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
+import { UserObject } from "../../../../types/users.types";
+import LinkPopup from "../../LinkPopup";
+import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./EvaluationFunctions";
+
+
+import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import EditButtons from "../../Assets/EditButtons";
+import BooleanFields from "../../Assets/BooleanFields";
+import InputFields from "../../Assets/InputsFields";
+import SelectInputsFields from "../../Assets/SelectInputsFields";
+import TitleFields from "./TitleFields";
+import RecOptionFields from "./RecOptionFields";
 
 const evaluatorOptions = [
   { value: "PA", label: "PA" },
@@ -40,57 +47,148 @@ interface Options {
 export default function EvaluationsRecommended({
   newSchool,
   setNewSchool,
+  loggedInUser,
+  isEdit,
 }: {
   newSchool: School;
   setNewSchool: Dispatch<SetStateAction<School>>;
+  loggedInUser: UserObject,
+  isEdit: boolean,
 }) {
   const [selection, setSelection] = useState({
     number: "",
     duration: "",
   });
+  const [ editedSelection, setEditedSelection] = useState<{number: string | null, duration: string | null}>({
+    number: null,
+    duration: null,
+});
   const [openOptions, setOpenOptions] = useState(false);
   const [editedOption, setEditedOption] = useState<Options | null>(null);
   const [groupIndex, setGroupIndex] = useState<number | null>(null);
   const [index, setIndex] = useState<number | null>(null);
   const [editedNote, setEditedNote] = useState<Note | null>(null);
   const [notePopup, setNotePopup] = useState(false);
+  const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
+    const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
+        link: '',
+        name: '',
+    });
+    const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
+    const [ isOpen, setIsOpen ] = useState(false);
+
+
+    const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpenLinkPopup(!openLinkPopup);
+    };
+
+    useEffect(() => {
+      if (newSchool.edited_school_evaluations_recommended.input !== null) {
+        setHasInputs(true)
+      } else {
+        setHasInputs(null)
+      }
+    }, [newSchool.edited_school_evaluations_recommended.input])
 
   const [evaluator, setEvaluator] = useState("");
 
-  const addEvaluator = (e: MouseEvent<HTMLButtonElement>) => {
+  const addEvaluator = (e: MouseEvent<HTMLButtonElement>, isEditedInput: boolean) => {
     e.preventDefault();
-    if (
-      newSchool.school_evaluations_recommended.school_recommended_evaluator_title?.includes(
-        evaluator
+    if (!isEditedInput) {
+      if (
+        newSchool.school_evaluations_recommended.school_recommended_evaluator_title?.includes(
+          evaluator
+        )
       )
-    )
-      return;
-    if (!evaluator) return;
-    setNewSchool({
-      ...newSchool,
-      school_evaluations_recommended: {
-        ...newSchool.school_evaluations_recommended,
-        school_recommended_evaluator_title:
-          newSchool.school_evaluations_recommended.school_recommended_evaluator_title!.concat(
-            evaluator
-          ),
-      },
-    });
+        return;
+      if (!evaluator) return;
+      setNewSchool({
+        ...newSchool,
+        school_evaluations_recommended: {
+          ...newSchool.school_evaluations_recommended,
+          school_recommended_evaluator_title:
+            newSchool.school_evaluations_recommended.school_recommended_evaluator_title!.concat(
+              evaluator
+            ),
+        },
+      });
+    } else {
+      if (!evaluator) return;
+      setNewSchool({
+        ...newSchool,
+        edited_school_evaluations_recommended: {
+          ...newSchool.edited_school_evaluations_recommended,
+          edited_school_recommended_evaluator_title: {
+            ...newSchool.edited_school_evaluations_recommended.edited_school_recommended_evaluator_title,
+            input: newSchool.edited_school_evaluations_recommended.edited_school_recommended_evaluator_title.input ? newSchool.edited_school_evaluations_recommended.edited_school_recommended_evaluator_title.input.concat({
+              name: evaluator,
+              isCorrect: true,
+              isNew: true
+            }) : [{
+              name: evaluator,
+              isCorrect: true,
+              isNew: true
+            }]
+          }
+        }
+      })
+    }
+    
   };
 
-  const deleteEvaluator = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+  const deleteEvaluator = (e: MouseEvent<HTMLButtonElement>, index: number, isNew: boolean, isEditedInput: boolean) => {
     e.preventDefault();
+    if (!isEditedInput) {
+      setNewSchool({
+        ...newSchool,
+        school_evaluations_recommended: {
+          ...newSchool.school_evaluations_recommended,
+          school_recommended_evaluator_title:
+            newSchool.school_evaluations_recommended.school_recommended_evaluator_title!.filter(
+              (e, i) => i !== index
+            ),
+        },
+      });
+    } else {
+      setNewSchool({
+        ...newSchool,
+        edited_school_evaluations_recommended: {
+          ...newSchool.edited_school_evaluations_recommended,
+          edited_school_recommended_evaluator_title: {
+            ...newSchool.edited_school_evaluations_recommended.edited_school_recommended_evaluator_title,
+            input: isNew ? newSchool.edited_school_evaluations_recommended.edited_school_recommended_evaluator_title.input!.filter((inp,i) => i !== index) : newSchool.edited_school_evaluations_recommended.edited_school_recommended_evaluator_title.input!.map((inp, i) => {
+              if (i === index) {
+                return { ...inp, isCorrect: false }
+              } else {
+                return { ...inp }
+              }
+            })
+          }
+        }
+      })
+    }
+    
+  };
+
+  const undoDelete = (e: MouseEvent<HTMLButtonElement>, index: number) => [
     setNewSchool({
       ...newSchool,
-      school_evaluations_recommended: {
-        ...newSchool.school_evaluations_recommended,
-        school_recommended_evaluator_title:
-          newSchool.school_evaluations_recommended.school_recommended_evaluator_title!.filter(
-            (e, i) => i !== index
-          ),
-      },
-    });
-  };
+      edited_school_evaluations_recommended: {
+        ...newSchool.edited_school_evaluations_recommended,
+        edited_school_recommended_evaluator_title: {
+          ...newSchool.edited_school_evaluations_recommended.edited_school_recommended_evaluator_title,
+          input: newSchool.edited_school_evaluations_recommended.edited_school_recommended_evaluator_title.input!.map((inp,i) => {
+            if (i === index) {
+              return { ...inp, isCorrect: true }
+            } else {
+              return { ...inp }
+            }
+          })
+        }
+      }
+    })
+  ]
 
   const toggleNotePopup = (e: any) => {
     e.preventDefault();
@@ -108,12 +206,13 @@ export default function EvaluationsRecommended({
         ...newSchool,
         school_evaluations_recommended: {
           ...newSchool.school_evaluations_recommended,
-          school_minimum_number_of_evaluations_recommended: 0,
-          school_recommended_evaluator_title: [],
-          school_minimum_time_evaluator_knows_applicant: "",
-          school_optional_evaluators_recommended: [],
+          school_minimum_number_of_evaluations_recommended: newSchool.school_evaluations_recommended.school_minimum_number_of_evaluations_recommended ? newSchool.school_evaluations_recommended.school_minimum_number_of_evaluations_recommended : 0,
+          school_recommended_evaluator_title: newSchool.school_evaluations_recommended.school_recommended_evaluator_title ? newSchool.school_evaluations_recommended.school_recommended_evaluator_title  : [],
+          school_minimum_time_evaluator_knows_applicant: newSchool.school_evaluations_recommended.school_minimum_time_evaluator_knows_applicant ? newSchool.school_evaluations_recommended.school_minimum_time_evaluator_knows_applicant : '',
+          school_optional_evaluators_recommended: newSchool.school_evaluations_recommended.school_optional_evaluators_recommended ? newSchool.school_evaluations_recommended.school_optional_evaluators_recommended : [],
         },
       });
+      
     } else {
       setNewSchool({
         ...newSchool,
@@ -129,6 +228,22 @@ export default function EvaluationsRecommended({
   }, [newSchool.school_evaluations_recommended.input]);
 
   useEffect(() => {
+    if (newSchool.edited_school_evaluations_recommended.input === null) {
+      if (newSchool.school_evaluations_recommended.input) {
+        setIsOpen(true)
+      } else {
+        setIsOpen(false)
+      }
+    } else {
+      if (newSchool.edited_school_evaluations_recommended.input) {
+        setIsOpen(true)
+      } else {
+        setIsOpen(false)
+      }
+    }
+  }, [newSchool.edited_school_evaluations_recommended,newSchool.school_evaluations_recommended])
+
+  useEffect(() => {
     setNewSchool({
       ...newSchool,
       school_evaluations_recommended: {
@@ -139,24 +254,76 @@ export default function EvaluationsRecommended({
     });
   }, [selection]);
 
-  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewSchool({
-      ...newSchool,
-      school_evaluations_recommended: {
-        ...newSchool.school_evaluations_recommended,
-        input: e.target.checked,
-      },
-    });
+  useEffect(() => {
+    if (newSchool.school_evaluations_recommended.school_minimum_time_evaluator_knows_applicant) {
+      const array = newSchool.school_evaluations_recommended.school_minimum_time_evaluator_knows_applicant.split(' ');
+      setSelection({
+        number: array[0],
+        duration: array[1]
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (newSchool.edited_school_evaluations_recommended.edited_school_minimum_time_evaluator_knows_applicant.input !== null) {
+      const array = newSchool.edited_school_evaluations_recommended.edited_school_minimum_time_evaluator_knows_applicant.input.split(' ');
+      setEditedSelection({
+        number: array[0],
+        duration: array[1],
+      })
+    } else {
+      setEditedSelection({
+        number: null,
+        duration: null,
+      })
+    }
+  }, [newSchool.edited_school_evaluations_recommended.edited_school_minimum_time_evaluator_knows_applicant])
+
+  const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+    if (!isEditedInput) {
+      setNewSchool({
+        ...newSchool,
+        school_evaluations_recommended: {
+          ...newSchool.school_evaluations_recommended,
+          input: e.target.checked,
+        },
+      });
+    } else {
+      setNewSchool({
+        ...newSchool,
+        edited_school_evaluations_recommended: {
+          ...newSchool.edited_school_evaluations_recommended,
+          input: e.target.checked,
+        }
+      })
+    }
+    
   };
 
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewSchool({
-      ...newSchool,
-      school_evaluations_recommended: {
-        ...newSchool.school_evaluations_recommended,
-        [e.target.name]: e.target.value,
-      },
-    });
+  const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+    if (!isEditedInput) {
+      setNewSchool({
+        ...newSchool,
+        school_evaluations_recommended: {
+          ...newSchool.school_evaluations_recommended,
+          [e.target.name]: e.target.value,
+        },
+      });
+    } else {
+      const name = `edited_${e.target.name}`;
+      const field = newSchool.edited_school_evaluations_recommended[name as keyof object] as object;
+      setNewSchool({
+        ...newSchool,
+        edited_school_evaluations_recommended: {
+          ...newSchool.edited_school_evaluations_recommended,
+          [name]: {
+            ...field,
+            input: e.target.value,
+          }
+        }
+      })
+    }
+    
   };
 
   // const handleSelect = (e:any, name: string) => {
@@ -169,26 +336,103 @@ export default function EvaluationsRecommended({
   //     })
   // }
 
-  const handleNumber = (e: ChangeEvent<HTMLInputElement>) => {
-    setSelection({
-      ...selection,
-      number: e.target.value,
-    });
+  const handleNumber = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
+    if (!isEditedInput) {
+      setSelection({
+        ...selection,
+        number: e.target.value,
+      });
+    } else {
+      setEditedSelection({
+        ...editedSelection,
+        number: e.target.value,
+      })
+      setNewSchool({
+        ...newSchool,
+        edited_school_evaluations_recommended: {
+          ...newSchool.edited_school_evaluations_recommended,
+          edited_school_minimum_time_evaluator_knows_applicant: {
+            ...newSchool.edited_school_evaluations_recommended.edited_school_minimum_time_evaluator_knows_applicant,
+            input: (e.target.value) + ' ' + editedSelection.duration,
+          }
+        }
+      })
+    }
+    
   };
 
-  const deleteOption = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+  const handleDuration = (e:any, category: string, isEditedInput: boolean) => {
+    if (!isEditedInput) {
+      setSelection({...selection, duration: e.value})
+    } else {
+      setEditedSelection({...editedSelection, duration: e.value});
+      setNewSchool({
+        ...newSchool,
+        edited_school_evaluations_recommended: {
+          ...newSchool.edited_school_evaluations_recommended,
+          edited_school_minimum_time_evaluator_knows_applicant: {
+            ...newSchool.edited_school_evaluations_recommended.edited_school_minimum_time_evaluator_knows_applicant,
+            input: editedSelection.number + ' ' + e.value,
+          }
+        }
+      })
+    }
+  }
+
+  const deleteOption = (e: MouseEvent<HTMLButtonElement>, index: number, isNew: boolean, isEditedInput: boolean) => {
+    e.preventDefault();
+    if (!isEditedInput) {
+      setNewSchool({ 
+        ...newSchool,
+        school_evaluations_recommended: {
+          ...newSchool.school_evaluations_recommended,
+          school_optional_evaluators_recommended:
+            newSchool.school_evaluations_recommended.school_optional_evaluators_recommended!.filter(
+              (opt, i) => i !== index
+            ),
+        },
+      });
+    } else {
+      setNewSchool({
+        ...newSchool,
+        edited_school_evaluations_recommended: {
+          ...newSchool.edited_school_evaluations_recommended,
+          edited_school_optional_evaluators_recommended: {
+            ...newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended,
+            input: isNew ? newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended.input!.filter((inp,i) => i !== index) : newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended.input!.map((inp,i) => {
+              if (i === index) {
+                return { ...inp, isCorrect: false }
+              } else {
+                return { ...inp }
+              }
+            })
+          }
+        }
+      })
+    }
+    
+  };
+
+
+  const undoOption = (e: MouseEvent<HTMLButtonElement>, index: number) => {
     e.preventDefault();
     setNewSchool({
       ...newSchool,
-      school_evaluations_recommended: {
-        ...newSchool.school_evaluations_recommended,
-        school_optional_evaluators_recommended:
-          newSchool.school_evaluations_recommended.school_optional_evaluators_recommended!.filter(
-            (opt, i) => i !== index
-          ),
-      },
-    });
-  };
+      edited_school_evaluations_recommended: {
+        ...newSchool.edited_school_evaluations_recommended,
+        edited_school_optional_evaluators_recommended: {
+          ...newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended,
+          input: newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended.input!.map((inp,i) => {
+            if (i === index) {
+              return { ...inp, isCorrect: true }
+            } else {
+              return { ...inp }
+            }
+          })
+        }
+      }
+    })
+  }
 
   const addNote = (note: Note) => {
     setNewSchool({
@@ -236,15 +480,33 @@ export default function EvaluationsRecommended({
     });
   };
 
+  const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
+    e.preventDefault();
+    const linkName = `edited_${linkObj.name}`
+    setNewSchool({
+        ...newSchool,
+        [linkName]: {
+            ...newSchool[linkName as keyof School] as object,
+            link: newLink,
+        }
+    });
+    setLinkObj({
+        link: '',
+        name: '',
+    })
+};
+
   return (
     <>
+    <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
       <div
-        className={`mt-20 relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}
+        className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}
       >
-        <label className="absolute top-[-16px] text-xl bg-white">
-          Evaluations Recommended
-        </label>
-        <div className="w-full mt-2">
+        <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Evaluations Recommended<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+        <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={newSchool.edited_school_evaluations_recommended.input} originalInput={newSchool.school_evaluations_recommended.input}
+        name='school_evaluations_recommended' handleCheck={handleCheck}
+        />
+        {/* <div className="w-full mt-2">
           <label className="relative inline-flex items-center cursor-pointer">
             <input
               onChange={handleCheck}
@@ -261,8 +523,8 @@ export default function EvaluationsRecommended({
                 : "False"}
             </span>
           </label>
-        </div>
-        {newSchool.school_evaluations_recommended.input && (
+        </div> */}
+        {isOpen && (
           <>
             <div
               className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}
@@ -270,7 +532,10 @@ export default function EvaluationsRecommended({
               <label className="absolute top-[-16px] text-xl font-medium bg-white">
                 Minimum Number of Evaluations Recommended
               </label>
-              <input
+              <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={newSchool.edited_school_evaluations_recommended.edited_school_minimum_number_of_evaluations_recommended.input}
+              originalInput={newSchool.school_evaluations_recommended.school_minimum_number_of_evaluations_recommended} name='school_minimum_number_of_evaluations_recommended' handleInput={handleInput}
+              />
+              {/* <input
                 onChange={handleInput}
                 name="school_minimum_number_of_evaluations_recommended"
                 value={
@@ -279,7 +544,7 @@ export default function EvaluationsRecommended({
                     .school_minimum_number_of_evaluations_recommended : ''
                 }
                 className="w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded"
-              />
+              /> */}
             </div>
             <div
               className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}
@@ -287,7 +552,11 @@ export default function EvaluationsRecommended({
               <label className="absolute top-[-16px] text-xl font-medium bg-white">
                 Recommended Evaluator Title
               </label>
-              <div className="flex justify-start items-center gap-2">
+              <TitleFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={newSchool.edited_school_evaluations_recommended.edited_school_recommended_evaluator_title.input}
+              originalInput={newSchool.school_evaluations_recommended.school_recommended_evaluator_title} setEvaluator={setEvaluator} addEvaluator={addEvaluator} deleteEvaluator={deleteEvaluator} options={evaluatorOptions}
+              undoDelete={undoDelete}
+              />
+              {/* <div className="flex justify-start items-center gap-2">
                 <div className='flex justify-center items-start gap-1 grow'>
                 <CreatableSelect
                   options={evaluatorOptions}
@@ -332,7 +601,7 @@ export default function EvaluationsRecommended({
                     }
                   )}
                 </div>
-              )}
+              )} */}
             </div>
             <div
               className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}
@@ -340,7 +609,11 @@ export default function EvaluationsRecommended({
               <label className="absolute top-[-16px] text-xl font-medium bg-white">
                 Minimum Time Evaluator Knows Applicant
               </label>
-              <div className="flex justify-start items-center gap-2">
+              <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={newSchool.edited_school_evaluations_recommended.edited_school_minimum_time_evaluator_knows_applicant.input}
+              originalInput={newSchool.school_evaluations_recommended.school_minimum_time_evaluator_knows_applicant} name='school_minimum_time_evaluator_knows_applicant' options={timeOptions}
+              number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration} handleInput={handleNumber} handleSelect={handleDuration}
+              />
+              {/* <div className="flex justify-start items-center gap-2">
                 <input
                   onChange={handleNumber}
                   className="w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded"
@@ -357,10 +630,10 @@ export default function EvaluationsRecommended({
                   }
                   className="grow focus:outline-none"
                 />
-              </div>
+              </div> */}
             </div>
             <div
-              className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}
+              className={`mt-12 mx-4 mb-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}
             >
               <label className="absolute top-[-16px] text-xl font-medium bg-white">
                 Optional Evaluators Recommended
@@ -371,7 +644,10 @@ export default function EvaluationsRecommended({
               >
                 Add Option
               </button>
-              {newSchool.school_evaluations_recommended
+              <RecOptionFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended.input}
+              originalInput={newSchool.school_evaluations_recommended.school_optional_evaluators_recommended} toggleOptions={toggleOptions} setEditedOption={setEditedOption} setGroupIndex={setGroupIndex} undoDelete={undoOption} deleteOption={deleteOption}
+              />
+              {/* {newSchool.school_evaluations_recommended
                 .school_optional_evaluators_recommended && (
                 <div
                   className={`flex flex-col justify-center items-center gap-5 ${
@@ -432,7 +708,7 @@ export default function EvaluationsRecommended({
                     )
                   )}
                 </div>
-              )}
+              )} */}
             </div>
           </>
         )}
@@ -501,8 +777,16 @@ export default function EvaluationsRecommended({
         </div>
         )}
       </div>
+      {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={hasInputs} link={newSchool.edited_school_evaluations_recommended.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}
+      name='school_evaluations_recommended' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup} newSchool={newSchool} setNewSchool={setNewSchool} 
+      />}
+      </div>
+      {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
       {openOptions && (
         <AddRecommendedOption
+        originalInput={newSchool.school_evaluations_recommended.school_optional_evaluators_recommended}
+        input={hasInputs}
+        loggedInUser={loggedInUser} isEdit={isEdit}
           newSchool={newSchool}
           setNewSchool={setNewSchool}
           toggleOptions={toggleOptions}

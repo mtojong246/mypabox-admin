@@ -1,12 +1,14 @@
 import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi'
 import CreatableSelect from 'react-select/creatable';
-import Select from 'react-select';
 import { School } from '../../../../types/schools.types';
 import { Dispatch, SetStateAction, MouseEvent, useState, useEffect, ChangeEvent } from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import InputFields from '../../Assets/InputsFields';
+import { UserObject } from '../../../../types/users.types';
+import { LuUndo2 } from 'react-icons/lu';
+import SelectInputsFields from '../../Assets/SelectInputsFields';
 
 const evaluatorOptions = [
     {value: 'PA', label: 'PA'},
@@ -27,18 +29,31 @@ interface Options {
     school_minimum_time_evaluator_knows_applicant: string;
 }
 
-export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptions, editedOption, setEditedOption, groupIndex }: { 
+export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptions, editedOption, setEditedOption, groupIndex , input, originalInput, loggedInUser, isEdit}: { 
     newSchool: School, 
     setNewSchool: Dispatch<SetStateAction<School>>, 
     toggleOptions: (e: MouseEvent<HTMLButtonElement>) => void,
-    editedOption: Options | null,
+    editedOption: any | null,
     setEditedOption: Dispatch<SetStateAction<Options | null>>,
     groupIndex: number | null,
+    input: boolean | null,
+    originalInput: {
+        school_minimum_number_of_evaluators_required_in_group: number;
+        school_required_optional_group_evaluator_title: string[];
+        school_minimum_time_evaluator_knows_applicant: string;
+    }[] | null;
+    loggedInUser: UserObject,
+    isEdit: boolean
 }) {
     const [ selection, setSelection ] = useState({
         number: '',
         duration: '',
     });
+
+    const [ editedSelection, setEditedSelection ] = useState<{number: string | null, duration: string | null}>({
+        number: null,
+        duration: null
+    })
     
     const [ evaluator, setEvaluator ] = useState('');
 
@@ -47,6 +62,14 @@ export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptio
         school_required_optional_group_evaluator_title: [],
         school_minimum_time_evaluator_knows_applicant: '',
    });
+
+   const [ editedOptions, setEditedOptions ] = useState({
+    school_minimum_number_of_evaluators_required_in_group: 0,
+    school_required_optional_group_evaluator_title: [] as {name: string, isCorrect:  boolean, isNew: boolean}[],
+    school_minimum_time_evaluator_knows_applicant: '',
+    isCorrect: true,
+    isNew: true,
+   })
 
    useEffect(() => {
     setOptions({
@@ -57,97 +80,264 @@ export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptio
 
    useEffect(() => {
     if (editedOption) {
-        setOptions(editedOption);
-        const arr = editedOption.school_minimum_time_evaluator_knows_applicant.split(' ');
-        setSelection({
-            number: arr[0],
-            duration: arr[1],
-        })
+        if (input) {
+            setEditedOptions(editedOption);
+            const opt = originalInput && originalInput.find((inp,i) => i === groupIndex);
+            const arr = editedOption.school_minimum_time_evaluator_knows_applicant.split(' ');
+            setEditedSelection({
+                number: arr[0],
+                duration: arr[1],
+            })
+                if (opt) {
+                    setOptions(opt)
+                    const array = opt.school_minimum_time_evaluator_knows_applicant.split(' ')
+                    setSelection({
+                        number: array[0],
+                        duration: array[1],
+                    })
+                } else {
+                    setOptions({
+                        school_minimum_number_of_evaluators_required_in_group: 0,
+                        school_required_optional_group_evaluator_title: [],
+                        school_minimum_time_evaluator_knows_applicant: '',
+                   });
+                }
+        } else {
+            setOptions(editedOption)
+            const arr = editedOption.school_minimum_time_evaluator_knows_applicant.split(' ');
+            setSelection({
+                number: arr[0],
+                duration: arr[1],
+            })
+        }        
     } else {
-        setOptions({
-            school_minimum_number_of_evaluators_required_in_group: 0,
-            school_required_optional_group_evaluator_title: [],
-            school_minimum_time_evaluator_knows_applicant: '',
-       });
-       setSelection({
-        number: '',
-        duration: '',
-    })
+        if (input) {
+            setEditedOptions({
+                school_minimum_number_of_evaluators_required_in_group: 0,
+                school_required_optional_group_evaluator_title: [],
+                school_minimum_time_evaluator_knows_applicant: '',
+                isCorrect: true,
+                isNew: true,
+            })
+            setEditedSelection({
+                number: null,
+                duration: null,
+            })
+            const opt = originalInput && originalInput.find((inp,i) => i === groupIndex);
+                if (opt) {
+                    setOptions(opt)
+                } else {
+                    setOptions({
+                        school_minimum_number_of_evaluators_required_in_group: 0,
+                        school_required_optional_group_evaluator_title: [],
+                        school_minimum_time_evaluator_knows_applicant: '',
+                   });
+                }
+        } else {
+            setOptions({
+                school_minimum_number_of_evaluators_required_in_group: 0,
+                school_required_optional_group_evaluator_title: [],
+                school_minimum_time_evaluator_knows_applicant: '',
+           });
+           setSelection({
+            number: '',
+            duration: '',
+        })
+        }
+        
     }
    }, [editedOption]);
 
 
 
-   const handleNumber = (e: ChangeEvent<HTMLInputElement>) => {
+   const handleNumber = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
+    if (!isEditedInput) {
         setSelection({
             ...selection,
             number: e.target.value,
         })
-    };
-
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setOptions({
-            ...options,
-            school_minimum_number_of_evaluators_required_in_group: Number(e.target.value),
+    } else {
+        setEditedSelection({
+            ...editedSelection,
+            number: e.target.value,
+        }) 
+        setEditedOptions({
+            ...editedOptions,
+            school_minimum_time_evaluator_knows_applicant: (e.target.value) + ' ' + editedSelection.duration,
         })
+    }
+        
     };
 
-    const addEvaluator = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleDuration = (e:any, category: string, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setSelection({
+                ...selection,
+                duration: e.value
+            })
+        } else {
+            setEditedSelection({
+                ...editedSelection,
+                duration: e.value
+            })
+            setEditedOptions({
+                ...editedOptions,
+                school_minimum_time_evaluator_knows_applicant: editedSelection.number + ' ' + e.value
+            })
+        }
+    }
+
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setOptions({
+                ...options,
+                school_minimum_number_of_evaluators_required_in_group: Number(e.target.value),
+            })
+        } else {
+            setEditedOptions({
+                ...editedOptions,
+                school_minimum_number_of_evaluators_required_in_group: Number(e.target.value)
+            })
+        }
+        
+    };
+
+    const addEvaluator = (e: MouseEvent<HTMLButtonElement>, isEditedInput: boolean) => {
         e.preventDefault();
         const titleExists = options.school_required_optional_group_evaluator_title.find(title => title === evaluator);
+        console.log(isEditedInput, evaluator)
         if (!evaluator) return;
-        if (titleExists) return;
-        setOptions({
-            ...options,
-            school_required_optional_group_evaluator_title: options.school_required_optional_group_evaluator_title.concat(evaluator)
-        })
+        if (!isEditedInput) {
+            if (titleExists) return;
+            setOptions({
+                ...options,
+                school_required_optional_group_evaluator_title: options.school_required_optional_group_evaluator_title.concat(evaluator)
+            })
+        } else {
+            setEditedOptions({
+                ...editedOptions,
+                school_required_optional_group_evaluator_title: editedOptions.school_required_optional_group_evaluator_title.concat({
+                    name: evaluator,
+                    isCorrect: true,
+                    isNew: true,
+                })
+            })
+        }
+        
     };
 
-    const deleteEvaluator = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+    const deleteEvaluator = (e: MouseEvent<HTMLButtonElement>, index: number, isNew: boolean, isEditedInput: boolean) => {
         e.preventDefault();
-        setOptions({
-            ...options,
-            school_required_optional_group_evaluator_title: options.school_required_optional_group_evaluator_title.filter((t,i) => i !== index)
-        })
+        if (!isEditedInput) {
+            setOptions({
+                ...options,
+                school_required_optional_group_evaluator_title: options.school_required_optional_group_evaluator_title.filter((t,i) => i !== index)
+            })
+        } else {
+            setEditedOptions({
+                ...editedOptions,
+                school_required_optional_group_evaluator_title: isNew ? editedOptions.school_required_optional_group_evaluator_title.filter((inp,i) => i !== index) : editedOptions.school_required_optional_group_evaluator_title.map((inp,i) => {
+                    if (i === index) {
+                        return { ...inp, isCorrect: false }
+                    } else {
+                        return { ...inp }
+                    }
+                })
+            })
+        }
+        
     };
 
-    const addOption = () => {
-        setNewSchool({
-            ...newSchool,
-            school_evaluations_required: {
-                ...newSchool.school_evaluations_required,
-                school_optional_evaluators_required: newSchool.school_evaluations_required.school_optional_evaluators_required!.concat(options)
-            }
+    const undoDelete = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+        setEditedOptions({
+            ...editedOptions,
+            school_required_optional_group_evaluator_title: editedOptions.school_required_optional_group_evaluator_title.map((inp,i) => {
+                if (i === index) {
+                    return { ...inp, isCorrect: true }
+                } else {
+                    return { ...inp }
+                }
+            })
         })
     }
 
-    const updateOption = () => {
-        setNewSchool({
-            ...newSchool,
-            school_evaluations_required: {
-                ...newSchool.school_evaluations_required,
-                school_optional_evaluators_required: newSchool.school_evaluations_required.school_optional_evaluators_required!.map((opt,i) => {
-                    if (i === groupIndex) {
-                        return { ...options }
-                    } else {
-                        return { ...opt }
+    const addOption = (isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_evaluations_required: {
+                    ...newSchool.school_evaluations_required,
+                    school_optional_evaluators_required: newSchool.school_evaluations_required.school_optional_evaluators_required!.concat(options)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_evaluations_required: {
+                    ...newSchool.edited_school_evaluations_required,
+                    edited_school_optional_evaluators_required: {
+                        ...newSchool.edited_school_evaluations_required.edited_school_optional_evaluators_required,
+                        input: newSchool.edited_school_evaluations_required.edited_school_optional_evaluators_required.input!.concat(editedOptions)
                     }
-                })
-            }
-        })
+                }
+            })
+        }
+        
+    }
+
+    const updateOption = (isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_evaluations_required: {
+                    ...newSchool.school_evaluations_required,
+                    school_optional_evaluators_required: newSchool.school_evaluations_required.school_optional_evaluators_required!.map((opt,i) => {
+                        if (i === groupIndex) {
+                            return { ...options }
+                        } else {
+                            return { ...opt }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_evaluations_required: {
+                    ...newSchool.edited_school_evaluations_required,
+                    edited_school_optional_evaluators_required: {
+                        ...newSchool.edited_school_evaluations_required.edited_school_optional_evaluators_required,
+                        input: newSchool.edited_school_evaluations_required.edited_school_optional_evaluators_required.input!.map((inp,i) => {
+                            if (i === groupIndex) {
+                                return { ...editedOptions }
+                            } else {
+                                return { ...inp }
+                            }
+                        })
+                    }
+                }
+            })
+        }
+        
     };
 
-    const addOrUpdateOption = (e:MouseEvent<HTMLButtonElement>) => {
+    const addOrUpdateOption = (e:MouseEvent<HTMLButtonElement>, isEditedInput: boolean) => {
         e.preventDefault();
-        if (!options.school_required_optional_group_evaluator_title.length) {
+        if (!input && !options.school_required_optional_group_evaluator_title.length) {
             alert('Please add at least one evaluator');
             return;
-        }
-        if (editedOption) {
-            updateOption();
+        } else if (input && !editedOptions.school_required_optional_group_evaluator_title.length) {
+            alert('Please add at least one evaluator');
+            return;
         } else {
-            addOption();
+            if (editedOption) {
+                updateOption(isEditedInput);
+            } else {
+                addOption(isEditedInput);
+            }
         }
+        
         toggleOptions(e);
         setEditedOption(null);
     }
@@ -159,7 +349,10 @@ export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptio
                     <p className='text-xl font-semibold mb-8'>{editedOption ? 'Edit' : 'Add'} Required Optional Evaluators</p>
                     <div className='w-full mb-8'>
                         <label className='text-lg font-medium'>Minimum Number of Evaluators Required:</label>
-                        <input onChange={handleInput} value={options.school_minimum_number_of_evaluators_required_in_group ? options.school_minimum_number_of_evaluators_required_in_group : ''} className='w-32 focus:outline-none border border-[#B4B4B4] h-[50px] px-3 rounded mt-2 block' />
+                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={editedOptions.school_minimum_number_of_evaluators_required_in_group} originalInput={options.school_minimum_number_of_evaluators_required_in_group}
+                        name='school_minimum_number_of_evaluators_required_in_group' handleInput={handleInput}
+                        />
+                        {/* <input onChange={handleInput} value={options.school_minimum_number_of_evaluators_required_in_group ? options.school_minimum_number_of_evaluators_required_in_group : ''} className='w-32 focus:outline-none border border-[#B4B4B4] h-[50px] px-3 rounded mt-2 block' /> */}
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium text-lg'>Evaluator titles:</label>
@@ -172,33 +365,56 @@ export default function AddRequiredOption({ newSchool, setNewSchool, toggleOptio
                                     </IconButton>
                                 </Tooltip>
                             </div>
-                            <button onClick={addEvaluator} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
+                            <button onClick={(e:MouseEvent<HTMLButtonElement>) => {input ? addEvaluator(e, true) : addEvaluator(e, false)}} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                                 Add Evaluator
                             </button>
                         </div>
+                        {input === null ? (
                         <div className={`flex flex-col justify-center items-center gap-3 ${options.school_required_optional_group_evaluator_title.length ? 'mt-3' : 'mt-0'}`}>
                         {options.school_required_optional_group_evaluator_title.map((opt, i) => {
                             return (
                                 <div className='py-2 pl-3 pr-2 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full'>
                                         <p className='font-bold text-xl'>{opt}</p>
-                                        <button onClick={(e) => deleteEvaluator(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        <button onClick={(e:MouseEvent<HTMLButtonElement>) => deleteEvaluator(e,i, false, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                     </div>
                                 </div>
                             )
                         })}
                         </div>
+                        ) : (
+                        <div className={`flex flex-col justify-center items-center gap-3 ${editedOptions.school_required_optional_group_evaluator_title.length ? 'mt-3' : 'mt-0'}`}>
+                        {editedOptions.school_required_optional_group_evaluator_title.map((opt, i) => {
+                            return (
+                                <div className='py-2 pl-3 pr-2 border border-[#B4B4B4] rounded w-full'>
+                                    <div className='flex justify-between items-center w-full'>
+                                        <p className={`font-bold text-xl ${!opt.isCorrect && !opt.isNew ? 'line-through' : 'no-underline'}`}>{opt.name}</p>
+                                        {!opt.isCorrect && !opt.isNew ? (
+                                             <button onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" /></button>
+                                        ) : (
+                                            <button onClick={(e:MouseEvent<HTMLButtonElement>) => deleteEvaluator(e,i, opt.isNew, true)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                                        )}
+                                    </div>
+                                </div>
+                            )
+                        })}
+                        </div>
+                        )}
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium text-lg'>Minimum Time Evaluator Knows Applicant:</label>
-                        <div className='flex justify-start items-center gap-2 mt-2'>
+                        <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={editedOptions.school_minimum_time_evaluator_knows_applicant} originalInput={options.school_minimum_time_evaluator_knows_applicant} 
+                        name='school_minimum_time_evaluator_knows_applicant' number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration} handleInput={handleNumber} handleSelect={handleDuration}
+                        options={timeOptions}
+                        />
+                        {/* <div className='flex justify-start items-center gap-2 mt-2'>
                             <input onChange={handleNumber} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
                             <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={timeOptions} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="w-1/3 focus:outline-none"/>
-                        </div> 
+                        </div>  */}
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={(e) => {toggleOptions(e); setEditedOption(null)}} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[50px] rounded'>Cancel</button>
-                        <button onClick={addOrUpdateOption} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[50px] rounded'>{editedOption ? 'Edit' : 'Add'} Option</button>
+                        <button onClick={(e:MouseEvent<HTMLButtonElement>) => { input ? addOrUpdateOption(e, true) : addOrUpdateOption(e, false)}} className='text-xl border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-5 h-[50px] rounded'>{editedOption ? 'Edit' : 'Add'} Option</button>
                     </div>
                 </div>
             </div>
