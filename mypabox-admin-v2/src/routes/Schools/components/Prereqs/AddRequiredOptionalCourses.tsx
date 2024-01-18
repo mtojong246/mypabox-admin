@@ -18,8 +18,8 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
     toggleRequiredOptionalCourses: (e:any) => void, 
     editedRequiredOption: SchoolPrereqRequiredOptionalCourse | null,
     setEditedRequiredOption: Dispatch<SetStateAction<SchoolPrereqRequiredOptionalCourse | null>>,
-    addCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
-    updateCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    addCourseOrCategory: (group: SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    updateCourseOrCategory: (group: SchoolPrereqRequiredOptionalCourse, type: string) => void,
 }) {
     const courses = useSelector(selectCourses)
     const [ group, setGroup ] = useState<SchoolPrereqRequiredOptionalCourse>(defaultGroup);

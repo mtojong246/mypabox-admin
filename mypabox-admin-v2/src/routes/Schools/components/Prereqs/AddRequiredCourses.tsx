@@ -1,10 +1,13 @@
-import Select from 'react-select';
 import ReactQuill from "react-quill";
 import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
-import { SchoolPrereqRequiredCourse, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourseCategory, SchoolPrereqRequiredOptionalCourse, School } from '../../../../types/schools.types';
+import { School } from '../../../../types/schools.types';
 import { Course } from '../../../../types/courses.types';
+import SelectFieldsGroup from '../../Assets/SelectFieldsGroup';
+import { UserObject } from '../../../../types/users.types';
+import BooleanFields from '../../Assets/BooleanFields';
+import InputFields from '../../Assets/InputsFields';
 
 const defaultCourse = {
     school_required_course_id: '',
@@ -15,18 +18,46 @@ const defaultCourse = {
     school_required_course_note_section: '',
 }
 
-export default function AddRequiredCourses({ toggleRequiredCourses, editedRequiredCourse, setEditedRequiredCourse, addCourseOrCategory, updateCourseOrCategory, newSchool }: { 
+export default function AddRequiredCourses({loggedInUser, toggleRequiredCourses, editedRequiredCourse, setEditedRequiredCourse, newSchool, setNewSchool, input, originalInput, groupIndex }: { 
     toggleRequiredCourses: (e:any) => void, 
-    editedRequiredCourse: SchoolPrereqRequiredCourse | null,
-    setEditedRequiredCourse: Dispatch<SetStateAction<SchoolPrereqRequiredCourse | null>>,
-    addCourseOrCategory: (group: SchoolPrereqRequiredCourse, isEditedInput: boolean) => void,
-    updateCourseOrCategory: (group: SchoolPrereqRequiredCourse,type: string) => void,
-    newSchool: School
+    loggedInUser: UserObject,
+    editedRequiredCourse: any | null,
+    setEditedRequiredCourse: Dispatch<SetStateAction<any | null>>,
+    newSchool: School,
+    setNewSchool: Dispatch<SetStateAction<School>>,
+    input: boolean | null,
+    originalInput: {
+        school_required_course_id: string;
+        school_required_course_lab: boolean;
+        school_required_course_lab_preferred: boolean;
+        school_required_course_credit_hours: number;
+        school_required_course_quarter_hours: number;
+        school_required_course_note_section: string;
+    }[],
+    groupIndex: number | null,
 }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
-    const [ requiredCourse, setRequiredCourse ] = useState<SchoolPrereqRequiredCourse>({} as SchoolPrereqRequiredCourse);
+    const [ requiredCourse, setRequiredCourse ] = useState({
+        school_required_course_id: '',
+        school_required_course_lab: false,
+        school_required_course_lab_preferred: false,
+        school_required_course_credit_hours: 0,
+        school_required_course_quarter_hours: 0,
+        school_required_course_note_section: '',
+    });
+    const [ editedOption, setEditedOption ] = useState<{
+        school_required_course_id:  string,
+        school_required_course_lab: boolean,
+        school_required_course_lab_preferred: boolean,
+        school_required_course_credit_hours: number,
+        school_required_course_quarter_hours: number,
+        school_required_course_note_section: string,
+        isNew: boolean,
+        isCorrect: boolean,
+    }| null>(null)
     const [ selection, setSelection ] = useState<string | undefined>('');
+    const [ editedSelection, setEditedSelection ] = useState<string | undefined>('');
 
     useEffect(() => {
         let filteredCourses = [] as Course[];
@@ -40,46 +71,189 @@ export default function AddRequiredCourses({ toggleRequiredCourses, editedRequir
         )))
     }, [courses, newSchool.school_prereq_required_courses])
 
-    console.log(courseOptions)
+    // useEffect(() => {
+    //     if (selection) {
+    //         const selectedCourse = courses.find(course => course.course_name === selection)
+    //         if (selectedCourse) {
+    //             setRequiredCourse({
+    //                 ...requiredCourse,
+    //                 school_required_course_id: selectedCourse.unique_id,
+    //             })
+    //         }
+    //     }
+    // }, [selection, courses])
 
-    useEffect(() => {
-        if (selection) {
-            const selectedCourse = courses.find(course => course.course_name === selection)
-            if (selectedCourse) {
-                setRequiredCourse({
-                    ...requiredCourse,
-                    school_required_course_id: selectedCourse.unique_id,
-                })
-            }
-        }
-    }, [selection, courses])
-
-    useEffect(() => {
+    // useEffect(() => {
         
-        if (editedRequiredCourse) {
-            const selectedCourse = courses.find(course => course.unique_id === editedRequiredCourse.school_required_course_id)
-            if (selectedCourse) {
-                setRequiredCourse(editedRequiredCourse);
-                setSelection(selectedCourse.course_name)
-            }
-        } else {
-            setRequiredCourse(defaultCourse)
-            setSelection('')
-        }
-    }, [editedRequiredCourse, courses])
+    //     if (editedRequiredCourse) {
+    //         const selectedCourse = courses.find(course => course.unique_id === editedRequiredCourse.school_required_course_id)
+    //         if (selectedCourse) {
+    //             setRequiredCourse(editedRequiredCourse);
+    //             setSelection(selectedCourse.course_name)
+    //         }
+    //     } else {
+    //         setRequiredCourse(defaultCourse)
+    //         setSelection('')
+    //     }
+    // }, [editedRequiredCourse, courses])
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setRequiredCourse({
-            ...requiredCourse,
-            [e.target.name]: e.target.value, 
-        })
+    const addCourseOrCategory = (isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const field = newSchool.school_prereq_required_courses;
+            setNewSchool({
+                ...newSchool,
+                school_prereq_required_courses: field.concat(requiredCourse)
+            })
+        } else {
+            const field = newSchool.edited_school_prereq_required_courses;
+            editedOption && setNewSchool({
+                ...newSchool,
+                edited_school_prereq_required_courses: {
+                    ...field,
+                    input: field.input!.concat(editedOption)
+                }
+            })
+        }
+        
     }
 
-    const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-        setRequiredCourse({
-            ...requiredCourse, 
-            [e.target.name]: e.target.checked
-        })
+    const updateCourseOrCategory = (isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_prereq_required_courses: newSchool.school_prereq_required_courses.map((group,i) => {
+                    if (i === groupIndex) {
+                        return { ...requiredCourse }
+                    } else {
+                        return { ...group }
+                    }
+                })
+            })
+        } else {
+            const field = newSchool.edited_school_prereq_required_courses;
+            editedOption && setNewSchool({
+                ...newSchool,
+                edited_school_prereq_required_courses: {
+                    ...field,
+                    input: field.input!.map((group,i) => {
+                        if (i === groupIndex) {
+                            return { ...editedOption }
+                        } else {
+                            return { ...group }
+                        }
+                    })
+                }
+            })
+        }
+       
+    }
+
+    useEffect(() => {
+        if (editedRequiredCourse) {
+             
+            if (input) {
+                setEditedOption(editedRequiredCourse);
+                const selectedCourse = courses.find(course => course.unique_id === editedRequiredCourse.school_required_course_id)
+                if (selectedCourse) {
+                    setEditedSelection(selectedCourse.course_name)
+                } else {
+                    setEditedSelection('');
+                }
+                const opt = originalInput.find((inp,i) => i === groupIndex);
+                if (opt) {
+                    setRequiredCourse(opt);
+                    const selectedCourse = courses.find(course => course.unique_id === opt.school_required_course_id)
+                    if (selectedCourse) {
+                        setSelection(selectedCourse.course_name)
+                    } else {
+                        setSelection('');
+                    }
+                } else {
+                    setRequiredCourse(defaultCourse);
+                    setSelection('')
+                }
+            } else {
+                setRequiredCourse(editedRequiredCourse);
+                const selectedCourse = courses.find(course => course.unique_id === editedRequiredCourse.school_required_course_id)
+                if (selectedCourse) {
+                    setSelection(selectedCourse.course_name)
+                } else {
+                    setSelection('');
+                };
+                setEditedSelection('');
+                setEditedOption(null)
+            }
+            
+        } else {
+            if (input) {
+                setEditedOption({
+                    school_required_course_id: '',
+                    school_required_course_lab: false,
+                    school_required_course_lab_preferred: false,
+                    school_required_course_credit_hours: 0,
+                    school_required_course_quarter_hours: 0,
+                    school_required_course_note_section:  '',
+                    isCorrect: true,
+                    isNew: true,
+                });
+                setEditedSelection('');
+                setRequiredCourse(defaultCourse);
+                setSelection('')
+            } else {
+                setRequiredCourse(defaultCourse)
+                setSelection('')
+                setEditedOption(null)
+            }
+            
+        }
+    }, [editedRequiredCourse, input])
+
+
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setRequiredCourse({
+                ...requiredCourse,
+                [e.target.name]: e.target.value, 
+            })
+        } else {
+            editedOption && setEditedOption({
+                ...editedOption,
+                [e.target.name]: e.target.value,
+            })
+        }
+        
+    }
+
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setRequiredCourse({
+                ...requiredCourse, 
+                [e.target.name]: e.target.checked
+            })
+        } else {
+            editedOption &&setEditedOption({
+                ...editedOption,
+                [e.target.name]: e.target.checked,
+            })
+        }
+        
+    }
+
+    const handleSelection = (e:any, category: string, isEditedInput: boolean) => {
+        const selectedCourse = courses.find(course => course.course_name === e.value);
+        if (!isEditedInput && selectedCourse) {
+            setSelection(e.value)
+            setRequiredCourse({
+                ...requiredCourse,
+                school_required_course_id: selectedCourse.unique_id,
+            })
+        } else if (isEditedInput && selectedCourse) {
+            setEditedSelection(e.value)
+            editedOption && setEditedOption({
+                ...editedOption,
+                school_required_course_id: selectedCourse.unique_id
+            })
+        }
     }
 
     const handleNote = (e: any) => {
@@ -95,16 +269,18 @@ export default function AddRequiredCourses({ toggleRequiredCourses, editedRequir
         })
     }
 
-    const addOrEditCourse = (e:any) => {
+    const addOrEditCourse = (e:any, isEditedInput: boolean) => {
         e.preventDefault();
-        if (!requiredCourse.school_required_course_id) {
+        if (!input && !requiredCourse.school_required_course_id) {
             alert('Please select a course')
-        } else {
+        } else if (input && editedOption && !editedOption.school_required_course_id) {
+            alert('Please select a course')
+        } else  {
             toggleRequiredCourses(e);
             if (editedRequiredCourse) {
-                updateCourseOrCategory(requiredCourse, 'school_prereq_required_courses')     
+                updateCourseOrCategory(isEditedInput)     
             } else {
-                addCourseOrCategory(requiredCourse, false)
+                addCourseOrCategory(isEditedInput)
             }
             setEditedRequiredCourse(null)
         }
@@ -117,33 +293,47 @@ export default function AddRequiredCourses({ toggleRequiredCourses, editedRequir
                     <p className='text-xl font-semibold mb-8'>{editedRequiredCourse ? 'Edit' : 'Add'} Required Course</p>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
-                        <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} className='w-full focus:outline-none rounded mt-2' options={courseOptions}/>
+                        <SelectFieldsGroup label={editedSelection} originalLabel={selection} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_id} handleSelect={handleSelection} 
+                        originalInput={requiredCourse.school_required_course_id} category='school_required_course_id' name='school_required_course_id' options={courseOptions}/>
+                        {/* <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} className='w-full focus:outline-none rounded mt-2' options={courseOptions}/> */}
                     </div>
-                    <div className='w-full mb-8 flex justify-start items-center gap-10'>
-                        <div>
-                            <input type='checkbox' name='school_required_course_lab' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab ? true : false}/>
-                            <label className='font-medium'>With Lab</label>
+                    {/* <div className='w-full mb-8 flex justify-start items-center gap-10'> */}
+                        <div className='w-full mb-8'>
+                            <BooleanFields label="With Lab" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_lab} originalInput={requiredCourse.school_required_course_lab}
+                            name='school_required_course_lab' handleCheck={handleCheck}
+                            />
+                            {/* <input type='checkbox' name='school_required_course_lab' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab ? true : false}/> */}
+                            {/* <label className='font-medium'>With Lab</label> */}
                         </div>
-                        <div>
-                            <input type='checkbox' name='school_required_course_lab_preferred' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab_preferred ? true : false}/>
-                            <label className='font-medium'>Lab Preferred</label>
+                        <div className='w-full mb-8'>
+                            <BooleanFields label="Lab Preferred" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_lab_preferred} 
+                            originalInput={requiredCourse.school_required_course_lab_preferred} name='school_required_course_lab_preferred' handleCheck={handleCheck}
+                            />
+                            {/* <input type='checkbox' name='school_required_course_lab_preferred' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab_preferred ? true : false}/> */}
+                            {/* <label className='font-medium'>Lab Preferred</label> */}
                         </div>
-                    </div>
+                    {/* </div> */}
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Credits:</label>
-                        <input onChange={handleInput} value={requiredCourse.school_required_course_credit_hours ? requiredCourse.school_required_course_credit_hours : ''} name='school_required_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_credit_hours}
+                        originalInput={requiredCourse.school_required_course_credit_hours} name='school_required_course_credit_hours' handleInput={handleInput}
+                        />
+                        {/* <input onChange={handleInput} value={requiredCourse.school_required_course_credit_hours ? requiredCourse.school_required_course_credit_hours : ''} name='school_required_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Quarter hours:</label>
-                        <input onChange={handleInput} value={requiredCourse.school_required_course_quarter_hours ? requiredCourse.school_required_course_quarter_hours : ''} name='school_required_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_quarter_hours} 
+                        originalInput={requiredCourse.school_required_course_quarter_hours} name='school_required_course_quarter_hours' handleInput={handleInput}
+                        />
+                        {/* <input onChange={handleInput} value={requiredCourse.school_required_course_quarter_hours ? requiredCourse.school_required_course_quarter_hours : ''} name='school_required_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>
-                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={requiredCourse.school_required_course_note_section}/>
+                        <ReactQuill readOnly={loggedInUser.permissions.canVerify ? false : true} className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={requiredCourse.school_required_course_note_section}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={(e) => {toggleRequiredCourses(e); setEditedRequiredCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
-                        <button onClick={(e) => addOrEditCourse(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:bg-[#3558A0]'>{editedRequiredCourse ? 'Edit' : 'Add'} course</button>
+                        <button onClick={(e) => {input ? addOrEditCourse(e, true) : addOrEditCourse(e, false)}} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:bg-[#3558A0]'>{editedRequiredCourse ? 'Edit' : 'Add'} course</button>
                     </div>
                 </div>
             </div>

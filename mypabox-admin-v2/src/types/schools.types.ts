@@ -551,22 +551,22 @@ export interface School {
         link: string;
         isEditMode: boolean;
         input: {
-            edited_school_required_course_id: string;
-            edited_school_required_course_lab: boolean;
-            edited_school_required_course_lab_preferred: boolean;
-            edited_school_required_course_credit_hours: number;
-            edited_school_required_course_quarter_hours: number;
-            edited_school_required_course_note_section: string;
+            school_required_course_id: string;
+            school_required_course_lab: boolean;
+            school_required_course_lab_preferred: boolean;
+            school_required_course_credit_hours: number;
+            school_required_course_quarter_hours: number;
+            school_required_course_note_section: string;
             isCorrect: boolean;
             isNew: boolean;
         }[] | null,
         prev: {
-            edited_school_required_course_id: string;
-            edited_school_required_course_lab: boolean;
-            edited_school_required_course_lab_preferred: boolean;
-            edited_school_required_course_credit_hours: number;
-            edited_school_required_course_quarter_hours: number;
-            edited_school_required_course_note_section: string;
+            school_required_course_id: string;
+            school_required_course_lab: boolean;
+            school_required_course_lab_preferred: boolean;
+            school_required_course_credit_hours: number;
+            school_required_course_quarter_hours: number;
+            school_required_course_note_section: string;
             isCorrect: boolean;
             isNew: boolean;
         }[] | null, 
@@ -576,22 +576,106 @@ export interface School {
         link: string;
         isEditMode: boolean;
         input: {
-            edited_school_recommended_course_id: string;
-            edited_school_recommended_course_lab: boolean;
-            edited_school_recommended_course_lab_preferred: boolean;
-            edited_school_recommended_course_credit_hours: number;
-            edited_school_recommended_course_quarter_hours: number;
-            edited_school_recommended_course_note_section: string;
+            school_recommended_course_id: string;
+            school_recommended_course_lab: boolean;
+            school_recommended_course_lab_preferred: boolean;
+            school_recommended_course_credit_hours: number;
+            school_recommended_course_quarter_hours: number;
+            school_recommended_course_note_section: string;
             isCorrect: boolean;
             isNew: boolean;
         }[] | null,
         prev: {
-            edited_school_recommended_course_id: string;
-            edited_school_recommended_course_lab: boolean;
-            edited_school_recommended_course_lab_preferred: boolean;
-            edited_school_recommended_course_credit_hours: number;
-            edited_school_recommended_course_quarter_hours: number;
-            edited_school_recommended_course_note_section: string;
+            school_recommended_course_id: string;
+            school_recommended_course_lab: boolean;
+            school_recommended_course_lab_preferred: boolean;
+            school_recommended_course_credit_hours: number;
+            school_recommended_course_quarter_hours: number;
+            school_recommended_course_note_section: string;
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+    }
+
+    edited_school_prereq_required_optional_courses: {
+        link: string,
+        isEditMode: boolean,
+        input: {
+            school_minimum_number_of_courses_to_be_completed: number;
+            school_required_optional_courses_list: {
+                school_optional_course_id: string;
+                school_optional_course_lab: boolean;
+                school_optional_course_lab_preferred: boolean;
+                school_optional_course_credit_hours: number;
+                school_optional_course_quarter_hours: number;
+                school_optional_course_note_section: string;
+                isNew: boolean;
+                isCorrect: boolean;
+            }[];
+            school_optional_course_note_section: Note[];
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+        prev: {
+            school_minimum_number_of_courses_to_be_completed: number;
+            school_required_optional_courses_list: {
+                school_optional_course_id: string;
+                school_optional_course_lab: boolean;
+                school_optional_course_lab_preferred: boolean;
+                school_optional_course_credit_hours: number;
+                school_optional_course_quarter_hours: number;
+                school_optional_course_note_section: string;
+                isNew: boolean;
+                isCorrect: boolean;
+            }[];
+            school_optional_course_note_section: Note[];
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+    }
+
+    edited_school_prereq_required_course_categories: {
+        link: string,
+        isEditMode: boolean,
+        input: {
+            school_required_course_category: string;
+            school_required_course_category_number_of_credits_need_to_be_completed: number;
+            school_required_course_category_number_of_quarter_hours_need_to_be_completed: number;
+            school_required_course_category_number_of_courses_that_need_lab: number;
+            school_required_course_category_extra_included_courses: {
+                school_required_course_id: string;
+                school_required_course_note: string;
+                isNew: boolean;
+                isCorrect: boolean;
+            }[],
+            school_required_course_category_excluded_courses: {
+                school_required_course_id: string;
+                school_required_course_note: string;
+                isNew: boolean;
+                isCorrect: boolean;
+            }[],
+            school_required_course_category_note_section: Note[];
+            isCorrect: boolean;
+            isNew: boolean;
+        }[] | null,
+        prev: {
+            school_required_course_category: string;
+            school_required_course_category_number_of_credits_need_to_be_completed: number;
+            school_required_course_category_number_of_quarter_hours_need_to_be_completed: number;
+            school_required_course_category_number_of_courses_that_need_lab: number;
+            school_required_course_category_extra_included_courses: {
+                school_required_course_id: string;
+                school_required_course_note: string;
+                isNew: boolean;
+                isCorrect: boolean;
+            }[],
+            school_required_course_category_excluded_courses: {
+                school_required_course_id: string;
+                school_required_course_note: string;
+                isNew: boolean;
+                isCorrect: boolean;
+            }[],
+            school_required_course_category_note_section: Note[];
             isCorrect: boolean;
             isNew: boolean;
         }[] | null,

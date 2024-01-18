@@ -565,6 +565,20 @@ export const defaultSchool: School = {
         prev: null,
     },
 
+    edited_school_prereq_required_optional_courses: {
+        link: '',
+        isEditMode: false,
+        input: null,
+        prev: null,
+    },
+
+    edited_school_prereq_required_course_categories: {
+        link: '',
+        isEditMode: false,
+        input: null,
+        prev: null,
+    },
+
     school_grade_criteria: {
         school_minimum_grade_required_for_all_courses: '',
         school_grade_criteria_note_section: [],

@@ -14,13 +14,90 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
-                input: field.input === null ? originalField.map(og => ({
-                    edited_school_required_course_credit_hours: og.school_required_course_credit_hours,
-                    edited_school_required_course_id: og.school_required_course_id,
-                    edited_school_required_course_lab: og.school_required_course_lab,
-                    edited_school_required_course_lab_preferred: og.school_required_course_lab_preferred,
-                    edited_school_required_course_quarter_hours: og.school_required_course_quarter_hours,
-                    edited_school_required_course_note_section: og.school_required_course_note_section,
+                input: field.input === null ? originalField.map(field => ({
+                    school_required_course_id: field.school_required_course_id,
+                    school_required_course_lab: field.school_required_course_lab,
+                    school_required_course_lab_preferred: field.school_required_course_lab_preferred,
+                    school_required_course_credit_hours: field.school_required_course_credit_hours,
+                    school_required_course_quarter_hours: field.school_required_course_quarter_hours,
+                    school_required_course_note_section: field.school_required_course_note_section,
+                    isCorrect: true,
+                    isNew: false,
+                })) : field.input,
+            }
+        })
+    } else if (name === 'edited_school_prereq_recommended_courses') {
+        const field = newSchool.edited_school_prereq_recommended_courses;
+        const originalField = newSchool.school_prereq_recommended_courses;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: true,
+                input: field.input === null ? originalField.map(field => ({
+                    school_recommended_course_id: field.school_recommended_course_id,
+                    school_recommended_course_lab: field.school_recommended_course_lab,
+                    school_recommended_course_lab_preferred: field.school_recommended_course_lab_preferred,
+                    school_recommended_course_credit_hours: field.school_recommended_course_credit_hours,
+                    school_recommended_course_quarter_hours: field.school_recommended_course_quarter_hours,
+                    school_recommended_course_note_section: field.school_recommended_course_note_section,
+                    isCorrect: true,
+                    isNew: false,
+                })) : field.input,
+            }
+        })
+    } else if (name === 'edited_school_prereq_required_optional_courses') {
+        const field = newSchool.edited_school_prereq_required_optional_courses;
+        const originalField = newSchool.school_prereq_required_optional_courses;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: true,
+                input: field.input === null ? originalField.map(field => ({
+                    school_minimum_number_of_courses_to_be_completed: field.school_minimum_number_of_courses_to_be_completed,
+                    school_required_optional_courses_list: field.school_required_optional_courses_list.map(list => ({
+                        school_optional_course_id: list.school_optional_course_id,
+                        school_optional_course_lab: list.school_optional_course_lab,
+                        school_optional_course_lab_preferred: list.school_optional_course_lab_preferred,
+                        school_optional_course_credit_hours: list.school_optional_course_credit_hours,
+                        school_optional_course_quarter_hours: list.school_optional_course_quarter_hours,
+                        school_optional_course_note_section: list.school_optional_course_note_section,
+                        isCorrect: true,
+                        isNew: false,
+                    })),
+                    school_optional_course_note_section: field.school_optional_course_note_section,
+                    isCorrect: true,
+                    isNew: false,
+                })) : field.input,
+            }
+        })
+    } else if (name === 'edited_school_prereq_required_course_categories') {
+        const field = newSchool.edited_school_prereq_required_course_categories;
+        const originalField = newSchool.school_prereq_required_course_categories;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                isEditMode: true,
+                input: field.input === null ? originalField.map(field => ({
+                    school_required_course_category: field.school_required_course_category,
+                    school_required_course_category_number_of_credits_need_to_be_completed: field.school_required_course_category_number_of_credits_need_to_be_completed,
+                    school_required_course_category_number_of_quarter_hours_need_to_be_completed: field.school_required_course_category_number_of_quarter_hours_need_to_be_completed,
+                    school_required_course_category_number_of_courses_that_need_lab: field.school_required_course_category_number_of_courses_that_need_lab,
+                    school_required_course_category_extra_included_courses: field.school_required_course_category_extra_included_courses.map(list => ({
+                        school_required_course_id: list.school_required_course_id,
+                        school_required_course_note: list.school_required_course_note,
+                        isCorrect: true,
+                        isNew: false,
+                    })),
+                    school_required_course_category_excluded_courses: field.school_required_course_category_excluded_courses.map(list => ({
+                        school_required_course_id: list.school_required_course_id,
+                        school_required_course_note: list.school_required_course_note,
+                        isCorrect: true,
+                        isNew: false,
+                    })),
+                    school_required_course_category_note_section: field.school_required_course_category_note_section,
                     isCorrect: true,
                     isNew: false,
                 })) : field.input,
@@ -45,41 +122,174 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     prev: field.input,
                 }
             })
+        } else if (name === 'edited_school_prereq_recommended_courses') {
+            const field = newSchool.edited_school_prereq_recommended_courses;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    input: field.input,
+                    prev: field.input,
+                }
+            })
+        } else if (name === 'edited_school_prereq_required_optional_courses') {
+            const field = newSchool.edited_school_prereq_required_optional_courses;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    input: field.input,
+                    prev: field.input,
+                }
+            })
+        } else if (name === 'edited_school_prereq_required_course_categories') {
+            const field = newSchool.edited_school_prereq_required_course_categories;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    isEditMode: false,
+                    input: field.input,
+                    prev: field.input,
+                }
+            })
         }
     } else {
         if (name === 'edited_school_prereq_required_courses') {
             const field = newSchool.edited_school_prereq_required_courses;
             const originalField = newSchool.school_prereq_required_courses;
-            const correctList = field.input?.filter(inp => inp.isCorrect)
-            if (correctList) {
-                setNewSchool({
-                    ...newSchool,
-                    school_prereq_required_courses: field.input ? correctList.map(list => ({
-                        school_required_course_credit_hours: list.edited_school_required_course_credit_hours,
-                        school_required_course_id: list.edited_school_required_course_id,
-                        school_required_course_lab: list.edited_school_required_course_lab,
-                        school_required_course_lab_preferred: list.edited_school_required_course_lab_preferred,
-                        school_required_course_note_section: list.edited_school_required_course_note_section,
-                        school_required_course_quarter_hours: list.edited_school_required_course_quarter_hours
-                    })) : originalField,
-                    [name]: {
-                        link: '',
-                        isEditMode: false,
-                        input: null,
-                        prev: null,
-                    }
-                })
-            }
-            
+            const correctList = field.input && field.input.filter(inp => inp.isCorrect);
+            setNewSchool({
+                ...newSchool,
+                school_prereq_required_courses: correctList ? correctList.map(list => ({
+                    school_required_course_id: list.school_required_course_id,
+                    school_required_course_lab: list.school_required_course_lab,
+                    school_required_course_lab_preferred: list.school_required_course_lab_preferred,
+                    school_required_course_credit_hours: list.school_required_course_credit_hours,
+                    school_required_course_quarter_hours: list.school_required_course_quarter_hours,
+                    school_required_course_note_section: list.school_required_course_note_section,
+                })) : originalField,
+                [name]: {
+                    link: '',
+                    isEditMode: false,
+                    input: null,
+                    prev: null,
+                }
+            })
+        } else if (name === 'edited_school_prereq_recommended_courses') {
+            const field = newSchool.edited_school_prereq_recommended_courses;
+            const originalField = newSchool.school_prereq_recommended_courses;
+            const correctList = field.input && field.input.filter(inp => inp.isCorrect);
+            setNewSchool({
+                ...newSchool,
+                school_prereq_recommended_courses: correctList ? correctList.map(list => ({
+                    school_recommended_course_id: list.school_recommended_course_id,
+                    school_recommended_course_lab: list.school_recommended_course_lab,
+                    school_recommended_course_lab_preferred: list.school_recommended_course_lab_preferred,
+                    school_recommended_course_credit_hours: list.school_recommended_course_credit_hours,
+                    school_recommended_course_quarter_hours: list.school_recommended_course_quarter_hours,
+                    school_recommended_course_note_section: list.school_recommended_course_note_section,
+                })) : originalField,
+                [name]: {
+                    link: '',
+                    isEditMode: false,
+                    input: null,
+                    prev: null,
+                }
+            })
+        } else if (name === 'edited_school_prereq_required_optional_courses') {
+            const field = newSchool.edited_school_prereq_required_optional_courses;
+            const originalField = newSchool.school_prereq_required_optional_courses;
+            const correctList = field.input && field.input.filter(inp => inp.isCorrect);
+            setNewSchool({
+                ...newSchool,
+                school_prereq_required_optional_courses: correctList ? correctList.map(list => ({
+                    school_minimum_number_of_courses_to_be_completed: list.school_minimum_number_of_courses_to_be_completed,
+                    school_required_optional_courses_list: list.school_required_optional_courses_list.filter(course => course.isCorrect).map(course => ({
+                        school_optional_course_id: course.school_optional_course_id,
+                            school_optional_course_lab: course.school_optional_course_lab,
+                            school_optional_course_lab_preferred: course.school_optional_course_lab_preferred,
+                            school_optional_course_credit_hours: course.school_optional_course_credit_hours,
+                            school_optional_course_quarter_hours: course.school_optional_course_quarter_hours,
+                            school_optional_course_note_section: course.school_optional_course_note_section,
+                    })),
+                    school_optional_course_note_section: list.school_optional_course_note_section,
+                })) : originalField,
+                [name]: {
+                    link: '',
+                    isEditMode: false,
+                    input: null,
+                    prev: null,
+                }
+            })
+        } else if (name === 'edited_school_prereq_required_course_categories') {
+            const field = newSchool.edited_school_prereq_required_course_categories;
+            const originalField = newSchool.school_prereq_required_course_categories;
+            const correctList = field.input && field.input.filter(inp => inp.isCorrect);
+            setNewSchool({
+                ...newSchool,
+                school_prereq_required_course_categories: correctList ? correctList.map(list => ({
+                    school_required_course_category: list.school_required_course_category,
+                    school_required_course_category_number_of_credits_need_to_be_completed: list.school_required_course_category_number_of_credits_need_to_be_completed,
+                    school_required_course_category_number_of_quarter_hours_need_to_be_completed: list.school_required_course_category_number_of_quarter_hours_need_to_be_completed,
+                    school_required_course_category_number_of_courses_that_need_lab: list.school_required_course_category_number_of_courses_that_need_lab,
+                    school_required_course_category_extra_included_courses: list.school_required_course_category_extra_included_courses.filter(course => course.isCorrect).map(course => ({
+                        school_required_course_id: course.school_required_course_id,
+                        school_required_course_note: course.school_required_course_note,
+                    })),
+                    school_required_course_category_excluded_courses: list.school_required_course_category_excluded_courses.filter(course => course.isCorrect).map(course => ({
+                        school_required_course_id: course.school_required_course_id,
+                        school_required_course_note: course.school_required_course_note,
+                    })),
+                    school_required_course_category_note_section: list.school_required_course_category_note_section,
+                })) : originalField,
+                [name]: {
+                    link: '',
+                    isEditMode: false,
+                    input: null,
+                    prev: null,
+                }
+            })
         }
-}
-
+    }
 }
 
 export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
     e.preventDefault();
     const name = `edited_${e.currentTarget.name}` as keyof School;
     if (name === 'edited_school_prereq_required_courses') {
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                input: null,
+                prev: null,
+            }
+        })
+    } else if (name === 'edited_school_prereq_recommended_courses') {
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                input: null,
+                prev: null,
+            }
+        })
+    } else if (name === 'edited_school_prereq_required_optional_courses') {
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                input: null,
+                prev: null,
+            }
+        })
+    } else if (name === 'edited_school_prereq_required_course_categories') {
         setNewSchool({
             ...newSchool,
             [name]: {
@@ -100,13 +310,45 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
         setNewSchool({
             ...newSchool,
             [name]: {
-                ...field,
+                link: '',
+                isEditMode: false,
+                input: field.prev,
+                prev: null,
+            }
+        })
+    } else if (name === 'edited_school_prereq_recommended_courses') {
+        const field = newSchool.edited_school_prereq_recommended_courses;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                input: field.prev,
+                prev: null,
+            }
+        })
+    } else if (name === 'edited_school_prereq_required_optional_courses') {
+        const field = newSchool.edited_school_prereq_required_optional_courses;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
+                isEditMode: false,
+                input: field.prev,
+                prev: null,
+            }
+        })
+    } else if (name === 'edited_school_prereq_required_course_categories') {
+        const field = newSchool.edited_school_prereq_required_course_categories;
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                link: '',
                 isEditMode: false,
                 input: field.prev,
                 prev: null,
             }
         })
     }
-
 }
 

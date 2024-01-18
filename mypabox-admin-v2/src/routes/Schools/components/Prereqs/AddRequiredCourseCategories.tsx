@@ -30,8 +30,8 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
     toggleRequiredCourseCategories: (e:any) => void, 
     editedRequiredCategory: SchoolPrereqRequiredCourseCategory | null,
     setEditedRequiredCategory: Dispatch<SetStateAction<SchoolPrereqRequiredCourseCategory | null>>,
-    addCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
-    updateCourseOrCategory: (group: SchoolPrereqRequiredCourse | SchoolPrereqRecommendedCourse | SchoolPrereqRequiredCourseCategory | SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    addCourseOrCategory: (group: SchoolPrereqRequiredCourseCategory, type: string) => void,
+    updateCourseOrCategory: (group: SchoolPrereqRequiredCourseCategory, type: string) => void,
     newSchool: School,
 }) {
     const categories = useSelector(selectCategories);
