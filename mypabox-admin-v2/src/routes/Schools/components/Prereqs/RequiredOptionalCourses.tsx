@@ -86,33 +86,7 @@ export default function RequiredOptionalCourses({ newSchool, setNewSchool, logge
         })
     }
 
-    const addCourseOrCategory = (group: SchoolPrereqRequiredOptionalCourse, type: string) => {
-        const name = type as keyof School;
-        const field = newSchool[name] as SchoolPrereqRequiredOptionalCourse[];
-        const newGroup = [...field, {...group}]
-        setNewSchool({
-            ...newSchool,
-            [name]: newGroup,
-        })
-    }
-
-    // Updates required course, recommended course, required optional group or required course categories depending on index; then resets index
-    const updateCourseOrCategory = (group: SchoolPrereqRequiredOptionalCourse, type: string) => {
-       const name = type as keyof School;
-       const field = newSchool[name] as SchoolPrereqRequiredOptionalCourse[];
-       const newGroup = field.map((g,i) => {
-        if (i === groupIndex) {
-            return { ...group }
-        } else {
-            return { ...g }
-        }
-       })
-       setNewSchool({
-        ...newSchool,
-        [name]: newGroup,
-       })
-       setGroupIndex(null)
-    };
+    
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
@@ -200,7 +174,9 @@ export default function RequiredOptionalCourses({ newSchool, setNewSchool, logge
         />}
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-        {openRequiredOptionalCourses && <AddRequiredOptionalCourses toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} editedRequiredOption={editedRequiredOption} setEditedRequiredOption={setEditedRequiredOption} addCourseOrCategory={addCourseOrCategory} updateCourseOrCategory={updateCourseOrCategory}/>}
+        {openRequiredOptionalCourses && <AddRequiredOptionalCourses setGroupIndex={setGroupIndex} toggleRequiredOptionalCourses={toggleRequiredOptionalCourses} editedRequiredOption={editedRequiredOption} setEditedRequiredOption={setEditedRequiredOption} newSchool={newSchool} setNewSchool={setNewSchool} groupIndex={groupIndex}
+        input={hasInputs} loggedInUser={loggedInUser}
+        />}
         </>
     )
 }

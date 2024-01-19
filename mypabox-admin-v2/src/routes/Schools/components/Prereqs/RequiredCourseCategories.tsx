@@ -20,7 +20,7 @@ export default function RequiredCourseCategories({ newSchool, setNewSchool, logg
     const courses = useSelector(selectCourses);
     const categories = useSelector(selectCategories);
     const [ openRequiredCourseCategories, setOpenRequiredCourseCategories ] = useState(false);
-    const [ editedRequiredCategory, setEditedRequiredCategory ] = useState<SchoolPrereqRequiredCourseCategory | null>(null);
+    const [ editedRequiredCategory, setEditedRequiredCategory ] = useState<any | null>(null);
     const [ groupIndex, setGroupIndex ] = useState<number | null>(null);
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
@@ -41,35 +41,6 @@ export default function RequiredCourseCategories({ newSchool, setNewSchool, logg
         e.preventDefault();
         setOpenLinkPopup(!openLinkPopup);
     };
-
-    const addCourseOrCategory = (group: SchoolPrereqRequiredCourseCategory, type: string) => {
-        const name = type as keyof School;
-        const field = newSchool[name] as SchoolPrereqRequiredCourseCategory[];
-        const newGroup = [...field, {...group}]
-        setNewSchool({
-            ...newSchool,
-            [name]: newGroup,
-        })
-    }
-
-    // Updates required course, recommended course, required optional group or required course categories depending on index; then resets index
-    const updateCourseOrCategory = (group:SchoolPrereqRequiredCourseCategory, type: string) => {
-       const name = type as keyof School;
-       const field = newSchool[name] as SchoolPrereqRequiredCourseCategory[];
-       const newGroup = field.map((g,i) => {
-        if (i === groupIndex) {
-            return { ...group }
-        } else {
-            return { ...g }
-        }
-       })
-       setNewSchool({
-        ...newSchool,
-        [name]: newGroup,
-       })
-       setGroupIndex(null)
-    }
-
 
 
     const toggleRequiredCourseCategories = (e:any) => {
@@ -244,7 +215,9 @@ export default function RequiredCourseCategories({ newSchool, setNewSchool, logg
             revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool}/>}
             </div>
             {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-            {openRequiredCourseCategories && <AddRequiredCourseCategories toggleRequiredCourseCategories={toggleRequiredCourseCategories} editedRequiredCategory={editedRequiredCategory} setEditedRequiredCategory={setEditedRequiredCategory} addCourseOrCategory={addCourseOrCategory} updateCourseOrCategory={updateCourseOrCategory} newSchool={newSchool}/>}
+            {openRequiredCourseCategories && <AddRequiredCourseCategories loggedInUser={loggedInUser} toggleRequiredCourseCategories={toggleRequiredCourseCategories} editedRequiredCategory={editedRequiredCategory} setEditedRequiredCategory={setEditedRequiredCategory} newSchool={newSchool}
+            setNewSchool={setNewSchool} input={hasInputs} groupIndex={groupIndex}
+            />}
         </>
     )
 }

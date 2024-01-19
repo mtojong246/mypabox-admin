@@ -1,15 +1,17 @@
-import Select from 'react-select';
 import { useSelector } from 'react-redux';
 import { selectCategories } from '../../../../app/selectors/categories.selectors';
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
 import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Note, SchoolPrereqRequiredCourseCategory, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourse, SchoolPrereqRequiredOptionalCourse, School } from '../../../../types/schools.types';
+import { Note, SchoolPrereqRequiredCourseCategory, School } from '../../../../types/schools.types';
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import ReactQuill from 'react-quill';
 import AddNote from './AddNote';
 import AddIncludedOrExcludedCourses from './AddIncludedOrExcludedCourses';
 import { CategoryType } from '../../../../types/categories.types';
+import SelectFieldsGroup from '../../Assets/SelectFieldsGroup';
+import { UserObject } from '../../../../types/users.types';
+import InputFields from '../../Assets/InputsFields';
 
 interface CourseType {
     school_required_course_id: string;
@@ -26,22 +28,46 @@ const defaultCategory = {
     school_required_course_category_note_section: [],
 }
 
-export default function AddRequiredCourseCategories({ toggleRequiredCourseCategories, editedRequiredCategory, setEditedRequiredCategory, addCourseOrCategory, updateCourseOrCategory, newSchool }: { 
+export default function AddRequiredCourseCategories({ loggedInUser, toggleRequiredCourseCategories, editedRequiredCategory, setEditedRequiredCategory, newSchool, setNewSchool, groupIndex, input }: { 
     toggleRequiredCourseCategories: (e:any) => void, 
-    editedRequiredCategory: SchoolPrereqRequiredCourseCategory | null,
-    setEditedRequiredCategory: Dispatch<SetStateAction<SchoolPrereqRequiredCourseCategory | null>>,
-    addCourseOrCategory: (group: SchoolPrereqRequiredCourseCategory, type: string) => void,
-    updateCourseOrCategory: (group: SchoolPrereqRequiredCourseCategory, type: string) => void,
+    loggedInUser: UserObject,
+    editedRequiredCategory: any | null,
+    setEditedRequiredCategory: Dispatch<SetStateAction<any | null>>,
     newSchool: School,
+    setNewSchool:Dispatch<SetStateAction<School>>,
+    groupIndex: number | null,
+    input: boolean | null,
 }) {
     const categories = useSelector(selectCategories);
     const courses = useSelector(selectCourses);
     const [ categoryOptions, setCategoryOptions ] = useState<{ value: string, label: string }[]>([]);
-    const [ requiredCategory, setRequiredCategory ] = useState<SchoolPrereqRequiredCourseCategory>(defaultCategory)
+    const [ requiredCategory, setRequiredCategory ] = useState<SchoolPrereqRequiredCourseCategory>(defaultCategory);
+    const [ editedOption, setEditedOption ] = useState<{
+        school_required_course_category: string;
+        school_required_course_category_number_of_credits_need_to_be_completed: number;
+        school_required_course_category_number_of_quarter_hours_need_to_be_completed: number;
+        school_required_course_category_number_of_courses_that_need_lab: number;
+        school_required_course_category_extra_included_courses: {
+            school_required_course_id: string;
+            school_required_course_note: string;
+            isNew: boolean;
+            isCorrect: boolean;
+        }[],
+        school_required_course_category_excluded_courses: {
+            school_required_course_id: string;
+            school_required_course_note: string;
+            isNew: boolean;
+            isCorrect: boolean;
+        }[],
+        school_required_course_category_note_section: Note[];
+        isCorrect: boolean;
+        isNew: boolean;
+    } | null>(null);
     const [ coursePopup, setCoursePopup ] = useState(false);
     const [ notePopup, setNotePopup ] = useState(false);
     const [ excluded, setExcluded ] = useState(false);
     const [ selection, setSelection ] = useState<string | undefined>('');
+    const [ editedSelection, setEditedSelection ] = useState<string | undefined>('');
 
     const [ index, setIndex ] = useState<number | null>(null);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null)
@@ -69,36 +95,151 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
         )))
     }, [categories, newSchool.school_prereq_required_course_categories])
 
-    useEffect(() => {
-        if (selection) {
-            const selectedCategory = categories.find(c => c.category_name === selection)
-            if (selectedCategory) {
-                setRequiredCategory({
-                    ...requiredCategory,
-                    school_required_course_category: selectedCategory.id,
-                })
-            }
-        }
-    }, [selection, categories])
+    // useEffect(() => {
+    //     if (selection) {
+    //         const selectedCategory = categories.find(c => c.category_name === selection)
+    //         if (selectedCategory) {
+    //             setRequiredCategory({
+    //                 ...requiredCategory,
+    //                 school_required_course_category: selectedCategory.id,
+    //             })
+    //         }
+    //     }
+    // }, [selection, categories])
+
+    // useEffect(() => {
+    //     if (editedRequiredCategory) {
+    //         const selectedCategory = categories.find(category => category.id === editedRequiredCategory.school_required_course_category);
+    //         if (selectedCategory) {
+    //             setRequiredCategory(editedRequiredCategory);
+    //             setSelection(selectedCategory.category_name)
+    //         }
+    //     } else {
+    //         setRequiredCategory(defaultCategory);
+    //         setSelection('')
+    //     }
+    // }, [editedRequiredCategory, categories])
 
     useEffect(() => {
         if (editedRequiredCategory) {
-            const selectedCategory = categories.find(category => category.id === editedRequiredCategory.school_required_course_category);
-            if (selectedCategory) {
+             
+            if (input) {
+                setEditedOption(editedRequiredCategory);
+                const selectedCourse = categories.find(categories => categories.id=== editedRequiredCategory.school_required_course_category)
+                if (selectedCourse) {
+                    setEditedSelection(selectedCourse.category_name)
+                } else {
+                    setEditedSelection('');
+                }
+                const originalInput = newSchool.school_prereq_required_course_categories;
+                const opt = originalInput.find((inp,i) => i === groupIndex);
+                if (opt) {
+                    setRequiredCategory(opt);
+                    const selectedCourse = categories.find(categories => categories.id === opt.school_required_course_category)
+                    if (selectedCourse) {
+                        setSelection(selectedCourse.category_name)
+                    } else {
+                        setSelection('');
+                    }
+                } else {
+                    setRequiredCategory(defaultCategory);
+                    setSelection('')
+                }
+            } else {
                 setRequiredCategory(editedRequiredCategory);
-                setSelection(selectedCategory.category_name)
+                const selectedCourse = categories.find(categories => categories.id=== editedRequiredCategory.school_required_course_category)
+                if (selectedCourse) {
+                    setSelection(selectedCourse.category_name)
+                } else {
+                    setSelection('');
+                };
+                setEditedSelection('');
+                setEditedOption(null)
             }
+            
         } else {
-            setRequiredCategory(defaultCategory);
-            setSelection('')
+            if (input) {
+                setEditedOption({
+                    school_required_course_category: '',
+                    school_required_course_category_number_of_credits_need_to_be_completed: 0,
+                    school_required_course_category_number_of_quarter_hours_need_to_be_completed: 0,
+                    school_required_course_category_number_of_courses_that_need_lab: 0,
+                    school_required_course_category_extra_included_courses: [],
+                    school_required_course_category_excluded_courses: [],
+                    school_required_course_category_note_section: [],
+                    isCorrect: true,
+                    isNew: true,
+                });
+                setEditedSelection('');
+                setRequiredCategory(defaultCategory)
+                setSelection('')
+            } else {
+                setRequiredCategory(defaultCategory)
+                setSelection('')
+                setEditedOption(null)
+            }
+            
         }
-    }, [editedRequiredCategory, categories])
+    }, [editedRequiredCategory, input]);
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setRequiredCategory({
-            ...requiredCategory,
-            [e.target.name]: e.target.value, 
+    const handleSelection = (e:any, category: string, isEditedInput: boolean) => {
+        const selectedCourse = categories.find(category => category.category_name === e.value)
+        if (!isEditedInput && selectedCourse) {
+            setSelection(e.value)
+            setRequiredCategory({
+                ...requiredCategory,
+                school_required_course_category: selectedCourse.id,
+            })
+        } else if (isEditedInput && selectedCourse) {
+            setEditedSelection(e.value)
+            editedOption && setEditedOption({
+                ...editedOption,
+                school_required_course_category: selectedCourse.id
+            })
+        }
+    }
+
+
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setRequiredCategory({
+                ...requiredCategory,
+                [e.target.name]: e.target.value, 
+            })
+        } else {
+            editedOption && setEditedOption({
+                ...editedOption,
+                [e.target.name]: e.target.value,
+            })
+        }
+        
+    };
+
+    const addCourseOrCategory = (group: SchoolPrereqRequiredCourseCategory, type: string) => {
+        const name = type as keyof School;
+        const field = newSchool[name] as SchoolPrereqRequiredCourseCategory[];
+        const newGroup = [...field, {...group}]
+        setNewSchool({
+            ...newSchool,
+            [name]: newGroup,
         })
+    }
+
+    // Updates required course, recommended course, required optional group or required course categories depending on index; then resets index
+    const updateCourseOrCategory = (group:SchoolPrereqRequiredCourseCategory, type: string) => {
+       const name = type as keyof School;
+       const field = newSchool[name] as SchoolPrereqRequiredCourseCategory[];
+       const newGroup = field.map((g,i) => {
+        if (i === groupIndex) {
+            return { ...group }
+        } else {
+            return { ...g }
+        }
+       })
+       setNewSchool({
+        ...newSchool,
+        [name]: newGroup,
+       })
     }
 
     
@@ -246,19 +387,32 @@ export default function AddRequiredCourseCategories({ toggleRequiredCourseCatego
                         <p className='text-xl font-semibold mb-8'>{editedRequiredCategory ? 'Edit' : 'Add'} Required Course Category</p>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Category name:</label>
-                            <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} options={categoryOptions} className='w-full focus:outline-none rounded mt-2'/>
+                            <SelectFieldsGroup loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={editedOption ? editedOption.school_required_course_category : null}
+                            originalInput={requiredCategory.school_required_course_category} name='school_required_course_category' category='school_required_course_category' handleSelect={handleSelection} label={editedSelection}
+                            originalLabel={selection} options={categoryOptions}
+                            />
+                            {/* <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} options={categoryOptions} className='w-full focus:outline-none rounded mt-2'/> */}
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Total number of credit hours that need to be completed:</label>
-                            <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_credits_need_to_be_completed ? requiredCategory.school_required_course_category_number_of_credits_need_to_be_completed : ''} name='school_required_course_category_number_of_credits_need_to_be_completed' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={editedOption ? editedOption.school_required_course_category_number_of_credits_need_to_be_completed : null}
+                            originalInput={requiredCategory.school_required_course_category_number_of_courses_that_need_lab} name='school_required_course_category_number_of_courses_that_need_lab' handleInput={handleInput}
+                            />
+                            {/* <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_credits_need_to_be_completed ? requiredCategory.school_required_course_category_number_of_credits_need_to_be_completed : ''} name='school_required_course_category_number_of_credits_need_to_be_completed' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Total number of quarter hours that need to be completed:</label>
-                            <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_quarter_hours_need_to_be_completed ? requiredCategory.school_required_course_category_number_of_quarter_hours_need_to_be_completed : ''} name='school_required_course_category_number_of_quarter_hours_need_to_be_completed' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={editedOption ? editedOption.school_required_course_category_number_of_quarter_hours_need_to_be_completed : null}
+                            originalInput={requiredCategory.school_required_course_category_number_of_quarter_hours_need_to_be_completed} name='school_required_course_category_number_of_quarter_hours_need_to_be_completed' handleInput={handleInput}
+                            />
+                            {/* <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_quarter_hours_need_to_be_completed ? requiredCategory.school_required_course_category_number_of_quarter_hours_need_to_be_completed : ''} name='school_required_course_category_number_of_quarter_hours_need_to_be_completed' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Total number of courses that need lab:</label>
-                            <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_courses_that_need_lab ? requiredCategory.school_required_course_category_number_of_courses_that_need_lab : ''} name='school_required_course_category_number_of_courses_that_need_lab' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={editedOption ? editedOption.school_required_course_category_number_of_courses_that_need_lab : null}
+                            originalInput={requiredCategory.school_required_course_category_number_of_courses_that_need_lab} name='school_required_course_category_number_of_courses_that_need_lab' handleInput={handleInput}
+                            />
+                            {/* <input onChange={handleInput} value={requiredCategory.school_required_course_category_number_of_courses_that_need_lab ? requiredCategory.school_required_course_category_number_of_courses_that_need_lab : ''} name='school_required_course_category_number_of_courses_that_need_lab' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                         </div>
 
 

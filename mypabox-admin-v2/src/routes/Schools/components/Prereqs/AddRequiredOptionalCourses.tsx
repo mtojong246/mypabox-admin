@@ -1,5 +1,5 @@
-import { ChangeEvent, useState, Dispatch, SetStateAction, useEffect, MouseEvent } from "react"
-import { Note, SchoolPrereqRequiredOptionalCourse, SchoolRequiredOptionalCourse, SchoolPrereqRecommendedCourse, SchoolPrereqRequiredCourse, SchoolPrereqRequiredCourseCategory } from "../../../../types/schools.types"
+import { ChangeEvent, useState, Dispatch, SetStateAction, useEffect } from "react"
+import { Note, School } from "../../../../types/schools.types"
 import AddCourseToOption from "./AddCourseToOption";
 import { useSelector } from "react-redux";
 import { selectCourses } from "../../../../app/selectors/courses.selectors";
@@ -7,36 +7,152 @@ import ReactQuill from "react-quill";
 import { FiEdit3 } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
 import AddNote from "./AddNote";
+import { UserObject } from "../../../../types/users.types";
+import InputFields from "../../Assets/InputsFields";
+import OptionalCourses from "./OptionalCourses";
 
 const defaultGroup = {
     school_minimum_number_of_courses_to_be_completed: 0,
-    school_required_optional_courses_list: [],
-    school_optional_course_note_section: [],
+    school_required_optional_courses_list: [] as {
+        school_optional_course_id: string;
+        school_optional_course_lab: boolean;
+        school_optional_course_lab_preferred: boolean;
+        school_optional_course_credit_hours: number;
+        school_optional_course_quarter_hours: number;
+        school_optional_course_note_section: string;
+    }[],
+    school_optional_course_note_section: [] as Note[],
 }
 
-export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCourses, editedRequiredOption, setEditedRequiredOption, addCourseOrCategory, updateCourseOrCategory }: { 
+export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCourses, editedRequiredOption, setEditedRequiredOption, loggedInUser, groupIndex, setGroupIndex, newSchool, setNewSchool, input }: { 
     toggleRequiredOptionalCourses: (e:any) => void, 
-    editedRequiredOption: SchoolPrereqRequiredOptionalCourse | null,
-    setEditedRequiredOption: Dispatch<SetStateAction<SchoolPrereqRequiredOptionalCourse | null>>,
-    addCourseOrCategory: (group: SchoolPrereqRequiredOptionalCourse, type: string) => void,
-    updateCourseOrCategory: (group: SchoolPrereqRequiredOptionalCourse, type: string) => void,
+    editedRequiredOption: any | null,
+    setEditedRequiredOption: Dispatch<SetStateAction<any | null>>,
+    loggedInUser: UserObject,
+    groupIndex: number | null,
+    setGroupIndex: Dispatch<SetStateAction<number | null>>,
+    newSchool: School,
+    setNewSchool: Dispatch<SetStateAction<School>>,
+    input: boolean | null,
 }) {
     const courses = useSelector(selectCourses)
-    const [ group, setGroup ] = useState<SchoolPrereqRequiredOptionalCourse>(defaultGroup);
+    const [ group, setGroup ] = useState(defaultGroup);
+    const [ editedGroup, setEditedGroup ] = useState<{
+        school_minimum_number_of_courses_to_be_completed: number;
+        school_required_optional_courses_list: {
+            school_optional_course_id: string;
+            school_optional_course_lab: boolean;
+            school_optional_course_lab_preferred: boolean;
+            school_optional_course_credit_hours: number;
+            school_optional_course_quarter_hours: number;
+            school_optional_course_note_section: string;
+            isNew: boolean;
+            isCorrect: boolean;
+        }[];
+        school_optional_course_note_section: Note[];
+        isCorrect: boolean;
+        isNew: boolean;
+
+    } | null>(null)
     const [ coursePopup, setCoursePopup ] = useState(false);
     const [ notePopup, setNotePopup ] = useState(false);
 
     const [ index, setIndex ] = useState<number | null>(null);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
-    const [ editedCourse, setEditedCourse ] = useState<SchoolRequiredOptionalCourse | null>(null)
+    const [ editedCourse, setEditedCourse ] = useState<any | null>(null)
+
+    // useEffect(() => {
+    //     if (editedRequiredOption) {
+    //         setGroup(editedRequiredOption)
+    //     } else {
+    //         setGroup(defaultGroup)
+    //     }
+    // }, [editedRequiredOption]);
 
     useEffect(() => {
         if (editedRequiredOption) {
-            setGroup(editedRequiredOption)
+             
+            if (input) {
+                setEditedGroup(editedRequiredOption);
+                const originalInput = newSchool.school_prereq_required_optional_courses;
+                const opt = originalInput.find((inp,i) => i === groupIndex);
+                if (opt) {
+                    setGroup(opt);
+                } else {
+                    setGroup(defaultGroup)
+                }
+            } else {
+                setGroup(editedRequiredOption);
+                setEditedGroup(null)
+            }
+            
         } else {
-            setGroup(defaultGroup)
+            if (input) {
+                setEditedGroup({
+                    school_minimum_number_of_courses_to_be_completed: 0,
+                    school_required_optional_courses_list: [],
+                    school_optional_course_note_section: [],
+                    isCorrect: true,
+                    isNew: true,
+                })
+                setGroup(defaultGroup)
+            } else {
+                setGroup(defaultGroup)
+            }
+            
         }
-    }, [editedRequiredOption])
+    }, [editedRequiredOption, input])
+    
+    const addCourseOrCategory = (isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const field = newSchool.school_prereq_required_optional_courses;
+            setNewSchool({
+                ...newSchool,
+                school_prereq_required_optional_courses: field.concat(group)
+            })
+        } else {
+            const field = newSchool.edited_school_prereq_required_optional_courses;
+            editedGroup && setNewSchool({
+                ...newSchool,
+                edited_school_prereq_required_optional_courses: {
+                    ...field,
+                    input: field.input!.concat(editedGroup)
+                }
+            })
+        }
+        
+    }
+
+    const updateCourseOrCategory = (isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_prereq_required_optional_courses: newSchool.school_prereq_required_optional_courses.map((gro,i) => {
+                    if (i === groupIndex) {
+                        return { ...group }
+                    } else {
+                        return { ...gro }
+                    }
+                })
+            })
+        } else {
+            const field = newSchool.edited_school_prereq_required_optional_courses;
+            editedGroup && setNewSchool({
+                ...newSchool,
+                edited_school_prereq_required_optional_courses: {
+                    ...field,
+                    input: field.input!.map((gro,i) => {
+                        if (i === groupIndex) {
+                            return { ...editedGroup }
+                        } else {
+                            return { ...gro }
+                        }
+                    })
+                }
+            })
+        }
+       
+    }
 
     const toggleCoursePopup = (e:any) => {
         e.preventDefault();
@@ -49,33 +165,41 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
     }
 
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setGroup({
-            ...group,
-            school_minimum_number_of_courses_to_be_completed: Number(e.target.value),
-        })
-    }
-
-    const addCourse = (course: SchoolRequiredOptionalCourse) => {
-        setGroup({
-            ...group,
-            school_required_optional_courses_list: group.school_required_optional_courses_list.concat(course)
-        })
-    }
-
-    const updateCourse = (course: SchoolRequiredOptionalCourse) => {
-        setGroup({
-            ...group,
-            school_required_optional_courses_list: group.school_required_optional_courses_list.map((c,i) => {
-                if (i === index) {
-                    return { ...course }
-                } else {
-                    return { ...c }
-                }
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setGroup({
+                ...group,
+                school_minimum_number_of_courses_to_be_completed: Number(e.target.value),
             })
-        })
-        setIndex(null)
+        } else {
+            editedGroup && setEditedGroup({
+                ...editedGroup,
+                school_minimum_number_of_courses_to_be_completed: Number(e.target.value),
+            })
+        }
+        
     }
+
+    // const addCourse = (course: SchoolRequiredOptionalCourse) => {
+    //     setGroup({
+    //         ...group,
+    //         school_required_optional_courses_list: group.school_required_optional_courses_list.concat(course)
+    //     })
+    // }
+
+    // const updateCourse = (course: SchoolRequiredOptionalCourse) => {
+    //     setGroup({
+    //         ...group,
+    //         school_required_optional_courses_list: group.school_required_optional_courses_list.map((c,i) => {
+    //             if (i === index) {
+    //                 return { ...course }
+    //             } else {
+    //                 return { ...c }
+    //             }
+    //         })
+    //     })
+    //     setIndex(null)
+    // }
 
     const addNote = (note: Note) => {
         setGroup({
@@ -98,11 +222,39 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
         setIndex(null)
     }
 
-    const deleteCourse = (e: any, index: number) => {
+    const deleteCourse = (e: any, index: number, isNew: boolean, isEditedInput: boolean) => {
         e.preventDefault();
-        setGroup({
-            ...group,
-            school_required_optional_courses_list: group.school_required_optional_courses_list.filter((course, i) => i !== index)
+        if (!isEditedInput) {
+            setGroup({
+                ...group,
+                school_required_optional_courses_list: group.school_required_optional_courses_list.filter((course, i) => i !== index)
+            })
+        } else {
+            editedGroup && setEditedGroup({
+                ...editedGroup,
+                school_required_optional_courses_list: isNew ? editedGroup.school_required_optional_courses_list.filter((list,i) => i !== index) : editedGroup.school_required_optional_courses_list.map((list,i) => {
+                    if (i === index) {
+                        return { ...list, isCorrect: false }
+                    } else {
+                        return { ...list }
+                    }
+                })
+            })
+        }
+        
+    }
+
+    const undoDelete = (e:any, index: number) => {
+        e.preventDefault();
+        editedGroup && setEditedGroup({
+            ...editedGroup,
+            school_required_optional_courses_list: editedGroup.school_required_optional_courses_list.map((list,i) => {
+                if (i === index) {
+                    return { ...list, isCorrect: false }
+                } else {
+                    return { ...list }
+                }
+            })
         })
     }
 
@@ -114,15 +266,17 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
         })
     }
 
-    const addOrUpdateGroup = (e: MouseEvent<HTMLButtonElement>) => {
+    const addOrUpdateGroup = (e:any, isEditedInput: boolean) => {
         e.preventDefault();
-        if (group.school_required_optional_courses_list.length === 0) {
+        if (!input && group.school_required_optional_courses_list.length === 0) {
+            alert('Please select add at least one course')
+        } else if (input && editedGroup && editedGroup.school_required_optional_courses_list.length === 0) {
             alert('Please select add at least one course')
         } else {
             if (editedRequiredOption) {
-                updateCourseOrCategory(group, 'school_prereq_required_optional_courses')
+                updateCourseOrCategory(isEditedInput)
             } else {
-                addCourseOrCategory(group, 'school_prereq_required_optional_courses')
+                addCourseOrCategory(isEditedInput)
             }
             toggleRequiredOptionalCourses(e);
             setEditedRequiredOption(null)
@@ -138,14 +292,21 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                         <p className='text-xl font-semibold mb-8'>{editedRequiredOption ? 'Edit' : 'Add'} Required Optional Group</p>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Minimum number of courses that need to be completed:</label>
-                            <input onChange={handleInput} value={group.school_minimum_number_of_courses_to_be_completed ? group.school_minimum_number_of_courses_to_be_completed : ''} className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' />
+                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedGroup && editedGroup.school_minimum_number_of_courses_to_be_completed} 
+                            originalInput={group.school_minimum_number_of_courses_to_be_completed} name='school_minimum_number_of_courses_to_be_completed' handleInput={handleInput}
+                            />
+                            {/* <input onChange={handleInput} value={group.school_minimum_number_of_courses_to_be_completed ? group.school_minimum_number_of_courses_to_be_completed : ''} className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Courses:</label>
                             <button onClick={toggleCoursePopup} className="block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded px-4 py-3 hover:text-white hover:bg-[#F06A6A]">
                                 Add Course
                             </button>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${group.school_required_optional_courses_list.length ? 'mt-3' : 'mt-0'}`}>
+                            <OptionalCourses loggedInUser={loggedInUser} input={editedGroup ? editedGroup.school_required_optional_courses_list : null} originalInput={group.school_required_optional_courses_list} 
+                            courses={courses} toggleOptions={toggleCoursePopup} deleteOption={deleteCourse} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} setGroupIndex={setGroupIndex}
+                            undoDelete={undoDelete} setEditedOption={setEditedCourse}
+                            />
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${group.school_required_optional_courses_list.length ? 'mt-3' : 'mt-0'}`}>
                             {courses && group.school_required_optional_courses_list.map((course, i) => {
                                 const selectedCourse = courses.find(c => c.unique_id === course.school_optional_course_id)
                                 if (selectedCourse) {
@@ -177,11 +338,11 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                                     return null
                                 }
                             })}
-                            </div>
+                            </div> */}
                         </div>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Notes:</label>
-                            <button onClick={toggleNotePopup} className="block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded px-4 py-3 hover:text-white hover:bg-[#F06A6A]">
+                            <button disabled={loggedInUser.permissions.canVerify ? false : true} onClick={toggleNotePopup} className="block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded px-4 py-3 hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                             <div className={`flex flex-col justify-center items-center gap-3 ${group.school_optional_course_note_section.length ? 'mt-3' : 'mt-0'}`}>
@@ -201,12 +362,13 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                         </div>
                         <div className='w-full flex justify-end items-center gap-3'>
                             <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
-                            <button onClick={(e) => addOrUpdateGroup(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:bg-[#3558A0]'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
+                            <button onClick={(e) => {input ? addOrUpdateGroup(e, true) : addOrUpdateGroup(e, false)}} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:bg-[#3558A0]'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
                         </div>
                     </div>
                 </div>
             </div>
-            {coursePopup && <AddCourseToOption toggleCoursePopup={toggleCoursePopup} addCourse={addCourse} editedCourse={editedCourse} setEditedCourse={setEditedCourse} updateCourse={updateCourse} group={group}/>}
+            {coursePopup && <AddCourseToOption loggedInUser={loggedInUser} editedGroup={editedGroup} index={index} input={input} setEditedGroup={setEditedGroup} setGroup={setGroup}
+             toggleCoursePopup={toggleCoursePopup} editedCourse={editedCourse} setEditedCourse={setEditedCourse} group={group} newSchool={newSchool}/>}
             {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>
     )
