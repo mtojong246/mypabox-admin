@@ -57,7 +57,6 @@ export default function MissionStatement({newSchool, setNewSchool, loggedInUser,
         })
     }
 
-    console.log(newSchool.school_mission_statement)
     
     return (
         <>

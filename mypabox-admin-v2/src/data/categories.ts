@@ -114,18 +114,7 @@ export const categories: CategoryType[] = [
                 margin: 'mt-12',
                 type: 'text',
             },
-            {
-                name: 'Seat Deposit (In-state)',
-                value: 'school_seat_deposit_in_state',
-                margin: 'mt-28',
-                type: 'text',
-            },
-            {
-                name: 'Seat Deposit (Out-of-state)',
-                value: 'school_seat_deposit_out_of_state',
-                margin: 'mt-12',
-                type: 'text',
-            },
+            
             {
                 name: 'Rolling Admissions',
                 value: 'school_rolling_admissions',
@@ -282,6 +271,18 @@ export const categories: CategoryType[] = [
             {
                 name: 'Out-Of-State Tuition',
                 value: 'school_out_of_state_tuition',
+                margin: 'mt-12',
+                type: 'text',
+            },
+            {
+                name: 'Seat Deposit (In-state)',
+                value: 'school_seat_deposit_in_state',
+                margin: 'mt-28',
+                type: 'text',
+            },
+            {
+                name: 'Seat Deposit (Out-of-state)',
+                value: 'school_seat_deposit_out_of_state',
                 margin: 'mt-12',
                 type: 'text',
             },
