@@ -430,7 +430,6 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
         })
     };
 
-    console.log(newSchool.edited_school_time_frame_criteria.edited_school_time_frame_all_courses_must_be_completed)
 
 
     return (

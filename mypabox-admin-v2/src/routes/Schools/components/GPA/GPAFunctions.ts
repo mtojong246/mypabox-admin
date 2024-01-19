@@ -102,13 +102,15 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
     const name = `edited_${e.currentTarget.name}` as keyof School;
     const original = e.currentTarget.name as keyof School;
     if (name === 'edited_school_average_gpa_accepted_previous_cycle') {
-        const field = newSchool[name] as EditedPreviousCycle;
-        const originalField = newSchool[original] as PreviousCycle;
+        const field = newSchool[name];
+        const originalField = newSchool.school_average_gpa_accepted_previous_cycle;
         setNewSchool({
             ...newSchool,
-            [name]: {
+            edited_school_average_gpa_accepted_previous_cycle: {
                 ...field,
                 isEditMode: true,
+                input: (field.edited_average_overall_gpa_accepted_previous_year.input === null || field.edited_average_prerequisite_gpa_accepted_previous_year.input === null
+                    || field.edited_average_science_gpa_accepted_previous_year.input === null || field.edited_average_bcp_gpa_accepted_previous_year.input === null) ? null : true,
                 edited_average_overall_gpa_accepted_previous_year: {
                     ...field.edited_average_overall_gpa_accepted_previous_year,
                     input: field.edited_average_overall_gpa_accepted_previous_year.input === null ? originalField.average_overall_gpa_accepted_previous_year.input : field.edited_average_overall_gpa_accepted_previous_year.input,
@@ -223,12 +225,14 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
     const originalName = e.currentTarget.name as keyof School;
     if (!original) {
         if (name === 'edited_school_average_gpa_accepted_previous_cycle') {
-            const field = newSchool[name] as EditedPreviousCycle;
-            const originalField = newSchool[originalName] as PreviousCycle;
+            const field = newSchool.edited_school_average_gpa_accepted_previous_cycle;
+            const originalField = newSchool.edited_school_average_gpa_accepted_previous_cycle;
             setNewSchool({
                 ...newSchool,
                 [name]: {
                     ...field,
+                    input: (field.edited_average_overall_gpa_accepted_previous_year.input === null || field.edited_average_prerequisite_gpa_accepted_previous_year.input === null
+                        || field.edited_average_science_gpa_accepted_previous_year.input === null || field.edited_average_bcp_gpa_accepted_previous_year.input === null) ? null : true,
                     isEditMode: false,
                     edited_average_overall_gpa_accepted_previous_year: {
                         ...field.edited_average_overall_gpa_accepted_previous_year,
@@ -341,7 +345,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
         }
     } else {
     if (name === 'edited_school_average_gpa_accepted_previous_cycle') {
-        const originalField = newSchool[originalName] as PreviousCycle;
+        const originalField = newSchool.school_average_gpa_accepted_previous_cycle;
         setNewSchool({
             ...newSchool,
             [originalName]: {
@@ -354,6 +358,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_average_overall_gpa_accepted_previous_year: {
                     input: null,
                     prev: null,
@@ -517,6 +522,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_average_overall_gpa_accepted_previous_year: {
                     input: null,
                     prev: null,
@@ -616,12 +622,14 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
     e.preventDefault();
     const name = `edited_${e.currentTarget.name}` as keyof School;
     if (name === 'edited_school_average_gpa_accepted_previous_cycle') {
-        const field = newSchool[name] as EditedPreviousCycle;
+        const field = newSchool.edited_school_average_gpa_accepted_previous_cycle;
         setNewSchool({
             ...newSchool,
             [name]: {
                 ...field,
                 isEditMode: false,
+                input: (field.edited_average_overall_gpa_accepted_previous_year.input === null || field.edited_average_prerequisite_gpa_accepted_previous_year.input === null
+                    || field.edited_average_science_gpa_accepted_previous_year.input === null || field.edited_average_bcp_gpa_accepted_previous_year.input === null) ? null : true,
                 edited_average_overall_gpa_accepted_previous_year: {
                     ...field.edited_average_overall_gpa_accepted_previous_year,
                     input: field.edited_average_overall_gpa_accepted_previous_year.prev,

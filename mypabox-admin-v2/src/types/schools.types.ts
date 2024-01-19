@@ -343,6 +343,22 @@ export interface School {
         link: string;
     }
     school_type_of_degree_offered: StringInputWithFields;
+    
+    edited_school_type_of_degree_offered: {
+        link: string;
+        isEditMode: boolean;
+        input: {
+            name: string,
+            isCorrect: boolean,
+            isNew: boolean,
+        }[] | null,
+        prev: {
+            name: string,
+            isCorrect: boolean,
+            isNew: boolean,
+        }[] | null,
+    }
+
     school_bachelors_degree_required: BooleanInput;
     edited_school_bachelors_degree_required: {
         input: boolean | null,
@@ -518,6 +534,7 @@ export interface School {
     edited_school_average_gpa_accepted_previous_cycle: {
         link: string;
         isEditMode: boolean;
+        input: boolean | null;
         edited_average_overall_gpa_accepted_previous_year: {
             input: number | null;
             prev: number | null;
@@ -691,6 +708,7 @@ export interface School {
     edited_school_grade_criteria: {
         link: string;
         isEditMode: boolean;
+        input: boolean | null,
         edited_school_minimum_grade_required_for_all_courses: {
             input: string | null;
             prev: string | null;
@@ -707,6 +725,7 @@ export interface School {
     edited_school_time_frame_criteria: {
         link: string;
         isEditMode: boolean;
+        input: boolean | null,
         edited_school_time_frame_all_courses_must_be_completed: {
             input: string | null;
             prev: string | null;
@@ -729,6 +748,7 @@ export interface School {
     edited_school_pass_fail_criteria: {
         isEditMode: boolean;
         link: string;
+        input: boolean | null,
         edited_school_pass_fail_grade_accepted: {
             input: boolean | null;
             prev: boolean | null;
@@ -743,6 +763,7 @@ export interface School {
     edited_school_ap_criteria: {
         link: string;
         isEditMode: boolean;
+        input: boolean | null,
         edited_school_ap_courses_accepted: {
             input: boolean | null;
             prev: boolean | null;
@@ -757,6 +778,7 @@ export interface School {
     edited_school_community_college_criteria: {
         link: string;
         isEditMode: boolean;
+        input: boolean | null,
         edited_school_community_college_credits_accepted: {
             input: boolean | null;
             prev: boolean | null;
@@ -771,6 +793,7 @@ export interface School {
     edited_school_clep_criteria: {
         link: string;
         isEditMode: boolean;
+        input: boolean | null,
         edited_school_clep_credits_accepted: {
             input: boolean | null;
             prev: boolean | null;
@@ -785,6 +808,7 @@ export interface School {
     edited_school_online_courses_criteria: {
         link: string;
         isEditMode: boolean;
+        input: boolean | null,
         edited_school_online_courses_accepted: {
             input: boolean | null;
             prev: boolean | null;
@@ -807,6 +831,7 @@ export interface School {
     edited_school_prerequisite_completion_criteria: {
         link: string;
         isEditMode: boolean;
+        input: boolean | null,
         edited_school_all_courses_most_be_completed_before_applying: {
             input: boolean | null;
             prev: boolean | null;
@@ -874,6 +899,7 @@ export interface School {
     edited_school_patient_experience: {
         link: string,
         isEditMode: boolean,
+        input: boolean | null,
         edited_school_patient_experience_required: {
             input: boolean | null,
             prev: boolean | null,
@@ -909,6 +935,7 @@ export interface School {
     edited_school_healthcare_experience: {
         link: string,
         isEditMode: boolean,
+        input: boolean | null,
         edited_school_healthcare_experience_required: {
             input: boolean | null,
             prev: boolean | null,
@@ -945,6 +972,7 @@ export interface School {
     edited_school_community_service: {
         link: string,
         isEditMode: boolean,
+        input: boolean | null,
         edited_school_community_service_required: {
             input: boolean | null,
             prev: boolean | null,
@@ -985,6 +1013,7 @@ export interface School {
     edited_school_volunteer_service: {
         link: string,
         isEditMode: boolean,
+        input: boolean | null,
         edited_school_volunteer_service_required: {
             input: boolean | null,
             prev: boolean | null,
@@ -1144,6 +1173,7 @@ export interface School {
     edited_school_gre: {
         isEditMode: boolean;
         link: string;
+        input: boolean | null,
         edited_school_gre_required: {
             input: boolean | null;
             prev: boolean | null;
@@ -1267,6 +1297,7 @@ export interface School {
 
     edited_school_pacat: {
         link: string;
+        input: boolean | null;
         edited_school_pacat_required: {
             input: boolean | null;
             prev: boolean | null;
@@ -1304,6 +1335,7 @@ export interface School {
 
     edited_school_casper: {
         link: string;
+        input: boolean | null;
         edited_school_casper_required: {
             input: boolean | null;
             prev: boolean | null;
@@ -1360,6 +1392,7 @@ export interface School {
     edited_school_english_proficiency_exams: {
         link: string;
         isEditMode: boolean;
+        input: boolean | null;
         edited_school_english_proficiency_exams_required: {
             input: boolean | null;
             prev: boolean | null;

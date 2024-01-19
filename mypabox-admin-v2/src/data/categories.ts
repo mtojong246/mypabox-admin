@@ -3,10 +3,10 @@ import { options, Option } from "./options";
 
 
 interface Field {
-    name: string;
+    name?: string;
     value: string;
-    margin: string;
-    type: string;
+    margin?: string;
+    type?: string;
     options?: Option[]
 }
 
@@ -14,6 +14,7 @@ interface Field {
 export interface CategoryType {
     hash: string;
     name: string;
+    isEdited: boolean;
     fields: Field[] | [];
 }
 
@@ -21,6 +22,7 @@ export const categories: CategoryType[] = [
     {
         hash: '#general-info',
         name: 'General Info',
+        isEdited: false,
         fields: [
             {
                 name: 'School Name',
@@ -195,6 +197,7 @@ export const categories: CategoryType[] = [
     {
         hash: '#degree-info',
         name: 'Degree Info',
+        isEdited: false,
         fields: [
             {
                 name: 'Types of Degrees Offered',
@@ -219,11 +222,23 @@ export const categories: CategoryType[] = [
     {
         hash: '#applications',
         name: 'Applications',
-        fields: [],
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_application_submitted_on_caspa'
+            },
+            {
+                value: 'school_application_submitted_directly_to_school'
+            },
+            {
+                value: 'school_supplemental_application_required'
+            },
+        ],
     },
     {
         hash: '#accreditation-status',
         name: 'Accreditation Status',
+        isEdited: false,
         fields: [
             {
                 name: 'Accreditation Status',
@@ -243,6 +258,7 @@ export const categories: CategoryType[] = [
     {
         hash: '#mission-statement',
         name: 'Mission Statement',
+        isEdited: false,
         fields: [
             {
                 name: 'Mission Statement',
@@ -255,6 +271,7 @@ export const categories: CategoryType[] = [
     {
         hash: '#tuition',
         name: 'Tuition',
+        isEdited: false,
         fields: [
             {
                 name: 'In-State Tuition',
@@ -279,6 +296,7 @@ export const categories: CategoryType[] = [
     {
         hash: '#pance-pass-rate',
         name: 'PANCE Pass Rate',
+        isEdited: false,
         fields: [
             {
                 name: 'First Time Pass Rate',
@@ -303,42 +321,166 @@ export const categories: CategoryType[] = [
     {
         hash: '#GPA',
         name: 'GPA',
-        fields: [],
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_minimum_gpa_required'
+            },
+            {
+                value: 'school_minimum_gpa_recommended'
+            },
+            {
+                value: 'school_other_types_of_gpa_evaluated'
+            },
+            {
+                value: 'school_minimum_gpa_for_specific_course'
+            },
+            {
+                value: 'school_average_gpa_accepted_previous_cycle'
+            },
+            
+        ],
     },
     {
         hash: '#prerequisites',
         name: 'Prerequisites',
-        fields: [],
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_prereq_required_courses'
+            },
+            {
+                value: 'school_prereq_required_optional_courses'
+            },
+            {
+                value: 'school_prereq_required_course_categories'
+            },
+            {
+                value: 'school_prereq_recommended_courses'
+            },
+            {
+                value: 'school_grade_criteria'
+            },
+            {
+                value: 'school_time_frame_criteria'
+            },
+            {
+                value: 'school_pass_fail_criteria'
+            },
+            {
+                value: 'school_ap_criteria'
+            },
+            {
+                value: 'school_community_college_criteria'
+            },
+            {
+                value: 'school_clep_criteria'
+            },
+            {
+                value: 'school_online_courses_criteria'
+            },
+            {
+                value: 'school_prerequisite_completion_criteria'
+            },
+            
+        ],
     },
     {
         hash: '#experience',
         name: 'Experience',
-        fields: [],
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_paid_experience_required'
+            },
+            {
+                value: 'school_patient_experience'
+            },
+            {
+                value: 'school_healthcare_experience'
+            },
+            {
+                value: 'school_community_service'
+            },
+            {
+                value: 'school_volunteer_service'
+            },
+            
+        ],
     },
     {
         hash: '#pa-shadowing',
         name: 'PA Shadowing',
-        fields: [],
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_pa_shadowing_required'
+            },
+            {
+                value: 'school_pa_shadowing_recommended'
+            },
+            {
+                value: 'school_average_pa_shadowing_hours_accepted_previous_cycle'
+            },
+            
+        ],
     },
     {
         hash: '#exams',
         name: 'Exams',
-        fields: [],
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_required_optional_exams'
+            },
+            {
+                value: 'school_gre'
+            },
+            {
+                value: 'school_pacat'
+            },
+            {
+                value: 'school_casper'
+            },
+            {
+                value: 'school_english_proficiency_exams'
+            }
+        ],
     },
     {
         hash: '#evaluations',
         name: 'Evaluations',
-        fields: [],
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_evaluations_required'
+            },
+            {
+                value: 'school_evaluations_recommended'
+            },
+            
+        ],
     },
     {
         hash: '#international-students',
         name: 'International Students',
-        fields: [],
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_international_students_accepted'
+            }
+        ],
     },
     {
         hash: '#certifications',
         name: 'Certifications',
-        fields: [],
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_certifications_required'
+            },
+            
+        ],
     },
     
 ];

@@ -14,6 +14,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             edited_school_gre: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_gre_required.input === null ? null : true,
                 edited_school_gre_required: {
                     ...field.edited_school_gre_required,
                     input: field.edited_school_gre_required.input === null ? originalField.school_gre_required : field.edited_school_gre_required.input,
@@ -124,6 +125,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             edited_school_english_proficiency_exams: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_english_proficiency_exams_required.input === null ? null : true,
                 edited_school_english_proficiency_exams_required: {
                     ...field.edited_school_english_proficiency_exams_required,
                     input: field.edited_school_english_proficiency_exams_required.input === null ? originalField.school_english_proficiency_exams_required : field.edited_school_english_proficiency_exams_required.input,
@@ -255,6 +257,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_gre: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_gre_required.input === null ? null : true,
                     edited_school_gre_required: {
                         ...field.edited_school_gre_required,
                         input: field.edited_school_gre_required.input,
@@ -389,6 +392,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_english_proficiency_exams: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_english_proficiency_exams_required.input === null ? null : true,
                     edited_school_english_proficiency_exams_required: {
                         ...field.edited_school_english_proficiency_exams_required,
                         input: field.edited_school_english_proficiency_exams_required.input,
@@ -506,7 +510,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     }
                 }
             })
-        } if (name === 'edited_school_required_optional_exams') {
+        } else if (name === 'edited_school_required_optional_exams') {
             const field = newSchool.edited_school_required_optional_exams;
             setNewSchool({
                 ...newSchool,
@@ -574,6 +578,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_gre: {
                     link: '',
                     isEditMode: false,
+                    input: null,
                     edited_school_gre_required: {
                         input: null,
                         prev: null,
@@ -716,6 +721,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_english_proficiency_exams: {
                     link: '',
                     isEditMode: false,
+                    input: null,
                     edited_school_english_proficiency_exams_required: {
                         input: null,
                         prev: null,
@@ -846,6 +852,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             edited_school_gre: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_gre_required.input === null ? null : true,
                 edited_school_gre_required: {
                     ...field.edited_school_gre_required,
                     input: field.edited_school_gre_required.prev,
@@ -980,6 +987,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             edited_school_english_proficiency_exams: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_english_proficiency_exams_required.input === null ? null : true,
                 edited_school_english_proficiency_exams_required: {
                     ...field.edited_school_english_proficiency_exams_required,
                     input: field.edited_school_english_proficiency_exams_required.prev,
@@ -1097,7 +1105,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
                 }
             }
         })
-    } if (name === 'edited_school_required_optional_exams') {
+    } else if (name === 'edited_school_required_optional_exams') {
         const field = newSchool.edited_school_required_optional_exams;
         setNewSchool({
             ...newSchool,
@@ -1121,6 +1129,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             edited_school_gre: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_gre_required: {
                     input: null,
                     prev: null,
@@ -1229,6 +1238,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             edited_school_english_proficiency_exams: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_english_proficiency_exams_required: {
                     input: null,
                     prev: null,

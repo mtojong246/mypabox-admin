@@ -13,6 +13,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_pass_fail_grade_accepted.input === null ? null : true,
                 edited_school_pass_fail_grade_accepted: {
                     ...field.edited_school_pass_fail_grade_accepted,
                     input: field.edited_school_pass_fail_grade_accepted.input === null ? newSchool.school_pass_fail_criteria.school_pass_fail_grade_accepted : field.edited_school_pass_fail_grade_accepted.input,
@@ -26,6 +27,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_ap_courses_accepted.input === null ? null : true,
                 edited_school_ap_courses_accepted: {
                     ...field.edited_school_ap_courses_accepted,
                     input: field.edited_school_ap_courses_accepted.input === null ? newSchool.school_ap_criteria.school_ap_courses_accepted : field.edited_school_ap_courses_accepted.input,
@@ -39,6 +41,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_community_college_credits_accepted.input === null ? null : true,
                 edited_school_community_college_credits_accepted: {
                     ...field.edited_school_community_college_credits_accepted,
                     input: field.edited_school_community_college_credits_accepted.input === null ? newSchool.school_community_college_criteria.school_community_college_credits_accepted : field.edited_school_community_college_credits_accepted.input,
@@ -52,6 +55,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_clep_credits_accepted.input === null ? null : true,
                 edited_school_clep_credits_accepted: {
                     ...field.edited_school_clep_credits_accepted,
                     input: field.edited_school_clep_credits_accepted.input === null ? newSchool.school_clep_criteria.school_clep_credits_accepted : field.edited_school_clep_credits_accepted.input,
@@ -65,6 +69,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_online_courses_accepted.input === null ? null : true,
                 edited_school_online_courses_accepted: {
                     ...field.edited_school_online_courses_accepted,
                     input: field.edited_school_online_courses_accepted.input === null ? newSchool.school_online_courses_criteria.school_online_courses_accepted : field.edited_school_online_courses_accepted.input,
@@ -86,6 +91,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_pass_fail_grade_accepted.input === null ? null : true,
                     edited_school_pass_fail_grade_accepted: {
                         ...field.edited_school_pass_fail_grade_accepted,
                         input: field.edited_school_pass_fail_grade_accepted.input,
@@ -100,6 +106,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_ap_courses_accepted.input === null ? null : true,
                     edited_school_ap_courses_accepted: {
                         ...field.edited_school_ap_courses_accepted,
                         input: field.edited_school_ap_courses_accepted.input,
@@ -114,6 +121,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_community_college_credits_accepted.input === null ? null : true,
                     edited_school_community_college_credits_accepted: {
                         ...field.edited_school_community_college_credits_accepted,
                         input: field.edited_school_community_college_credits_accepted.input,
@@ -128,6 +136,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_clep_credits_accepted.input === null ? null : true,
                     edited_school_clep_credits_accepted: {
                         ...field.edited_school_clep_credits_accepted,
                         input: field.edited_school_clep_credits_accepted.input,
@@ -142,6 +151,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_online_courses_accepted.input === null ? null : true,
                     edited_school_online_courses_accepted: {
                         ...field.edited_school_online_courses_accepted,
                         input: field.edited_school_online_courses_accepted.input,
@@ -162,6 +172,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: null,
                     edited_school_pass_fail_grade_accepted: {
                         ...field.edited_school_pass_fail_grade_accepted,
                         input: null,
@@ -180,6 +191,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: null,
                     edited_school_ap_courses_accepted: {
                         ...field.edited_school_ap_courses_accepted,
                         input: null,
@@ -198,6 +210,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: null,
                     edited_school_community_college_credits_accepted: {
                         ...field.edited_school_community_college_credits_accepted,
                         input: null,
@@ -216,6 +229,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: null,
                     edited_school_clep_credits_accepted: {
                         ...field.edited_school_clep_credits_accepted,
                         input: null,
@@ -234,6 +248,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: null,
                     edited_school_online_courses_accepted: {
                         ...field.edited_school_online_courses_accepted,
                         input: null,
@@ -256,6 +271,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_pass_fail_grade_accepted: {
                     ...field.edited_school_pass_fail_grade_accepted,
                     input: null,
@@ -270,6 +286,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_ap_courses_accepted: {
                     ...field.edited_school_ap_courses_accepted,
                     input: null,
@@ -284,6 +301,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_community_college_credits_accepted: {
                     ...field.edited_school_community_college_credits_accepted,
                     input: null,
@@ -298,6 +316,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_clep_credits_accepted: {
                     ...field.edited_school_clep_credits_accepted,
                     input: null,
@@ -312,6 +331,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_online_courses_accepted: {
                     ...field.edited_school_online_courses_accepted,
                     input: null,
@@ -333,6 +353,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_pass_fail_grade_accepted.input === null ? null : true,
                 edited_school_pass_fail_grade_accepted: {
                     ...field.edited_school_pass_fail_grade_accepted,
                     input: field.edited_school_pass_fail_grade_accepted.prev,
@@ -347,6 +368,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_ap_courses_accepted.input === null ? null : true,
                 edited_school_ap_courses_accepted: {
                     ...field.edited_school_ap_courses_accepted,
                     input: field.edited_school_ap_courses_accepted.prev,
@@ -361,6 +383,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_community_college_credits_accepted.input === null ? null : true,
                 edited_school_community_college_credits_accepted: {
                     ...field.edited_school_community_college_credits_accepted,
                     input: field.edited_school_community_college_credits_accepted.prev,
@@ -375,6 +398,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_clep_credits_accepted.input === null ? null : true,
                 edited_school_clep_credits_accepted: {
                     ...field.edited_school_clep_credits_accepted,
                     input: field.edited_school_clep_credits_accepted.prev,
@@ -389,6 +413,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_online_courses_accepted.input === null ? null : true,
                 edited_school_online_courses_accepted: {
                     ...field.edited_school_online_courses_accepted,
                     input: field.edited_school_online_courses_accepted.prev,

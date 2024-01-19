@@ -12,6 +12,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_minimum_grade_required_for_all_courses.input === null ? null : true,
                 edited_school_minimum_grade_required_for_all_courses: {
                     ...field.edited_school_minimum_grade_required_for_all_courses,
                     input: field.edited_school_minimum_grade_required_for_all_courses.input === null ? newSchool.school_grade_criteria.school_minimum_grade_required_for_all_courses : field.edited_school_minimum_grade_required_for_all_courses.input,
@@ -25,6 +26,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_time_frame_all_courses_must_be_completed.input === null ? null: true,
                 edited_school_time_frame_all_courses_must_be_completed: {
                     ...field.edited_school_time_frame_all_courses_must_be_completed,
                     input: field.edited_school_time_frame_all_courses_must_be_completed.input === null ? newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.input : field.edited_school_time_frame_all_courses_must_be_completed.input,
@@ -48,6 +50,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_all_courses_most_be_completed_before_applying.input === null ? null : true,
                 edited_school_all_courses_most_be_completed_before_applying: {
                     ...field.edited_school_all_courses_most_be_completed_before_applying,
                     input: field.edited_school_all_courses_most_be_completed_before_applying.input === null ? originalField.school_all_courses_most_be_completed_before_applying : field.edited_school_all_courses_most_be_completed_before_applying.input === null,
@@ -102,6 +105,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_minimum_grade_required_for_all_courses.input === null ? null : true,
                     edited_school_minimum_grade_required_for_all_courses: {
                         ...field.edited_school_minimum_grade_required_for_all_courses,
                         input: field.edited_school_minimum_grade_required_for_all_courses.input,
@@ -116,6 +120,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_time_frame_all_courses_must_be_completed.input === null ? null: true,
                     edited_school_time_frame_all_courses_must_be_completed: {
                         ...field.edited_school_time_frame_all_courses_must_be_completed,
                         input: field.edited_school_time_frame_all_courses_must_be_completed.input,
@@ -142,6 +147,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_all_courses_most_be_completed_before_applying.input === null ? null : true,
                     edited_school_all_courses_most_be_completed_before_applying: {
                         ...field.edited_school_all_courses_most_be_completed_before_applying,
                         input: field.edited_school_all_courses_most_be_completed_before_applying.input,
@@ -202,6 +208,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     link: '',
                     isEditMode: false,
+                    input: null,
                     edited_school_minimum_grade_required_for_all_courses: {
                         input: null,
                         prev: null,
@@ -230,6 +237,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     link: '',
                     isEditMode: false,
+                    input: null,
                     edited_school_time_frame_all_courses_must_be_completed: {
                         input: null,
                         prev: null,
@@ -286,6 +294,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     link: '',
                     isEditMode: false,
+                    input: null,
                     edited_school_all_courses_most_be_completed_before_applying: {
                         input: null,
                         prev: null,
@@ -429,6 +438,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_minimum_grade_required_for_all_courses: {
                     input: null,
                     prev: null,
@@ -441,6 +451,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_time_frame_all_courses_must_be_completed: {
                     input: null,
                     prev: null,
@@ -462,6 +473,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_all_courses_most_be_completed_before_applying: {
                     input: null,
                     prev: null,
@@ -514,6 +526,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_minimum_grade_required_for_all_courses.input === null ? null : true,
                 edited_school_minimum_grade_required_for_all_courses: {
                     ...field.edited_school_minimum_grade_required_for_all_courses,
                     input: field.edited_school_minimum_grade_required_for_all_courses.prev,
@@ -528,6 +541,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_time_frame_all_courses_must_be_completed.input === null ? null: true,
                 edited_school_time_frame_all_courses_must_be_completed: {
                     ...field.edited_school_time_frame_all_courses_must_be_completed,
                     input: field.edited_school_time_frame_all_courses_must_be_completed.prev,
@@ -554,6 +568,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_all_courses_most_be_completed_before_applying.input === null ? null : true,
                 edited_school_all_courses_most_be_completed_before_applying: {
                     ...field.edited_school_all_courses_most_be_completed_before_applying,
                     input: field.edited_school_all_courses_most_be_completed_before_applying.prev,

@@ -492,8 +492,6 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         
     };
 
-    console.log(newSchool.edited_school_phone_number.input)
-
     const deleteEmail = (e:any, index: number, isNew: boolean, isEditedInput: boolean) => {
         e.preventDefault();
         if (!isEditedInput) {

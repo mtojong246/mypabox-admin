@@ -203,6 +203,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
             ...newSchool,
             edited_school_pacat: {
                 ...newSchool.edited_school_pacat,
+                input: newSchool.edited_school_pacat.edited_school_pacat_required.input === null ? null : true,
                 edited_school_pacat_required: {
                     ...newSchool.edited_school_pacat.edited_school_pacat_required,
                     input: newSchool.edited_school_pacat.edited_school_pacat_required.input === null ? newSchool.school_pacat.school_pacat_required : newSchool.edited_school_pacat.edited_school_pacat_required.input,
@@ -239,6 +240,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
                 ...newSchool,
                 edited_school_pacat: {
                     ...newSchool.edited_school_pacat,
+                    input: newSchool.edited_school_pacat.edited_school_pacat_required.input === null ? null : true,
                     edited_school_pacat_required: {
                         input: newSchool.edited_school_pacat.edited_school_pacat_required.input,
                         prev: newSchool.edited_school_pacat.edited_school_pacat_required.input,
@@ -279,6 +281,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
                 },
                 edited_school_pacat: {
                     link: '',
+                    input: null,
                     edited_school_pacat_required: {
                         input: null,
                         prev: null,
@@ -315,6 +318,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
             ...newSchool,
             edited_school_pacat: {
                 ...newSchool.edited_school_pacat,
+                input: newSchool.edited_school_pacat.edited_school_pacat_required.input === null ? null : true,
                 edited_school_pacat_required: {
                     input: newSchool.edited_school_pacat.edited_school_pacat_required.input === newSchool.school_pacat.school_pacat_required ? null : newSchool.edited_school_pacat.edited_school_pacat_required.prev,
                     prev: null,
@@ -350,6 +354,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
             ...newSchool,
             edited_school_pacat: {
                 link: '',
+                input: null,
                 edited_school_pacat_required: {
                     input: null,
                     prev: null,

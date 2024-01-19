@@ -37,6 +37,21 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                 })) : field.input,
             }
         })
+    } else if (name === 'edited_school_type_of_degree_offered') {
+        const field = newSchool.edited_school_type_of_degree_offered;
+        const originalField = newSchool.school_type_of_degree_offered;
+        setNewSchool({
+            ...newSchool,
+            edited_school_type_of_degree_offered: {
+                ...newSchool.edited_school_type_of_degree_offered,
+                isEditMode: true,
+                input: field.input === null ? originalField.fields.map(inp => ({
+                    name: inp,
+                    isCorrect: true,
+                    isNew: false,
+                })) : field.input,
+            }
+        })
     }
 }
 
@@ -61,6 +76,17 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 edited_school_email: {
                     ...field,
+                    isEditMode: false,
+                    input: field.input,
+                    prev: field.input,
+                }
+            })
+        } else if (name === 'edited_school_type_of_degree_offered') {
+            const field = newSchool.edited_school_type_of_degree_offered;
+            setNewSchool({
+                ...newSchool,
+                edited_school_type_of_degree_offered: {
+                    ...newSchool.edited_school_type_of_degree_offered,
                     isEditMode: false,
                     input: field.input,
                     prev: field.input,
@@ -109,6 +135,23 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     prev: null,
                 }
             })
+        } else if (name === 'edited_school_type_of_degree_offered') {
+            const field = newSchool.edited_school_type_of_degree_offered;
+            const originalField = newSchool.school_type_of_degree_offered;
+            const correctList = field.input!.filter(opt => opt.isCorrect);
+            setNewSchool({
+                ...newSchool,
+                school_type_of_degree_offered: {
+                    ...originalField,
+                    fields: correctList ? correctList.map(list => list.name) : originalField.fields,
+                },
+                edited_school_type_of_degree_offered: {
+                    link: '',
+                    isEditMode: false,
+                    input: null,
+                    prev: null,
+                }
+            })
         }
     }
 
@@ -140,6 +183,17 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
                 prev: null,
             }
         })
+    } else if (name === 'edited_school_type_of_degree_offered') {
+        const field = newSchool.edited_school_type_of_degree_offered;
+        setNewSchool({
+            ...newSchool,
+            edited_school_type_of_degree_offered: {
+                ...field,
+                isEditMode: false,
+                input: field.prev,
+                prev: null,
+            }
+        })
     }
 }
 
@@ -160,6 +214,16 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
         setNewSchool({
             ...newSchool,
             edited_school_email: {
+                link: '',
+                isEditMode: false,
+                input: null,
+                prev: null,
+            }
+        })
+    } else if (name === 'edited_school_type_of_degree_offered') {
+        setNewSchool({
+            ...newSchool,
+            edited_school_type_of_degree_offered: {
                 link: '',
                 isEditMode: false,
                 input: null,

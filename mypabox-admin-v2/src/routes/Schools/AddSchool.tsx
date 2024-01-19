@@ -14,6 +14,7 @@ import EditNote from "./components/EditNote";
 import { Note } from "../../types/schools.types";
 import { categories } from "../../data/categories";
 import { SchoolContext } from "../../useContext";
+import { PiWarningCircle } from "react-icons/pi";
 
 
 import Button from '@mui/material/Button';
@@ -21,6 +22,7 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress';
+import { setCategories } from "../../app/slices/categories";
 
 
 export default function AddSchool() {
@@ -42,6 +44,7 @@ export default function AddSchool() {
     const position = window.scrollY;
     setScrollPosition(position);
   };
+  const [ allCategories, setAllCategories ] = useState(categories)
 
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -104,7 +107,21 @@ export default function AddSchool() {
       setTab(location.hash)
     }
 
-   }, [location.hash])
+   }, [location.hash]);
+
+   useEffect(() => {
+    const newCategories = categories.map(category => {
+      const editedFields = category.fields.find(field => (newSchool[`edited_${field.value}` as keyof object] as any) !== undefined && (newSchool[`edited_${field.value}` as keyof object] as any).input !== null);
+      if (editedFields) {
+        console.log(editedFields)
+        return {...category, isEdited: true}
+      } else {
+        return { ...category, isEdited: false }
+      }
+   })
+    setAllCategories(newCategories)
+   }, [newSchool])
+
 
     // Adds input values to 'newSchool' object
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -356,11 +373,11 @@ export default function AddSchool() {
         <div className={`flex justify-start items-start gap-10 `}>
           <div className={`text-md py-4 sticky border-r border-[#DCDCDC] ${tab === '#accreditation-status' || tab === '#mission-statement' ? 'min-h-0' : 'min-h-screen'} pr-10 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
             <div className='flex flex-col justify-start items-start gap-5'>
-            {categories.map(category => (
+            {allCategories.map(category => (
               <button onClick={(e:any) => {handleSave(e, newSchool.id, category.hash)}} 
               className={`whitespace-nowrap ${category.hash === tab ? 
               'text-red-500' : ''}`}>
-                {category.name}
+                <div className='flex justify-start items-center gap-[2px]'>{category.name} {category.isEdited && <PiWarningCircle className={`h-5 w-5 ml-[2px] text-[#F06A6A]`}/>}</div>
               </button>
             ))}
             </div>

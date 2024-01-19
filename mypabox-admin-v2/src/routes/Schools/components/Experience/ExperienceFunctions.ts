@@ -26,6 +26,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             edited_school_patient_experience: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle.input === null ? null : true,
                 edited_school_average_patient_care_experience_hours_accepted_previous_cycle: {
                     ...field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle,
                     input: field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle.input === null ? originalField.school_average_patient_care_experience_hours_accepted_previous_cycle : field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle.input,
@@ -52,6 +53,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             edited_school_healthcare_experience: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.input === null ? null : true,
                 edited_school_average_healthcare_experience_hours_accepted_previous_cycle: {
                     ...field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle,
                     input: field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.input === null ? originalField.school_average_healthcare_experience_hours_accepted_previous_cycle : field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.input,
@@ -78,6 +80,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             edited_school_community_service: {
                 ...field,
                 isEditMode: true,
+                input:  field.edited_school_average_community_service_hours_accepted_previous_cycle.input === null ? null : true,
                 edited_school_average_community_service_hours_accepted_previous_cycle: {
                     ...field.edited_school_average_community_service_hours_accepted_previous_cycle,
                     input: field.edited_school_average_community_service_hours_accepted_previous_cycle.input === null ? originalField.school_average_community_service_hours_accepted_previous_cycle : field.edited_school_average_community_service_hours_accepted_previous_cycle.input
@@ -108,6 +111,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             edited_school_volunteer_service: {
                 ...field,
                 isEditMode: true,
+                input: field.edited_school_average_volunteer_service_hours_accepted_previous_cycle.input === null ? null : true,
                 edited_school_average_volunteer_service_hours_accepted_previous_cycle: {
                     ...field.edited_school_average_volunteer_service_hours_accepted_previous_cycle,
                     input: field.edited_school_average_volunteer_service_hours_accepted_previous_cycle.input === null ? originalField.school_average_volunteer_service_hours_accepted_previous_cycle : field.edited_school_average_volunteer_service_hours_accepted_previous_cycle.input,
@@ -156,6 +160,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_patient_experience: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle.input === null ? null : true,
                     edited_school_average_patient_care_experience_hours_accepted_previous_cycle: {
                         ...field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle,
                         input: field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle.input,
@@ -185,6 +190,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_healthcare_experience: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.input === null ? null : true,
                     edited_school_average_healthcare_experience_hours_accepted_previous_cycle: {
                         ...field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle,
                         input: field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.input,
@@ -214,6 +220,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_community_service: {
                     ...field,
                     isEditMode: false,
+                    input:  field.edited_school_average_community_service_hours_accepted_previous_cycle.input === null ? null : true,
                     edited_school_average_community_service_hours_accepted_previous_cycle: {
                         ...field.edited_school_average_community_service_hours_accepted_previous_cycle,
                         input: field.edited_school_average_community_service_hours_accepted_previous_cycle.input,
@@ -248,6 +255,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_volunteer_service: {
                     ...field,
                     isEditMode: false,
+                    input: field.edited_school_average_volunteer_service_hours_accepted_previous_cycle.input === null ? null : true,
                     edited_school_average_volunteer_service_hours_accepted_previous_cycle: {
                         ...field.edited_school_average_volunteer_service_hours_accepted_previous_cycle,
                         input: field.edited_school_average_volunteer_service_hours_accepted_previous_cycle.input,
@@ -313,6 +321,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_patient_experience: {
                     link: '',
                     isEditMode: false,
+                    input: null,
                     edited_school_average_patient_care_experience_hours_accepted_previous_cycle: {
                         input: null,
                         prev: null,
@@ -352,6 +361,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_healthcare_experience: {
                     link: '',
                     isEditMode: false,
+                    input: null,
                     edited_school_average_healthcare_experience_hours_accepted_previous_cycle: {
                         input: null,
                         prev: null,
@@ -392,6 +402,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_community_service: {
                     link: '',
                     isEditMode: false,
+                    input: null,
                     edited_school_average_community_service_hours_accepted_previous_cycle: {
                         input: null,
                         prev: null,
@@ -436,6 +447,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_volunteer_service: {
                     link: '',
                     isEditMode: false,
+                    input: null,
                     edited_school_average_volunteer_service_hours_accepted_previous_cycle: {
                         input: null,
                         prev: null,
@@ -485,6 +497,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             edited_school_patient_experience: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle.input === null ? null : true,
                 edited_school_average_patient_care_experience_hours_accepted_previous_cycle: {
                     ...field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle,
                     input: field.edited_school_average_patient_care_experience_hours_accepted_previous_cycle.prev,
@@ -514,6 +527,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             edited_school_healthcare_experience: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.input === null ? null : true,
                 edited_school_average_healthcare_experience_hours_accepted_previous_cycle: {
                     ...field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle,
                     input: field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.prev,
@@ -543,6 +557,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             edited_school_community_service: {
                 ...field,
                 isEditMode: false,
+                input:  field.edited_school_average_community_service_hours_accepted_previous_cycle.input === null ? null : true,
                 edited_school_average_community_service_hours_accepted_previous_cycle: {
                     ...field.edited_school_average_community_service_hours_accepted_previous_cycle,
                     input: field.edited_school_average_community_service_hours_accepted_previous_cycle.prev,
@@ -577,6 +592,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             edited_school_volunteer_service: {
                 ...field,
                 isEditMode: false,
+                input: field.edited_school_average_volunteer_service_hours_accepted_previous_cycle.input === null ? null : true,
                 edited_school_average_volunteer_service_hours_accepted_previous_cycle: {
                     ...field.edited_school_average_volunteer_service_hours_accepted_previous_cycle,
                     input: field.edited_school_average_volunteer_service_hours_accepted_previous_cycle.prev,
@@ -627,6 +643,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             edited_school_patient_experience: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_average_patient_care_experience_hours_accepted_previous_cycle: {
                     input: null,
                     prev: null,
@@ -651,6 +668,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             edited_school_healthcare_experience: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_average_healthcare_experience_hours_accepted_previous_cycle: {
                     input: null,
                     prev: null,
@@ -675,6 +693,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             edited_school_community_service: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_average_community_service_hours_accepted_previous_cycle: {
                     input: null,
                     prev: null,
@@ -703,6 +722,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             edited_school_volunteer_service: {
                 link: '',
                 isEditMode: false,
+                input: null,
                 edited_school_average_volunteer_service_hours_accepted_previous_cycle: {
                     input: null,
                     prev: null,

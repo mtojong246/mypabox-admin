@@ -134,6 +134,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
             ...newSchool,
             edited_school_casper: {
                 ...newSchool.edited_school_casper,
+                input: newSchool.edited_school_casper.edited_school_casper_required.input === null ? null : true,
                 edited_school_casper_required: {
                     ...newSchool.edited_school_casper.edited_school_casper_required,
                     input: newSchool.edited_school_casper.edited_school_casper_required.input === null ? newSchool.school_casper.school_casper_required : newSchool.edited_school_casper.edited_school_casper_required.input, 
@@ -155,6 +156,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
                 ...newSchool,
                 edited_school_casper: {
                     ...newSchool.edited_school_casper,
+                    input: newSchool.edited_school_casper.edited_school_casper_required.input === null ? null : true,
                     edited_school_casper_required: {
                         ...newSchool.edited_school_casper.edited_school_casper_required,
                         input: newSchool.edited_school_casper.edited_school_casper_required.input === newSchool.school_casper.school_casper_required ? null : newSchool.edited_school_casper.edited_school_casper_required.input, 
@@ -181,6 +183,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
                 edited_school_casper: {
                     ...newSchool.edited_school_casper,
                     link: '',
+                    input: null,
                     edited_school_casper_required: {
                         input: null,
                         prev: null,
@@ -196,7 +199,6 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
         }
     };
 
-    console.log(newSchool.edited_school_casper)
 
     const undoEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
         e.preventDefault();
@@ -204,6 +206,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
             ...newSchool,
             edited_school_casper: {
                 ...newSchool.edited_school_casper,
+                input: newSchool.edited_school_casper.edited_school_casper_required.input === null ? null : true,
                 edited_school_casper_required: {
                     input: newSchool.edited_school_casper.edited_school_casper_required.input === newSchool.school_casper.school_casper_required ? null : newSchool.edited_school_casper.edited_school_casper_required.prev,
                     prev: null,
@@ -224,6 +227,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
             ...newSchool,
             edited_school_casper: {
                 link: '',
+                input: null,
                 edited_school_casper_required: {
                     input: null,
                     prev: null,

@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent, useEffect } from "react";
 import { School, Note, BooleanInput, StringInputWithFields } from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
 import { AiOutlineClose } from "react-icons/ai";
@@ -11,15 +11,26 @@ import EditButtons from "../../Assets/EditButtons";
 import BooleanFields from "../../Assets/BooleanFields";
 
 import { enableEditModeBool, confirmEditBool, undoEditBool, revertEditBool } from "./GeneralInfoFunctions";
+import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from "./EmailPhoneFunctions";
 import { UserObject } from "../../../../types/users.types";
+import TypeOfDegree from "./TypeOfDegree";
 
 export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdit}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
     const [index, setIndex] = useState<number | null>(null);
     const [editedNote, setEditedNote] = useState<Note | null>(null);
     const [notePopup, setNotePopup] = useState(false);
     const [name, setName] = useState('');
-    const [inputList, setInputList] = useState([{ input: '' }]);
+    // const [inputList, setInputList] = useState([{ input: '' }]);
     const [ field, setField ] = useState('');
+    const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        if (newSchool.edited_school_type_of_degree_offered.input !== null) {
+            setHasInputs(true)
+        } else {
+            setHasInputs(null)
+        }
+    }, [newSchool.edited_school_type_of_degree_offered.input])
 
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
@@ -37,25 +48,74 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
         setNotePopup(!notePopup);
       };
 
-    const addField = (e:any) => {
+    const addField = (e:any, isEditedInput: boolean) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_type_of_degree_offered: {
-                ...newSchool.school_type_of_degree_offered,
-                fields: newSchool.school_type_of_degree_offered.fields.concat(field),
-            }
-        });
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_type_of_degree_offered: {
+                    ...newSchool.school_type_of_degree_offered,
+                    fields: newSchool.school_type_of_degree_offered.fields.concat(field),
+                }
+            });
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_type_of_degree_offered: {
+                    ...newSchool.edited_school_type_of_degree_offered,
+                    input: newSchool.edited_school_type_of_degree_offered.input!.concat({
+                        name: field,
+                        isCorrect: true,
+                        isNew: true,
+                    })
+                }
+            })
+        }
+        
         setField('')
     };
 
-    const removeField = (e:any, index: number) => {
+    const removeField = (e:any, index: number, isNew: boolean, isEditedInput: boolean) => {
+        e.preventDefault();
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                school_type_of_degree_offered: {
+                    ...newSchool.school_type_of_degree_offered,
+                    fields: newSchool.school_type_of_degree_offered.fields.filter((f,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_type_of_degree_offered: {
+                    ...newSchool.edited_school_type_of_degree_offered,
+                    input: isNew ? newSchool.edited_school_type_of_degree_offered.input!.filter((inp,i) => i !== index) : newSchool.edited_school_type_of_degree_offered.input!.map((inp,i) => {
+                        if (i === index) {
+                            return { ...inp, isCorrect: false }
+                        } else {
+                            return { ...inp }
+                        }
+                    })
+                }
+            })
+        }
+        
+    }
+
+    const undoDelete = (e:any, index: number) => {
         e.preventDefault();
         setNewSchool({
             ...newSchool,
-            school_type_of_degree_offered: {
-                ...newSchool.school_type_of_degree_offered,
-                fields: newSchool.school_type_of_degree_offered.fields.filter((f,i) => i !== index)
+            edited_school_type_of_degree_offered: {
+                ...newSchool.edited_school_type_of_degree_offered,
+                input: newSchool.edited_school_type_of_degree_offered.input!.map((inp,i) => {
+                    if (i === index) {
+                        return { ...inp, isCorrect: true }
+                    } else {
+                        return { ...inp }
+                    }
+                })
             }
         })
     }
@@ -76,25 +136,25 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
     //     })
     // };
 
-    const handleFieldChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-        // Input changes based on what user types 
-        const name = e.target.name as keyof School;
-        const field = newSchool[name] as StringInputWithFields;
+    // const handleFieldChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    //     // Input changes based on what user types 
+    //     const name = e.target.name as keyof School;
+    //     const field = newSchool[name] as StringInputWithFields;
 
-        const list: any = [...inputList]
+    //     const list: any = [...inputList]
 
-        list[index].input = e.target.value
+    //     list[index].input = e.target.value
         
-        setInputList(list)
+    //     setInputList(list)
 
-        setNewSchool({
-        ...newSchool,
-        [name]: {
-            ...field, 
-            fields: list
-        }
-        })
-    }
+    //     setNewSchool({
+    //     ...newSchool,
+    //     [name]: {
+    //         ...field, 
+    //         fields: list
+    //     }
+    //     })
+    // }
 
     const addNote = (note: Note) => {
         const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
@@ -176,28 +236,30 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
         })
     }
 
-    console.log(newSchool.edited_school_dual_degree_program)
 
       
     return (
         <>
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative grow max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                    <label className="absolute top-[-16px] text-xl bg-white">Types of Degrees Offered</label>
+                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Types of Degrees Offered<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-center items-start gap-2'>
-                        <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" onChange={(e:ChangeEvent<HTMLInputElement>) => setField(e.target.value)} value={field}/>
-                        <button className='border rounded border-[#4573D2] text-[#4573D2] px-5 h-[50px] text-xl hover:text-white hover:bg-[#4573D2]' onClick={addField}>Add type</button>
+                        <input disabled={(loggedInUser.permissions.canVerify && hasInputs) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_type_of_degree_offered.isEditMode) ? true : false} className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" onChange={(e:ChangeEvent<HTMLInputElement>) => setField(e.target.value)} value={field}/>
+                        <button className='border rounded border-[#4573D2] text-[#4573D2] px-5 h-[50px] text-xl hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {hasInputs ? addField(e, true) : addField(e, false)}}>Add type</button>
                         <button disabled={loggedInUser.isSuperAdmin ? false : true} value="school_type_of_degree_offered" className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" 
                             onClick={(e:any) => {toggleNotePopup(e); setName('school_type_of_degree_offered')}}>
                             Add Note
                         </button>
                     </div>
-                    {newSchool.school_type_of_degree_offered.fields.length ? newSchool.school_type_of_degree_offered.fields.map((field,i) => (
+                    <TypeOfDegree loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_type_of_degree_offered.isEditMode} input={newSchool.edited_school_type_of_degree_offered.input} originalInput={newSchool.school_type_of_degree_offered.fields}
+                    deleteFunc={removeField} undoFunc={undoDelete}
+                    />
+                    {/* {newSchool.school_type_of_degree_offered.fields.length ? newSchool.school_type_of_degree_offered.fields.map((field,i) => (
                         <div className='flex justify-between items-center border border-[#B4B4B4] rounded mt-3 py-2 pl-3 pr-2'>
                             <p className='font-medium'>{field}</p>
                             <button onClick={(e:any) => removeField(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                         </div>
-                    )): null}
+                    )): null} */}
                     {newSchool.school_type_of_degree_offered.notes.length ? (
                         <>
                         <label className='font-semibold inline-block mt-6'>Notes:</label>
@@ -222,6 +284,10 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                     ) : ''
                     }
                 </div>
+                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_type_of_degree_offered.isEditMode} input={hasInputs} 
+                newSchool={newSchool} setNewSchool={setNewSchool} link={newSchool.edited_school_type_of_degree_offered.link} setLinkObj={setLinkObj} toggleLinkPopup={toggleLinkPopup}
+                enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} name='school_type_of_degree_offered'
+                />}
             </div>
 
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>

@@ -288,6 +288,14 @@ export const defaultSchool: School = {
         fields: [],
         notes: [],
     },
+
+    edited_school_type_of_degree_offered: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+    },
+
     school_bachelors_degree_required: {
         input: false,
         notes: [],
@@ -523,6 +531,7 @@ export const defaultSchool: School = {
     edited_school_average_gpa_accepted_previous_cycle: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_average_overall_gpa_accepted_previous_year: {
             input: null,
             prev: null,
@@ -587,6 +596,7 @@ export const defaultSchool: School = {
     edited_school_grade_criteria: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_minimum_grade_required_for_all_courses: {
             input: null,
             prev: null,
@@ -612,6 +622,7 @@ export const defaultSchool: School = {
     edited_school_time_frame_criteria: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_time_frame_all_courses_must_be_completed: {
             input: null,
             prev: null,
@@ -634,6 +645,7 @@ export const defaultSchool: School = {
     edited_school_pass_fail_criteria: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_pass_fail_grade_accepted: {
             input: null,
             prev: null,
@@ -648,6 +660,7 @@ export const defaultSchool: School = {
     edited_school_ap_criteria: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_ap_courses_accepted: {
             input: null,
             prev: null,
@@ -662,6 +675,7 @@ export const defaultSchool: School = {
     edited_school_community_college_criteria: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_community_college_credits_accepted: {
             input: null,
             prev: null,
@@ -676,6 +690,7 @@ export const defaultSchool: School = {
     edited_school_clep_criteria: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_clep_credits_accepted: {
             input: null,
             prev: null,
@@ -690,6 +705,7 @@ export const defaultSchool: School = {
     edited_school_online_courses_criteria: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_online_courses_accepted: {
             input: null,
             prev: null,
@@ -712,6 +728,7 @@ export const defaultSchool: School = {
     edited_school_prerequisite_completion_criteria: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_all_courses_most_be_completed_before_applying: {
             input: null,
             prev: null,
@@ -774,6 +791,7 @@ export const defaultSchool: School = {
     edited_school_patient_experience: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_patient_experience_required: {
             input: null,
             prev: null,
@@ -803,6 +821,7 @@ export const defaultSchool: School = {
     edited_school_healthcare_experience: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_healthcare_experience_required: {
             input: null,
             prev: null,
@@ -833,6 +852,7 @@ export const defaultSchool: School = {
     edited_school_community_service: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_community_service_required: {
             input: null,
             prev: null,
@@ -867,6 +887,7 @@ export const defaultSchool: School = {
     edited_school_volunteer_service: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_volunteer_service_required: {
             input: null,
             prev: null,
@@ -991,6 +1012,7 @@ export const defaultSchool: School = {
     edited_school_gre: {
         isEditMode: false,
         link: '',
+        input: null,
         edited_school_gre_required: {
             input: null,
             prev: null,
@@ -1114,6 +1136,7 @@ export const defaultSchool: School = {
 
     edited_school_pacat: {
         link: '',
+        input: null,
         edited_school_pacat_required: {
             input: null,
             prev: null,
@@ -1151,6 +1174,7 @@ export const defaultSchool: School = {
 
     edited_school_casper: {
         link: '',
+        input: null,
         edited_school_casper_required: {
             input: null,
             prev: null,
@@ -1206,6 +1230,7 @@ export const defaultSchool: School = {
     edited_school_english_proficiency_exams: {
         link: '',
         isEditMode: false,
+        input: null,
         edited_school_english_proficiency_exams_required: {
             input: null,
             prev: null,
