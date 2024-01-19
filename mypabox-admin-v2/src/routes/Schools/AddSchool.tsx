@@ -354,7 +354,7 @@ export default function AddSchool() {
   return (
     <div className={`w-screen px-10 ont-['Noto Sans']`}>
       <div className={`w-full max-w-[1800px] mx-auto`}>
-        <div className={`w-full flex justify-between items-center pt-[120px] sticky bg-white z-10 top-0 border-b border-[#DCDCDC]
+        <div className={`w-full flex justify-between items-center pt-[120px] sticky bg-white z-50 top-0 border-b border-[#DCDCDC]
         ${window.scrollY === 180 ? '' : 'pb-2'}`}>
           <p className={`text-4xl ${window.scrollY === 180 ? '' : '-mt-28'} font-medium`}>{isEdit ? 'Edit School' : 'Add School'}</p>
           <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>

@@ -5,11 +5,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FiEdit3 } from "react-icons/fi";
 import countries from "../../../../data/countries.json";
 import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
 import AddNote from "../Prereqs/AddNote";
-import { AiOutlineInfoCircle } from 'react-icons/ai';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
 import { UserObject } from "../../../../types/users.types";
 import AddPhoneOrEmail from "../../Assets/AddPhoneOrEmail";
 
@@ -597,10 +593,11 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!field.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                {((loggedInUser.permissions.canVerify && field.input !== null) || (!loggedInUser.permissions.canVerify && !field.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${field.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-start items-start gap-3'>
                         <InputFields loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number)} name={cat.value} handleInput={handleInput}/>
-                        {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                        {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="disabled:opacity-70 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white disabled:hover:bg-none hover:bg-[#F06A6A]">
                             Add Note
                         </button>)}
                     </div>
@@ -616,8 +613,8 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                                     {note.type}:
                                 </p>
                                 <div className='flex gap-2'>
-                                    <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                                 </div> 
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -639,14 +636,16 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         } else if (cat.type === 'select') {
             const name = `edited_${cat.value}` as keyof School;
             const field = newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string};
+            const originalField = newSchool[cat.value as keyof object] as any;
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!field.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                {((loggedInUser.permissions.canVerify && field.input !== null) || (!loggedInUser.permissions.canVerify && !field.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${field.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-center items-start gap-3'>
                     {loggedInUser.permissions.canVerify ? (
                         <>
-                        {field.input ? (
+                        {field.input !== null ? (
                         <div className='flex flex-col justify-start items-start gap-3 grow'>
                             <Select isDisabled className="w-full focus:outline-none rounded"
                             options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.edited_school_state.input ? {value: newSchool.edited_school_state.input, label: newSchool.edited_school_state.input} : cat.value === 'school_country' && newSchool.edited_school_country.input ? {value: newSchool.edited_school_country.input, label: newSchool.edited_school_country.input} : cat.value === 'school_start_month' && newSchool.edited_school_start_month.input ? {value: newSchool.edited_school_start_month.input, label: newSchool.edited_school_start_month.input} : null}/>
@@ -660,13 +659,13 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                         </>
                     ) : (
                         <div className='flex flex-col justify-start items-start gap-3 grow'>
-                            {(field.input || field.isEditMode) && <Select onChange={(e:any) => handleSelect(e, name, true)} isDisabled={field.isEditMode ? false : true} className="w-full focus:outline-none rounded"
+                            {(field.input !== null || field.isEditMode) && <Select onChange={(e:any) => handleSelect(e, name, true)} isDisabled={field.isEditMode ? false : true} className="w-full focus:outline-none rounded"
                             options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.edited_school_state.input ? {value: newSchool.edited_school_state.input, label: newSchool.edited_school_state.input} : cat.value === 'school_country' && newSchool.edited_school_country.input ? {value: newSchool.edited_school_country.input, label: newSchool.edited_school_country.input} : cat.value === 'school_start_month' && newSchool.edited_school_start_month.input ? {value: newSchool.edited_school_start_month.input, label: newSchool.edited_school_start_month.input} : null}/>}
-                            <Select isDisabled className={`w-full focus:outline-none rounded ${field.input ? 'line-through' : 'no-underline'}`}
-                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>
+                            {(!field.isEditMode || (field.isEditMode && (field.input !== originalField.input))) && <Select isDisabled className={`w-full focus:outline-none rounded ${field.input ? 'line-through' : 'no-underline'}`}
+                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>}
                         </div>
                     )}
-                        {(newSchool[cat.value as keyof School] as StringInput).notes && <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                        {(newSchool[cat.value as keyof School] as StringInput).notes && <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                             Add Note
                         </button>}
                     </div>
@@ -682,8 +681,8 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                                     {note.type}:
                                 </p>
                                 <div className='flex gap-2'>
-                                    <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                                 </div> 
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -708,10 +707,11 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!field.input ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
-                    <div className='flex justify-start items-center gap-3'>
+                    {((loggedInUser.permissions.canVerify && field.input !== null) || (!loggedInUser.permissions.canVerify && !field.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20 bg-none">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${field.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                    <div className='flex justify-start items-center gap-3 '>
                         <BooleanFields loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={(newSchool[cat.value as keyof School] as BooleanInput).input} name={cat.value} handleCheck={handleCheck}/>
-                        <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
@@ -728,8 +728,8 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                                     {note.type}:
                                 </p>
                                 <div className='flex gap-2'>
-                                    <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                                 </div> 
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -752,7 +752,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`${cat.margin} text-xl w-full`}>
                 <p>{cat.name}</p>
-                <ReactQuill className='mt-4 h-60 rounded-2xl max-w-[900px]' theme="snow" value={newSchool[cat.value as keyof School] as string} 
+                <ReactQuill readOnly={!loggedInUser.isSuperAdmin ? true : false} className='mt-4 h-60 rounded-2xl max-w-[900px]' theme="snow" value={newSchool[cat.value as keyof School] as string} 
                 onChange={handleQuill}/>
             </div>
             )
@@ -761,7 +761,8 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">School Phone Number<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_phone_number.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_phone_number.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                {((loggedInUser.permissions.canVerify && newSchool.edited_school_phone_number.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_phone_number.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">School Phone Number<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_phone_number.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_phone_number.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <AddPhoneOrEmail loggedInUser={loggedInUser} input={newSchool.edited_school_phone_number.input} originalInput={newSchool.school_phone_number.input} isEditMode={newSchool.edited_school_phone_number.isEditMode} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
                 addFunc={addPhone} deleteFunc={deletePhone} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNotePopup} newSchool={newSchool}
                 />
@@ -799,8 +800,8 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -821,7 +822,8 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">School Email<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_email.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_email.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+            {((loggedInUser.permissions.canVerify && newSchool.edited_school_email.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_email.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">School Email<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_email.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_email.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <AddPhoneOrEmail loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} originalInput={newSchool.school_email.input} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
                 addFunc={addEmail} deleteFunc={deleteEmail} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNotePopup} newSchool={newSchool}
                 />
@@ -860,8 +862,8 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
