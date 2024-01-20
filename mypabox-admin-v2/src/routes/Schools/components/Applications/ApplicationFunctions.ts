@@ -179,8 +179,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
     // const originalField = newSchool[originalName] as PreviousCycle;
     if (!original) {
         if (name === 'edited_school_supplemental_application_required') {
-            const field = newSchool[name] as EditedSupplemental;
-            const originalField = newSchool[originalName] as Supplemental;
+            const field = newSchool.edited_school_supplemental_application_required
+            const originalField = newSchool.school_supplemental_application_required
             setNewSchool({
                 ...newSchool,
                 [name]: {
@@ -271,11 +271,11 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 [originalName]: {
                     ...originalField,
-                    input: field.input,
-                    school_supplemental_application_deadline: field.edited_school_supplemental_application_deadline.input,
-                    school_supplemental_application_fee: field.edited_school_supplemental_application_fee.input,
-                    school_supplemental_application_link: field.edited_school_supplemental_application_link.input,
-                    school_supplemental_application_link_provided_with_invite_only: field.edited_school_supplemental_application_link_provided_with_invite_only.input,
+                    input: field.input === null ? originalField.input : field.input,
+                    school_supplemental_application_deadline: field.edited_school_supplemental_application_deadline.input === null ? originalField.school_supplemental_application_deadline : field.edited_school_supplemental_application_deadline.input,
+                    school_supplemental_application_fee: field.edited_school_supplemental_application_fee.input === null ? originalField.school_supplemental_application_fee : field.edited_school_supplemental_application_fee.input,
+                    school_supplemental_application_link: field.edited_school_supplemental_application_link.input === null ? originalField.school_supplemental_application_link : field.edited_school_supplemental_application_link.input,
+                    school_supplemental_application_link_provided_with_invite_only: field.edited_school_supplemental_application_link_provided_with_invite_only.input === null ? field.edited_school_supplemental_application_link_provided_with_invite_only : field.edited_school_supplemental_application_link_provided_with_invite_only.input,
                 },
                 [name]: {
                     ...field,
@@ -316,9 +316,9 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 [originalName]: {
                     ...originalField,
-                    input: field.input,
-                    school_caspa_application_deadline_date: field.edited_school_caspa_application_deadline_date.input,
-                    school_caspa_application_deadline_type: field.edited_school_caspa_application_deadline_type.input,
+                    input: field.input === null ? originalField.input : field.input,
+                    school_caspa_application_deadline_date: field.edited_school_caspa_application_deadline_date.input === null ? originalField.school_caspa_application_deadline_date : field.edited_school_caspa_application_deadline_date.input,
+                    school_caspa_application_deadline_type: field.edited_school_caspa_application_deadline_type.input === null ? originalField.school_caspa_application_deadline_type : field.edited_school_caspa_application_deadline_type.input,
                 },
                 [name]: {
                     ...field,
@@ -347,9 +347,9 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 [originalName]: {
                     ...originalField,
-                    input: field.input,
-                    school_application_direct_to_school_deadline: field.edited_school_application_direct_to_school_deadline.input,
-                    school_application_direct_to_school_fee: field.edited_school_application_direct_to_school_fee.input,
+                    input: field.input === null ? originalField.input : field.input,
+                    school_application_direct_to_school_deadline: field.edited_school_application_direct_to_school_deadline.input === null ? originalField.school_application_direct_to_school_deadline : field.edited_school_application_direct_to_school_deadline.input,
+                    school_application_direct_to_school_fee: field.edited_school_application_direct_to_school_fee.input === null ? originalField.school_application_direct_to_school_fee : field.edited_school_application_direct_to_school_fee.input,
                 },
                 [name]: {
                     ...field,
