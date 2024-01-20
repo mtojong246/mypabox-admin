@@ -275,7 +275,8 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                     ...newSchool.edited_school_evaluations_recommended,
                     edited_school_optional_evaluators_recommended: {
                         ...newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended,
-                        input: newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended.input!.concat(editedOptions)
+                        input: newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended.input ? newSchool.edited_school_evaluations_recommended.edited_school_optional_evaluators_recommended.input.concat(editedOptions) 
+                        : [editedOptions]
                     }
                 }
             })
@@ -371,9 +372,9 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                         <div className={`flex flex-col justify-center items-center gap-3 ${options.school_recommended_optional_group_evaluator_title.length ? 'mt-3' : 'mt-0'}`}>
                         {options.school_recommended_optional_group_evaluator_title.map((opt, i) => {
                             return (
-                                <div className='p-4 border border-[#B4B4B4] rounded-lg w-full'>
+                                <div className='py-2 pl-3 py-2 border-2 border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full'>
-                                        <p className='font-bold text-xl'>{opt}</p>
+                                        <p className='font-medium'>{opt}</p>
                                         <button onClick={(e: MouseEvent<HTMLButtonElement>) => deleteEvaluator(e,i, false, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                     </div>
                                 </div>
@@ -384,9 +385,9 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                         <div className={`flex flex-col justify-center items-center gap-3 ${editedOptions.school_recommended_optional_group_evaluator_title.length ? 'mt-3' : 'mt-0'}`}>
                         {editedOptions.school_recommended_optional_group_evaluator_title.map((opt, i) => {
                             return (
-                                <div className='p-4 border border-[#B4B4B4] rounded-lg w-full'>
+                                <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full'>
-                                        <p className={`font-bold text-xl ${!opt.isCorrect && !opt.isNew ? 'line-through' : 'no-underline'}`}>{opt.name}</p>
+                                        <p className={`font-medium ${!opt.isCorrect && !opt.isNew ? 'line-through' : 'no-underline'}`}>{opt.name}</p>
                                         {!opt.isCorrect && !opt.isNew ? (
                                              <button onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" /></button>
                                         ) : (

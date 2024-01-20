@@ -99,22 +99,23 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
     if (!original) {
         if (name === 'edited_school_evaluations_required') {
             const field = newSchool.edited_school_evaluations_required;
+            const originalField = newSchool.school_evaluations_required;
             setNewSchool({
                 ...newSchool,
                 edited_school_evaluations_required: {
                     ...field,
                     isEditMode: false,
-                    input: field.input,
-                    prev: field.input,
+                    input: field.input === originalField.input ? null : field.input,
+                    prev: field.input === originalField.input ? null : field.input,
                     edited_school_minimum_number_of_evaluations_required: {
                         ...field.edited_school_minimum_number_of_evaluations_required,
-                        input: field.edited_school_minimum_number_of_evaluations_required.input,
-                        prev: field.edited_school_minimum_number_of_evaluations_required.input,
+                        input: field.edited_school_minimum_number_of_evaluations_required.input === originalField.school_minimum_number_of_evaluations_required ? null : field.edited_school_minimum_number_of_evaluations_required.input,
+                        prev: field.edited_school_minimum_number_of_evaluations_required.input === originalField.school_minimum_number_of_evaluations_required ? null : field.edited_school_minimum_number_of_evaluations_required.input,
                     },
                     edited_school_minimum_time_evaluator_knows_applicant: {
                         ...field.edited_school_minimum_time_evaluator_knows_applicant,
-                        input: field.edited_school_minimum_time_evaluator_knows_applicant.input,
-                        prev: field.edited_school_minimum_time_evaluator_knows_applicant.input,
+                        input: field.edited_school_minimum_time_evaluator_knows_applicant.input === originalField.school_minimum_time_evaluator_knows_applicant ? null : field.edited_school_minimum_time_evaluator_knows_applicant.input,
+                        prev: field.edited_school_minimum_time_evaluator_knows_applicant.input === originalField.school_minimum_time_evaluator_knows_applicant ? null : field.edited_school_minimum_time_evaluator_knows_applicant.input,
                     },
                     edited_school_optional_evaluators_required: {
                         ...field.edited_school_optional_evaluators_required,
@@ -130,22 +131,23 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             })
         } else if (name === 'edited_school_evaluations_recommended') {
             const field = newSchool.edited_school_evaluations_recommended;
+            const originalField = newSchool.school_evaluations_recommended;
             setNewSchool({
                 ...newSchool,
                 edited_school_evaluations_recommended: {
                     ...field,
                     isEditMode: false,
-                    input: field.input,
-                    prev: field.input,
+                    input: field.input === originalField.input ? null : field.input,
+                    prev: field.input === originalField.input ? null : field.input,
                     edited_school_minimum_number_of_evaluations_recommended: {
                         ...field.edited_school_minimum_number_of_evaluations_recommended,
-                        input: field.edited_school_minimum_number_of_evaluations_recommended.input,
-                        prev: field.edited_school_minimum_number_of_evaluations_recommended.input,
+                        input: field.edited_school_minimum_number_of_evaluations_recommended.input === originalField.school_minimum_number_of_evaluations_recommended ? null : field.edited_school_minimum_number_of_evaluations_recommended.input,
+                        prev: field.edited_school_minimum_number_of_evaluations_recommended.input === originalField.school_minimum_number_of_evaluations_recommended ? null : field.edited_school_minimum_number_of_evaluations_recommended.input,
                     },
                     edited_school_minimum_time_evaluator_knows_applicant: {
                         ...field.edited_school_minimum_time_evaluator_knows_applicant,
-                        input: field.edited_school_minimum_time_evaluator_knows_applicant.input,
-                        prev: field.edited_school_minimum_time_evaluator_knows_applicant.input,
+                        input: field.edited_school_minimum_time_evaluator_knows_applicant.input === originalField.school_minimum_time_evaluator_knows_applicant ? null : field.edited_school_minimum_time_evaluator_knows_applicant.input,
+                        prev: field.edited_school_minimum_time_evaluator_knows_applicant.input === originalField.school_minimum_time_evaluator_knows_applicant ? null : field.edited_school_minimum_time_evaluator_knows_applicant.input,
                     },
                     edited_school_optional_evaluators_recommended: {
                         ...field.edited_school_optional_evaluators_recommended,
@@ -171,9 +173,9 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     ...newSchool,
                     school_evaluations_required: {
                         ...originalField,
-                        input: field.input!,
-                        school_minimum_number_of_evaluations_required: field.edited_school_minimum_number_of_evaluations_required.input!,
-                        school_minimum_time_evaluator_knows_applicant: field.edited_school_minimum_time_evaluator_knows_applicant.input!,
+                        input: field.input === null ? originalField.input : field.input,
+                        school_minimum_number_of_evaluations_required: field.edited_school_minimum_number_of_evaluations_required.input === null ? originalField.school_minimum_number_of_evaluations_required : field.edited_school_minimum_number_of_evaluations_required.input,
+                        school_minimum_time_evaluator_knows_applicant: field.edited_school_minimum_time_evaluator_knows_applicant.input === null ? originalField.school_minimum_time_evaluator_knows_applicant : field.edited_school_minimum_time_evaluator_knows_applicant.input,
                         school_optional_evaluators_required: correctList ? correctList.map(opt => ({
                             school_minimum_number_of_evaluators_required_in_group: opt.school_minimum_number_of_evaluators_required_in_group,
                             school_required_optional_group_evaluator_title: opt.school_required_optional_group_evaluator_title.filter(title => title.isCorrect).map(title => title.name),
@@ -214,9 +216,9 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 school_evaluations_recommended: {
                     ...originalField,
-                    input: field.input!,
-                    school_minimum_number_of_evaluations_recommended: field.edited_school_minimum_number_of_evaluations_recommended.input!,
-                    school_minimum_time_evaluator_knows_applicant: field.edited_school_minimum_time_evaluator_knows_applicant.input!,
+                    input: field.input === null ? originalField.input : field.input,
+                    school_minimum_number_of_evaluations_recommended: field.edited_school_minimum_number_of_evaluations_recommended.input === null ? originalField.school_minimum_number_of_evaluations_recommended : field.edited_school_minimum_number_of_evaluations_recommended.input,
+                    school_minimum_time_evaluator_knows_applicant: field.edited_school_minimum_time_evaluator_knows_applicant.input === null ? originalField.school_minimum_time_evaluator_knows_applicant : field.edited_school_minimum_time_evaluator_knows_applicant.input,
                     school_optional_evaluators_recommended: field.edited_school_optional_evaluators_recommended.input ? correctList.map(list => ({
                         school_minimum_number_evaluators_recommended_in_group: list.school_minimum_number_evaluators_recommended_in_group,
                         school_recommended_optional_group_evaluator_title: list.school_recommended_optional_group_evaluator_title.filter(title => title.isCorrect).map(title => title.name),

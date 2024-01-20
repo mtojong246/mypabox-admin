@@ -43,9 +43,9 @@ export default function TitleFields({loggedInUser, input, originalInput, isEditM
                 <div className={`flex flex-col justify-center items-center gap-3 ${input.length ? 'mt-3' : 'mt-0'}`}>
                 {input.map((opt, i) => {
                     return (
-                        <div className='p-3 border-2 border-[#B4B4B4] rounded w-full'>
+                        <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full'>
-                                <p className={`font-bold text-lg ${!opt.isCorrect && !opt.isNew ? 'line-through' : 'no-underline'}`}>{opt.name}</p>
+                                <p className={`font-medium ${!opt.isCorrect && !opt.isNew ? 'line-through' : 'no-underline'}`}>{opt.name}</p>
                                 <button disabled onClick={(e:MouseEvent<HTMLButtonElement>) => deleteEvaluator(e,i, false, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                             </div>
                         </div>
@@ -73,9 +73,9 @@ export default function TitleFields({loggedInUser, input, originalInput, isEditM
                     <div className={`flex flex-col justify-center items-center gap-3 ${originalInput.length ? 'mt-3' : 'mt-0'}`}>
                     {originalInput.map((opt, i) => {
                         return (
-                            <div className='p-3 border-2 border-[#B4B4B4] rounded w-full'>
+                            <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full'>
-                                    <p className='font-bold text-lg'>{opt}</p>
+                                    <p className='font-medium'>{opt}</p>
                                     <button onClick={(e:MouseEvent<HTMLButtonElement>) => deleteEvaluator(e,i, false, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                                 </div>
                             </div>
@@ -106,9 +106,9 @@ export default function TitleFields({loggedInUser, input, originalInput, isEditM
                 <div className={`flex flex-col justify-center items-center gap-3 ${input.length ? 'mt-3' : 'mt-0'}`}>
                 {input.map((opt, i) => {
                     return (
-                        <div className='p-3 border-2 border-[#B4B4B4] rounded w-full'>
+                        <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full'>
-                                <p className={`font-bold text-lg ${!opt.isCorrect && !opt.isNew ? 'line-through' : 'no-underline'}`}>{opt.name}</p>
+                                <p className={`font-medium ${!opt.isCorrect && !opt.isNew ? 'line-through' : 'no-underline'}`}>{opt.name}</p>
                                 {!opt.isCorrect && !opt.isNew ? (
                                     <button disabled={isEditMode ? false : true} onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" /></button>
                                 ) : (
@@ -123,9 +123,9 @@ export default function TitleFields({loggedInUser, input, originalInput, isEditM
                 <div className={`flex flex-col justify-center items-center gap-3 ${originalInput && originalInput.length ? 'mt-3' : 'mt-0'}`}>
                 {originalInput && originalInput.map((opt, i) => {
                     return (
-                        <div className='p-2 border-2 border-[#B4B4B4] rounded w-full'>
+                        <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full'>
-                                <p className={`font-bold text-lg`}>{opt}</p>
+                                <p className={`font-medium`}>{opt}</p>
                                 <button disabled onClick={(e:MouseEvent<HTMLButtonElement>) => deleteEvaluator(e,i, false, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
                             </div>
                         </div>
