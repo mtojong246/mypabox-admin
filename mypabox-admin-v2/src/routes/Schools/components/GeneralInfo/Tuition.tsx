@@ -11,9 +11,9 @@ import { PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
 
 import EditButtons from "../../Assets/EditButtons";
-import InputFields from "../../Assets/InputsFields";
 
 import { enableEditMode, confirmEdit, undoEdit, revertEdit } from "./GeneralInfoFunctions";
+import InputFieldsGroup from "../../Assets/InputsFieldsGroup";
 
 export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
     const [index, setIndex] = useState<number | null>(null);
@@ -37,7 +37,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
         setNotePopup(!notePopup);
       };
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
         let name = '';
         let field = null;
         if (!isEditedInput) {
@@ -143,7 +143,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
             {((loggedInUser.permissions.canVerify && newSchool.edited_school_in_state_tuition.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_in_state_tuition.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">In-State Tuition<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_in_state_tuition.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_in_state_tuition.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
-                    <InputFields loggedInUser={loggedInUser} input={newSchool.edited_school_in_state_tuition.input} isEditMode={newSchool.edited_school_in_state_tuition.isEditMode} originalInput={newSchool.school_in_state_tuition.input} name='school_in_state_tuition' handleInput={handleInput}/>
+                    <InputFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_in_state_tuition.input} isEditMode={newSchool.edited_school_in_state_tuition.isEditMode} originalInput={newSchool.school_in_state_tuition.input} name='school_in_state_tuition' category="school_in_state_tuition" isMoney={true} handleInput={handleInput}/>
                     <button disabled={loggedInUser.isSuperAdmin ? false : true} onClick={(e:any) => {toggleNotePopup(e); setName('school_in_state_tuition')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
@@ -182,7 +182,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
             {((loggedInUser.permissions.canVerify && newSchool.edited_school_out_of_state_tuition.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_out_of_state_tuition.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Out-of-State Tuition<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_out_of_state_tuition.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_out_of_state_tuition.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
-                    <InputFields loggedInUser={loggedInUser} input={newSchool.edited_school_out_of_state_tuition.input} isEditMode={newSchool.edited_school_out_of_state_tuition.isEditMode} originalInput={newSchool.school_out_of_state_tuition.input} name='school_out_of_state_tuition' handleInput={handleInput}/>
+                    <InputFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_out_of_state_tuition.input} isEditMode={newSchool.edited_school_out_of_state_tuition.isEditMode} originalInput={newSchool.school_out_of_state_tuition.input} name='school_out_of_state_tuition' category="school_out_of_state_tuition" isMoney={true} handleInput={handleInput}/>
                     <button disabled={loggedInUser.isSuperAdmin ? false : true} onClick={(e:any) => {toggleNotePopup(e); setName('school_out_of_state_tuition')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
@@ -222,7 +222,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
             {((loggedInUser.permissions.canVerify && newSchool.edited_school_seat_deposit_in_state.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_seat_deposit_in_state.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Seat Deposit (In-State)<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_seat_deposit_in_state.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_seat_deposit_in_state.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
-                    <InputFields loggedInUser={loggedInUser} input={newSchool.edited_school_seat_deposit_in_state.input} isEditMode={newSchool.edited_school_seat_deposit_in_state.isEditMode} originalInput={newSchool.school_seat_deposit_in_state.input} name='school_seat_deposit_in_state' handleInput={handleInput}/>    
+                    <InputFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_seat_deposit_in_state.input} isEditMode={newSchool.edited_school_seat_deposit_in_state.isEditMode} originalInput={newSchool.school_seat_deposit_in_state.input} name='school_seat_deposit_in_state' category="school_seat_deposit_in_state" isMoney={true} handleInput={handleInput}/>    
                     <button disabled={loggedInUser.isSuperAdmin ? false : true} onClick={(e:any) => {toggleNotePopup(e); setName('school_seat_deposit_in_state')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
@@ -261,7 +261,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
             {((loggedInUser.permissions.canVerify && newSchool.edited_school_seat_deposit_out_of_state.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_seat_deposit_out_of_state.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Seat Deposit (Out-of-State)<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_seat_deposit_out_of_state.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_seat_deposit_out_of_state.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
-                    <InputFields loggedInUser={loggedInUser} input={newSchool.edited_school_seat_deposit_out_of_state.input} isEditMode={newSchool.edited_school_seat_deposit_out_of_state.isEditMode} originalInput={newSchool.school_seat_deposit_out_of_state.input} name='school_seat_deposit_out_of_state' handleInput={handleInput}/>                    
+                    <InputFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_seat_deposit_out_of_state.input} isEditMode={newSchool.edited_school_seat_deposit_out_of_state.isEditMode} originalInput={newSchool.school_seat_deposit_out_of_state.input} name='school_seat_deposit_out_of_state' category="school_seat_deposit_out_of_state" isMoney={true} handleInput={handleInput}/>                    
                     <button disabled={loggedInUser.isSuperAdmin ? false : true} onClick={(e:any) => {toggleNotePopup(e); setName('school_seat_deposit_out_of_state')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
