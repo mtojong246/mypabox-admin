@@ -383,7 +383,8 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
             <>
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!reqHasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${reqHasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                {((loggedInUser.permissions.canVerify && reqHasInputs !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!reqHasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${reqHasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                         <div className='my-2'>
                         <BooleanFields input={newSchool.edited_school_minimum_gpa_required.input} isEditMode={newSchool.edited_school_minimum_gpa_required.isEditMode} loggedInUser={loggedInUser} 
                         originalInput={newSchool.school_minimum_gpa_required.input} name='school_minimum_gpa_required' handleCheck={handleCheck}
@@ -403,7 +404,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                                     <div className='flex justify-start items-start gap-4'>
                                         <InputFieldsGroup loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={originalField ? originalField.input : null} name={gpa.value} category='school_minimum_gpa_required' handleInput={handleInputInCategory} />
                                         {/* <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} /> */}
-                                        <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                                        <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                                             Add Note
                                         </button>
                                     </div>
@@ -412,8 +413,8 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                                             <div className='flex justify-between items-center w-full mb-1'>
                                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                                 <div className='flex gap-2'>
-                                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                                    <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
                                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -438,7 +439,8 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
 
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Recommended<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!recHasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${recHasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                {((loggedInUser.permissions.canVerify && recHasInputs !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_recommended.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Recommended<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!recHasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${recHasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className="my-2">
                 <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_minimum_gpa_recommended.input} isEditMode={newSchool.edited_school_minimum_gpa_recommended.isEditMode} originalInput={newSchool.school_minimum_gpa_recommended.input} name='school_minimum_gpa_recommended'
                 handleCheck={handleCheck}/>
@@ -459,7 +461,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                                 category="school_minimum_gpa_recommended" name={gpa.value}
                                 />
                                 {/* <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).input ? (newSchool[gpa.value as keyof School] as NumberInput).input : ''} name={gpa.value} onChange={handleInputChange} /> */}
-                                <button onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(gpa.value)}} name='add' value={gpa.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                                     Add Note
                                 </button>
                             </div>
@@ -468,8 +470,8 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                            <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                            <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                         </div>
                                     </div>
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
