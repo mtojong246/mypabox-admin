@@ -63,13 +63,13 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
         school_minimum_time_evaluator_knows_applicant: '', 
        });
 
-    const [ editedOptions, setEditedOptions ] = useState({
-        school_minimum_number_evaluators_recommended_in_group: 0,
-        school_recommended_optional_group_evaluator_title: [] as {name: string, isCorrect: boolean, isNew: boolean}[],
-        school_minimum_time_evaluator_knows_applicant: '',
-        isCorrect: true,
-        isNew: true,
-    })
+    const [ editedOptions, setEditedOptions ] = useState<{
+        school_minimum_number_evaluators_recommended_in_group: number,
+        school_recommended_optional_group_evaluator_title: {name: string, isCorrect: boolean, isNew: boolean}[],
+        school_minimum_time_evaluator_knows_applicant: string,
+        isCorrect: boolean,
+        isNew: boolean,
+    } | null>(null)
 
     useEffect(() => {
         setOptions({
@@ -159,7 +159,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                 ...editedSelection,
                 number: e.target.value,
             })
-            setEditedOptions({
+            editedOptions && setEditedOptions({
                 ...editedOptions,
                 school_minimum_time_evaluator_knows_applicant: (e.target.value) + ' ' + editedSelection.duration,
             })
@@ -178,7 +178,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                 ...editedSelection,
                 duration: e.value,
             })
-            setEditedOptions({
+            editedOptions && setEditedOptions({
                 ...editedOptions,
                 school_minimum_time_evaluator_knows_applicant: editedSelection.number + ' ' + e.value
             })
@@ -192,7 +192,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                 school_minimum_number_evaluators_recommended_in_group: Number(e.target.value),
             })
          } else {
-            setEditedOptions({
+            editedOptions && setEditedOptions({
                 ...editedOptions,
                 school_minimum_number_evaluators_recommended_in_group: Number(e.target.value)
             })
@@ -211,7 +211,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                 school_recommended_optional_group_evaluator_title: options.school_recommended_optional_group_evaluator_title.concat(evaluator)
             })
         } else {
-            setEditedOptions({
+            editedOptions && setEditedOptions({
                 ...editedOptions,
                 school_recommended_optional_group_evaluator_title: editedOptions.school_recommended_optional_group_evaluator_title.concat({
                     name: evaluator,
@@ -231,7 +231,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                 school_recommended_optional_group_evaluator_title: options.school_recommended_optional_group_evaluator_title.filter((t,i) => i !== index)
             })
         } else {
-            setEditedOptions({
+            editedOptions && setEditedOptions({
                 ...editedOptions,
                 school_recommended_optional_group_evaluator_title: isNew ? editedOptions.school_recommended_optional_group_evaluator_title.filter((inp,i) => i !== index) : editedOptions.school_recommended_optional_group_evaluator_title.map((inp,i) => {
                     if (i === index) {
@@ -246,7 +246,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
     };
 
     const undoDelete = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-        setEditedOptions({
+        editedOptions && setEditedOptions({
             ...editedOptions,
             school_recommended_optional_group_evaluator_title: editedOptions.school_recommended_optional_group_evaluator_title.map((inp,i) => {
                 if (i === index) {
@@ -269,7 +269,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                 }
             })
         } else {
-            setNewSchool({
+            editedOptions && setNewSchool({
                 ...newSchool,
                 edited_school_evaluations_recommended: {
                     ...newSchool.edited_school_evaluations_recommended,
@@ -300,7 +300,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                 }
             })
         } else {
-            setNewSchool({
+            editedOptions && setNewSchool({
                 ...newSchool,
                 edited_school_evaluations_recommended: {
                     ...newSchool.edited_school_evaluations_recommended,
@@ -325,7 +325,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
         if (!input && !options.school_recommended_optional_group_evaluator_title.length) {
             alert('Please add at least one evaluator');
             return;
-        } else if (input && !editedOptions.school_recommended_optional_group_evaluator_title.length) {
+        } else if (input && editedOptions && !editedOptions.school_recommended_optional_group_evaluator_title.length) {
             alert('Please add at least one evaluator');
             return;
         } else {
@@ -348,7 +348,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                     <p className='text-xl font-semibold mb-8'>{editedOption ? "Edit" : 'Add'} Recommended Optional Evaluators</p>
                     <div className='w-full mb-8'>
                         <label className='text-lg font-medium'>Minimum Number of Evaluators Recommended:</label>
-                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={editedOptions.school_minimum_number_evaluators_recommended_in_group}
+                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={editedOptions ? editedOptions.school_minimum_number_evaluators_recommended_in_group : null}
                         originalInput={options.school_minimum_number_evaluators_recommended_in_group} name='school_minimum_number_evaluators_recommended_in_group' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={options.school_minimum_number_evaluators_recommended_in_group ? options.school_minimum_number_evaluators_recommended_in_group : ''} className='w-32 focus:outline-none border border-[#B4B4B4] h-[50px] px-3 rounded mt-2 block' /> */}
@@ -382,8 +382,8 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                         })}
                         </div>
                         ) : (
-                        <div className={`flex flex-col justify-center items-center gap-3 ${editedOptions.school_recommended_optional_group_evaluator_title.length ? 'mt-3' : 'mt-0'}`}>
-                        {editedOptions.school_recommended_optional_group_evaluator_title.map((opt, i) => {
+                        <div className={`flex flex-col justify-center items-center gap-3 ${editedOptions && editedOptions.school_recommended_optional_group_evaluator_title.length ? 'mt-3' : 'mt-0'}`}>
+                        {editedOptions && editedOptions.school_recommended_optional_group_evaluator_title.map((opt, i) => {
                             return (
                                 <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full'>
@@ -403,7 +403,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium text-lg'>Minimum Time Evaluator Knows Applicant:</label>
-                        <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={editedOptions.school_minimum_time_evaluator_knows_applicant} originalInput={options.school_minimum_time_evaluator_knows_applicant}
+                        <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={editedOptions ? editedOptions.school_minimum_time_evaluator_knows_applicant : null} originalInput={options.school_minimum_time_evaluator_knows_applicant}
                         name='school_minimum_time_evaluator_knows_applicant' number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration}
                         handleInput={handleNumber} handleSelect={handleDuration} options={timeOptions}
                         />

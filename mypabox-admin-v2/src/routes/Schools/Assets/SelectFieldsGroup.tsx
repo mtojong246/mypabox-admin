@@ -17,6 +17,7 @@ export default function SelectFieldsGroup({loggedInUser, input, originalInput, i
     index? : number,
 }) {
 
+    console.log(originalLabel)
 
     return (
         <>

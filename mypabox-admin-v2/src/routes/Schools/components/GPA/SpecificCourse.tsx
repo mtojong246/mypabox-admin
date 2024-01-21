@@ -160,7 +160,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
             const objToBeUpdated = newSchool.school_minimum_gpa_for_specific_course.find((obj,i) => i === index) as MinimumGpaSpecificCourse;
             const updatedObj = {
                 ...objToBeUpdated,
-                [name]: e.value,
+                courseID: e.value,
             }
             setNewSchool({
                 ...newSchool,
@@ -313,6 +313,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
             name: '',
         })
     }
+    
 
 
     return (
