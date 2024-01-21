@@ -3,15 +3,9 @@ import { FiEdit3 } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { School, Note, OtherTypesOfGpaEvaluted } from "../../../../types/schools.types";
 import { MouseEvent, ChangeEvent, SetStateAction, Dispatch, useState, useEffect } from "react";
-import CreatableSelect from 'react-select/creatable';
-import { AiOutlineInfoCircle } from 'react-icons/ai';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
-import BooleanFields from "../../Assets/BooleanFields";
 import EditButtons from "../../Assets/EditButtons";
-import InputFieldsGroup from "../../Assets/InputsFieldsGroup";
 import { confirmEditGroup, enableEditModeGroup, revertEditGroup, undoEditGroup } from "./GPAFunctions";
 
 import AddNote from "../Prereqs/AddNote";
@@ -303,8 +297,9 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
         return (
         <div className={`${i>0 ? 'mt-10' : 'mt-28'} flex justify-start items-start gap-3 w-full`}>
         <div className={` grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
+        {((loggedInUser.permissions.canVerify && newSchool.edited_school_other_types_of_gpa_evaluated.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
             <div className='absolute top-[-16px] left-[20px] flex justify-between items-center w-full pr-[40px]'>
-                <label className={`flex justify-start items-center text-xl bg-white ${input ? input.isCorrect ? 'no-underline' : 'line-through' : 'no-underline'}`}>Other Types of GPA Evaluated <PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_other_types_of_gpa_evaluated.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_other_types_of_gpa_evaluated.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/> <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label> 
+                <label className={`z-20 flex justify-start items-center text-xl bg-white ${input ? input.isCorrect ? 'no-underline' : 'line-through' : 'no-underline'}`}>Other Types of GPA Evaluated <PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_other_types_of_gpa_evaluated.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_other_types_of_gpa_evaluated.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/> <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label> 
                 {!loggedInUser.permissions.canVerify && input && !input.isCorrect && !input.isNew ? 
                 <button disabled={!newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode ? true : false} onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)} className={`bg-[#4573D2] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#26354C] ${i > 0 ? 'block' : 'hidden'}`}>Undo</button> : 
                     <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_other_types_of_gpa_evaluated.input !== null) ? true : false} onClick={(e) => deleteField(e, input!.isNew,i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#B52020] ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>}
@@ -366,7 +361,7 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
                 </div>
                 <div className='w-full mt-8 mx-4'>
                     <label className='text-xl font-medium'>Notes:</label>
-                    <button onClick={(e) => {toggleNotePopup(e); setObjIndex(i)}} value='school_other_types_of_gpa_evaluated' name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-2 block">
+                    <button disabled={!loggedInUser.isSuperAdmin ? true : false}  onClick={(e) => {toggleNotePopup(e); setObjIndex(i)}} value='school_other_types_of_gpa_evaluated' name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-2 block">
                         Add Note
                     </button>
                 </div>
@@ -375,8 +370,8 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setObjIndex(i); setIndex(index)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteNote(e, i, index)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setObjIndex(i); setIndex(index)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button disabled={!loggedInUser.isSuperAdmin ? true : false}  onClick={(e) => deleteNote(e, i, index)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

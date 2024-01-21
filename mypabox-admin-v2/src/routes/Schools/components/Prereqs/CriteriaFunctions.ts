@@ -1,5 +1,5 @@
 import { MouseEvent, Dispatch, SetStateAction } from "react";
-import { School, NumberInput, StringInput, Note} from "../../../../types/schools.types";
+import { School} from "../../../../types/schools.types";
 
 
 export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
@@ -26,7 +26,8 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
-                input: field.edited_school_time_frame_all_courses_must_be_completed.input === null ? null: true,
+                input: (field.edited_school_time_frame_all_courses_must_be_completed.input === null && field.edited_school_time_frame_math_courses_must_be_completed.input === null && 
+                    field.edited_school_time_frame_science_courses_must_be_completed.input === null) ? null: true,
                 edited_school_time_frame_all_courses_must_be_completed: {
                     ...field.edited_school_time_frame_all_courses_must_be_completed,
                     input: field.edited_school_time_frame_all_courses_must_be_completed.input === null ? newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.input : field.edited_school_time_frame_all_courses_must_be_completed.input,
@@ -50,7 +51,10 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             [name]: {
                 ...field,
                 isEditMode: true,
-                input: field.edited_school_all_courses_most_be_completed_before_applying.input === null ? null : true,
+                input: (field.edited_school_all_courses_most_be_completed_before_applying.input === null && field.edited_school_courses_can_be_in_progress_while_applying.input === null && 
+                    field.edited_school_date_pending_courses_must_be_completed.input === null && field.edited_school_maximum_number_of_courses_pending_while_applying.input === null && 
+                    field.edited_school_maximum_number_of_credits_pending_while_applying.input === null && field.edited_school_maximum_number_of_non_science_courses_pending_while_applying.input === null && 
+                    field.edited_school_minimum_grade_required_for_pending_courses.input === null && field.edited_school_semester_pending_courses_must_be_completed.input === null) ? null : true,
                 edited_school_all_courses_most_be_completed_before_applying: {
                     ...field.edited_school_all_courses_most_be_completed_before_applying,
                     input: field.edited_school_all_courses_most_be_completed_before_applying.input === null ? originalField.school_all_courses_most_be_completed_before_applying : field.edited_school_all_courses_most_be_completed_before_applying.input === null,
@@ -115,26 +119,28 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             })
         } else if (name === 'edited_school_time_frame_criteria') {
             const field = newSchool[name];
+            const originalField = newSchool.school_time_frame_criteria;
             setNewSchool({
                 ...newSchool,
                 [name]: {
                     ...field,
                     isEditMode: false,
-                    input: field.edited_school_time_frame_all_courses_must_be_completed.input === null ? null: true,
+                    input: (field.edited_school_time_frame_all_courses_must_be_completed.input === null && field.edited_school_time_frame_math_courses_must_be_completed.input === null && 
+                        field.edited_school_time_frame_science_courses_must_be_completed.input === null) ? null: true,
                     edited_school_time_frame_all_courses_must_be_completed: {
                         ...field.edited_school_time_frame_all_courses_must_be_completed,
-                        input: field.edited_school_time_frame_all_courses_must_be_completed.input,
-                        prev: field.edited_school_time_frame_all_courses_must_be_completed.input,
+                        input: field.edited_school_time_frame_all_courses_must_be_completed.input === (originalField.school_time_frame_all_courses_must_be_completed && originalField.school_time_frame_all_courses_must_be_completed.input) ? null : field.edited_school_time_frame_all_courses_must_be_completed.input,
+                        prev: field.edited_school_time_frame_all_courses_must_be_completed.input === (originalField.school_time_frame_all_courses_must_be_completed && originalField.school_time_frame_all_courses_must_be_completed.input) ? null : field.edited_school_time_frame_all_courses_must_be_completed.input,
                     },
                     edited_school_time_frame_math_courses_must_be_completed: {
                         ...field.edited_school_time_frame_math_courses_must_be_completed,
-                        input: field.edited_school_time_frame_math_courses_must_be_completed.input,
-                        prev: field.edited_school_time_frame_math_courses_must_be_completed.input,
+                        input: field.edited_school_time_frame_math_courses_must_be_completed.input === (originalField.school_time_frame_math_courses_must_be_completed && originalField.school_time_frame_math_courses_must_be_completed.input) ? null : field.edited_school_time_frame_math_courses_must_be_completed.input,
+                        prev: field.edited_school_time_frame_math_courses_must_be_completed.input === (originalField.school_time_frame_math_courses_must_be_completed && originalField.school_time_frame_math_courses_must_be_completed.input) ? null : field.edited_school_time_frame_math_courses_must_be_completed.input,
                     },
                     edited_school_time_frame_science_courses_must_be_completed: {
                         ...field.edited_school_time_frame_science_courses_must_be_completed,
-                        input: field.edited_school_time_frame_science_courses_must_be_completed.input,
-                        prev: field.edited_school_time_frame_science_courses_must_be_completed.input,
+                        input: field.edited_school_time_frame_science_courses_must_be_completed.input === (originalField.school_time_frame_science_courses_must_be_completed && originalField.school_time_frame_science_courses_must_be_completed.input) ? null : field.edited_school_time_frame_science_courses_must_be_completed.input,
+                        prev: field.edited_school_time_frame_science_courses_must_be_completed.input === (originalField.school_time_frame_science_courses_must_be_completed && originalField.school_time_frame_science_courses_must_be_completed.input) ? null : field.edited_school_time_frame_science_courses_must_be_completed.input,
                     }
     
                 }
@@ -147,51 +153,54 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
-                    input: field.edited_school_all_courses_most_be_completed_before_applying.input === null ? null : true,
+                    input: (field.edited_school_all_courses_most_be_completed_before_applying.input === null && field.edited_school_courses_can_be_in_progress_while_applying.input === null && 
+                        field.edited_school_date_pending_courses_must_be_completed.input === null && field.edited_school_maximum_number_of_courses_pending_while_applying.input === null && 
+                        field.edited_school_maximum_number_of_credits_pending_while_applying.input === null && field.edited_school_maximum_number_of_non_science_courses_pending_while_applying.input === null && 
+                        field.edited_school_minimum_grade_required_for_pending_courses.input === null && field.edited_school_semester_pending_courses_must_be_completed.input === null) ? null : true,
                     edited_school_all_courses_most_be_completed_before_applying: {
                         ...field.edited_school_all_courses_most_be_completed_before_applying,
-                        input: field.edited_school_all_courses_most_be_completed_before_applying.input,
-                        prev: field.edited_school_all_courses_most_be_completed_before_applying.input,
+                        input: field.edited_school_all_courses_most_be_completed_before_applying.input === originalField.school_all_courses_most_be_completed_before_applying ? null : field.edited_school_all_courses_most_be_completed_before_applying.input,
+                        prev: field.edited_school_all_courses_most_be_completed_before_applying.input === originalField.school_all_courses_most_be_completed_before_applying ? null : field.edited_school_all_courses_most_be_completed_before_applying.input,
                     },
                     edited_school_courses_can_be_in_progress_while_applying: {
                         ...field.edited_school_courses_can_be_in_progress_while_applying,
-                        input: field.edited_school_courses_can_be_in_progress_while_applying.input,
-                        prev: field.edited_school_courses_can_be_in_progress_while_applying.input,
+                        input: field.edited_school_courses_can_be_in_progress_while_applying.input === originalField.school_courses_can_be_in_progress_while_applying ? null : field.edited_school_courses_can_be_in_progress_while_applying.input,
+                        prev: field.edited_school_courses_can_be_in_progress_while_applying.input === originalField.school_courses_can_be_in_progress_while_applying ? null : field.edited_school_courses_can_be_in_progress_while_applying.input,
                     },
                     edited_school_date_pending_courses_must_be_completed: {
                         ...field.edited_school_date_pending_courses_must_be_completed,
-                        input: field.edited_school_date_pending_courses_must_be_completed.input,
-                        prev: field.edited_school_date_pending_courses_must_be_completed.input,
+                        input: field.edited_school_date_pending_courses_must_be_completed.input === (originalField.school_date_pending_courses_must_be_completed && originalField.school_date_pending_courses_must_be_completed.input) ? null : field.edited_school_date_pending_courses_must_be_completed.input,
+                        prev: field.edited_school_date_pending_courses_must_be_completed.input === (originalField.school_date_pending_courses_must_be_completed && originalField.school_date_pending_courses_must_be_completed.input) ? null : field.edited_school_date_pending_courses_must_be_completed.input,
                     },
                     edited_school_maximum_number_of_courses_pending_while_applying: {
                         ...field.edited_school_maximum_number_of_courses_pending_while_applying,
-                        input: field.edited_school_maximum_number_of_courses_pending_while_applying.input,
-                        prev: field.edited_school_maximum_number_of_courses_pending_while_applying.input,
+                        input: field.edited_school_maximum_number_of_courses_pending_while_applying.input === (originalField.school_maximum_number_of_courses_pending_while_applying && originalField.school_maximum_number_of_courses_pending_while_applying.input) ? null : field.edited_school_maximum_number_of_courses_pending_while_applying.input,
+                        prev: field.edited_school_maximum_number_of_courses_pending_while_applying.input === (originalField.school_maximum_number_of_courses_pending_while_applying && originalField.school_maximum_number_of_courses_pending_while_applying.input) ? null : field.edited_school_maximum_number_of_courses_pending_while_applying.input,
                     },
                     edited_school_maximum_number_of_credits_pending_while_applying: {
                         ...field.edited_school_maximum_number_of_credits_pending_while_applying,
-                        input: field.edited_school_maximum_number_of_credits_pending_while_applying.input,
-                        prev: field.edited_school_maximum_number_of_credits_pending_while_applying.input,
+                        input: field.edited_school_maximum_number_of_credits_pending_while_applying.input === (originalField.school_maximum_number_of_credits_pending_while_applying && originalField.school_maximum_number_of_credits_pending_while_applying.input) ? null : field.edited_school_maximum_number_of_credits_pending_while_applying.input,
+                        prev: field.edited_school_maximum_number_of_credits_pending_while_applying.input === (originalField.school_maximum_number_of_credits_pending_while_applying && originalField.school_maximum_number_of_credits_pending_while_applying.input) ? null : field.edited_school_maximum_number_of_credits_pending_while_applying.input,
                     },
                     edited_school_maximum_number_of_non_science_courses_pending_while_applying: {
                         ...field.edited_school_maximum_number_of_non_science_courses_pending_while_applying,
-                        input: field.edited_school_maximum_number_of_non_science_courses_pending_while_applying.input,
-                        prev: field.edited_school_maximum_number_of_non_science_courses_pending_while_applying.input,
+                        input: field.edited_school_maximum_number_of_non_science_courses_pending_while_applying.input === (originalField.school_maximum_number_of_non_science_courses_pending_while_applying && originalField.school_maximum_number_of_non_science_courses_pending_while_applying.input) ? null : field.edited_school_maximum_number_of_non_science_courses_pending_while_applying.input ,
+                        prev: field.edited_school_maximum_number_of_non_science_courses_pending_while_applying.input === (originalField.school_maximum_number_of_non_science_courses_pending_while_applying && originalField.school_maximum_number_of_non_science_courses_pending_while_applying.input) ? null : field.edited_school_maximum_number_of_non_science_courses_pending_while_applying.input,
                     },
                     edited_school_maximum_number_of_science_courses_pending_while_applying: {
                         ...field.edited_school_maximum_number_of_science_courses_pending_while_applying,
-                        input: field.edited_school_maximum_number_of_science_courses_pending_while_applying.input,
-                        prev: field.edited_school_maximum_number_of_science_courses_pending_while_applying.input,
+                        input: field.edited_school_maximum_number_of_science_courses_pending_while_applying.input === (originalField.school_maximum_number_of_science_courses_pending_while_applying && originalField.school_maximum_number_of_science_courses_pending_while_applying.input) ? null : field.edited_school_maximum_number_of_science_courses_pending_while_applying.input,
+                        prev: field.edited_school_maximum_number_of_science_courses_pending_while_applying.input === (originalField.school_maximum_number_of_science_courses_pending_while_applying && originalField.school_maximum_number_of_science_courses_pending_while_applying.input) ? null : field.edited_school_maximum_number_of_science_courses_pending_while_applying.input,
                     },
                     edited_school_minimum_grade_required_for_pending_courses: {
                         ...field.edited_school_minimum_grade_required_for_pending_courses,
-                        input: field.edited_school_minimum_grade_required_for_pending_courses.input,
-                        prev: field.edited_school_minimum_grade_required_for_pending_courses.input,
+                        input: field.edited_school_minimum_grade_required_for_pending_courses.input === (originalField.school_minimum_grade_required_for_pending_courses && originalField.school_minimum_grade_required_for_pending_courses.input) ? null : field.edited_school_minimum_grade_required_for_pending_courses.input,
+                        prev: field.edited_school_minimum_grade_required_for_pending_courses.input === (originalField.school_minimum_grade_required_for_pending_courses && originalField.school_minimum_grade_required_for_pending_courses.input) ? null : field.edited_school_minimum_grade_required_for_pending_courses.input,
                     },
                     edited_school_semester_pending_courses_must_be_completed: {
                         ...field.edited_school_semester_pending_courses_must_be_completed,
-                        input: field.edited_school_semester_pending_courses_must_be_completed.input,
-                        prev: field.edited_school_semester_pending_courses_must_be_completed.input,
+                        input: field.edited_school_semester_pending_courses_must_be_completed.input === (originalField.school_semester_pending_courses_must_be_completed && originalField.school_semester_pending_courses_must_be_completed.input) ? null : field.edited_school_semester_pending_courses_must_be_completed.input,
+                        prev: field.edited_school_semester_pending_courses_must_be_completed.input === (originalField.school_semester_pending_courses_must_be_completed && originalField.school_semester_pending_courses_must_be_completed.input) ? null : field.edited_school_semester_pending_courses_must_be_completed.input,
                     }
                 }
             })
@@ -223,15 +232,15 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     ...newSchool.school_time_frame_criteria,
                     school_time_frame_all_courses_must_be_completed: {
                         ...newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed,
-                        input: field.edited_school_time_frame_all_courses_must_be_completed.input!,
+                        input: field.edited_school_time_frame_all_courses_must_be_completed.input === null ? newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.input : field.edited_school_time_frame_all_courses_must_be_completed.input,
                     },
                     school_time_frame_math_courses_must_be_completed: {
                         ...newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed,
-                        input: field.edited_school_time_frame_math_courses_must_be_completed.input!,
+                        input: field.edited_school_time_frame_math_courses_must_be_completed.input === null ? newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.input : field.edited_school_time_frame_math_courses_must_be_completed.input,
                     },
                     school_time_frame_science_courses_must_be_completed: {
                         ...newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed,
-                        input: field.edited_school_time_frame_science_courses_must_be_completed.input!,
+                        input: field.edited_school_time_frame_science_courses_must_be_completed.input === null ? newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.input : field.edited_school_time_frame_science_courses_must_be_completed.input,
                     }
                 },
                 [name]: {
@@ -260,8 +269,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 school_prerequisite_completion_criteria: {
                     ...originalField,
-                    school_all_courses_most_be_completed_before_applying: field.edited_school_all_courses_most_be_completed_before_applying.input!,
-                    school_courses_can_be_in_progress_while_applying: field.edited_school_courses_can_be_in_progress_while_applying.input!,
+                    school_all_courses_most_be_completed_before_applying: field.edited_school_all_courses_most_be_completed_before_applying.input === null ? originalField.school_all_courses_most_be_completed_before_applying : field.edited_school_all_courses_most_be_completed_before_applying.input === null,
+                    school_courses_can_be_in_progress_while_applying: field.edited_school_courses_can_be_in_progress_while_applying.input === null ? originalField.school_courses_can_be_in_progress_while_applying : field.edited_school_courses_can_be_in_progress_while_applying.input,
                     school_date_pending_courses_must_be_completed: field.edited_school_date_pending_courses_must_be_completed.input ? {
                         input: field.edited_school_date_pending_courses_must_be_completed.input,
                         notes: originalField.school_date_pending_courses_must_be_completed ? originalField.school_date_pending_courses_must_be_completed.notes : [],
@@ -541,7 +550,8 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 ...field,
                 isEditMode: false,
-                input: field.edited_school_time_frame_all_courses_must_be_completed.input === null ? null: true,
+                input: (field.edited_school_time_frame_all_courses_must_be_completed.input === null && field.edited_school_time_frame_math_courses_must_be_completed.input === null && 
+                    field.edited_school_time_frame_science_courses_must_be_completed.input === null) ? null: true,
                 edited_school_time_frame_all_courses_must_be_completed: {
                     ...field.edited_school_time_frame_all_courses_must_be_completed,
                     input: field.edited_school_time_frame_all_courses_must_be_completed.prev,
@@ -562,13 +572,15 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
         })
     } else if (name === 'edited_school_prerequisite_completion_criteria') {
         const field = newSchool[name];
-        const originalField = newSchool.school_prerequisite_completion_criteria;
         setNewSchool({
             ...newSchool,
             [name]: {
                 ...field,
                 isEditMode: false,
-                input: field.edited_school_all_courses_most_be_completed_before_applying.input === null ? null : true,
+                input: (field.edited_school_all_courses_most_be_completed_before_applying.input === null && field.edited_school_courses_can_be_in_progress_while_applying.input === null && 
+                    field.edited_school_date_pending_courses_must_be_completed.input === null && field.edited_school_maximum_number_of_courses_pending_while_applying.input === null && 
+                    field.edited_school_maximum_number_of_credits_pending_while_applying.input === null && field.edited_school_maximum_number_of_non_science_courses_pending_while_applying.input === null && 
+                    field.edited_school_minimum_grade_required_for_pending_courses.input === null && field.edited_school_semester_pending_courses_must_be_completed.input === null) ? null : true,
                 edited_school_all_courses_most_be_completed_before_applying: {
                     ...field.edited_school_all_courses_most_be_completed_before_applying,
                     input: field.edited_school_all_courses_most_be_completed_before_applying.prev,

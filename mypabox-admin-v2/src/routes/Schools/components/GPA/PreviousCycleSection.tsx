@@ -96,6 +96,8 @@ export default function PreviousCycleSection({newSchool, setNewSchool, loggedInU
         
     }
 
+    console.log(newSchool.school_average_gpa_accepted_previous_cycle)
+
     
 
     const toggleNotePopup = (e: any) => {
@@ -183,7 +185,7 @@ export default function PreviousCycleSection({newSchool, setNewSchool, loggedInU
                     <>
                         <div className={`${i === 0 ? 'mt-8' : 'mt-12'} mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                             <label className='absolute top-[-16px] text-xl font-medium bg-white'>{gpa.label}</label>
-                            <div className='flex justify-start items-center gap-4'>
+                            <div className='flex justify-start items-start gap-4'>
                                 <InputFields loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={originalField.input} name={gpa.value} handleInput={handleInput}/>
                                 {/* <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input ? (newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input : ''} name={gpa.value} onChange={handleInput} /> */}
                                 <button disabled={loggedInUser.isSuperAdmin ? false : true} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]"

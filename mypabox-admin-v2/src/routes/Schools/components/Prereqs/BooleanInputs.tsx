@@ -173,7 +173,8 @@ export default function BooleanInputs({
           <div
             className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}
           >
-            <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">{data.name}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+            {((loggedInUser.permissions.canVerify && (newSchool[`edited_${data.value}` as keyof School] as any).input !== null) || (!loggedInUser.permissions.canVerify && !(newSchool[`edited_${data.value}` as keyof School] as any).isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+            <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">{data.name}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
             <div className='flex justify-center items-start'>
               <BooleanFieldsGroup loggedInUser={loggedInUser} isEditMode={(newSchool[`edited_${data.value}` as keyof School] as any).isEditMode} input={(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input}
               originalInput={field[data.input as keyof object]} name={data.input} category={data.value} handleCheck={handleChecked}
@@ -194,7 +195,7 @@ export default function BooleanInputs({
                 </span>
               </label>
             </div> */}
-            <button
+            <button disabled={!loggedInUser.isSuperAdmin ? true : false}
               onClick={(e) => {
                 toggleNotePopup(e);
                 setValue(data.value);
@@ -225,7 +226,7 @@ export default function BooleanInputs({
                       {note.type}:
                     </p>
                     <div className="flex gap-2">
-                      <button
+                      <button disabled={!loggedInUser.isSuperAdmin ? true : false}
                         onClick={(e) => {
                           toggleNotePopup(e);
                           setIndex(i);
@@ -234,7 +235,7 @@ export default function BooleanInputs({
                       >
                         <FiEdit3 className="h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" />
                       </button>
-                      <button
+                      <button disabled={!loggedInUser.isSuperAdmin ? true : false}
                         onClick={(e) => {
                           deleteNote(e, i, data.value, data.notes);
                           

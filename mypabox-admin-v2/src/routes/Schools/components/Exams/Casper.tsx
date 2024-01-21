@@ -38,12 +38,12 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
     }, [newSchool.edited_school_casper])
 
     useEffect(() => {
-        if (newSchool.edited_school_casper.edited_school_casper_recommended.input !== null || newSchool.edited_school_casper.edited_school_casper_required.input !== null) {
+        if (newSchool.edited_school_casper.input !== null) {
             setHasInputs(true);
         } else {
             setHasInputs(null);
         }
-    }, [newSchool.edited_school_casper])
+    }, [newSchool.edited_school_casper.input])
 
     const toggleNotePopup = (e:any) => {
         e.preventDefault();
@@ -134,7 +134,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
             ...newSchool,
             edited_school_casper: {
                 ...newSchool.edited_school_casper,
-                input: newSchool.edited_school_casper.edited_school_casper_required.input === null ? null : true,
+                input: (newSchool.edited_school_casper.edited_school_casper_required.input === null && newSchool.edited_school_casper.edited_school_casper_recommended.input === null) ? null : true,
                 edited_school_casper_required: {
                     ...newSchool.edited_school_casper.edited_school_casper_required,
                     input: newSchool.edited_school_casper.edited_school_casper_required.input === null ? newSchool.school_casper.school_casper_required : newSchool.edited_school_casper.edited_school_casper_required.input, 
@@ -246,7 +246,8 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
         <>
         <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
             <div className={`relative grow max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">CASPer<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+            {((loggedInUser.permissions.canVerify && newSchool.edited_school_casper.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_casper.edited_school_casper_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">CASPer<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className={`mt-6 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">CASPer Required</label>   
                     <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_casper.edited_school_casper_required.input} isEditMode={newSchool.edited_school_casper.edited_school_casper_required.isEditMode} name='school_casper_required' 
@@ -277,7 +278,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
 
                 <div className={`w-full mt-8 mb-5`}>
                     <label className='font-medium text-xl'>Notes:</label>
-                    <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_casper.school_casper_exam_notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -286,8 +287,8 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
