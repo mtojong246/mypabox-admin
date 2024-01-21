@@ -143,12 +143,14 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
     }
 
     useEffect(() => {
-        if (newSchool.edited_school_volunteer_service.edited_school_volunteer_service_required.input !== null) {
+        if (newSchool.edited_school_volunteer_service.input !== null) {
             setHasInputs(true);
         } else {
             setHasInputs(null)
         }
-    }, [newSchool.edited_school_volunteer_service.edited_school_volunteer_service_required])
+    }, [newSchool.edited_school_volunteer_service.input]);
+
+    console.log(hasInputs)
 
     useEffect(() => {
         if (newSchool.school_volunteer_service.school_volunteer_service_recommended) {
@@ -309,7 +311,8 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
         <>
          <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
         <div className={`grow relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
-        <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center">Volunteer Service<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>              
+        {((loggedInUser.permissions.canVerify && newSchool.edited_school_volunteer_service.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_volunteer_service.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+        <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Volunteer Service<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>              
             
             <div className={`mt-7 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_volunteer_service.school_volunteer_service_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Volunteer Service Required</label>   
@@ -331,7 +334,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                         originalInput={ newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required.input : null} name='school_minimum_volunteer_service_hours_required' handleInput={handleInputGroup}
                         />
                         {/* <input onChange={handleInput} value={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.input ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.input : ''} name='school_minimum_volunteer_service_hours_required' className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_volunteer_service_hours_required'); setNoteName('school_minimum_volunteer_service_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_volunteer_service_hours_required'); setNoteName('school_minimum_volunteer_service_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
@@ -342,8 +345,8 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_volunteer_service_hours_required'); setNoteName('school_minimum_volunteer_service_hours_required_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i, 'school_minimum_volunteer_service_hours_required', 'school_minimum_volunteer_service_hours_required_notes'); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_volunteer_service_hours_required'); setNoteName('school_minimum_volunteer_service_hours_required_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {deleteNote(e, i, 'school_minimum_volunteer_service_hours_required', 'school_minimum_volunteer_service_hours_required_notes'); }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -375,7 +378,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                         originalInput={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.input : null} name='school_minimum_volunteer_service_hours_recommended'handleInput={handleInputGroup}
                         />
                         {/* <input onChange={handleInput} value={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.input ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.input : ''} name='school_minimum_volunteer_service_hours_recommended' className='block grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_volunteer_service_hours_recommended'); setNoteName('school_minimum_volunteer_service_hours_recommended_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_volunteer_service_hours_recommended'); setNoteName('school_minimum_volunteer_service_hours_recommended_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
@@ -386,8 +389,8 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                             <div className='flex justify-between items-center w-full mb-1'>
                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                 <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_volunteer_service_hours_recommended'); setNoteName('school_minimum_volunteer_service_hours_recommended_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i, 'school_minimum_volunteer_service_hours_recommended', 'school_minimum_volunteer_service_hours_recommended_notes');  }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(false); setName('school_minimum_volunteer_service_hours_recommended'); setNoteName('school_minimum_volunteer_service_hours_recommended_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {deleteNote(e, i, 'school_minimum_volunteer_service_hours_recommended', 'school_minimum_volunteer_service_hours_recommended_notes');  }}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                 </div>
                             </div>
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -409,7 +412,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
 
             <div className='w-full mt-8 mb-5'>
                 <label className='font-medium text-xl'>Notes:</label>
-                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_volunteer_service.school_volunteer_service_general_notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -418,8 +421,8 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                             <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button onClick={(e) => {deleteNote(e, i)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setIsGroup(true)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => {deleteNote(e, i)}}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
