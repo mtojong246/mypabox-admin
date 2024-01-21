@@ -51,17 +51,19 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
         school_optional_exams_notes: [] as any[],
     })
 
-    const [ editedOption, setEditedOption ] = useState({
-        school_minimum_number_of_exams_to_be_completed: 0,
-        school_required_optional_exams_list: [] as {name: string, isCorrect: boolean, isNew: boolean}[],
-        school_optional_exams_notes: [] as any[],
-        isCorrect: true,
-        isNew: true,
-    })
+    const [ editedOption, setEditedOption ] = useState<{
+        school_minimum_number_of_exams_to_be_completed: number,
+        school_required_optional_exams_list: {name: string, isCorrect: boolean, isNew: boolean}[],
+        school_optional_exams_notes: any[],
+        isCorrect: boolean,
+        isNew: boolean,
+    } | null>(null)
     const [ selectedExam, setSelectedExam ] = useState('');
     const [ index, setIndex ] = useState<number | null>(null);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
     const [ notePopup, setNotePopup ] = useState(false);
+
+    console.log(option)
 
     useEffect(() => {
         if (editedRequiredOption) {
@@ -111,7 +113,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                 school_minimum_number_of_exams_to_be_completed: Number(e.target.value),
             })
         } else {
-            setEditedOption({
+            editedOption && setEditedOption({
                 ...editedOption,
                 school_minimum_number_of_exams_to_be_completed: Number(e.target.value)
             })
@@ -127,7 +129,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                 school_required_optional_exams_list: option.school_required_optional_exams_list.concat(selectedExam)
             })
         } else {
-            setEditedOption({
+            editedOption && setEditedOption({
                 ...editedOption,
                 school_required_optional_exams_list: editedOption.school_required_optional_exams_list.concat({
                     name: selectedExam,
@@ -148,7 +150,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                 school_required_optional_exams_list: option.school_required_optional_exams_list.filter((e,i) => i !== index)
             })
         } else {
-            setEditedOption({
+            editedOption && setEditedOption({
                 ...editedOption,
                 school_required_optional_exams_list: isNew ? editedOption.school_required_optional_exams_list.filter((list,i) => i !== index) : editedOption.school_required_optional_exams_list.map((list,i) => {
                     if (i === index) {
@@ -164,7 +166,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
 
     const undoDelete = (e:any, index: number) => {
         e.preventDefault();
-        setEditedOption({
+        editedOption && setEditedOption({
             ...editedOption,
             school_required_optional_exams_list: editedOption.school_required_optional_exams_list.map((list,i) => {
                 if (i === index) {
@@ -183,7 +185,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                 school_required_optional_exams: newSchool.school_required_optional_exams.concat(option)
             })
         } else {
-            setNewSchool({
+            editedOption && setNewSchool({
                 ...newSchool,
                 edited_school_required_optional_exams: {
                     ...newSchool.edited_school_required_optional_exams,
@@ -207,7 +209,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                 })
             })
         } else {
-            setNewSchool({
+            editedOption && setNewSchool({
                 ...newSchool,
                 edited_school_required_optional_exams: {
                     ...newSchool.edited_school_required_optional_exams,
@@ -228,7 +230,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
         e.preventDefault();
         if (!input && option.school_required_optional_exams_list.length === 0) {
             alert('Please select at least one exam')
-        } else if (input && editedOption.school_required_optional_exams_list.length === 0) {
+        } else if (input && editedOption && editedOption.school_required_optional_exams_list.length === 0) {
             alert('Please select at least one exam')
         } else {
             if (editedRequiredOption) {
@@ -272,14 +274,14 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
 
     return (
         <>
-            <div className='fixed top-0 left-0 right-0 bottom-0 z-10'>
+            <div className='fixed top-0 left-0 right-0 bottom-0 z-50'>
                 <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                     <div className='relative w-full max-w-[900px] max-h-[700px] overflow-y-scroll rounded-lg p-4 bg-white'>
                     {notePopup && <div className='absolute bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 z-10'></div>}
                         <p className='text-xl font-semibold mb-8'>{editedRequiredOption ? 'Edit' : 'Add'} Required Optional Exam</p>
                         <div className='w-full mb-8'>
                             <label className='text-lg font-medium'>Minimum number of exams to be completed:</label>
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_required_optional_exams.isEditMode} input={editedOption.school_minimum_number_of_exams_to_be_completed}
+                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_required_optional_exams.isEditMode} input={editedOption ? editedOption.school_minimum_number_of_exams_to_be_completed : null}
                             originalInput={option.school_minimum_number_of_exams_to_be_completed} name='school_minimum_number_of_exams_to_be_completed' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} value={option.school_minimum_number_of_exams_to_be_completed ? option.school_minimum_number_of_exams_to_be_completed : ''} className='w-32 focus:outline-none border border-[#B4B4B4] h-[50px] px-3 rounded mt-2 block' /> */}
@@ -313,8 +315,8 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                             })}
                             </div>
                             ) : (
-                            <div className={`flex flex-col justify-center items-center gap-3 ${editedOption.school_required_optional_exams_list.length ? 'mt-3' : 'mt-0'}`}>
-                            {editedOption.school_required_optional_exams_list.map((opt, i) => {
+                            <div className={`flex flex-col justify-center items-center gap-3 ${editedOption && editedOption.school_required_optional_exams_list.length ? 'mt-3' : 'mt-0'}`}>
+                            {editedOption && editedOption.school_required_optional_exams_list.map((opt, i) => {
                                 return (
                                     <div className='py-2 pl-3 pr-2 border border-[#B4B4B4] rounded w-full'>
                                         <div className='flex justify-between items-center w-full'>

@@ -15,6 +15,7 @@ import { Note } from "../../types/schools.types";
 import { categories } from "../../data/categories";
 import { SchoolContext } from "../../useContext";
 import { PiWarningCircle } from "react-icons/pi";
+import { selectUsers } from "../../app/selectors/users.selectors";
 
 
 import Button from '@mui/material/Button';
@@ -27,6 +28,7 @@ import { setCategories } from "../../app/slices/categories";
 
 export default function AddSchool() {
   const schools = useSelector(selectSchools);
+  const users = useSelector(selectUsers);
   const isEdit = useSelector(selectIsEdit);
   const [ newSchool, setNewSchool ] = useState(defaultSchool);
   const [ currentInput, setCurrentInput ] = useState('');
@@ -49,6 +51,7 @@ export default function AddSchool() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
+  const [ assignee, setAssignee ] = useState('')
 
   const handleClick = () => {
     setOpen(true);
@@ -120,7 +123,14 @@ export default function AddSchool() {
       }
    })
     setAllCategories(newCategories)
-   }, [newSchool])
+   }, [newSchool]);
+
+   useEffect(() => {
+    if (newSchool.school_name.input) {
+      const user = users.find(u => u.activeTasks.find(task => task.schools.includes(newSchool.school_name.input)))
+      if (user) setAssignee(user.displayName)
+    }
+   }, [newSchool.school_name, users])
 
 
     // Adds input values to 'newSchool' object
@@ -356,7 +366,10 @@ export default function AddSchool() {
       <div className={`w-full max-w-[1800px] mx-auto`}>
         <div className={`w-full flex justify-between items-center pt-[120px] sticky bg-white z-50 top-0 border-b border-[#DCDCDC]
         ${window.scrollY === 180 ? '' : 'pb-2'}`}>
-          <p className={`text-4xl ${window.scrollY === 180 ? '' : '-mt-28'} font-medium`}>{isEdit ? 'Edit School' : 'Add School'}</p>
+          <div className={`${window.scrollY === 180 ? '' : '-mt-28'}`}>
+          <p className={`text-4xl font-medium`}>{isEdit ? 'Edit School' : 'Add School'}</p>
+          {assignee && <p className='text-xl font-medium mt-1'>Assigned to: <span className='text-orange-600'>{assignee}</span></p>}
+          </div>
           <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
             <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border-2 border-[#4FC769] text-[#4FC769] h-[50px] w-[84px] 
             rounded hover:text-white hover:bg-[#4FC769] flex justify-center items-center'>
