@@ -672,7 +672,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_gre.school_minimum_gre_scores_required ? 'border-[#4573D2]' : 'border-orange-600'}`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Minimum GRE Scores Required</label>
                 <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_minimum_gre_scores_required.input} originalInput={newSchool.school_gre.school_minimum_gre_scores_required} 
-                name='school_minimum_gre_scores_required' handleCheck={handleCheckGroup}
+                name='school_minimum_gre_scores_required' handleCheck={handleCheck}
                 />
                 {/* <div className={`${newSchool.school_gre.school_minimum_gre_scores_required ? 'mb-4' : 'mb-0'} mt-2 w-full`}>
                 <label className="relative inline-flex items-center cursor-pointer">
