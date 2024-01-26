@@ -33,7 +33,7 @@ export default function AddSelected({ loggedInUser, input, isEditMode, setCertif
             <div className={`flex flex-col justify-center items-center gap-3 ${objectArray && objectArray!.length ? 'mt-3' : 'mt-0'}`}>
                 {objectArray && objectArray!.map((opt, i) => {
                     return (
-                        <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
+                        <div className={`py-2 pl-3 pr-2 border-2 ${opt.isNew ? 'border-orange-600' : 'border-[#B4B4B4]'}  rounded w-full`}>
                             <div className='flex justify-between items-center w-full'>
                                 <p className={`font-medium ${opt.isCorrect ? 'no-underline' : 'line-through'}`}>{opt.name}</p>
                                 <button disabled ><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
@@ -81,7 +81,7 @@ export default function AddSelected({ loggedInUser, input, isEditMode, setCertif
             <div className={`flex flex-col justify-center items-center gap-3 ${objectArray && objectArray!.length ? 'mt-3' : 'mt-0'}`}>
                 {objectArray && objectArray!.map((opt, i) => {
                     return (
-                        <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
+                        <div className={`py-2 pl-3 pr-2 border-2 ${opt.isNew ? 'border-orange-600' : 'border-[#B4B4B4]'} rounded w-full`}>
                             <div className='flex justify-between items-center w-full'>
                                 <p className={`font-medium ${opt.isCorrect ? 'no-underline' : 'line-through'}`}>{opt.name}</p>
                                 {!opt.isNew && !opt.isCorrect ? <button disabled={isEditMode ? false : true} onClick={(e:MouseEvent<HTMLButtonElement>) => undoCertification(e, i)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" /></button>

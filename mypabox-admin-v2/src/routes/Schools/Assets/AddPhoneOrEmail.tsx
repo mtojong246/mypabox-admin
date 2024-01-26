@@ -52,8 +52,8 @@ export default function AddPhoneOrEmail({ loggedInUser, isEditMode, input, origi
                 </button>
             </div>
             {input !== null && (input as any[]).map((em, i) => (
-                <div className='w-full flex justify-between items-center py-2 pl-3 pr-2 mt-3 rounded border border-[#B4B4B4]'>
-                    <p className={`text font-semibold ${em.isCorrect ? 'no-underline' : 'line-through'}`}>{em.category}: <span className={`font-normal inline-block ml-1 ${em.isCorrect ? 'no-underline' : 'line-through'}`}>{value === 'school_email' ? em.email : em.number}</span></p>
+                <div className={`w-full flex justify-between items-center py-2 pl-3 pr-2 mt-3 rounded border ${em.isNew ? 'border-orange-600' : 'border-[#B4B4B4]'} `}>
+                    <p className={`text font-semibold ${!em.isCorrect && !em.isNew ? 'line-through' : 'no-underline'}`}>{em.category}: <span className={`font-normal inline-block ml-1 ${!em.isCorrect && !em.isNew ? 'line-through' : 'no-underline'}`}>{value === 'school_email' ? em.email : em.number}</span></p>
                     <button disabled onClick={(e:any) => deleteFunc(e, i, em.isCorrect, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                 </div>
             ))}
@@ -107,8 +107,8 @@ export default function AddPhoneOrEmail({ loggedInUser, isEditMode, input, origi
             {input !== null ?
             <> 
             {(input as any[]).map((em, i) => (
-                <div className='w-full flex justify-between items-center py-2 pl-3 pr-2 mt-3 rounded border border-[#B4B4B4]'>
-                    <p className={`text font-semibold ${em.isCorrect ? 'no-underline' : 'line-through'}`}>{em.category}: <span className={`font-normal inline-block ml-1 ${em.isCorrect ? 'no-underline' : 'line-through'}`}>{value === 'school_email' ? em.email : em.number}</span></p>
+                <div className={`w-full flex justify-between items-center py-2 pl-3 pr-2 mt-3 rounded border ${em.isNew ? 'border-orange-600' : 'border-[#B4B4B4]'} `}>
+                    <p className={`text font-semibold ${!em.isCorrect && !em.isNew ? 'line-through' : 'no-underline'}`}>{em.category}: <span className={`font-normal inline-block ml-1 ${!em.isCorrect && !em.isNew ? 'line-through' : 'no-underline'}`}>{value === 'school_email' ? em.email : em.number}</span></p>
                     {!em.isCorrect && !em.isNew ? <button name={value} onClick={(e:MouseEvent<HTMLButtonElement>) => undoFunc(e, i)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" /></button> : 
                     <button onClick={(e:any) => deleteFunc(e, i, em.isNew, true)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>}
                 </div>

@@ -76,9 +76,9 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
     //     })
     // }
 
-    const addField = (e: MouseEvent<HTMLButtonElement>) => {
+    const addField = (e: MouseEvent<HTMLButtonElement>, isEditedInput: boolean) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canVerify) {
+        if (!isEditedInput) {
             const updatedField = newSchool.school_minimum_gpa_for_specific_course.concat(specificCourseDefault);
             setNewSchool({
                 ...newSchool,
@@ -111,9 +111,9 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
     //     })
     // }
 
-    const deleteField = (e: MouseEvent<HTMLButtonElement>, isNew: boolean, index: number) => {
+    const deleteField = (e: MouseEvent<HTMLButtonElement>, index: number, isNew: boolean, isEditedInput: boolean) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canVerify) {
+        if (!isEditedInput) {
             const updatedField = newSchool.school_minimum_gpa_for_specific_course.filter((field, i)=> i !== index);
             setNewSchool({
                 ...newSchool,
@@ -190,7 +190,6 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
         
     };
     
-    console.log(newSchool.edited_school_minimum_gpa_for_specific_course.input, newSchool.school_minimum_gpa_for_specific_course)
     const handleObjInput = (e: ChangeEvent<HTMLInputElement>,name: string,index: number,  isEditedInput: boolean) => {
         if (!isEditedInput) {
             const value = e.target.value;
@@ -329,7 +328,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
                 <label className={`z-20 flex justify-start items-center text-xl bg-white ${input ? input.isCorrect ? 'no-underline' : 'line-through' : 'no-underline'}`}>Minimum GPA for Specific Course <PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_for_specific_course.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_for_specific_course.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/> <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label> 
                 {!loggedInUser.permissions.canVerify && input && !input.isCorrect && !input.isNew ? 
                 <button disabled={!newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode ? true : false} onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)} className={`bg-[#4573D2] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#26354C] ${i > 0 ? 'block' : 'hidden'}`}>Undo</button> : 
-                    <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) ? true : false} onClick={(e) => deleteField(e, input!.isNew,i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#B52020] ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>}
+                    <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) ? true : false} onClick={(e:any) => {input === null ? deleteField(e, i, false, false) : deleteField(e, i, !input?.isNew, true)}} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#B52020] ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>}
             </div>
             
             <>
@@ -377,7 +376,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
 
             </>
             {i === newSchool.school_minimum_gpa_for_specific_course.length-1 ? (
-            <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) ? true : false} className="mx-4 mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={addField}>
+            <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) ? true : false} className="mx-4 mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={(e:any) => {input === null ? addField(e, false) : addField(e, true)}}>
                 + Add New Field
             </button>
             ) : (

@@ -37,7 +37,7 @@ export default function CreatableSelectField({loggedInUser, input, originalInput
                 <div className='flex justify-center items-start gap-1 w-full'>
                     <CreatableSelect isDisabled options={options} 
                     value={originalInput ? {value: originalInput, label: originalInput} : null } 
-                    className="grow focus:outline-none rounded" 
+                    className={`grow focus:outline-none rounded ${input ? 'line-through' : 'no-underline'}`} 
                     onChange={(e) => handleSelect(e, name, index, false)}/>
                     <Tooltip title="Type and press enter to create new option" placement='right'>
                             <IconButton style={{padding: '0px'}}>
@@ -76,7 +76,7 @@ export default function CreatableSelectField({loggedInUser, input, originalInput
                 {(!isEditMode || ((input !== originalInput) && isEditMode)) && <div className='flex justify-center items-start gap-1 w-full'>
                     <CreatableSelect isDisabled options={options} 
                     value={originalInput ? {value: originalInput, label: originalInput} : null } 
-                    className="grow focus:outline-none rounded" 
+                    className={`grow focus:outline-none rounded ${input ? 'line-through' : 'no-underline'}`} 
                     onChange={(e) => handleSelect(e, name, index, false)}/>
                     <Tooltip title="Type and press enter to create new option" placement='right'>
                             <IconButton style={{padding: '0px'}}>
