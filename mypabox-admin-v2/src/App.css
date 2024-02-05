@@ -46,6 +46,10 @@
   padding: 0px;
 }
 
+.strike .ql-container .ql-editor p {
+  text-decoration: line-through;
+}
+
 .ql-toolbar {
   border-radius: 5px 5px 0 0;
   border-width: 2px 2px 0px 2px !important;

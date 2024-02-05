@@ -115,27 +115,31 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                     ...field.edited_average_overall_gpa_accepted_previous_year,
                     input: field.edited_average_overall_gpa_accepted_previous_year.input === null ? (originalField.average_overall_gpa_accepted_previous_year && originalField.average_overall_gpa_accepted_previous_year.input) : field.edited_average_overall_gpa_accepted_previous_year.input,
                     isEditMode: true,
+                    notes: field.edited_average_overall_gpa_accepted_previous_year.notes === null ? (originalField.average_overall_gpa_accepted_previous_year && originalField.average_overall_gpa_accepted_previous_year.notes) : field.edited_average_overall_gpa_accepted_previous_year.notes
                 },
                 edited_average_prerequisite_gpa_accepted_previous_year: {
                     ...field.edited_average_prerequisite_gpa_accepted_previous_year,
                     input: field.edited_average_prerequisite_gpa_accepted_previous_year.input === null ? (originalField.average_prerequisite_gpa_accepted_previous_year && originalField.average_prerequisite_gpa_accepted_previous_year.input) : field.edited_average_prerequisite_gpa_accepted_previous_year.input,
                     isEditMode: true,
+                    notes: field.edited_average_overall_gpa_accepted_previous_year.notes === null ? (originalField.average_overall_gpa_accepted_previous_year && originalField.average_overall_gpa_accepted_previous_year.notes) : field.edited_average_overall_gpa_accepted_previous_year.notes,
                 },
                 edited_average_science_gpa_accepted_previous_year: {
                     ...field.edited_average_science_gpa_accepted_previous_year,
                     input: field.edited_average_science_gpa_accepted_previous_year.input === null ? (originalField.average_science_gpa_accepted_previous_year && originalField.average_science_gpa_accepted_previous_year.input) : field.edited_average_science_gpa_accepted_previous_year.input,
                     isEditMode: true,
+                    notes: field.edited_average_science_gpa_accepted_previous_year.notes === null ? (originalField.average_science_gpa_accepted_previous_year && originalField.average_science_gpa_accepted_previous_year.notes) : field.edited_average_science_gpa_accepted_previous_year.notes,
                 },
                 edited_average_bcp_gpa_accepted_previous_year: {
                     ...field.edited_average_bcp_gpa_accepted_previous_year,
                     input: field.edited_average_bcp_gpa_accepted_previous_year.input === null ? (originalField.average_bcp_gpa_accepted_previous_year && originalField.average_bcp_gpa_accepted_previous_year.input) : field.edited_average_bcp_gpa_accepted_previous_year.input,
                     isEditMode: true,
+                    notes: field.edited_average_bcp_gpa_accepted_previous_year.notes === null ? (originalField.average_bcp_gpa_accepted_previous_year && originalField.average_bcp_gpa_accepted_previous_year.notes) : field.edited_average_bcp_gpa_accepted_previous_year.notes,
                 }
             }
         })
     } else if (name === 'edited_school_minimum_gpa_required') {
-        const field = newSchool[name] as EditedRequired;
-        const originalField = newSchool[original] as Required;
+        const field = newSchool.edited_school_minimum_gpa_required
+        const originalField = newSchool.school_minimum_gpa_required
         setNewSchool({
             ...newSchool,
             [name]: {
@@ -146,11 +150,13 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                     ...field.edited_school_minimum_overall_gpa_required,
                     input: field.edited_school_minimum_overall_gpa_required.input === null ? originalField.school_minimum_overall_gpa_required &&  originalField.school_minimum_overall_gpa_required.input : field.edited_school_minimum_overall_gpa_required.input,
                     isEditMode: true,
+                    notes: field.edited_school_minimum_overall_gpa_required.notes === null ? originalField.school_minimum_overall_gpa_required &&  originalField.school_minimum_overall_gpa_required.notes : field.edited_school_minimum_overall_gpa_required.notes,
                 },
                 edited_school_minimum_prerequisite_gpa_required: {
                     ...field.edited_school_minimum_prerequisite_gpa_required,
                     input: field.edited_school_minimum_prerequisite_gpa_required.input === null ? originalField.school_minimum_prerequisite_gpa_required && originalField.school_minimum_prerequisite_gpa_required.input : field.edited_school_minimum_prerequisite_gpa_required.input,
                     isEditMode: true,
+                    notes: field.edited_school_minimum_prerequisite_gpa_required.notes === null ? originalField.school_minimum_prerequisite_gpa_required && originalField.school_minimum_prerequisite_gpa_required.notes : field.edited_school_minimum_prerequisite_gpa_required.notes,
                 },
                 edited_school_minimum_science_gpa_required: {
                     ...field.edited_school_minimum_science_gpa_required,
@@ -160,8 +166,8 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             }
         })
     } else if (name === 'edited_school_minimum_gpa_recommended') {
-        const field = newSchool[name] as EditedRecommended;
-        const originalField = newSchool[original] as Recommended;
+        const field = newSchool.edited_school_minimum_gpa_recommended
+        const originalField = newSchool.school_minimum_gpa_recommended
         setNewSchool({
             ...newSchool,
             [name]: {
@@ -172,16 +178,22 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                     ...field.edited_school_minimum_overall_gpa_recommended,
                     input: field.edited_school_minimum_overall_gpa_recommended.input === null ? originalField.school_minimum_overall_gpa_recommended &&  originalField.school_minimum_overall_gpa_recommended.input : field.edited_school_minimum_overall_gpa_recommended.input,
                     isEditMode: true,
+                    notes: field.edited_school_minimum_overall_gpa_recommended.notes === null ? originalField.school_minimum_overall_gpa_recommended &&  originalField.school_minimum_overall_gpa_recommended.notes : field.edited_school_minimum_overall_gpa_recommended.notes,
+
                 },
                 edited_school_minimum_prerequisite_gpa_recommended: {
                     ...field.edited_school_minimum_prerequisite_gpa_recommended,
                     input: field.edited_school_minimum_prerequisite_gpa_recommended.input === null ? originalField.school_minimum_prerequisite_gpa_recommended && originalField.school_minimum_prerequisite_gpa_recommended.input : field.edited_school_minimum_prerequisite_gpa_recommended.input,
                     isEditMode: true,
+                    notes: field.edited_school_minimum_prerequisite_gpa_recommended.notes === null ? originalField.school_minimum_prerequisite_gpa_recommended && originalField.school_minimum_prerequisite_gpa_recommended.notes : field.edited_school_minimum_prerequisite_gpa_recommended.notes,
+
                 },
                 edited_school_minimum_science_gpa_recommended: {
                     ...field.edited_school_minimum_science_gpa_recommended,
                     input: field.edited_school_minimum_science_gpa_recommended.input === null ? originalField.school_minimum_science_gpa_recommended && originalField.school_minimum_science_gpa_recommended.input : field.edited_school_minimum_science_gpa_recommended.input,
                     isEditMode: true,
+                    notes: field.edited_school_minimum_science_gpa_recommended.notes === null ? originalField.school_minimum_science_gpa_recommended && originalField.school_minimum_science_gpa_recommended.notes : field.edited_school_minimum_science_gpa_recommended.notes,
+
                 }
             }
         })
@@ -239,29 +251,33 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         input: field.edited_average_overall_gpa_accepted_previous_year.input === (originalField.average_overall_gpa_accepted_previous_year && originalField.average_overall_gpa_accepted_previous_year.input) ? null : field.edited_average_overall_gpa_accepted_previous_year.input,
                         prev: field.edited_average_overall_gpa_accepted_previous_year.input === (originalField.average_overall_gpa_accepted_previous_year && originalField.average_overall_gpa_accepted_previous_year.input) ? null : field.edited_average_overall_gpa_accepted_previous_year.input,
                         isEditMode: false,
+                        notes: field.edited_average_overall_gpa_accepted_previous_year.notes === (originalField.average_overall_gpa_accepted_previous_year && originalField.average_overall_gpa_accepted_previous_year.notes) ? null : field.edited_average_overall_gpa_accepted_previous_year.notes,
                     },
                     edited_average_prerequisite_gpa_accepted_previous_year: {
                         ...field.edited_average_prerequisite_gpa_accepted_previous_year,
                         input: field.edited_average_prerequisite_gpa_accepted_previous_year.input === (originalField.average_prerequisite_gpa_accepted_previous_year && originalField.average_prerequisite_gpa_accepted_previous_year.input) ? null : field.edited_average_prerequisite_gpa_accepted_previous_year.input,
                         prev: field.edited_average_prerequisite_gpa_accepted_previous_year.input === (originalField.average_prerequisite_gpa_accepted_previous_year && originalField.average_prerequisite_gpa_accepted_previous_year.input) ? null : field.edited_average_prerequisite_gpa_accepted_previous_year.input,
                         isEditMode: false,
+                        notes: field.edited_average_prerequisite_gpa_accepted_previous_year.notes === (originalField.average_prerequisite_gpa_accepted_previous_year && originalField.average_prerequisite_gpa_accepted_previous_year.notes) ? null : field.edited_average_prerequisite_gpa_accepted_previous_year.notes,
                     },
                     edited_average_science_gpa_accepted_previous_year: {
                         ...field.edited_average_science_gpa_accepted_previous_year,
                         input: field.edited_average_science_gpa_accepted_previous_year.input === (originalField.average_science_gpa_accepted_previous_year && originalField.average_science_gpa_accepted_previous_year.input) ? null : field.edited_average_science_gpa_accepted_previous_year.input,
                         prev: field.edited_average_science_gpa_accepted_previous_year.input === (originalField.average_science_gpa_accepted_previous_year && originalField.average_science_gpa_accepted_previous_year.input) ? null : field.edited_average_science_gpa_accepted_previous_year.input,
                         isEditMode: false,
+                        notes: field.edited_average_science_gpa_accepted_previous_year.notes === (originalField.average_science_gpa_accepted_previous_year && originalField.average_science_gpa_accepted_previous_year.notes) ? null : field.edited_average_science_gpa_accepted_previous_year.notes,
                     },
                     edited_average_bcp_gpa_accepted_previous_year: {
                         ...field.edited_average_bcp_gpa_accepted_previous_year,
                         input: field.edited_average_bcp_gpa_accepted_previous_year.input === (originalField.average_bcp_gpa_accepted_previous_year && originalField.average_bcp_gpa_accepted_previous_year.input) ? null : field.edited_average_bcp_gpa_accepted_previous_year.input,
                         prev: field.edited_average_bcp_gpa_accepted_previous_year.input === (originalField.average_bcp_gpa_accepted_previous_year && originalField.average_bcp_gpa_accepted_previous_year.input) ? null : field.edited_average_bcp_gpa_accepted_previous_year.input,
                         isEditMode: false,
+                        notes: field.edited_average_bcp_gpa_accepted_previous_year.notes === (originalField.average_bcp_gpa_accepted_previous_year && originalField.average_bcp_gpa_accepted_previous_year.notes) ? null : field.edited_average_bcp_gpa_accepted_previous_year.notes,
                     }
                 }
             })
         } else if (name === 'edited_school_minimum_gpa_required') {
-            const field = newSchool[name] as EditedRequired;
+            const field = newSchool.edited_school_minimum_gpa_required;
             const originalField = newSchool.school_minimum_gpa_required;
             setNewSchool({
                 ...newSchool,
@@ -275,23 +291,29 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         input: field.edited_school_minimum_overall_gpa_required.input === (originalField.school_minimum_overall_gpa_required && originalField.school_minimum_overall_gpa_required.input) ? null : field.edited_school_minimum_overall_gpa_required.input,
                         prev: field.edited_school_minimum_overall_gpa_required.input === (originalField.school_minimum_overall_gpa_required && originalField.school_minimum_overall_gpa_required.input) ? null : field.edited_school_minimum_overall_gpa_required.input,
                         isEditMode: false,
+                        notes: field.edited_school_minimum_overall_gpa_required.notes === (originalField.school_minimum_overall_gpa_required && originalField.school_minimum_overall_gpa_required.notes) ? null : field.edited_school_minimum_overall_gpa_required.notes,
+
                     },
                     edited_school_minimum_prerequisite_gpa_required: {
                         ...field.edited_school_minimum_prerequisite_gpa_required,
                         input: field.edited_school_minimum_prerequisite_gpa_required.input === (originalField.school_minimum_prerequisite_gpa_required && originalField.school_minimum_prerequisite_gpa_required.input) ? null : field.edited_school_minimum_prerequisite_gpa_required.input,
                         prev: field.edited_school_minimum_prerequisite_gpa_required.input === (originalField.school_minimum_prerequisite_gpa_required && originalField.school_minimum_prerequisite_gpa_required.input) ? null : field.edited_school_minimum_prerequisite_gpa_required.input,
                         isEditMode: false,
+                        notes: field.edited_school_minimum_prerequisite_gpa_required.notes === (originalField.school_minimum_prerequisite_gpa_required && originalField.school_minimum_prerequisite_gpa_required.notes) ? null : field.edited_school_minimum_prerequisite_gpa_required.notes,
+
                     },
                     edited_school_minimum_science_gpa_required: {
                         ...field.edited_school_minimum_science_gpa_required,
                         input: field.edited_school_minimum_science_gpa_required.input === (originalField.school_minimum_science_gpa_required && originalField.school_minimum_science_gpa_required.input) ? null : field.edited_school_minimum_science_gpa_required.input,
                         prev: field.edited_school_minimum_science_gpa_required.input === (originalField.school_minimum_science_gpa_required && originalField.school_minimum_science_gpa_required.input) ? null : field.edited_school_minimum_science_gpa_required.input,
                         isEditMode: false,
+                        notes: field.edited_school_minimum_science_gpa_required.notes === (originalField.school_minimum_science_gpa_required && originalField.school_minimum_science_gpa_required.notes) ? null : field.edited_school_minimum_science_gpa_required.notes,
+
                     }
                 }
             })
         } else if (name === 'edited_school_minimum_gpa_recommended') {
-            const field = newSchool[name] as EditedRecommended;
+            const field = newSchool.edited_school_minimum_gpa_recommended;
             const originalField = newSchool[originalName] as Recommended;
             setNewSchool({
                 ...newSchool,
@@ -305,18 +327,24 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         input: field.edited_school_minimum_overall_gpa_recommended.input === (originalField.school_minimum_overall_gpa_recommended && originalField.school_minimum_overall_gpa_recommended.input) ? null : field.edited_school_minimum_overall_gpa_recommended.input,
                         prev: field.edited_school_minimum_overall_gpa_recommended.input === (originalField.school_minimum_overall_gpa_recommended && originalField.school_minimum_overall_gpa_recommended.input) ? null : field.edited_school_minimum_overall_gpa_recommended.input,
                         isEditMode: false,
+                        notes: field.edited_school_minimum_overall_gpa_recommended.notes === (originalField.school_minimum_overall_gpa_recommended && originalField.school_minimum_overall_gpa_recommended.notes) ? null : field.edited_school_minimum_overall_gpa_recommended.notes,
+
                     },
                     edited_school_minimum_prerequisite_gpa_recommended: {
                         ...field.edited_school_minimum_prerequisite_gpa_recommended,
                         input: field.edited_school_minimum_prerequisite_gpa_recommended.input === (originalField.school_minimum_prerequisite_gpa_recommended && originalField.school_minimum_prerequisite_gpa_recommended.input) ? null : field.edited_school_minimum_prerequisite_gpa_recommended.input,
                         prev: field.edited_school_minimum_prerequisite_gpa_recommended.input === (originalField.school_minimum_prerequisite_gpa_recommended && originalField.school_minimum_prerequisite_gpa_recommended.input) ? null : field.edited_school_minimum_prerequisite_gpa_recommended.input,
                         isEditMode: false,
+                        notes: field.edited_school_minimum_prerequisite_gpa_recommended.notes === (originalField.school_minimum_prerequisite_gpa_recommended && originalField.school_minimum_prerequisite_gpa_recommended.notes) ? null : field.edited_school_minimum_prerequisite_gpa_recommended.notes,
+
                     },
                     edited_school_minimum_science_gpa_recommended: {
                         ...field.edited_school_minimum_science_gpa_recommended,
                         input: field.edited_school_minimum_science_gpa_recommended.input === (originalField.school_minimum_science_gpa_recommended && originalField.school_minimum_science_gpa_recommended.input) ? null : field.edited_school_minimum_science_gpa_recommended.input,
                         prev: field.edited_school_minimum_science_gpa_recommended.input === (originalField.school_minimum_science_gpa_recommended && originalField.school_minimum_science_gpa_recommended.input) ? null : field.edited_school_minimum_science_gpa_recommended.input,
                         isEditMode: false,
+                        notes: field.edited_school_minimum_science_gpa_recommended.notes === (originalField.school_minimum_science_gpa_recommended && originalField.school_minimum_science_gpa_recommended.notes) ? null : field.edited_school_minimum_science_gpa_recommended.notes,
+
                     }
                 }
             })
@@ -351,21 +379,21 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             ...newSchool,
             school_average_gpa_accepted_previous_cycle: {
                 ...originalField,
-                average_overall_gpa_accepted_previous_year: field.edited_average_overall_gpa_accepted_previous_year.input ? {
-                    input: field.edited_average_overall_gpa_accepted_previous_year.input,
-                    notes: originalField.average_overall_gpa_accepted_previous_year ? originalField.average_overall_gpa_accepted_previous_year.notes : [],
+                average_overall_gpa_accepted_previous_year: field.edited_average_overall_gpa_accepted_previous_year.input ||  field.edited_average_overall_gpa_accepted_previous_year.notes ? {
+                    input: field.edited_average_overall_gpa_accepted_previous_year.input ? field.edited_average_overall_gpa_accepted_previous_year.input : originalField.average_overall_gpa_accepted_previous_year ? originalField.average_overall_gpa_accepted_previous_year.input : 0,
+                    notes: field.edited_average_overall_gpa_accepted_previous_year.notes ? field.edited_average_overall_gpa_accepted_previous_year.notes : originalField.average_overall_gpa_accepted_previous_year ? originalField.average_overall_gpa_accepted_previous_year.notes : [],
                 } : originalField.average_overall_gpa_accepted_previous_year,
-                average_prerequisite_gpa_accepted_previous_year: field.edited_average_prerequisite_gpa_accepted_previous_year.input ? {
-                    input: field.edited_average_prerequisite_gpa_accepted_previous_year.input,
-                    notes: originalField.average_prerequisite_gpa_accepted_previous_year ? originalField.average_prerequisite_gpa_accepted_previous_year.notes : [],
+                average_prerequisite_gpa_accepted_previous_year: field.edited_average_prerequisite_gpa_accepted_previous_year.input || field.edited_average_prerequisite_gpa_accepted_previous_year.notes ? {
+                    input: field.edited_average_prerequisite_gpa_accepted_previous_year.input ? field.edited_average_prerequisite_gpa_accepted_previous_year.input : originalField.average_prerequisite_gpa_accepted_previous_year ? originalField.average_prerequisite_gpa_accepted_previous_year.input : 0,
+                    notes: field.edited_average_prerequisite_gpa_accepted_previous_year.notes ? field.edited_average_prerequisite_gpa_accepted_previous_year.notes : originalField.average_prerequisite_gpa_accepted_previous_year ? originalField.average_prerequisite_gpa_accepted_previous_year.notes : [],
                 } : originalField.average_prerequisite_gpa_accepted_previous_year,
-                average_science_gpa_accepted_previous_year: field.edited_average_science_gpa_accepted_previous_year.input ? {
-                    input: field.edited_average_science_gpa_accepted_previous_year.input,
-                    notes: originalField.average_science_gpa_accepted_previous_year ? originalField.average_science_gpa_accepted_previous_year.notes : [],
+                average_science_gpa_accepted_previous_year: field.edited_average_science_gpa_accepted_previous_year.input || field.edited_average_science_gpa_accepted_previous_year.notes ? {
+                    input: field.edited_average_science_gpa_accepted_previous_year.input ? field.edited_average_science_gpa_accepted_previous_year.input : originalField.average_science_gpa_accepted_previous_year ? originalField.average_science_gpa_accepted_previous_year.input : 0,
+                    notes: field.edited_average_science_gpa_accepted_previous_year.notes ? field.edited_average_science_gpa_accepted_previous_year.notes : originalField.average_science_gpa_accepted_previous_year ? originalField.average_science_gpa_accepted_previous_year.notes : [],
                 } : originalField.average_science_gpa_accepted_previous_year,
-                average_bcp_gpa_accepted_previous_year: field.edited_average_bcp_gpa_accepted_previous_year.input ? {
-                    input: field.edited_average_bcp_gpa_accepted_previous_year.input,
-                    notes: originalField.average_bcp_gpa_accepted_previous_year ? originalField.average_bcp_gpa_accepted_previous_year.notes : [],
+                average_bcp_gpa_accepted_previous_year: field.edited_average_bcp_gpa_accepted_previous_year.input || field.edited_average_bcp_gpa_accepted_previous_year.notes ? {
+                    input: field.edited_average_bcp_gpa_accepted_previous_year.input ? field.edited_average_bcp_gpa_accepted_previous_year.input : originalField.average_bcp_gpa_accepted_previous_year ? originalField.average_bcp_gpa_accepted_previous_year.input : 0,
+                    notes: field.edited_average_bcp_gpa_accepted_previous_year.notes ? field.edited_average_bcp_gpa_accepted_previous_year.notes : originalField.average_bcp_gpa_accepted_previous_year ? originalField.average_bcp_gpa_accepted_previous_year.notes : [],
                 } : originalField.average_bcp_gpa_accepted_previous_year,
             },
             [name]: {
@@ -376,44 +404,48 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     input: null,
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_average_prerequisite_gpa_accepted_previous_year: {
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_average_science_gpa_accepted_previous_year: {
                     input: null,                   
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_average_bcp_gpa_accepted_previous_year: {
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 }
             }
         })
         
     } else if (name === 'edited_school_minimum_gpa_required') {
-        const originalField = newSchool[originalName] as Required;
-        const field = newSchool[name] as EditedRequired;
+        const originalField = newSchool.school_minimum_gpa_required;
+        const field = newSchool.edited_school_minimum_gpa_required;
         setNewSchool({
             ...newSchool,
             [originalName]: {
                 ...originalField,
                 input: field.input === null ? originalField.input : field.input,
-                school_minimum_overall_gpa_required: field.edited_school_minimum_overall_gpa_required.input ? {
-                    input: field.edited_school_minimum_overall_gpa_required.input,
-                    notes: originalField.school_minimum_overall_gpa_required ? originalField.school_minimum_overall_gpa_required.notes : [],
+                school_minimum_overall_gpa_required: field.edited_school_minimum_overall_gpa_required.input || field.edited_school_minimum_overall_gpa_required.notes ? {
+                    input: field.edited_school_minimum_overall_gpa_required.input ? field.edited_school_minimum_overall_gpa_required.input : originalField.school_minimum_overall_gpa_required ? originalField.school_minimum_overall_gpa_required.input : 0,
+                    notes: field.edited_school_minimum_overall_gpa_required.notes ? field.edited_school_minimum_overall_gpa_required.notes : originalField.school_minimum_overall_gpa_required ? originalField.school_minimum_overall_gpa_required.notes : [],
                 } : originalField.school_minimum_overall_gpa_required,
-                school_minimum_science_gpa_required: field.edited_school_minimum_science_gpa_required.input ? {
-                    input: field.edited_school_minimum_science_gpa_required.input,
-                    notes: originalField.school_minimum_science_gpa_required ? originalField.school_minimum_science_gpa_required.notes : [],
+                school_minimum_science_gpa_required: field.edited_school_minimum_science_gpa_required.input || field.edited_school_minimum_science_gpa_required.notes ? {
+                    input: field.edited_school_minimum_science_gpa_required.input ? field.edited_school_minimum_science_gpa_required.input : originalField.school_minimum_science_gpa_required ? originalField.school_minimum_science_gpa_required.input : 0,
+                    notes: field.edited_school_minimum_science_gpa_required.notes ? field.edited_school_minimum_science_gpa_required.notes : originalField.school_minimum_science_gpa_required ? originalField.school_minimum_science_gpa_required.notes : [],
                 } : originalField.school_minimum_science_gpa_required,
-                school_minimum_prerequisite_gpa_required: field.edited_school_minimum_prerequisite_gpa_required.input ? {
-                    input: field.edited_school_minimum_science_gpa_required.input,
-                    notes: originalField.school_minimum_science_gpa_required ? originalField.school_minimum_science_gpa_required.notes : [],
+                school_minimum_prerequisite_gpa_required: field.edited_school_minimum_prerequisite_gpa_required.input || field.edited_school_minimum_prerequisite_gpa_required.notes ? {
+                    input: field.edited_school_minimum_prerequisite_gpa_required.input ? field.edited_school_minimum_prerequisite_gpa_required.input : originalField.school_minimum_science_gpa_required ? originalField.school_minimum_science_gpa_required.input : 0,
+                    notes: field.edited_school_minimum_prerequisite_gpa_required.notes ? field.edited_school_minimum_prerequisite_gpa_required.notes : originalField.school_minimum_science_gpa_required ? originalField.school_minimum_science_gpa_required.notes : [],
                 } : originalField.school_minimum_prerequisite_gpa_required,
             },
             [name]: {
@@ -425,38 +457,41 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     input: null,
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_school_minimum_prerequisite_gpa_required: {
                     input: null,
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_school_minimum_science_gpa_required: {
                     input: null,
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
             }
         })
     } else if (name === 'edited_school_minimum_gpa_recommended') {
-        const field = newSchool[name] as EditedRecommended;
-        const originalField = newSchool[originalName] as Recommended;
+        const field = newSchool.edited_school_minimum_gpa_recommended
+        const originalField = newSchool.school_minimum_gpa_recommended;
         setNewSchool({
             ...newSchool,
             [originalName]: {
                 ...originalField,
                 input: field.input === null ? originalField.input : field.input,
-                school_minimum_overall_gpa_recommended: field.edited_school_minimum_overall_gpa_recommended.input !== null ? {
-                    input: field.edited_school_minimum_overall_gpa_recommended.input,
-                    notes: originalField.school_minimum_overall_gpa_recommended ? originalField.school_minimum_overall_gpa_recommended.notes : [],
+                school_minimum_overall_gpa_recommended: field.edited_school_minimum_overall_gpa_recommended.input !== null || field.edited_school_minimum_overall_gpa_recommended.notes ? {
+                    input: field.edited_school_minimum_overall_gpa_recommended.input ? field.edited_school_minimum_overall_gpa_recommended.input : originalField.school_minimum_overall_gpa_recommended ? originalField.school_minimum_overall_gpa_recommended.input : 0,
+                    notes: field.edited_school_minimum_overall_gpa_recommended.notes ? field.edited_school_minimum_overall_gpa_recommended.notes : originalField.school_minimum_overall_gpa_recommended ? originalField.school_minimum_overall_gpa_recommended.notes : [],
                 } : originalField.school_minimum_overall_gpa_recommended,
-                school_minimum_science_gpa_recommended: field.edited_school_minimum_science_gpa_recommended.input !== null ? {
-                    input: field.edited_school_minimum_science_gpa_recommended.input,
-                    notes: originalField.school_minimum_science_gpa_recommended? originalField.school_minimum_science_gpa_recommended.notes : [],
+                school_minimum_science_gpa_recommended: field.edited_school_minimum_science_gpa_recommended.input !== null || field.edited_school_minimum_science_gpa_recommended.notes ? {
+                    input: field.edited_school_minimum_science_gpa_recommended.input ? field.edited_school_minimum_science_gpa_recommended.input : originalField.school_minimum_science_gpa_recommended? originalField.school_minimum_science_gpa_recommended.input : 0,
+                    notes: field.edited_school_minimum_science_gpa_recommended.notes ? field.edited_school_minimum_science_gpa_recommended.notes : originalField.school_minimum_science_gpa_recommended? originalField.school_minimum_science_gpa_recommended.notes : [],
                 } : originalField.school_minimum_science_gpa_recommended,
-                school_minimum_prerequisite_gpa_recommended: field.edited_school_minimum_prerequisite_gpa_recommended.input !== null ? {
-                    input: field.edited_school_minimum_science_gpa_recommended.input,
-                    notes: originalField.school_minimum_science_gpa_recommended ? originalField.school_minimum_science_gpa_recommended.notes : [],
+                school_minimum_prerequisite_gpa_recommended: field.edited_school_minimum_prerequisite_gpa_recommended.input !== null || field.edited_school_minimum_science_gpa_recommended.notes ? {
+                    input: field.edited_school_minimum_science_gpa_recommended.input ? field.edited_school_minimum_science_gpa_recommended.input : originalField.school_minimum_science_gpa_recommended ? originalField.school_minimum_science_gpa_recommended.input : 0,
+                    notes: field.edited_school_minimum_science_gpa_recommended.notes ? field.edited_school_minimum_science_gpa_recommended.notes : originalField.school_minimum_science_gpa_recommended ? originalField.school_minimum_science_gpa_recommended.notes : [],
                 } : originalField.school_minimum_prerequisite_gpa_recommended,
             },
             [name]: {
@@ -468,16 +503,19 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     input: null,
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_school_minimum_prerequisite_gpa_recommended: {
                     input: null,
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_school_minimum_science_gpa_recommended: {
                     input: null,
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
             },
         })
@@ -540,21 +578,25 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                     input: null,
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_average_prerequisite_gpa_accepted_previous_year: {
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_average_science_gpa_accepted_previous_year: {
                     input: null,                   
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_average_bcp_gpa_accepted_previous_year: {
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 }
             }
         })
@@ -570,16 +612,19 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_school_minimum_prerequisite_gpa_required: {
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_school_minimum_science_gpa_required: {
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 }
             }
         })
@@ -595,16 +640,19 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_school_minimum_prerequisite_gpa_recommended: {
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 },
                 edited_school_minimum_science_gpa_recommended: {
                     input: null,                    
                     prev: null,
                     isEditMode: false,
+                    notes: null,
                 }
             }
         })
@@ -670,7 +718,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             }
         })
     } else if (name === 'edited_school_minimum_gpa_required') {
-        const field = newSchool[name] as EditedRequired;
+        const field = newSchool.edited_school_minimum_gpa_required;
         setNewSchool({
             ...newSchool,
             [name]: {
@@ -699,7 +747,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             }
         })
     } else if (name === 'edited_school_minimum_gpa_recommended') {
-        const field = newSchool[name] as EditedRecommended;
+        const field = newSchool.edited_school_minimum_gpa_recommended;
         setNewSchool({
             ...newSchool,
             [name]: {

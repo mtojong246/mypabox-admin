@@ -208,43 +208,98 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
 
 
       const addNote = (note: Note) => {
-        const field = newSchool[name as keyof School] as NumberInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).concat(note),
-            }
-        })
+            if (name.includes('required')) {
+                setNewSchool({
+                    ...newSchool,
+                    school_minimum_gpa_required: {
+                        ...newSchool.school_minimum_gpa_required,
+                        [name]: {
+                            input: (newSchool.school_minimum_gpa_required[name as keyof object] as any).input ? (newSchool.school_minimum_gpa_required[name as keyof object] as any).input  : '',
+                            notes: (newSchool.school_minimum_gpa_required[name as keyof object] as any).notes ? (newSchool.school_minimum_gpa_required[name as keyof object] as any).notes.concat(note) : [note]
+                        }
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    school_minimum_gpa_recommended: {
+                        ...newSchool.school_minimum_gpa_recommended,
+                        [name]: {
+                            input: (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).input ? (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).input  : '',
+                            notes: (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).notes ? (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).notes.concat(note) : [note]
+                        }
+                    }
+                })
+            
+        }
+        
     };
 
     const updateNote = (note: Note) => {
-        const field = newSchool[name as keyof School] as NumberInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
+            if (name.includes('required')) {
+            setNewSchool({
+                ...newSchool,
+                school_minimum_gpa_required: {
+                    ...newSchool.school_minimum_gpa_required,
+                    [name]: {
+                        input: (newSchool.school_minimum_gpa_required[name as keyof object] as any).input ? (newSchool.school_minimum_gpa_required[name as keyof object] as any).input  : '',
+                        notes: (newSchool.school_minimum_gpa_required[name as keyof object] as any).notes && (newSchool.school_minimum_gpa_required[name as keyof object] as any).notes.map((n:Note,i:number) => {
+                            if (i === index) {
+                                return { ...note }
+                            } else {
+                                return { ...n }
+                            }
+                        })
+                    }
+                }
+            })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    school_minimum_gpa_recommended: {
+                        ...newSchool.school_minimum_gpa_recommended,
+                        [name]: {
+                            input: (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).input ? (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).input  : '',
+                            notes: (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).notes && (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).notes.map((n:Note,i:number) => {
+                                if (i === index) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
+                        }
                     }
                 })
             }
-        })
+        
     };
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        const field = newSchool[name as keyof School] as NumberInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).filter((n,i) => i !== index)
+        if (name.includes('required')) {
+            setNewSchool({
+                ...newSchool,
+                school_minimum_gpa_required: {
+                    ...newSchool.school_minimum_gpa_required,
+                    [name]: {
+                        input: (newSchool.school_minimum_gpa_required[name as keyof object] as any).input ? (newSchool.school_minimum_gpa_required[name as keyof object] as any).input  : '',
+                        notes: (newSchool.school_minimum_gpa_required[name as keyof object] as any).notes && (newSchool.school_minimum_gpa_required[name as keyof object] as any).notes.filter((n:Note,i:number) => i !== index),
+                    }
+                }
+            })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    school_minimum_gpa_recommended: {
+                        ...newSchool.school_minimum_gpa_recommended,
+                        [name]: {
+                            input: (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).input ? (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).input  : '',
+                            notes: (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).notes && (newSchool.school_minimum_gpa_recommended[name as keyof object] as any).notes.filter((n:Note,i:number) => i !== index),
+                        }
+                    }
+                })
             }
-        })
+        
     };
 
     // useEffect(() => {
@@ -408,13 +463,13 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                                             Add Note
                                         </button>
                                     </div>
-                                    {(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
+                                    {(newSchool.school_minimum_gpa_required[gpa.value as keyof object] as NumberInput) && (newSchool.school_minimum_gpa_required[gpa.value as keyof object] as NumberInput).notes && (newSchool.school_minimum_gpa_required[gpa.value as keyof object] as NumberInput).notes?.map((note: Note, i: number) => (
                                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3'>
                                             <div className='flex justify-between items-center w-full mb-1'>
                                                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
                                                 <div className='flex gap-2'>
                                                     <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                                    <button onClick={(e) => deleteNote(e, i, gpa.value)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                                    <button onClick={(e) => {deleteNote(e, i, gpa.value)}}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                                                 </div>
                                             </div>
                                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -465,7 +520,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                                     Add Note
                                 </button>
                             </div>
-                            {(newSchool[gpa.value as keyof School] as NumberInput) && (newSchool[gpa.value as keyof School] as NumberInput).notes && (newSchool[gpa.value as keyof School] as NumberInput).notes?.map((note: Note, i: number) => (
+                            {(newSchool.school_minimum_gpa_recommended[gpa.value as keyof object] as NumberInput) && (newSchool.school_minimum_gpa_recommended[gpa.value as keyof object] as NumberInput).notes && (newSchool.school_minimum_gpa_recommended[gpa.value as keyof object] as NumberInput).notes?.map((note: Note, i: number) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3'>
                                     <div className='flex justify-between items-center w-full mb-1'>
                                         <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>

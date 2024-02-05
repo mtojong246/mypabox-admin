@@ -3,6 +3,13 @@ export interface Note {
     note: string;
 }
 
+export interface EditedNote {
+    type: string;
+    note: string;
+    isCorrect: boolean;
+    isNew: boolean;
+}
+
 interface AdditionalField {
     input: string;
 }
@@ -432,16 +439,19 @@ export interface School {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
         edited_school_minimum_science_gpa_required: {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
         edited_school_minimum_prerequisite_gpa_required: {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
     }
 
@@ -462,16 +472,19 @@ export interface School {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
         edited_school_minimum_science_gpa_recommended: {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
         edited_school_minimum_prerequisite_gpa_recommended: {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
     }
 
@@ -539,21 +552,25 @@ export interface School {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
         edited_average_bcp_gpa_accepted_previous_year: {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
         edited_average_science_gpa_accepted_previous_year: {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
         edited_average_prerequisite_gpa_accepted_previous_year: {
             input: number | null;
             prev: number | null;
             isEditMode: boolean;
+            notes: Note[] | null;
         }
     }
 

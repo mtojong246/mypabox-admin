@@ -1,6 +1,7 @@
 import ReactQuill from "react-quill"
 import { Note } from "../../../../types/schools.types"
 import { ChangeEvent, useState, MouseEvent, useEffect, Dispatch, SetStateAction } from "react"
+import { UserObject } from "../../../../types/users.types"
 
 const defaultNote = {
     type: 'information',
@@ -8,12 +9,13 @@ const defaultNote = {
 }
 
 
-export default function AddNote({ toggleNotePopup, addNote, editedNote, setEditedNote, updateNote }: { 
+export default function AddNote({ loggedInUser, toggleNotePopup, addNote, editedNote, setEditedNote, updateNote }: { 
     toggleNotePopup: (e:any) => void, 
-    addNote: (note: Note) => void,
+    addNote: (note: Note, isEditedInput?: boolean) => void,
     editedNote: Note | null,
-    updateNote: (note: Note) => void,
-    setEditedNote: Dispatch<SetStateAction<Note | null>>
+    updateNote: (note: Note, isEditedInput?: boolean) => void,
+    setEditedNote: Dispatch<SetStateAction<Note | null>>,
+    loggedInUser?: UserObject
 }) {
     const [ optionalNote, setOptionalNote ] = useState<Note>(defaultNote)
 
@@ -52,9 +54,9 @@ export default function AddNote({ toggleNotePopup, addNote, editedNote, setEdite
             alert('Please add text to note')
         } else {
             if (editedNote) {
-                updateNote(optionalNote)
+                updateNote(optionalNote, loggedInUser === undefined ? undefined : loggedInUser.isSuperAdmin ? false : true)
             } else {
-                addNote(optionalNote)
+                addNote(optionalNote, loggedInUser === undefined ? undefined : loggedInUser.isSuperAdmin ? false : true)
             }
             toggleNotePopup(e)
             // resets note to be edited
