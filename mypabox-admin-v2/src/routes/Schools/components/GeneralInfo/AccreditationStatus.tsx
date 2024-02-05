@@ -178,7 +178,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                     </div>
                 )}
                     
-                    <button disabled={loggedInUser.isSuperAdmin ? false : true} onClick={(e:any) => {toggleNotePopup(e)}} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                    <button onClick={(e:any) => {toggleNotePopup(e)}} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                         Add Note
                     </button>
                 </div>
@@ -194,8 +194,8 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {deleteNote(e, i, 'school_accreditation_status')}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button onClick={(e:any) => {deleteNote(e, i, 'school_accreditation_status')}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

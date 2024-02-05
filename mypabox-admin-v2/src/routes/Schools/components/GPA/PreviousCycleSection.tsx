@@ -188,7 +188,7 @@ export default function PreviousCycleSection({newSchool, setNewSchool, loggedInU
                             <div className='flex justify-start items-start gap-4'>
                                 <InputFields loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={originalField.input} name={gpa.value} handleInput={handleInput}/>
                                 {/* <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input ? (newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input : ''} name={gpa.value} onChange={handleInput} /> */}
-                                <button disabled={loggedInUser.isSuperAdmin ? false : true} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]"
+                                <button className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]"
                                 onClick={(e) => {toggleNotePopup(e); setName(gpa.value)}}>
                                     Add Note
                                 </button>

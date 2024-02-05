@@ -720,7 +720,7 @@ export default function EvaluationsRecommended({
             <label className="font-medium text-xl inline-block mt-8">
               Notes:
             </label>
-          <button disabled={!loggedInUser.isSuperAdmin ? true : false}
+          <button
             onClick={toggleNotePopup}
             className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]"
           >
@@ -750,7 +750,7 @@ export default function EvaluationsRecommended({
                         {note.type}:
                       </p>
                       <div className="flex gap-2">
-                        <button disabled={!loggedInUser.isSuperAdmin ? true : false}
+                        <button
                           onClick={(e) => {
                             toggleNotePopup(e);
                             setEditedNote(note);
@@ -759,7 +759,7 @@ export default function EvaluationsRecommended({
                         >
                           <FiEdit3 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]" />
                         </button>
-                        <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e) => deleteNote(e, i)}>
+                        <button onClick={(e) => deleteNote(e, i)}>
                           <AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]" />
                         </button>
                       </div>

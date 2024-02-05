@@ -47,7 +47,7 @@ export default function AddPhoneOrEmail({ loggedInUser, isEditMode, input, origi
                 </div>
                 <input disabled className=" grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={value === 'school_email' ? email.email : phone.number} onChange={(e:any) =>  { value === 'school_email' ? setEmail({...email, email: e.target.value}) : setPhoneFormat(e)}}/>
                 <button disabled className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={(e:MouseEvent<HTMLButtonElement>) => addFunc(e, false)}>{value === 'school_email' ? 'Add Email' : 'Add Phone'}</button>
-                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(value)}} value={value} className="disabled:hover:bg-none disabled:opacity-70 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                <button onClick={(e:any) => {toggleNotePopup(e); setName(value)}} value={value} className="disabled:hover:bg-none disabled:opacity-70 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                     Add Note
                 </button>
             </div>
@@ -73,7 +73,7 @@ export default function AddPhoneOrEmail({ loggedInUser, isEditMode, input, origi
                 </div>
                 <input className=" grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={value === 'school_email' ? email.email : phone.number} onChange={(e:any) =>  { value === 'school_email' ? setEmail({...email, email: e.target.value}) : setPhoneFormat(e)}}/>
                 <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={(e:MouseEvent<HTMLButtonElement>) => addFunc(e, false)}>{value === 'school_email' ? 'Add Email' : 'Add Phone'}</button>
-                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(value)}} value={value} className="disabled:hover:bg-none disabled:opacity-70 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                <button onClick={(e:any) => {toggleNotePopup(e); setName(value)}} value={value} className="disabled:hover:bg-none disabled:opacity-70 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                     Add Note
                 </button>
             </div>
@@ -100,7 +100,7 @@ export default function AddPhoneOrEmail({ loggedInUser, isEditMode, input, origi
                 </div>
                 <input disabled={isEditMode ? false : true} className=" grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={value === 'school_email' ? email.email : phone.number} onChange={(e:any) =>  { value === 'school_email' ? setEmail({...email, email: e.target.value}) : setPhoneFormat(e)}}/>
                 <button disabled={isEditMode ? false : true} className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={(e:MouseEvent<HTMLButtonElement>) => addFunc(e, true)}>{value === 'school_email' ? 'Add Email' : 'Add Phone'}</button>
-                <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(value)}} value={value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                <button onClick={(e:any) => {toggleNotePopup(e); setName(value)}} value={value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                     Add Note
                 </button>
             </div>

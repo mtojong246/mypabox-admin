@@ -546,7 +546,7 @@ export default function AddRequiredCourseCategories({ loggedInUser, toggleRequir
 
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Notes:</label>
-                            <button disabled={(loggedInUser.permissions.canVerify && input) || !loggedInUser.permissions.canVerify ? true : false} onClick={toggleNotePopup} className="block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded px-4 py-3 hover:text-white hover:bg-[#F06A6A]">
+                            <button onClick={toggleNotePopup} className="block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded px-4 py-3 hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                             <div className={`flex flex-col justify-center items-center gap-3 ${requiredCategory.school_required_course_category_note_section.length ? 'mt-3' : 'mt-0'}`}>

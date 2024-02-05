@@ -195,7 +195,7 @@ export default function BooleanInputs({
                 </span>
               </label>
             </div> */}
-            <button disabled={!loggedInUser.isSuperAdmin ? true : false}
+            <button
               onClick={(e) => {
                 toggleNotePopup(e);
                 setValue(data.value);
@@ -226,7 +226,7 @@ export default function BooleanInputs({
                       {note.type}:
                     </p>
                     <div className="flex gap-2">
-                      <button disabled={!loggedInUser.isSuperAdmin ? true : false}
+                      <button
                         onClick={(e) => {
                           toggleNotePopup(e);
                           setIndex(i);
@@ -235,7 +235,7 @@ export default function BooleanInputs({
                       >
                         <FiEdit3 className="h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" />
                       </button>
-                      <button disabled={!loggedInUser.isSuperAdmin ? true : false}
+                      <button
                         onClick={(e) => {
                           deleteNote(e, i, data.value, data.notes);
                           
