@@ -8,7 +8,15 @@ import { CategoryCourse, CategoryType } from "../../types/categories.types";
 import { UserObject } from "../../types/users.types";
 
 interface AdditionalInfo {
-    displayName?: string;
+    displayName: string,
+    email: string,
+    isSuperAdmin: boolean,
+    permissions: {
+        canEdit: boolean,
+        canVerify: boolean,
+        canMakeLive: boolean,
+        canAddOrDelete: boolean,
+    },
 }
 
 // interface SchoolDataType {
@@ -358,15 +366,17 @@ export const createUserDocumentFromAuth = async (userAuth: User, additionalInfo 
 
     // If user does not exist, create new user doc 
     if(!userSnapshot.exists()) {
-        const { displayName, email } = userAuth;
-        const createdAt = new Date();
 
         try {
             await setDoc(userDocRef, {
-                displayName, 
-                email,
-                createdAt, 
-                ...additionalInfo,
+                id: userAuth.uid,
+                displayName: additionalInfo.displayName,
+                email: additionalInfo.email,
+                isSuperAdmin: additionalInfo.isSuperAdmin,
+                permissions: additionalInfo.permissions,
+                activeTasks: [],
+                completedTasks: [],
+                archivedTasks: [],
             })
         } catch (error: any) {
             console.log('error creating user', error.message)

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import AddTask from "./AddTask";
 import { getAllUsers } from "../../utils/firebase/firebase.utils";
 import { UserObject, Task } from "../../types/users.types";
@@ -8,6 +8,7 @@ import { selectUsers } from "../../app/selectors/users.selectors";
 import { setUsers } from "../../app/slices/users";
 import Individual from "./Individual";
 import { selectLogin } from "../../app/selectors/login.selector";
+import AddUser from "./AddUser";
 
 
 export default function Staff() {
@@ -23,7 +24,12 @@ export default function Staff() {
     const [ editedTask, setEditedTask ] = useState<Task | null>(null);
     const [ editedIndex, setEditedIndex ] = useState(0);
     const [ isAdmin, setIsAdmin ] = useState(false);
+    const [ isAddUser, setIsAddUser ] = useState(false);
     
+    const toggleAdd = (e:any) => {
+        e.preventDefault();
+        setIsAddUser(!isAddUser);
+    }
 
     useEffect(() => {
 
@@ -87,9 +93,12 @@ export default function Staff() {
             <>
             <div className="w-screen font-['Noto Sans']">
                 <div className='w-full max-w-[1800px] mx-auto'>
-                    <div className='w-full p-10 bg-white sticky top-0 z-10'>
-                        <p className='text-[48px] font-medium'>Staff</p>
-                        <p className='text-xl'>Total: {users.length}</p>
+                    <div className='w-full p-10 bg-white sticky top-0 z-10 flex justify-between items-start'>
+                        <div>
+                            <p className='text-[48px] font-medium'>Staff</p>
+                            <p className='text-xl'>Total: {users.length}</p>
+                        </div>
+                        {isAdmin && <button className="py-2 px-3 border-2 border-[#F06A6A] text-[#F06A6A] font-medium rounded hover:text-white hover:bg-[#F06A6A]" onClick={toggleAdd}>+ Add Member</button>}
                     </div>
                 </div>
                 <div className={`w-full max-w-[1800px] px-10 pb-10 flex flex-col justify-start items-center gap-10`}>
@@ -99,6 +108,7 @@ export default function Staff() {
                 </div>
             </div>
             {openAddTask && <AddTask toggleOpenTask={toggleOpenTask} assignee={assignee} users={users} editedTask={editedTask} editedIndex={editedIndex}/>} 
+            {isAddUser && <AddUser toggleAdd={toggleAdd}/>}
             </>
         )}
         </>

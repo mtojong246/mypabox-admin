@@ -12,6 +12,9 @@ const userSlice = createSlice({
         setUsers: (state, action) => {
             state.users = action.payload;
         },
+        addUser: (state, action) => {
+            state.users = state.users.concat(action.payload)
+        },
         editUsers: (state, action) => {
             state.users = state.users.map(user => {
                 if (user.id === action.payload.id) {
@@ -24,7 +27,7 @@ const userSlice = createSlice({
     }
 })
 
-export const { setUsers, editUsers } = userSlice.actions;
+export const { setUsers, editUsers, addUser } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
 
