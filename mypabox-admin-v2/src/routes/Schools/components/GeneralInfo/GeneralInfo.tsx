@@ -1,8 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react";
 import { School, Note, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
-import { AiOutlineClose } from "react-icons/ai";
-import { FiEdit3 } from "react-icons/fi";
 import countries from "../../../../data/countries.json";
 import Select from 'react-select';
 import AddNote from "../Prereqs/AddNote";
@@ -20,6 +18,7 @@ import InputFields from "../../Assets/InputsFields";
 
 import { enableEditMode, confirmEdit, undoEdit, revertEdit, confirmEditBool, undoEditBool, revertEditBool, enableEditModeBool } from "./GeneralInfoFunctions";
 import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./EmailPhoneFunctions";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 
 
@@ -353,43 +352,87 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
     };
 
     const addNote = (note: Note) => {
-        const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).concat(note),
-            }
-        })
+        if (loggedInUser.isSuperAdmin) {
+            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).concat(note),
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof object] as any;
+            setNewSchool({
+                ...newSchool,
+                [`edited_${name}`]: {
+                    ...field,
+                    notes: (field.notes as Note[]).concat(note),
+                }
+            })
+        }
+        
     };
 
+    console.log(newSchool.edited_school_campus_location)
+
     const updateNote = (note: Note) => {
-        const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.isSuperAdmin) {
+            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof object] as any;
+            setNewSchool({
+                ...newSchool,
+                [`edited_${name}`]: {
+                    ...field,
+                    notes: (field.notes as Note[]).map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.isSuperAdmin) {
+            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof object] as any;
+            setNewSchool({
+                ...newSchool,
+                [`edited_${name}`]: {
+                    ...field,
+                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     };
 
     const addPhone = (e: MouseEvent<HTMLButtonElement>, isEditedInput: boolean) => {
@@ -589,7 +632,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
         if (cat.type === 'text') {
             const name = `edited_${cat.value}` as keyof School;
-            const field = newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string};
+            const field = newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string, notes?: Note[] | null};
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
@@ -601,7 +644,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                             Add Note
                         </button>)}
                     </div>
-                    {
+                    {/* {
                     (newSchool[cat.value as keyof School] as StringInput | NumberInput).notes ? (
                     <>
                     <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -623,7 +666,10 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     </div>
                     </>
                     ) : ''
-                    }
+                    } */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={field.isEditMode} notes={field.notes ? field.notes : null} originalNotes={((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) : null} name={cat.value} toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
                 </div>
                 {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
                    setLinkObj={setLinkObj} name={cat.value} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
@@ -635,7 +681,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
         } else if (cat.type === 'select') {
             const name = `edited_${cat.value}` as keyof School;
-            const field = newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string};
+            const field = newSchool[name] as {input: string, prev: string, isEditMode: boolean, link: string, notes?: Note[] | null};
             const originalField = newSchool[cat.value as keyof object] as any;
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
@@ -669,7 +715,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                             Add Note
                         </button>}
                     </div>
-                    {
+                    {/* {
                     (newSchool[cat.value as keyof School] as StringInput).notes ? (
                     <>
                     <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
@@ -691,7 +737,10 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     </div>
                     </>
                     ) : ''
-                    }
+                    } */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={field.isEditMode} notes={field.notes ? field.notes : null} originalNotes={((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) : null} name={cat.value} toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                />
                 </div>
                 {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
                    setLinkObj={setLinkObj} name={cat.value} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
@@ -703,7 +752,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
         } else if (cat.type === 'bool') {
             const name = `edited_${cat.value}` as keyof School;
-            const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
+            const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string, notes?: Note[] | null};
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
@@ -716,7 +765,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                         </button>
                     </div>
                     
-                    {
+                    {/* {
                     (newSchool[cat.value as keyof School] as BooleanInput).notes ? (
                     <>
                     <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as BooleanInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
@@ -738,7 +787,10 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     </div>
                     </>
                     ) : ''
-                    }
+                    } */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={field.isEditMode} notes={field.notes ? field.notes : null} originalNotes={((newSchool[cat.value as keyof School] as BooleanInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as BooleanInput).notes as Note[]) : null} name={cat.value} toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
                 </div>
                 {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
                    setLinkObj={setLinkObj} name={cat.value} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
@@ -788,7 +840,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                         <button onClick={(e:any) => deletePhone(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                     </div>
                 ))} */}
-                {newSchool.school_phone_number.notes.length ? (
+                {/* {newSchool.school_phone_number.notes.length ? (
                 <>
                 <label className='font-semibold inline-block mt-6'>Notes:</label>
                 <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_phone_number.notes.length ? 'mt-1' : 'mt-0'}`}>
@@ -810,7 +862,10 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                 </div>
                 </>
                 ) : ''
-                }
+                } */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} notes={newSchool.edited_school_phone_number.notes ? newSchool.edited_school_phone_number.notes : null} originalNotes={newSchool.school_phone_number.notes} name='school_phone_number' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                />
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} input={newSchool.edited_school_phone_number.input} link={newSchool.edited_school_phone_number.link} 
             setLinkObj={setLinkObj} toggleLinkPopup={toggleLinkPopup} undoEdit={undoEditGroup} confirmEdit={confirmEditGroup} enableEditMode={enableEditModeGroup} revertEdit={revertEditGroup} name="school_phone_number" newSchool={newSchool}
@@ -849,7 +904,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                         <button onClick={(e:any) => deleteEmail(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                     </div>
                 ))} */}
-                {
+                {/* {
                 newSchool.school_email.notes.length ? (
                 <>
                 <label className='font-semibold inline-block mt-6'>Notes:</label>
@@ -872,7 +927,10 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                 </div>
                 </>
                 ) : ''
-                }
+                } */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} notes={newSchool.edited_school_email.notes ? newSchool.edited_school_email.notes : null} originalNotes={newSchool.school_email.notes} name='school_email' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                />
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} link={newSchool.edited_school_email.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}
             confirmEdit={confirmEditGroup} enableEditMode={enableEditModeGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool} name='school_email'

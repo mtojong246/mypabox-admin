@@ -19,6 +19,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                     isCorrect: true,
                     isNew: false,
                 })) : field.input,
+                notes: field.notes === null ? originalField.notes : field.notes,
             }
         })
     } else if (name === 'edited_school_email') {
@@ -35,6 +36,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                     isCorrect: true,
                     isNew: false,
                 })) : field.input,
+                notes: field.notes === null ? originalField.notes : field.notes,
             }
         })
     } else if (name === 'edited_school_type_of_degree_offered') {
@@ -63,6 +65,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const field = newSchool.edited_school_phone_number;
             setNewSchool({
                 ...newSchool,
+                school_phone_number: {
+                    ...newSchool.school_phone_number,
+                    notes: field.notes ? field.notes : newSchool.school_phone_number.notes,
+                },
                 edited_school_phone_number: {
                     ...field,
                     isEditMode: false,
@@ -74,6 +80,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const field = newSchool.edited_school_email;
             setNewSchool({
                 ...newSchool,
+                school_email: {
+                    ...newSchool.school_email,
+                    notes: field.notes ? field.notes : newSchool.school_email.notes,
+                },
                 edited_school_email: {
                     ...field,
                     isEditMode: false,
@@ -107,12 +117,14 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         category: list.category,
                         number: list.number
                     })) : originalField.input,
+                    notes: field.notes === null ? originalField.notes : field.notes,
                 },
                 edited_school_phone_number: {
                     link: '',
                     isEditMode: false,
                     input: null,
                     prev: null,
+                    notes: null,
                 }
             })
         } else if (name === 'edited_school_email') {
@@ -127,12 +139,14 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         category: list.category,
                         email: list.email,
                     })) : originalField.input,
+                    notes: field.notes === null ? originalField.notes : field.notes,
                 },
                 edited_school_email: {
                     link: '',
                     isEditMode: false,
                     input: null,
                     prev: null,
+                    notes: null,
                 }
             })
         } else if (name === 'edited_school_type_of_degree_offered') {
@@ -208,6 +222,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 isEditMode: false,
                 input: null,
                 prev: null,
+                notes: null,
             }
         })
     } else if (name === 'edited_school_email') {
@@ -218,6 +233,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 isEditMode: false,
                 input: null,
                 prev: null,
+                notes: null,
             }
         })
     } else if (name === 'edited_school_type_of_degree_offered') {

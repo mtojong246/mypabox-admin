@@ -178,6 +178,7 @@ export interface School {
     edited_school_email: {
         link: string;
         isEditMode: boolean;
+        notes: Note[] | null;
         input: {
             category: string;
             email: string;
@@ -203,6 +204,7 @@ export interface School {
     edited_school_phone_number: {
         link: string;
         isEditMode: boolean;
+        notes: Note[] | null;
         input: {
             category: string;
             number: string;
@@ -224,6 +226,7 @@ export interface School {
         prev: string | null;
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_start_month: StringInput;
     edited_school_start_month: {
@@ -231,6 +234,7 @@ export interface School {
         prev: string | null;
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_class_capacity: NumberInput;
     edited_school_class_capacity: {
@@ -238,6 +242,7 @@ export interface School {
         prev: number | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_duration_full_time: NumberInput;
     edited_school_duration_full_time: {
@@ -245,6 +250,7 @@ export interface School {
         prev: number | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_duration_part_time: NumberInput;
     edited_school_duration_part_time: {
@@ -252,6 +258,7 @@ export interface School {
         prev: number | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
 
     school_seat_deposit_in_state: NumberInput;
@@ -275,6 +282,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_nonrolling_admissions: BooleanInput;
     edited_school_nonrolling_admissions: {
@@ -282,6 +290,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_pre_pa_curriculum: BooleanInput;
     edited_school_pre_pa_curriculum: {
@@ -289,6 +298,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_direct_high_school_entry: BooleanInput;
     edited_school_direct_high_school_entry: {
@@ -296,6 +306,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_part_time_option: BooleanInput;
     edited_school_part_time_option: {
@@ -303,6 +314,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_online_learning: BooleanInput;
     edited_school_online_learning: {
@@ -310,6 +322,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_on_campus_housing: BooleanInput;
     edited_school_on_campus_housing: {
@@ -317,6 +330,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_cadaver_lab: BooleanInput;
     edited_school_cadaver_lab: {
@@ -324,6 +338,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_faith_based_learning: BooleanInput;
     edited_school_faith_based_learning: {
@@ -331,6 +346,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
     school_military_personnel_preference: BooleanInput;
     edited_school_military_personnel_preference: {
@@ -338,6 +354,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     };
 
     school_general_information: string;

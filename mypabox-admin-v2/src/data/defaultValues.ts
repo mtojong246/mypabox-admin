@@ -85,6 +85,7 @@ export const defaultSchool: School = {
         isEditMode: false,
         input: null,
         prev: null,
+        notes: null,
     },
     
     school_phone_number: {
@@ -97,6 +98,7 @@ export const defaultSchool: School = {
         isEditMode: false,
         input: null,
         prev: null,
+        notes: null,
     },
 
     school_campus_location: {
@@ -108,6 +110,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_start_month: {
         input: "",
@@ -118,6 +121,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_class_capacity: {
         input: 0,
@@ -128,6 +132,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_duration_full_time: {
         input: 0,
@@ -138,6 +143,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_duration_part_time: {
         input: 0,
@@ -148,6 +154,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
 
     school_seat_deposit_in_state: {
@@ -180,6 +187,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_nonrolling_admissions: {
         input: false,
@@ -190,6 +198,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_pre_pa_curriculum: {
         input: false,
@@ -200,6 +209,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_direct_high_school_entry: {
         input: false,
@@ -210,6 +220,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_part_time_option: {
         input: false,
@@ -220,6 +231,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_online_learning: {
         input: false,
@@ -230,6 +242,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_on_campus_housing: {
         input: false,
@@ -240,6 +253,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_cadaver_lab: {
         input: false,
@@ -250,6 +264,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_faith_based_learning: {
         input: false,
@@ -260,6 +275,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_military_personnel_preference: {
         input: false,
@@ -270,6 +286,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
 
     school_general_information: "",

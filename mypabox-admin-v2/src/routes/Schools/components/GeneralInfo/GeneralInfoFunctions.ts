@@ -1,11 +1,12 @@
 import { MouseEvent, Dispatch, SetStateAction } from "react";
-import { School, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
+import { School, StringInput, NumberInput, BooleanInput, Note } from "../../../../types/schools.types";
 
 interface EditedString {
     input: string | number | null,
     prev: string | number | null,
     isEditMode: boolean;
     link: string;
+    notes: Note[] | null,
 }
 
 export const enableEditMode = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
@@ -20,6 +21,7 @@ export const enableEditMode = (e: MouseEvent<HTMLButtonElement>, newSchool: Scho
             ...newSchool[name] as object,
             input: field.input === null ? originalField.input : field.input,
             isEditMode: true,
+            notes: field.notes ===  null ? originalField.notes : field.notes,
         }
     })
 };
@@ -28,7 +30,7 @@ export const enableEditModeBool = (e: MouseEvent<HTMLButtonElement>, newSchool: 
     e.preventDefault();
     const name = `edited_${e.currentTarget.name}` as keyof School;
     const original = e.currentTarget.name as keyof School;
-    const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
+    const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string, notes: Note[] | null};
     const originalField = newSchool[original] as BooleanInput;
     setNewSchool({
         ...newSchool,
@@ -36,6 +38,7 @@ export const enableEditModeBool = (e: MouseEvent<HTMLButtonElement>, newSchool: 
             ...field,
             input: field.input === null ? originalField.input : field.input,
             isEditMode: true,
+            notes: field.notes ===  null ? originalField.notes : field.notes,
         }
     })
 }
@@ -51,6 +54,10 @@ export const confirmEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, 
     if (!original) {
         setNewSchool({
             ...newSchool,
+            [originalName]: {
+                ...originalField,
+                notes: field.notes,
+            },
             [name]: {
                 ...field,
                 input: field.input === originalField.input ? null : field.input,
@@ -63,7 +70,8 @@ export const confirmEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, 
             ...newSchool,
             [original]: {
                 ...originalField,
-                input: value,
+                input: field.input,
+                notes: field.notes,
             },
             [name]: {
                 ...field,
@@ -71,6 +79,7 @@ export const confirmEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, 
                 prev: null,
                 isEditMode: false,
                 link: '',
+                notes: null,
             }
         })
     }
@@ -81,12 +90,16 @@ export const confirmEditBool = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
     e.preventDefault();
     const name = `edited_${e.currentTarget.name}` as keyof School;
     const originalName = e.currentTarget.name as keyof School;
-    const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string};
+    const field = newSchool[name] as {input: boolean | null, prev: boolean | null, isEditMode: boolean, link: string, notes: Note[] | null};
     const originalField = newSchool[originalName] as BooleanInput;
     const value = (e.currentTarget as HTMLButtonElement).value === 'true' ? true : false;
     if (!original) {
         setNewSchool({
             ...newSchool,
+            [originalName]: {
+                ...newSchool[original as keyof School] as BooleanInput,
+                notes: field.notes,
+            },
             [name]: {
                 ...newSchool[name as keyof School] as object,
                 input: field.input === originalField.input ? null : field.input,
@@ -99,7 +112,8 @@ export const confirmEditBool = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             ...newSchool,
             [original]: {
                 ...newSchool[original as keyof School] as BooleanInput,
-                input: value,
+                input: field.input,
+                notes: field.notes,
             },
             [name]: {
                 ...newSchool[name] as object,
@@ -107,6 +121,7 @@ export const confirmEditBool = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 prev: null,
                 isEditMode: false,
                 link: '',
+                notes: null,
             }
         })
     }
@@ -156,6 +171,7 @@ export const revertEdit = (e:MouseEvent<HTMLButtonElement>, newSchool: School, s
             prev: null,
             isEditMode: false,
             link: '',
+            notes: null,
         }
     })
 };
@@ -170,6 +186,7 @@ export const revertEditBool = (e:MouseEvent<HTMLButtonElement>, newSchool: Schoo
             prev: null,
             isEditMode: false,
             link: '',
+            notes: null,
         }
     })
 };
