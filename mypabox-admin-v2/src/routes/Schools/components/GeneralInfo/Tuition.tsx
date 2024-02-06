@@ -1,10 +1,8 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent } from "react";
 import { School, Note, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
-import ReactQuill from "react-quill";
-import { AiOutlineClose } from "react-icons/ai";
-import { FiEdit3 } from "react-icons/fi";
 import AddNote from "../Prereqs/AddNote";
 import { UserObject } from "../../../../types/users.types";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 import { PiCheckCircle } from "react-icons/pi";
 import { PiWarningCircle } from "react-icons/pi";
@@ -82,43 +80,86 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
     // };
 
     const addNote = (note: Note) => {
-        const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).concat(note),
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).concat(note),
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof School] as any;
+            setNewSchool({
+                ...newSchool,
+                [`edited_${name}`]: {
+                    ...field,
+                    notes: (field.notes as Note[]).concat(note),
+                }
+            })
+        }
+        
     };
 
+
     const updateNote = (note: Note) => {
-        const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof School] as any;
+            setNewSchool({
+                ...newSchool,
+                [`edited_${name}`]: {
+                    ...field,
+                    notes: (field.notes as Note[]).map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof School] as any;
+            setNewSchool({
+                ...newSchool,
+                [`edited_${name}`]: {
+                    ...field,
+                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -148,7 +189,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                         Add Note
                     </button>
                 </div>
-                {
+                {/* {
                 newSchool.school_in_state_tuition.notes ? (
                 <>
                 <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_in_state_tuition.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -170,7 +211,10 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                 </div>
                 </>
                 ) : ''
-                }
+                } */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_in_state_tuition.isEditMode} notes={newSchool.edited_school_in_state_tuition.notes} originalNotes={newSchool.school_in_state_tuition.notes} name='school_in_state_tuition' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                />
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_in_state_tuition.isEditMode} input={newSchool.edited_school_in_state_tuition.input} link={newSchool.edited_school_in_state_tuition.link} 
                 setLinkObj={setLinkObj} name='school_in_state_tuition' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
@@ -187,7 +231,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                         Add Note
                     </button>
                 </div>
-                {
+                {/* {
                 newSchool.school_out_of_state_tuition.notes ? (
                 <>
                 <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_out_of_state_tuition.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -209,7 +253,10 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                 </div>
                 </>
                 ) : ''
-                }
+                } */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_out_of_state_tuition.isEditMode} notes={newSchool.edited_school_out_of_state_tuition.notes} originalNotes={newSchool.school_out_of_state_tuition.notes} name='school_out_of_state_tuition' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_out_of_state_tuition.isEditMode} input={newSchool.edited_school_out_of_state_tuition.input} link={newSchool.edited_school_out_of_state_tuition.link} 
                 setLinkObj={setLinkObj} name='school_out_of_state_tuition' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
@@ -227,7 +274,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                         Add Note
                     </button>
                 </div>
-                {
+                {/* {
                 newSchool.school_seat_deposit_in_state.notes ? (
                 <>
                 <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_seat_deposit_in_state.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -249,7 +296,10 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                 </div>
                 </>
                 ) : ''
-                }
+                } */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_seat_deposit_in_state.isEditMode} notes={newSchool.edited_school_seat_deposit_in_state.notes} originalNotes={newSchool.school_seat_deposit_in_state.notes} name='school_seat_deposit_in_state' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_seat_deposit_in_state.isEditMode} input={newSchool.edited_school_seat_deposit_in_state.input} link={newSchool.edited_school_seat_deposit_in_state.link} 
                    setLinkObj={setLinkObj} name='school_seat_deposit_in_state' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
@@ -266,7 +316,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                         Add Note
                     </button>
                 </div>
-                {
+                {/* {
                 newSchool.school_seat_deposit_out_of_state.notes ? (
                 <>
                 <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_seat_deposit_out_of_state.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -288,7 +338,10 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                 </div>
                 </>
                 ) : ''
-                }
+                } */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_seat_deposit_out_of_state.isEditMode} notes={newSchool.edited_school_seat_deposit_out_of_state.notes} originalNotes={newSchool.school_seat_deposit_out_of_state.notes} name='school_seat_deposit_out_of_state' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_seat_deposit_out_of_state.isEditMode} input={newSchool.edited_school_seat_deposit_out_of_state.input} link={newSchool.edited_school_seat_deposit_out_of_state.link} 
                    setLinkObj={setLinkObj} name='school_seat_deposit_out_of_state' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}

@@ -166,6 +166,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_seat_deposit_out_of_state: {
         input: 0,
@@ -176,6 +177,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
 
     school_rolling_admissions: {
@@ -335,6 +337,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_mission_statement: {
         input: '',
@@ -354,6 +357,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_out_of_state_tuition: {
         input: 0,
@@ -364,6 +368,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_first_time_pass_rate: {
         input: '',
@@ -374,6 +379,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_average_five_year_first_time_pass_rate: {
         input: '',
@@ -384,6 +390,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_pance_pass_rate_note: '',
 

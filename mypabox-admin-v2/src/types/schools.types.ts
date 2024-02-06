@@ -267,6 +267,7 @@ export interface School {
         prev: number | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
     }
     school_seat_deposit_out_of_state: NumberInput;
     edited_school_seat_deposit_out_of_state: {
@@ -274,6 +275,7 @@ export interface School {
         prev: number | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
     }
 
     school_rolling_admissions: BooleanInput;
@@ -400,6 +402,7 @@ export interface School {
         prev: string | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
     }
 
     school_mission_statement: {
@@ -418,6 +421,7 @@ export interface School {
         prev: number | null;
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     }
     school_out_of_state_tuition: NumberInput;
     edited_school_out_of_state_tuition: {
@@ -425,6 +429,7 @@ export interface School {
         prev: number | null;
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     }
 
     school_first_time_pass_rate: StringInput;
@@ -433,6 +438,7 @@ export interface School {
         prev: string | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
     }
     school_average_five_year_first_time_pass_rate: StringInput;
     edited_school_average_five_year_first_time_pass_rate: {
@@ -440,6 +446,7 @@ export interface School {
         prev: string | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
     }
     school_pance_pass_rate_note: string;
 

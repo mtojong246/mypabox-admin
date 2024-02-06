@@ -1,10 +1,8 @@
 import { Dispatch, SetStateAction, useState, MouseEvent } from "react";
 import { School, Note} from "../../../../types/schools.types";
-import ReactQuill from "react-quill";
-import { AiOutlineClose } from "react-icons/ai";
-import { FiEdit3 } from "react-icons/fi";
 import Select from 'react-select';
 import AddNote from "../Prereqs/AddNote";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 import { PiCheckCircle } from "react-icons/pi";
 import { PiWarningCircle } from "react-icons/pi";
@@ -92,40 +90,79 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
     };
 
     const addNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_accreditation_status: {
-                ...newSchool.school_accreditation_status,
-                notes: newSchool.school_accreditation_status.notes.concat(note),
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_accreditation_status: {
+                    ...newSchool.school_accreditation_status,
+                    notes: newSchool.school_accreditation_status.notes.concat(note),
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_accreditation_status: {
+                    ...newSchool.edited_school_accreditation_status,
+                    notes: newSchool.edited_school_accreditation_status.notes!.concat(note),
+                }
+            })
+        }
+        
     };
 
     const updateNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_accreditation_status: {
-                ...newSchool.school_accreditation_status,
-                notes: newSchool.school_accreditation_status.notes.map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_accreditation_status: {
+                    ...newSchool.school_accreditation_status,
+                    notes: newSchool.school_accreditation_status.notes.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_accreditation_status: {
+                    ...newSchool.edited_school_accreditation_status,
+                    notes: newSchool.edited_school_accreditation_status.notes!.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_accreditation_status: {
-                ...newSchool.school_accreditation_status,
-                notes: newSchool.school_accreditation_status.notes.filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_accreditation_status: {
+                    ...newSchool.school_accreditation_status,
+                    notes: newSchool.school_accreditation_status.notes.filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_accreditation_status: {
+                    ...newSchool.edited_school_accreditation_status,
+                    notes: newSchool.edited_school_accreditation_status.notes!.filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -143,7 +180,6 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
         })
     }
 
-    const name = 'edited_school_accreditation_status';
     const original = 'school_accreditation_status'
     const field = newSchool.edited_school_accreditation_status;
     const originalField = newSchool.school_accreditation_status;
@@ -182,7 +218,10 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                         Add Note
                     </button>
                 </div>
-                {
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_accreditation_status.isEditMode} notes={newSchool.edited_school_accreditation_status.notes} originalNotes={newSchool.school_accreditation_status.notes} name='school_accreditation_status' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                />
+                {/* {
                 newSchool.school_accreditation_status.notes ? (
                 <>
                 <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_accreditation_status.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -204,7 +243,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                 </div>
                 </>
                 ) : ''
-                }
+                } */}
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
                    setLinkObj={setLinkObj} name={original} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
