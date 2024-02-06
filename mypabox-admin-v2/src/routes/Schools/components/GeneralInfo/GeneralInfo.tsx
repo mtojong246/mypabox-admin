@@ -352,7 +352,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
     };
 
     const addNote = (note: Note) => {
-        if (loggedInUser.isSuperAdmin) {
+        if (loggedInUser.permissions.canAddOrDelete) {
             const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -377,7 +377,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
     console.log(newSchool.edited_school_campus_location)
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.isSuperAdmin) {
+        if (loggedInUser.permissions.canAddOrDelete) {
             const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -413,7 +413,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.isSuperAdmin) {
+        if (loggedInUser.permissions.canAddOrDelete) {
             const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
             setNewSchool({
                 ...newSchool,

@@ -22,7 +22,7 @@ export default function AddNoteFields({ loggedInUser, notes, originalNotes, isEd
 
  }) {
 
-    console.log(originalNotes)
+    console.log(notes, name)
 
     return (
         <>

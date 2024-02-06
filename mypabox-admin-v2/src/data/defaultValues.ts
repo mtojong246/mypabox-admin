@@ -300,6 +300,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_type_of_degree_offered: {
         fields: [],
@@ -311,6 +312,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
 
     school_bachelors_degree_required: {
@@ -322,6 +324,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
     school_accreditation_status: {
         input: "",

@@ -52,6 +52,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                     isCorrect: true,
                     isNew: false,
                 })) : field.input,
+                notes: field.notes === null ? originalField.notes : field.notes,
             }
         })
     }
@@ -95,6 +96,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const field = newSchool.edited_school_type_of_degree_offered;
             setNewSchool({
                 ...newSchool,
+                school_type_of_degree_offered: {
+                    ...newSchool.school_type_of_degree_offered,
+                    notes: field.notes ? field.notes : newSchool.school_type_of_degree_offered.notes,
+                },
                 edited_school_type_of_degree_offered: {
                     ...newSchool.edited_school_type_of_degree_offered,
                     isEditMode: false,
@@ -158,12 +163,14 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 school_type_of_degree_offered: {
                     ...originalField,
                     fields: correctList ? correctList.map(list => list.name) : originalField.fields,
+                    notes: field.notes === null ? originalField.notes : field.notes,
                 },
                 edited_school_type_of_degree_offered: {
                     link: '',
                     isEditMode: false,
                     input: null,
                     prev: null,
+                    notes: null,
                 }
             })
         }
@@ -244,6 +251,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 isEditMode: false,
                 input: null,
                 prev: null,
+                notes: null,
             }
         })
     }

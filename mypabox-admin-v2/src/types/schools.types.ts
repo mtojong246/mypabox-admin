@@ -31,7 +31,7 @@ export interface NumberInput {
 
 export interface BooleanInput {
     input: boolean;
-    notes?: Note[];
+    notes: Note[];
 }
 
 export interface OtherTypesOfGpaEvaluted {
@@ -365,6 +365,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     }
     school_type_of_degree_offered: StringInputWithFields;
     
@@ -381,6 +382,7 @@ export interface School {
             isCorrect: boolean,
             isNew: boolean,
         }[] | null,
+        notes: Note[] | null;
     }
 
     school_bachelors_degree_required: BooleanInput;
@@ -389,6 +391,7 @@ export interface School {
         prev: boolean | null,
         isEditMode: boolean,
         link: string;
+        notes: Note[] | null;
     }
 
     school_accreditation_status: StringInput;

@@ -1,14 +1,12 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent, useEffect } from "react";
 import { School, Note, BooleanInput, StringInputWithFields } from "../../../../types/schools.types";
-import ReactQuill from "react-quill";
-import { AiOutlineClose } from "react-icons/ai";
-import { FiEdit3 } from "react-icons/fi";
 import AddNote from "../Prereqs/AddNote";
 import { PiCheckCircle } from "react-icons/pi";
 import { PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
 import EditButtons from "../../Assets/EditButtons";
 import BooleanFields from "../../Assets/BooleanFields";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 import { enableEditModeBool, confirmEditBool, undoEditBool, revertEditBool } from "./GeneralInfoFunctions";
 import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from "./EmailPhoneFunctions";
@@ -157,43 +155,85 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
     // }
 
     const addNote = (note: Note) => {
-        const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).concat(note),
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).concat(note),
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof School] as any;
+            setNewSchool({
+                ...newSchool,
+                [`edited_${name}`]: {
+                    ...field,
+                    notes: (field.notes as Note[]).concat(note),
+                }
+            })
+        }
+        
     };
 
     const updateNote = (note: Note) => {
-        const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof School] as any;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                notes: (field.notes as Note[]).filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof School] as any;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     };
 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
@@ -261,7 +301,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                             <button onClick={(e:any) => removeField(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                         </div>
                     )): null} */}
-                    {newSchool.school_type_of_degree_offered.notes.length ? (
+                    {/* {newSchool.school_type_of_degree_offered.notes.length ? (
                         <>
                         <label className='font-semibold inline-block mt-6'>Notes:</label>
                         <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_type_of_degree_offered.notes.length ? 'mt-1' : 'mt-0'}`}>
@@ -283,7 +323,10 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                         </div>
                         </>
                     ) : ''
-                    }
+                    } */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_type_of_degree_offered.isEditMode} notes={newSchool.edited_school_type_of_degree_offered.notes} originalNotes={newSchool.school_type_of_degree_offered.notes} name='school_type_of_degree_offered' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
                 </div>
                 {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_type_of_degree_offered.isEditMode} input={hasInputs} 
                 newSchool={newSchool} setNewSchool={setNewSchool} link={newSchool.edited_school_type_of_degree_offered.link} setLinkObj={setLinkObj} toggleLinkPopup={toggleLinkPopup}
@@ -302,7 +345,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                         </button>
                     </div>
                     
-                    {
+                    {/* {
                     newSchool.school_dual_degree_program.notes ? (
                     <>
                     <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_dual_degree_program.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -324,7 +367,10 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                     </div>
                     </>
                     ) : ''
-                    }
+                    } */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} notes={newSchool.edited_school_dual_degree_program.notes} originalNotes={newSchool.school_dual_degree_program.notes} name='school_dual_degree_program' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
                 </div>
                 {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} input={newSchool.edited_school_dual_degree_program.input} link={newSchool.edited_school_dual_degree_program.link} 
                    setLinkObj={setLinkObj} name='school_dual_degree_program' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
@@ -342,7 +388,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                         </button>
                     </div>
                     
-                    {
+                    {/* {
                     newSchool.school_bachelors_degree_required.notes ? (
                     <>
                     <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_bachelors_degree_required.notes.length ? 'mt-3' : 'mt-0'}`}>
@@ -364,7 +410,10 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                     </div>
                     </>
                     ) : ''
-                    }
+                    } */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} notes={newSchool.edited_school_bachelors_degree_required.notes} originalNotes={newSchool.school_bachelors_degree_required.notes} name='school_bachelors_degree_required' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
                 </div>
                 {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} input={newSchool.edited_school_bachelors_degree_required.input} link={newSchool.edited_school_bachelors_degree_required.link} 
                    setLinkObj={setLinkObj} name='school_bachelors_degree_required' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
