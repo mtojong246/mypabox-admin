@@ -1718,6 +1718,7 @@ export interface School {
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
         edited_school_caspa_application_deadline_date: {
             input: string | null;
             prev: string | null;
@@ -1742,6 +1743,7 @@ export interface School {
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
         edited_school_application_direct_to_school_deadline: {
             input: string | null;
             prev: string | null;
@@ -1769,6 +1771,7 @@ export interface School {
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
         edited_school_supplemental_application_deadline: {
             input: string | null;
             prev: string | null;

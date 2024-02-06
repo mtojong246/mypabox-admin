@@ -1476,6 +1476,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
         edited_school_caspa_application_deadline_date: {
             input: null,
             prev: null,
@@ -1500,6 +1501,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
         edited_school_application_direct_to_school_deadline: {
             input: null,
             prev: null,
@@ -1526,6 +1528,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
         edited_school_supplemental_application_deadline: {
             input: null,
             prev: null,

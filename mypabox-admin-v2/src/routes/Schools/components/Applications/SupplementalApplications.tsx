@@ -1,10 +1,8 @@
 import { School, Note } from "../../../../types/schools.types";
 import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent } from "react"
-import ReactQuill from "react-quill";
 import AddNote from "../Prereqs/AddNote";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi';
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
 
@@ -140,40 +138,79 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
     // };
 
     const addNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_supplemental_application_required: {
-                ...newSchool.school_supplemental_application_required,
-                school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.concat(note)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_supplemental_application_required: {
+                    ...newSchool.school_supplemental_application_required,
+                    school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.concat(note)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_supplemental_application_required: {
+                    ...newSchool.edited_school_supplemental_application_required,
+                    notes: newSchool.edited_school_supplemental_application_required.notes!.concat(note)
+                }
+            })
+        }
+        
     };
 
     const updateNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_supplemental_application_required: {
-                ...newSchool.school_supplemental_application_required,
-                school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.map((n ,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_supplemental_application_required: {
+                    ...newSchool.school_supplemental_application_required,
+                    school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.map((n ,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_supplemental_application_required: {
+                    ...newSchool.edited_school_supplemental_application_required,
+                    notes: newSchool.edited_school_supplemental_application_required.notes!.map((n ,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_supplemental_application_required: {
-                ...newSchool.school_supplemental_application_required,
-                school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_supplemental_application_required: {
+                    ...newSchool.school_supplemental_application_required,
+                    school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_supplemental_application_required: {
+                    ...newSchool.edited_school_supplemental_application_required,
+                    notes: newSchool.edited_school_supplemental_application_required.notes!.filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -255,7 +292,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                 <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                {newSchool.school_supplemental_application_required.school_supplemental_application_notes && (
+                {/* {newSchool.school_supplemental_application_required.school_supplemental_application_notes && (
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_supplemental_application_required.school_supplemental_application_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_supplemental_application_required.school_supplemental_application_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -270,7 +307,10 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                             </div>
                         ))}
                     </div>
-                )}
+                )} */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.isEditMode} notes={newSchool.edited_school_supplemental_application_required.notes} originalNotes={newSchool.school_supplemental_application_required.school_supplemental_application_notes} name='school_supplemental_application_required' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                    />
                 </div>
                 )}
             </div>

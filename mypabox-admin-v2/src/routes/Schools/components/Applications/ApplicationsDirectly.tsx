@@ -1,10 +1,8 @@
 import { School, Note } from "../../../../types/schools.types";
 import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent } from "react"
-import ReactQuill from "react-quill";
 import AddNote from "../Prereqs/AddNote";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi';
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 
 import { UserObject } from "../../../../types/users.types";
@@ -139,40 +137,79 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
     // };
 
     const addNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_application_submitted_directly_to_school: {
-                ...newSchool.school_application_submitted_directly_to_school,
-                school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.concat(note)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_application_submitted_directly_to_school: {
+                    ...newSchool.school_application_submitted_directly_to_school,
+                    school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.concat(note)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_application_submitted_directly_to_school: {
+                    ...newSchool.edited_school_application_submitted_directly_to_school,
+                    notes: newSchool.edited_school_application_submitted_directly_to_school.notes!.concat(note)
+                }
+            })
+        }
+        
     };
 
     const updateNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_application_submitted_directly_to_school: {
-                ...newSchool.school_application_submitted_directly_to_school,
-                school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_application_submitted_directly_to_school: {
+                    ...newSchool.school_application_submitted_directly_to_school,
+                    school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_application_submitted_directly_to_school: {
+                    ...newSchool.edited_school_application_submitted_directly_to_school,
+                    notes: newSchool.edited_school_application_submitted_directly_to_school.notes!.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_application_submitted_directly_to_school: {
-                ...newSchool.school_application_submitted_directly_to_school,
-                school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_application_submitted_directly_to_school: {
+                    ...newSchool.school_application_submitted_directly_to_school,
+                    school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_application_submitted_directly_to_school: {
+                    ...newSchool.edited_school_application_submitted_directly_to_school,
+                    notes: newSchool.edited_school_application_submitted_directly_to_school.notes!.filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -235,7 +272,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
                 <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                {newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes && (
+                {/* {newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes && (
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -250,7 +287,10 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
                             </div>
                         ))}
                     </div>
-                )}
+                )} */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_application_submitted_directly_to_school.isEditMode} notes={newSchool.edited_school_application_submitted_directly_to_school.notes} originalNotes={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes} name='school_application_submitted_directly_to_school' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                    />
                 </div>
                 )}
             </div>

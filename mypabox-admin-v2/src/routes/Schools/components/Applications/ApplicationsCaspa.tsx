@@ -1,14 +1,12 @@
 import { School, Note } from "../../../../types/schools.types";
 import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent} from "react"
-import ReactQuill from "react-quill";
 import Select, {StylesConfig} from 'react-select'
 import AddNote from "../Prereqs/AddNote";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 import LinkPopup from "../../LinkPopup";
 
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi';
 
 import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from "./ApplicationFunctions";
 
@@ -204,40 +202,79 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
     };
 
     const addNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_application_submitted_on_caspa: {
-                ...newSchool.school_application_submitted_on_caspa,
-                school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.concat(note),
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_application_submitted_on_caspa: {
+                    ...newSchool.school_application_submitted_on_caspa,
+                    school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.concat(note),
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_application_submitted_on_caspa: {
+                    ...newSchool.edited_school_application_submitted_on_caspa,
+                    notes: newSchool.edited_school_application_submitted_on_caspa.notes!.concat(note),
+                }
+            })
+        }
+        
     };
 
     const updateNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_application_submitted_on_caspa: {
-                ...newSchool.school_application_submitted_on_caspa,
-                school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_application_submitted_on_caspa: {
+                    ...newSchool.school_application_submitted_on_caspa,
+                    school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_application_submitted_on_caspa: {
+                    ...newSchool.edited_school_application_submitted_on_caspa,
+                    notes: newSchool.edited_school_application_submitted_on_caspa.notes!.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_application_submitted_on_caspa: {
-                ...newSchool.school_application_submitted_on_caspa,
-                school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_application_submitted_on_caspa: {
+                    ...newSchool.school_application_submitted_on_caspa,
+                    school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_application_submitted_on_caspa: {
+                    ...newSchool.edited_school_application_submitted_on_caspa,
+                    notes: newSchool.edited_school_application_submitted_on_caspa.notes!.filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -307,7 +344,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
                 <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] mt-2 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                {newSchool.school_application_submitted_on_caspa.school_caspa_application_notes && (
+                {/* {newSchool.school_application_submitted_on_caspa.school_caspa_application_notes && (
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -322,7 +359,10 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
                             </div>
                         ))}
                     </div>
-                )}
+                )} */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_application_submitted_on_caspa.isEditMode} notes={newSchool.edited_school_application_submitted_on_caspa.notes} originalNotes={newSchool.school_application_submitted_on_caspa.school_caspa_application_notes} name='school_application_submitted_on_caspa' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                    />
                 </div>
                 )}
             </div>

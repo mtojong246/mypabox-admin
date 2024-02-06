@@ -13,6 +13,7 @@ interface EditedCaspa {
     prev: boolean | null;
     isEditMode: boolean;
     link: string;
+    notes: Note[] | null;
     edited_school_caspa_application_deadline_date: {
         input: string | null;
         prev: string | null;
@@ -37,6 +38,7 @@ interface EditedDirect {
     prev: boolean | null;
     isEditMode: boolean;
     link: string;
+    notes: Note[] | null;
     edited_school_application_direct_to_school_deadline: {
         input: string | null;
         prev: string | null;
@@ -63,6 +65,7 @@ interface EditedSupplemental {
     prev: boolean | null;
     isEditMode: boolean;
     link: string;
+    notes: Note[] | null;
     edited_school_supplemental_application_deadline: {
         input: string | null;
         prev: string | null;
@@ -100,6 +103,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                 ...field,
                 input: field.input === null ? originalField.input : field.input,
                 isEditMode: true,
+                notes: field.notes === null ? originalField.school_supplemental_application_notes : field.notes,
                 edited_school_supplemental_application_deadline: {
                     ...field.edited_school_supplemental_application_deadline,
                     input: field.edited_school_supplemental_application_deadline.input === null ? originalField.school_supplemental_application_deadline : field.edited_school_supplemental_application_deadline.input,
@@ -131,6 +135,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                 ...field,
                 input: field.input === null ? originalField.input : field.input,
                 isEditMode: true,
+                notes: field.notes === null ? originalField.school_caspa_application_notes : field.notes,
                 edited_school_caspa_application_deadline_date: {
                     ...field.edited_school_caspa_application_deadline_date,
                     input: field.edited_school_caspa_application_deadline_date.input ? originalField.school_caspa_application_deadline_date : field.edited_school_caspa_application_deadline_date.input,
@@ -152,6 +157,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                 ...field,
                 input: field.input === null ? originalField.input : field.input,
                 isEditMode: true,
+                notes: field.notes === null ? originalField.school_application_direct_to_school_notes : field.notes,
                 edited_school_application_direct_to_school_deadline: {
                     ...field.edited_school_application_direct_to_school_deadline,
                     input: field.edited_school_application_direct_to_school_deadline.input === null ? originalField.school_application_direct_to_school_deadline : field.edited_school_application_direct_to_school_deadline.input,
@@ -183,6 +189,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const originalField = newSchool.school_supplemental_application_required
             setNewSchool({
                 ...newSchool,
+                school_supplemental_application_required: {
+                    ...newSchool.school_supplemental_application_required,
+                    school_supplemental_application_notes: field.notes ? field.notes : newSchool.school_supplemental_application_required.school_supplemental_application_notes,
+                },
                 [name]: {
                     ...field,
                     input: field.input === originalField.input ? null : field.input,
@@ -219,6 +229,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const originalField = newSchool[originalName] as Caspa;
             setNewSchool({
                 ...newSchool,
+                school_application_submitted_on_caspa: {
+                    ...newSchool.school_application_submitted_on_caspa,
+                    school_caspa_application_notes: field.notes ? field.notes : newSchool.school_application_submitted_on_caspa.school_caspa_application_notes,
+                },
                 [name]: {
                     ...field,
                     input: field.input === originalField.input ? null : field.input,
@@ -243,6 +257,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const originalField = newSchool[originalName] as Direct;
             setNewSchool({
                 ...newSchool,
+                school_application_submitted_directly_to_school: {
+                    ...newSchool.school_application_submitted_directly_to_school,
+                    school_application_direct_to_school_notes: field.notes ? field.notes : newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes,
+                },
                 [name]: {
                     ...field,
                     input: field.input === originalField.input ? null : field.input,
@@ -272,6 +290,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [originalName]: {
                     ...originalField,
                     input: field.input === null ? originalField.input : field.input,
+                    school_supplemental_application_notes: field.notes ? field.notes : newSchool.school_supplemental_application_required.school_supplemental_application_notes,
                     school_supplemental_application_deadline: field.edited_school_supplemental_application_deadline.input === null ? originalField.school_supplemental_application_deadline : field.edited_school_supplemental_application_deadline.input,
                     school_supplemental_application_fee: field.edited_school_supplemental_application_fee.input === null ? originalField.school_supplemental_application_fee : field.edited_school_supplemental_application_fee.input,
                     school_supplemental_application_link: field.edited_school_supplemental_application_link.input === null ? originalField.school_supplemental_application_link : field.edited_school_supplemental_application_link.input,
@@ -283,6 +302,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     prev: null,
                     isEditMode: false,
                     link: '',
+                    notes: null,
                     edited_school_supplemental_application_deadline: {
                         ...field.edited_school_supplemental_application_deadline,
                         input: null,
@@ -317,6 +337,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [originalName]: {
                     ...originalField,
                     input: field.input === null ? originalField.input : field.input,
+                    school_caspa_application_notes: field.notes ? field.notes : newSchool.school_application_submitted_on_caspa.school_caspa_application_notes,
                     school_caspa_application_deadline_date: field.edited_school_caspa_application_deadline_date.input === null ? originalField.school_caspa_application_deadline_date : field.edited_school_caspa_application_deadline_date.input,
                     school_caspa_application_deadline_type: field.edited_school_caspa_application_deadline_type.input === null ? originalField.school_caspa_application_deadline_type : field.edited_school_caspa_application_deadline_type.input,
                 },
@@ -326,6 +347,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     prev: null,
                     isEditMode: false,
                     link: '',
+                    notes: null,
                     edited_school_caspa_application_deadline_date: {
                         ...field.edited_school_caspa_application_deadline_date,
                         input: null,
@@ -348,6 +370,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [originalName]: {
                     ...originalField,
                     input: field.input === null ? originalField.input : field.input,
+                    school_application_direct_to_school_notes: field.notes ? field.notes : newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes,
                     school_application_direct_to_school_deadline: field.edited_school_application_direct_to_school_deadline.input === null ? originalField.school_application_direct_to_school_deadline : field.edited_school_application_direct_to_school_deadline.input,
                     school_application_direct_to_school_fee: field.edited_school_application_direct_to_school_fee.input === null ? originalField.school_application_direct_to_school_fee : field.edited_school_application_direct_to_school_fee.input,
                 },
@@ -357,6 +380,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     prev: null,
                     isEditMode: false,
                     link: '',
+                    notes: null,
                     edited_school_application_direct_to_school_deadline: {
                         ...field.edited_school_application_direct_to_school_deadline,
                         input: null,
@@ -478,6 +502,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 prev: null,
                 isEditMode: false,
                 link: '',
+                notes: null,
                 edited_school_supplemental_application_deadline: {
                     ...field.edited_school_supplemental_application_deadline,
                     input: null,
@@ -514,6 +539,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 prev: null,
                 isEditMode: false,
                 link: '',
+                notes: null,
                 edited_school_caspa_application_deadline_date: {
                     ...field.edited_school_caspa_application_deadline_date,
                     input: null,
@@ -538,6 +564,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 prev: null,
                 isEditMode: false,
                 link: '',
+                notes: null,
                 edited_school_application_direct_to_school_deadline: {
                     ...field.edited_school_application_direct_to_school_deadline,
                     input: null,
