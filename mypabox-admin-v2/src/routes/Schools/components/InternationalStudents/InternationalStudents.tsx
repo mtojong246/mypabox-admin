@@ -1,10 +1,8 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent } from "react";
 import { School, Note } from "../../../../types/schools.types";
-import ReactQuill from "react-quill";
 import AddNote from "../Prereqs/AddNote";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi';
 import { UserObject } from "../../../../types/users.types";
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 
@@ -56,40 +54,79 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
     };
 
     const addNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_international_students_accepted: {
-                ...newSchool.school_international_students_accepted,
-                school_international_students_notes: newSchool.school_international_students_accepted.school_international_students_notes.concat(note)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_international_students_accepted: {
+                    ...newSchool.school_international_students_accepted,
+                    notes: newSchool.school_international_students_accepted.notes.concat(note)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_international_students_accepted: {
+                    ...newSchool.edited_school_international_students_accepted,
+                    notes: newSchool.edited_school_international_students_accepted.notes!.concat(note)
+                }
+            })
+        }
+        
     };
 
     const updateNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_international_students_accepted: {
-                ...newSchool.school_international_students_accepted,
-                school_international_students_notes: newSchool.school_international_students_accepted.school_international_students_notes.map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_international_students_accepted: {
+                    ...newSchool.school_international_students_accepted,
+                    notes: newSchool.school_international_students_accepted.notes.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_international_students_accepted: {
+                    ...newSchool.edited_school_international_students_accepted,
+                    notes: newSchool.edited_school_international_students_accepted.notes!.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_international_students_accepted: {
-                ...newSchool.school_international_students_accepted,
-                school_international_students_notes: newSchool.school_international_students_accepted.school_international_students_notes.filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_international_students_accepted: {
+                    ...newSchool.school_international_students_accepted,
+                    notes: newSchool.school_international_students_accepted.notes.filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_international_students_accepted: {
+                    ...newSchool.edited_school_international_students_accepted,
+                    notes: newSchool.edited_school_international_students_accepted.notes!.filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     }
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -130,7 +167,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
                         Add Note
                     </button>
                 </div>
-                {newSchool.school_international_students_accepted.school_international_students_notes && (
+                {/* {newSchool.school_international_students_accepted.school_international_students_notes && (
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_international_students_accepted.school_international_students_notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_international_students_accepted.school_international_students_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -145,7 +182,10 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
                         </div>
                     ))}
                 </div>
-                )}
+                )} */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} notes={newSchool.edited_school_international_students_accepted.notes} originalNotes={newSchool.school_international_students_accepted.notes} name='school_international_students_accepted' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                    />
             </div>
             <EditButtons loggedInUser={loggedInUser} input={newSchool.edited_school_international_students_accepted.input} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} link={newSchool.edited_school_international_students_accepted.link} 
             name='school_international_students_accepted' toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}

@@ -1383,6 +1383,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
         edited_school_minimum_number_of_evaluations_required: {
             input: null,
             prev: null,
@@ -1415,6 +1416,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
         edited_school_minimum_number_of_evaluations_recommended: {
             input: null,
             prev: null,
@@ -1435,13 +1437,14 @@ export const defaultSchool: School = {
 
     school_international_students_accepted: {
         input: false,
-        school_international_students_notes: [],
+        notes: [],
     },
     edited_school_international_students_accepted: {
         input: null,
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
 
     school_certifications_required: {
@@ -1455,6 +1458,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
         edited_school_certifications_required_options: {
             input: null,
             prev: null,

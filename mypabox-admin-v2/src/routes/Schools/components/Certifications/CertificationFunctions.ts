@@ -1,5 +1,5 @@
 import { MouseEvent, Dispatch, SetStateAction } from "react";
-import { School, Note } from "../../../../types/schools.types";
+import { School } from "../../../../types/schools.types";
 
 
 export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>) => {
@@ -12,6 +12,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             ...field,
             input: field.input === null ? originalField.input : field.input,
             isEditMode: true,
+            notes: field.notes === null ? originalField.school_certification_notes : field.notes,
             edited_school_certifications_required_options: {
                 ...field.edited_school_certifications_required_options,
                 input: field.edited_school_certifications_required_options.input === null ? originalField.school_certifications_required_options && originalField.school_certifications_required_options.map(option => ({
@@ -31,6 +32,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
     if (!original) {
         setNewSchool({
             ...newSchool,
+            school_certifications_required: {
+                ...newSchool.school_certifications_required,
+                school_certification_notes: field.notes ? field.notes : newSchool.school_certifications_required.school_certification_notes,
+            },
             edited_school_certifications_required: {
                 ...field,
                 input: field.input,
@@ -52,12 +57,15 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     input: field.input!,
                     school_certifications_required_options: field.edited_school_certifications_required_options.input ? correctList.map(opt => opt.name)
                      : originalField.school_certifications_required_options,
+                    school_certification_notes: field.notes ? field.notes : newSchool.school_certifications_required.school_certification_notes,
+
                 },
                 edited_school_certifications_required: {
                     input: null,
                     prev: null,
                     link :'',
                     isEditMode: false,
+                    notes: null,
                     edited_school_certifications_required_options: {
                         input: null,
                         prev: null,
@@ -99,6 +107,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             prev: null,
             isEditMode: false,
             link: '',
+            notes: null,
             edited_school_certifications_required_options: {
                 input: null,
                 prev: null,

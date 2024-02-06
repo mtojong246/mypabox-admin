@@ -1,11 +1,8 @@
 import { School, Note } from "../../../../types/schools.types"
 import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent } from "react"
-import ReactQuill from "react-quill";
-import CreatableSelect from 'react-select/creatable';
 import AddNote from "../Prereqs/AddNote";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi';
 import { UserObject } from "../../../../types/users.types";
 
 import BooleanFields from "../../Assets/BooleanFields";
@@ -197,40 +194,79 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
     };
 
     const addNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_certifications_required: {
-                ...newSchool.school_certifications_required,
-                school_certification_notes: newSchool.school_certifications_required.school_certification_notes.concat(note)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_certifications_required: {
+                    ...newSchool.school_certifications_required,
+                    school_certification_notes: newSchool.school_certifications_required.school_certification_notes.concat(note)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_certifications_required: {
+                    ...newSchool.edited_school_certifications_required,
+                    notes: newSchool.edited_school_certifications_required.notes!.concat(note)
+                }
+            })
+        }
+        
     };
 
     const updateNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_certifications_required: {
-                ...newSchool.school_certifications_required,
-                school_certification_notes: newSchool.school_certifications_required.school_certification_notes.map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_certifications_required: {
+                    ...newSchool.school_certifications_required,
+                    school_certification_notes: newSchool.school_certifications_required.school_certification_notes.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_certifications_required: {
+                    ...newSchool.edited_school_certifications_required,
+                    notes: newSchool.edited_school_certifications_required.notes!.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     };
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_certifications_required: {
-                ...newSchool.school_certifications_required,
-                school_certification_notes: newSchool.school_certifications_required.school_certification_notes.filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_certifications_required: {
+                    ...newSchool.school_certifications_required,
+                    school_certification_notes: newSchool.school_certifications_required.school_certification_notes.filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_certifications_required: {
+                    ...newSchool.edited_school_certifications_required,
+                    notes: newSchool.edited_school_certifications_required.notes!.filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     }
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -303,7 +339,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
                 <button onClick={toggleNotePopup} className="mt-2 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                {newSchool.school_certifications_required.school_certification_notes && (
+                {/* {newSchool.school_certifications_required.school_certification_notes && (
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certification_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_certifications_required.school_certification_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -318,24 +354,30 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
                             </div>
                         ))}
                     </div>
-                )}
+                )} */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} notes={newSchool.edited_school_certifications_required.notes} originalNotes={newSchool.school_certifications_required.school_certification_notes} name='edited_school_certifications_required' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                    />
                 </div>
                 )}
                 {newSchool.school_certifications_required.school_certification_notes && !newSchool.school_certifications_required.input && (
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certification_notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_certifications_required.school_certification_notes.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
-                    </div>
+                    // <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certification_notes.length ? 'mt-3' : 'mt-0'}`}>
+                    //     {newSchool.school_certifications_required.school_certification_notes.map((note, i) => (
+                    //         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                    //             <div className='flex justify-between items-center w-full mb-1'>
+                    //                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
+                    //                 <div className='flex gap-2'>
+                    //                     <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                    //                     <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                    //                 </div>
+                    //             </div>
+                    //             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                    //         </div>
+                    //     ))}
+                    // </div>
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} notes={newSchool.edited_school_certifications_required.notes} originalNotes={newSchool.school_certifications_required.school_certification_notes} name='edited_school_certifications_required' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                    />
                 )}
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} input={hasInputs} name='edited_school_certifications_required' enableEditMode={enableEditModeGroup} 

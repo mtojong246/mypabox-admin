@@ -1556,6 +1556,7 @@ export interface School {
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
         edited_school_minimum_number_of_evaluations_required: {
             input: number | null;
             prev: number | null;
@@ -1620,6 +1621,7 @@ export interface School {
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
         edited_school_minimum_number_of_evaluations_recommended: {
             input: number | null;
             prev: number | null;
@@ -1668,13 +1670,14 @@ export interface School {
 
     school_international_students_accepted: {
         input: boolean;
-        school_international_students_notes: Note[];
+        notes: Note[];
     }
     edited_school_international_students_accepted: {
         input: boolean | null;
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
     }
 
     school_certifications_required: {
@@ -1700,6 +1703,7 @@ export interface School {
                 isNew: boolean;
             }[] | null;
         }
+        notes: Note[] | null;
     }
 
     school_application_submitted_on_caspa: {

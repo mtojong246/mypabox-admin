@@ -15,6 +15,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                 ...field,
                 isEditMode: true,
                 input: field.input === null ? originalField.input : field.input,
+                notes: field.notes === null ? originalField.school_evaluations_required_notes : field.notes,
                 edited_school_minimum_number_of_evaluations_required: {
                     ...field.edited_school_minimum_number_of_evaluations_required,
                     input: field.edited_school_minimum_number_of_evaluations_required.input === null ? originalField.school_minimum_number_of_evaluations_required : field.edited_school_minimum_number_of_evaluations_required.input,
@@ -56,6 +57,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                 ...field,
                 isEditMode: true,
                 input: field.input === null ? originalField.input : field.input,
+                notes: field.notes === null ? originalField.school_evaluations_recommended_notes : field.notes,
                 edited_school_minimum_number_of_evaluations_recommended: {
                     ...field.edited_school_minimum_number_of_evaluations_recommended,
                     input: field.edited_school_minimum_number_of_evaluations_recommended.input === null ? originalField.school_minimum_number_of_evaluations_recommended : field.edited_school_minimum_number_of_evaluations_recommended.input,
@@ -102,6 +104,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const originalField = newSchool.school_evaluations_required;
             setNewSchool({
                 ...newSchool,
+                school_evaluations_required: {
+                    ...newSchool.school_evaluations_required,
+                    school_evaluations_required_notes: field.notes ? field.notes : newSchool.school_evaluations_required.school_evaluations_required_notes,
+                },
                 edited_school_evaluations_required: {
                     ...field,
                     isEditMode: false,
@@ -134,6 +140,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const originalField = newSchool.school_evaluations_recommended;
             setNewSchool({
                 ...newSchool,
+                school_evaluations_recommended: {
+                    ...newSchool.school_evaluations_recommended,
+                    school_evaluations_recommended_notes: field.notes ? field.notes : newSchool.school_evaluations_recommended.school_evaluations_recommended_notes,
+                },
                 edited_school_evaluations_recommended: {
                     ...field,
                     isEditMode: false,
@@ -168,12 +178,12 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const originalField = newSchool.school_evaluations_required;
             const correctList = field.edited_school_optional_evaluators_required.input && field.edited_school_optional_evaluators_required.input.filter(inp => inp.isCorrect);
             const correctTitles = field.edited_school_required_evaluator_title.input && field.edited_school_required_evaluator_title.input.filter(inp => inp.isCorrect);
-            console.log(correctTitles)
                 setNewSchool({
                     ...newSchool,
                     school_evaluations_required: {
                         ...originalField,
                         input: field.input === null ? originalField.input : field.input,
+                        school_evaluations_required_notes: field.notes ? field.notes : newSchool.school_evaluations_required.school_evaluations_required_notes,
                         school_minimum_number_of_evaluations_required: field.edited_school_minimum_number_of_evaluations_required.input === null ? originalField.school_minimum_number_of_evaluations_required : field.edited_school_minimum_number_of_evaluations_required.input,
                         school_minimum_time_evaluator_knows_applicant: field.edited_school_minimum_time_evaluator_knows_applicant.input === null ? originalField.school_minimum_time_evaluator_knows_applicant : field.edited_school_minimum_time_evaluator_knows_applicant.input,
                         school_optional_evaluators_required: correctList ? correctList.map(opt => ({
@@ -188,6 +198,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         isEditMode: false,
                         input: null,
                         prev: null,
+                        notes: null,
                         edited_school_minimum_number_of_evaluations_required: {
                             input: null,
                             prev: null,
@@ -217,6 +228,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 school_evaluations_recommended: {
                     ...originalField,
                     input: field.input === null ? originalField.input : field.input,
+                    school_evaluations_recommended_notes: field.notes ? field.notes : newSchool.school_evaluations_recommended.school_evaluations_recommended_notes,
                     school_minimum_number_of_evaluations_recommended: field.edited_school_minimum_number_of_evaluations_recommended.input === null ? originalField.school_minimum_number_of_evaluations_recommended : field.edited_school_minimum_number_of_evaluations_recommended.input,
                     school_minimum_time_evaluator_knows_applicant: field.edited_school_minimum_time_evaluator_knows_applicant.input === null ? originalField.school_minimum_time_evaluator_knows_applicant : field.edited_school_minimum_time_evaluator_knows_applicant.input,
                     school_optional_evaluators_recommended: field.edited_school_optional_evaluators_recommended.input ? correctList.map(list => ({
@@ -231,6 +243,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     input: null,
                     prev: null,
                     link: '',
+                    notes: null,
                     edited_school_minimum_number_of_evaluations_recommended: {
                         input: null,
                         prev: null,
@@ -335,6 +348,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 isEditMode: false,
                 input: null,
                 prev: null,
+                notes: null,
                 edited_school_minimum_number_of_evaluations_required: {
                     input: null,
                     prev: null,
@@ -361,6 +375,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 input: null,
                 prev: null,
                 link: '',
+                notes: null,
                 edited_school_minimum_number_of_evaluations_recommended: {
                     input: null,
                     prev: null,
