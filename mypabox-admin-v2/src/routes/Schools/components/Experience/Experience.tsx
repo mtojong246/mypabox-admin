@@ -4,10 +4,8 @@ import PatientExperience from "./PatientExperience"
 import HealthcareExperience from "./HealthcareExperience"
 import CommunityService from "./CommunityService"
 import VolunteerService from "./VolunteerService"
+import AddNoteFields from "../../Assets/AddNoteFields"
 
-import ReactQuill from "react-quill";
-import { FiEdit3 } from 'react-icons/fi'
-import { AiOutlineClose } from 'react-icons/ai'
 import AddNote from "../Prereqs/AddNote"
 import { UserObject } from "../../../../types/users.types"
 
@@ -62,6 +60,7 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
     }
 
     const addNote = (note: Note) => {
+        if (loggedInUser.permissions.canAddOrDelete) {
             setNewSchool({
                 ...newSchool,
                 school_paid_experience_required: {
@@ -69,9 +68,20 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
                     school_paid_experience_required_notes: newSchool.school_paid_experience_required.school_paid_experience_required_notes.concat(note)
                 }
             })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_paid_experience_required: {
+                    ...newSchool.edited_school_paid_experience_required,
+                    notes: newSchool.edited_school_paid_experience_required.notes ? newSchool.edited_school_paid_experience_required.notes.concat(note) : [note]
+                }
+            })
+        }
+            
     }
 
     const updateNote = (note: Note) => {
+        if (loggedInUser.permissions.canAddOrDelete) {
             setNewSchool({
                 ...newSchool,
                 school_paid_experience_required: {
@@ -85,10 +95,27 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
                     })
                 }
             })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_paid_experience_required: {
+                    ...newSchool.edited_school_paid_experience_required,
+                    notes: newSchool.edited_school_paid_experience_required.notes!.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+            
     }
 
-    const deleteNote = (e: any, index: number) => {
+    const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault()
+        if (loggedInUser.permissions.canAddOrDelete) {
             setNewSchool({
                 ...newSchool,
                 school_paid_experience_required: {
@@ -96,6 +123,16 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
                     school_paid_experience_required_notes: newSchool.school_paid_experience_required.school_paid_experience_required_notes.filter((n,i) => i !== index)
                 }
             })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_paid_experience_required: {
+                    ...newSchool.edited_school_paid_experience_required,
+                    notes: newSchool.edited_school_paid_experience_required.notes!.filter((n,i) => i !== index)
+                }
+            })
+        }
+            
     };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -130,7 +167,7 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
                             Add Note
                         </button>
                     </div> 
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_paid_experience_required.school_paid_experience_required_notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_paid_experience_required.school_paid_experience_required_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_paid_experience_required.school_paid_experience_required_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
@@ -143,7 +180,10 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                        </div>
+                        </div> */}
+                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_paid_experience_required.isEditMode} notes={newSchool.edited_school_paid_experience_required.notes} originalNotes={newSchool.school_paid_experience_required.school_paid_experience_required_notes} name='school_paid_experience_required' toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                        />
                 </div>
                 {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_paid_experience_required.isEditMode} input={newSchool.edited_school_paid_experience_required.input} link={newSchool.edited_school_paid_experience_required.link} 
                 toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool} name='school_paid_experience_required'

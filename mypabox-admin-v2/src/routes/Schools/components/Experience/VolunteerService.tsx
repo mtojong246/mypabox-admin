@@ -1,9 +1,7 @@
 import { School, Note } from "../../../../types/schools.types"
 import { Dispatch, SetStateAction, useEffect, ChangeEvent, useState, MouseEvent } from "react"
+import AddNoteFields from "../../Assets/AddNoteFields";
 
-import ReactQuill from "react-quill";
-import { FiEdit3 } from 'react-icons/fi'
-import { AiOutlineClose } from 'react-icons/ai'
 import AddNote from "../Prereqs/AddNote"
 import LinkPopup from "../../LinkPopup";
 import { enableEditModeGroup, revertEditGroup, confirmEditGroup, undoEditGroup } from "./ExperienceFunctions";
@@ -58,53 +56,62 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
     }
 
     const addNote = (note: Note) => {
-        if (isGroup) {
-            setNewSchool({
-                ...newSchool,
-                school_volunteer_service: {
-                    ...newSchool.school_volunteer_service,
-                    school_volunteer_service_general_notes: newSchool.school_volunteer_service.school_volunteer_service_general_notes.concat(note)
-                }
-            })
-        } else {
-            const field = newSchool.school_volunteer_service[name as keyof object] as object;
-            setNewSchool({
-                ...newSchool,
-                school_volunteer_service: {
-                    ...newSchool.school_volunteer_service,
-                    [name]: {
-                        ...field,
-                        [noteName]: (field[noteName as keyof object] as Note[]).concat(note)
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (isGroup) {
+                setNewSchool({
+                    ...newSchool,
+                    school_volunteer_service: {
+                        ...newSchool.school_volunteer_service,
+                        school_volunteer_service_general_notes: newSchool.school_volunteer_service.school_volunteer_service_general_notes.concat(note)
                     }
-                }
-            })
+                })
+            } else {
+                const field = newSchool.school_volunteer_service[name as keyof object] as object;
+                setNewSchool({
+                    ...newSchool,
+                    school_volunteer_service: {
+                        ...newSchool.school_volunteer_service,
+                        [name]: {
+                            ...field,
+                            [noteName]: (field[noteName as keyof object] as Note[]).concat(note)
+                        }
+                    }
+                })
+            }
+        } else {
+            if (isGroup) {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_volunteer_service: {
+                        ...newSchool.edited_school_volunteer_service,
+                        notes: newSchool.edited_school_volunteer_service.notes ? newSchool.edited_school_volunteer_service.notes.concat(note) : [note],
+                    }
+                })
+            } else {
+                const field = newSchool.edited_school_volunteer_service[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_volunteer_service: {
+                        ...newSchool.edited_school_volunteer_service,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes ? field.notes.concat(note) : [note],
+                        }
+                    }
+                })
+            }
         }
+        
     }
 
     const updateNote = (note: Note) => {
-        if (isGroup) {
-            setNewSchool({
-                ...newSchool,
-                school_volunteer_service: {
-                    ...newSchool.school_volunteer_service,
-                    school_volunteer_service_general_notes: newSchool.school_volunteer_service.school_volunteer_service_general_notes.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else {
-            const field = newSchool.school_volunteer_service[name as keyof object] as object;
-            setNewSchool({
-                ...newSchool,
-                school_volunteer_service: {
-                    ...newSchool.school_volunteer_service,
-                    [name]: {
-                        ...field,
-                        [noteName]: (field[noteName as keyof object] as Note[]).map((n,i) => {
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (isGroup) {
+                setNewSchool({
+                    ...newSchool,
+                    school_volunteer_service: {
+                        ...newSchool.school_volunteer_service,
+                        school_volunteer_service_general_notes: newSchool.school_volunteer_service.school_volunteer_service_general_notes.map((n,i) => {
                             if (i === index) {
                                 return { ...note }
                             } else {
@@ -112,34 +119,112 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                             }
                         })
                     }
-                }
-            })
+                })
+            } else {
+                const field = newSchool.school_volunteer_service[name as keyof object] as object;
+                setNewSchool({
+                    ...newSchool,
+                    school_volunteer_service: {
+                        ...newSchool.school_volunteer_service,
+                        [name]: {
+                            ...field,
+                            [noteName]: (field[noteName as keyof object] as Note[]).map((n,i) => {
+                                if (i === index) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+        } else {
+            if (isGroup) {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_volunteer_service: {
+                        ...newSchool.edited_school_volunteer_service,
+                        notes: newSchool.edited_school_volunteer_service.notes!.map((n,i) => {
+                            if (i === index) {
+                                return { ...note }
+                            } else {
+                                return { ...n }
+                            }
+                        })
+                    }
+                })
+            } else {
+                const field = newSchool.edited_school_volunteer_service[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_volunteer_service: {
+                        ...newSchool.edited_school_volunteer_service,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes!.map((n:any,i:number) => {
+                                if (i === index) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
+                        }
+                    }
+                })
+            }
         }
+        
     }
 
     const deleteNote = (e: any, index: number, name?: string, noteName?: string) => {
-        e.preventDefault()
-        if (!name && !noteName) {
-            setNewSchool({
-                ...newSchool,
-                school_volunteer_service: {
-                    ...newSchool.school_volunteer_service,
-                    school_volunteer_service_general_notes: newSchool.school_volunteer_service.school_volunteer_service_general_notes.filter((n,i) => i !== index)
-                }
-            })
-        } else if (name && noteName) {
-            const field = newSchool.school_volunteer_service[name as keyof object] as object;
-            setNewSchool({
-                ...newSchool,
-                school_volunteer_service: {
-                    ...newSchool.school_volunteer_service,
-                    [name]: {
-                        ...field,
-                        [noteName]: (field[noteName as keyof object] as Note[]).filter((n,i) => i !== index)
+        e.preventDefault();
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (!name && !noteName) {
+                setNewSchool({
+                    ...newSchool,
+                    school_volunteer_service: {
+                        ...newSchool.school_volunteer_service,
+                        school_volunteer_service_general_notes: newSchool.school_volunteer_service.school_volunteer_service_general_notes.filter((n,i) => i !== index)
                     }
-                }
-            })
+                })
+            } else if (name && noteName) {
+                const field = newSchool.school_volunteer_service[name as keyof object] as object;
+                setNewSchool({
+                    ...newSchool,
+                    school_volunteer_service: {
+                        ...newSchool.school_volunteer_service,
+                        [name]: {
+                            ...field,
+                            [noteName]: (field[noteName as keyof object] as Note[]).filter((n,i) => i !== index)
+                        }
+                    }
+                })
+            }
+        } else {
+            if (!name && !noteName) {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_volunteer_service: {
+                        ...newSchool.edited_school_volunteer_service,
+                        notes: newSchool.edited_school_volunteer_service.notes!.filter((n,i) => i !== index)
+                    }
+                })
+            } else if (name && noteName) {
+                const field = newSchool.edited_school_volunteer_service[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_volunteer_service: {
+                        ...newSchool.edited_school_volunteer_service,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes!.filter((n:any,i:number) => i !== index)
+                        }
+                    }
+                })
+            }
         }
+        
     }
 
     useEffect(() => {
@@ -338,7 +423,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                             Add Note
                         </button>
                     </div>
-                    {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required.school_minimum_volunteer_service_hours_required_notes && (
+                    {/* {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required.school_minimum_volunteer_service_hours_required_notes && (
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.school_minimum_volunteer_service_hours_required_notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required?.school_minimum_volunteer_service_hours_required_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -353,7 +438,10 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                         </div>
                     ))}
                     </div> 
-                    )}              
+                    )}               */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} notes={newSchool.edited_school_volunteer_service.edited_school_minimum_volunteer_service_hours_required.notes ? newSchool.edited_school_volunteer_service.edited_school_minimum_volunteer_service_hours_required.notes : null} originalNotes={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required.school_minimum_volunteer_service_hours_required_notes : null} name='school_minimum_volunteer_service_hours_required' noteName="school_minimum_volunteer_service_hours_required_notes" toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                 </div>
                 )}
             </div>
@@ -382,7 +470,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                             Add Note
                         </button>
                     </div>
-                    {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.school_minimum_volunteer_service_hours_recommended_notes && (
+                    {/* {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended && newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.school_minimum_volunteer_service_hours_recommended_notes && (
                     <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.school_minimum_volunteer_service_hours_recommended_notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended?.school_minimum_volunteer_service_hours_recommended_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -397,7 +485,10 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                         </div>
                     ))}
                     </div>    
-                    )}            
+                    )}             */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} notes={newSchool.edited_school_volunteer_service.edited_school_minimum_volunteer_service_hours_recommended.notes ? newSchool.edited_school_volunteer_service.edited_school_minimum_volunteer_service_hours_recommended.notes : null} originalNotes={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.school_minimum_volunteer_service_hours_recommended_notes : null} name='school_minimum_volunteer_service_hours_recommended' noteName="school_minimum_volunteer_service_hours_recommended_notes" toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                 </div>
                 )}
             </div>
@@ -415,7 +506,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                 <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_volunteer_service.school_volunteer_service_general_notes.length ? 'mt-3' : 'mt-0'}`}>
+                {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_volunteer_service.school_volunteer_service_general_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_volunteer_service.school_volunteer_service_general_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-center w-full mb-1'>
@@ -428,7 +519,10 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                     </div>
                 ))}
-                </div>
+                </div> */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} notes={newSchool.edited_school_volunteer_service.notes} originalNotes={newSchool.school_volunteer_service.school_volunteer_service_general_notes} name='' toggleNotePopup={toggleNotePopup}
+                deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                />
             </div>
         </div>
         {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} input={hasInputs} link={newSchool.edited_school_volunteer_service.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}

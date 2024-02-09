@@ -924,6 +924,7 @@ export interface School {
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
     }
 
     school_patient_experience: {
@@ -944,6 +945,7 @@ export interface School {
         link: string,
         isEditMode: boolean,
         input: boolean | null,
+        notes: Note[] | null;
         edited_school_patient_experience_required: {
             input: boolean | null,
             prev: boolean | null,
@@ -951,10 +953,12 @@ export interface School {
         edited_school_minimum_patient_care_experience_hours_required: {
             input: number | null,
             prev: number | null,
+            notes: Note[] | null;
         }
         edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed: {
             input: string | null,
             prev: string | null,
+            notes: Note[] | null;
         }
         edited_school_average_patient_care_experience_hours_accepted_previous_cycle: {
             input: number | null,
@@ -980,6 +984,7 @@ export interface School {
         link: string,
         isEditMode: boolean,
         input: boolean | null,
+        notes: Note[] | null;
         edited_school_healthcare_experience_required: {
             input: boolean | null,
             prev: boolean | null,
@@ -987,10 +992,12 @@ export interface School {
         edited_school_minimum_healthcare_experience_hours_required: {
             input: number | null,
             prev: number | null,
+            notes: Note[] | null;
         } 
         edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
             input: string | null,
             prev: string | null,
+            notes: Note[] | null;
         } 
         edited_school_average_healthcare_experience_hours_accepted_previous_cycle: {
             input: number | null,
@@ -1017,6 +1024,7 @@ export interface School {
         link: string,
         isEditMode: boolean,
         input: boolean | null,
+        notes: Note[] | null;
         edited_school_community_service_required: {
             input: boolean | null,
             prev: boolean | null,
@@ -1024,6 +1032,7 @@ export interface School {
         edited_school_minimum_community_service_hours_required: {
             input: number | null,
             prev: number | null,
+            notes: Note[] | null;
         } 
         edited_school_community_service_recommended: {
             input: boolean | null,
@@ -1032,6 +1041,7 @@ export interface School {
         edited_school_minimum_community_service_hours_recommended: {
             input: number | null,
             prev: number | null,
+            notes: Note[] | null;
         } 
         edited_school_average_community_service_hours_accepted_previous_cycle: {
             input: number | null,
@@ -1058,6 +1068,7 @@ export interface School {
         link: string,
         isEditMode: boolean,
         input: boolean | null,
+        notes: Note[] | null;
         edited_school_volunteer_service_required: {
             input: boolean | null,
             prev: boolean | null,
@@ -1065,6 +1076,7 @@ export interface School {
         edited_school_minimum_volunteer_service_hours_required: {
             input: number | null,
             prev: number | null,
+            notes: Note[] | null;
         } 
         edited_school_volunteer_service_recommended: {
             input: boolean | null,
@@ -1073,6 +1085,7 @@ export interface School {
         edited_school_minimum_volunteer_service_hours_recommended: {
             input: number | null,
             prev: number | null,
+            notes: Note[] | null;
         }
         edited_school_average_volunteer_service_hours_accepted_previous_cycle: {
             input: number | null,

@@ -815,6 +815,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
 
     school_patient_experience: {
@@ -829,6 +830,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_patient_experience_required: {
             input: null,
             prev: null,
@@ -836,10 +838,12 @@ export const defaultSchool: School = {
         edited_school_minimum_patient_care_experience_hours_required: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_average_patient_care_experience_hours_accepted_previous_cycle:{
             input: null,
@@ -859,6 +863,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_healthcare_experience_required: {
             input: null,
             prev: null,
@@ -866,10 +871,12 @@ export const defaultSchool: School = {
         edited_school_minimum_healthcare_experience_hours_required: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_average_healthcare_experience_hours_accepted_previous_cycle: {
             input: null,
@@ -890,6 +897,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_community_service_required: {
             input: null,
             prev: null,
@@ -897,6 +905,7 @@ export const defaultSchool: School = {
         edited_school_minimum_community_service_hours_required: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_community_service_recommended: {
             input: null,
@@ -905,6 +914,7 @@ export const defaultSchool: School = {
         edited_school_minimum_community_service_hours_recommended: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_average_community_service_hours_accepted_previous_cycle: {
             input: null,
@@ -925,6 +935,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_volunteer_service_required: {
             input: null,
             prev: null,
@@ -932,6 +943,7 @@ export const defaultSchool: School = {
         edited_school_minimum_volunteer_service_hours_required: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_volunteer_service_recommended:  {
             input: null,
@@ -940,6 +952,7 @@ export const defaultSchool: School = {
         edited_school_minimum_volunteer_service_hours_recommended:  {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_average_volunteer_service_hours_accepted_previous_cycle:  {
             input: null,
