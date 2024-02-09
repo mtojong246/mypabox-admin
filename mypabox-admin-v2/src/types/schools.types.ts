@@ -1234,6 +1234,7 @@ export interface School {
         isEditMode: boolean;
         link: string;
         input: boolean | null,
+        edited_school_gre_general_notes: Note[] | null,
         edited_school_gre_required: {
             input: boolean | null;
             prev: boolean | null;
@@ -1254,21 +1255,25 @@ export interface School {
         edited_school_minimum_time_frame_gre_must_be_completed: {
             input: string | null;
             prev: string | null;
+            notes: Note[] | null,
         }
 
         edited_school_mcat_accepted_in_place_of_gre: {
             input: boolean | null;
             prev: boolean | null;
+            notes: Note[] | null,
         }
 
         edited_school_gre_exempt_with_masters_degree: {
             input: boolean | null;
             prev: boolean | null;
+            notes: Note[] | null,
         }
 
         edited_school_gre_exempt_with_phd_degree: {
             input: boolean | null;
             prev: boolean | null;
+            notes: Note[] | null,
         }
 
         edited_school_minimum_gre_scores_required: {
@@ -1291,6 +1296,7 @@ export interface School {
             input: number | null;
             prev: number | null;
         }
+        edited_school_minimum_gre_score_notes: Note[] | null;
 
         edited_school_gre_minimum_verbal_percentile: {
             input: number | null;
@@ -1308,6 +1314,7 @@ export interface School {
             input: number | null;
             prev: number | null;
         }
+        edited_school_minimum_gre_percentile_notes: Note[] | null;
 
         edited_school_average_gre_verbal_score_accepted_previous_year: {
             input: number | null;
@@ -1358,6 +1365,7 @@ export interface School {
     edited_school_pacat: {
         link: string;
         input: boolean | null;
+        notes: Note[] | null;
         edited_school_pacat_required: {
             input: boolean | null;
             prev: boolean | null;
@@ -1396,6 +1404,7 @@ export interface School {
     edited_school_casper: {
         link: string;
         input: boolean | null;
+        notes: Note[] | null;
         edited_school_casper_required: {
             input: boolean | null;
             prev: boolean | null;
@@ -1474,6 +1483,7 @@ export interface School {
             input: boolean | null;
             prev: boolean | null;
         }
+        edited_school_toefl_ibt_minimum_score_notes: Note[] | null;
 
         edited_school_toefl_ibt_minimum_total_score_required: {
             input: number | null;
@@ -1495,7 +1505,7 @@ export interface School {
             input: number | null;
             prev: number | null;
         }
-
+        edited_school_toefl_pbt_minimum_score_notes: Note[] | null;
         edited_school_toefl_pbt_minimum_total_score_required: {
             input: number | null;
             prev: number | null;
@@ -1516,7 +1526,7 @@ export interface School {
             input: number | null;
             prev: number | null;
         }
-
+        edited_school_ielt_minimum_score_notes: Note[] | null;
         edited_school_ielt_required: {
             input: boolean | null;
             prev: boolean | null;
@@ -1525,7 +1535,7 @@ export interface School {
             input: number | null;
             prev: number | null;
         }
-
+        edited_school_melab_minimum_score_notes: Note[] | null;
         edited_school_melab_required: {
             input: boolean | null;
             prev: boolean | null;
@@ -1534,7 +1544,7 @@ export interface School {
             input: number | null;
             prev: number | null;
         }
-
+        edited_school_pte_academic_minimum_score_notes: Note[] | null,
         edited_school_pte_academic_required: {
             input: boolean | null;
             prev: boolean | null;
@@ -1543,7 +1553,7 @@ export interface School {
             input: number | null;
             prev: number | null;
         }
-
+        edited_school_itep_academic_plus_minimum_score_notes: Note[] | null;
         edited_school_itep_academic_plus_required: {
             input: boolean | null;
             prev: boolean | null;

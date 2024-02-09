@@ -1066,6 +1066,7 @@ export const defaultSchool: School = {
         isEditMode: false,
         link: '',
         input: null,
+        edited_school_gre_general_notes: null,
         edited_school_gre_required: {
             input: null,
             prev: null,
@@ -1086,23 +1087,28 @@ export const defaultSchool: School = {
         edited_school_minimum_time_frame_gre_must_be_completed: {
             input: null,
             prev: null,
+            notes: null,
         },
 
         edited_school_mcat_accepted_in_place_of_gre: {
             input: null,
             prev: null,
+            notes: null,
         },
 
         edited_school_gre_exempt_with_masters_degree: {
             input: null,
             prev: null,
+            notes: null,
         },
 
         edited_school_gre_exempt_with_phd_degree: {
             input: null,
             prev: null,
+            notes: null,
         },
-
+        edited_school_minimum_gre_score_notes: null,
+        edited_school_minimum_gre_percentile_notes: null,
         edited_school_minimum_gre_scores_required: {
             input: null,
             prev: null,
@@ -1190,6 +1196,7 @@ export const defaultSchool: School = {
     edited_school_pacat: {
         link: '',
         input: null,
+        notes: null,
         edited_school_pacat_required: {
             input: null,
             prev: null,
@@ -1228,6 +1235,7 @@ export const defaultSchool: School = {
     edited_school_casper: {
         link: '',
         input: null,
+        notes: null,
         edited_school_casper_required: {
             input: null,
             prev: null,
@@ -1284,6 +1292,12 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        edited_school_ielt_minimum_score_notes: null,
+        edited_school_itep_academic_plus_minimum_score_notes: null,
+        edited_school_melab_minimum_score_notes: null,
+        edited_school_pte_academic_minimum_score_notes: null,
+        edited_school_toefl_ibt_minimum_score_notes: null,
+        edited_school_toefl_pbt_minimum_score_notes: null,
         edited_school_english_proficiency_exams_required: {
             input: null,
             prev: null,

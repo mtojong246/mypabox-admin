@@ -14,6 +14,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             edited_school_gre: {
                 ...field,
                 isEditMode: true,
+                edited_school_gre_general_notes: field.edited_school_gre_general_notes === null ? originalField.school_gre_general_notes : field.edited_school_gre_general_notes,
                 input: (field.edited_school_gre_required.input === null && field.edited_school_gre_recommended.input === null &&  field.edited_school_caspa_gre_institution_code.input === null
                     && field.edited_school_gre_institution_code.input === null && field.edited_school_minimum_time_frame_gre_must_be_completed.input === null && 
                     field.edited_school_mcat_accepted_in_place_of_gre.input === null && field.edited_school_gre_exempt_with_masters_degree.input === null && field.edited_school_gre_exempt_with_phd_degree.input === null
@@ -41,19 +42,25 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                 edited_school_minimum_time_frame_gre_must_be_completed: {
                     ...field.edited_school_minimum_time_frame_gre_must_be_completed,
                     input: field.edited_school_minimum_time_frame_gre_must_be_completed.input === null ? originalField.school_minimum_time_frame_gre_must_be_completed && originalField.school_minimum_time_frame_gre_must_be_completed.input : field.edited_school_minimum_time_frame_gre_must_be_completed.input,
+                    notes: field.edited_school_minimum_time_frame_gre_must_be_completed.notes === null ? originalField.school_minimum_time_frame_gre_must_be_completed && originalField.school_minimum_time_frame_gre_must_be_completed.school_minimum_time_frame_gre_must_be_completed_notes : field.edited_school_minimum_time_frame_gre_must_be_completed.notes,
                 },
                 edited_school_mcat_accepted_in_place_of_gre: {
                     ...field.edited_school_mcat_accepted_in_place_of_gre,
                     input: field.edited_school_mcat_accepted_in_place_of_gre.input === null ? originalField.school_mcat_accepted_in_place_of_gre && originalField.school_mcat_accepted_in_place_of_gre.input : field.edited_school_mcat_accepted_in_place_of_gre.input,
+                    notes: field.edited_school_mcat_accepted_in_place_of_gre.notes === null ? originalField.school_mcat_accepted_in_place_of_gre && originalField.school_mcat_accepted_in_place_of_gre.school_mcat_accepted_in_place_of_gre_notes : field.edited_school_mcat_accepted_in_place_of_gre.notes,
                 },
                 edited_school_gre_exempt_with_masters_degree: {
                     ...field.edited_school_gre_exempt_with_masters_degree,
                     input: field.edited_school_gre_exempt_with_masters_degree.input === null ? originalField.school_gre_exempt_with_masters_degree && originalField.school_gre_exempt_with_masters_degree.input : field.edited_school_gre_exempt_with_masters_degree.input,
+                    notes: field.edited_school_gre_exempt_with_masters_degree.notes === null ? originalField.school_gre_exempt_with_masters_degree && originalField.school_gre_exempt_with_masters_degree.school_gre_exempt_with_masters_degree_notes : field.edited_school_gre_exempt_with_masters_degree.notes,
                 },
                 edited_school_gre_exempt_with_phd_degree: {
                     ...field.edited_school_gre_exempt_with_phd_degree,
                     input: field.edited_school_gre_exempt_with_phd_degree.input === null ? originalField.school_gre_exempt_with_phd_degree && originalField.school_gre_exempt_with_phd_degree.input : field.edited_school_gre_exempt_with_phd_degree.input,
+                    notes: field.edited_school_gre_exempt_with_phd_degree.notes === null ? originalField.school_gre_exempt_with_phd_degree && originalField.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes : field.edited_school_gre_exempt_with_phd_degree.notes,
                 },
+                edited_school_minimum_gre_percentile_notes: field.edited_school_minimum_gre_percentile_notes === null ? originalField.school_minimum_gre_percentile_notes : field.edited_school_minimum_gre_percentile_notes,
+                edited_school_minimum_gre_score_notes: field.edited_school_minimum_gre_score_notes === null ? originalField.school_minimum_gre_score_notes : field.edited_school_minimum_gre_score_notes,
                 edited_school_minimum_gre_scores_required: {
                     ...field.edited_school_minimum_gre_scores_required,
                     input: field.edited_school_minimum_gre_scores_required.input === null ? originalField.school_minimum_gre_scores_required : field.edited_school_minimum_gre_scores_required.input,
@@ -144,6 +151,12 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                     ...field.edited_school_english_proficiency_exams_required,
                     input: field.edited_school_english_proficiency_exams_required.input === null ? originalField.school_english_proficiency_exams_required : field.edited_school_english_proficiency_exams_required.input,
                 },
+                edited_school_ielt_minimum_score_notes: field.edited_school_ielt_minimum_score_notes === null ? originalField.school_ielt_minimum_score_notes : field.edited_school_ielt_minimum_score_notes,
+                edited_school_itep_academic_plus_minimum_score_notes: field.edited_school_itep_academic_plus_minimum_score_notes === null ? originalField.school_itep_academic_plus_minimum_score_notes : field.edited_school_itep_academic_plus_minimum_score_notes,
+                edited_school_melab_minimum_score_notes: field.edited_school_melab_minimum_score_notes === null ? originalField.school_melab_minimum_score_notes : field.edited_school_melab_minimum_score_notes,
+                edited_school_pte_academic_minimum_score_notes: field.edited_school_pte_academic_minimum_score_notes === null ? originalField.school_pte_academic_minimum_score_notes : field.edited_school_pte_academic_minimum_score_notes,
+                edited_school_toefl_ibt_minimum_score_notes: field.edited_school_toefl_ibt_minimum_score_notes === null ? originalField.school_toefl_ibt_minimum_score_notes : field.edited_school_toefl_ibt_minimum_score_notes,
+                edited_school_toefl_pbt_minimum_score_notes: field.edited_school_toefl_pbt_minimum_score_notes === null ? originalField.school_toefl_pbt_minimum_score_notes : field.edited_school_toefl_pbt_minimum_score_notes,
                 edited_school_toefl_required: {
                     ...field.edited_school_toefl_required,
                     input: field.edited_school_toefl_required.input === null ? originalField.school_toefl_required : field.edited_school_toefl_required.input,
@@ -269,6 +282,28 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const originalField = newSchool.school_gre;
             setNewSchool({
                 ...newSchool,
+                school_gre: {
+                    ...originalField,
+                    school_gre_general_notes: field.edited_school_gre_general_notes ? field.edited_school_gre_general_notes : originalField.school_gre_general_notes,
+                    school_minimum_gre_score_notes: field.edited_school_minimum_gre_score_notes ? field.edited_school_minimum_gre_score_notes : originalField.school_minimum_gre_score_notes,
+                    school_minimum_gre_percentile_notes: field.edited_school_minimum_gre_percentile_notes ? field.edited_school_minimum_gre_percentile_notes : originalField.school_minimum_gre_percentile_notes,
+                    school_minimum_time_frame_gre_must_be_completed: field.edited_school_minimum_time_frame_gre_must_be_completed ? {
+                        input: originalField.school_minimum_time_frame_gre_must_be_completed ? originalField.school_minimum_time_frame_gre_must_be_completed.input : '',
+                        school_minimum_time_frame_gre_must_be_completed_notes: field.edited_school_minimum_time_frame_gre_must_be_completed.notes ? field.edited_school_minimum_time_frame_gre_must_be_completed.notes : originalField.school_minimum_time_frame_gre_must_be_completed ? originalField.school_minimum_time_frame_gre_must_be_completed.school_minimum_time_frame_gre_must_be_completed_notes : [],
+                    } : originalField.school_minimum_time_frame_gre_must_be_completed,
+                    school_mcat_accepted_in_place_of_gre: field.edited_school_mcat_accepted_in_place_of_gre ? {
+                        input: originalField.school_mcat_accepted_in_place_of_gre ? originalField.school_mcat_accepted_in_place_of_gre.input : false,
+                        school_mcat_accepted_in_place_of_gre_notes: field.edited_school_mcat_accepted_in_place_of_gre.notes ? field.edited_school_mcat_accepted_in_place_of_gre.notes : originalField.school_mcat_accepted_in_place_of_gre ? originalField.school_mcat_accepted_in_place_of_gre.school_mcat_accepted_in_place_of_gre_notes : [],
+                    } : originalField.school_mcat_accepted_in_place_of_gre,
+                    school_gre_exempt_with_masters_degree: field.edited_school_gre_exempt_with_masters_degree ? {
+                        input: originalField.school_gre_exempt_with_masters_degree ? originalField.school_gre_exempt_with_masters_degree.input : false,
+                        school_gre_exempt_with_masters_degree_notes: field.edited_school_gre_exempt_with_masters_degree.notes ? field.edited_school_gre_exempt_with_masters_degree.notes : originalField.school_gre_exempt_with_masters_degree ? originalField.school_gre_exempt_with_masters_degree.school_gre_exempt_with_masters_degree_notes : [],
+                    } : originalField.school_gre_exempt_with_masters_degree,
+                    school_gre_exempt_with_phd_degree: field.edited_school_gre_exempt_with_phd_degree ? {
+                        input: originalField.school_gre_exempt_with_phd_degree ? originalField.school_gre_exempt_with_phd_degree.input : false,
+                        school_gre_exempt_with_phd_degree_notes: field.edited_school_gre_exempt_with_phd_degree.notes ? field.edited_school_gre_exempt_with_phd_degree.notes : originalField.school_gre_exempt_with_phd_degree ? originalField.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes : [],
+                    } : originalField.school_gre_exempt_with_phd_degree,
+                },
                 edited_school_gre: {
                     ...field,
                     isEditMode: false,
@@ -412,6 +447,15 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             const originalField = newSchool.school_english_proficiency_exams;
             setNewSchool({
                 ...newSchool,
+                school_english_proficiency_exams: {
+                    ...originalField,
+                    school_ielt_minimum_score_notes: field.edited_school_ielt_minimum_score_notes ? field.edited_school_ielt_minimum_score_notes : originalField.school_ielt_minimum_score_notes,
+                    school_melab_minimum_score_notes: field.edited_school_melab_minimum_score_notes ? field.edited_school_melab_minimum_score_notes : originalField.school_melab_minimum_score_notes,
+                    school_toefl_ibt_minimum_score_notes: field.edited_school_toefl_ibt_minimum_score_notes ? field.edited_school_toefl_ibt_minimum_score_notes : originalField.school_toefl_ibt_minimum_score_notes,
+                    school_toefl_pbt_minimum_score_notes: field.edited_school_toefl_pbt_minimum_score_notes ? field.edited_school_toefl_pbt_minimum_score_notes : originalField.school_toefl_pbt_minimum_score_notes,
+                    school_pte_academic_minimum_score_notes: field.edited_school_pte_academic_minimum_score_notes ? field.edited_school_pte_academic_minimum_score_notes : originalField.school_pte_academic_minimum_score_notes,
+                    school_itep_academic_plus_minimum_score_notes: field.edited_school_itep_academic_plus_minimum_score_notes ? field.edited_school_itep_academic_plus_minimum_score_notes : originalField.school_itep_academic_plus_minimum_score_notes,
+                },
                 edited_school_english_proficiency_exams: {
                     ...field,
                     isEditMode: false,
@@ -560,29 +604,29 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 school_gre: {
                     ...originalField,
+                    school_gre_general_notes: field.edited_school_gre_general_notes ? field.edited_school_gre_general_notes : originalField.school_gre_general_notes,
+                    school_minimum_gre_score_notes: field.edited_school_minimum_gre_score_notes ? field.edited_school_minimum_gre_score_notes : originalField.school_minimum_gre_score_notes,
+                    school_minimum_gre_percentile_notes: field.edited_school_minimum_gre_percentile_notes ? field.edited_school_minimum_gre_percentile_notes : originalField.school_minimum_gre_percentile_notes,
+                    school_minimum_time_frame_gre_must_be_completed: field.edited_school_minimum_time_frame_gre_must_be_completed ? {
+                        input: field.edited_school_minimum_time_frame_gre_must_be_completed.input ? field.edited_school_minimum_time_frame_gre_must_be_completed.input : originalField.school_minimum_time_frame_gre_must_be_completed ? originalField.school_minimum_time_frame_gre_must_be_completed.input : '',
+                        school_minimum_time_frame_gre_must_be_completed_notes: field.edited_school_minimum_time_frame_gre_must_be_completed.notes ? field.edited_school_minimum_time_frame_gre_must_be_completed.notes : originalField.school_minimum_time_frame_gre_must_be_completed ? originalField.school_minimum_time_frame_gre_must_be_completed.school_minimum_time_frame_gre_must_be_completed_notes : [],
+                    } : originalField.school_minimum_time_frame_gre_must_be_completed,
+                    school_mcat_accepted_in_place_of_gre: field.edited_school_mcat_accepted_in_place_of_gre ? {
+                        input: field.edited_school_mcat_accepted_in_place_of_gre.input ? field.edited_school_mcat_accepted_in_place_of_gre.input : originalField.school_mcat_accepted_in_place_of_gre ? originalField.school_mcat_accepted_in_place_of_gre.input : false,
+                        school_mcat_accepted_in_place_of_gre_notes: field.edited_school_mcat_accepted_in_place_of_gre.notes ? field.edited_school_mcat_accepted_in_place_of_gre.notes : originalField.school_mcat_accepted_in_place_of_gre ? originalField.school_mcat_accepted_in_place_of_gre.school_mcat_accepted_in_place_of_gre_notes : [],
+                    } : originalField.school_mcat_accepted_in_place_of_gre,
+                    school_gre_exempt_with_masters_degree: field.edited_school_gre_exempt_with_masters_degree ? {
+                        input: field.edited_school_gre_exempt_with_masters_degree.input ? field.edited_school_gre_exempt_with_masters_degree.input : originalField.school_gre_exempt_with_masters_degree ? originalField.school_gre_exempt_with_masters_degree.input : false,
+                        school_gre_exempt_with_masters_degree_notes: field.edited_school_gre_exempt_with_masters_degree.notes ? field.edited_school_gre_exempt_with_masters_degree.notes : originalField.school_gre_exempt_with_masters_degree ? originalField.school_gre_exempt_with_masters_degree.school_gre_exempt_with_masters_degree_notes : [],
+                    } : originalField.school_gre_exempt_with_masters_degree,
+                    school_gre_exempt_with_phd_degree: field.edited_school_gre_exempt_with_phd_degree ? {
+                        input: field.edited_school_gre_exempt_with_phd_degree.input ? field.edited_school_gre_exempt_with_phd_degree.input : originalField.school_gre_exempt_with_phd_degree ? originalField.school_gre_exempt_with_phd_degree.input : false,
+                        school_gre_exempt_with_phd_degree_notes: field.edited_school_gre_exempt_with_phd_degree.notes ? field.edited_school_gre_exempt_with_phd_degree.notes : originalField.school_gre_exempt_with_phd_degree ? originalField.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes : [],
+                    } : originalField.school_gre_exempt_with_phd_degree,
                     school_gre_required: field.edited_school_gre_required.input === null ? originalField.school_gre_required : field.edited_school_gre_required.input,
                     school_gre_recommended: field.edited_school_gre_recommended.input === null ? originalField.school_gre_recommended : field.edited_school_gre_recommended.input,
                     school_caspa_gre_institution_code: field.edited_school_caspa_gre_institution_code.input === null ? originalField.school_caspa_gre_institution_code : field.edited_school_caspa_gre_institution_code.input,
                     school_gre_institution_code: field.edited_school_gre_institution_code.input === null ? originalField.school_gre_institution_code : field.edited_school_gre_institution_code.input,
-            
-                    school_minimum_time_frame_gre_must_be_completed: field.edited_school_minimum_time_frame_gre_must_be_completed.input ? {
-                        input: field.edited_school_minimum_time_frame_gre_must_be_completed.input,
-                        school_minimum_time_frame_gre_must_be_completed_notes: originalField.school_minimum_time_frame_gre_must_be_completed ? originalField.school_minimum_time_frame_gre_must_be_completed.school_minimum_time_frame_gre_must_be_completed_notes : [],
-                    } : originalField.school_minimum_time_frame_gre_must_be_completed,
-            
-                    school_mcat_accepted_in_place_of_gre: field.edited_school_mcat_accepted_in_place_of_gre.input ? {
-                        input: field.edited_school_mcat_accepted_in_place_of_gre.input,
-                        school_mcat_accepted_in_place_of_gre_notes: originalField.school_mcat_accepted_in_place_of_gre ? originalField.school_mcat_accepted_in_place_of_gre.school_mcat_accepted_in_place_of_gre_notes : [],
-                    } : originalField.school_mcat_accepted_in_place_of_gre,
-                    school_gre_exempt_with_masters_degree: field.edited_school_gre_exempt_with_masters_degree.input ? {
-                        input: field.edited_school_gre_exempt_with_masters_degree.input,
-                        school_gre_exempt_with_masters_degree_notes: originalField.school_gre_exempt_with_masters_degree ? originalField.school_gre_exempt_with_masters_degree.school_gre_exempt_with_masters_degree_notes : [],
-                    } : originalField.school_gre_exempt_with_masters_degree,
-            
-                    school_gre_exempt_with_phd_degree: field.edited_school_gre_exempt_with_phd_degree.input ? {
-                        input: field.edited_school_gre_exempt_with_phd_degree.input,
-                        school_gre_exempt_with_phd_degree_notes: originalField.school_gre_exempt_with_phd_degree ? originalField.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes : [],
-                    } : originalField.school_gre_exempt_with_phd_degree,
             
                     school_minimum_gre_scores_required: field.edited_school_minimum_gre_scores_required.input === null ? originalField.school_minimum_gre_scores_required : field.edited_school_minimum_gre_scores_required.input,
                     school_gre_minimum_verbal_score: field.edited_school_gre_minimum_verbal_score.input === null ? originalField.school_gre_minimum_verbal_score : field.edited_school_gre_minimum_verbal_score.input,
@@ -609,6 +653,9 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     link: '',
                     isEditMode: false,
                     input: null,
+                    edited_school_gre_general_notes: null,
+                    edited_school_minimum_gre_percentile_notes: null,
+                    edited_school_minimum_gre_score_notes: null,
                     edited_school_gre_required: {
                         input: null,
                         prev: null,
@@ -628,18 +675,22 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     edited_school_minimum_time_frame_gre_must_be_completed: {
                         input: null,
                         prev: null,
+                        notes: null,
                     },
                     edited_school_mcat_accepted_in_place_of_gre: {
                         input: null,
                         prev: null,
+                        notes: null,
                     },
                     edited_school_gre_exempt_with_masters_degree: {
                         input: null,
                         prev: null,
+                        notes: null,
                     },
                     edited_school_gre_exempt_with_phd_degree: {
                         input: null,
                         prev: null,
+                        notes: null,
                     },
                     edited_school_minimum_gre_scores_required: {
                         input: null,
@@ -718,6 +769,13 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...originalField,
+                    school_ielt_minimum_score_notes: field.edited_school_ielt_minimum_score_notes ? field.edited_school_ielt_minimum_score_notes : originalField.school_ielt_minimum_score_notes,
+                    school_melab_minimum_score_notes: field.edited_school_melab_minimum_score_notes ? field.edited_school_melab_minimum_score_notes : originalField.school_melab_minimum_score_notes,
+                    school_toefl_ibt_minimum_score_notes: field.edited_school_toefl_ibt_minimum_score_notes ? field.edited_school_toefl_ibt_minimum_score_notes : originalField.school_toefl_ibt_minimum_score_notes,
+                    school_toefl_pbt_minimum_score_notes: field.edited_school_toefl_pbt_minimum_score_notes ? field.edited_school_toefl_pbt_minimum_score_notes : originalField.school_toefl_pbt_minimum_score_notes,
+                    school_pte_academic_minimum_score_notes: field.edited_school_pte_academic_minimum_score_notes ? field.edited_school_pte_academic_minimum_score_notes : originalField.school_pte_academic_minimum_score_notes,
+                    school_itep_academic_plus_minimum_score_notes: field.edited_school_itep_academic_plus_minimum_score_notes ? field.edited_school_itep_academic_plus_minimum_score_notes : originalField.school_itep_academic_plus_minimum_score_notes,
+
                     school_english_proficiency_exams_required: field.edited_school_english_proficiency_exams_required.input === null ? originalField.school_english_proficiency_exams_required : field.edited_school_english_proficiency_exams_required.input,
                     school_toefl_required: field.edited_school_toefl_required.input === null ? originalField.school_toefl_required : field.edited_school_toefl_required.input,
                     school_minimum_time_frame_toefl_needs_to_be_completed: field.edited_school_minimum_time_frame_toefl_needs_to_be_completed.input === null ? originalField.school_minimum_time_frame_toefl_needs_to_be_completed : field.edited_school_minimum_time_frame_toefl_needs_to_be_completed.input,
@@ -752,6 +810,12 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     link: '',
                     isEditMode: false,
                     input: null,
+                    edited_school_ielt_minimum_score_notes: null,
+                    edited_school_itep_academic_plus_minimum_score_notes: null,
+                    edited_school_melab_minimum_score_notes: null,
+                    edited_school_pte_academic_minimum_score_notes: null,
+                    edited_school_toefl_ibt_minimum_score_notes: null,
+                    edited_school_toefl_pbt_minimum_score_notes: null,
                     edited_school_english_proficiency_exams_required: {
                         input: null,
                         prev: null,
@@ -1174,6 +1238,9 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 link: '',
                 isEditMode: false,
                 input: null,
+                edited_school_gre_general_notes: null,
+                edited_school_minimum_gre_percentile_notes: null,
+                edited_school_minimum_gre_score_notes: null,
                 edited_school_gre_required: {
                     input: null,
                     prev: null,
@@ -1193,18 +1260,22 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 edited_school_minimum_time_frame_gre_must_be_completed: {
                     input: null,
                     prev: null,
+                    notes: null,
                 },
                 edited_school_mcat_accepted_in_place_of_gre: {
                     input: null,
                     prev: null,
+                    notes: null,
                 },
                 edited_school_gre_exempt_with_masters_degree: {
                     input: null,
                     prev: null,
+                    notes: null,
                 },
                 edited_school_gre_exempt_with_phd_degree: {
                     input: null,
                     prev: null,
+                    notes: null,
                 },
                 edited_school_minimum_gre_scores_required: {
                     input: null,
@@ -1283,6 +1354,12 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 link: '',
                 isEditMode: false,
                 input: null,
+                edited_school_ielt_minimum_score_notes: null,
+                edited_school_itep_academic_plus_minimum_score_notes: null,
+                edited_school_melab_minimum_score_notes: null,
+                edited_school_pte_academic_minimum_score_notes: null,
+                edited_school_toefl_ibt_minimum_score_notes: null,
+                edited_school_toefl_pbt_minimum_score_notes: null,
                 edited_school_english_proficiency_exams_required: {
                     input: null,
                     prev: null,

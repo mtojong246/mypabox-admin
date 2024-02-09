@@ -1,9 +1,6 @@
 import { School, Note } from '../../../../types/schools.types'
 import { Dispatch, SetStateAction, ChangeEvent, useEffect, useState, MouseEvent } from 'react'
 import AddNote from '../Prereqs/AddNote'
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi'
-import ReactQuill from 'react-quill'
 import { UserObject } from '../../../../types/users.types';
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
@@ -12,6 +9,7 @@ import EditButtons from '../../Assets/EditButtons'
 import BooleanFields from '../../Assets/BooleanFields'
 import InputFields from '../../Assets/InputsFields'
 import SelectInputsFields from '../../Assets/SelectInputsFields'
+import AddNoteFields from '../../Assets/AddNoteFields'
 
 const options = [
     { value: 'Weeks', label: 'Weeks' },
@@ -488,6 +486,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
     }
 
     const addNote = (note: Note) => {
+        if (loggedInUser.permissions.canAddOrDelete) {
             setNewSchool({
                 ...newSchool,
                 school_english_proficiency_exams: {
@@ -495,33 +494,71 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     [name]: (newSchool.school_english_proficiency_exams[name as keyof object] as Note[]).concat(note)
                 }
             })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_english_proficiency_exams: {
+                    ...newSchool.edited_school_english_proficiency_exams,
+                    [`edited_${name}`]: (newSchool.edited_school_english_proficiency_exams[`edited_${name}` as keyof object] as Note[]) ? (newSchool.edited_school_english_proficiency_exams[`edited_${name}` as keyof object] as Note[]).concat(note) : [note]
+                }
+            })
+        }
+            
         }
 
     const updateNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_english_proficiency_exams: {
-                ...newSchool.school_english_proficiency_exams,
-                [name]: (newSchool.school_english_proficiency_exams[name as keyof object] as Note[]).map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_english_proficiency_exams: {
+                    ...newSchool.school_english_proficiency_exams,
+                    [name]: (newSchool.school_english_proficiency_exams[name as keyof object] as Note[]).map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_english_proficiency_exams: {
+                    ...newSchool.edited_school_english_proficiency_exams,
+                    [`edited_${name}`]: (newSchool.edited_school_english_proficiency_exams[`edited_${name}` as keyof object] as Note[])!.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     }
 
     const deleteNote = (e:any, index: number, name: string) => {
         e.preventDefault();
-        setNewSchool({
-            ...newSchool,
-            school_english_proficiency_exams: {
-                ...newSchool.school_english_proficiency_exams,
-                [name]: (newSchool.school_english_proficiency_exams[name as keyof object] as Note[]).filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_english_proficiency_exams: {
+                    ...newSchool.school_english_proficiency_exams,
+                    [name]: (newSchool.school_english_proficiency_exams[name as keyof object] as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_english_proficiency_exams: {
+                    ...newSchool.edited_school_english_proficiency_exams,
+                    [`edited_${name}`]: (newSchool.edited_school_english_proficiency_exams[`edited_${name}` as keyof object] as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -696,7 +733,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_ibt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
                             {newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -709,7 +746,10 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
+                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes} name='school_toefl_ibt_minimum_score_notes' toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                     </div>
                     </div>
 
@@ -761,7 +801,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_pbt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
                             {newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -774,7 +814,10 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
+                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes} name='school_toefl_pbt_minimum_score_notes' toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                         </div>
                     </div>
                     
@@ -808,7 +851,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 Add Note
                             </button>
                         </div>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
@@ -821,7 +864,10 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes} name='school_ielt_minimum_score_notes' toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                     </div>
                     )}
                 </div>
@@ -851,7 +897,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 Add Note
                             </button>
                         </div>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes && newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes && newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes && newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
@@ -864,7 +910,10 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_melab_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes} name='school_melab_minimum_score_notes' toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                     </div>
                     )}
                 </div>
@@ -894,7 +943,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 Add Note
                             </button>
                         </div>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes && newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes && newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes && newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
@@ -907,7 +956,10 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_pte_academic_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes} name='school_pte_academic_minimum_score_notes' toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                     </div>
                     )}
                 </div>
@@ -937,7 +989,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 Add Note
                             </button>
                         </div>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes && newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes && newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes && newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
@@ -950,7 +1002,10 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_itep_academic_plus_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes} name='school_itep_academic_plus_minimum_score_notes' toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                     </div>
                     )}
                 </div>

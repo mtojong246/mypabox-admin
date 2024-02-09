@@ -1,8 +1,5 @@
 import { School, Note } from "../../../../types/schools.types"
 import { Dispatch, SetStateAction, ChangeEvent, useState, useEffect, MouseEvent } from "react"
-import ReactQuill from 'react-quill';
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi'
 import AddNote from "../Prereqs/AddNote";
 import { UserObject } from "../../../../types/users.types";
 
@@ -10,6 +7,7 @@ import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
 import BooleanFields from "../../Assets/BooleanFields";
 import EditButtons from "../../Assets/EditButtons";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
     const [ index, setIndex ] = useState<number | null>(null);
@@ -77,39 +75,78 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
     }
 
     const addNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_casper: {
-                ...newSchool.school_casper,
-                school_casper_exam_notes: newSchool.school_casper.school_casper_exam_notes.concat(note)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_casper: {
+                    ...newSchool.school_casper,
+                    school_casper_exam_notes: newSchool.school_casper.school_casper_exam_notes.concat(note)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_casper: {
+                    ...newSchool.edited_school_casper,
+                    notes: newSchool.edited_school_casper.notes!.concat(note)
+                }
+            })
+        }
+        
     }
 
     const updateNote = (note: Note) => {
-        setNewSchool({
-            ...newSchool,
-            school_casper: {
-                ...newSchool.school_casper,
-                school_casper_exam_notes: newSchool.school_casper.school_casper_exam_notes.map((n,i) => {
-                    if (i === index) {
-                        return { ...note }
-                    } else {
-                        return { ...n }
-                    }
-                })
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_casper: {
+                    ...newSchool.school_casper,
+                    school_casper_exam_notes: newSchool.school_casper.school_casper_exam_notes.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_casper: {
+                    ...newSchool.edited_school_casper,
+                    notes: newSchool.edited_school_casper.notes!.map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
     }
 
     const deleteNote = (e:any, index: number) => {
-        setNewSchool({
-            ...newSchool,
-            school_casper: {
-                ...newSchool.school_casper,
-                school_casper_exam_notes: newSchool.school_casper.school_casper_exam_notes.filter((n,i) => i !== index)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setNewSchool({
+                ...newSchool,
+                school_casper: {
+                    ...newSchool.school_casper,
+                    school_casper_exam_notes: newSchool.school_casper.school_casper_exam_notes.filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            setNewSchool({
+                ...newSchool,
+                edited_school_casper: {
+                    ...newSchool.edited_school_casper,
+                    notes: newSchool.edited_school_casper.notes!.filter((n,i) => i !== index)
+                }
+            })
+        }
+        
     }
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -134,6 +171,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
             ...newSchool,
             edited_school_casper: {
                 ...newSchool.edited_school_casper,
+                notes: newSchool.edited_school_casper.notes === null ? newSchool.school_casper.school_casper_exam_notes : newSchool.edited_school_casper.notes,
                 input: (newSchool.edited_school_casper.edited_school_casper_required.input === null && newSchool.edited_school_casper.edited_school_casper_recommended.input === null) ? null : true,
                 edited_school_casper_required: {
                     ...newSchool.edited_school_casper.edited_school_casper_required,
@@ -154,6 +192,10 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
         if (!original) {
             setNewSchool({
                 ...newSchool,
+                school_casper: {
+                    ...newSchool.school_casper,
+                    school_casper_exam_notes: newSchool.edited_school_casper.notes ? newSchool.edited_school_casper.notes : newSchool.school_casper.school_casper_exam_notes,
+                },
                 edited_school_casper: {
                     ...newSchool.edited_school_casper,
                     input: newSchool.edited_school_casper.edited_school_casper_required.input === null ? null : true,
@@ -177,6 +219,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
                 ...newSchool,
                 school_casper: {
                     ...newSchool.school_casper,
+                    school_casper_exam_notes: newSchool.edited_school_casper.notes ? newSchool.edited_school_casper.notes : newSchool.school_casper.school_casper_exam_notes,
                     school_casper_required: newSchool.edited_school_casper.edited_school_casper_required.input !== null ? newSchool.edited_school_casper.edited_school_casper_required.input : newSchool.school_casper.school_casper_required,
                     school_casper_recommended: newSchool.edited_school_casper.edited_school_casper_recommended.input !== null ? newSchool.edited_school_casper.edited_school_casper_recommended.input : newSchool.school_casper.school_casper_recommended,
                 },
@@ -184,6 +227,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
                     ...newSchool.edited_school_casper,
                     link: '',
                     input: null,
+                    notes: null,
                     edited_school_casper_required: {
                         input: null,
                         prev: null,
@@ -228,6 +272,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
             edited_school_casper: {
                 link: '',
                 input: null,
+                notes: null,
                 edited_school_casper_required: {
                     input: null,
                     prev: null,
@@ -281,7 +326,7 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
                     <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_casper.school_casper_exam_notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_casper.school_casper_exam_notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_casper.school_casper_exam_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full mb-1'>
@@ -294,7 +339,10 @@ export default function Casper({ newSchool, setNewSchool, loggedInUser, isEdit }
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                     ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_casper.edited_school_casper_required.isEditMode} notes={newSchool.edited_school_casper.notes} originalNotes={newSchool.school_casper.school_casper_exam_notes} name='school_casper' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                    />
                 </div>
             </div>
             {isEdit && 

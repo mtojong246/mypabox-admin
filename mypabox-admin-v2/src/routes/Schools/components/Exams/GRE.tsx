@@ -1,9 +1,6 @@
-import ReactQuill from 'react-quill';
 import { Note, School } from '../../../../types/schools.types';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from 'react';
 import AddNote from '../Prereqs/AddNote';
-import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi';
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
 import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from './ExamFunctions';
@@ -12,6 +9,7 @@ import EditButtons from '../../Assets/EditButtons';
 import BooleanFields from '../../Assets/BooleanFields';
 import InputFields from '../../Assets/InputsFields';
 import SelectInputsFields from '../../Assets/SelectInputsFields';
+import AddNoteFields from '../../Assets/AddNoteFields';
 
 const options = [
     { value: 'Weeks', label: 'Weeks' },
@@ -336,53 +334,62 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
     }
 
     const addNote = (note: Note) => {
-        if (!isGroup) {
-            setNewSchool({
-                ...newSchool,
-                school_gre: {
-                    ...newSchool.school_gre,
-                    [name]: (newSchool.school_gre[name as keyof object] as Note[]).concat(note)
-                }
-            })
-        } else {
-            const field = newSchool.school_gre[name as keyof object] as object;
-            setNewSchool({
-                ...newSchool,
-                school_gre: {
-                    ...newSchool.school_gre,
-                    [name]: {
-                        ...field,
-                        [noteName]: (field[noteName as keyof object] as Note[]).concat(note)
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (!isGroup) {
+                setNewSchool({
+                    ...newSchool,
+                    school_gre: {
+                        ...newSchool.school_gre,
+                        [name]: (newSchool.school_gre[name as keyof object] as Note[]).concat(note)
                     }
-                }
-            })
+                })
+            } else {
+                const field = newSchool.school_gre[name as keyof object] as object;
+                setNewSchool({
+                    ...newSchool,
+                    school_gre: {
+                        ...newSchool.school_gre,
+                        [name]: {
+                            ...field,
+                            [noteName]: (field[noteName as keyof object] as Note[]).concat(note)
+                        }
+                    }
+                })
+            }
+        } else {
+            if (!isGroup) {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_gre: {
+                        ...newSchool.edited_school_gre,
+                        [`edited_${name}`]: (newSchool.edited_school_gre[`edited_${name}` as keyof object] as Note[]) ? (newSchool.edited_school_gre[`edited_${name}` as keyof object] as Note[]).concat(note) : [note]
+                    }
+                })
+            } else {
+                const field = newSchool.edited_school_gre[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_gre: {
+                        ...newSchool.edited_school_gre,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes ? field.notes.concat(note) : [note]
+                        }
+                    }
+                })
+            }
         }
+        
     }
 
     const updateNote = (note: Note) => {
-        if (!isGroup) {
-            setNewSchool({
-                ...newSchool,
-                school_gre: {
-                    ...newSchool.school_gre,
-                    [name]: (newSchool.school_gre[name as keyof object] as Note[]).map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else {
-            const field = newSchool.school_gre[name as keyof object] as object;
-            setNewSchool({
-                ...newSchool,
-                school_gre: {
-                    ...newSchool.school_gre,
-                    [name]: {
-                        ...field,
-                        [noteName]: (field[noteName as keyof object] as Note[]).map((n,i) => {
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (!isGroup) {
+                setNewSchool({
+                    ...newSchool,
+                    school_gre: {
+                        ...newSchool.school_gre,
+                        [name]: (newSchool.school_gre[name as keyof object] as Note[]).map((n,i) => {
                             if (i === index) {
                                 return { ...note }
                             } else {
@@ -390,34 +397,112 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                             }
                         })
                     }
-                }
-            })
+                })
+            } else {
+                const field = newSchool.school_gre[name as keyof object] as object;
+                setNewSchool({
+                    ...newSchool,
+                    school_gre: {
+                        ...newSchool.school_gre,
+                        [name]: {
+                            ...field,
+                            [noteName]: (field[noteName as keyof object] as Note[]).map((n,i) => {
+                                if (i === index) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+        } else {
+            if (!isGroup) {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_gre: {
+                        ...newSchool.edited_school_gre,
+                        [`edited_${name}`]: (newSchool.edited_school_gre[`edited_${name}` as keyof object] as Note[]).map((n,i) => {
+                            if (i === index) {
+                                return { ...note }
+                            } else {
+                                return { ...n }
+                            }
+                        })
+                    }
+                })
+            } else {
+                const field = newSchool.edited_school_gre[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_gre: {
+                        ...newSchool.edited_school_gre,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes.map((n:any,i:number) => {
+                                if (i === index) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
+                        }
+                    }
+                })
+            }
         }
+        
     }
 
     const deleteNote = (e:any, index: number, name?: string, noteName?: string) => {
         e.preventDefault();
-        if (name && !noteName) {
-            setNewSchool({
-                ...newSchool,
-                school_gre: {
-                    ...newSchool.school_gre,
-                    [name]: (newSchool.school_gre[name as keyof object] as Note[]).filter((n,i) => i !== index)
-                }
-            })
-        } else if (name && noteName) {
-            const field = newSchool.school_gre[name as keyof object] as object;
-            setNewSchool({
-                ...newSchool,
-                school_gre: {
-                    ...newSchool.school_gre,
-                    [name]: {
-                        ...field,
-                        [noteName]: (field[noteName as keyof object] as Note[]).filter((n,i) => i !== index)
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (name && !noteName) {
+                setNewSchool({
+                    ...newSchool,
+                    school_gre: {
+                        ...newSchool.school_gre,
+                        [name]: (newSchool.school_gre[name as keyof object] as Note[]).filter((n,i) => i !== index)
                     }
-                }
-            })
+                })
+            } else if (name && noteName) {
+                const field = newSchool.school_gre[name as keyof object] as object;
+                setNewSchool({
+                    ...newSchool,
+                    school_gre: {
+                        ...newSchool.school_gre,
+                        [name]: {
+                            ...field,
+                            [noteName]: (field[noteName as keyof object] as Note[]).filter((n,i) => i !== index)
+                        }
+                    }
+                })
+            }
+        } else {
+            if (name && !noteName) {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_gre: {
+                        ...newSchool.edited_school_gre,
+                        [`edited_${name}`]: (newSchool.edited_school_gre[`edited_${name}` as keyof object] as Note[]).filter((n,i) => i !== index)
+                    }
+                })
+            } else if (name && noteName) {
+                const field = newSchool.edited_school_gre[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_gre: {
+                        ...newSchool.edited_school_gre,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes.filter((n:any,i:any) => i !== index)
+                        }
+                    }
+                })
+            }
         }
+        
     };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -540,7 +625,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                         Add Note
                     </button>
                 </div>
-                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed && newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed?.school_minimum_time_frame_gre_must_be_completed_notes.length ? 'mt-3' : 'mt-0'}`}>
+                {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed && newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed?.school_minimum_time_frame_gre_must_be_completed_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed && newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed?.school_minimum_time_frame_gre_must_be_completed_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-center w-full mb-1'>
@@ -553,7 +638,10 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                     </div>
                 ))}
-                </div>        
+                </div>         */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_minimum_time_frame_gre_must_be_completed.notes} originalNotes={newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed ? newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed.school_minimum_time_frame_gre_must_be_completed_notes : null} name='school_minimum_time_frame_gre_must_be_completed' noteName='school_minimum_time_frame_gre_must_be_completed' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
             </div>
 
             
@@ -574,7 +662,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                         Add Note
                     </button>
                 </div>
-                {newSchool.school_gre.school_mcat_accepted_in_place_of_gre && (
+                {/* {newSchool.school_gre.school_mcat_accepted_in_place_of_gre && (
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_mcat_accepted_in_place_of_gre?.school_mcat_accepted_in_place_of_gre_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_gre.school_mcat_accepted_in_place_of_gre?.school_mcat_accepted_in_place_of_gre_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -590,7 +678,11 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                 ))}
                        
                 </div>
-                )}
+                
+                )} */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_mcat_accepted_in_place_of_gre.notes} originalNotes={newSchool.school_gre.school_mcat_accepted_in_place_of_gre ? newSchool.school_gre.school_mcat_accepted_in_place_of_gre.school_mcat_accepted_in_place_of_gre_notes : null} name='school_mcat_accepted_in_place_of_gre' noteName='school_mcat_accepted_in_place_of_gre_notes' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
             </div>
             
 
@@ -612,7 +704,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                         Add Note
                     </button>
                 </div>
-                {newSchool.school_gre.school_gre_exempt_with_masters_degree && (
+                {/* {newSchool.school_gre.school_gre_exempt_with_masters_degree && (
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_gre_exempt_with_masters_degree?.school_gre_exempt_with_masters_degree_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_gre.school_gre_exempt_with_masters_degree?.school_gre_exempt_with_masters_degree_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -627,7 +719,10 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                     </div>
                 ))}
                 </div>  
-                 )}      
+                 )}       */}
+                 <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_gre_exempt_with_masters_degree.notes} originalNotes={newSchool.school_gre.school_gre_exempt_with_masters_degree ? newSchool.school_gre.school_gre_exempt_with_masters_degree.school_gre_exempt_with_masters_degree_notes : null} name='school_gre_exempt_with_masters_degree' noteName='school_gre_exempt_with_masters_degree_notes' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
             </div>
            
 
@@ -649,7 +744,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                         Add Note
                     </button>
                 </div>
-                {newSchool.school_gre.school_gre_exempt_with_phd_degree && (
+                {/* {newSchool.school_gre.school_gre_exempt_with_phd_degree && (
                 <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_gre_exempt_with_phd_degree?.school_gre_exempt_with_phd_degree_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_gre.school_gre_exempt_with_phd_degree?.school_gre_exempt_with_phd_degree_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -664,7 +759,11 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                     </div>
                 ))}
                 </div>   
-                )}
+                
+                )} */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_gre_exempt_with_phd_degree.notes} originalNotes={newSchool.school_gre.school_gre_exempt_with_phd_degree ? newSchool.school_gre.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes : null} name='school_gre_exempt_with_phd_degreex' noteName='school_gre_exempt_with_phd_degree_notes' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
                
             </div>
             
@@ -718,7 +817,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                         <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_score_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_gre_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
+                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_gre_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_gre.school_minimum_gre_score_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
@@ -731,7 +830,10 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                        </div>       
+                        </div>        */}
+                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_minimum_gre_score_notes} originalNotes={newSchool.school_gre.school_minimum_gre_score_notes ? newSchool.school_gre.school_minimum_gre_score_notes : null} name='school_minimum_gre_score_notes' toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                     </div>
                 </div>
                 <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#545454]`}>
@@ -769,7 +871,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                         <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_percentile_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
-                        {newSchool.school_gre.school_minimum_gre_percentile_notes && (
+                        {/* {newSchool.school_gre.school_minimum_gre_percentile_notes && (
                         <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_minimum_gre_percentile_notes?.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_gre.school_minimum_gre_percentile_notes?.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -784,7 +886,10 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                             </div>
                         ))}
                         </div>   
-                        )}
+                        )} */}
+                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_minimum_gre_percentile_notes} originalNotes={newSchool.school_gre.school_minimum_gre_percentile_notes ? newSchool.school_gre.school_minimum_gre_percentile_notes : null} name='school_minimum_gre_percentile_notes' toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
                     </div>
                 </div>
 
@@ -866,7 +971,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                 <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_gre_general_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_gre_general_notes.length ? 'mt-3' : 'mt-0'}`}>
+                {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_gre.school_gre_general_notes.length ? 'mt-3' : 'mt-0'}`}>
                 {newSchool.school_gre.school_gre_general_notes.map((note, i) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                         <div className='flex justify-between items-center w-full mb-1'>
@@ -879,7 +984,10 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                     </div>
                 ))}
-                </div>
+                </div> */}
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_gre_general_notes} originalNotes={newSchool.school_gre.school_gre_general_notes ? newSchool.school_gre.school_gre_general_notes : null} name='school_gre_general_notes' toggleNotePopup={toggleNotePopup}
+                deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                />
             </div>
 
             
