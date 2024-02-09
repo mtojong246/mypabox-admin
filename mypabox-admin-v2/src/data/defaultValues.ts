@@ -958,6 +958,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
         edited_school_minimum_pa_shadowing_hours_required: {
             input: null,
             prev: null,
@@ -976,6 +977,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
         edited_school_minimum_pa_shadowing_hours_recommended: {
             input: null,
             prev: null,
@@ -993,6 +995,7 @@ export const defaultSchool: School = {
         prev: null,
         isEditMode: false,
         link: '',
+        notes: null,
     },
 
 

@@ -1,10 +1,8 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react";
 import { School, Note } from "../../../../types/schools.types";
 import AddNote from "../Prereqs/AddNote";
-import ReactQuill from "react-quill";
-import { FiEdit3 } from 'react-icons/fi'
-import { AiOutlineClose } from 'react-icons/ai'
 import LinkPopup from "../../LinkPopup";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 
@@ -90,44 +88,86 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
     }
 
     const addNote = (note: Note) => {
-        const field = newSchool[name as keyof School] as object;
-        setNewSchool({
-            ...newSchool,
-            [name]: {
-                ...field,
-                [noteName]: (field[noteName as keyof object] as Note[]).concat(note)
-            }
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const field = newSchool[name as keyof School] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    [noteName]: (field[noteName as keyof object] as Note[]).concat(note)
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof School] as any;
+            setNewSchool({
+                ...newSchool,
+                [`edited_${name}`]: {
+                    ...field,
+                    notes: field.notes.concat(note)
+                }
+            })
+        }
+        
 
     }
 
     const updateNote = (note: Note) => {
-    const field = newSchool[name as keyof School] as object;
-    setNewSchool({
-        ...newSchool,
-        [name]: {
-            ...field,
-            [noteName]: (field[noteName as keyof object] as Note[]).map((n,i) => {
-                if (i === index) {
-                    return { ...note }
-                } else {
-                    return { ...n }
-                }
-            })
-        }
-    })
-    }
-
-    const deleteNote = (e: any, index: number, name: string, noteName: string) => {
-        e.preventDefault();
+    if (loggedInUser.permissions.canAddOrDelete) {
         const field = newSchool[name as keyof School] as object;
         setNewSchool({
             ...newSchool,
             [name]: {
                 ...field,
-                [noteName]: (field[noteName as keyof object] as Note[]).filter((n,i) => i !== index)
+                [noteName]: (field[noteName as keyof object] as Note[]).map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
             }
         })
+    } else {
+        const field = newSchool[`edited_${name}` as keyof School] as any;
+        setNewSchool({
+            ...newSchool,
+            [`edited_${name}`]: {
+                ...field,
+                notes: field.notes.map((n:any,i:number) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
+            }
+        })
+    }
+    
+    }
+
+    const deleteNote = (e: any, index: number, name: string, noteName?: string) => {
+        e.preventDefault();
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const field = newSchool[name as keyof School] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    [noteName!]: (field[noteName as keyof object] as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        } else {
+            const field = newSchool[`edited_${name}` as keyof School] as any;
+            setNewSchool({
+                ...newSchool,
+                [`edited_${name}`]: {
+                    ...field,
+                    notes: field.notes.filter((n:any,i:number) => i !== index)
+                }
+            })
+        }
+        
     }
 
 
@@ -277,6 +317,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                             <span className="ml-3 text-xl text-black">{newSchool.school_pa_shadowing_required.input ? 'True' : 'False'}</span>
                         </label>
                     </div> */}
+                    
                     {isOpen && (
                         <div className={`mt-7 mx-4 mb-4 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                             <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum PA Shadowing Hours Required</label>   
@@ -292,7 +333,10 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                         <button onClick={(e) => {toggleNotePopup(e); setName('school_pa_shadowing_required'); setNoteName('school_minimum_pa_shadowing_hours_required_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required_notes.length ? 'mt-3' : 'mt-0'}`}>
+                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_pa_shadowing_required.isEditMode} notes={newSchool.edited_school_pa_shadowing_required.notes} originalNotes={newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required_notes} name='school_pa_shadowing_required' noteName="school_minimum_pa_shadowing_hours_required_notes" toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                            />
+                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
@@ -305,7 +349,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                        </div>       
+                        </div>        */}
                     </div>
                     )}
                 </div>
@@ -343,7 +387,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                         <button onClick={(e) => {toggleNotePopup(e); setName('school_pa_shadowing_recommended'); setNoteName('school_minimum_pa_shadowing_hours_recommended_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
-                        <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended_notes.length ? 'mt-3' : 'mt-0'}`}>
+                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended_notes.length ? 'mt-3' : 'mt-0'}`}>
                         {newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended_notes.map((note, i) => (
                             <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                 <div className='flex justify-between items-center w-full mb-1'>
@@ -356,7 +400,10 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                                 <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                             </div>
                         ))}
-                        </div>    
+                        </div>     */}
+                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_pa_shadowing_recommended.isEditMode} notes={newSchool.edited_school_pa_shadowing_recommended.notes} originalNotes={newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended_notes} name='school_pa_shadowing_recommended' noteName="school_minimum_pa_shadowing_hours_recommended_notes" toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                            />
                     </div>
                     )}
                 </div>
@@ -378,7 +425,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                             Add Note
                         </button>
                     </div>
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full mb-1'>
@@ -391,7 +438,10 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                     ))}
-                    </div>    
+                    </div>     */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.isEditMode} notes={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.notes} originalNotes={newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes} name='school_average_pa_shadowing_hours_accepted_previous_cycle' noteName="school_average_pa_shadowing_hours_accepted_previous_cycle_notes" toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    />
                 </div>
                 {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.isEditMode} input={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.input} link={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.link}
                 toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} newSchool={newSchool} setNewSchool={setNewSchool} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit}

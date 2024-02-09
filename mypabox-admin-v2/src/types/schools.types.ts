@@ -1091,6 +1091,7 @@ export interface School {
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
         edited_school_minimum_pa_shadowing_hours_required: {
             input: number | null;
             prev: number | null;
@@ -1109,6 +1110,7 @@ export interface School {
         prev: boolean | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
         edited_school_minimum_pa_shadowing_hours_recommended: {
             input: number | null;
             prev: number | null;
@@ -1126,6 +1128,7 @@ export interface School {
         prev: number | null;
         isEditMode: boolean;
         link: string;
+        notes: Note[] | null;
     }
 
     school_required_optional_exams: {
