@@ -254,10 +254,18 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, edited
         } else {
             note = e
         }
-        setRecommendedCourse({
-            ...recommendedCourse,
-            school_recommended_course_note_section: note,
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setRecommendedCourse({
+                ...recommendedCourse,
+                school_recommended_course_note_section: note,
+            })
+        } else {
+           editedOption && setEditedOption({
+                ...editedOption,
+                school_recommended_course_note_section: note,
+            })
+        }
+        
     }
 
 
@@ -282,6 +290,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, edited
         <div className='fixed top-0 left-0 right-0 bottom-0 z-50'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                 <div className='w-full max-w-[900px] rounded p-4 bg-white'>
+                <div className='max-h-[700px] overflow-auto'>
                     <p className='text-xl font-semibold mb-8'>{editedRecommendedCourse ? 'Edit' : 'Add'} Recommended Course</p>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
@@ -319,11 +328,12 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, edited
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>
-                        <ReactQuill readOnly={loggedInUser.permissions.canVerify ? false : true} className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={recommendedCourse.school_recommended_course_note_section}/>
+                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={editedOption ? editedOption.school_recommended_course_note_section : recommendedCourse.school_recommended_course_note_section}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
                         <button onClick={(e) => {input ? addOrEditCourse(e, true) : addOrEditCourse(e, false)}} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:text-white hover:bg-[#3558A0]'>{editedRecommendedCourse ? 'Edit' : 'Add'} course</button>
+                    </div>
                     </div>
                 </div>
             </div>
