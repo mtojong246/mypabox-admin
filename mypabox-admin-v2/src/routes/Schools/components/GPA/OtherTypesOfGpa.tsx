@@ -1,6 +1,3 @@
-import ReactQuill from "react-quill";
-import { FiEdit3 } from "react-icons/fi";
-import { AiOutlineClose } from "react-icons/ai";
 import { School, Note, OtherTypesOfGpaEvaluted } from "../../../../types/schools.types";
 import { MouseEvent, ChangeEvent, SetStateAction, Dispatch, useState, useEffect } from "react";
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
@@ -13,6 +10,7 @@ import { UserObject } from "../../../../types/users.types";
 import CreatableSelectField from "../../Assets/CreatableSelectField";
 import InputFields from "../../Assets/InputsFields";
 import SelectChoices from "../../Assets/SelectChoices";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 const typeOfGpa = [
     { value: 'Science', label: 'Science' },
@@ -31,7 +29,7 @@ const otherGpaDefault = {
 
 export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, isEdit}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
     const [index, setIndex] = useState<number | null>(null);
-    const [objIndex, setObjIndex] = useState(0)
+    const [objIndex, setObjIndex] = useState<number | undefined>(0)
     const [editedNote, setEditedNote] = useState<Note | null>(null);
     const [notePopup, setNotePopup] = useState(false);
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
@@ -213,62 +211,137 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
     }
 
     const addNote = (note: Note) => {
-        const obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === objIndex) as OtherTypesOfGpaEvaluted;
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === objIndex) as OtherTypesOfGpaEvaluted;
 
-        const currentField = newSchool.school_other_types_of_gpa_evaluated
-            const updatedObj = { ...obj, notes: obj.notes.concat(note) }
+            const currentField = newSchool.school_other_types_of_gpa_evaluated
+                const updatedObj = { ...obj, notes: obj.notes.concat(note) }
+                const updatedField = currentField.map((field, i) => {
+                    if (i === objIndex) {
+                        return updatedObj;
+                    } 
+                    return field;
+                })
+                setNewSchool({
+                    ...newSchool,
+                    school_other_types_of_gpa_evaluated: updatedField,
+                })
+        } else {
+            const obj = newSchool.edited_school_other_types_of_gpa_evaluated.input!.find((obj, i) => i === objIndex);
+
+            const currentField = newSchool.edited_school_other_types_of_gpa_evaluated.input!
+            const updatedObj = { ...obj!, notes: obj!.notes.concat(note) }
             const updatedField = currentField.map((field, i) => {
                 if (i === objIndex) {
                     return updatedObj;
-                } 
-                return field;
+                } else {
+                    return field;
+                }
+                
             })
             setNewSchool({
                 ...newSchool,
-                school_other_types_of_gpa_evaluated: updatedField,
+                edited_school_other_types_of_gpa_evaluated: {
+                    ...newSchool.edited_school_other_types_of_gpa_evaluated,
+                    input: updatedField,
+                },
             })
+        }
+        
             
         }
 
     const updateNote = (note: Note) => {
-        const obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === objIndex) as OtherTypesOfGpaEvaluted;
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === objIndex) as OtherTypesOfGpaEvaluted;
 
-        const currentField = newSchool.school_other_types_of_gpa_evaluated
-            const updatedObj = { ...obj, notes: obj.notes.map((n,i) => {
+            const currentField = newSchool.school_other_types_of_gpa_evaluated
+                const updatedObj = { ...obj, notes: obj.notes.map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                }) }
+                const updatedField = currentField.map((field, i) => {
+                    if (i === objIndex) {
+                        return updatedObj;
+                    } else {
+                        return field;
+                    }
+                    
+                })
+                setNewSchool({
+                    ...newSchool,
+                    school_other_types_of_gpa_evaluated: updatedField,
+                })
+        } else {
+            const obj = newSchool.edited_school_other_types_of_gpa_evaluated.input!.find((obj, i) => i === objIndex);
+
+            const currentField = newSchool.edited_school_other_types_of_gpa_evaluated
+            const updatedObj = { ...obj!, notes: obj!.notes.map((n,i) => {
                 if (i === index) {
                     return { ...note }
                 } else {
                     return { ...n }
                 }
             }) }
-            const updatedField = currentField.map((field, i) => {
+            const updatedField = currentField.input!.map((field, i) => {
                 if (i === objIndex) {
                     return updatedObj;
-                } 
-                return field;
+                } else {
+                    return field;
+                }
             })
             setNewSchool({
                 ...newSchool,
-                school_other_types_of_gpa_evaluated: updatedField,
+                edited_school_other_types_of_gpa_evaluated: {
+                    ...newSchool.edited_school_other_types_of_gpa_evaluated,
+                    input: updatedField,
+                },
             })
+        }
+        
             
     };
 
-    const deleteNote = (e: any, objIndex: number, index: number) => {
-        const obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === objIndex) as OtherTypesOfGpaEvaluted;
+    const deleteNote = (e: any, index: number, name: string, noteName?: string, isIndividual?: boolean, objIndex?: number) => {
+        if (loggedInUser.permissions.canAddOrDelete) {
+            const obj = newSchool.school_other_types_of_gpa_evaluated.find((obj, i) => i === objIndex) as OtherTypesOfGpaEvaluted;
 
-        const currentField = newSchool.school_other_types_of_gpa_evaluated
-            const updatedObj = { ...obj, notes: obj.notes.filter((n,i) => i !== index) }
-            const updatedField = currentField.map((field, i) => {
+            const currentField = newSchool.school_other_types_of_gpa_evaluated
+                const updatedObj = { ...obj, notes: obj.notes.filter((n,i) => i !== index) }
+                const updatedField = currentField.map((field, i) => {
+                    if (i === objIndex) {
+                        return updatedObj;
+                    } 
+                    return field;
+                })
+                setNewSchool({
+                    ...newSchool,
+                    school_other_types_of_gpa_evaluated: updatedField,
+                })
+        } else {
+            const obj = newSchool.edited_school_other_types_of_gpa_evaluated.input!.find((obj, i) => i === objIndex);
+
+            const currentField = newSchool.edited_school_other_types_of_gpa_evaluated
+            const updatedObj = { ...obj!, notes: obj!.notes.filter((n,i) => i !== index) }
+            const updatedField = currentField.input!.map((field, i) => {
                 if (i === objIndex) {
                     return updatedObj;
-                } 
-                return field;
+                } else {
+                    return field;
+                }
             })
             setNewSchool({
                 ...newSchool,
-                school_other_types_of_gpa_evaluated: updatedField,
+                edited_school_other_types_of_gpa_evaluated: {
+                    ...newSchool.edited_school_other_types_of_gpa_evaluated,
+                    input: updatedField,
+                }
             })
+        }
+        
             
     }
 
@@ -365,7 +438,12 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
                         Add Note
                     </button>
                 </div>
-                {field.notes && field.notes.map((note: Note, index: number) => (
+                <div className='max-w-[900px] mx-4'>
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} notes={input ? input.notes : null} originalNotes={originalInput ? originalInput.notes : null} name='school_other_types_of_gpa_evaluated' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote} objIndex={objIndex} setObjIndex={setObjIndex}
+                    />
+                    </div>
+                {/* {field.notes && field.notes.map((note: Note, index: number) => (
                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded max-w-[900px] mt-3 mx-4'>
                         <div className='flex justify-between items-center w-full mb-1'>
                             <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
@@ -376,10 +454,11 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
                         </div>
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                     </div>
-                ))}
+                ))} */}
+
             </>
-            {i === newSchool.school_other_types_of_gpa_evaluated.length-1 ? (
-            <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_other_types_of_gpa_evaluated.input !== null) ? true : false} className="mx-4 mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={(e:any) => {input === null ? addField(e, false) : addField(e, true)}}>
+            {i === array.length-1 ? (
+            <button className="mx-4 mb-5 w-[180px] border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A] mt-8 block" onClick={(e:any) => {input === null ? addField(e, false) : addField(e, true)}}>
                 + Add New Field
             </button>
             ) : (
