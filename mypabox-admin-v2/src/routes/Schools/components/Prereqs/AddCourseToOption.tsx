@@ -229,10 +229,18 @@ export default function AddCourseToOption({ newSchool, loggedInUser, toggleCours
         } else {
             note = e
         }
-        setOptionalCourse({
-            ...optionalCourse,
-            school_optional_course_note_section: note,
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setOptionalCourse({
+                ...optionalCourse,
+                school_optional_course_note_section: note,
+            })
+        } else {
+            editedOption && setEditedOption({
+                ...editedOption,
+                school_optional_course_note_section: note,
+            })
+        }
+        
     };
 
     const addCourse = (isEditedInput: boolean) => {
@@ -336,7 +344,7 @@ export default function AddCourseToOption({ newSchool, loggedInUser, toggleCours
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>
-                        <ReactQuill readOnly={loggedInUser.permissions.canVerify ? false : true} className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={optionalCourse.school_optional_course_note_section}/>
+                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={editedOption ? editedOption.school_optional_course_note_section : optionalCourse.school_optional_course_note_section}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={(e) => {toggleCoursePopup(e); setEditedCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>

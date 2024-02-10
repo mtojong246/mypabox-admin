@@ -241,7 +241,6 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
     }
 
     const addNote = (note: Note) => {
-        console.log(note)
         if (loggedInUser.permissions.canAddOrDelete) {
             setOption({
                 ...option,

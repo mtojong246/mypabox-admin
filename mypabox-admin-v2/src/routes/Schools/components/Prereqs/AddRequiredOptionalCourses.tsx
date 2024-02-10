@@ -3,13 +3,12 @@ import { Note, School } from "../../../../types/schools.types"
 import AddCourseToOption from "./AddCourseToOption";
 import { useSelector } from "react-redux";
 import { selectCourses } from "../../../../app/selectors/courses.selectors";
-import ReactQuill from "react-quill";
-import { FiEdit3 } from 'react-icons/fi'
-import { AiOutlineClose } from 'react-icons/ai'
+
 import AddNote from "./AddNote";
 import { UserObject } from "../../../../types/users.types";
 import InputFields from "../../Assets/InputsFields";
 import OptionalCourses from "./OptionalCourses";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 const defaultGroup = {
     school_minimum_number_of_courses_to_be_completed: 0,
@@ -202,23 +201,45 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
     // }
 
     const addNote = (note: Note) => {
-        setGroup({
-            ...group,
-            school_optional_course_note_section: group.school_optional_course_note_section.concat(note)
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setGroup({
+                ...group,
+                school_optional_course_note_section: group.school_optional_course_note_section.concat(note)
+            })
+        } else {
+            editedGroup && setEditedGroup({
+                ...editedGroup,
+                school_optional_course_note_section: editedGroup.school_optional_course_note_section.concat(note)
+            })
+        }
+        
     }
 
     const updateNote = (note: Note) => {
-        setGroup({
-            ...group, 
-            school_optional_course_note_section: group.school_optional_course_note_section.map((n,i) => {
-                if (i === index) {
-                    return { ...note }
-                } else {
-                    return { ...n }
-                }
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setGroup({
+                ...group, 
+                school_optional_course_note_section: group.school_optional_course_note_section.map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
             })
-        })
+        } else {
+            editedGroup && setEditedGroup({
+                ...editedGroup, 
+                school_optional_course_note_section: editedGroup.school_optional_course_note_section.map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
+            })
+        }
+        
         setIndex(null)
     }
 
@@ -258,12 +279,20 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
         })
     }
 
-    const deleteNote = (e: any, index: number) => {
+    const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        setGroup({
-            ...group,
-            school_optional_course_note_section: group.school_optional_course_note_section.filter((course, i) => i !== index)
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setGroup({
+                ...group,
+                school_optional_course_note_section: group.school_optional_course_note_section.filter((course, i) => i !== index)
+            })
+        } else {
+            editedGroup && setEditedGroup({
+                ...editedGroup,
+                school_optional_course_note_section: editedGroup.school_optional_course_note_section.filter((course, i) => i !== index)
+            })
+        }
+        
     }
 
     const addOrUpdateGroup = (e:any, isEditedInput: boolean) => {
@@ -345,7 +374,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                             <button onClick={toggleNotePopup} className="block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded px-4 py-3 hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${group.school_optional_course_note_section.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${group.school_optional_course_note_section.length ? 'mt-3' : 'mt-0'}`}>
                             {group.school_optional_course_note_section.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -358,7 +387,9 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} notes={editedGroup ? editedGroup.school_optional_course_note_section : null} originalNotes={group.school_optional_course_note_section}
+                            setIndex={setIndex} name='school_optional_course_note_section' deleteNote={deleteNote} toggleNotePopup={toggleNotePopup} setEditedNote={setEditedNote}/>
                         </div>
                         <div className='w-full flex justify-end items-center gap-3'>
                             <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>

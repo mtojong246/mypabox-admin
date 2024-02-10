@@ -3,9 +3,6 @@ import { selectCategories } from '../../../../app/selectors/categories.selectors
 import { selectCourses } from '../../../../app/selectors/courses.selectors';
 import { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { Note, SchoolPrereqRequiredCourseCategory, School } from '../../../../types/schools.types';
-import { FiEdit3 } from 'react-icons/fi'
-import { AiOutlineClose } from 'react-icons/ai'
-import ReactQuill from 'react-quill';
 import AddNote from './AddNote';
 import AddIncludedOrExcludedCourses from './AddIncludedOrExcludedCourses';
 import { CategoryType } from '../../../../types/categories.types';
@@ -14,6 +11,7 @@ import { UserObject } from '../../../../types/users.types';
 import InputFields from '../../Assets/InputsFields';
 import IncludedFields from './CategoryCourses/IncludedFields';
 import ExcludedFields from './CategoryCourses/ExcludedFields';
+import AddNoteFields from '../../Assets/AddNoteFields';
 
 // interface CourseType {
 //     school_required_course_id: string;
@@ -234,6 +232,7 @@ export default function AddRequiredCourseCategories({ loggedInUser, toggleRequir
         }
     }
 
+
     // Updates required course, recommended course, required optional group or required course categories depending on index; then resets index
     const updateCourseOrCategory = (isEditedInput: boolean) => {
         if (!isEditedInput) {
@@ -253,7 +252,7 @@ export default function AddRequiredCourseCategories({ loggedInUser, toggleRequir
                 edited_school_prereq_required_course_categories: {
                     ...newSchool.edited_school_prereq_required_course_categories,
                     input: newSchool.edited_school_prereq_required_course_categories.input!.map((cat,i) => {
-                        if (i === index) {
+                        if (i === groupIndex) {
                             return { ...editedOption }
                         } else {
                             return { ...cat }
@@ -380,24 +379,46 @@ export default function AddRequiredCourseCategories({ loggedInUser, toggleRequir
 
     // Adds new note to course category
     const addNote = (note: Note) => {
-        setRequiredCategory({
-            ...requiredCategory,
-            school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.concat(note),
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setRequiredCategory({
+                ...requiredCategory,
+                school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.concat(note),
+            })
+        } else {
+            editedOption && setEditedOption({
+                ...editedOption,
+                school_required_course_category_note_section: editedOption.school_required_course_category_note_section.concat(note),
+            })
+        }
+        
     }
 
     // Updates note from course category using set index 
     const updateNote = (note: Note) => {
-        setRequiredCategory({
-            ...requiredCategory, 
-            school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.map((n,i) => {
-                if (i === index) {
-                    return { ...note }
-                } else {
-                    return { ...n }
-                }
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setRequiredCategory({
+                ...requiredCategory, 
+                school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
             })
-        })
+        } else {
+            editedOption && setEditedOption({
+                ...editedOption, 
+                school_required_course_category_note_section: editedOption.school_required_course_category_note_section.map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                })
+            })
+        }
+        
         // Resets index
         setIndex(null)
     }
@@ -405,12 +426,20 @@ export default function AddRequiredCourseCategories({ loggedInUser, toggleRequir
  
 
     // Deletes note from category
-    const deleteNote = (e: any, index: number) => {
+    const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        setRequiredCategory({
-            ...requiredCategory,
-            school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.filter((course,i) => i !== index)
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setRequiredCategory({
+                ...requiredCategory,
+                school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.filter((course,i) => i !== index)
+            })
+        } else {
+            editedOption && setEditedOption({
+                ...editedOption,
+                school_required_course_category_note_section: editedOption.school_required_course_category_note_section.filter((course,i) => i !== index)
+            })
+        }
+        
     }
 
     // Adds or updates entire category
@@ -549,7 +578,7 @@ export default function AddRequiredCourseCategories({ loggedInUser, toggleRequir
                             <button onClick={toggleNotePopup} className="block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded px-4 py-3 hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${requiredCategory.school_required_course_category_note_section.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${requiredCategory.school_required_course_category_note_section.length ? 'mt-3' : 'mt-0'}`}>
                             {requiredCategory.school_required_course_category_note_section.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -562,7 +591,10 @@ export default function AddRequiredCourseCategories({ loggedInUser, toggleRequir
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} notes={editedOption ? editedOption.school_required_course_category_note_section : null} originalNotes={requiredCategory.school_required_course_category_note_section} name='school_required_course_category_note_section' toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                            />
                         </div>
 
 
