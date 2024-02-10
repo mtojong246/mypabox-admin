@@ -1,9 +1,7 @@
 import CreatableSelect from 'react-select/creatable';
 import { School, Note } from '../../../../types/schools.types';
 import { ChangeEvent, Dispatch, SetStateAction, useState, useEffect, MouseEvent } from 'react';
-import ReactQuill from 'react-quill';
 import { AiOutlineClose } from 'react-icons/ai'
-import { FiEdit3 } from 'react-icons/fi'
 import AddNote from '../Prereqs/AddNote';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import Tooltip from '@mui/material/Tooltip';
@@ -11,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import { UserObject } from '../../../../types/users.types';
 import InputFields from '../../Assets/InputsFields';
 import { LuUndo2 } from 'react-icons/lu';
+import AddNoteFields from '../../Assets/AddNoteFields';
 
 const options = [
     {value: 'GRE', label: 'GRE'},
@@ -62,8 +61,6 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
     const [ index, setIndex ] = useState<number | null>(null);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
     const [ notePopup, setNotePopup ] = useState(false);
-
-    console.log(option)
 
     useEffect(() => {
         if (editedRequiredOption) {
@@ -244,33 +241,66 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
     }
 
     const addNote = (note: Note) => {
-        setOption({
-            ...option,
-            school_optional_exams_notes: option.school_optional_exams_notes.concat(note)
-        })
+        console.log(note)
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setOption({
+                ...option,
+                school_optional_exams_notes: option.school_optional_exams_notes.concat(note)
+            })
+        } else {
+            
+            editedOption && setEditedOption({
+                ...editedOption,
+                school_optional_exams_notes: editedOption.school_optional_exams_notes.concat(note)
+            })
+        }
+        
     }
 
     const updateNote = (note: Note) => {
-        setOption({
-            ...option,
-            school_optional_exams_notes: option.school_optional_exams_notes.map((n,i) => {
-                if (i === index) {
-                    return { ...note }
-                } else {
-                    return { ...n }
-                }
-            }) 
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setOption({
+                ...option,
+                school_optional_exams_notes: option.school_optional_exams_notes.map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                }) 
+            })
+        } else {
+            editedOption && setEditedOption({
+                ...editedOption,
+                school_optional_exams_notes: editedOption.school_optional_exams_notes.map((n,i) => {
+                    if (i === index) {
+                        return { ...note }
+                    } else {
+                        return { ...n }
+                    }
+                }) 
+            })
+        }
+        
         setIndex(null)
     }
 
-    const deleteNote = (e: any, index: number) => {
+    const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        setOption({
-            ...option,
-            school_optional_exams_notes: option.school_optional_exams_notes.filter((n,i) => i !== index)
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setOption({
+                ...option,
+                school_optional_exams_notes: option.school_optional_exams_notes.filter((n,i) => i !== index)
+            })
+        } else {
+            editedOption && setEditedOption({
+                ...editedOption,
+                school_optional_exams_notes: editedOption.school_optional_exams_notes.filter((n,i) => i !== index)
+            })
+        }
+        
     }
+
 
     return (
         <>
@@ -338,7 +368,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                             <button onClick={toggleNotePopup} className="text-lg block mt-2 border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${option.school_optional_exams_notes.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${option.school_optional_exams_notes.length ? 'mt-3' : 'mt-0'}`}>
                             {option.school_optional_exams_notes.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -351,7 +381,9 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_required_optional_exams.isEditMode} notes={editedOption ? editedOption.school_optional_exams_notes : null} originalNotes={option ? option.school_optional_exams_notes : null}
+                            name='school_optional_exams_notes' deleteNote={deleteNote} toggleNotePopup={toggleNotePopup} setEditedNote={setEditedNote} setIndex={setIndex}/>
                         </div>
                         <div className='w-full flex justify-end items-center gap-3'>
                             <button onClick={(e) => {toggleOptions(e); setEditedRequiredOption(null)}} className='text-xl border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-5 h-[50px] rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
