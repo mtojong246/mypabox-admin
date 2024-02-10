@@ -5,25 +5,27 @@ import { Note } from "../../../types/schools.types";
 import { FiEdit3 } from "react-icons/fi";
 import ReactQuill from "react-quill";
 
-export default function AddNoteFields({ loggedInUser, notes, originalNotes, isEditMode, toggleNotePopup, deleteNote, setIndex, setName, setEditedNote, name, noteName} : { 
+export default function AddNoteFields({ loggedInUser, notes, originalNotes, isEditMode, toggleNotePopup, deleteNote, setIndex, setName, setEditedNote, name, noteName, isIndividual, setIsIndividual, setNoteName} : { 
     loggedInUser: UserObject,
     notes: Note[] | null,
     originalNotes: Note[] | null,
     isEditMode: boolean,
     toggleNotePopup: (e:any) => void,
-    deleteNote: (e: any, index: number, name: string, noteName?: string) => void,
+    deleteNote: (e: any, index: number, name: string, noteName?: string, isIndividual?: boolean) => void,
     setIndex: Dispatch<SetStateAction<number | null>>,
     setName?: Dispatch<SetStateAction<string>>,
     setEditedNote: Dispatch<SetStateAction<Note | null>>,
     name: string,
     noteName?: string,
+    isIndividual?: boolean,
+    setIsIndividual?: Dispatch<SetStateAction<boolean | undefined>>,
+    setNoteName?: Dispatch<SetStateAction<string | undefined>>,
 
 
 
 
  }) {
 
-   
 
     return (
         <>
@@ -40,8 +42,8 @@ export default function AddNoteFields({ loggedInUser, notes, originalNotes, isEd
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button disabled value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button disabled value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                <button disabled value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name); setIsIndividual && setIsIndividual(isIndividual); setNoteName && setNoteName(noteName)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button disabled value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined, isIndividual !== undefined ? isIndividual : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -60,8 +62,8 @@ export default function AddNoteFields({ loggedInUser, notes, originalNotes, isEd
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                <button value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name); setIsIndividual && setIsIndividual(isIndividual); setNoteName && setNoteName(noteName)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined, isIndividual !== undefined ? isIndividual : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -83,8 +85,8 @@ export default function AddNoteFields({ loggedInUser, notes, originalNotes, isEd
                             {note.type}:
                         </p>
                         <div className='flex gap-2'>
-                            <button disabled={isEditMode ? false : true} value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                            <button disabled={isEditMode ? false : true} value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                            <button disabled={isEditMode ? false : true} value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name);  setIsIndividual && setIsIndividual(isIndividual); setNoteName && setNoteName(noteName)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                            <button disabled={isEditMode ? false : true} value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined, isIndividual !== undefined ? isIndividual : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                         </div>
                         </div> 
                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
@@ -102,8 +104,8 @@ export default function AddNoteFields({ loggedInUser, notes, originalNotes, isEd
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button disabled value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button disabled value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                                <button disabled value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name);  setIsIndividual && setIsIndividual(isIndividual); setNoteName && setNoteName(noteName)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button disabled value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined, isIndividual !== undefined ? isIndividual : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
                         <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>

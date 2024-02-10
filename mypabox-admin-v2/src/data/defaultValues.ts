@@ -634,6 +634,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_minimum_grade_required_for_all_courses: {
             input: null,
             prev: null,
@@ -660,17 +661,21 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_time_frame_all_courses_must_be_completed: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_time_frame_math_courses_must_be_completed: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_time_frame_science_courses_must_be_completed: {
             input: null,
             prev: null,
+            notes: null,
         }
     },
 
@@ -683,6 +688,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_pass_fail_grade_accepted: {
             input: null,
             prev: null,
@@ -698,6 +704,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_ap_courses_accepted: {
             input: null,
             prev: null,
@@ -713,6 +720,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_community_college_credits_accepted: {
             input: null,
             prev: null,
@@ -728,6 +736,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_clep_credits_accepted: {
             input: null,
             prev: null,
@@ -743,6 +752,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_online_courses_accepted: {
             input: null,
             prev: null,
@@ -766,6 +776,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        notes: null,
         edited_school_all_courses_most_be_completed_before_applying: {
             input: null,
             prev: null,
@@ -777,30 +788,37 @@ export const defaultSchool: School = {
         edited_school_maximum_number_of_courses_pending_while_applying: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_maximum_number_of_credits_pending_while_applying: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_maximum_number_of_science_courses_pending_while_applying: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_maximum_number_of_non_science_courses_pending_while_applying: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_minimum_grade_required_for_pending_courses: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_date_pending_courses_must_be_completed: {
             input: null,
             prev: null,
+            notes: null,
         },
         edited_school_semester_pending_courses_must_be_completed: {
             input: null,
             prev: null,
+            notes: null,
         },
     },
     

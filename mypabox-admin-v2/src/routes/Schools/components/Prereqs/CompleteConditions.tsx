@@ -2,9 +2,6 @@ import { ChangeEvent, Dispatch, SetStateAction, useState, useEffect, MouseEvent 
 import { School } from "../../../../types/schools.types"
 import { NumberInput, StringInput, Note } from "../../../../types/schools.types";
 import AddNote from "./AddNote";
-import { FiEdit3 } from 'react-icons/fi'
-import { AiOutlineClose } from 'react-icons/ai'
-import ReactQuill from "react-quill";
 import { PiCheckCircle, PiWarningCircle } from 'react-icons/pi';
 import { enableEditModeGroup, revertEditGroup, confirmEditGroup, undoEditGroup } from './CriteriaFunctions';
 import LinkPopup from '../../LinkPopup';
@@ -13,6 +10,7 @@ import EditButtons from '../../Assets/EditButtons';
 import SelectFieldsGroup from '../../Assets/SelectFieldsGroup';
 import BooleanFields from "../../Assets/BooleanFields";
 import InputFields from "../../Assets/InputsFields";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 const options = [
     { value: 'A+', label: 'A+' },
@@ -45,9 +43,9 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
  }) {
     const [ openNote, setOpenNote ] = useState(false);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
-    const [ index, setIndex ] = useState(0);
+    const [ index, setIndex ] = useState<number | null>(0);
     const [ name, setName ] = useState('');
-    const [ isIndividual, setIsIndividual ] = useState(false);
+    const [ isIndividual, setIsIndividual ] = useState<boolean | undefined>(false);
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
@@ -231,40 +229,82 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
     }
 
     const addNote = (note: Note) => {
-        if (isIndividual) {
-            const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
-            setNewSchool({
-                ...newSchool,
-                school_prerequisite_completion_criteria: {
-                    ...newSchool.school_prerequisite_completion_criteria,
-                    [name]: {
-                        ...field,
-                        notes: field.notes.concat(note)
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (isIndividual) {
+                const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
+                setNewSchool({
+                    ...newSchool,
+                    school_prerequisite_completion_criteria: {
+                        ...newSchool.school_prerequisite_completion_criteria,
+                        [name]: {
+                            ...field,
+                            notes: field.notes.concat(note)
+                        }
+                        
                     }
-                    
-                }
-            })
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    school_prerequisite_completion_criteria: {
+                        ...newSchool.school_prerequisite_completion_criteria,
+                        school_prerequisite_completion_criteria_note_section: newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.concat(note)
+                    }
+                })
+            }
         } else {
-            setNewSchool({
-                ...newSchool,
-                school_prerequisite_completion_criteria: {
-                    ...newSchool.school_prerequisite_completion_criteria,
-                    school_prerequisite_completion_criteria_note_section: newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.concat(note)
-                }
-            })
+            if (isIndividual) {
+                const field = newSchool.edited_school_prerequisite_completion_criteria[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_prerequisite_completion_criteria: {
+                        ...newSchool.edited_school_prerequisite_completion_criteria,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes ? field.notes.concat(note) : [note]
+                        }
+                        
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_prerequisite_completion_criteria: {
+                        ...newSchool.edited_school_prerequisite_completion_criteria,
+                        notes: newSchool.edited_school_prerequisite_completion_criteria.notes!.concat(note)
+                    }
+                })
+            }
         }
+        
     }
 
     const updateNote = (note: Note) => {
-        if (isIndividual) {
-            const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
-            setNewSchool({
-                ...newSchool,
-                school_prerequisite_completion_criteria: {
-                    ...newSchool.school_prerequisite_completion_criteria,
-                    [name]: {
-                        ...field,
-                        notes: field.notes.map((n,i) => {
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (isIndividual) {
+                const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
+                setNewSchool({
+                    ...newSchool,
+                    school_prerequisite_completion_criteria: {
+                        ...newSchool.school_prerequisite_completion_criteria,
+                        [name]: {
+                            ...field,
+                            notes: field.notes.map((n,i) => {
+                                if (i === index) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
+                        }
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    school_prerequisite_completion_criteria: {
+                        ...newSchool.school_prerequisite_completion_criteria,
+                        school_prerequisite_completion_criteria_note_section: newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.map((n,i) => {
                             if (i === index) {
                                 return { ...note }
                             } else {
@@ -272,48 +312,94 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                             }
                         })
                     }
-                }
-            })
+                })
+            }
         } else {
-            setNewSchool({
-                ...newSchool,
-                school_prerequisite_completion_criteria: {
-                    ...newSchool.school_prerequisite_completion_criteria,
-                    school_prerequisite_completion_criteria_note_section: newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
+            if (isIndividual) {
+                const field = newSchool.edited_school_prerequisite_completion_criteria[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_prerequisite_completion_criteria: {
+                        ...newSchool.edited_school_prerequisite_completion_criteria,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes.map((n:any,i:number) => {
+                                if (i === index) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
                         }
-                    })
-                }
-            })
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_prerequisite_completion_criteria: {
+                        ...newSchool.edited_school_prerequisite_completion_criteria,
+                        notes: newSchool.edited_school_prerequisite_completion_criteria.notes!.map((n,i) => {
+                            if (i === index) {
+                                return { ...note }
+                            } else {
+                                return { ...n }
+                            }
+                        })
+                    }
+                })
+            }
         }
+        
     }
 
-    const deleteNote = (e:any, index: number, isIndividual: boolean) => {
+    const deleteNote = (e:any, index: number, name: string, noteName?:string, isIndividual?: boolean) => {
         e.preventDefault();
-        if (isIndividual) {
-            const field = newSchool.school_prerequisite_completion_criteria[e.currentTarget.name as keyof object] as StringInput | NumberInput;
-            setNewSchool({
-                ...newSchool,
-                school_prerequisite_completion_criteria: {
-                    ...newSchool.school_prerequisite_completion_criteria,
-                    [e.currentTarget.name]: {
-                        ...field,
-                        notes: field.notes.filter((n,i) => i !== index)
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (isIndividual) {
+                const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
+                setNewSchool({
+                    ...newSchool,
+                    school_prerequisite_completion_criteria: {
+                        ...newSchool.school_prerequisite_completion_criteria,
+                        [name]: {
+                            ...field,
+                            notes: field.notes.filter((n,i) => i !== index)
+                        }
                     }
-                }
-            })
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    school_prerequisite_completion_criteria: {
+                        ...newSchool.school_prerequisite_completion_criteria,
+                        school_prerequisite_completion_criteria_note_section: newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.filter((n,i) => i !== index)
+                    }
+                })
+            }
         } else {
-            setNewSchool({
-                ...newSchool,
-                school_prerequisite_completion_criteria: {
-                    ...newSchool.school_prerequisite_completion_criteria,
-                    school_prerequisite_completion_criteria_note_section: newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.filter((n,i) => i !== index)
-                }
-            })
+            if (isIndividual) {
+                const field = newSchool.edited_school_prerequisite_completion_criteria[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_prerequisite_completion_criteria: {
+                        ...newSchool.edited_school_prerequisite_completion_criteria,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes.filter((n:any,i:number) => i !== index)
+                        }
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_prerequisite_completion_criteria: {
+                        ...newSchool.edited_school_prerequisite_completion_criteria,
+                        notes: newSchool.edited_school_prerequisite_completion_criteria.notes!.filter((n,i) => i !== index)
+                    }
+                })
+            }
         }
+        
     }
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -379,7 +465,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     Add Note
                                 </button>
                             </div>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
                             {newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying?.notes.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -392,7 +478,10 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode} notes={newSchool.edited_school_prerequisite_completion_criteria.edited_school_maximum_number_of_courses_pending_while_applying.notes} originalNotes={newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying ? newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying.notes : null} name='school_maximum_number_of_courses_pending_while_applying' isIndividual={true} toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setIsIndividual={setIsIndividual}
+                            />
                         </div>
 
 
@@ -408,7 +497,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     Add Note
                                 </button>
                             </div>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
                             {newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying?.notes.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -421,7 +510,10 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode} notes={newSchool.edited_school_prerequisite_completion_criteria.edited_school_maximum_number_of_credits_pending_while_applying.notes} originalNotes={newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying ? newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying.notes : null} name='school_maximum_number_of_credits_pending_while_applying' isIndividual={true} toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setIsIndividual={setIsIndividual}
+                            />
                         </div>
 
                         
@@ -437,7 +529,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     Add Note
                                 </button>
                             </div>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
                             {newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying?.notes.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -450,7 +542,10 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode} notes={newSchool.edited_school_prerequisite_completion_criteria.edited_school_maximum_number_of_science_courses_pending_while_applying.notes} originalNotes={newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying ? newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying.notes : null} name='school_maximum_number_of_science_courses_pending_while_applying' isIndividual={true} toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setIsIndividual={setIsIndividual}
+                            />
                         </div>
 
 
@@ -466,7 +561,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     Add Note
                                 </button>
                             </div>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying?.notes.length ? 'mt-3' : 'mt-0'}`}>
                             {newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying?.notes.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -479,7 +574,10 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode} notes={newSchool.edited_school_prerequisite_completion_criteria.edited_school_maximum_number_of_non_science_courses_pending_while_applying.notes} originalNotes={newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying ? newSchool.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying.notes : null} name='school_maximum_number_of_non_science_courses_pending_while_applying' isIndividual={true} toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setIsIndividual={setIsIndividual}
+                            />
                         </div>
 
                         
@@ -495,7 +593,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     Add Note
                                 </button>
                             </div>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses?.notes.length ? 'mt-3' : 'mt-0'}`}>
                             {newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses?.notes.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -508,7 +606,10 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode} notes={newSchool.edited_school_prerequisite_completion_criteria.edited_school_minimum_grade_required_for_pending_courses.notes} originalNotes={newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses ? newSchool.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses.notes : null} name='school_minimum_grade_required_for_pending_courses' isIndividual={true} toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setIsIndividual={setIsIndividual}
+                            />
                         </div>
 
 
@@ -524,7 +625,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     Add Note
                                 </button>
                             </div>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed?.notes.length ? 'mt-3' : 'mt-0'}`}>
                             {newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed?.notes.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -537,7 +638,10 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode} notes={newSchool.edited_school_prerequisite_completion_criteria.edited_school_date_pending_courses_must_be_completed.notes} originalNotes={newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed ? newSchool.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed.notes : null} name='school_date_pending_courses_must_be_completed' isIndividual={true} toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setIsIndividual={setIsIndividual}
+                            />
                         </div>
 
 
@@ -553,7 +657,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     Add Note
                                 </button>
                             </div>
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed?.notes.length ? 'mt-3' : 'mt-0'}`}>
+                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed?.notes.length ? 'mt-3' : 'mt-0'}`}>
                             {newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed?.notes.map((note, i) => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                                     <div className='flex justify-between items-center w-full mb-1'>
@@ -566,7 +670,10 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                                     <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                                 </div>
                             ))}
-                            </div>
+                            </div> */}
+                            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode} notes={newSchool.edited_school_prerequisite_completion_criteria.edited_school_semester_pending_courses_must_be_completed.notes} originalNotes={newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed ? newSchool.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed.notes : null} name='school_semester_pending_courses_must_be_completed' isIndividual={true} toggleNotePopup={toggleNotePopup}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setIsIndividual={setIsIndividual}
+                            />
                         </div>
                     </>
                     )}
@@ -577,7 +684,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                     <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(false)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.length ? 'mt-3' : 'mt-0'}`}>
+                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full mb-1'>
@@ -590,7 +697,10 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                     ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode} notes={newSchool.edited_school_prerequisite_completion_criteria.notes} originalNotes={newSchool.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section} name='school_prerequisite_completion_criteria_note_section' isIndividual={false} toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setIsIndividual={setIsIndividual}
+                    />
                 </div>
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} input={newSchool.edited_school_prerequisite_completion_criteria.edited_school_all_courses_most_be_completed_before_applying.input} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode}

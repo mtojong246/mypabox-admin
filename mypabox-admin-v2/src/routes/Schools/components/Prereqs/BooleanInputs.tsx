@@ -1,9 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent } from "react";
 import { School } from "../../../../types/schools.types";
 import { Note } from "../../../../types/schools.types";
-import { FiEdit3 } from "react-icons/fi";
-import { AiOutlineClose } from "react-icons/ai";
-import ReactQuill from "react-quill";
 import AddNote from "./AddNote";
 import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from "./PrereqBoolFunctions";
 import BooleanFieldsGroup from "../../Assets/BooleanFieldsGroup";
@@ -11,6 +8,7 @@ import { UserObject } from "../../../../types/users.types";
 import EditButtons from "../../Assets/EditButtons";
 import LinkPopup from "../../LinkPopup";
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import AddNoteFields from "../../Assets/AddNoteFields";
 
 
 const dataArray = [
@@ -57,9 +55,9 @@ export default function BooleanInputs({
   loggedInUser: UserObject;
   isEdit: boolean;
 }) {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState<number | null>(0);
   const [value, setValue] = useState("");
-  const [notes, setNotes] = useState("");
+  const [notes, setNotes] = useState<string | undefined>("");
   const [openNote, setOpenNote] = useState(false);
   const [editedNote, setEditedNote] = useState<Note | null>(null);
   const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
@@ -121,45 +119,89 @@ export default function BooleanInputs({
   };
 
   const addNote = (note: Note) => {
-    const field = newSchool[value as keyof School] as object;
-    setNewSchool({
-      ...newSchool,
-      [value as keyof School]: {
-        ...field,
-        [notes]: (field[notes as keyof object] as Note[]).concat(note),
-      },
-    });
+    if (loggedInUser.permissions.canAddOrDelete) {
+      const field = newSchool[value as keyof School] as object;
+      setNewSchool({
+        ...newSchool,
+        [value as keyof School]: {
+          ...field,
+          [notes!]: (field[notes as keyof object] as Note[]).concat(note),
+        },
+      });
+    } else {
+      const field = newSchool[`edited_${value}` as keyof School] as any;
+      setNewSchool({
+        ...newSchool,
+        [`edited_${value}`]: {
+          ...field,
+          notes: field.notes.concat(note),
+        },
+      });
+    }
+    
   };
 
   const updateNote = (note: Note) => {
-    const field = newSchool[value as keyof School] as object;
-    setNewSchool({
-      ...newSchool,
-      [value as keyof School]: {
-        ...field,
-        [notes]: (field[notes as keyof object] as Note[]).map((n, i) => {
-          if (i === index) {
-            return { ...note };
-          } else {
-            return { ...n };
-          }
-        }),
-      },
-    });
+    if (loggedInUser.permissions.canAddOrDelete) {
+      const field = newSchool[value as keyof School] as object;
+      setNewSchool({
+        ...newSchool,
+        [value as keyof School]: {
+          ...field,
+          [notes!]: (field[notes as keyof object] as Note[]).map((n, i) => {
+            if (i === index) {
+              return { ...note };
+            } else {
+              return { ...n };
+            }
+          }),
+        },
+      });
+    } else {
+      const field = newSchool[`edited_${value}` as keyof School] as any;
+      setNewSchool({
+        ...newSchool,
+        [`edited_${value}`]: {
+          ...field,
+          notes: field.notes.map((n:any, i:number) => {
+            if (i === index) {
+              return { ...note };
+            } else {
+              return { ...n };
+            }
+          }),
+        },
+      });
+    }
+    
   };
 
-  const deleteNote = (e: any, index: number, value: string, notes: string) => {
+  const deleteNote = (e: any, index: number, name: string, noteName?: string) => {
     e.preventDefault();
-    const field = newSchool[value as keyof School] as object;
-    setNewSchool({
-      ...newSchool,
-      [value as keyof School]: {
-        ...field,
-        [notes]: (field[notes as keyof object] as Note[]).filter(
-          (n, i) => i !== index
-        ),
-      },
-    });
+    if (loggedInUser.permissions.canAddOrDelete) {
+      const field = newSchool[name as keyof School] as object;
+      setNewSchool({
+        ...newSchool,
+        [name as keyof School]: {
+          ...field,
+          [noteName!]: (field[noteName as keyof object] as Note[]).filter(
+            (n, i) => i !== index
+          ),
+        },
+      });
+    } else {
+      const field = newSchool[`edited_${name}` as keyof School] as any;
+      setNewSchool({
+        ...newSchool,
+        [`edited_${name}`]: {
+          ...field,
+          notes: field.notes.filter(
+            (n:any, i:any) => i !== index
+          ),
+        },
+      });
+    }
+    
   };
 
   return (
@@ -206,7 +248,7 @@ export default function BooleanInputs({
               Add Note
             </button>
             </div>
-            <div
+            {/* <div
               className={`flex flex-col justify-center items-center gap-3 ${
                 (field[data.notes as keyof object] as Note[]).length
                   ? "mt-3"
@@ -253,7 +295,10 @@ export default function BooleanInputs({
                   />
                 </div>
               ))}
-            </div>
+            </div> */}
+            <AddNoteFields loggedInUser={loggedInUser} isEditMode={(newSchool[`edited_${data.value}` as keyof School] as any).isEditMode} notes={(newSchool[`edited_${data.value}` as keyof School] as any).notes} originalNotes={field[data.notes as keyof object]} name={data.value} noteName={data.notes} toggleNotePopup={toggleNotePopup}
+              deleteNote={deleteNote} setIndex={setIndex} setName={setValue} setEditedNote={setEditedNote} setNoteName={setNotes}
+              />
           </div>
           {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={(newSchool[`edited_${data.value}` as keyof School] as any).isEditMode} input={(newSchool[`edited_${data.value}` as keyof School][`edited_${data.input}` as keyof object] as {input: boolean | null, prev: boolean | null}).input} 
           name={data.value} toggleLinkPopup={toggleLinkPopup} link={(newSchool[`edited_${data.value}` as keyof School] as any).link} setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup}

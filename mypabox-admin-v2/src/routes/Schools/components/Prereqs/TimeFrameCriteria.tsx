@@ -1,9 +1,6 @@
 import { School, StringInput } from '../../../../types/schools.types';
 import { ChangeEvent, Dispatch, SetStateAction, useState, useEffect, MouseEvent } from 'react';
 import { Note } from '../../../../types/schools.types';
-import { FiEdit3 } from 'react-icons/fi'
-import { AiOutlineClose } from 'react-icons/ai'
-import ReactQuill from 'react-quill';
 import AddNote from './AddNote';
 import LinkPopup from '../../LinkPopup';
 import { PiCheckCircle, PiWarningCircle } from 'react-icons/pi';
@@ -11,6 +8,7 @@ import { UserObject } from '../../../../types/users.types';
 import EditButtons from '../../Assets/EditButtons';
 import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from './CriteriaFunctions';
 import SelectInputsFields from '../../Assets/SelectInputsFields';
+import AddNoteFields from '../../Assets/AddNoteFields';
 
 const options = [
     { value: 'Weeks', label: 'Weeks' },
@@ -50,9 +48,9 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
     });
     const [ openNote, setOpenNote ] = useState(false);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
-    const [ index, setIndex ] = useState(0);
+    const [ index, setIndex ] = useState<number | null>(0);
     const [ name, setName ] = useState('');
-    const [ isIndividual, setIsIndividual ] = useState(false);
+    const [ isIndividual, setIsIndividual ] = useState<boolean | undefined>(false);
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
@@ -329,39 +327,80 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
     }
 
     const addNote = (note: Note) => {
-        if (isIndividual) {
-            const field = newSchool.school_time_frame_criteria[name as keyof object] as StringInput;
-            setNewSchool({
-                ...newSchool,
-                school_time_frame_criteria: {
-                    ...newSchool.school_time_frame_criteria,
-                    [name]: {
-                        ...field,
-                        notes: field.notes.concat(note)
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (isIndividual) {
+                const field = newSchool.school_time_frame_criteria[name as keyof object] as StringInput;
+                setNewSchool({
+                    ...newSchool,
+                    school_time_frame_criteria: {
+                        ...newSchool.school_time_frame_criteria,
+                        [name]: {
+                            ...field,
+                            notes: field.notes.concat(note)
+                        }
                     }
-                }
-            })
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    school_time_frame_criteria: {
+                        ...newSchool.school_time_frame_criteria,
+                        school_time_frame_criteria_note_section: newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.concat(note)
+                    }
+                })
+            }
         } else {
-            setNewSchool({
-                ...newSchool,
-                school_time_frame_criteria: {
-                    ...newSchool.school_time_frame_criteria,
-                    school_time_frame_criteria_note_section: newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.concat(note)
-                }
-            })
+            if (isIndividual) {
+                const field = newSchool.edited_school_time_frame_criteria[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_time_frame_criteria: {
+                        ...newSchool.edited_school_time_frame_criteria,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes ? field.notes.concat(note) : [note]
+                        }
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_time_frame_criteria: {
+                        ...newSchool.edited_school_time_frame_criteria,
+                        notes: newSchool.edited_school_time_frame_criteria.notes!.concat(note)
+                    }
+                })
+            }
         }
+        
     }
 
     const updateNote = (note: Note) => {
-        if (isIndividual) {
-            const field = newSchool.school_time_frame_criteria[name as keyof object] as StringInput;
-            setNewSchool({
-                ...newSchool,
-                school_time_frame_criteria: {
-                    ...newSchool.school_time_frame_criteria,
-                    [name]: {
-                        ...field,
-                        notes: field.notes.map((n,i) => {
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (isIndividual) {
+                const field = newSchool.school_time_frame_criteria[name as keyof object] as StringInput;
+                setNewSchool({
+                    ...newSchool,
+                    school_time_frame_criteria: {
+                        ...newSchool.school_time_frame_criteria,
+                        [name]: {
+                            ...field,
+                            notes: field.notes.map((n,i) => {
+                                if (i === index) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
+                        }
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    school_time_frame_criteria: {
+                        ...newSchool.school_time_frame_criteria,
+                        school_time_frame_criteria_note_section: newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.map((n,i) => {
                             if (i === index) {
                                 return { ...note }
                             } else {
@@ -369,48 +408,94 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                             }
                         })
                     }
-                }
-            })
+                })
+            }
         } else {
-            setNewSchool({
-                ...newSchool,
-                school_time_frame_criteria: {
-                    ...newSchool.school_time_frame_criteria,
-                    school_time_frame_criteria_note_section: newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
+            if (isIndividual) {
+                const field = newSchool.edited_school_time_frame_criteria[`edited_${name}` as keyof object] as any;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_time_frame_criteria: {
+                        ...newSchool.edited_school_time_frame_criteria,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes.map((n:any,i:number) => {
+                                if (i === index) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
                         }
-                    })
-                }
-            })
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_time_frame_criteria: {
+                        ...newSchool.edited_school_time_frame_criteria,
+                        notes: newSchool.edited_school_time_frame_criteria.notes!.map((n,i) => {
+                            if (i === index) {
+                                return { ...note }
+                            } else {
+                                return { ...n }
+                            }
+                        })
+                    }
+                })
+            }
         }
+        
     }
 
-    const deleteNote = (e:any, index: number, isIndividual: boolean) => {
+    const deleteNote = (e:any, index: number, name: string, noteName?: string, isIndividual?: boolean) => {
         e.preventDefault();
-        if (isIndividual) {
-            const field = newSchool.school_time_frame_criteria[e.currentTarget.name as keyof object] as StringInput;
-            setNewSchool({
-                ...newSchool,
-                school_time_frame_criteria: {
-                    ...newSchool.school_time_frame_criteria,
-                    [e.currentTarget.name]: {
-                        ...field,
-                        notes: field.notes.filter((n,i) => i !== index)
+        if (loggedInUser.permissions.canAddOrDelete) {
+            if (isIndividual) {
+                const field = newSchool.school_time_frame_criteria[name as keyof object] as StringInput;
+                setNewSchool({
+                    ...newSchool,
+                    school_time_frame_criteria: {
+                        ...newSchool.school_time_frame_criteria,
+                        [name]: {
+                            ...field,
+                            notes: field.notes.filter((n,i) => i !== index)
+                        }
                     }
-                }
-            })
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    school_time_frame_criteria: {
+                        ...newSchool.school_time_frame_criteria,
+                        school_time_frame_criteria_note_section: newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.filter((n,i) => i !== index)
+                    }
+                })
+            }
         } else {
-            setNewSchool({
-                ...newSchool,
-                school_time_frame_criteria: {
-                    ...newSchool.school_time_frame_criteria,
-                    school_time_frame_criteria_note_section: newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.filter((n,i) => i !== index)
-                }
-            })
+            if (isIndividual) {
+                const field = newSchool.edited_school_time_frame_criteria[`edited_${name}` as keyof object] as StringInput;
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_time_frame_criteria: {
+                        ...newSchool.edited_school_time_frame_criteria,
+                        [`edited_${name}`]: {
+                            ...field,
+                            notes: field.notes.filter((n,i) => i !== index)
+                        }
+                    }
+                })
+            } else {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_time_frame_criteria: {
+                        ...newSchool.edited_school_time_frame_criteria,
+                        notes: newSchool.edited_school_time_frame_criteria.notes!.filter((n,i) => i !== index)
+                    }
+                })
+            }
         }
+        
     }
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
@@ -455,7 +540,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                             Add Note
                         </button>
                     </div> */}
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full mb-1'>
@@ -468,7 +553,10 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                     ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} notes={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_all_courses_must_be_completed.notes} originalNotes={newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes} name='school_time_frame_all_courses_must_be_completed' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} isIndividual={true} setIsIndividual={setIsIndividual}
+                    />
                 </div>
 
 
@@ -485,7 +573,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                         Add Note
                         </button>
                     </div>
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full mb-1'>
@@ -498,7 +586,10 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                     ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} notes={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_science_courses_must_be_completed.notes} originalNotes={newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes} name='school_time_frame_science_courses_must_be_completed' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} isIndividual={true} setIsIndividual={setIsIndividual}
+                    />
                 </div>
 
 
@@ -515,7 +606,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                         Add Note
                         </button>
                     </div>
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
+                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full mb-1'>
@@ -528,7 +619,10 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                     ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} notes={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_math_courses_must_be_completed.notes} originalNotes={newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes} name='school_time_frame_math_courses_must_be_completed' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} isIndividual={true} setIsIndividual={setIsIndividual}
+                    />
                 </div>
 
 
@@ -537,7 +631,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                     <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(false)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.length ? 'mt-3' : 'mt-0'}`}>
+                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.length ? 'mt-3' : 'mt-0'}`}>
                     {newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.map((note, i) => (
                         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
                             <div className='flex justify-between items-center w-full mb-1'>
@@ -550,7 +644,10 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
                         </div>
                     ))}
-                    </div>
+                    </div> */}
+                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} notes={newSchool.edited_school_time_frame_criteria.notes} originalNotes={newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section} name='school_time_frame_criteria_note_section' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} isIndividual={false} setIsIndividual={setIsIndividual}
+                    />
                 </div>
             </div>
             {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} input={hasInputs} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup}
