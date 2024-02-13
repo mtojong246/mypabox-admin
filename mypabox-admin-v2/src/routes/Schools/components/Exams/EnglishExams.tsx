@@ -632,7 +632,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                 {isOpen && (
                 <>
                 <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block border-2 rounded ${newSchool.school_english_proficiency_exams.school_toefl_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
-                    <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL Required</label>   
+                    <label className="absolute top-[-16px] text-xl font-medium bg-white block">TOEFL Required</label>   
                     <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_required}
                     name='school_toefl_required' handleCheck={handleCheck}
                     />
@@ -647,7 +647,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     {isToeflOpen && (
                     <>
                     <div className={`mt-8 mx-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Frame TOEFL Needs To Be Completed</label>   
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white block">Minimum Time Frame TOEFL Needs To Be Completed</label>   
                         <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_minimum_time_frame_toefl_needs_to_be_completed.input}
                         originalInput={newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed} name='school_minimum_time_frame_toefl_needs_to_be_completed' handleInput={handleSelectNumber} handleSelect={handleSelectDuration}
                         number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration} options={options}
@@ -659,7 +659,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     </div>
 
                     <div className={`mt-12 mx-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL Exempt with Masters Degree</label>   
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white block">TOEFL Exempt with Masters Degree</label>   
                         <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_exempt_with_masters_degree.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_exempt_with_masters_degree}
                         name='school_toefl_exempt_with_masters_degree' handleCheck={handleCheck}
                         />
@@ -673,7 +673,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     </div>
 
                     <div className={`mt-12 mx-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">TOEFL Exempt with Doctoral Degree</label>   
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white block">TOEFL Exempt with Doctoral Degree</label>   
                         <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_exempt_with_doctoral_degree.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_exempt_with_doctoral_degree}
                         name='school_toefl_exempt_with_doctoral_degree' handleCheck={handleCheck}
                         />
@@ -689,7 +689,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     <div className={`mt-12 mx-5 relative max-w-[900px] py-5 px-8 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">TOEFL IBT Minimum Scores Required</label>
                         <div className='mt-2'>
-                            <label className="text-xl font-medium bg-white">Total Score</label>   
+                            <label className="text-xl font-medium bg-white block">Total Score</label>   
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_total_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required}
                             name='school_toefl_ibt_minimum_total_score_required' handleInput={handleInput}
                             />
@@ -697,7 +697,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className='mt-8'>
-                            <label className="text-xl font-medium bg-white">Reading Score</label>   
+                            <label className="text-xl font-medium bg-white block">Reading Score</label>   
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_reading_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required}
                             name='school_toefl_ibt_minimum_reading_score_required' handleInput={handleInput}
                             />
@@ -705,7 +705,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className='mt-8'>
-                            <label className="text-xl font-medium bg-white">Writing Score</label>   
+                            <label className="text-xl font-medium bg-white block">Writing Score</label>   
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_writing_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required}
                             name='school_toefl_ibt_minimum_writing_score_required' handleInput={handleInput}
                             />
@@ -713,7 +713,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className='mt-8'>
-                            <label className="text-xl font-medium bg-white">Listening Score</label>   
+                            <label className="text-xl font-medium bg-white block">Listening Score</label>   
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_listening_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required}
                             name='school_toefl_ibt_minimum_listening_score_required' handleInput={handleInput}
                             />
@@ -721,7 +721,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className='mt-8'>
-                            <label className="text-xl font-medium bg-white">Speaking Score</label>   
+                            <label className="text-xl font-medium bg-white block">Speaking Score</label>   
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_speaking_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required}
                             name='school_toefl_ibt_minimum_speaking_score_required' handleInput={handleInput}
                             />
@@ -729,7 +729,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className='mt-8 mb-5'>
-                            <label className="text-xl font-medium bg-white">TOEFL IBT Minimum Score Notes</label>   
+                            <label className="text-xl font-medium bg-white block">TOEFL IBT Minimum Score Notes</label>   
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_ibt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
@@ -757,7 +757,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] py-5 px-8 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white text-orange-600">TOEFL PBT Minimum Scores Required</label>   
                         <div className='mt-2'>
-                            <label className="text-xl font-medium bg-white">Total Score</label>   
+                            <label className="text-xl font-medium bg-white block">Total Score</label>   
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_total_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required}
                             name='school_toefl_pbt_minimum_total_score_required' handleInput={handleInput}
                             />
@@ -765,7 +765,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className='mt-8'>
-                            <label className="text-xl font-medium bg-white">Reading Score</label>   
+                            <label className="text-xl font-medium bg-white block">Reading Score</label>   
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_reading_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required}
                             name='school_toefl_pbt_minimum_reading_score_required' handleInput={handleInput}
                             />
@@ -773,7 +773,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className="mt-8">
-                            <label className="text-xl font-medium bg-white">Writing Score</label>   
+                            <label className="text-xl font-medium bg-white block">Writing Score</label>   
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_writing_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required}
                             name='school_toefl_pbt_minimum_writing_score_required' handleInput={handleInput}
                             />
@@ -781,7 +781,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className="mt-8">
-                            <label className="text-xl font-medium bg-white">Listening Score</label>   
+                            <label className="text-xl font-medium bg-white block">Listening Score</label>   
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_listening_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required}
                             name='school_toefl_pbt_minimum_listening_score_required' handleInput={handleInput}
                             />
@@ -789,7 +789,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className="mt-8">
-                            <label className="text-xl font-medium bg-white">Speaking Score</label>  
+                            <label className="text-xl font-medium bg-white block">Speaking Score</label>  
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_speaking_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required}
                             name='school_toefl_pbt_minimum_speaking_score_required' handleInput={handleInput}
                             /> 
@@ -797,7 +797,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         </div>
 
                         <div className="mt-8 mb-5">
-                            <label className="text-xl font-medium bg-white">TOEFL PBT Minimum Score Notes</label>   
+                            <label className="text-xl font-medium bg-white block">TOEFL PBT Minimum Score Notes</label>   
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_pbt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
@@ -827,7 +827,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                 </div>
 
                 <div className={`mt-12 mx-4 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_english_proficiency_exams.school_ielt_required? 'border-[#4573D2]' : 'border-[#545454]'}`}>
-                    <label className="absolute top-[-16px] text-xl font-medium bg-white">IELT Required</label>   
+                    <label className="absolute top-[-16px] text-xl font-medium bg-white block">IELT Required</label>   
                     <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_required.input} originalInput={newSchool.school_english_proficiency_exams.school_ielt_required}
                     name='school_ielt_required' handleCheck={handleCheck}
                     />
@@ -841,7 +841,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                     {isIeltOpen && (
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">IELT Minimum Total Score Required</label>  
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white block">IELT Minimum Total Score Required</label>  
                         <div className='flex justify-center items-center gap-3'> 
                             <InputFields  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_minimum_total_score_required.input}
                             originalInput={newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required} name='school_ielt_minimum_total_score_required' handleInput={handleInput}
@@ -873,7 +873,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                 </div>
 
                 <div className={`mt-12 mx-4 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_english_proficiency_exams.school_melab_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
-                    <label className="absolute top-[-16px] text-xl font-medium bg-white">MELAB Required</label>   
+                    <label className="absolute top-[-16px] text-xl font-medium bg-white block">MELAB Required</label>   
                     <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_melab_required.input}
                     originalInput={newSchool.school_english_proficiency_exams.school_melab_required} name='school_melab_required' handleCheck={handleCheck}
                     />
@@ -887,7 +887,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
             
                     {isMelabOpen && (
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">MELAB Minimum Total Score Required</label> 
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white block">MELAB Minimum Total Score Required</label> 
                         <div className='flex justify-center items-center gap-3'>  
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_melab_minimum_total_score_required.input}
                             originalInput={newSchool.school_english_proficiency_exams.school_melab_minimum_total_score_required} name='school_melab_minimum_total_score_required' handleInput={handleInput}
@@ -919,7 +919,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                 </div>
 
                 <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block border-2 rounded ${newSchool.school_english_proficiency_exams.school_pte_academic_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
-                    <label className="absolute top-[-16px] text-xl font-medium bg-white">PTE Academic Required</label>   
+                    <label className="absolute top-[-16px] text-xl font-medium bg-white block">PTE Academic Required</label>   
                     <BooleanFields  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_pte_academic_required.input} 
                     originalInput={newSchool.school_english_proficiency_exams.school_pte_academic_required} name='school_pte_academic_required' handleCheck={handleCheck}
                     />
@@ -933,7 +933,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                     {isPteOpen && (
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">PTE Academic Minimum Total Score Required</label>   
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white block">PTE Academic Minimum Total Score Required</label>   
                         <div className='flex justify-center items-center gap-3'>
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} originalInput={newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required} 
                             name='school_pte_academic_minimum_total_score_required' input={newSchool.edited_school_english_proficiency_exams.edited_school_pte_academic_minimum_total_score_required.input} handleInput={handleInput}
@@ -965,7 +965,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                 </div>
 
                 <div className={`mt-12 mx-4 mb-5 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_english_proficiency_exams.school_itep_academic_plus_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
-                    <label className="absolute top-[-16px] text-xl font-medium bg-white">ITEP Academic Required</label>  
+                    <label className="absolute top-[-16px] text-xl font-medium bg-white block">ITEP Academic Required</label>  
                     <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_itep_academic_plus_required.input}
                     originalInput={newSchool.school_english_proficiency_exams.school_itep_academic_plus_required} name='school_itep_academic_plus_required' handleCheck={handleCheck}
                     /> 
@@ -979,7 +979,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                     {isItepOpen && (
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white">ITEP Academic Minimum Total Score Required</label>   
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white block">ITEP Academic Minimum Total Score Required</label>   
                         <div className='flex justify-center items-center gap-3'>
                             <InputFields  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_itep_academic_plus_minimum_total_score_required.input}
                             originalInput={newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_total_score_required} name='school_itep_academic_plus_minimum_total_score_required' handleInput={handleInput}

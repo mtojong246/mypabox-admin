@@ -109,7 +109,7 @@ export interface NoNoteString {
 };
 
 export interface School {
-    id: number;
+    id: string;
     isLive: boolean;
     school_name: NoNoteString;
     edited_school_name: {

@@ -566,7 +566,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
         {((loggedInUser.permissions.canVerify && newSchool.edited_school_gre.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_gre.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
         <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">GRE<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
             <div className={`mt-7 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Required</label>   
+                <label className="absolute top-[-16px] text-xl font-medium bg-white block">GRE Required</label>   
                 <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_required.input} originalInput={newSchool.school_gre.school_gre_required}
                 name='school_gre_required' handleCheck={handleCheck}
                 />
@@ -580,7 +580,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
             </div>
 
             <div className={`mt-12 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Recommended</label>   
+                <label className="absolute top-[-16px] text-xl font-medium bg-white block">GRE Recommended</label>   
                 <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_recommended.input} originalInput={newSchool.school_gre.school_gre_recommended}
                 name='school_gre_recommended' handleCheck={handleCheck}
                 />
@@ -597,7 +597,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
             <>
 
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">CASPA GRE Institution Code</label>   
+                <label className="absolute top-[-16px] text-xl font-medium bg-white block">CASPA GRE Institution Code</label>   
                 <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_caspa_gre_institution_code.input} originalInput={newSchool.school_gre.school_caspa_gre_institution_code}
                 name='school_caspa_gre_institution_code' handleInput={handleInput}
                 />
@@ -605,7 +605,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
             </div>
 
             <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded border-orange-600`}>
-                <label className="absolute top-[-16px] text-xl font-medium bg-white">GRE Insitution Code</label> 
+                <label className="absolute top-[-16px] text-xl font-medium bg-white block">GRE Insitution Code</label> 
                 <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_institution_code.input} originalInput={newSchool.school_gre.school_gre_institution_code}
                 name='school_gre_institution_code' handleInput={handleInput}
                 />  
@@ -785,35 +785,35 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                 <div className={`mt-8 mx-5 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Scores</label> 
                     <div className='mt-4'>
-                        <label className="text-xl font-medium bg-white">Verbal Score</label>   
+                        <label className="text-xl font-medium bg-white block">Verbal Score</label>   
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_minimum_verbal_score.input} originalInput={newSchool.school_gre.school_gre_minimum_verbal_score}
                         name='school_gre_minimum_verbal_score' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} name='school_gre_minimum_verbal_score' value={newSchool.school_gre.school_gre_minimum_verbal_score ? newSchool.school_gre.school_gre_minimum_verbal_score : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />      */}
                         </div>
                     <div className='mt-8'>
-                        <label className="text-xl font-medium bg-white">Quantitative Score</label>   
+                        <label className="text-xl font-medium bg-white block">Quantitative Score</label>   
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_minimum_quantitative_score.input} originalInput={newSchool.school_gre.school_gre_minimum_quantitative_score}
                         name='school_gre_minimum_quantitative_score' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} name='school_gre_minimum_quantitative_score' value={newSchool.school_gre.school_gre_minimum_quantitative_score ? newSchool.school_gre.school_gre_minimum_quantitative_score : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />      */}
                     </div>
                     <div className='mt-8'>
-                        <label className="text-xl font-medium bg-white">Analytical Writing Score</label>   
+                        <label className="text-xl font-medium bg-white block">Analytical Writing Score</label>   
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_minimum_analytical_writing_score.input} originalInput={newSchool.school_gre.school_gre_minimum_analytical_writing_score}
                         name='school_gre_minimum_analytical_writing_score' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} name='school_gre_minimum_analytical_writing_score' value={newSchool.school_gre.school_gre_minimum_analytical_writing_score ? newSchool.school_gre.school_gre_minimum_analytical_writing_score : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />      */}
                     </div>
                     <div className='mt-8'>
-                        <label className="text-xl font-medium bg-white">Combined Score</label>   
+                        <label className="text-xl font-medium bg-white block">Combined Score</label>   
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_minimum_combined_score.input} originalInput={newSchool.school_gre.school_gre_minimum_combined_score}
                         name='school_gre_minimum_combined_score' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} name='school_gre_minimum_combined_score' value={newSchool.school_gre.school_gre_minimum_combined_score ? newSchool.school_gre.school_gre_minimum_combined_score : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />      */}
                     </div>
                     <div className='mt-8 mb-5'>
-                        <label className="text-xl font-medium bg-white">Minimum GRE Score Notes</label>   
+                        <label className="text-xl font-medium bg-white block">Minimum GRE Score Notes</label>   
                         <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_score_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
@@ -839,35 +839,35 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                 <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">Minimum GRE Percentiles</label> 
                     <div className='mt-4'>
-                        <label className="text-xl font-medium bg-white">Verbal Percentile</label>   
+                        <label className="text-xl font-medium bg-white block">Verbal Percentile</label>   
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_minimum_verbal_percentile.input} originalInput={newSchool.school_gre.school_gre_minimum_verbal_percentile}
                         name='school_gre_minimum_verbal_percentile' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} name='school_gre_minimum_verbal_percentile' value={newSchool.school_gre.school_gre_minimum_verbal_percentile ? newSchool.school_gre.school_gre_minimum_verbal_percentile : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />      */}
                     </div>
                     <div className='mt-8'>
-                        <label className="text-xl font-medium bg-white">Quantitative Percentile</label>   
+                        <label className="text-xl font-medium bg-white block">Quantitative Percentile</label>   
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_minimum_quantitative_percentile.input} originalInput={newSchool.school_gre.school_gre_minimum_quantitative_percentile}
                         name='school_gre_minimum_quantitative_percentile' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} name='school_gre_minimum_quantitative_percentile' value={newSchool.school_gre.school_gre_minimum_quantitative_percentile ? newSchool.school_gre.school_gre_minimum_quantitative_percentile : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />      */}
                     </div>
                     <div className='mt-8'>
-                        <label className="text-xl font-medium bg-white">Analytical Writing Percentile</label>   
+                        <label className="text-xl font-medium bg-white block">Analytical Writing Percentile</label>   
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_minimum_analytical_writing_percentile.input} originalInput={newSchool.school_gre.school_gre_minimum_analytical_writing_percentile}
                         name='school_gre_minimum_analytical_writing_percentile' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} name='school_gre_minimum_analytical_writing_percentile' value={newSchool.school_gre.school_gre_minimum_analytical_writing_percentile ? newSchool.school_gre.school_gre_minimum_analytical_writing_percentile : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />      */}
                     </div>
                     <div className='mt-8'>
-                        <label className="text-xl font-medium bg-white">Combined Percentile</label>   
+                        <label className="text-xl font-medium bg-white block">Combined Percentile</label>   
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_gre_minimum_combined_percentile.input} originalInput={newSchool.school_gre.school_gre_minimum_combined_percentile}
                         name='school_gre_minimum_combined_percentile' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} name='school_gre_minimum_combined_percentile' value={newSchool.school_gre.school_gre_minimum_combined_percentile ?newSchool.school_gre.school_gre_minimum_combined_percentile : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />      */}
                     </div>
                     <div className='mt-8 mb-5'>
-                        <label className="text-xl font-medium bg-white">Minimum GRE Percentile Notes</label>   
+                        <label className="text-xl font-medium bg-white block">Minimum GRE Percentile Notes</label>   
                         <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_gre_percentile_notes');}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
@@ -901,28 +901,28 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
             <div className={`mt-12 relative max-w-[900px] border-2 py-5 px-8 block rounded border-orange-600`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Average GRE Scores Accepted Previous Year</label>
                 <div className='mt-4'>
-                    <label className="text-xl font-medium bg-white">Verbal Score</label>   
+                    <label className="text-xl font-medium bg-white block">Verbal Score</label>   
                     <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_average_gre_verbal_score_accepted_previous_year.input} originalInput={newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year}
                         name='school_average_gre_verbal_score_accepted_previous_year' handleInput={handleInput}
                         />
                     {/* <input onChange={handleInput} name='school_average_gre_verbal_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_score_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />            */}
                 </div>
                 <div className='mt-8'>
-                    <label className="text-xl font-medium bg-white">Quantitative Score</label>  
+                    <label className="text-xl font-medium bg-white block">Quantitative Score</label>  
                     <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_average_gre_quantitative_score_accepted_previous_year.input} originalInput={newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year}
                         name='school_average_gre_quantitative_score_accepted_previous_year' handleInput={handleInput}
                         /> 
                     {/* <input onChange={handleInput} name='school_average_gre_quantitative_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_score_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />            */}
                 </div>
                 <div className='mt-8'>
-                    <label className="text-xl font-medium bg-white">Analytical Writing Score</label>   
+                    <label className="text-xl font-medium bg-white block">Analytical Writing Score</label>   
                     <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_average_gre_analytical_writing_score_accepted_previous_year.input} originalInput={newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year}
                         name='school_average_gre_analytical_writing_score_accepted_previous_year' handleInput={handleInput}
                         /> 
                     {/* <input onChange={handleInput} name='school_average_gre_analytical_writing_score_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_score_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />            */}
                 </div>
                 <div className='mt-8 mb-5'>
-                    <label className="text-xl font-medium bg-white">Combined Score</label>   
+                    <label className="text-xl font-medium bg-white block">Combined Score</label>   
                     <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_average_gre_combined_score_accepted_previous_year.input} originalInput={newSchool.school_gre.school_average_gre_combined_score_accepted_previous_year}
                         name='school_average_gre_combined_score_accepted_previous_year' handleInput={handleInput}
                         /> 
@@ -933,28 +933,28 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
             <div className={`mt-12 relative max-w-[900px] border-2 py-5 px-8 block rounded border-orange-600`}>
                 <label className="font-medium absolute top-[-16px] text-xl bg-white">Average GRE Percentiles Accepted Previous Year</label>
                 <div className='mt-4'>
-                    <label className="text-xl font-medium bg-white">Verbal Percentile</label>   
+                    <label className="text-xl font-medium bg-white block">Verbal Percentile</label>   
                     <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_average_gre_verbal_percentile_accepted_previous_year.input} originalInput={newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year}
                         name='school_average_gre_verbal_percentile_accepted_previous_year' handleInput={handleInput}
                         /> 
                     {/* <input onChange={handleInput} name='school_average_gre_verbal_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_verbal_percentile_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />            */}
                 </div>
                 <div className='mt-8'>
-                    <label className="text-xl font-medium bg-white">Quantitative Percentile</label> 
+                    <label className="text-xl font-medium bg-white block">Quantitative Percentile</label> 
                     <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_average_gre_quantitative_percentile_accepted_previous_year.input} originalInput={newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year}
                         name='school_average_gre_quantitative_percentile_accepted_previous_year' handleInput={handleInput}
                         />   
                     {/* <input onChange={handleInput} name='school_average_gre_quantitative_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_quantitative_percentile_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />            */}
                 </div>
                 <div className='mt-8'>
-                    <label className="text-xl font-medium bg-white">Analytical Writing Percentile</label>   
+                    <label className="text-xl font-medium bg-white block">Analytical Writing Percentile</label>   
                     <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_average_gre_analytical_writing_percentile_accepted_previous_year.input} originalInput={newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year}
                         name='school_average_gre_analytical_writing_percentile_accepted_previous_year' handleInput={handleInput}
                         />  
                     {/* <input onChange={handleInput} name='school_average_gre_analytical_writing_percentile_accepted_previous_year' value={newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year ? newSchool.school_gre.school_average_gre_analytical_writing_percentile_accepted_previous_year : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />            */}
                 </div>
                 <div className='mt-8 mb-5'>
-                    <label className="text-xl font-medium bg-white">Combined Percentile</label>   
+                    <label className="text-xl font-medium bg-white block">Combined Percentile</label>   
                     <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} input={newSchool.edited_school_gre.edited_school_average_gre_combined_percentile_accepted_previous_year.input} originalInput={newSchool.school_gre.school_average_gre_combined_percentile_accepted_previous_year}
                         name='school_average_gre_combined_percentile_accepted_previous_year' handleInput={handleInput}
                         />  

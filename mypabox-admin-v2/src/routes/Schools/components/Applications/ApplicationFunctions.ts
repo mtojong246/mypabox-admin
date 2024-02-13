@@ -294,7 +294,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     school_supplemental_application_deadline: field.edited_school_supplemental_application_deadline.input === null ? originalField.school_supplemental_application_deadline : field.edited_school_supplemental_application_deadline.input,
                     school_supplemental_application_fee: field.edited_school_supplemental_application_fee.input === null ? originalField.school_supplemental_application_fee : field.edited_school_supplemental_application_fee.input,
                     school_supplemental_application_link: field.edited_school_supplemental_application_link.input === null ? originalField.school_supplemental_application_link : field.edited_school_supplemental_application_link.input,
-                    school_supplemental_application_link_provided_with_invite_only: field.edited_school_supplemental_application_link_provided_with_invite_only.input === null ? field.edited_school_supplemental_application_link_provided_with_invite_only : field.edited_school_supplemental_application_link_provided_with_invite_only.input,
+                    school_supplemental_application_link_provided_with_invite_only: field.edited_school_supplemental_application_link_provided_with_invite_only.input === null ? originalField.school_supplemental_application_link_provided_with_invite_only : field.edited_school_supplemental_application_link_provided_with_invite_only.input,
                 },
                 [name]: {
                     ...field,

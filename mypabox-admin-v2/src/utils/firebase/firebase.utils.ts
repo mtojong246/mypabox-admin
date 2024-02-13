@@ -107,7 +107,7 @@ export const getDocsById = async (id: number) => {
 }
 
 // Adds individual school collection to school document 
-export const addDocToSchoolCollection = async (data: School, id: number) => {
+export const addDocToSchoolCollection = async (data: School, id: string) => {
     const docRef = doc(db, 'schools', id.toString());
 
     try {
@@ -121,6 +121,46 @@ export const addDocToSchoolCollection = async (data: School, id: number) => {
         console.log('error adding school' , error.code);
     }
 };
+
+export const addSchoolDoc = async (data: School) => {
+    const collectionRef = collection(db, 'schools');
+
+    try {
+        // Adds new doc to collection
+        const newDoc = await addDoc(collectionRef, data);
+        const docRef = doc(db, 'schools', newDoc.id);
+        // Updates doc reference with newly-generated id 
+        await updateDoc(docRef, {
+            id: newDoc.id,
+        })
+        // Grabs and returns doc with updated id 
+        const docSnap = await getDoc(docRef);
+        return docSnap.data();
+
+    } catch (error:any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error adding school' , error.code);
+    }
+}
+
+export const updateSchoolDoc = async (data: School, id: string) => {
+    const docRef = doc(db, 'schools', id);
+
+    try {
+        // Adds data as a document to school collection or updates existing document
+        await setDoc(docRef, data)
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error updating school' , error.code);
+    }
+    
+}
 
 export const deleteSchoolDoc = async (id: string) => {
     const docRef = doc(db, 'schools', id);
@@ -157,6 +197,8 @@ export const getAllCourses = async () => {
     }
 }
 
+
+
 // Adds new course to doc and returns new course with unique id 
 export const addCoursesDoc = async (data: Course) => {
     const collectionRef = collection(db, 'courses');
@@ -181,6 +223,8 @@ export const addCoursesDoc = async (data: Course) => {
         console.log('error adding course' , error.code);
     }
 }
+
+
 
 // Adds or updates courses doc 
 export const updateCoursesDoc = async (data: Course, id: string) => {
@@ -258,6 +302,8 @@ export const addCategoryDoc = async (data: CategoryType) => {
     }
 
 }
+
+
 
 export const addCourseToCategoryDoc = async (id: string, course: CategoryCourse) => {
     const docRef = doc(db, 'categories', id);

@@ -316,7 +316,8 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
         <>
             <div className='fixed top-0 left-0 right-0 bottom-0 z-50'>
                 <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
-                    <div className='relative w-full max-w-[900px] max-h-[800px] overflow-y-scroll rounded p-4 bg-white'>
+                    <div className='relative w-full max-w-[900px] rounded p-4 bg-white'>
+                    <div className='max-h-[700px] overflow-auto'>
                         {(coursePopup || notePopup) && <div className='absolute bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 z-10'></div>}
                         <p className='text-xl font-semibold mb-8'>{editedRequiredOption ? 'Edit' : 'Add'} Required Optional Group</p>
                         <div className='w-full mb-8'>
@@ -394,6 +395,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                         <div className='w-full flex justify-end items-center gap-3'>
                             <button onClick={(e) => {toggleRequiredOptionalCourses(e); setEditedRequiredOption(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
                             <button onClick={(e) => {input ? addOrUpdateGroup(e, true) : addOrUpdateGroup(e, false)}} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:bg-[#3558A0]'>{editedRequiredOption ? 'Edit' : 'Add'} Option</button>
+                        </div>
                         </div>
                     </div>
                 </div>

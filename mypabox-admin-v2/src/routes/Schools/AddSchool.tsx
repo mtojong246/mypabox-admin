@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { selectIsEdit, selectSchools } from "../../app/selectors/schools.selectors";
 import { useState, useEffect, ChangeEvent, MouseEvent, useContext } from "react";
-import { addDocToSchoolCollection, getDocsById, deleteSchoolDoc } from "../../utils/firebase/firebase.utils";
-import { addSchool } from "../../app/slices/schools";
+import { addDocToSchoolCollection, getDocsById, deleteSchoolDoc, addSchoolDoc, updateSchoolDoc } from "../../utils/firebase/firebase.utils";
+import { addSchool, editSchoolData } from "../../app/slices/schools";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import AddNote from "./components/AddNote";
 import { School } from "../../types/schools.types";
@@ -83,20 +83,21 @@ export default function AddSchool() {
     const storedSchool = localStorage.getItem('newSchool');
     if (storedSchool) {
       setNewSchool(JSON.parse(storedSchool))
-    } else if (!schools.length) {
-      setNewSchool({
-        ...defaultSchool,
-        id: 1,
-      })
+    // } else if (!schools.length) {
+    //   setNewSchool({
+    //     ...defaultSchool,
+    //     id: 1,
+    //   })
    } else {
+    setNewSchool(defaultSchool)
       // Autoincrements id when adding a new school to db 
-      const arrayToSort = [...schools];
-      const sortedSchools = arrayToSort.sort((a,b) => a.id - b.id);
-      const id = (sortedSchools[sortedSchools.length - 1]).id + 1; 
-      setNewSchool({
-          ...defaultSchool,
-          id,
-      })
+      // const arrayToSort = [...schools];
+      // const sortedSchools = arrayToSort.sort((a,b) => a.id - b.id);
+      // const id = (sortedSchools[sortedSchools.length - 1]).id + 1; 
+      // setNewSchool({
+      //     ...defaultSchool,
+      //     id,
+      // })
     }
     
    }, [schools]);
@@ -172,7 +173,7 @@ export default function AddSchool() {
     }
 
     // Sends newSchool data to db 
-    const handleSave = async (e: MouseEvent<HTMLButtonElement>, id: number, hash?: string) => {
+    const handleSave = async (e: MouseEvent<HTMLButtonElement>, id: string, hash?: string) => {
         if ((e.target as HTMLButtonElement).value === 'done') {
           setIsDone(true);
         } else {
@@ -186,11 +187,66 @@ export default function AddSchool() {
           return;
         };
       
-        try {
-            // Sends API request with new school data to firestore 
-            await addDocToSchoolCollection(newSchool, id);
-        } catch (error:any) {
-            // throws error and navigates to main page if user is not authenticated when making request
+        // try {
+        //     // Sends API request with new school data to firestore 
+        //     await addDocToSchoolCollection(newSchool, id);
+        // } catch (error:any) {
+        //     // throws error and navigates to main page if user is not authenticated when making request
+        //     if (error.message === 'permission-denied') {
+        //         alert("Access denied. Please log in using the appropriate credentials");
+        //         navigate('/');
+        //         return;
+        //     } else {
+        //         alert('Error adding school');
+        //         return;
+        //     }
+        // }
+
+        // // Adds new school to current school list if it doesn't already exist
+        // const existingSchool = schools.find(school => school.id === id)
+        // if (existingSchool) {
+        //   dispatch(addSchool(newSchool));
+        // }
+
+        const existingSchool = schools.find(school => school.id === id);
+        
+        if (!existingSchool) {
+
+          try {
+            const addedSchool = await addSchoolDoc(newSchool);
+            if (addedSchool) {
+              dispatch(addSchool(addedSchool));
+
+              if ((e.target as HTMLButtonElement).value === 'done') {
+                setIsLoading(false);
+                setIsDone(false);
+                navigate('/schools');
+                // Remove newSchool from local storage 
+                localStorage.removeItem('newSchool');
+                // Resets inputs
+                setNewSchool(defaultSchool)
+              } else {
+                setIsLoading(false);
+                setIsDone(false);
+
+                localStorage.setItem('newSchool', JSON.stringify(addedSchool));
+                setNewSchool(addedSchool as School);
+
+                if ((e.target as HTMLButtonElement).value === 'save') handleClick();
+
+                if ((e.target as HTMLButtonElement).value === 'save') {
+                  // Switches to next tab after save 
+                  const currentCategory = categories.find(cat => cat.hash === tab);
+                  if (currentCategory) {
+                    const nextIndex = categories.indexOf(currentCategory) + 1;
+                    setTab(categories[nextIndex].hash)
+                  }
+                  
+                } 
+              }
+            }
+
+          } catch (error:any) {
             if (error.message === 'permission-denied') {
                 alert("Access denied. Please log in using the appropriate credentials");
                 navigate('/');
@@ -199,49 +255,87 @@ export default function AddSchool() {
                 alert('Error adding school');
                 return;
             }
-        }
+          }
+        } else {
+          try {
+            await updateSchoolDoc(newSchool, newSchool.id);
+            dispatch(editSchoolData(newSchool));
 
-        // Adds new school to current school list if it doesn't already exist
-        const existingSchool = schools.find(school => school.id === id)
-        if (existingSchool) {
-          dispatch(addSchool(newSchool));
+            if ((e.target as HTMLButtonElement).value === 'done') {
+              setIsLoading(false);
+              setIsDone(false);
+              navigate('/schools');
+              // Remove newSchool from local storage 
+              localStorage.removeItem('newSchool');
+              // Resets inputs
+              setNewSchool(defaultSchool)
+            } else {
+              setIsLoading(false);
+              setIsDone(false);
+
+              localStorage.setItem('newSchool', JSON.stringify(newSchool));
+              setNewSchool(newSchool);
+
+              if ((e.target as HTMLButtonElement).value === 'save') handleClick();
+
+              if ((e.target as HTMLButtonElement).value === 'save') {
+                // Switches to next tab after save 
+                const currentCategory = categories.find(cat => cat.hash === tab);
+                if (currentCategory) {
+                  const nextIndex = categories.indexOf(currentCategory) + 1;
+                  setTab(categories[nextIndex].hash)
+                }
+                alert('Progress saved');
+              } 
+            }
+
+          } catch (error:any) {
+            if (error.message === 'permission-denied') {
+              alert("Access denied. Please log in using the appropriate credentials");
+              navigate('/');
+              return;
+            } else {
+                alert('Error adding school');
+                return;
+            }
+          }
         }
 
         // If button = 'Done', take back to schools page. Otherwise save progress 
-        if ((e.target as HTMLButtonElement).value === 'done') {
-            setIsLoading(false);
-            setIsDone(false);
-            navigate('/schools');
-            // Remove newSchool from local storage 
-            localStorage.removeItem('newSchool');
-            // Resets inputs
-            setNewSchool(defaultSchool)
-        } else {
-            try {
-              const updatedSchool = await getDocsById(id);
-              if (updatedSchool) {
-                // Saves current school data to local storage 
-                localStorage.setItem('newSchool', JSON.stringify(updatedSchool[0]));
-                setNewSchool(updatedSchool[0] as School);
-                setIsLoading(false);
-                setIsDone(false);
+        // if ((e.target as HTMLButtonElement).value === 'done') {
+        //     setIsLoading(false);
+        //     setIsDone(false);
+        //     navigate('/schools');
+        //     // Remove newSchool from local storage 
+        //     localStorage.removeItem('newSchool');
+        //     // Resets inputs
+        //     setNewSchool(defaultSchool)
+        // } else {
+        //     try {
+        //       const updatedSchool = await getDocsById(id);
+        //       if (updatedSchool) {
+        //         // Saves current school data to local storage 
+        //         localStorage.setItem('newSchool', JSON.stringify(updatedSchool[0]));
+        //         setNewSchool(updatedSchool[0] as School);
+        //         setIsLoading(false);
+        //         setIsDone(false);
 
-                if ((e.target as HTMLButtonElement).value === 'save') handleClick();
+        //         if ((e.target as HTMLButtonElement).value === 'save') handleClick();
 
-                // if ((e.target as HTMLButtonElement).value === 'save') {
-                //   // Switches to next tab after save 
-                //   const currentCategory = categories.find(cat => cat.hash === tab);
-                //   if (currentCategory) {
-                //     const nextIndex = categories.indexOf(currentCategory) + 1;
-                //     setTab(categories[nextIndex].hash)
-                //   }
-                //   alert('Progress saved');
-                // } 
-              }
-            } catch (error: any) {
-              alert('Error retrieving updated school');
-            }   
-        }
+        //         if ((e.target as HTMLButtonElement).value === 'save') {
+        //           // Switches to next tab after save 
+        //           const currentCategory = categories.find(cat => cat.hash === tab);
+        //           if (currentCategory) {
+        //             const nextIndex = categories.indexOf(currentCategory) + 1;
+        //             setTab(categories[nextIndex].hash)
+        //           }
+        //           alert('Progress saved');
+        //         } 
+        //       }
+        //     } catch (error: any) {
+        //       alert('Error retrieving updated school');
+        //     }   
+        // }
 
         if (hash) {
           navigateTabs(hash)

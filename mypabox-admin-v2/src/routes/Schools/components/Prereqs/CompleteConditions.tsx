@@ -418,6 +418,8 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
         })
     };
 
+    console.log(newSchool.edited_school_prerequisite_completion_criteria)
+
     return (
         <>
         <div className={`mt-28 flex justify-start items-start gap-3 w-full`}>
@@ -703,7 +705,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                     />
                 </div>
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} input={newSchool.edited_school_prerequisite_completion_criteria.edited_school_all_courses_most_be_completed_before_applying.input} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode}
+            {isEdit && <EditButtons loggedInUser={loggedInUser} input={newSchool.edited_school_prerequisite_completion_criteria.input} isEditMode={newSchool.edited_school_prerequisite_completion_criteria.isEditMode}
             name='school_prerequisite_completion_criteria' toggleLinkPopup={toggleLinkPopup} link={newSchool.edited_school_prerequisite_completion_criteria.link} setLinkObj={setLinkObj}
             enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool}
             />}

@@ -414,7 +414,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                 {isReqOpen && (
                 <div className={`mt-7 mx-5 mb-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Volunteer Service Hours Required</label>   
-                    <div className='flex justify-center items-center gap-3'>
+                    <div className='flex justify-center items-start gap-3'>
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} input={newSchool.edited_school_volunteer_service.edited_school_minimum_volunteer_service_hours_required.input}
                         originalInput={ newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_required.input : null} name='school_minimum_volunteer_service_hours_required' handleInput={handleInputGroup}
                         />
@@ -461,7 +461,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                 {isRecOpen && (
                 <div className={`mt-7 mx-5 mb-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Volunteer Service Hours Recommended</label>   
-                    <div className='flex justify-center items-center gap-3'>
+                    <div className='flex justify-center items-start gap-3'>
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} input={newSchool.edited_school_volunteer_service.edited_school_minimum_volunteer_service_hours_recommended.input}
                         originalInput={newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended ? newSchool.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.input : null} name='school_minimum_volunteer_service_hours_recommended'handleInput={handleInputGroup}
                         />

@@ -480,7 +480,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
                 <>
                     <div className={`mt-7 mx-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum HCE Hours Required</label>   
-                        <div className='flex justify-center items-center gap-3'>
+                        <div className='flex justify-center items-start gap-3'>
                             <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} input={newSchool.edited_school_healthcare_experience.edited_school_minimum_healthcare_experience_hours_required.input}
                             originalInput={newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.input : null} name='school_minimum_healthcare_experience_hours_required'
                             handleInput={handleInputGroup}
@@ -513,7 +513,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
 
                     <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Frame HCE Needs To Be Completed</label>  
-                        <div className='flex justify-center items-center gap-3'>
+                        <div className='flex justify-center items-start gap-3'>
                             <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} input={newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input}
                             originalInput={newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input : null}
                             name='school_minimum_time_frame_healthcare_experience_needs_to_be_completed' number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration} handleInput={handleSelectionNumber}

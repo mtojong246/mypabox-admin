@@ -413,7 +413,7 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
                 {isReqOpen && (
                 <div className={`mt-7 mb-5 mx-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Community Service Hours Required</label>   
-                    <div className='flex justify-center items-center gap-3'>
+                    <div className='flex justify-center items-start gap-3'>
                         <InputFields  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} input={newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_required.input}
                         originalInput={newSchool.school_community_service.school_minimum_community_service_hours_required ? newSchool.school_community_service.school_minimum_community_service_hours_required.input : null } name='school_minimum_community_service_hours_required' handleInput={handleInputGroup}
                         />
@@ -460,7 +460,7 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
                 {isRecOpen && (
                 <div className={`mt-7 mx-5 mb-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Community Service Hours Recommended</label>   
-                    <div className='flex justify-center items-center gap-3'>
+                    <div className='flex justify-center items-start gap-3'>
                         <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} input={newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_recommended.input}
                         originalInput={newSchool.school_community_service.school_minimum_community_service_hours_recommended ? newSchool.school_community_service.school_minimum_community_service_hours_recommended.input : null} name='school_minimum_community_service_hours_recommended'
                         handleInput={handleInputGroup}

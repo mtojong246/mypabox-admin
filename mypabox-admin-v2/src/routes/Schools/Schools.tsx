@@ -182,7 +182,7 @@ const Schools = () => {
     toggleDelete(e)
   };
 
-  const changeLiveStatus = async (e: MouseEvent<HTMLButtonElement>, id: number) => {
+  const changeLiveStatus = async (e: MouseEvent<HTMLButtonElement>, id: string) => {
     e.preventDefault();
     if (!loggedInUser.permissions.canMakeLive) return;
     const selectedSchool = schools.find(school => school.id === id);
