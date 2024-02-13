@@ -58,7 +58,8 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
 
     const [ index, setIndex ] = useState<number | null>(null);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
-    const [ editedCourse, setEditedCourse ] = useState<any | null>(null)
+    const [ editedCourse, setEditedCourse ] = useState<any | null>(null);
+    const [ isBlank, setIsBlank ] = useState(false);
 
     // useEffect(() => {
     //     if (editedRequiredOption) {
@@ -84,6 +85,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                 setGroup(editedRequiredOption);
                 setEditedGroup(null)
             }
+            setIsBlank(false)
             
         } else {
             if (input) {
@@ -98,7 +100,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
             } else {
                 setGroup(defaultGroup)
             }
-            
+            setIsBlank(true)
         }
     }, [editedRequiredOption, input])
     
@@ -322,7 +324,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                         <p className='text-xl font-semibold mb-8'>{editedRequiredOption ? 'Edit' : 'Add'} Required Optional Group</p>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Minimum number of courses that need to be completed:</label>
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedGroup && editedGroup.school_minimum_number_of_courses_to_be_completed} 
+                            <InputFields isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedGroup && editedGroup.school_minimum_number_of_courses_to_be_completed} 
                             originalInput={group.school_minimum_number_of_courses_to_be_completed} name='school_minimum_number_of_courses_to_be_completed' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} value={group.school_minimum_number_of_courses_to_be_completed ? group.school_minimum_number_of_courses_to_be_completed : ''} className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}

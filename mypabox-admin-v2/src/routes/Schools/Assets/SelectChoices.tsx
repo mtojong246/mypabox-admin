@@ -1,14 +1,15 @@
 import { ChangeEvent } from "react"
 import { UserObject } from "../../../types/users.types"
 
-export default function SelectChoices({ loggedInUser, input, isEditMode, originalInput, name, handleInputInArray, index}: { 
+export default function SelectChoices({ loggedInUser, input, isEditMode, originalInput, name, handleInputInArray, index, isBlank}: { 
     loggedInUser: UserObject,
     input: string | number | null, 
     isEditMode: boolean,
     originalInput: string | number | null,
     name: string,
     handleInputInArray : (e: ChangeEvent<HTMLInputElement>, name: string, index: number, isEditedInput: boolean) => void,
-    index: number
+    index: number,
+    isBlank?: boolean,
  }) {
 
     return (

@@ -76,6 +76,8 @@ export default function AddCourseToOption({ newSchool, loggedInUser, toggleCours
     } | null>(null);
     const [ selection, setSelection ] = useState<string | undefined>('');
     const [ editedSelection, setEditedSelection ] = useState<string | undefined>('');
+        const [ isBlank, setIsBlank ] = useState(false);
+
 
 
     useEffect(() => {
@@ -150,7 +152,7 @@ export default function AddCourseToOption({ newSchool, loggedInUser, toggleCours
                 setEditedSelection('');
                 setEditedOption(null)
             }
-            
+            setIsBlank(false)
         } else {
             if (input) {
                 setEditedOption({
@@ -171,6 +173,7 @@ export default function AddCourseToOption({ newSchool, loggedInUser, toggleCours
                 setSelection('')
                 setEditedOption(null)
             }
+            setIsBlank(true)
             
         }
     }, [editedCourse, input]);
@@ -311,34 +314,34 @@ export default function AddCourseToOption({ newSchool, loggedInUser, toggleCours
                     <p className='text-xl font-semibold mb-8'>{editedCourse ? 'Edit Course from Required Option' : 'Add Course to Required Option'}</p>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
-                        <SelectFieldsGroup loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_id : null} 
+                        <SelectFieldsGroup isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_id : null} 
                         originalInput={optionalCourse.school_optional_course_id} name='school_optional_course_id' category="school_optional_course_id" handleSelect={handleSelection} label={editedSelection} originalLabel={selection}
                         options={courseOptions}
                         />
                         {/* <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} className='w-full focus:outline-none rounded mt-2' options={courseOptions}/> */}
                     </div>
                     <div className='w-full mb-8'>
-                        <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_lab : null} 
+                        <BooleanFields isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_lab : null} 
                         originalInput={optionalCourse.school_optional_course_lab} name='school_optional_course_lab' handleCheck={handleCheck} label="With Lab"
                         />
                         {/* <input type='checkbox' onChange={handleCheck} name='school_optional_course_lab' className='mr-2' checked={optionalCourse.school_optional_course_lab ? true : false}/> */}
                     </div>
                     <div className='w-full mb-8'>
-                        <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_lab_preferred : null} 
+                        <BooleanFields isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_lab_preferred : null} 
                         originalInput={optionalCourse.school_optional_course_lab_preferred} name='school_optional_course_lab_preferred' handleCheck={handleCheck} label="Lab Preferred"
                         />
                         {/* <input type='checkbox' onChange={handleCheck} name='school_optional_course_lab_preferred' className='mr-2' checked={optionalCourse.school_optional_course_lab_preferred ? true : false}/> */}
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Credits:</label>
-                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_credit_hours : null}
+                        <InputFields isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_credit_hours : null}
                         originalInput={optionalCourse.school_optional_course_credit_hours} name='school_optional_course_credit_hours' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={optionalCourse.school_optional_course_credit_hours ? optionalCourse.school_optional_course_credit_hours : ''} name='school_optional_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Quarter hours:</label>
-                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_quarter_hours : null}
+                        <InputFields isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedOption ? editedOption.school_optional_course_quarter_hours : null}
                         originalInput={optionalCourse.school_optional_course_quarter_hours} name='school_optional_course_quarter_hours' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={optionalCourse.school_optional_course_quarter_hours ? optionalCourse.school_optional_course_quarter_hours : ''}  name='school_optional_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}

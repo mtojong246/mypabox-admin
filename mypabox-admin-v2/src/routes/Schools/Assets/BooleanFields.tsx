@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react"
 import { UserObject } from "../../../types/users.types"
 
-export default function BooleanFields({ loggedInUser, input, isEditMode, originalInput, name, handleCheck, label } : { 
+export default function BooleanFields({ loggedInUser, input, isEditMode, originalInput, name, handleCheck, label, isBlank } : { 
     loggedInUser: UserObject,
     input: boolean | null,
     isEditMode: boolean,
@@ -9,6 +9,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
     name: string,
     handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
     label?: string,
+    isBlank?: boolean,
 
  }) {
 
@@ -59,7 +60,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
                         {label ? label : input ? 'True' : 'False'}
                         </span>
                     </label>}
-                    {input !== originalInput ? <label className="relative inline-flex items-center cursor-pointer">
+                    {(input !== originalInput) && !isBlank ? <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" disabled className="sr-only peer" name={name} checked={originalInput ? true : false}  />
                         <div className={`w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600`}></div>
                         <span className={`ml-3 text-black ${input !== null || isEditMode ? 'line-through' : 'no-underline'} ${label ? 'text-base' : 'text-xl'}`}>

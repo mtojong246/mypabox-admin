@@ -285,7 +285,7 @@ export default function AddSchool() {
                   const nextIndex = categories.indexOf(currentCategory) + 1;
                   setTab(categories[nextIndex].hash)
                 }
-                alert('Progress saved');
+                
               } 
             }
 

@@ -69,7 +69,7 @@ export default function CategoryFields({loggedInUser, input, originalInput, isEd
                     const originalCategory = originalGroup && categories.find(c => c.id === originalGroup.school_required_course_category)
                     if (selectedCategory) {
                         return (
-                        <div className='p-3 border border-[#545454] rounded w-full'>
+                        <div className={`p-3 border ${category.isNew ? 'border-orange-600' : 'border-[#545454]'}  rounded w-full`}>
                             <div className='flex justify-between items-center w-full'>
                                 <p className={`font-bold text-xl ${!category.isCorrect && !category.isNew ? 'line-through' : 'no-underline'}`}>{selectedCategory.category_name}
                                     <span className='font-semibold text-base inline-block pl-3 text-[#6A6A6A]'>
@@ -273,7 +273,7 @@ export default function CategoryFields({loggedInUser, input, originalInput, isEd
                     const originalCategory = originalGroup && categories.find(c => c.id === originalGroup.school_required_course_category)
                     if (selectedCategory) {
                         return (
-                        <div className='p-3 border border-[#545454] rounded w-full'>
+                        <div className={`p-3 border ${category.isNew ? 'border-orange-600' : 'border-[#545454]'}  rounded w-full`}>
                             <div className='flex justify-between items-center w-full'>
                                 <p className={`font-bold text-xl ${!category.isCorrect && !category.isNew ? 'line-through' : 'no-underline'}`}>{selectedCategory.category_name}
                                     <span className='font-semibold text-base inline-block pl-3 text-[#6A6A6A]'>

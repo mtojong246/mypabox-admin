@@ -40,7 +40,7 @@ export default function IncludedFields({loggedInUser, input, originalInput, isEd
                     const selectedCourse = courses.find(c => c.unique_id === course.school_required_course_id);
                     if (selectedCourse) {
                         return (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                            <div className={`py-2 pr-2 pl-3 border ${course.isNew ? 'border-orange-600' : 'border-[#B4B4B4]'}  rounded w-full`}>
                                 <div className='flex justify-between items-center w-full'>
                                     <p className={`font-bold ${!course.isCorrect && !course.isNew ? 'line-through' : 'no-underline'}`}>{selectedCourse?.course_name}</p>
                                     <div className='flex gap-2'>
@@ -102,7 +102,7 @@ export default function IncludedFields({loggedInUser, input, originalInput, isEd
                     const selectedCourse = courses.find(c => c.unique_id === course.school_required_course_id);
                     if (selectedCourse) {
                         return (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
+                            <div className={`py-2 pr-2 pl-3 border ${course.isNew ? 'border-orange-600' : 'border-[#B4B4B4]'}  rounded w-full`}>
                                 <div className='flex justify-between items-center w-full'>
                                     <p className={`font-bold ${!course.isCorrect && !course.isNew ? 'line-through' : 'no-underline'}`}>{selectedCourse?.course_name}</p>
                                     <div className='flex gap-2'>

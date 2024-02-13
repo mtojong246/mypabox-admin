@@ -87,6 +87,7 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
     } | null>(null);
     const [ selection, setSelection ] = useState<string | undefined>('');
     const [ editedSelection, setEditedSelection ] = useState<string | undefined>('');
+    const [ isBlank, setIsBlank ] = useState(false);
 
     useEffect(() => {
         if (!input) {
@@ -181,7 +182,7 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
                 } else {
                     originalInput = requiredCategory.school_required_course_category_extra_included_courses.find((inp,i) => i === groupIndex)
                 }
-                const opt = originalInput.find((inp: CourseType,i: number) => i === groupIndex);
+                const opt = originalInput && originalInput.find((inp: CourseType,i: number) => i === groupIndex);
                 if (opt) {
                     setAddedCourse(opt);
                     const selectedCourse = courses.find(course => course.unique_id === opt.school_required_course_id)
@@ -205,7 +206,7 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
                 setEditedSelection('');
                 setEditedOption(null)
             }
-            
+            setIsBlank(false);
         } else {
             if (input) {
                 setEditedOption({
@@ -222,7 +223,7 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
                 setSelection('')
                 setEditedOption(null)
             }
-            
+            setIsBlank(true);
         }
     }, [editedCourse, input]);
 
@@ -338,10 +339,18 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
         } else {
             note = e
         }
-        setAddedCourse({
-            ...addedCourse,
-            school_required_course_note: note,
-        })
+        if (loggedInUser.permissions.canAddOrDelete) {
+            setAddedCourse({
+                ...addedCourse,
+                school_required_course_note: note,
+            })
+        } else {
+            editedOption && setEditedOption({
+                ...editedOption,
+                school_required_course_note: note,
+            })
+        }
+        
     }
 
     const addOrEditCourse = (e: MouseEvent<HTMLButtonElement>, isEditedInput: boolean) => {
@@ -369,14 +378,14 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
                     <p className='text-xl font-semibold mb-8'>{excluded && editedCourse ? 'Edit Excluded Course' : !excluded && editedCourse ? 'Edit Included Course' : excluded && !editedCourse ? 'Add Excluded Course' : 'Add Included Course'}</p>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
-                        <SelectFieldsGroup loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={editedOption ? editedOption.school_required_course_id : null}
+                        <SelectFieldsGroup isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={editedOption ? editedOption.school_required_course_id : null}
                         originalInput={addedCourse.school_required_course_id} handleSelect={handleSelection} label={editedSelection} originalLabel={selection} options={courseOptions} name='school_required_course_id' category="school_required_course_id"
                         />
                         {/* <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} className='w-full focus:outline-none rounded mt-2' options={courseOptions}/> */}
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>
-                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={addedCourse.school_required_course_note}/>
+                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={editedOption ? editedOption.school_required_course_note : addedCourse.school_required_course_note}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={(e) => {toggleCoursePopup(e); setEditedCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>

@@ -1,9 +1,5 @@
 import { UserObject } from '../../../../types/users.types';
-import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
 import { AiOutlineClose } from 'react-icons/ai';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
 import { Note } from '../../../../types/schools.types';
 import { FiEdit3 } from 'react-icons/fi';
 import ReactQuill from 'react-quill';
@@ -45,7 +41,7 @@ export default function RequiredOptionsField({loggedInUser, input, originalInput
                 {input.map((group, i) => {
                     const originalGroup = originalInput.find((inp,index) => index === i);
                 return (
-                    <div className='p-3 border border-[#545454] rounded w-full'>
+                    <div className={`p-3 border ${group.isNew ? 'border-orange-600' : 'border-[#545454]'} rounded w-full`}>
                         <div className='flex justify-between items-center w-full'>
                             <p className={`font-bold text-xl ${!group.isCorrect && !group.isNew ? 'line-through' : 'no-underline'}`}>{group.school_minimum_number_of_exams_to_be_completed} {originalGroup && group.school_minimum_number_of_exams_to_be_completed !== originalGroup.school_minimum_number_of_exams_to_be_completed && <span className='line-through'>{originalGroup.school_minimum_number_of_exams_to_be_completed}</span>} <span className='font-normal'>of the following exams need to be completed:</span></p>
                             <div className='flex gap-2'>
@@ -125,7 +121,7 @@ export default function RequiredOptionsField({loggedInUser, input, originalInput
                 {input.map((group, i) => {
                     const originalGroup = originalInput.find((inp,index) => index === i);
                 return (
-                    <div className='p-3 border border-[#545454] rounded w-full'>
+                    <div className={`p-3 border ${group.isNew ? 'border-orange-600' : 'border-[#545454]'} rounded w-full`}>
                         <div className='flex justify-between items-center w-full'>
                             <p className={`font-bold text-xl ${!group.isCorrect && !group.isNew ? 'line-through' : 'no-underline'}`}>{group.school_minimum_number_of_exams_to_be_completed} {originalGroup && group.school_minimum_number_of_exams_to_be_completed !== originalGroup.school_minimum_number_of_exams_to_be_completed && <span className='line-through'>{originalGroup.school_minimum_number_of_exams_to_be_completed}</span>} <span className='font-normal'>of the following exams need to be completed:</span></p>
                             <div className='flex gap-2'>

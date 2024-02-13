@@ -56,7 +56,7 @@ export default function OptionalFields({loggedInUser, input, originalInput, isEd
                 {input.map((group, i) => {
                     const originalGroup = originalInput && originalInput.find((inp,index) => index === i);
                     return (
-                    <div className='p-3 border border-[#545454] rounded w-full'>
+                    <div className={`p-3 border ${group.isNew ? 'border-orange-600' : 'border-[#545454]'}  rounded w-full`}>
                         <div className='flex justify-between items-center w-full'>
                             <p className={`font-bold text-lg ${!group.isCorrect && !group.isNew ? 'line-through' : 'no-underline'}`}>{group.school_minimum_number_of_courses_to_be_completed} {originalGroup && originalGroup.school_minimum_number_of_courses_to_be_completed !== group.school_minimum_number_of_courses_to_be_completed && <span className='line-through'>{originalGroup.school_minimum_number_of_courses_to_be_completed}</span>}<span className='font-normal'>of the following courses need to be completed:</span></p>
                             <div className='flex gap-2'>
@@ -186,7 +186,7 @@ export default function OptionalFields({loggedInUser, input, originalInput, isEd
                 {input.map((group, i) => {
                     const originalGroup = originalInput && originalInput.find((inp,index) => index === i);
                     return (
-                    <div className='p-3 border border-[#545454] rounded w-full'>
+                    <div className={`p-3 border ${group.isNew ? 'border-orange-600' : 'border-[#545454]'}  rounded w-full`}>
                         <div className='flex justify-between items-center w-full'>
                             <p className={`font-bold text-lg ${!group.isCorrect && !group.isNew ? 'line-through' : 'no-underline'}`}>{group.school_minimum_number_of_courses_to_be_completed} {originalGroup && originalGroup.school_minimum_number_of_courses_to_be_completed !== group.school_minimum_number_of_courses_to_be_completed && <span className='line-through'>{originalGroup.school_minimum_number_of_courses_to_be_completed}</span>}<span className='font-normal'>of the following courses need to be completed:</span></p>
                             <div className='flex gap-2'>
