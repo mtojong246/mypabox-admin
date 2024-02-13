@@ -359,6 +359,11 @@ export default function AddSchool() {
 
       } else {
 
+        if (newSchool === defaultSchool) {
+          navigate('/schools');
+          return;
+        }
+
         try {
 
           await deleteSchoolDoc(newSchool.id.toString());
