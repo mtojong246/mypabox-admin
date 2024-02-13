@@ -116,12 +116,12 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
         if (name === 'edited_school_phone_number') {
             const field = newSchool.edited_school_phone_number;
             const originalField = newSchool.school_phone_number;
-            const correctList = field.input!.filter(opt => opt.isCorrect);
+            const correctList = field.input && field.input.filter(opt => opt.isCorrect);
             setNewSchool({
                 ...newSchool,
                 school_phone_number: {
                     ...originalField,
-                    input: field.input ?  correctList.map(list => ({
+                    input: correctList ?  correctList.map(list => ({
                         category: list.category,
                         number: list.number
                     })) : originalField.input,
@@ -138,12 +138,12 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
         } else if (name === 'edited_school_email') {
             const field = newSchool.edited_school_email;
             const originalField = newSchool.school_email;
-            const correctList = field.input!.filter(opt => opt.isCorrect);
+            const correctList = field.input && field.input.filter(opt => opt.isCorrect);
             setNewSchool({
                 ...newSchool,
                 school_email: {
                     ...originalField,
-                    input: field.input ? correctList.map(list => ({
+                    input: correctList ? correctList.map(list => ({
                         category: list.category,
                         email: list.email,
                     })) : originalField.input,
@@ -160,7 +160,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
         } else if (name === 'edited_school_type_of_degree_offered') {
             const field = newSchool.edited_school_type_of_degree_offered;
             const originalField = newSchool.school_type_of_degree_offered;
-            const correctList = field.input!.filter(opt => opt.isCorrect);
+            const correctList = field.input && field.input.filter(opt => opt.isCorrect);
             setNewSchool({
                 ...newSchool,
                 school_type_of_degree_offered: {

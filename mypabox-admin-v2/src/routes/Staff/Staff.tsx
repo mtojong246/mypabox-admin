@@ -1,14 +1,15 @@
 import { useState, useEffect, MouseEvent } from "react";
 import AddTask from "./AddTask";
-import { getAllUsers } from "../../utils/firebase/firebase.utils";
+import { getAllUsers, deleteUserDoc } from "../../utils/firebase/firebase.utils";
 import { UserObject, Task } from "../../types/users.types";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectUsers } from "../../app/selectors/users.selectors";
-import { setUsers } from "../../app/slices/users";
+import { setUsers, removeUser } from "../../app/slices/users";
 import Individual from "./Individual";
 import { selectLogin } from "../../app/selectors/login.selector";
 import AddUser from "./AddUser";
+import DeletePopup from "./DeletePopup";
 
 
 export default function Staff() {
@@ -25,10 +26,19 @@ export default function Staff() {
     const [ editedIndex, setEditedIndex ] = useState(0);
     const [ isAdmin, setIsAdmin ] = useState(false);
     const [ isAddUser, setIsAddUser ] = useState(false);
+
+    const [ deleteModal, setDeleteModal ] = useState(false);
+    const [ toBeDeleted, setToBeDeleted ] = useState('');
+    const [ isLoading, setIsLoading ] = useState(false);
     
     const toggleAdd = (e:any) => {
         e.preventDefault();
         setIsAddUser(!isAddUser);
+    }
+
+    const toggleDelete = (e:any) => {
+        e.preventDefault();
+        setDeleteModal(!deleteModal);
     }
 
     useEffect(() => {
@@ -86,6 +96,27 @@ export default function Staff() {
         setOpenAddTask(!openAddTask);
     };
 
+    const handleDelete = async (e:any, id: string) => {
+        e.preventDefault();
+        setIsLoading(true)
+        try {
+            await deleteUserDoc(id);
+            dispatch(removeUser(id));
+            toggleDelete(e);
+            setIsLoading(false)
+        } catch (error: any) {
+            if (error.message === 'permission-denied') {
+                alert("Access denied. Please log in using the appropriate credentials");
+                navigate('/');
+                return;
+            } else {
+                alert(error);
+                return;
+            }
+        }
+        setIsLoading(false)
+    }
+
 
     return (
         <>
@@ -103,12 +134,15 @@ export default function Staff() {
                 </div>
                 <div className={`w-full max-w-[1800px] px-10 pb-10 flex flex-col justify-start items-center gap-10`}>
                 {users.map(user => (
-                    <Individual user={user} toggleOpenTask={toggleOpenTask} setAssignee={setAssignee} setEditedTask={setEditedTask} setEditedIndex={setEditedIndex} isAdmin={isAdmin}/>
+                    <Individual user={user} toggleOpenTask={toggleOpenTask} setAssignee={setAssignee} setEditedTask={setEditedTask} setEditedIndex={setEditedIndex} isAdmin={isAdmin}
+                    toggleDelete={toggleDelete} setToBeDeleted={setToBeDeleted}
+                    />
                 ))}
                 </div>
             </div>
             {openAddTask && <AddTask toggleOpenTask={toggleOpenTask} assignee={assignee} users={users} editedTask={editedTask} editedIndex={editedIndex}/>} 
             {isAddUser && <AddUser toggleAdd={toggleAdd}/>}
+            {deleteModal && <DeletePopup toggleModal={toggleDelete} toBeDeleted={toBeDeleted} handleDelete={handleDelete} isLoading={isLoading}/>}
             </>
         )}
         </>

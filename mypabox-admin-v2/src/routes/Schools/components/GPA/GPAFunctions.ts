@@ -350,24 +350,38 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             })
         } else if (name === 'edited_school_other_types_of_gpa_evaluated') {
             const field = newSchool.edited_school_other_types_of_gpa_evaluated;
+            const originalField = newSchool.school_other_types_of_gpa_evaluated;
+            const editedArray = field.input && field.input.map(inp => ({
+                gpa_value_required_or_recommended: inp.gpa_value_required_or_recommended,
+                minimum_gpa_value_needed: inp.minimum_gpa_value_needed,
+                minimum_number_of_credits_evaluated: inp.minimum_number_of_credits_evaluated,
+                type_of_gpa_evaluated: inp.type_of_gpa_evaluated,
+                notes: inp.notes,
+            }))
             setNewSchool({
                 ...newSchool,
                 edited_school_other_types_of_gpa_evaluated: {
                     ...field,
                     isEditMode: false,
-                    input: field.input,
-                    prev: field.input,
+                    input: JSON.stringify(editedArray) === JSON.stringify(originalField) ? null : field.input,
+                    prev: JSON.stringify(editedArray) === JSON.stringify(originalField) ? null : field.input,
                 }
             })
         } else if (name === 'edited_school_minimum_gpa_for_specific_course') {
             const field = newSchool.edited_school_minimum_gpa_for_specific_course;
+            const originalField = newSchool.school_minimum_gpa_for_specific_course;
+            const editedArray = field.input && field.input.map(inp => ({
+                minimum_gpa_required_for_course: inp.minimum_gpa_required_for_course,
+                courseID: inp.courseID,
+                notes: inp.notes,
+            }))
             setNewSchool({
                 ...newSchool,
                 edited_school_minimum_gpa_for_specific_course: {
                     ...field,
                     isEditMode: false,
-                    input: field.input,
-                    prev: field.input,
+                    input: JSON.stringify(editedArray) === JSON.stringify(originalField) ? null : field.input,
+                    prev: JSON.stringify(editedArray) === JSON.stringify(originalField) ? null : field.input,
                 }
             })
         }
@@ -523,10 +537,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
     } else if (name === 'edited_school_other_types_of_gpa_evaluated') {
         const field = newSchool.edited_school_other_types_of_gpa_evaluated;
         const originalField = newSchool.school_other_types_of_gpa_evaluated;
-        const correctList = field.input!.filter(inp => inp.isCorrect)
+        const correctList = field.input && field.input.filter(inp => inp.isCorrect)
         setNewSchool({
             ...newSchool,
-            school_other_types_of_gpa_evaluated: field.input ? correctList.map(list => ({
+            school_other_types_of_gpa_evaluated: correctList ? correctList.map(list => ({
                 gpa_value_required_or_recommended: list.gpa_value_required_or_recommended,
                 minimum_gpa_value_needed: list.minimum_gpa_value_needed,
                 minimum_number_of_credits_evaluated: list.minimum_number_of_credits_evaluated,
@@ -544,10 +558,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
     } else if (name === 'edited_school_minimum_gpa_for_specific_course') {
         const field = newSchool.edited_school_minimum_gpa_for_specific_course;
         const originalField = newSchool.school_minimum_gpa_for_specific_course;
-        const correctList = field.input!.filter(inp => inp.isCorrect);
+        const correctList = field.input && field.input.filter(inp => inp.isCorrect);
         setNewSchool({
             ...newSchool,
-            school_minimum_gpa_for_specific_course: field.input ? correctList.map(list => ({
+            school_minimum_gpa_for_specific_course: correctList ? correctList.map(list => ({
                 minimum_gpa_required_for_course: list.minimum_gpa_required_for_course,
                 courseID: list.courseID,
                 notes: list.notes,

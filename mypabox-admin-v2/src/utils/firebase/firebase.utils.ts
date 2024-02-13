@@ -514,3 +514,18 @@ export const updateUsersDoc = async (data: UserObject, id: string) => {
         }
     
 }
+
+export const deleteUserDoc = async (id:string) => {
+    const docRef = doc(db, 'users', id);
+
+    try {
+        // Removes course from document 
+        await deleteDoc(docRef);
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error deleting user' , error.code);
+    }
+}

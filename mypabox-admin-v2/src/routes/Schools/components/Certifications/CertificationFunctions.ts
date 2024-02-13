@@ -29,6 +29,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
     e.preventDefault();;
     const field = newSchool.edited_school_certifications_required;
     const originalField = newSchool.school_certifications_required;
+    const editedArray = field.edited_school_certifications_required_options.input && field.edited_school_certifications_required_options.input.map(inp => inp.name)
     if (!original) {
         setNewSchool({
             ...newSchool,
@@ -38,24 +39,23 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             },
             edited_school_certifications_required: {
                 ...field,
-                input: field.input,
-                prev: field.input,
+                input: field.input === originalField.input ? null : field.input,
+                prev: field.input === originalField.input ? null : field.input,
                 isEditMode: false,
                 edited_school_certifications_required_options: {
-                    input: field.edited_school_certifications_required_options.input,
-                    prev: field.edited_school_certifications_required_options.input,
+                    input: JSON.stringify(editedArray) === JSON.stringify(originalField.school_certifications_required_options) ? null : field.edited_school_certifications_required_options.input,
+                    prev: JSON.stringify(editedArray) === JSON.stringify(originalField.school_certifications_required_options) ? null : field.edited_school_certifications_required_options.input,
                 }
             }
         })
     } else {
-        const correctList = field.edited_school_certifications_required_options.input!.filter(opt => opt.isCorrect);
-        if (correctList) {
+        const correctList = field.edited_school_certifications_required_options.input && field.edited_school_certifications_required_options.input!.filter(opt => opt.isCorrect);
             setNewSchool({
                 ...newSchool,
                 school_certifications_required: {
                     ...originalField,
-                    input: field.input!,
-                    school_certifications_required_options: field.edited_school_certifications_required_options.input ? correctList.map(opt => opt.name)
+                    input: field.input === null ? originalField.input : field.input,
+                    school_certifications_required_options: correctList ? correctList.map(opt => opt.name)
                      : originalField.school_certifications_required_options,
                     school_certification_notes: field.notes ? field.notes : newSchool.school_certifications_required.school_certification_notes,
 
@@ -73,7 +73,6 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
 
                 }
             })
-        }
     }
 
 }

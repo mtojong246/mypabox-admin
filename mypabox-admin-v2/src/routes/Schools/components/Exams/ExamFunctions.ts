@@ -586,13 +586,18 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             })
         } else if (name === 'edited_school_required_optional_exams') {
             const field = newSchool.edited_school_required_optional_exams;
+            const editedArray = field.input && field.input.map(inp => ({
+                school_minimum_number_of_exams_to_be_completed: inp.school_minimum_number_of_exams_to_be_completed,
+                school_required_optional_exams_list: inp.school_required_optional_exams_list.map(list => list.name),
+                school_optional_exams_notes: inp.school_optional_exams_notes,
+            }))
             setNewSchool({
                 ...newSchool,
                 edited_school_required_optional_exams: {
                     ...field,
                     isEditMode: false,
-                    input: field.input,
-                    prev: field.input,
+                    input: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_required_optional_exams) ? null : field.input,
+                    prev: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_required_optional_exams) ? null : field.input,
                 }
             })
         }
@@ -913,11 +918,10 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
         } else if (name === 'edited_school_required_optional_exams') {
             const field = newSchool.edited_school_required_optional_exams;
             const originalField = newSchool.school_required_optional_exams;
-            const correctList = field.input!.filter(inp => inp.isCorrect)
-            if (correctList) {
+            const correctList = field.input && field.input.filter(inp => inp.isCorrect)
                 setNewSchool({
                     ...newSchool,
-                    school_required_optional_exams: field.input ? correctList.map(inp => ({
+                    school_required_optional_exams: correctList ? correctList.map(inp => ({
                         school_minimum_number_of_exams_to_be_completed: inp.school_minimum_number_of_exams_to_be_completed,
                         school_required_optional_exams_list: inp.school_required_optional_exams_list.filter(list => list.isCorrect).map(list => list.name),
                         school_optional_exams_notes: inp.school_optional_exams_notes,
@@ -929,7 +933,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         prev: null,
                     }
                 })
-            }
+            
         }
     }
 

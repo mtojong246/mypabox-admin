@@ -13,7 +13,9 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 
 
 
-export default function Individual({user, toggleOpenTask, setAssignee, setEditedTask, setEditedIndex, isAdmin}: {user: UserObject, toggleOpenTask: (e:any) => void, setAssignee: Dispatch<SetStateAction<any>>, setEditedTask: Dispatch<SetStateAction<Task | null>>, setEditedIndex: Dispatch<SetStateAction<number>>, isAdmin: boolean}) {
+export default function Individual({user, toggleOpenTask, setAssignee, setEditedTask, setEditedIndex, isAdmin, setToBeDeleted, toggleDelete}: {user: UserObject, toggleOpenTask: (e:any) => void, setAssignee: Dispatch<SetStateAction<any>>, setEditedTask: Dispatch<SetStateAction<Task | null>>, setEditedIndex: Dispatch<SetStateAction<number>>, isAdmin: boolean,
+    setToBeDeleted: Dispatch<SetStateAction<string>>, toggleDelete: (e:any) => void,
+}) {
     const [ openPermissions, setOpenPermissions ] = useState(false);
     const [ openActive, setOpenActive ] = useState(false);
     const [ openCompleted, setOpenCompleted ] = useState(false);
@@ -156,7 +158,12 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                     </div>
                     <p className='font-bold text-sm'>Email: <span className='font-normal'>{user.email}</span></p>
                 </div>
-                {!user.isSuperAdmin && isAdmin && <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.displayName} as any); setEditedTask(null)}}>+ Add Task</button>}
+                
+                {!user.isSuperAdmin && isAdmin && (<div className='flex justify-end items-center gap-2'>
+                    <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.displayName} as any); setEditedTask(null)}}>+ Add Task</button>
+                    <button onClick={(e:any) => {setToBeDeleted(user.id); toggleDelete(e)}}><FaRegTrashAlt className='h-[36px] w-8 text-[#F06A6A] hover:text-white hover:bg-[#F06A6A] border-2 border-[#F06A6A] rounded px-1 py-1'/></button>
+                </div>)}
+                {/* {!user.isSuperAdmin && isAdmin && <button className='border-2 border-[#4573D2] text-[#4573D2] font-medium rounded px-3 py-1 hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {toggleOpenTask(e); setAssignee({id: user.id, name: user.displayName} as any); setEditedTask(null)}}>+ Add Task</button>} */}
             </div>
             {!user.isSuperAdmin && (
             <>
