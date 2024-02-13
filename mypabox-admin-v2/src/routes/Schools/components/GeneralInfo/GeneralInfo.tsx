@@ -374,7 +374,6 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         
     };
 
-    console.log(newSchool.edited_school_campus_location)
 
     const updateNote = (note: Note) => {
         if (loggedInUser.permissions.canAddOrDelete) {
@@ -624,7 +623,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
 
 
-
+    console.log(newSchool.school_rolling_admissions, newSchool.edited_school_rolling_admissions)
 
     return (
         <>

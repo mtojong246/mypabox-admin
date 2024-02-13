@@ -131,13 +131,13 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     },
                     edited_school_optional_evaluators_required: {
                         ...field.edited_school_optional_evaluators_required,
-                        input: JSON.stringify(editedArrayOne) === JSON.stringify(originalField.school_optional_evaluators_required) ? null : field.edited_school_optional_evaluators_required.input,
-                        prev: JSON.stringify(editedArrayOne) === JSON.stringify(originalField.school_optional_evaluators_required) ? null : field.edited_school_optional_evaluators_required.input,
+                        input: field.edited_school_optional_evaluators_required.input,
+                        prev: field.edited_school_optional_evaluators_required.input,
                     },
                     edited_school_required_evaluator_title: {
                         ...field.edited_school_required_evaluator_title,
-                        input: JSON.stringify(editedArrayTwo) === JSON.stringify(originalField.school_required_evaluator_title) ? null : field.edited_school_required_evaluator_title.input,
-                        prev: JSON.stringify(editedArrayTwo) === JSON.stringify(originalField.school_required_evaluator_title) ? null : field.edited_school_required_evaluator_title.input,
+                        input: field.edited_school_required_evaluator_title.input,
+                        prev: field.edited_school_required_evaluator_title.input,
                     }
                 }
             })
@@ -173,13 +173,13 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     },
                     edited_school_optional_evaluators_recommended: {
                         ...field.edited_school_optional_evaluators_recommended,
-                        input: JSON.stringify(editedArrayOne) === JSON.stringify(originalField.school_optional_evaluators_recommended) ? null : field.edited_school_optional_evaluators_recommended.input,
-                        prev: JSON.stringify(editedArrayOne) === JSON.stringify(originalField.school_optional_evaluators_recommended) ? null : field.edited_school_optional_evaluators_recommended.input,
+                        input: field.edited_school_optional_evaluators_recommended.input,
+                        prev: field.edited_school_optional_evaluators_recommended.input,
                     },
                     edited_school_recommended_evaluator_title: {
                         ...field.edited_school_recommended_evaluator_title,
-                        input: JSON.stringify(editedArrayTwo) === JSON.stringify(originalField.school_recommended_evaluator_title) ? null : field.edited_school_recommended_evaluator_title.input,
-                        prev: JSON.stringify(editedArrayTwo) === JSON.stringify(originalField.school_recommended_evaluator_title) ? null : field.edited_school_recommended_evaluator_title.input,
+                        input: field.edited_school_recommended_evaluator_title.input,
+                        prev: field.edited_school_recommended_evaluator_title.input,
                     }
                 }
             })

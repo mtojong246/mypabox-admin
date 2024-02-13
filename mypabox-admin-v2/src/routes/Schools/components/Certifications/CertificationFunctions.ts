@@ -43,8 +43,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 prev: field.input === originalField.input ? null : field.input,
                 isEditMode: false,
                 edited_school_certifications_required_options: {
-                    input: JSON.stringify(editedArray) === JSON.stringify(originalField.school_certifications_required_options) ? null : field.edited_school_certifications_required_options.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(originalField.school_certifications_required_options) ? null : field.edited_school_certifications_required_options.input,
+                    input: field.edited_school_certifications_required_options.input,
+                    prev: field.edited_school_certifications_required_options.input,
                 }
             }
         })

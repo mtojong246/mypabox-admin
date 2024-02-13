@@ -64,7 +64,6 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
         const name = `edited_${e.currentTarget.name}` as keyof School;
         if (name === 'edited_school_phone_number') {
             const field = newSchool.edited_school_phone_number;
-            const editedArray = field.input && field.input.map(inp => ({category: inp.category, number: inp.number}))
             setNewSchool({
                 ...newSchool,
                 school_phone_number: {
@@ -74,13 +73,12 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_phone_number: {
                     ...field,
                     isEditMode: false,
-                    input: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_phone_number.input) ? null : field.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_phone_number.input) ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         } else if (name === 'edited_school_email') {
             const field = newSchool.edited_school_email;
-            const editedArray = field.input && field.input.map(inp => ({category: inp.category, email: inp.email}))
             setNewSchool({
                 ...newSchool,
                 school_email: {
@@ -90,13 +88,12 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_email: {
                     ...field,
                     isEditMode: false,
-                    input: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_email.input) ? null : field.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_email.input) ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         } else if (name === 'edited_school_type_of_degree_offered') {
             const field = newSchool.edited_school_type_of_degree_offered;
-            const editedArray = field.input && field.input.map(inp => inp.name)
             setNewSchool({
                 ...newSchool,
                 school_type_of_degree_offered: {
@@ -106,8 +103,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_type_of_degree_offered: {
                     ...newSchool.edited_school_type_of_degree_offered,
                     isEditMode: false,
-                    input: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_type_of_degree_offered.fields) ? null : field.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_type_of_degree_offered.fields) ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         }

@@ -126,8 +126,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
-                    input: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_prereq_required_courses) ? null : field.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_prereq_required_courses) ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         } else if (name === 'edited_school_prereq_recommended_courses') {
@@ -145,8 +145,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
-                    input: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_prereq_recommended_courses) ? null : field.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_prereq_recommended_courses) ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         } else if (name === 'edited_school_prereq_required_optional_courses') {
@@ -168,8 +168,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
-                    input: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_prereq_required_optional_courses) ? null : field.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_prereq_required_optional_courses) ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         } else if (name === 'edited_school_prereq_required_course_categories') {
@@ -194,8 +194,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 [name]: {
                     ...field,
                     isEditMode: false,
-                    input: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_prereq_required_course_categories) ? null : field.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(newSchool.school_prereq_required_course_categories) ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         }

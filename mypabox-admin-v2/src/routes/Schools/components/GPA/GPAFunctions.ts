@@ -363,8 +363,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_other_types_of_gpa_evaluated: {
                     ...field,
                     isEditMode: false,
-                    input: JSON.stringify(editedArray) === JSON.stringify(originalField) ? null : field.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(originalField) ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         } else if (name === 'edited_school_minimum_gpa_for_specific_course') {
@@ -380,8 +380,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_minimum_gpa_for_specific_course: {
                     ...field,
                     isEditMode: false,
-                    input: JSON.stringify(editedArray) === JSON.stringify(originalField) ? null : field.input,
-                    prev: JSON.stringify(editedArray) === JSON.stringify(originalField) ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                 }
             })
         }
