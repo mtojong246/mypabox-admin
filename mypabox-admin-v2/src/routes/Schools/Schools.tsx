@@ -56,7 +56,7 @@ const Schools = () => {
     if (currentUser) {
         setLoggedInUser(currentUser);
     }
-}, [login]);
+}, [login, users]);
 
   useEffect(() => {
     setStateSearch([])
