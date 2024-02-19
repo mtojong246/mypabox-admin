@@ -1,8 +1,9 @@
 import { useEffect, useContext, useState, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSchools } from '../../app/selectors/schools.selectors';
-import {  getSchoolsAndDocuments, getAllCourses, getAllCategories, addDocToSchoolCollection } from '../../utils/firebase/firebase.utils';
+import {  getSchoolsAndDocuments, getAllCourses, getAllCategories, addDocToSchoolCollection, getAllUsers } from '../../utils/firebase/firebase.utils';
 import { setIsEdit, setSchools } from '../../app/slices/schools';
+import { setUsers } from '../../app/slices/users';
 import { AppDispatch } from '../../app/store';
 import { SchoolContext } from '../../useContext';
 import { useNavigate } from 'react-router-dom';
@@ -52,6 +53,43 @@ const Schools = () => {
   };
 
   useEffect(() => {
+
+    const fetchUsers = async () => {
+        try {
+            const allUsers = await getAllUsers();
+            let userData: UserObject[] = [];
+            if (allUsers) {
+                allUsers.forEach(user => (
+                    userData.push({
+                        id: user.id,
+                        displayName: user.data.displayName,
+                        email: user.data.email,
+                        isSuperAdmin: user.data.isSuperAdmin,
+                        permissions: user.data.permissions,
+                        activeTasks: user.data.activeTasks,
+                        completedTasks: user.data.completedTasks,
+                        archivedTasks: user.data.archivedTasks,
+                    })
+                )) 
+                dispatch(setUsers(userData))
+            }
+
+        } catch (error: any) {
+            if (error.message === 'permission-denied') {
+                alert("Access denied. Please log in using the appropriate credentials");
+                navigate('/');
+                return;
+              } else {
+                alert('Error loading user data')
+              }
+        }
+    }
+
+    fetchUsers();
+
+}, [dispatch, navigate]);
+
+  useEffect(() => {
     const currentUser = users.find(user => user.email === login);
     if (currentUser) {
         setLoggedInUser(currentUser);
@@ -95,70 +133,70 @@ const Schools = () => {
 
   }, [dispatch, navigate, setStateSearch]);
 
-  useEffect(() => {
+//   useEffect(() => {
 
-    const fetchCourses = async () => {
-        try {
-            const allCourses = await getAllCourses();
-            if  (allCourses) {
-                // Sorts course alphabetically
-                (allCourses as Course[]).sort(function (a, b) {
-                    if (a.course_name < b.course_name) {
-                        return -1;
-                    }
-                    if (a.course_name > b.course_name) {
-                        return 1;
-                    }
-                    return 0;
-                })
-                dispatch(setCourses(allCourses));
-            }
-        } catch (error: any) {
-            if (error.message === 'permission-denied') {
-                alert("Access denied. Please log in using the appropriate credentials");
-                navigate('/');
-                return;
-              } else {
-                alert('Error loading course data')
-              }
-        }
-    }
+//     const fetchCourses = async () => {
+//         try {
+//             const allCourses = await getAllCourses();
+//             if  (allCourses) {
+//                 // Sorts course alphabetically
+//                 (allCourses as Course[]).sort(function (a, b) {
+//                     if (a.course_name < b.course_name) {
+//                         return -1;
+//                     }
+//                     if (a.course_name > b.course_name) {
+//                         return 1;
+//                     }
+//                     return 0;
+//                 })
+//                 dispatch(setCourses(allCourses));
+//             }
+//         } catch (error: any) {
+//             if (error.message === 'permission-denied') {
+//                 alert("Access denied. Please log in using the appropriate credentials");
+//                 navigate('/');
+//                 return;
+//               } else {
+//                 alert('Error loading course data')
+//               }
+//         }
+//     }
 
-    fetchCourses();
+//     fetchCourses();
 
-}, [dispatch, navigate]);
+// }, [dispatch, navigate]);
 
-  useEffect(() => {
+//   useEffect(() => {
 
-    const fetchCategories = async () => {
-        try {
-            const allCategories = await getAllCategories();
-            if (allCategories) {
-                // Sorts course alphabetically
-                (allCategories as CategoryType[]).sort(function (a, b) {
-                    if (a.category_name < b.category_name) {
-                        return -1;
-                    }
-                    if (a.category_name > b.category_name) {
-                        return 1;
-                    }
-                    return 0;
-                })
-                dispatch(setCategories(allCategories));
-            } 
-        } catch (error: any) {
-            if (error.message === 'permission-denied') {
-                alert("Access denied. Please log in using the appropriate credentials");
-                navigate('/');
-                return;
-            } else {
-                alert('Error loading course data')
-            }
-        }
-    }
+//     const fetchCategories = async () => {
+//         try {
+//             const allCategories = await getAllCategories();
+//             if (allCategories) {
+//                 // Sorts course alphabetically
+//                 (allCategories as CategoryType[]).sort(function (a, b) {
+//                     if (a.category_name < b.category_name) {
+//                         return -1;
+//                     }
+//                     if (a.category_name > b.category_name) {
+//                         return 1;
+//                     }
+//                     return 0;
+//                 })
+//                 dispatch(setCategories(allCategories));
+//             } 
+//         } catch (error: any) {
+//             if (error.message === 'permission-denied') {
+//                 alert("Access denied. Please log in using the appropriate credentials");
+//                 navigate('/');
+//                 return;
+//             } else {
+//                 alert('Error loading course data')
+//             }
+//         }
+//     }
 
-    fetchCategories();
-  }, [dispatch, navigate]);
+//     fetchCategories();
+//   }, [dispatch, navigate]);
 
   useEffect(() => {
     localStorage.removeItem('newSchool');
