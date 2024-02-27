@@ -282,7 +282,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
         <>
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative grow max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && newSchool.edited_school_type_of_degree_offered.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_type_of_degree_offered.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                {((loggedInUser.permissions.canVerify && newSchool.edited_school_type_of_degree_offered.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_type_of_degree_offered.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
                     <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Types of Degrees Offered<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-center items-start gap-2'>
                         <input disabled={(loggedInUser.permissions.canVerify && hasInputs) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_type_of_degree_offered.isEditMode) ? true : false} className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" onChange={(e:ChangeEvent<HTMLInputElement>) => setField(e.target.value)} value={field}/>
@@ -336,7 +336,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
 
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && newSchool.edited_school_dual_degree_program.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_dual_degree_program.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                {((loggedInUser.permissions.canVerify && newSchool.edited_school_dual_degree_program.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_dual_degree_program.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
                     <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Dual-Degree Program<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_dual_degree_program.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_dual_degree_program.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-start items-center gap-2'>
                         <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_dual_degree_program.input} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} originalInput={newSchool.school_dual_degree_program.input} name='school_dual_degree_program' handleCheck={handleCheck}/>         
@@ -379,7 +379,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
 
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && newSchool.edited_school_bachelors_degree_required.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_bachelors_degree_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                {((loggedInUser.permissions.canVerify && newSchool.edited_school_bachelors_degree_required.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_bachelors_degree_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
                     <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Bachelors Degree Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_bachelors_degree_required.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_bachelors_degree_required.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-start items-center gap-2'>
                         <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_bachelors_degree_required.input} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} originalInput={newSchool.school_bachelors_degree_required.input} name='school_bachelors_degree_required' handleCheck={handleCheck}/>

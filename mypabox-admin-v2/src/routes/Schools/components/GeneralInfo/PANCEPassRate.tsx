@@ -242,7 +242,7 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
         <>
         <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
         <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`} onMouseUp={mouseUp}>
-        {((loggedInUser.permissions.canVerify && newSchool.edited_school_first_time_pass_rate.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_first_time_pass_rate.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+        {((loggedInUser.permissions.canVerify && newSchool.edited_school_first_time_pass_rate.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_first_time_pass_rate.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
         <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">First Time Pass Rate<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_first_time_pass_rate.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_first_time_pass_rate.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
                     {loggedInUser.permissions.canVerify ? (
@@ -305,7 +305,7 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
 
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
             <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`} onMouseUp={mouseUp2}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_average_five_year_first_time_pass_rate.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+            {((loggedInUser.permissions.canVerify && newSchool.edited_school_average_five_year_first_time_pass_rate.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Five Year Average First-Time Pass Rate<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_average_five_year_first_time_pass_rate.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_average_five_year_first_time_pass_rate.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
                     {loggedInUser.permissions.canVerify ? (

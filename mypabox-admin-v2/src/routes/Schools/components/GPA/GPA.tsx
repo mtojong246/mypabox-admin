@@ -541,7 +541,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
             <>
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && reqHasInputs !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                {((loggedInUser.permissions.canVerify && reqHasInputs !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
                 <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!reqHasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${reqHasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                         <div className='my-2'>
                         <BooleanFields input={newSchool.edited_school_minimum_gpa_required.input} isEditMode={newSchool.edited_school_minimum_gpa_required.isEditMode} loggedInUser={loggedInUser} 
@@ -600,7 +600,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
 
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && recHasInputs !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_recommended.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                {((loggedInUser.permissions.canVerify && recHasInputs !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_recommended.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
                 <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Minimum GPA Recommended<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!recHasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${recHasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className="my-2">
                 <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_minimum_gpa_recommended.input} isEditMode={newSchool.edited_school_minimum_gpa_recommended.isEditMode} originalInput={newSchool.school_minimum_gpa_recommended.input} name='school_minimum_gpa_recommended'

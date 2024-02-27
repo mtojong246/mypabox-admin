@@ -462,7 +462,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
         <>
         <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
         <div className={`grow relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
-        {((loggedInUser.permissions.canVerify && newSchool.edited_school_healthcare_experience.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_healthcare_experience.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+        {((loggedInUser.permissions.canVerify && newSchool.edited_school_healthcare_experience.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_healthcare_experience.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
         <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Healthcare Experience (HCE)<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>            
             <div className={`mt-7 relative max-w-[900px] border-2 p-5 block rounded ${newSchool.school_healthcare_experience.school_healthcare_experience_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                 <label className="absolute top-[-16px] text-xl font-medium bg-white">HCE Required</label>   

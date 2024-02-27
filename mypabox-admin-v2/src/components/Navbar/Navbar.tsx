@@ -46,7 +46,7 @@ const Navbar = () => {
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
       {location.pathname === '/' ? '' : (
-        <div className={`sticky z-40 bg-[#252628] py-[10px] px-5 w-screen font-['Noto Sans'] flex justify-between 
+        <div className={`sticky z-[90] bg-[#252628] py-[10px] px-5 w-screen font-['Noto Sans'] flex justify-between 
         items-center gap-12`}>
           {/* Logo image */}
           <div className='flex justify-center items-center gap-1'>

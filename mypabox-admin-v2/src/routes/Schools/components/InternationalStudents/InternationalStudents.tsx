@@ -150,7 +150,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
         <>
         <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
             <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_international_students_accepted.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_international_students_accepted.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+            {((loggedInUser.permissions.canVerify && newSchool.edited_school_international_students_accepted.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_international_students_accepted.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">International Students Accepted<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_international_students_accepted.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_international_students_accepted.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-center gap-3'>
                     <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_international_students_accepted.input} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} originalInput={newSchool.school_international_students_accepted.input}

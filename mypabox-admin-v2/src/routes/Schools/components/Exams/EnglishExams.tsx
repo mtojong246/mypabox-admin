@@ -617,7 +617,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
         <>
         <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_english_proficiency_exams.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_english_proficiency_exams.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+            {((loggedInUser.permissions.canVerify && newSchool.edited_school_english_proficiency_exams.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_english_proficiency_exams.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">English Proficiency Exams Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} originalInput={newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required}
                 name='school_english_proficiency_exams_required' handleCheck={handleCheck} input={newSchool.edited_school_english_proficiency_exams.edited_school_english_proficiency_exams_required.input}

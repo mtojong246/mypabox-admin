@@ -158,7 +158,7 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
             <>
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && newSchool.edited_school_paid_experience_required.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_paid_experience_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#e8e8e8] opacity-50 z-10'></div>}
+                {((loggedInUser.permissions.canVerify && newSchool.edited_school_paid_experience_required.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_paid_experience_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
                 <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Paid Experience Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_paid_experience_required.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_paid_experience_required.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                     <div className='flex justify-start items-center gap-3'>
                         <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_paid_experience_required.isEditMode} input={newSchool.edited_school_paid_experience_required.input} originalInput={newSchool.school_paid_experience_required.input}

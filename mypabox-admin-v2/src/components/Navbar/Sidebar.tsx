@@ -35,7 +35,7 @@ const Sidebar = () => {
     <>
       {/* Left navigation bar */}
       {location.pathname === '/' ? '' :
-        <div className="fixed top-0 font-['Noto Sans'] select-none z-30 w-[15em] bg-[#252628] h-screen flex flex-col justify-between items-start">
+        <div className="fixed top-0 font-['Noto Sans'] select-none z-[80] w-[15em] bg-[#252628] h-screen flex flex-col justify-between items-start">
           <div className="pl-4 pt-4 mt-[76px] w-full flex flex-col justify-start items-start gap-3 border-t border-[#a2a2a2]">
             {NAV_ITEMS.map((item) => (
               <Link
