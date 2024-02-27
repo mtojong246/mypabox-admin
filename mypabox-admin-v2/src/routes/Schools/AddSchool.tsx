@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { selectIsEdit, selectSchools } from "../../app/selectors/schools.selectors";
 import { useState, useEffect, ChangeEvent, MouseEvent, useContext } from "react";
-import { addDocToSchoolCollection, getDocsById, deleteSchoolDoc, addSchoolDoc, updateSchoolDoc } from "../../utils/firebase/firebase.utils";
+import { deleteSchoolDoc, addSchoolDoc, updateSchoolDoc } from "../../utils/firebase/firebase.utils";
 import { addSchool, editSchoolData } from "../../app/slices/schools";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AddNote from "./components/AddNote";
 import { School } from "../../types/schools.types";
 import { StringInput, BooleanInput, NumberInput } from "../../types/schools.types";
@@ -16,6 +16,7 @@ import { categories } from "../../data/categories";
 import { SchoolContext } from "../../useContext";
 import { PiWarningCircle } from "react-icons/pi";
 import { selectUsers } from "../../app/selectors/users.selectors";
+import CancelPopup from "./CancelPopup";
 
 
 import Button from '@mui/material/Button';
@@ -23,7 +24,6 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress';
-import { setCategories } from "../../app/slices/categories";
 
 
 export default function AddSchool() {
@@ -51,7 +51,13 @@ export default function AddSchool() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const [ assignee, setAssignee ] = useState('')
+  const [ assignee, setAssignee ] = useState('');
+  const [ isCancelOpen, setIsCancelOpen ] = useState(false);
+
+  const toggleCancelPopup = (e:any) => {
+    e.preventDefault();
+    setIsCancelOpen(!isCancelOpen);
+  }
 
   const handleClick = () => {
     setOpen(true);
@@ -194,7 +200,7 @@ export default function AddSchool() {
           newSchool.edited_school_pre_pa_curriculum.isEditMode || newSchool.edited_school_direct_high_school_entry.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_online_learning.isEditMode || newSchool.edited_school_on_campus_housing.isEditMode ||
           newSchool.edited_school_cadaver_lab.isEditMode || newSchool.edited_school_faith_based_learning.isEditMode || newSchool.edited_school_military_personnel_preference.isEditMode || newSchool.edited_school_dual_degree_program.isEditMode || 
           newSchool.edited_school_type_of_degree_offered.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_mission_statement.isEditMode || newSchool.edited_school_in_state_tuition.isEditMode 
-          || newSchool.edited_school_out_of_state_tuition.isEditMode || newSchool.edited_school_first_time_pass_rate.isEditMode || newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode) {
+          || newSchool.edited_school_out_of_state_tuition.isEditMode || newSchool.edited_school_first_time_pass_rate.isEditMode || newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode || newSchool.edited_school_holistic_review.isEditMode) {
             setIsLoading(false);
             setIsDone(false);
             alert('Please confirm all edits before proceeding');
@@ -387,6 +393,7 @@ export default function AddSchool() {
     }
 
     const cancel = async (e:MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
       if (isEdit) {
         navigate('/schools');
         localStorage.removeItem('newSchool');
@@ -513,7 +520,7 @@ export default function AddSchool() {
               h-[50px] w-[84px] hover:text-white hover:bg-blue-500 flex justify-center items-center'>
                 {isDone ? <CircularProgress color='inherit' style={{height: '30px', width: '30px'}}/>  : 'Finish'}
               </button>
-              <button onClick={cancel} className='border-2 border-red-400 text-red-400 rounded 
+              <button onClick={toggleCancelPopup} className='border-2 border-red-400 text-red-400 rounded 
               h-[50px] px-5 hover:text-white hover:bg-red-400'>Cancel</button>
           </div>
         </div>
@@ -539,6 +546,7 @@ export default function AddSchool() {
     </div>
     {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
     {openEdit && <EditNote currentInput={currentInput} note={note} index={index} toggleEdit={toggleEdit} editNote={editNote}/>}
+    {isCancelOpen && <CancelPopup toggleDelete={toggleCancelPopup} cancel={cancel} />}
     {<Snackbar
         open={open}
         autoHideDuration={3000}
