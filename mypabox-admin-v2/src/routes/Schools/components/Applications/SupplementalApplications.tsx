@@ -227,9 +227,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
             link: '',
             name: '',
         })
-    };
-
-    console.log(newSchool.school_supplemental_application_required)
+    }
 
     return (
         <>

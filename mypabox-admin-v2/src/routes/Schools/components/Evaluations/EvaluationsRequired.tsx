@@ -483,7 +483,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
             link: '',
             name: '',
         })
-    };
+    }
 
 
     

@@ -540,7 +540,7 @@ export default function EvaluationsRecommended({
         link: '',
         name: '',
     })
-};
+}
 
   return (
     <>

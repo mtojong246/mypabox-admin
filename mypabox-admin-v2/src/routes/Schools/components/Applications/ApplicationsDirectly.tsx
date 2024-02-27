@@ -226,7 +226,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
             link: '',
             name: '',
         })
-    };
+    }
 
     return (
         <>

@@ -608,10 +608,11 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
+        const linkName = `edited_${linkObj.name}`
         setNewSchool({
             ...newSchool,
-            [linkObj.name]: {
-                ...newSchool[linkObj.name as keyof School] as object,
+            [linkName]: {
+                ...newSchool[linkName as keyof School] as object,
                 link: newLink,
             }
         });
@@ -623,7 +624,6 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
 
 
-    console.log(newSchool.school_rolling_admissions, newSchool.edited_school_rolling_admissions)
 
     return (
         <>

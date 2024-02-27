@@ -291,7 +291,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
             link: '',
             name: '',
         })
-    };
+    }
 
 
     return (

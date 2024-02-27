@@ -283,7 +283,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
             link: '',
             name: '',
         })
-    };
+    }
 
     return (
         <>

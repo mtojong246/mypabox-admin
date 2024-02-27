@@ -263,10 +263,11 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
+        const linkName = `edited_${linkObj.name}`
         setNewSchool({
             ...newSchool,
-            [linkObj.name]: {
-                ...newSchool[linkObj.name as keyof School] as object,
+            [linkName]: {
+                ...newSchool[linkName as keyof School] as object,
                 link: newLink,
             }
         });
