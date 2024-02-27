@@ -201,6 +201,13 @@ const fields = [
         required: false,
     },
     {
+        name: 'Holistic Review',
+        value: 'school_holistic_review',
+        margin: 'mt-12',
+        type: 'bool',
+        required: false,
+    },
+    {
         name: 'General Information Notes',
         value: 'school_general_information',
         margin: 'mt-28',

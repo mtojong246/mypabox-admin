@@ -359,6 +359,15 @@ export interface School {
         notes: Note[] | null;
     };
 
+    school_holistic_review: BooleanInput;
+    edited_school_holistic_review: {
+        input: boolean | null,
+        prev: boolean | null,
+        isEditMode: boolean,
+        link: string;
+        notes: Note[] | null;
+    }
+
     school_general_information: string;
 
     school_dual_degree_program: BooleanInput;

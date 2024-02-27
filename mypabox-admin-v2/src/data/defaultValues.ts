@@ -291,6 +291,19 @@ export const defaultSchool: School = {
         notes: null,
     },
 
+    school_holistic_review: {
+        input: false,
+        notes: [],
+    },
+
+    edited_school_holistic_review: {
+        input: null,
+        prev: null,
+        isEditMode: false,
+        link: '',
+        notes: null,
+    },
+
     school_general_information: "",
 
     school_dual_degree_program: {
