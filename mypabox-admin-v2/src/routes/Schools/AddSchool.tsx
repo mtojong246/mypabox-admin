@@ -186,6 +186,41 @@ export default function AddSchool() {
           alert('Please input required fields ');
           return;
         };
+
+        if (newSchool.edited_school_name.isEditMode || newSchool.edited_school_logo.isEditMode || newSchool.edited_school_street.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_state.isEditMode 
+          || newSchool.edited_school_zip_code.isEditMode || newSchool.edited_school_country.isEditMode || newSchool.edited_school_website.isEditMode || newSchool.edited_school_email.isEditMode || newSchool.edited_school_phone_number.isEditMode 
+          || newSchool.edited_school_campus_location.isEditMode || newSchool.edited_school_start_month.isEditMode || newSchool.edited_school_class_capacity.isEditMode || newSchool.edited_school_duration_full_time.isEditMode || newSchool.edited_school_duration_part_time.isEditMode
+          || newSchool.edited_school_seat_deposit_in_state.isEditMode || newSchool.edited_school_seat_deposit_out_of_state.isEditMode || newSchool.edited_school_rolling_admissions.isEditMode || newSchool.edited_school_nonrolling_admissions.isEditMode || 
+          newSchool.edited_school_pre_pa_curriculum.isEditMode || newSchool.edited_school_direct_high_school_entry.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_online_learning.isEditMode || newSchool.edited_school_on_campus_housing.isEditMode ||
+          newSchool.edited_school_cadaver_lab.isEditMode || newSchool.edited_school_faith_based_learning.isEditMode || newSchool.edited_school_military_personnel_preference.isEditMode || newSchool.edited_school_dual_degree_program.isEditMode || 
+          newSchool.edited_school_type_of_degree_offered.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_mission_statement.isEditMode || newSchool.edited_school_in_state_tuition.isEditMode 
+          || newSchool.edited_school_out_of_state_tuition.isEditMode || newSchool.edited_school_first_time_pass_rate.isEditMode || newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode) {
+            setIsLoading(false);
+            setIsDone(false);
+            alert('Please confirm all edits before proceeding');
+            return;
+          }
+
+        if (newSchool.edited_school_certifications_required.isEditMode || newSchool.edited_school_minimum_gpa_required.isEditMode || newSchool.edited_school_minimum_gpa_recommended.isEditMode || newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode || newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode || 
+          newSchool.edited_school_average_gpa_accepted_previous_cycle.isEditMode || newSchool.edited_school_prereq_required_courses.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_prereq_required_course_categories.isEditMode || 
+          newSchool.edited_school_grade_criteria.isEditMode || newSchool.edited_school_time_frame_criteria.isEditMode || newSchool.edited_school_pass_fail_criteria.isEditMode || newSchool.edited_school_ap_criteria.isEditMode || newSchool.edited_school_community_college_criteria.isEditMode || newSchool.edited_school_clep_criteria.isEditMode ||
+          newSchool.edited_school_online_courses_criteria.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_paid_experience_required.isEditMode || newSchool.edited_school_patient_experience.isEditMode || newSchool.edited_school_healthcare_experience.isEditMode || 
+          newSchool.edited_school_community_service.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_pa_shadowing_required.isEditMode || newSchool.edited_school_pa_shadowing_recommended.isEditMode ||  newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.isEditMode || 
+          newSchool.edited_school_required_optional_exams.isEditMode || newSchool.edited_school_gre.isEditMode) {
+          setIsLoading(false);
+          setIsDone(false);
+          alert('Please confirm all edits before proceeding');
+          return;
+        }
+
+        if (newSchool.edited_school_pacat.edited_school_pacat_exam_group_scaled_minimum_score_required.isEditMode || newSchool.edited_school_casper.edited_school_casper_recommended.isEditMode || newSchool.edited_school_english_proficiency_exams.isEditMode || 
+          newSchool.edited_school_evaluations_required.isEditMode || newSchool.edited_school_evaluations_recommended.isEditMode || newSchool.edited_school_international_students_accepted.isEditMode || newSchool.edited_school_accreditation_status.isEditMode ||
+          newSchool.edited_school_application_submitted_on_caspa.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_supplemental_application_required.isEditMode) {
+            setIsLoading(false);
+            setIsDone(false);
+            alert('Please confirm all edits before proceeding');
+            return;
+          }
       
         // try {
         //     // Sends API request with new school data to firestore 
