@@ -1281,6 +1281,7 @@ export const defaultSchool: School = {
 
     school_english_proficiency_exams: {
         school_english_proficiency_exams_required: false,
+        notes: [],
 
         school_toefl_required: null,
         school_minimum_time_frame_toefl_needs_to_be_completed: null,
@@ -1323,6 +1324,7 @@ export const defaultSchool: School = {
         link: '',
         isEditMode: false,
         input: null,
+        edited_notes: null,
         edited_school_ielt_minimum_score_notes: null,
         edited_school_itep_academic_plus_minimum_score_notes: null,
         edited_school_melab_minimum_score_notes: null,

@@ -139,6 +139,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
             edited_school_english_proficiency_exams: {
                 ...field,
                 isEditMode: true,
+                edited_notes: field.edited_notes === null ? originalField.notes : field.edited_notes,
                 input: (field.edited_school_english_proficiency_exams_required.input === null && field.edited_school_toefl_required.input === null && field.edited_school_minimum_time_frame_toefl_needs_to_be_completed.input === null && 
                     field.edited_school_toefl_exempt_with_masters_degree.input === null && field.edited_school_toefl_exempt_with_doctoral_degree.input === null && field.edited_school_toefl_ibt_minimum_total_score_required.input === null && 
                     field.edited_school_toefl_ibt_minimum_reading_score_required.input === null && field.edited_school_toefl_ibt_minimum_writing_score_required.input === null && field.edited_school_toefl_ibt_minimum_listening_score_required.input === null && 
@@ -449,6 +450,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...originalField,
+                    notes: field.edited_notes ? field.edited_notes : originalField.notes,
                     school_ielt_minimum_score_notes: field.edited_school_ielt_minimum_score_notes ? field.edited_school_ielt_minimum_score_notes : originalField.school_ielt_minimum_score_notes,
                     school_melab_minimum_score_notes: field.edited_school_melab_minimum_score_notes ? field.edited_school_melab_minimum_score_notes : originalField.school_melab_minimum_score_notes,
                     school_toefl_ibt_minimum_score_notes: field.edited_school_toefl_ibt_minimum_score_notes ? field.edited_school_toefl_ibt_minimum_score_notes : originalField.school_toefl_ibt_minimum_score_notes,
@@ -774,6 +776,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 ...newSchool,
                 school_english_proficiency_exams: {
                     ...originalField,
+                    notes: field.edited_notes ? field.edited_notes : originalField.notes,
                     school_ielt_minimum_score_notes: field.edited_school_ielt_minimum_score_notes ? field.edited_school_ielt_minimum_score_notes : originalField.school_ielt_minimum_score_notes,
                     school_melab_minimum_score_notes: field.edited_school_melab_minimum_score_notes ? field.edited_school_melab_minimum_score_notes : originalField.school_melab_minimum_score_notes,
                     school_toefl_ibt_minimum_score_notes: field.edited_school_toefl_ibt_minimum_score_notes ? field.edited_school_toefl_ibt_minimum_score_notes : originalField.school_toefl_ibt_minimum_score_notes,
@@ -815,6 +818,7 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     link: '',
                     isEditMode: false,
                     input: null,
+                    edited_notes: null,
                     edited_school_ielt_minimum_score_notes: null,
                     edited_school_itep_academic_plus_minimum_score_notes: null,
                     edited_school_melab_minimum_score_notes: null,
@@ -1358,6 +1362,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                 link: '',
                 isEditMode: false,
                 input: null,
+                edited_notes: null,
                 edited_school_ielt_minimum_score_notes: null,
                 edited_school_itep_academic_plus_minimum_score_notes: null,
                 edited_school_melab_minimum_score_notes: null,

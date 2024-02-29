@@ -1446,6 +1446,7 @@ export interface School {
 
     school_english_proficiency_exams: {
         school_english_proficiency_exams_required: boolean;
+        notes: Note[];
 
         school_toefl_required: boolean | null;
         school_minimum_time_frame_toefl_needs_to_be_completed: string | null;
@@ -1489,6 +1490,7 @@ export interface School {
         link: string;
         isEditMode: boolean;
         input: boolean | null;
+        edited_notes: Note[] | null;
         edited_school_english_proficiency_exams_required: {
             input: boolean | null;
             prev: boolean | null;
