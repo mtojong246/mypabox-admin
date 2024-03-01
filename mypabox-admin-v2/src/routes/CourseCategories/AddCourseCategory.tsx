@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useEffect } from "react"
+import { ChangeEvent, useState, useEffect, MouseEvent } from "react"
 import { CategoryType } from "../../types/categories.types"
 import { selectCourses } from "../../app/selectors/courses.selectors"
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +14,7 @@ import AddNewCourse from "./AddNewCourse";
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import CancelPopup from "../Schools/CancelPopup";
 
 interface SelectType {
     value: string;
@@ -39,6 +40,18 @@ export default function AddCourseCategory() {
     const [ courseOptions, setCourseOptions ] = useState<SelectType[]>([])
     const [ selection, setSelection ] = useState('');
     const courses = useSelector(selectCourses);
+    const [ isCancel, setIsCancel ] = useState(false);
+
+    const toggleCancle = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setIsCancel(!isCancel);
+    }
+
+    const cancel = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        navigate('/categories')
+
+    }
 
     useEffect(() => {
         setCourseOptions(courses.map(course => (
@@ -118,7 +131,7 @@ export default function AddCourseCategory() {
                             <button onClick={handleSave} className='text-lg border-2 border-[#4573D2] text-[#4573D2] font-medium rounded py-2 px-4 hover:text-white hover:bg-[#4573D2]'>
                                 Save
                             </button>
-                            <button onClick={() => navigate('/categories')} className='px-5 h-[50px] border-2 border-red-400 text-red-400 text-lg font-medium rounded hover:text-white hover:bg-red-400'>Cancel</button>
+                            <button onClick={toggleCancle} className='px-5 h-[50px] border-2 border-red-400 text-red-400 text-lg font-medium rounded hover:text-white hover:bg-red-400'>Cancel</button>
                         </div>
                     </div>
                     {category && (
@@ -153,6 +166,7 @@ export default function AddCourseCategory() {
                 </div>
             </div>
             {newCoursePopup && <AddNewCourse newCourse={newCourse} setNewCourse={setNewCourse} toggleNewCourse={toggleNewCourse} category={category} setCategory={setCategory}/>}
+            {isCancel && <CancelPopup toggleDelete={toggleCancle} cancel={cancel} />}
         </>
     )
 }

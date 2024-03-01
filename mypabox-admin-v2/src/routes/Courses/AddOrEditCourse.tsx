@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectCourses, selectMode } from "../../app/selectors/courses.selectors";
 import { AppDispatch } from "../../app/store";
 import { useParams } from "react-router-dom";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
 import { Course } from "../../types/courses.types";
 import { setMode } from "../../app/slices/courses";
 import Select from 'react-select';
@@ -10,6 +10,7 @@ import { addCourse, editCourse } from "../../app/slices/courses";
 import { addCoursesDoc, updateCoursesDoc } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
+import CancelPopup from "../Schools/CancelPopup";
 
 
 export default function AddOrEditCourse() {
@@ -20,6 +21,18 @@ export default function AddOrEditCourse() {
     const edit = useSelector(selectMode);
     const [ course, setCourse ] = useState<Course>({} as Course);
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ isCancel, setIsCancel ] = useState(false);
+
+    const toggleCancle = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setIsCancel(!isCancel);
+    }
+
+    const cancel = (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        navigate('/courses');
+
+    }
 
     const gpa = [
         { value: 'Science', label: 'Science' },
@@ -113,6 +126,7 @@ export default function AddOrEditCourse() {
 
 
     return (
+        <>
         <div className="w-screen p-10 font-['Noto Sans']">
             <div className='w-full max-w-[1800px] mx-auto'>
                 <div className={`w-full flex justify-between items-end pb-5 border-b border-[#DCDCDC]`}>
@@ -121,7 +135,7 @@ export default function AddOrEditCourse() {
                         <button onClick={handleSave} className='border-2 border-blue-500 text-blue-500 rounded font-medium w-[72px] h-[44px] flex justify-center items-center hover:text-white hover:bg-blue-500 flex justify-center items-center'>
                             {isLoading ? <CircularProgress color='inherit' style={{height: '30px', width: '30px'}} /> : 'Save'}
                         </button>
-                        <button onClick={() => navigate('/courses')} className='border-2 border-red-400 text-red-400 rounded font-medium py-2 px-4 hover:text-white hover:bg-red-400 flex justify-center items-center'>Cancel</button>
+                        <button onClick={toggleCancle} className='border-2 border-red-400 text-red-400 rounded font-medium py-2 px-4 hover:text-white hover:bg-red-400 flex justify-center items-center'>Cancel</button>
                     </div>
                 </div>
                 {course && (
@@ -146,5 +160,7 @@ export default function AddOrEditCourse() {
                 )}
             </div>
         </div>
+        {isCancel && <CancelPopup toggleDelete={toggleCancle} cancel={cancel} />}
+        </>
     )
 }

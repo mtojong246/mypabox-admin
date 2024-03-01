@@ -292,6 +292,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
             {((loggedInUser.permissions.canVerify && newSchool.edited_school_certifications_required.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_certifications_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Certification Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className={`w-full ${!isOpen ? 'flex justify-between items-center mt-0' : 'block mt-2'}`}>
+                    
                     <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} input={newSchool.edited_school_certifications_required.input} originalInput={newSchool.school_certifications_required.input}
                     name='school_certifications_required' handleCheck={handleCheck} />
                     {/* <label className="relative inline-flex items-center cursor-pointer">
