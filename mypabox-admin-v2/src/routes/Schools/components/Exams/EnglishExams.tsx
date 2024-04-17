@@ -839,7 +839,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                 </div>
 
                 <div className={`mt-12 mx-4 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_english_proficiency_exams.school_ielt_required? 'border-[#4573D2]' : 'border-[#545454]'}`}>
-                    <label className="absolute top-[-16px] text-xl font-medium bg-white block">IELT Required</label>   
+                    <label className="absolute top-[-16px] text-xl font-medium bg-white block">IELTS Required</label>   
                     <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_required.input} originalInput={newSchool.school_english_proficiency_exams.school_ielt_required}
                     name='school_ielt_required' handleCheck={handleCheck}
                     />
@@ -853,7 +853,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                     {isIeltOpen && (
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
-                        <label className="absolute top-[-16px] text-xl font-medium bg-white block">IELT Minimum Total Score Required</label>  
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white block">IELTS Minimum Total Score Required</label>  
                         <div className='flex justify-center items-center gap-3'> 
                             <InputFields  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_minimum_total_score_required.input}
                             originalInput={newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required} name='school_ielt_minimum_total_score_required' handleInput={handleInput}
