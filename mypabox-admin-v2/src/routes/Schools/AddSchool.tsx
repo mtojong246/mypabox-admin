@@ -401,7 +401,7 @@ export default function AddSchool() {
 
       } else {
 
-        if (newSchool === defaultSchool) {
+        if ((newSchool === defaultSchool) || (!localStorage.getItem('newSchool'))) {
           navigate('/schools');
           return;
         }
@@ -508,8 +508,16 @@ export default function AddSchool() {
         <div className={`w-full flex justify-between items-center pt-[120px] sticky bg-white z-50 top-0 border-b border-[#DCDCDC]
         ${window.scrollY === 180 ? '' : 'pb-2'}`}>
           <div className={`${window.scrollY === 180 ? '' : '-mt-28'}`}>
-          <p className={`text-4xl font-medium`}>{isEdit ? 'Edit School' : 'Add School'}</p>
-          {assignee && <p className='text-xl font-medium mt-1'>Assigned to: <span className='text-orange-600'>{assignee}</span></p>}
+          <div className="flex justify-start items-start gap-2">
+            <div>
+              <p className={`text-4xl font-medium`}>{isEdit ? 'Edit School' : 'Add School'}</p>
+              {assignee && <p className='text-xl font-medium mt-1'>Assigned to: <span className='text-orange-600'>{assignee}</span></p>}
+            </div>
+            <div className="flex flex-col justify-start items-start gap-1">
+              {newSchool.school_name.input && <p className="text-4xl font-medium">- {newSchool.school_name.input}</p>}
+              {newSchool.school_website.input && <a className="text-blue-600 pl-6 hover:underline" href={newSchool.school_website.input} target="_blank" rel="noreferrer">{newSchool.school_website.input}</a>}
+            </div>
+          </div>
           </div>
           <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
             <button onClick={(e) => handleSave(e, newSchool.id)} value='save' className='border-2 border-[#4FC769] text-[#4FC769] h-[50px] w-[84px] 
