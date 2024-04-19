@@ -27,6 +27,15 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
         number: null,
         duration: null,
     }) 
+
+    const [ selection2, setSelection2 ] = useState({
+        number: '',
+        duration: '',
+    });
+    const [ editedSelection2, setEditedSelection2 ] = useState<{number: string | null, duration: string | null}>({
+        number: null,
+        duration: null,
+    }) 
     const [ notePopup, setNotePopup ] = useState(false);
     const [ index, setIndex ] = useState<number | null>(null);
     const [ editedNote, setEditedNote ] = useState<Note | null>(null);
@@ -41,6 +50,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
 
     const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
     const [ isOpen, setIsOpen ] = useState(false);
+    const [ isRecOpen, setIsRecOpen ] = useState(false);
 
 
     const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
@@ -79,7 +89,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                         school_patient_care_experience_general_notes: newSchool.school_patient_experience.school_patient_care_experience_general_notes.concat(note)
                     }
                 })
-            } else {
+            } else {   
                 const field = newSchool.school_patient_experience[name as keyof object] as object;
                 setNewSchool({
                     ...newSchool,
@@ -263,6 +273,20 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                 setIsOpen(false);
             }
         }
+
+        if (newSchool.edited_school_patient_experience.edited_school_patient_experience_recommended.input === null) {
+            if (newSchool.school_patient_experience.school_patient_experience_recommended) {
+                setIsRecOpen(true);
+            } else {
+                setIsRecOpen(false);
+            }
+        } else {
+            if (newSchool.edited_school_patient_experience.edited_school_patient_experience_recommended.input) {
+                setIsRecOpen(true);
+            } else {
+                setIsRecOpen(false);
+            }
+        }
     }, [newSchool.edited_school_patient_experience, newSchool.school_patient_experience])
 
     useEffect(() => {
@@ -303,7 +327,45 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                 duration: ''
             })
         }
-    }, [newSchool.school_patient_experience.school_patient_experience_required]);
+
+        if (newSchool.school_patient_experience.school_patient_experience_recommended) {
+            setNewSchool({
+                ...newSchool,
+                school_patient_experience: {
+                    ...newSchool.school_patient_experience,
+                    school_minimum_patient_care_experience_hours_recommended: {
+                        input: newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended?.input ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.input : 0,
+                        school_minimum_patient_care_experience_hours_recommended_notes: newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended?.school_minimum_patient_care_experience_hours_recommended_notes ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended?.school_minimum_patient_care_experience_hours_recommended_notes  : [],
+                    },
+                    school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+                        input: newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended?.input ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input : '',
+                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes: newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended?.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended?.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes : [] ,
+                    },
+                }
+            })
+
+            if (newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended) {
+                const array = newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input.split(' ');
+                setSelection2({
+                    number: array[0],
+                    duration: array[1]
+                })
+            }
+        } else {
+            setNewSchool({
+                ...newSchool,
+                school_patient_experience: {
+                    ...newSchool.school_patient_experience,
+                    school_minimum_patient_care_experience_hours_recommended: null,
+                    school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: null,
+                }
+            })
+            setSelection2({
+                number: '',
+                duration: ''
+            })
+        }
+    }, [newSchool.school_patient_experience.school_patient_experience_required, newSchool.school_patient_experience.school_patient_experience_recommended]);
 
     useEffect(() => {
         if (newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed.input !== null) {
@@ -317,8 +379,21 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                 number: null,
                 duration: null,
             })
+        };
+
+        if (newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input !== null) {
+            const array = newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input.split(' ');
+            setEditedSelection2({
+                number: array[0],
+                duration: array[1]
+            })
+        } else {
+            setEditedSelection2({
+                number: null,
+                duration: null,
+            })
         }
-    }, [newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed])
+    }, [newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed, newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended])
 
 
     useEffect(() => {
@@ -332,7 +407,20 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                 }
             }
         })
-    }, [selection])
+    }, [selection]);
+
+    useEffect(() => {
+        setNewSchool({
+            ...newSchool,
+            school_patient_experience: {
+                ...newSchool.school_patient_experience,
+                school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+                    ...newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended!,
+                    input: selection2.number + ' ' + selection2.duration,
+                }
+            }
+        })
+    }, [selection2]);
     
     const handleInputGroup = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
         if (!isEditedInput) {
@@ -419,7 +507,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
             })
         } else {
             setEditedSelection({
-                ...selection,
+                ...editedSelection,
                 duration: e.value,
             });
             setNewSchool({
@@ -435,22 +523,71 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
         } 
     }
 
+    const handleSelectionNumber2 = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setSelection2({
+                ...selection2,
+                number: e.target.value.trim(),
+            })
+        } else {
+            setEditedSelection2({
+                ...editedSelection2,
+                number: e.target.value.trim(),
+            })
+            setNewSchool({
+                ...newSchool,
+                edited_school_patient_experience: {
+                    ...newSchool.edited_school_patient_experience,
+                    edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+                        ...newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended,
+                        input: (e.target.value.trim()) + ' ' + editedSelection2.duration,
+                    }
+                }
+            })
+        }
+    };
+
+    const handleSelectDuration2 = (e:any, category: string, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            setSelection2({
+                ...selection2,
+                duration: e.value,
+            })
+        } else {
+            setEditedSelection2({
+                ...editedSelection2,
+                duration: e.value,
+            });
+            setNewSchool({
+                ...newSchool,
+                edited_school_patient_experience: {
+                    ...newSchool.edited_school_patient_experience,
+                    edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+                        ...newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended,
+                        input: editedSelection2.number + ' ' + e.value,
+                    }
+                }
+            })
+        } 
+    }
+
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
         if (!isEditedInput) {
             setNewSchool({
                 ...newSchool,
                 school_patient_experience: {
                     ...newSchool.school_patient_experience,
-                    school_patient_experience_required: e.target.checked,
+                    [e.target.name]: e.target.checked,
                 }
             })
         } else {
+            const name = `edited_${e.target.name}`;
             setNewSchool({
                 ...newSchool,
                 edited_school_patient_experience: {
                     ...newSchool.edited_school_patient_experience,
-                    edited_school_patient_experience_required: {
-                        ...newSchool.edited_school_patient_experience.edited_school_patient_experience_required,
+                    [name]: {
+                        ...(newSchool.edited_school_patient_experience[name as keyof object] as object),
                         input: e.target.checked,
                     }
                 }
@@ -547,6 +684,53 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                 </>
                 )}
             </div>
+
+            <div className={`mt-12 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_patient_experience.school_patient_experience_recommended ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
+                <label className="absolute top-[-16px] text-xl font-medium bg-white">PCE Recommended</label>  
+                <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} input={newSchool.edited_school_patient_experience.edited_school_patient_experience_recommended.input}
+                originalInput={newSchool.school_patient_experience.school_patient_experience_recommended} name='school_patient_experience_recommended' handleCheck={handleCheck}
+                /> 
+                {isRecOpen && (
+                <>
+                    <div className={`mt-7 mx-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum PCE Hours Recommended</label>   
+                        <div className='flex justify-center items-start gap-3'>
+                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} input={newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_recommended.input}
+                            originalInput={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.input : null} name='school_minimum_patient_care_experience_hours_recommended' handleInput={handleInputGroup}
+                            />
+                            {/* <input onChange={handleInput} value={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required?.input ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required?.input : ''} name='school_minimum_patient_care_experience_hours_required' className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
+                            <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_patient_care_experience_hours_recommended'); setNoteName('school_minimum_patient_care_experience_hours_recommended_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                                Add Note
+                            </button>
+                        </div>
+            
+                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} notes={newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_recommended.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_recommended.notes : null} originalNotes={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.school_minimum_patient_care_experience_hours_recommended_notes : null} name='school_minimum_patient_care_experience_hours_recommended' noteName="school_minimum_patient_care_experience_hours_recommended_notes" toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
+                    </div>
+
+                    <div className={`mt-12 mx-5 mb-5 relative max-w-[900px] border-2 p-4 block rounded border-[#545454]`}>
+                        <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Frame PCE Needs To Be Completed</label>   
+                        <div className='flex justify-start items-start gap-2'>
+                            <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} input={newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input} originalInput={newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input : null } 
+                            name="school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended" number={editedSelection2.number} duration={editedSelection2.duration} originalNumber={selection2.number} originalDuration={selection2.duration} handleInput={handleSelectionNumber2} handleSelect={handleSelectDuration2} 
+                            options={options}
+                            />
+                            
+                            <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended'); setNoteName('school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                                Add Note
+                            </button>  
+                        </div>
+                        
+                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} notes={newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes : null} originalNotes={newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes : null} name='school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended' noteName="school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes" toggleNotePopup={toggleNotePopup}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        />
+                    </div>
+                </>
+                )}
+            </div>
+
+            
 
             
 

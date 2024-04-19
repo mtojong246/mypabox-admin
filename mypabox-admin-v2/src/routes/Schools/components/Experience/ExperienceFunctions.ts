@@ -47,7 +47,21 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                 edited_school_patient_experience_required: {
                     ...field.edited_school_patient_experience_required,
                     input: field.edited_school_patient_experience_required.input === null ? originalField.school_patient_experience_required : field.edited_school_patient_experience_required.input,
-                }
+                },
+                edited_school_patient_experience_recommended: {
+                    ...field.edited_school_patient_experience_recommended,
+                    input: field.edited_school_patient_experience_recommended.input === null ? originalField.school_patient_experience_recommended : field.edited_school_patient_experience_recommended.input,
+                },
+                edited_school_minimum_patient_care_experience_hours_recommended: {
+                    ...field.edited_school_minimum_patient_care_experience_hours_recommended,
+                    input: field.edited_school_minimum_patient_care_experience_hours_recommended.input === null ? originalField.school_minimum_patient_care_experience_hours_recommended && originalField.school_minimum_patient_care_experience_hours_recommended.input : field.edited_school_minimum_patient_care_experience_hours_recommended.input,
+                    notes: field.edited_school_minimum_patient_care_experience_hours_recommended.notes === null ? originalField.school_minimum_patient_care_experience_hours_recommended && originalField.school_minimum_patient_care_experience_hours_recommended.school_minimum_patient_care_experience_hours_recommended_notes : field.edited_school_minimum_patient_care_experience_hours_recommended.notes,
+                },
+                edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+                    ...field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended,
+                    input: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input === null ? originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended && originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input : field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input,
+                    notes: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes === null ? originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended && originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes : field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes,
+                },
             }
         })
     } else if (name === 'edited_school_healthcare_experience') {
@@ -78,6 +92,20 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
                     ...field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed,
                     input: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input === null ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed && originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input : field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input,
                     notes: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.notes === null ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed && originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes : field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.notes,
+                },
+                edited_school_healthcare_experience_recommended: {
+                    ...field.edited_school_healthcare_experience_recommended,
+                    input: field.edited_school_healthcare_experience_recommended.input === null ? originalField.school_healthcare_experience_recommended : field.edited_school_healthcare_experience_recommended.input,
+                },
+                edited_school_minimum_healthcare_experience_hours_recommended: {
+                    ...field.edited_school_minimum_healthcare_experience_hours_recommended,
+                    input: field.edited_school_minimum_healthcare_experience_hours_recommended.input === null ? originalField.school_minimum_healthcare_experience_hours_recommended && originalField.school_minimum_healthcare_experience_hours_recommended.input : field.edited_school_minimum_healthcare_experience_hours_recommended.input,
+                    notes: field.edited_school_minimum_healthcare_experience_hours_recommended.notes === null ? originalField.school_minimum_healthcare_experience_hours_recommended && originalField.school_minimum_healthcare_experience_hours_recommended.school_minimum_healthcare_experience_hours_recommended_notes : field.edited_school_minimum_healthcare_experience_hours_recommended.notes,
+                },
+                edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
+                    ...field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended,
+                    input: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input === null ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended && originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input : field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input,
+                    notes: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.notes === null ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended && originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes : field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.notes,
                 }
             }
         })
@@ -192,6 +220,14 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         input: newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.input : '',
                         school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed.notes ? field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed.notes : originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed ?  originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes : [],
                     } : originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed,
+                    school_minimum_patient_care_experience_hours_recommended: field.edited_school_minimum_patient_care_experience_hours_recommended ? {
+                        input: newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.input : 0,
+                        school_minimum_patient_care_experience_hours_recommended_notes: field.edited_school_minimum_patient_care_experience_hours_recommended.notes ? field.edited_school_minimum_patient_care_experience_hours_recommended.notes : newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.school_minimum_patient_care_experience_hours_recommended_notes : [],
+                    } : originalField.school_minimum_patient_care_experience_hours_recommended,
+                    school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ? {
+                        input: newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input : '',
+                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes ? field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes : originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ?  originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes : [],
+                    } : originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended,
                 },
                 edited_school_patient_experience: {
                     ...field,
@@ -217,6 +253,21 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         ...field.edited_school_patient_experience_required,
                         input: field.edited_school_patient_experience_required.input === originalField.school_patient_experience_required ? null : field.edited_school_patient_experience_required.input,
                         prev: field.edited_school_patient_experience_required.input === originalField.school_patient_experience_required ? null : field.edited_school_patient_experience_required.input,
+                    },
+                    edited_school_minimum_patient_care_experience_hours_recommended: {
+                        ...field.edited_school_minimum_patient_care_experience_hours_recommended,
+                        input: field.edited_school_minimum_patient_care_experience_hours_recommended.input === (originalField.school_minimum_patient_care_experience_hours_recommended && originalField.school_minimum_patient_care_experience_hours_recommended.input) ? null : field.edited_school_minimum_patient_care_experience_hours_recommended.input,
+                        prev: field.edited_school_minimum_patient_care_experience_hours_recommended.input === (originalField.school_minimum_patient_care_experience_hours_recommended && originalField.school_minimum_patient_care_experience_hours_recommended.input) ? null : field.edited_school_minimum_patient_care_experience_hours_recommended.input,
+                    },
+                    edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+                        ...field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended,
+                        input: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input === (originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended && originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input) ? null : field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input,
+                        prev: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input === (originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended && originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input) ? null : field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input,
+                    },
+                    edited_school_patient_experience_recommended: {
+                        ...field.edited_school_patient_experience_recommended,
+                        input: field.edited_school_patient_experience_recommended.input === originalField.school_patient_experience_recommended ? null : field.edited_school_patient_experience_recommended.input,
+                        prev: field.edited_school_patient_experience_recommended.input === originalField.school_patient_experience_recommended ? null : field.edited_school_patient_experience_recommended.input,
                     }
                 }
             })
@@ -236,6 +287,14 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         input: originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input : '',
                         school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.notes ? field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.notes : originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes : [],  
                     } : originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed,
+                    school_minimum_healthcare_experience_hours_recommended: field.edited_school_minimum_healthcare_experience_hours_recommended ?  {
+                        input: originalField.school_minimum_healthcare_experience_hours_recommended ? originalField.school_minimum_healthcare_experience_hours_recommended.input : 0,
+                        school_minimum_healthcare_experience_hours_recommended_notes: field.edited_school_minimum_healthcare_experience_hours_recommended.notes ? field.edited_school_minimum_healthcare_experience_hours_recommended.notes : originalField.school_minimum_healthcare_experience_hours_recommended ? originalField.school_minimum_healthcare_experience_hours_recommended.school_minimum_healthcare_experience_hours_recommended_notes : [],
+                    } : originalField.school_minimum_healthcare_experience_hours_recommended,
+                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended ? {
+                        input: originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input : '',
+                        school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.notes ? field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.notes : originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes : [],  
+                    } : originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended,
                 },
                 edited_school_healthcare_experience: {
                     ...field,
@@ -261,6 +320,21 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         ...field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed,
                         input: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input === (originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed && originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input) ? null : field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input,
                         prev: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input === (originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed && originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input) ? null : field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input,
+                    },
+                    edited_school_healthcare_experience_recommended: {
+                        ...field.edited_school_healthcare_experience_recommended,
+                        input: field.edited_school_healthcare_experience_recommended.input === originalField.school_healthcare_experience_recommended ? null : field.edited_school_healthcare_experience_recommended.input,
+                        prev: field.edited_school_healthcare_experience_recommended.input === originalField.school_healthcare_experience_recommended ? null : field.edited_school_healthcare_experience_recommended.input,
+                    },
+                    edited_school_minimum_healthcare_experience_hours_recommended: {
+                        ...field.edited_school_minimum_healthcare_experience_hours_recommended,
+                        input: field.edited_school_minimum_healthcare_experience_hours_recommended.input === (originalField.school_minimum_healthcare_experience_hours_recommended && originalField.school_minimum_healthcare_experience_hours_recommended.input) ? null : field.edited_school_minimum_healthcare_experience_hours_recommended.input,
+                        prev: field.edited_school_minimum_healthcare_experience_hours_recommended.input === (originalField.school_minimum_healthcare_experience_hours_recommended && originalField.school_minimum_healthcare_experience_hours_recommended.input) ? null : field.edited_school_minimum_healthcare_experience_hours_recommended.input,
+                    },
+                    edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
+                        ...field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended,
+                        input: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input === (originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended && originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input) ? null : field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input,
+                        prev: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input === (originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended && originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input) ? null : field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input,
                     }
                 }
             })
@@ -402,6 +476,15 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed.notes ? field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed.notes : originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed ?  originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes : [],
                     } : originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed,
                     school_patient_experience_required: field.edited_school_patient_experience_required.input === null ? originalField.school_patient_experience_required : field.edited_school_patient_experience_required.input,
+                    school_minimum_patient_care_experience_hours_recommended: field.edited_school_minimum_patient_care_experience_hours_recommended ? {
+                        input: field.edited_school_minimum_patient_care_experience_hours_recommended.input ? field.edited_school_minimum_patient_care_experience_hours_recommended.input : newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.input : 0,
+                        school_minimum_patient_care_experience_hours_recommended_notes: field.edited_school_minimum_patient_care_experience_hours_recommended.notes ? field.edited_school_minimum_patient_care_experience_hours_recommended.notes : newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.school_minimum_patient_care_experience_hours_recommended_notes : [],
+                    } : originalField.school_minimum_patient_care_experience_hours_recommended,
+                    school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ? {
+                        input: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input ? field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input : newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input : '',
+                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes ? field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes : originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ?  originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes : [],
+                    } : originalField.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended,
+                    school_patient_experience_recommended: field.edited_school_patient_experience_recommended.input === null ? originalField.school_patient_experience_recommended : field.edited_school_patient_experience_recommended.input,
                 },
                 edited_school_patient_experience: {
                     link: '',
@@ -426,6 +509,20 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         input: null,
                         prev: null,
                     },
+                    edited_school_minimum_patient_care_experience_hours_recommended: {
+                        input: null,
+                        prev: null,
+                        notes: null,
+                    },
+                    edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+                        input: null,
+                        prev: null,
+                        notes: null,
+                    },
+                    edited_school_patient_experience_recommended: {
+                        input: null,
+                        prev: null,
+                    },
                 }
             })
         } else if (name === 'edited_school_healthcare_experience') {
@@ -446,6 +543,16 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                     } : originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed,
                     school_average_healthcare_experience_hours_accepted_previous_cycle: field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.input === null ? originalField.school_average_healthcare_experience_hours_accepted_previous_cycle : field.edited_school_average_healthcare_experience_hours_accepted_previous_cycle.input,
                     school_healthcare_experience_required: field.edited_school_healthcare_experience_required.input === null ? originalField.school_healthcare_experience_required : field.edited_school_healthcare_experience_required.input,
+                    school_healthcare_experience_recommended: field.edited_school_healthcare_experience_recommended.input === null ? originalField.school_healthcare_experience_recommended : field.edited_school_healthcare_experience_recommended.input,
+                    school_minimum_healthcare_experience_hours_recommended: field.edited_school_minimum_healthcare_experience_hours_recommended ?  {
+                        input: field.edited_school_minimum_healthcare_experience_hours_recommended.input ? field.edited_school_minimum_healthcare_experience_hours_recommended.input : originalField.school_minimum_healthcare_experience_hours_recommended ? originalField.school_minimum_healthcare_experience_hours_recommended.input : 0,
+                        school_minimum_healthcare_experience_hours_recommended_notes: field.edited_school_minimum_healthcare_experience_hours_recommended.notes ? field.edited_school_minimum_healthcare_experience_hours_recommended.notes : originalField.school_minimum_healthcare_experience_hours_recommended ? originalField.school_minimum_healthcare_experience_hours_recommended.school_minimum_healthcare_experience_hours_recommended_notes : [],
+                    } : originalField.school_minimum_healthcare_experience_hours_recommended,
+                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended ? {
+                        input: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input ? field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input : originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input : '',
+                        school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.notes ? field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.notes : originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended ? originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes : [],  
+                    } : originalField.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended,
+
                 },
                 edited_school_healthcare_experience: {
                     link: '',
@@ -466,6 +573,20 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                         notes: null,
                     },
                     edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
+                        input: null,
+                        prev: null,
+                        notes: null,
+                    },
+                    edited_school_healthcare_experience_recommended: {
+                        input: null,
+                        prev: null,
+                    },
+                    edited_school_minimum_healthcare_experience_hours_recommended: {
+                        input: null,
+                        prev: null,
+                        notes: null,
+                    },
+                    edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
                         input: null,
                         prev: null,
                         notes: null,
@@ -618,6 +739,21 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
                     ...field.edited_school_patient_experience_required,
                     input: field.edited_school_patient_experience_required.prev,
                     prev: null,
+                },
+                edited_school_minimum_patient_care_experience_hours_recommended: {
+                    ...field.edited_school_minimum_patient_care_experience_hours_recommended,
+                    input: field.edited_school_minimum_patient_care_experience_hours_recommended.prev,
+                    prev: null,
+                },
+                edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+                    ...field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended,
+                    input: field.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.prev,
+                    prev: null,
+                },
+                edited_school_patient_experience_recommended: {
+                    ...field.edited_school_patient_experience_recommended,
+                    input: field.edited_school_patient_experience_recommended.prev,
+                    prev: null,
                 }
             }
         })
@@ -648,6 +784,21 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
                 edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
                     ...field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed,
                     input: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.prev,
+                    prev: null,
+                },
+                edited_school_healthcare_experience_recommended: {
+                    ...field.edited_school_healthcare_experience_recommended,
+                    input: field.edited_school_healthcare_experience_recommended.prev,
+                    prev: null,
+                },
+                edited_school_minimum_healthcare_experience_hours_recommended: {
+                    ...field.edited_school_minimum_healthcare_experience_hours_recommended,
+                    input: field.edited_school_minimum_healthcare_experience_hours_recommended.prev,
+                    prev: null,
+                },
+                edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
+                    ...field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended,
+                    input: field.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.prev,
                     prev: null,
                 }
             }
@@ -769,6 +920,20 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                     input: null,
                     prev: null,
                 },
+                edited_school_minimum_patient_care_experience_hours_recommended: {
+                    input: null,
+                    prev: null,
+                    notes: null,
+                },
+                edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+                    input: null,
+                    prev: null,
+                    notes: null,
+                },
+                edited_school_patient_experience_recommended: {
+                    input: null,
+                    prev: null,
+                }
             }
         })
     } else if (name === 'edited_school_healthcare_experience') {
@@ -797,6 +962,20 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
                     prev: null,
                     notes: null,
                 },
+                edited_school_healthcare_experience_recommended: {
+                    input: null,
+                    prev: null,
+                },
+                edited_school_minimum_healthcare_experience_hours_recommended: {
+                    input: null,
+                    prev: null,
+                    notes: null,
+                },
+                edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
+                    input: null,
+                    prev: null,
+                    notes: null,
+                }
             }
         })
     } else if (name === 'edited_school_community_service') {

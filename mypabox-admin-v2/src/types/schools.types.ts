@@ -956,13 +956,22 @@ export interface School {
 
     school_patient_experience: {
         school_patient_experience_required: boolean;
+        school_patient_experience_recommended: boolean;
         school_minimum_patient_care_experience_hours_required: {
             input: number;
             school_minimum_patient_care_experience_hours_required_notes: Note[];
         } | null;
+        school_minimum_patient_care_experience_hours_recommended: {
+            input: number;
+            school_minimum_patient_care_experience_hours_recommended_notes: Note[];
+        } | null;
         school_minimum_time_frame_patient_care_experience_needs_to_be_completed: {
             input: string;
             school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes: Note[];
+        } | null;
+        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
+            input: string;
+            school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes: Note[];
         } | null;
         school_average_patient_care_experience_hours_accepted_previous_cycle: number;
         school_patient_care_experience_general_notes: Note[]
@@ -977,12 +986,26 @@ export interface School {
             input: boolean | null,
             prev: boolean | null,
         }
+        edited_school_patient_experience_recommended: {
+            input: boolean | null,
+            prev: boolean | null,
+        }
         edited_school_minimum_patient_care_experience_hours_required: {
             input: number | null,
             prev: number | null,
             notes: Note[] | null;
         }
+        edited_school_minimum_patient_care_experience_hours_recommended: {
+            input: number | null,
+            prev: number | null,
+            notes: Note[] | null;
+        }
         edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed: {
+            input: string | null,
+            prev: string | null,
+            notes: Note[] | null;
+        }
+        edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
             input: string | null,
             prev: string | null,
             notes: Note[] | null;
@@ -995,13 +1018,22 @@ export interface School {
 
     school_healthcare_experience: {
         school_healthcare_experience_required: boolean;
+        school_healthcare_experience_recommended: boolean;
         school_minimum_healthcare_experience_hours_required: {
             input: number;
             school_minimum_healthcare_experience_hours_required_notes: Note[]
         } | null;
+        school_minimum_healthcare_experience_hours_recommended: {
+            input: number;
+            school_minimum_healthcare_experience_hours_recommended_notes: Note[]
+        } | null;
         school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
             input: string;
             school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes: Note[]
+        } | null;
+        school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
+            input: string;
+            school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes: Note[]
         } | null;
         school_average_healthcare_experience_hours_accepted_previous_cycle: number;
         school_healthcare_experience_general_notes: Note[]
@@ -1016,12 +1048,26 @@ export interface School {
             input: boolean | null,
             prev: boolean | null,
         }
+        edited_school_healthcare_experience_recommended: {
+            input: boolean | null,
+            prev: boolean | null,
+        }
         edited_school_minimum_healthcare_experience_hours_required: {
             input: number | null,
             prev: number | null,
             notes: Note[] | null;
         } 
+        edited_school_minimum_healthcare_experience_hours_recommended: {
+            input: number | null,
+            prev: number | null,
+            notes: Note[] | null;
+        } 
         edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
+            input: string | null,
+            prev: string | null,
+            notes: Note[] | null;
+        } 
+        edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
             input: string | null,
             prev: string | null,
             notes: Note[] | null;

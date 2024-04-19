@@ -851,8 +851,11 @@ export const defaultSchool: School = {
 
     school_patient_experience: {
         school_patient_experience_required: false,
+        school_patient_experience_recommended: false,
         school_minimum_patient_care_experience_hours_required: null,
+        school_minimum_patient_care_experience_hours_recommended: null,
         school_minimum_time_frame_patient_care_experience_needs_to_be_completed: null,
+        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: null,
         school_average_patient_care_experience_hours_accepted_previous_cycle: 0,
         school_patient_care_experience_general_notes: [],
     },
@@ -866,7 +869,21 @@ export const defaultSchool: School = {
             input: null,
             prev: null,
         },
+        edited_school_patient_experience_recommended: {
+            input: null,
+            prev: null,
+        },
         edited_school_minimum_patient_care_experience_hours_required: {
+            input: null,
+            prev: null,
+            notes: null,
+        },
+        edited_school_minimum_patient_care_experience_hours_recommended: {
+            input: null,
+            prev: null,
+            notes: null,
+        },
+        edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
             input: null,
             prev: null,
             notes: null,
@@ -884,8 +901,11 @@ export const defaultSchool: School = {
 
     school_healthcare_experience: {
         school_healthcare_experience_required: false,
+        school_healthcare_experience_recommended: false,
         school_minimum_healthcare_experience_hours_required: null,
         school_minimum_time_frame_healthcare_experience_needs_to_be_completed: null,
+        school_minimum_healthcare_experience_hours_recommended: null,
+        school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: null,
         school_average_healthcare_experience_hours_accepted_previous_cycle: 0,
         school_healthcare_experience_general_notes: [],
     },
@@ -899,12 +919,26 @@ export const defaultSchool: School = {
             input: null,
             prev: null,
         },
+        edited_school_healthcare_experience_recommended: {
+            input: null,
+            prev: null,
+        },
         edited_school_minimum_healthcare_experience_hours_required: {
             input: null,
             prev: null,
             notes: null,
         },
+        edited_school_minimum_healthcare_experience_hours_recommended: {
+            input: null,
+            prev: null,
+            notes: null,
+        },
         edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
+            input: null,
+            prev: null,
+            notes: null,
+        },
+        edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
             input: null,
             prev: null,
             notes: null,
