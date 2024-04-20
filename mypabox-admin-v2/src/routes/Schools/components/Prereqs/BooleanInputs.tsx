@@ -57,7 +57,7 @@ export default function BooleanInputs({
 }) {
   const [index, setIndex] = useState<number | null>(0);
   const [value, setValue] = useState("");
-  const [notes, setNotes] = useState<string | undefined>("");
+  const [notes, setNotes] = useState<string>("");
   const [openNote, setOpenNote] = useState(false);
   const [editedNote, setEditedNote] = useState<Note | null>(null);
   const [ openLinkPopup, setOpenLinkPopup ] = useState(false);

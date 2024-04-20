@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, MouseEvent } from "react"
 import { UserObject } from "../../../types/users.types"
 import { AiOutlineClose } from "react-icons/ai";
 import { Note } from "../../../types/schools.types";
 import { FiEdit3 } from "react-icons/fi";
 import ReactQuill from "react-quill";
 
-export default function AddNoteFields({ loggedInUser, notes, originalNotes, isEditMode, toggleNotePopup, deleteNote, setIndex, setName, setEditedNote, name, noteName, isIndividual, setIsIndividual, setNoteName,
+export default function AddNoteFields({ setIsGroup, isGroup, loggedInUser, notes, originalNotes, isEditMode, toggleNotePopup, deleteNote, setIndex, setName, setEditedNote, name, noteName, isIndividual, setIsIndividual, setNoteName,
 setObjIndex, objIndex} : { 
     loggedInUser: UserObject,
     notes: Note[] | null,
@@ -20,14 +20,22 @@ setObjIndex, objIndex} : {
     noteName?: string,
     isIndividual?: boolean,
     setIsIndividual?: Dispatch<SetStateAction<boolean | undefined>>,
-    setNoteName?: Dispatch<SetStateAction<string | undefined>>,
+    setNoteName?: Dispatch<SetStateAction<string>>,
     objIndex?: number,
     setObjIndex?: Dispatch<SetStateAction<number | undefined>>,
-
+    setIsGroup?: Dispatch<SetStateAction<boolean>>,
+    isGroup?: boolean,
 
 
 
  }) {
+
+    const setGroupFunction = (e:MouseEvent<HTMLButtonElement>) => {
+        if (setIsGroup !== undefined && isGroup !== undefined) {
+            setIsGroup(isGroup);
+            console.log(isGroup)
+        }
+    }
 
 
     return (
@@ -45,7 +53,7 @@ setObjIndex, objIndex} : {
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button disabled value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name); setIsIndividual && setIsIndividual(isIndividual); setNoteName && setNoteName(noteName); setObjIndex && setObjIndex(objIndex)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button disabled value={name} onClick={(e:any) => {setGroupFunction(e); toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name); setIsIndividual && setIsIndividual(isIndividual); setNoteName && noteName && setNoteName(noteName); setObjIndex && setObjIndex(objIndex)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
                                 <button disabled value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined, isIndividual !== undefined ? isIndividual : undefined, objIndex !== undefined ? objIndex : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
@@ -65,7 +73,7 @@ setObjIndex, objIndex} : {
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name); setIsIndividual && setIsIndividual(isIndividual); setNoteName && setNoteName(noteName); setObjIndex && setObjIndex(objIndex)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button value={name} onClick={(e:any) => {setGroupFunction(e); toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name); setIsIndividual && setIsIndividual(isIndividual); setNoteName && noteName && setNoteName(noteName); setObjIndex && setObjIndex(objIndex)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
                                 <button value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined, isIndividual !== undefined ? isIndividual : undefined, objIndex !== undefined ? objIndex : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 
@@ -88,7 +96,7 @@ setObjIndex, objIndex} : {
                             {note.type}:
                         </p>
                         <div className='flex gap-2'>
-                            <button disabled={isEditMode ? false : true} value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name);  setIsIndividual && setIsIndividual(isIndividual); setNoteName && setNoteName(noteName); setObjIndex && setObjIndex(objIndex)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                            <button disabled={isEditMode ? false : true} value={name} onClick={(e:any) => {setGroupFunction(e); toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name);  setIsIndividual && setIsIndividual(isIndividual); setNoteName && noteName && setNoteName(noteName); setObjIndex && setObjIndex(objIndex)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
                             <button disabled={isEditMode ? false : true} value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined, isIndividual !== undefined ? isIndividual : undefined, objIndex !== undefined ? objIndex : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                         </div>
                         </div> 
@@ -107,7 +115,7 @@ setObjIndex, objIndex} : {
                                 {note.type}:
                             </p>
                             <div className='flex gap-2'>
-                                <button disabled value={name} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name);  setIsIndividual && setIsIndividual(isIndividual); setNoteName && setNoteName(noteName); setObjIndex && setObjIndex(objIndex)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                                <button disabled value={name} onClick={(e:any) => {setGroupFunction(e); toggleNotePopup(e); setEditedNote(note); setIndex(i); setName && setName(name);  setIsIndividual && setIsIndividual(isIndividual); setNoteName && noteName && setNoteName(noteName); setObjIndex && setObjIndex(objIndex)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
                                 <button disabled value={name} onClick={(e:any) => {deleteNote(e, i, name, noteName ? noteName : undefined, isIndividual !== undefined ? isIndividual : undefined, objIndex !== undefined ? objIndex : undefined)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                             </div>
                             </div> 

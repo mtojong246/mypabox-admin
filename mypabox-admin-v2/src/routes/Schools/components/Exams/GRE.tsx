@@ -382,6 +382,8 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
         
     }
 
+    console.log(noteName)
+
     const updateNote = (note: Note) => {
         if (loggedInUser.permissions.canAddOrDelete) {
             if (!isGroup) {
@@ -400,6 +402,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                 })
             } else {
                 const field = newSchool.school_gre[name as keyof object] as object;
+                console.log(noteName)
                 setNewSchool({
                     ...newSchool,
                     school_gre: {
@@ -639,8 +642,8 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                     </div>
                 ))}
                 </div>         */}
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_minimum_time_frame_gre_must_be_completed.notes} originalNotes={newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed ? newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed.school_minimum_time_frame_gre_must_be_completed_notes : null} name='school_minimum_time_frame_gre_must_be_completed' noteName='school_minimum_time_frame_gre_must_be_completed' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                <AddNoteFields setIsGroup={setIsGroup} isGroup={true} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_minimum_time_frame_gre_must_be_completed.notes} originalNotes={newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed ? newSchool.school_gre.school_minimum_time_frame_gre_must_be_completed.school_minimum_time_frame_gre_must_be_completed_notes : null} name='school_minimum_time_frame_gre_must_be_completed' noteName='school_minimum_time_frame_gre_must_be_completed_notes' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setNoteName={setNoteName} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                     />
             </div>
 
@@ -680,8 +683,8 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                 </div>
                 
                 )} */}
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_mcat_accepted_in_place_of_gre.notes} originalNotes={newSchool.school_gre.school_mcat_accepted_in_place_of_gre ? newSchool.school_gre.school_mcat_accepted_in_place_of_gre.school_mcat_accepted_in_place_of_gre_notes : null} name='school_mcat_accepted_in_place_of_gre' noteName='school_mcat_accepted_in_place_of_gre_notes' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                <AddNoteFields setIsGroup={setIsGroup} isGroup={true} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_mcat_accepted_in_place_of_gre.notes} originalNotes={newSchool.school_gre.school_mcat_accepted_in_place_of_gre ? newSchool.school_gre.school_mcat_accepted_in_place_of_gre.school_mcat_accepted_in_place_of_gre_notes : null} name='school_mcat_accepted_in_place_of_gre' noteName='school_mcat_accepted_in_place_of_gre_notes' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setNoteName={setNoteName} setName={setName} setEditedNote={setEditedNote}
                     />
             </div>
             
@@ -720,8 +723,8 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                 ))}
                 </div>  
                  )}       */}
-                 <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_gre_exempt_with_masters_degree.notes} originalNotes={newSchool.school_gre.school_gre_exempt_with_masters_degree ? newSchool.school_gre.school_gre_exempt_with_masters_degree.school_gre_exempt_with_masters_degree_notes : null} name='school_gre_exempt_with_masters_degree' noteName='school_gre_exempt_with_masters_degree_notes' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                 <AddNoteFields setIsGroup={setIsGroup} isGroup={true} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_gre_exempt_with_masters_degree.notes} originalNotes={newSchool.school_gre.school_gre_exempt_with_masters_degree ? newSchool.school_gre.school_gre_exempt_with_masters_degree.school_gre_exempt_with_masters_degree_notes : null} name='school_gre_exempt_with_masters_degree' noteName='school_gre_exempt_with_masters_degree_notes' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setNoteName={setNoteName} setName={setName} setEditedNote={setEditedNote}
                     />
             </div>
            
@@ -761,8 +764,8 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                 </div>   
                 
                 )} */}
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_gre_exempt_with_phd_degree.notes} originalNotes={newSchool.school_gre.school_gre_exempt_with_phd_degree ? newSchool.school_gre.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes : null} name='school_gre_exempt_with_phd_degreex' noteName='school_gre_exempt_with_phd_degree_notes' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                <AddNoteFields setIsGroup={setIsGroup} isGroup={true} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_gre_exempt_with_phd_degree.notes} originalNotes={newSchool.school_gre.school_gre_exempt_with_phd_degree ? newSchool.school_gre.school_gre_exempt_with_phd_degree.school_gre_exempt_with_phd_degree_notes : null} name='school_gre_exempt_with_phd_degreex' noteName='school_gre_exempt_with_phd_degree_notes' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setNoteName={setNoteName} setName={setName} setEditedNote={setEditedNote}
                     />
                
             </div>
@@ -831,7 +834,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                             </div>
                         ))}
                         </div>        */}
-                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_minimum_gre_score_notes} originalNotes={newSchool.school_gre.school_minimum_gre_score_notes ? newSchool.school_gre.school_minimum_gre_score_notes : null} name='school_minimum_gre_score_notes' toggleNotePopup={toggleNotePopup}
+                        <AddNoteFields setIsGroup={setIsGroup} setNoteName={setNoteName} isGroup={false} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_minimum_gre_score_notes} originalNotes={newSchool.school_gre.school_minimum_gre_score_notes ? newSchool.school_gre.school_minimum_gre_score_notes : null} name='school_minimum_gre_score_notes' toggleNotePopup={toggleNotePopup}
                         deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                         />
                     </div>
@@ -887,7 +890,7 @@ export default function GRE({ newSchool, setNewSchool, loggedInUser, isEdit }: {
                         ))}
                         </div>   
                         )} */}
-                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_minimum_gre_percentile_notes} originalNotes={newSchool.school_gre.school_minimum_gre_percentile_notes ? newSchool.school_gre.school_minimum_gre_percentile_notes : null} name='school_minimum_gre_percentile_notes' toggleNotePopup={toggleNotePopup}
+                        <AddNoteFields setIsGroup={setIsGroup} setNoteName={setNoteName} isGroup={false} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_gre.isEditMode} notes={newSchool.edited_school_gre.edited_school_minimum_gre_percentile_notes} originalNotes={newSchool.school_gre.school_minimum_gre_percentile_notes ? newSchool.school_gre.school_minimum_gre_percentile_notes : null} name='school_minimum_gre_percentile_notes' toggleNotePopup={toggleNotePopup}
                         deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                         />
                     </div>
