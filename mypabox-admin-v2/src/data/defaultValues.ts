@@ -1646,6 +1646,8 @@ export const defaultSchool: School = {
             prev: null,
             isEditMode: false,
         }
-    }
+    },
+    
+    school_preference: '',
 
 }

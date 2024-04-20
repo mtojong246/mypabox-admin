@@ -130,7 +130,9 @@ export default function AddSchool() {
       }
    })
     setAllCategories(newCategories)
+
    }, [newSchool]);
+
 
    useEffect(() => {
     if (newSchool.school_name.input) {

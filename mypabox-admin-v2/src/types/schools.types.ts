@@ -1894,6 +1894,8 @@ export interface School {
             isEditMode: boolean;
         }
     }
+
+    school_preference: string;
     
 
 

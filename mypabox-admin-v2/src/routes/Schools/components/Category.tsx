@@ -29,6 +29,7 @@ import { selectLogin } from "../../../app/selectors/login.selector";
 import { selectUsers } from "../../../app/selectors/users.selectors";
 import { UserObject } from "../../../types/users.types";
 import { selectIsEdit } from "../../../app/selectors/schools.selectors";
+import Preference from "./Preference/Preference";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -172,6 +173,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
             {tab === '#international-students' && <InternationalStudents newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#certifications' && <Certifications newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#applications' && <Applications newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
+            {tab === '#preference' && <Preference newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {deletePopUp ? <DeletePopUp event={eventTarget} i={index} deletePopUp={deletePopUp} setDeletePopUp={setDeletePopUp} 
             removeNote={removeNote} removeField={removeField} inputType={inputType} /> : ''}
         </>

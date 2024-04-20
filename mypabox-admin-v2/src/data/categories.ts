@@ -489,5 +489,15 @@ export const categories: CategoryType[] = [
             
         ],
     },
+    {
+        hash: '#preference',
+        name: 'Preference',
+        isEdited: false,
+        fields: [
+            {
+                value: 'school_preference',
+            }
+        ],
+    },
     
 ];
