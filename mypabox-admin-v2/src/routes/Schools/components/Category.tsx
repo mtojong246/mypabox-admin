@@ -30,6 +30,7 @@ import { selectUsers } from "../../../app/selectors/users.selectors";
 import { UserObject } from "../../../types/users.types";
 import { selectIsEdit } from "../../../app/selectors/schools.selectors";
 import Preference from "./Preference/Preference";
+import GeneralInfoNew from "./GeneralInfo/GeneralInfoNew";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -99,27 +100,6 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
 
     const [inputList, setInputList] = useState([{ input: '' }])
 
-    // // Specifically handles changes for inputs with multiple fields 
-    // const handleFieldChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-    //     // Input changes based on what user types 
-    //     const name = e.target.name as keyof School;
-    //     const field = newSchool[name] as StringInputWithFields;
-
-    //     const list: any = [...inputList]
-
-    //     list[index].input = e.target.value
-        
-    //     setInputList(list)
-
-    //     setNewSchool({
-    //     ...newSchool,
-    //     [name]: {
-    //         ...field, 
-    //         fields: list
-    //     }
-    //     })
-    // }
-
     // Removes specific field from input list 
     const removeField = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         
@@ -141,19 +121,6 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     }
 
     
-    // // Adds more input fields to input list 
-    // const addInputFields = (e: { preventDefault: () => void }) => {
-    //     e.preventDefault()
-    //     setInputList([...inputList, { input: "" }])
-    // }
-
-    // const handleDeletePopup = (e: any , i: SetStateAction<number>, input: string) => {
-    //   e.preventDefault()
-    //   setEventTarget(e.currentTarget.value)
-    //   setInputType(input)
-    //   setIndex(i)
-    //   setDeletePopUp(!deletePopUp)
-    // }
     
     return (
         <form className={`pb-24 `}>
