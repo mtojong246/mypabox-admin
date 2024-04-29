@@ -1,14 +1,20 @@
-import { School } from "../../../../types/schools.types"
+import { EditedField, Note, School } from "../../../../types/schools.types"
 import { UserObject } from "../../../../types/users.types"
-import { Dispatch, SetStateAction, useEffect, useState, ChangeEvent } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { generalInfoFields } from "../../../../data/defaultValues"
 import useInput from "../../../../app/hooks/useInput"
 import ReactQuill from "react-quill"
-import Select from 'react-select';
 import countries from "../../../../data/countries.json";
 import CreatableSelect from 'react-select/creatable';
 import { Tooltip, IconButton } from "@mui/material"
-import { AiOutlineInfoCircle, AiOutlineClose } from "react-icons/ai"
+import { AiOutlineInfoCircle } from "react-icons/ai"
+import InputFields from "../../Fields/InputFields"
+import EditButtons from "../../Fields/EditButtons"
+import BooleanFields from "../../Fields/BooleanFields"
+import SelectFields from "../../Fields/SelectFields"
+import useNotes from "../../../../app/hooks/useNotes"
+import AddUpdateNote from "../../Fields/AddUpdateNote"
+import NoteFields from "../../Fields/NoteFields"
 
 const months = [
     {value: 'January', label: 'January'},
@@ -34,6 +40,18 @@ export default function GeneralInfoNew({newSchool, setNewSchool, loggedInUser, i
         handleQuill
     } = useInput({ newSchool, setNewSchool });
 
+    const {
+        addNoteObj,
+        updateNoteObj,
+        deleteNoteObj,
+        addNewNote,
+        isNoteOpen,
+        toggleNotePopup,
+        noteInfoObj,
+        setNoteInfoObj,
+    } = useNotes({ newSchool, setNewSchool })
+
+
     const [stateNames, setStateNames] = useState<any>([]);
     const [countryNames, setCountryNames] = useState<any>([]);
 
@@ -52,7 +70,7 @@ export default function GeneralInfoNew({newSchool, setNewSchool, loggedInUser, i
             return countryNames;
         } else if (value === 'school_state') {
             return stateNames;
-        } else if (value === 'school_start_mont') {
+        } else if (value === 'school_start_month') {
             return months;
         }
     }
@@ -61,79 +79,57 @@ export default function GeneralInfoNew({newSchool, setNewSchool, loggedInUser, i
         const field = newSchool[value as keyof School];
         const input = field['input' as keyof object];
 
-        return { value: input, label: input };
+        if (input === null) {
+            return null;
+        } else {
+            return { value: input, label: input };
+        }
+        
     }
+
+    console.log(newSchool)
+
     
     return (
         <>
         {generalInfoFields.map((fieldObj, i) => {
-            const { label, value } = fieldObj
-            const field = newSchool[value as keyof School];
+            const { label, name } = fieldObj
+            const field = newSchool[name as keyof School];
+            const editedField = newSchool[`edited_${name}` as keyof School] as EditedField;
             
             if (typeof field === 'string') {
                 return (
                     <div className={`mt-20 text-xl w-full`}>
                         <p>{label}</p>
                         <ReactQuill className='mt-4 h-60 rounded-2xl max-w-[900px]' theme="snow" value={field} 
-                        onChange={(e:any) => handleQuill(e, value)}/>
+                        onChange={(e:any) => handleQuill(e, name)}/>
                     </div>
                 )
             } else {
-                const input = 'input' as keyof object
-                console.log(value, typeof field[input] === 'string' || 'number' )
-                if (typeof field[input] === ('string' || 'number')) {
-                    
-                    if (['school_country', 'school_state', 'school_start_month'].includes(value)) {
-                        return (
-                            <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
-                                <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">{label}</label>
-                                    <div className='flex justify-center items-start gap-3'>
-                                        <Select className="grow focus:outline-none rounded"
-                                        options={getOptions(value)} onChange={(e:any) => handleSelectInput(e, value)} value={getSelectValue(value)}/>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    } else {
-                        return (
-                            <div className={`${i === 0 ? 'mt-12' : 'mt-20'} flex justify-start items-start gap-3 w-full`}>
-                                <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">{label}</label>
-                                    <div className='flex justify-center items-start gap-3'>
-                                        <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={field[input]} name={label} onChange={(e:ChangeEvent<HTMLInputElement>) => handleStringOrNumberInput(e, value)}/>
-                                    </div>
-                                </div>
-                            </div>  
-                        )
-                        
-                    }
-                } else if (typeof field[input] === 'boolean') {
-                    
-                    return (
-                        <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
-                            <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20 bg-none">{label}</label>
-                                <div className='flex justify-start items-center gap-3 '>
-                                    <div className='mt-2 grow'>
-                                        <label className="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" className="sr-only peer" name={label} onChange={(e:ChangeEvent<HTMLInputElement>) => handleBooleanValue(e, value)} checked={field[input]}  />
-                                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                            <span className={`ml-3 text-black text-xl`}>
-                                            {field[input] ? 'True' : 'False'}
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
-                            <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">{label}</label>
-                                <div className='flex justify-center items-center gap-3'>
+                const input = 'input' as keyof object;
+                const notes = 'notes' as keyof object;
+                const inputValue = field[input];
+                const editedValue = editedField[input];
+                const noteValue = field[notes] as Note[] | undefined;
+                const editedNoteValue = editedField[notes] as Note[] | null;
+
+                return (
+                    <div className={`${i === 0 ? 'mt-12' : 'mt-20'} flex justify-start items-start gap-3 w-full`}>
+                        <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
+                            <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">{label}</label>
+                            <div className='flex justify-center items-start gap-3'>
+                                {typeof inputValue === ('string' || 'number') ? (
+                                    <>
+                                    {['school_country', 'school_state', 'school_start_month'].includes(name) ? (
+                                        <SelectFields options={getOptions(name)} label={label} name={name} value={getSelectValue(name)!} editedValue={getSelectValue(`edited_${name}`)} handleInputChange={handleSelectInput} isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser}/>
+                                    ) : (
+                                        <InputFields label={label} name={name} value={inputValue} editedValue={editedValue} handleInputChange={handleStringOrNumberInput} isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser}/>
+                                    )}
+                                    </>
+                                ) : typeof inputValue === 'boolean' ? (
+                                    <BooleanFields label={label} name={name} value={inputValue} editedValue={editedValue} handleInputChange={handleBooleanValue} isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser}/>
+                                ) : (
+                                    <>
                                     <div className='w-1/4 flex justify-center items-start gap-1'>
                                         <CreatableSelect className="grow focus:outline-none rounded"
                                         options={[{value: 'Main', label: 'Main'}]} />
@@ -145,15 +141,27 @@ export default function GeneralInfoNew({newSchool, setNewSchool, loggedInUser, i
                                     </div>
                                     <input className=" grow focus:outline-none border border-[#B4B4B4] p-3 rounded"/>
                                     <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]">Add</button>
-                                    
-                                </div>
-                               
+                                    </>
+                                )}
+                                {noteValue !== undefined && (
+                                    <button onClick={(e:any) => addNewNote(e, name, !editedNoteValue ? false : true)}  className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                                        Add Note
+                                    </button>
+                                )}
                             </div>
+                            {noteValue !== undefined && (
+                                <NoteFields name={name} toggleNotePopup={toggleNotePopup} notes={editedNoteValue ? editedNoteValue : noteValue} 
+                                newSchool={newSchool} loggedInUser={loggedInUser} isEdit={isEdit} setNoteObj={setNoteInfoObj} deleteNoteObj={deleteNoteObj} />
+                            )}
                         </div>
-                    )
-                }
+                        {isEdit && <EditButtons loggedInUser={loggedInUser} name={name} isEdit={isEdit} newSchool={newSchool} setNewSchool={setNewSchool} />}
+                    </div>
+                )
+        
+                
             }
         })}
+        {isNoteOpen && <AddUpdateNote noteInfoObj={noteInfoObj} setNoteInfoObj={setNoteInfoObj} toggleNotePopup={toggleNotePopup} updateNote={updateNoteObj} addNote={addNoteObj}/>}
         </>
     )
 }

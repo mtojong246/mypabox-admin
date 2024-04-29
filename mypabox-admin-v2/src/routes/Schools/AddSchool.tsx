@@ -188,12 +188,12 @@ export default function AddSchool() {
           setIsLoading(true);
         }
 
-        if (!newSchool.school_name.input || !newSchool.school_street.input || !newSchool.school_city.input || !newSchool.school_zip_code.input || !newSchool.school_website.input) {
-          setIsLoading(false);
-          setIsDone(false);
-          alert('Please input required fields ');
-          return;
-        };
+        // if (!newSchool.school_name.input || !newSchool.school_street.input || !newSchool.school_city.input || !newSchool.school_zip_code.input || !newSchool.school_website.input) {
+        //   setIsLoading(false);
+        //   setIsDone(false);
+        //   alert('Please input required fields ');
+        //   return;
+        // };
 
         if (newSchool.edited_school_name.isEditMode || newSchool.edited_school_logo.isEditMode || newSchool.edited_school_street.isEditMode || newSchool.edited_school_accreditation_status.isEditMode || newSchool.edited_school_state.isEditMode 
           || newSchool.edited_school_zip_code.isEditMode || newSchool.edited_school_country.isEditMode || newSchool.edited_school_website.isEditMode || newSchool.edited_school_email.isEditMode || newSchool.edited_school_phone_number.isEditMode 

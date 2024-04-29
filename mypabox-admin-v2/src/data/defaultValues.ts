@@ -1652,116 +1652,193 @@ export const defaultSchool: School = {
 
 }
 
-export const generalInfoFields: {label: string, value: string}[] = [
+export const generalInfoFields: {label: string, name: string}[] = [
     {
         label: 'School Name',
-        value: 'school_name'
+        name: 'school_name'
     },
     {
         label: 'School Logo',
-        value: 'school_logo'
+        name: 'school_logo'
     },
     {
         label: 'Street Address',
-        value: 'school_street',
+        name: 'school_street',
     },
     {
         label: 'City',
-        value: 'school_city'
-    },
-    {
-        label: 'State',
-        value: 'school_state'
-    },
-    {
-        label: 'Zip Code',
-        value: 'school_zip_code'
+        name: 'school_city'
     },
     {
         label: 'Country',
-        value: 'school_country'
+        name: 'school_country'
+    },
+    {
+        label: 'State',
+        name: 'school_state'
+    },
+    {
+        label: 'Zip Code',
+        name: 'school_zip_code'
     },
     {
         label: 'Website',
-        value: 'school_website'
+        name: 'school_website'
     },
     {
         label: 'Email',
-        value: 'school_email'
+        name: 'school_email'
     },
     {
         label: 'Phone Number',
-        value: 'school_phone_number'
+        name: 'school_phone_number'
     },
     {
         label: 'Campus Location',
-        value: 'school_campus_location'
+        name: 'school_campus_location'
     },
     {
         label: 'Start Month',
-        value: 'school_start_month'
+        name: 'school_start_month'
     },
     {
         label: 'Class Capacity',
-        value: 'school_class_capacity'
+        name: 'school_class_capacity'
     },
     {
         label: 'Duration (Full-Time)',
-        value: 'school_duration_full_time'
+        name: 'school_duration_full_time'
     },
     {
         label: 'Duration (Part-Time)',
-        value: 'school_duration_part_time'
+        name: 'school_duration_part_time'
     },
     {
         label: 'Rolling Admissions',
-        value: 'school_rolling_admissions'
+        name: 'school_rolling_admissions'
     },
     {
         label: 'Non-Rolling Admissions',
-        value: 'school_nonrolling_admissions'
+        name: 'school_nonrolling_admissions'
     },
     {
         label: 'Pre PA Curriculum',
-        value: 'school_pre_pa_curriculum'
+        name: 'school_pre_pa_curriculum'
     },
     {
         label: 'Direct High School Entry',
-        value: 'school_direct_high_school_entry'
+        name: 'school_direct_high_school_entry'
     },
     {
         label: 'Part-time Options',
-        value: 'school_part_time_option'
+        name: 'school_part_time_option'
     },
     {
         label: 'Online Learning',
-        value: 'school_online_learning'
+        name: 'school_online_learning'
     },
     {
         label: 'On-Campus Housing',
-        value: 'school_on_campus_housing'
+        name: 'school_on_campus_housing'
     },
     {
         label: 'Cadaver Lab',
-        value: 'school_cadaver_lab'
+        name: 'school_cadaver_lab'
     },
     {
         label: 'Faith-Based Learning',
-        value: 'school_faith_based_learning'
+        name: 'school_faith_based_learning'
     },
     {
         label: 'Military Personnel Preference',
-        value: 'school_military_personnel_preference'
+        name: 'school_military_personnel_preference'
     },
     {
         label: 'Holistic Review',
-        value: 'school_holistic_review'
+        name: 'school_holistic_review'
     },
     {
         label: 'General Information',
-        value: 'school_general_information'
+        name: 'school_general_information'
     }
 ]
+
+export const userPermissions: {label: string, value: string}[] = [
+    {
+        label: 'Edit input fields with verification required',
+        value: 'canEditWithoutVerificationNeeded'
+    },
+    {
+        label: 'Edit input fields without verification required',
+        value: 'canEditWithVerificationNeeded'
+    },
+    {
+        label: 'Verify input fields',
+        value: 'canVerify'
+    },
+    {
+        label: 'Make school data live',
+        value: 'canMakeLive'
+    },
+    {
+        label: 'Add / delete schools',
+        value: 'canAddOrDelete'
+    }
+]
+
+export const defaultUserWithPassword = {
+    id: '',
+    displayName: '',
+    email: '',
+    password: '',
+    isSuperAdmin: false,
+    permissions: {
+        canEditWithoutVerificationNeeded: false,
+        canEditWithVerificationNeeded: false,
+        canVerify: false,
+        canMakeLive: false,
+        canAddOrDelete: false,
+    },
+    activeTasks: [],
+    completedTasks: [],
+    archivedTasks: [],
+  }
+
+  export const defaultUserWithoutPassword = {
+    id: '',
+    displayName: '',
+    email: '',
+    isSuperAdmin: false,
+    permissions: {
+        canEditWithoutVerificationNeeded: false,
+        canEditWithVerificationNeeded: false,
+        canVerify: false,
+        canMakeLive: false,
+        canAddOrDelete: false,
+    },
+    activeTasks: [],
+    completedTasks: [],
+    archivedTasks: [],
+  }
+
+
+  export const mockUser = {
+    id: '',
+    displayName: '',
+    email: '',
+    isSuperAdmin: false,
+    permissions: {
+        canEditWithoutVerificationNeeded: true,
+        canEditWithVerificationNeeded: false,
+        canVerify: true,
+        canMakeLive: false,
+        canAddOrDelete: true,
+    },
+    activeTasks: [],
+    completedTasks: [],
+    archivedTasks: [],
+  }
+  
     
    
     

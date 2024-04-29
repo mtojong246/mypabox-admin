@@ -20,6 +20,7 @@ import { selectUsers } from '../../app/selectors/users.selectors';
 import { UserObject } from '../../types/users.types';
 import { HiOutlineSignal } from "react-icons/hi2";
 import { editSchoolData } from '../../app/slices/schools';
+import { mockUser } from '../../data/defaultValues';
 
 
 const Schools = () => {
@@ -31,13 +32,15 @@ const Schools = () => {
   const navigate = useNavigate();
   const [ deletePopup, setDeletePopup ] = useState(false);
   const [ name, setName ] = useState('');
+  const [ canEdit, setCanEdit ] = useState(false);
   const [ loggedInUser, setLoggedInUser ] = useState<UserObject>({
     id: '',
     displayName: '',
     email: '',
     isSuperAdmin: false,
     permissions: {
-        canEdit: false,
+        canEditWithoutVerificationNeeded: false,
+        canEditWithVerificationNeeded: false,
         canVerify: false,
         canMakeLive: false,
         canAddOrDelete: false,
@@ -92,9 +95,16 @@ const Schools = () => {
   useEffect(() => {
     const currentUser = users.find(user => user.email === login);
     if (currentUser) {
-        setLoggedInUser(currentUser);
+        setLoggedInUser(mockUser);
+
+        if (mockUser.permissions.canEditWithVerificationNeeded || mockUser.permissions.canEditWithoutVerificationNeeded) {
+          setCanEdit(true);
+        } else {
+          setCanEdit(false);
+        }
     }
 }, [login, users]);
+
 
   useEffect(() => {
     setStateSearch([])
@@ -284,7 +294,7 @@ const Schools = () => {
                   <td className='text-xl text-left p-[10px]'>{d.school_city.input}</td>
                   <td className='text-xl text-left p-[10px]'>{d.school_state.input}</td>
                   <td className='flex justify-end items-center p-[10px]'>
-                    {loggedInUser.permissions.canEdit && <button onClick={() => editSchool(d)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
+                    {canEdit && <button onClick={() => editSchool(d)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
                     {loggedInUser.permissions.canAddOrDelete && <button onClick={(e:any) => deleteSchool(e, d.school_name.input)} className='ml-2'><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>}
                     <button onClick={(e:MouseEvent<HTMLButtonElement>) => changeLiveStatus(e, d.id)}><HiOutlineSignal className={`h-7 w-7 ml-2 ${d.isLive ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`}/></button>
                   </td>

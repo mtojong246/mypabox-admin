@@ -12,7 +12,8 @@ interface AdditionalInfo {
     email: string,
     isSuperAdmin: boolean,
     permissions: {
-        canEdit: boolean,
+        canEditWithoutVerificationNeeded: boolean,
+        canEditWithVerificationNeeded: boolean,
         canVerify: boolean,
         canMakeLive: boolean,
         canAddOrDelete: boolean,

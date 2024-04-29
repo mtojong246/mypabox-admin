@@ -1,25 +1,20 @@
-import { useState, ChangeEvent } from "react"
+import { useState, ChangeEvent, useEffect } from "react"
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 import { addUser } from "../../app/slices/users";
 import { useDispatch } from "react-redux";
-
-const defaultUser = {
-    displayName: '',
-    email: '',
-    password: '',
-    isSuperAdmin: false,
-    permissions: {
-        canEdit: true,
-        canVerify: false,
-        canMakeLive: false,
-        canAddOrDelete: false,
-    },
-
-}
+import { defaultUserWithPassword, userPermissions } from "../../data/defaultValues";
 
 export default function AddUser({toggleAdd}: {toggleAdd: (e:any) => void}) {
-    const [ user, setUser ] = useState(defaultUser);
+    const [ user, setUser ] = useState(defaultUserWithPassword);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (user.permissions.canEditWithVerificationNeeded) {
+            setUser({...user, permissions: {...user.permissions, canEditWithoutVerificationNeeded: false}})
+        } else if (user.permissions.canEditWithoutVerificationNeeded) {
+            setUser({...user, permissions: {...user.permissions, canEditWithVerificationNeeded: false}})
+        }
+    }, [user]);
 
     const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
         setUser({
@@ -35,7 +30,8 @@ export default function AddUser({toggleAdd}: {toggleAdd: (e:any) => void}) {
                 isSuperAdmin: e.target.checked,
                 permissions: {
                     canVerify: e.target.checked ? true : user.permissions.canVerify,
-                    canEdit: e.target.checked ? true : user.permissions.canEdit,
+                    canEditWithoutVerificationNeeded: e.target.checked ? true : user.permissions.canEditWithoutVerificationNeeded,
+                    canEditWithVerificationNeeded: e.target.checked ? true : user.permissions.canEditWithVerificationNeeded,
                     canMakeLive: e.target.checked ? true : user.permissions.canMakeLive,
                     canAddOrDelete: e.target.checked ? true : user.permissions.canAddOrDelete,
                 }
@@ -60,7 +56,8 @@ export default function AddUser({toggleAdd}: {toggleAdd: (e:any) => void}) {
                     email: user.email,
                     isSuperAdmin: user.isSuperAdmin,
                     permissions: {
-                        canEdit: user.permissions.canEdit,
+                        canEditWithoutVerificationNeeded: user.permissions.canEditWithoutVerificationNeeded,
+                        canEditWithVerificationNeeded: user.permissions.canEditWithVerificationNeeded,
                         canVerify: user.permissions.canVerify,
                         canMakeLive: user.permissions.canMakeLive,
                         canAddOrDelete: user.permissions.canAddOrDelete,
@@ -112,26 +109,17 @@ export default function AddUser({toggleAdd}: {toggleAdd: (e:any) => void}) {
                                 <span>Super Admin</span>
                             </div>
 
-                            <div className='flex justify-start items-center gap-3 px-3 py-2 border-b border-[#b4b4b4]'>
-                                <input onChange={handleCheck} name='canEdit' checked={user.permissions.canEdit ? true : false} type="checkbox" />
-                                <span>Can Edit</span>
-                            </div>
+                            {userPermissions.map(permission => {
+                                const value = permission.value as keyof object;
+                                const bool = user.permissions[value] as boolean;
 
-                            <div className='flex justify-start items-center gap-3 px-3 py-2 border-b border-[#b4b4b4]'>
-                                <input onChange={handleCheck} name='canVerify' checked={user.permissions.canVerify ? true : false} type="checkbox" />
-                                <span>Can Verify</span>
-                            </div>
-
-                            <div className='flex justify-start items-center gap-3 px-3 py-2 border-b border-[#b4b4b4]'>
-                                <input onChange={handleCheck} name='canMakeLive' checked={user.permissions.canMakeLive ? true : false} type="checkbox" />
-                                <span>Can Make Schools Live</span>
-                            </div>
-
-                            <div className='flex justify-start items-center gap-3 px-3 py-2'>
-                                <input onChange={handleCheck} name='canAddOrDelete' checked={user.permissions.canAddOrDelete ? true : false} type="checkbox" />
-                                <span>Can Add / Delete Schools</span>
-                            </div>
-
+                                return (
+                                    <div className='flex justify-start items-center gap-3 px-3 py-2 border-b border-[#b4b4b4]'>
+                                        <input onChange={handleCheck} name={value} checked={bool} type="checkbox" />
+                                        <span>{permission.label}</span>
+                                    </div>
+                                )
+                            })}
 
                         </div>
                         

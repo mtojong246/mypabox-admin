@@ -7,6 +7,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { editUsers } from "../../app/slices/users";
 import { updateUsersDoc } from "../../utils/firebase/firebase.utils";
+import { userPermissions } from "../../data/defaultValues";
 
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -175,50 +176,24 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
                     </div>
                     {openPermissions && (
                     <div className='border-2 border-[#A4A4A4] mx-3 mb-3 rounded relative z-10'>
-                        <div className='p-3 border-b border-[#A4A4A4] flex justify-start items-center'>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                            {isAdmin ? (
-                                <>
-                                    <input type="checkbox" className="sr-only peer" onChange={handleCheck} name='canEdit' checked={user.permissions.canEdit ? true : false}/>
-                                    <div className="w-[36px] h-5 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-600"></div>
-                                </>
-                                ) : user.permissions.canEdit ? <IoIosCheckmarkCircleOutline className='w-5 h-5 text-[#4FC769]'/> : <IoIosCloseCircleOutline className='w-5 h-5 text-[#F06A6A]' />}
-                                <span className="ml-3 text-sm text-black">Edit input fields</span>
-                            </label>
-                        </div>
-                        <div className='p-3 border-b border-[#A4A4A4] flex justify-start items-center'>
-                            <label className="relative inline-flex items-center cursor-pointer">
+                    {userPermissions.map(permission => {
+                        const value = permission.value as keyof object;
+                        const bool = user.permissions[value] as boolean;
+
+                        return (
+                            <div className='p-3 border-b border-[#A4A4A4] flex justify-start items-center'>
+                                <label className="relative inline-flex items-center cursor-pointer">
                                 {isAdmin ? (
-                                <>
-                                    <input type="checkbox" className="sr-only peer" onChange={handleCheck} name='canVerify' checked={user.permissions.canVerify ? true : false}/>
-                                    <div className="w-[36px] h-5 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-600"></div>
-                                </>
-                                ) : user.permissions.canVerify ? <IoIosCheckmarkCircleOutline className='w-5 h-5 text-[#4FC769]'/> : <IoIosCloseCircleOutline className='w-5 h-5 text-[#F06A6A]' /> }
-                                <span className="ml-3 text-sm text-black">Verify input fields</span>
-                            </label>
-                        </div>
-                        <div className='p-3 border-b border-[#A4A4A4] flex justify-start items-center'>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                {isAdmin ? (
-                                <>
-                                    <input type="checkbox" className="sr-only peer" onChange={handleCheck} name='canMakeLive' checked={user.permissions.canMakeLive ? true : false}/>
-                                    <div className="w-[36px] h-5 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-600"></div>
-                                </>
-                                ) : user.permissions.canMakeLive ? <IoIosCheckmarkCircleOutline className='w-5 h-5 text-[#4FC769]'/> : <IoIosCloseCircleOutline className='w-5 h-5 text-[#F06A6A]' /> }
-                                <span className="ml-3 text-sm text-black">Make school data live</span>
-                            </label>
-                        </div>
-                        <div className='p-3 flex justify-start items-center'>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                {isAdmin ? (
-                                <>
-                                    <input type="checkbox" className="sr-only peer" onChange={handleCheck} name='canAddOrDelete' checked={user.permissions.canAddOrDelete ? true : false}/>
-                                    <div className="w-[36px] h-5 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-600"></div>
-                                </>
-                                ) : user.permissions.canAddOrDelete ? <IoIosCheckmarkCircleOutline className='w-5 h-5 text-[#4FC769]'/> : <IoIosCloseCircleOutline className='w-5 h-5 text-[#F06A6A]' /> }
-                                <span className="ml-3 text-sm text-black">Add / delete school data</span>
-                            </label>
-                        </div>
+                                    <>
+                                        <input type="checkbox" className="sr-only peer" onChange={handleCheck} name={value} checked={bool}/>
+                                        <div className="w-[36px] h-5 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-600"></div>
+                                    </>
+                                    ) : bool ? <IoIosCheckmarkCircleOutline className='w-5 h-5 text-[#4FC769]'/> : <IoIosCloseCircleOutline className='w-5 h-5 text-[#F06A6A]' />}
+                                    <span className="ml-3 text-sm text-black">{permission.label}</span>
+                                </label>
+                            </div>
+                        )
+                    })}
                     </div>
                 )}
                 </div>

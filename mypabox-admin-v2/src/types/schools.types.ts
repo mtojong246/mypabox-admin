@@ -1,3 +1,18 @@
+export interface EditedField {
+    input: any | null,
+    prev: any | null,
+    link: string,
+    isEditMode: boolean,
+    notes?: Note[] | null;
+    [key: string]: any | null,
+}
+
+export interface OriginalField {
+    notes?: Note[];
+    [key: string]: any;
+}
+
+
 export interface Note {
     type: string;
     note: string;
@@ -8,6 +23,15 @@ export interface EditedNote {
     note: string;
     isCorrect: boolean;
     isNew: boolean;
+}
+
+export interface NoteInfoObj {
+    name: string,
+    isEditField: boolean,
+    innerFieldName?: string,
+    altNoteName?: string,
+    existingNote?: Note,
+    index?: number,
 }
 
 interface AdditionalField {

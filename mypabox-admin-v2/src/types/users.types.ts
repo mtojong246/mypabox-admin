@@ -4,7 +4,8 @@ export interface UserObject {
     email: string;
     isSuperAdmin: boolean;
     permissions: {
-        canEdit: boolean;
+        canEditWithVerificationNeeded: boolean;
+        canEditWithoutVerificationNeeded: boolean;
         canVerify: boolean;
         canMakeLive: boolean;
         canAddOrDelete: boolean;

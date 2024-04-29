@@ -31,6 +31,7 @@ import { UserObject } from "../../../types/users.types";
 import { selectIsEdit } from "../../../app/selectors/schools.selectors";
 import Preference from "./Preference/Preference";
 import GeneralInfoNew from "./GeneralInfo/GeneralInfoNew";
+import { mockUser } from "../../../data/defaultValues";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -62,7 +63,8 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
         email: '',
         isSuperAdmin: false,
         permissions: {
-            canEdit: false,
+            canEditWithoutVerificationNeeded: false,
+            canEditWithVerificationNeeded: false,
             canVerify: false,
             canMakeLive: false,
             canAddOrDelete: false,
@@ -75,7 +77,7 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     useEffect(() => {
         const currentUser = users.find(user => user.email === login);
         if (currentUser) {
-            setLoggedInUser(currentUser);
+            setLoggedInUser(mockUser);
         }
     }, [login]);
 
@@ -120,12 +122,12 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
   
     }
 
-    
+    console.log(loggedInUser)
     
     return (
         <form className={`pb-24 `}>
         <>
-            {tab === '#general-info' && <GeneralInfo newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
+            {tab === '#general-info' && <GeneralInfoNew newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#degree-info' && <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#accreditation-status' && <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#mission-statement' && <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
