@@ -9,8 +9,8 @@ import BooleanFields from "../../Assets/BooleanFields";
 import EditButtons from "../../Assets/EditButtons";
 import LinkPopup from "../../LinkPopup";
 import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./CertificationFunctions";
-
-import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import Screen from "../../../../components/Screen";
+import Indicator from "../../../../components/Indicator";
 import AddSelected from "../../Assets/AddSelected";
 
 const options = [
@@ -59,7 +59,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
     }, [newSchool.school_certifications_required.input]);
 
     useEffect(() => {
-        if (newSchool.edited_school_certifications_required.input !== null) {
+        if (newSchool.edited_school_certifications_required.input !== null || newSchool.edited_school_certifications_required.edited_school_certifications_required_options.input !== null) {
             setHasInputs(true)
         } else {
             setHasInputs(null)
@@ -289,17 +289,14 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
         <>
         <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
             <div className={`relative grow max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_certifications_required.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_certifications_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-            <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Certification Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+            <Screen isEdit={isEdit} editedInput={newSchool.edited_school_certifications_required.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} />
+            <Indicator label="Certification Required" editedInput={hasInputs} />
+            
                 <div className={`w-full ${!isOpen ? 'flex justify-between items-center mt-0' : 'block mt-2'}`}>
                     
-                    <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} input={newSchool.edited_school_certifications_required.input} originalInput={newSchool.school_certifications_required.input}
+                    <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} input={newSchool.edited_school_certifications_required.input} originalInput={newSchool.school_certifications_required.input}
                     name='school_certifications_required' handleCheck={handleCheck} />
-                    {/* <label className="relative inline-flex items-center cursor-pointer">
-                        <input onChange={handleCheck} checked={newSchool.school_certifications_required.input ? true : false} type="checkbox" className="sr-only peer"/>
-                        <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                        <span className="ml-3 text-xl text-black">{newSchool.school_certifications_required.input ? 'True' : 'False'}</span>
-                    </label> */}
+                    
                     {!isOpen && (
                         <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
@@ -313,26 +310,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
                         setCertification={setCertification} addCertification={addCertification} deleteCertification={deleteCertification} stringArray={newSchool.school_certifications_required.school_certifications_required_options} 
                         objectArray={newSchool.edited_school_certifications_required.edited_school_certifications_required_options.input} options={options} undoCertification={undoCertification}
                         />
-                        {/* <div className='flex justify-start items-center gap-3'>
-                            <CreatableSelect options={options} onChange={(e:any) => setCertification(e.value)} className="grow focus:outline-none"/> 
-                            <button onClick={addCertification} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
-                                Add Certification
-                            </button>
-                        </div> */}
-                        {/* {newSchool.school_certifications_required.school_certifications_required_options && (
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certifications_required_options && newSchool.school_certifications_required.school_certifications_required_options!.length ? 'mt-3' : 'mt-0'}`}>
-                            {newSchool.school_certifications_required.school_certifications_required_options && newSchool.school_certifications_required.school_certifications_required_options!.map((opt, i) => {
-                                return (
-                                    <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
-                                        <div className='flex justify-between items-center w-full'>
-                                            <p className='font-medium'>{opt}</p>
-                                            <button onClick={(e) => deleteCertification(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                        </div>
-                                    </div>
-                                )
-                            })}
-                            </div>
-                            )} */}
+                       
                     </div> 
                 )}
                 {newSchool.school_certifications_required.input && (
@@ -341,48 +319,20 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
                 <button onClick={toggleNotePopup} className="mt-2 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                {/* {newSchool.school_certifications_required.school_certification_notes && (
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certification_notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_certifications_required.school_certification_notes.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
-                    </div>
-                )} */}
+               
                 <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} notes={newSchool.edited_school_certifications_required.notes} originalNotes={newSchool.school_certifications_required.school_certification_notes} name='edited_school_certifications_required' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
                     />
                 </div>
                 )}
                 {newSchool.school_certifications_required.school_certification_notes && !newSchool.school_certifications_required.input && (
-                    // <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_certifications_required.school_certification_notes.length ? 'mt-3' : 'mt-0'}`}>
-                    //     {newSchool.school_certifications_required.school_certification_notes.map((note, i) => (
-                    //         <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                    //             <div className='flex justify-between items-center w-full mb-1'>
-                    //                 <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                    //                 <div className='flex gap-2'>
-                    //                     <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                    //                     <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                    //                 </div>
-                    //             </div>
-                    //             <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                    //         </div>
-                    //     ))}
-                    // </div>
+                   
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} notes={newSchool.edited_school_certifications_required.notes} originalNotes={newSchool.school_certifications_required.school_certification_notes} name='edited_school_certifications_required' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
                     />
                 )}
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} input={hasInputs} name='edited_school_certifications_required' enableEditMode={enableEditModeGroup} 
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} input={hasInputs} name='edited_school_certifications_required' enableEditMode={enableEditModeGroup} 
             confirmEdit={confirmEditGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool} link={newSchool.edited_school_certifications_required.link} setLinkObj={setLinkObj} toggleLinkPopup={toggleLinkPopup}
             />}
         </div>

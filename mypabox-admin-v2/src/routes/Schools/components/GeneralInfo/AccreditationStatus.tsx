@@ -3,9 +3,9 @@ import { School, Note} from "../../../../types/schools.types";
 import Select from 'react-select';
 import AddNote from "../Prereqs/AddNote";
 import AddNoteFields from "../../Assets/AddNoteFields";
-
-import { PiCheckCircle } from "react-icons/pi";
-import { PiWarningCircle } from "react-icons/pi";
+import Indicator from "../../../../components/Indicator";
+import Screen from "../../../../components/Screen";
+import SelectFields from "../../Assets/SelectFields";
 import LinkPopup from "../../LinkPopup";
 
 import EditButtons from "../../Assets/EditButtons";
@@ -68,7 +68,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
     //     })
     // };
 
-    const handleSelect = (e: any, isEditedInput: boolean) => {
+    const handleSelect = (e: any, category: string, isEditedInput: boolean) => {
         if (!isEditedInput) {
             setNewSchool({
                 ...newSchool,
@@ -189,10 +189,12 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
         <>
         <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
             <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && field.input !== null) || (!loggedInUser.permissions.canVerify && !field.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-            <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Accreditation Status<PiCheckCircle className={`h-5 w-5 ml-[2px] ${field.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+            <Screen isEdit={isEdit} editedInput={field.input} loggedInUser={loggedInUser} isEditMode={field.isEditMode} />
+                <Indicator label="Accreditation Status" editedInput={field.input} />
                 <div className='flex justify-center items-start gap-3'>
-                {loggedInUser.permissions.canVerify ? (
+                <SelectFields isEdit={isEdit}  loggedInUser={loggedInUser} input={field.input} originalInput={originalField.input} isEditMode={field.isEditMode} handleSelect={handleSelect}
+                options={options}  category={original} name={original}/>
+                {/* {loggedInUser.permissions.canVerify ? (
                     <>
                     {field.input ? (
                     <div className='flex flex-col justify-start items-start gap-3 grow'>
@@ -213,7 +215,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                         {(!field.isEditMode || (field.isEditMode && (field.input !== originalField.input))) && <Select isDisabled className={`w-full focus:outline-none rounded ${field.input ? 'line-through' : 'no-underline'}`}
                         options={options} value={newSchool.school_accreditation_status.input ? {value: newSchool.school_accreditation_status.input, label: newSchool.school_accreditation_status.input} : null}/>}
                     </div>
-                )}
+                )} */}
                     
                     <button onClick={(e:any) => {toggleNotePopup(e)}} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                         Add Note
@@ -246,7 +248,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                 ) : ''
                 } */}
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
                    setLinkObj={setLinkObj} name={original} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
             />}
         </div>

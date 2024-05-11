@@ -30,8 +30,13 @@ import { selectUsers } from "../../../app/selectors/users.selectors";
 import { UserObject } from "../../../types/users.types";
 import { selectIsEdit } from "../../../app/selectors/schools.selectors";
 import Preference from "./Preference/Preference";
-import GeneralInfoNew from "./GeneralInfo/GeneralInfoNew";
+import GeneralInfoNew from "./GeneralInfo/New/GeneralInfoNew";
 import { mockUser } from "../../../data/defaultValues";
+import AccreditationStatusNew from "./GeneralInfo/New/AccreditationStatusNew";
+import InternationalStudentsNew from "./InternationalStudents/InternationalStudentsNew";
+import TuitionNew from "./GeneralInfo/New/TuitionNew";
+import DegreeInfoNew from "./GeneralInfo/New/DegreeInfoNew";
+import CertificationsNew from "./Certifications/CertificationsNew";
 
 
 export default function Category({ tab, newSchool, setNewSchool, handleInputChange, handleCheck, handleQuillInputChange, openNotePopup, openEditPopup, removeNote }: { 
@@ -77,9 +82,9 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
     useEffect(() => {
         const currentUser = users.find(user => user.email === login);
         if (currentUser) {
-            setLoggedInUser(mockUser);
+            setLoggedInUser(currentUser);
         }
-    }, [login]);
+    }, [login, users]);
 
     useEffect(() => {
         const newCategory = categories.find(cat => cat.hash === tab);
@@ -121,17 +126,15 @@ export default function Category({ tab, newSchool, setNewSchool, handleInputChan
         })
   
     }
-
-    console.log(loggedInUser)
     
     return (
         <form className={`pb-24 `}>
         <>
-            {tab === '#general-info' && <GeneralInfoNew newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
+            {tab === '#general-info' && <GeneralInfo newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#degree-info' && <DegreeInfo newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#accreditation-status' && <AccreditationStatus newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#mission-statement' && <MissionStatement newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
-            {tab === '#tuition' && <Tuition newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
+            {tab === '#tuition' && <TuitionNew newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#pance-pass-rate' && <PANCEPassRate newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#GPA' && <GPA newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange} loggedInUser={loggedInUser} isEdit={isEdit}/>}
             {tab === '#prerequisites' && <Prereqs newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>}

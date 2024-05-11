@@ -7,6 +7,8 @@ import LinkPopup from "../../LinkPopup";
 import EditButtons from "../../Assets/EditButtons";
 import BooleanFields from "../../Assets/BooleanFields";
 import AddNoteFields from "../../Assets/AddNoteFields";
+import Screen from "../../../../components/Screen";
+import Indicator from "../../../../components/Indicator";
 
 import { enableEditModeBool, confirmEditBool, undoEditBool, revertEditBool } from "./GeneralInfoFunctions";
 import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from "./EmailPhoneFunctions";
@@ -118,41 +120,6 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
         })
     }
 
-    // const removeField = (e: any, index: number) => {
-    //     e.preventDefault();
-        
-    //     const list = inputList.filter(input => inputList.indexOf(input) !== index);
-
-    //     setInputList(list)
-
-    //     setNewSchool({
-    //     ...newSchool,
-    //     school_type_of_degree_offered: {
-    //         ...newSchool.school_type_of_degree_offered,
-    //         fields: list
-    //     }
-    //     })
-    // };
-
-    // const handleFieldChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-    //     // Input changes based on what user types 
-    //     const name = e.target.name as keyof School;
-    //     const field = newSchool[name] as StringInputWithFields;
-
-    //     const list: any = [...inputList]
-
-    //     list[index].input = e.target.value
-        
-    //     setInputList(list)
-
-    //     setNewSchool({
-    //     ...newSchool,
-    //     [name]: {
-    //         ...field, 
-    //         fields: list
-    //     }
-    //     })
-    // }
 
     const addNote = (note: Note) => {
         if (loggedInUser.permissions.canAddOrDelete) {
@@ -283,8 +250,8 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
         <>
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative grow max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && newSchool.edited_school_type_of_degree_offered.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_type_of_degree_offered.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                    <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Types of Degrees Offered<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                    <Screen isEdit={isEdit} editedInput={newSchool.edited_school_type_of_degree_offered.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_type_of_degree_offered.isEditMode} />
+                    <Indicator label="Type of Degrees Offered" editedInput={newSchool.edited_school_type_of_degree_offered.input} />
                     <div className='flex justify-center items-start gap-2'>
                         <input disabled={(loggedInUser.permissions.canVerify && hasInputs) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_type_of_degree_offered.isEditMode) ? true : false} className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" onChange={(e:ChangeEvent<HTMLInputElement>) => setField(e.target.value)} value={field}/>
                         <button className='border rounded border-[#4573D2] text-[#4573D2] px-5 h-[50px] text-xl hover:text-white hover:bg-[#4573D2]' onClick={(e:any) => {hasInputs ? addField(e, true) : addField(e, false)}}>Add type</button>
@@ -296,40 +263,11 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                     <TypeOfDegree loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_type_of_degree_offered.isEditMode} input={newSchool.edited_school_type_of_degree_offered.input} originalInput={newSchool.school_type_of_degree_offered.fields}
                     deleteFunc={removeField} undoFunc={undoDelete}
                     />
-                    {/* {newSchool.school_type_of_degree_offered.fields.length ? newSchool.school_type_of_degree_offered.fields.map((field,i) => (
-                        <div className='flex justify-between items-center border border-[#B4B4B4] rounded mt-3 py-2 pl-3 pr-2'>
-                            <p className='font-medium'>{field}</p>
-                            <button onClick={(e:any) => removeField(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                        </div>
-                    )): null} */}
-                    {/* {newSchool.school_type_of_degree_offered.notes.length ? (
-                        <>
-                        <label className='font-semibold inline-block mt-6'>Notes:</label>
-                        <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_type_of_degree_offered.notes.length ? 'mt-1' : 'mt-0'}`}>
-                        {newSchool.school_type_of_degree_offered.notes.map((note: any, i: number) => {
-                        return (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-start w-full mb-1'>
-                                <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                    {note.type}:
-                                </p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_type_of_degree_offered')}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e:any) => {deleteNote(e, i, 'school_type_of_degree_offered')}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                                </div> 
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                        )})}
-                        </div>
-                        </>
-                    ) : ''
-                    } */}
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_type_of_degree_offered.isEditMode} notes={newSchool.edited_school_type_of_degree_offered.notes} originalNotes={newSchool.school_type_of_degree_offered.notes} name='school_type_of_degree_offered' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                     />
                 </div>
-                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_type_of_degree_offered.isEditMode} input={hasInputs} 
+                {isEdit && <EditButtons isEdit={isEdit}loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_type_of_degree_offered.isEditMode} input={hasInputs} 
                 newSchool={newSchool} setNewSchool={setNewSchool} link={newSchool.edited_school_type_of_degree_offered.link} setLinkObj={setLinkObj} toggleLinkPopup={toggleLinkPopup}
                 enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} name='school_type_of_degree_offered'
                 />}
@@ -337,86 +275,38 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
 
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && newSchool.edited_school_dual_degree_program.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_dual_degree_program.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                    <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Dual-Degree Program<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_dual_degree_program.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_dual_degree_program.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                    <Screen isEdit={isEdit} editedInput={newSchool.edited_school_dual_degree_program.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} />
+                    <Indicator label="Dual-Degree Program" editedInput={newSchool.edited_school_dual_degree_program.input} />
                     <div className='flex justify-start items-center gap-2'>
-                        <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_dual_degree_program.input} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} originalInput={newSchool.school_dual_degree_program.input} name='school_dual_degree_program' handleCheck={handleCheck}/>         
+                        <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} input={newSchool.edited_school_dual_degree_program.input} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} originalInput={newSchool.school_dual_degree_program.input} name='school_dual_degree_program' handleCheck={handleCheck}/>         
                         <button onClick={(e:any) => {toggleNotePopup(e); setName('school_dual_degree_program')}} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
-                    
-                    {/* {
-                    newSchool.school_dual_degree_program.notes ? (
-                    <>
-                    <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_dual_degree_program.notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_dual_degree_program.notes.map((note: any, i: number) => {
-                        return (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-start w-full mb-1'>
-                                <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                    {note.type}:
-                                </p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_dual_degree_program')}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e:any) => {deleteNote(e, i, 'school_dual_degree_program')}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                                </div> 
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                        )})}
-                    </div>
-                    </>
-                    ) : ''
-                    } */}
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} notes={newSchool.edited_school_dual_degree_program.notes} originalNotes={newSchool.school_dual_degree_program.notes} name='school_dual_degree_program' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                     />
                 </div>
-                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} input={newSchool.edited_school_dual_degree_program.input} link={newSchool.edited_school_dual_degree_program.link} 
+                {isEdit && <EditButtons isEdit={isEdit}loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_dual_degree_program.isEditMode} input={newSchool.edited_school_dual_degree_program.input} link={newSchool.edited_school_dual_degree_program.link} 
                    setLinkObj={setLinkObj} name='school_dual_degree_program' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
                 />}
             </div>
 
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && newSchool.edited_school_bachelors_degree_required.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_bachelors_degree_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                    <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Bachelors Degree Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_bachelors_degree_required.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_bachelors_degree_required.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                    <Screen isEdit={isEdit} editedInput={newSchool.edited_school_bachelors_degree_required.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} />
+                    <Indicator label="Bachelor's Degree Required" editedInput={newSchool.edited_school_bachelors_degree_required.input} />
                     <div className='flex justify-start items-center gap-2'>
-                        <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_bachelors_degree_required.input} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} originalInput={newSchool.school_bachelors_degree_required.input} name='school_bachelors_degree_required' handleCheck={handleCheck}/>
+                        <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} input={newSchool.edited_school_bachelors_degree_required.input} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} originalInput={newSchool.school_bachelors_degree_required.input} name='school_bachelors_degree_required' handleCheck={handleCheck}/>
                         <button onClick={(e:any) => {toggleNotePopup(e); setName('school_bachelors_degree_required')}} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
-                    
-                    {/* {
-                    newSchool.school_bachelors_degree_required.notes ? (
-                    <>
-                    <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_bachelors_degree_required.notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_bachelors_degree_required.notes.map((note: any, i: number) => {
-                        return (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-start w-full mb-1'>
-                                <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                    {note.type}:
-                                </p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_bachelors_degree_required')}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e:any) => {deleteNote(e, i, 'school_bachelors_degree_required')}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                                </div> 
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                        )})}
-                    </div>
-                    </>
-                    ) : ''
-                    } */}
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} notes={newSchool.edited_school_bachelors_degree_required.notes} originalNotes={newSchool.school_bachelors_degree_required.notes} name='school_bachelors_degree_required' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                     />
                 </div>
-                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} input={newSchool.edited_school_bachelors_degree_required.input} link={newSchool.edited_school_bachelors_degree_required.link} 
+                {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_bachelors_degree_required.isEditMode} input={newSchool.edited_school_bachelors_degree_required.input} link={newSchool.edited_school_bachelors_degree_required.link} 
                    setLinkObj={setLinkObj} name='school_bachelors_degree_required' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
                 />}
             </div>

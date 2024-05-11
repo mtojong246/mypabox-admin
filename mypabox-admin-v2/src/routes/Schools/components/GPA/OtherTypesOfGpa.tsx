@@ -4,6 +4,8 @@ import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
 import EditButtons from "../../Assets/EditButtons";
 import { confirmEditGroup, enableEditModeGroup, revertEditGroup, undoEditGroup } from "./GPAFunctions";
+import Screen from "../../../../components/Screen";
+import Indicator from "../../../../components/Indicator";
 
 import AddNote from "../Prereqs/AddNote";
 import { UserObject } from "../../../../types/users.types";
@@ -370,9 +372,9 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
         return (
         <div className={`${i>0 ? 'mt-10' : 'mt-28'} flex justify-start items-start gap-3 w-full`}>
         <div className={` grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-        {((loggedInUser.permissions.canVerify && newSchool.edited_school_other_types_of_gpa_evaluated.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
+        <Screen isEdit={isEdit} editedInput={newSchool.edited_school_other_types_of_gpa_evaluated.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} />
             <div className='absolute top-[-16px] left-[20px] flex justify-between items-center w-full pr-[40px]'>
-                <label className={`z-20 flex justify-start items-center text-xl bg-white ${input ? input.isCorrect ? 'no-underline' : 'line-through' : 'no-underline'}`}>Other Types of GPA Evaluated <PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_other_types_of_gpa_evaluated.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_other_types_of_gpa_evaluated.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/> <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label> 
+            <Indicator label="Other Types of GPA Evaluated" editedInput={newSchool.edited_school_other_types_of_gpa_evaluated.input} />
                 {!loggedInUser.permissions.canVerify && input && !input.isCorrect && !input.isNew ? 
                 <button disabled={!newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode ? true : false} onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)} className={`bg-[#4573D2] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#26354C] ${i > 0 ? 'block' : 'hidden'}`}>Undo</button> : 
                     <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_other_types_of_gpa_evaluated.input !== null) ? true : false} onClick={(e:any) => {input === null ? deleteField(e, i, false, false) : deleteField(e, i, input!.isNew, true)}} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#B52020] relative z-20 ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>}
@@ -385,7 +387,7 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
                         <label className='text-xl'>Type of GPA Evaluated</label>
                         <button onClick={(e) => deleteField(e,i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
                     </div> */}
-                    <CreatableSelectField loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} index={i} input={input ? input.type_of_gpa_evaluated : null} originalInput={originalInput ? originalInput.type_of_gpa_evaluated : null}
+                    <CreatableSelectField isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} index={i} input={input ? input.type_of_gpa_evaluated : null} originalInput={originalInput ? originalInput.type_of_gpa_evaluated : null}
                     name='type_of_gpa_evaluated' handleSelect={handleSelect} options={typeOfGpa} category="school_other_types_of_gpa_evaluated"
                     />
                     {/* <div className='flex justify-center items-start gap-1 w-full'>
@@ -420,14 +422,14 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
                 </div>
                 <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                     <label className='absolute top-[-16px] text-xl font-medium bg-white'>Minimum GPA Value Needed</label>
-                    <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} input={input ? input.minimum_gpa_value_needed : null} 
+                    <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} input={input ? input.minimum_gpa_value_needed : null} 
                     originalInput={originalInput ? originalInput.minimum_gpa_value_needed : null} name='minimum_gpa_value_needed' handleInput={handleInput} handleInputInArray={handleObjInput} index={i}
                     />
                     {/* <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_value_needed')} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded block' value={field.minimum_gpa_value_needed ? field.minimum_gpa_value_needed : ''} name='minimum_gpa_value_needed'/> */}
                 </div>
                 <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                     <label className='absolute top-[-16px] text-xl font-medium bg-white'>Minimum Number of Credits Evaluated</label>
-                    <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} input={input ? input.minimum_number_of_credits_evaluated : null}
+                    <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} input={input ? input.minimum_number_of_credits_evaluated : null}
                     originalInput={originalInput ? originalInput.minimum_number_of_credits_evaluated : null} name='minimum_number_of_credits_evaluated' handleInput={handleInput} handleInputInArray={handleObjInput} index={i}
                     />
                     {/* <input onChange={(e) => handleObjInput(e, i, 'minimum_number_of_credits_evaluated')} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded block' value={field.minimum_number_of_credits_evaluated ? field.minimum_number_of_credits_evaluated : ''} name='minimum_number_of_credits_evaluated' /> */}
@@ -465,7 +467,7 @@ export default function OtherTypesOfGpa({newSchool, setNewSchool, loggedInUser, 
                 <div className='w-full mb-5'></div>
             )}
         </div>
-        {isEdit && i === 0 && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} input={newSchool.edited_school_other_types_of_gpa_evaluated.input} link={newSchool.edited_school_other_types_of_gpa_evaluated.link}
+        {isEdit && i === 0 && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_other_types_of_gpa_evaluated.isEditMode} input={newSchool.edited_school_other_types_of_gpa_evaluated.input} link={newSchool.edited_school_other_types_of_gpa_evaluated.link}
         toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} newSchool={newSchool} setNewSchool={setNewSchool} name='school_other_types_of_gpa_evaluated' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup}
         revertEdit={revertEditGroup} undoEdit={undoEditGroup}
         />}

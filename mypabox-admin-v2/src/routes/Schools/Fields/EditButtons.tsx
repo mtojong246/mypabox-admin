@@ -10,7 +10,7 @@ import useEditButtons from "../../../app/hooks/useEditButtons";
 
 
 
-export default function EditButtons({ loggedInUser, name, isEdit, newSchool, setNewSchool, fieldNames, altInputName, altNoteName }: { 
+export default function EditButtons({ loggedInUser, name, isEdit, newSchool, setNewSchool, fieldNames, altInputName, altNoteName, k, }: { 
     loggedInUser: UserObject,
     name: string,
     isEdit: boolean,
@@ -18,7 +18,8 @@ export default function EditButtons({ loggedInUser, name, isEdit, newSchool, set
     setNewSchool: Dispatch<SetStateAction<School>>,
     fieldNames?: string[], 
     altInputName?: string, 
-    altNoteName?: string
+    altNoteName?: string,
+    k?: string
  }) {
 
     const [ canSeeButtons, setCanSeeButtons ] = useState(false);
@@ -42,7 +43,8 @@ export default function EditButtons({ loggedInUser, name, isEdit, newSchool, set
         confirmEditObjects, 
         undoEditObjects, 
         revertEditObjects 
-    } = useEditButtons({newSchool: newSchool, setNewSchool: setNewSchool, loggedInUser: loggedInUser})
+    } = useEditButtons({newSchool: newSchool, setNewSchool: setNewSchool, loggedInUser: loggedInUser});
+
 
     return (
         <>
@@ -61,11 +63,11 @@ export default function EditButtons({ loggedInUser, name, isEdit, newSchool, set
                     {editedField.isEditMode ? (
                         <>
                             <button name={name} onClick={(e:MouseEvent<HTMLButtonElement>) => confirmEditObjects(e, fieldNames, altInputName, altNoteName)}><AiOutlineCheck className="h-7 w-7 border-2 rounded-md border-[#4FC769] bg-none text-[#4FC769] hover:text-white hover:bg-[#4FC769]"/></button>
-                            <button name={name} onClick={(e:MouseEvent<HTMLButtonElement>) => undoEditObjects(e, fieldNames)}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>
+                            <button name={name} onClick={(e:MouseEvent<HTMLButtonElement>) => undoEditObjects(e, altInputName, fieldNames)}><AiOutlineClose className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>
                         </>
                     ) : (
                         <>
-                            <button name={name} onClick={(e:MouseEvent<HTMLButtonElement>) => enableEditObjects(e, fieldNames, altNoteName)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
+                            <button name={name} onClick={(e:MouseEvent<HTMLButtonElement>) => enableEditObjects(e, fieldNames, altInputName, altNoteName)}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
                             {editedField.input !== null && (
                                 <button name={name} onClick={(e:MouseEvent<HTMLButtonElement>) => revertEditObjects(e, fieldNames)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]" /></button>
                             )}

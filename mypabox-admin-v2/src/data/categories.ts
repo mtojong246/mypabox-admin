@@ -7,7 +7,8 @@ interface Field {
     value: string;
     margin?: string;
     type?: string;
-    options?: Option[]
+    options?: Option[],
+    innervalue?: string,
 }
 
 
@@ -484,7 +485,8 @@ export const categories: CategoryType[] = [
         isEdited: false,
         fields: [
             {
-                value: 'school_certifications_required'
+                value: 'school_certifications_required',
+                innervalue: 'school_certifications_required_options',
             },
             
         ],

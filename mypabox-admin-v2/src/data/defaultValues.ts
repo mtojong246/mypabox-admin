@@ -1,4 +1,22 @@
-import { School } from "../types/schools.types"
+import { School } from "../types/schools.types";
+
+export const simpleInputs = ['school_name', 'school_logo', 'school_street', 'school_city', 'school_state', 'school_zip_code', 
+'school_country', 'school_website', 'school_campus_location', 'school_start_month', 'school_class_capacity', 'school_duration_full_time',
+'school_duration_part_time', 'school_seat_deposit_in_state', 'school_seat_deposit_out_of_state', 'school_rolling_admissions', 
+'school_nonrolling_admissions', 'school_pre_pa_curriculum', 'school_direct_high_school_entry', 'school_part_time_option', 
+'school_online_learning', 'school_on_campus_housing', 'school_cadaver_lab', 'school_faith_based_learning', 'school_military_personnel_preference',
+'school_holistic_review', 'school_dual_degree_program', 'school_bachelors_degree_required', 'school_accreditation_status', 
+'school_in_state_tuition', 'school_out_of_state_tuition', 'school_first_time_pass_rate', 'school_average_five_year_first_time_pass_rate',
+'school_grade_criteria', 'school_pass_fail_criteria', 'school_ap_criteria', 'school_community_college_criteria', 'school_clep_criteria',
+'school_online_courses_criteria' ,'school_paid_experience_required' ,'school_average_pa_shadowing_hours_accepted_previous_cycle', 'school_international_students_accepted',
+'']
+
+export const simpleArrays = ['school_email', 'school_phone_number', 'school_type_of_degree_offered'];
+
+export const simpleNestedObjects = ['school_average_gpa_accepted_previous_cycle', 'school_time_frame_criteria', 'school_casper']
+
+export const simpleConditionalNestedObjects = ['school_minimum_gpa_required', 'school_minimum_gpa_recommended', 'school_pa_shadowing_required', 'school_pa_shadowing_recommended', 
+'school_certifications_required', 'school_application_submitted_on_caspa', 'school_application_submitted_directly_to_school', ]
 
 export const defaultSchool: School = {
     id: '',
@@ -158,7 +176,7 @@ export const defaultSchool: School = {
     },
 
     school_seat_deposit_in_state: {
-        input: 0,
+        input: '',
         notes: [],
     },
     edited_school_seat_deposit_in_state: {
@@ -169,7 +187,7 @@ export const defaultSchool: School = {
         notes: null,
     },
     school_seat_deposit_out_of_state: {
-        input: 0,
+        input: '',
         notes: [],
     },
     edited_school_seat_deposit_out_of_state: {
@@ -362,7 +380,7 @@ export const defaultSchool: School = {
         link: '',
     },
     school_in_state_tuition: {
-        input: 0,
+        input: '',
         notes: []
     },
     edited_school_in_state_tuition: {
@@ -373,7 +391,7 @@ export const defaultSchool: School = {
         notes: null,
     },
     school_out_of_state_tuition: {
-        input: 0,
+        input: '',
         notes: []
     },
     edited_school_out_of_state_tuition: {
@@ -470,59 +488,6 @@ export const defaultSchool: School = {
             notes: null,
         },
     },
-
-    // school_minimum_gpa_required: false,
-    // edited_school_minimum_gpa_required: {
-    //     input: null,
-    //     prev: null,
-    //     isEditMode: false,
-    //     link: '',
-    // },
-    // school_minimum_overall_gpa_required: null,
-    // edited_school_minimum_overall_gpa_required: {
-    //     input: null,
-    //     prev: null,
-    //     isEditMode: false,
-    // },
-    // school_minimum_science_gpa_required: null,
-    // edited_school_minimum_science_gpa_required: {
-    //     input: null,
-    //     prev: null,
-    //     isEditMode: false,
-    // },
-    // school_minimum_prerequisite_gpa_required: null,
-    // edited_school_minimum_prerequisite_gpa_required: {
-    //     input: null,
-    //     prev: null,
-    //     isEditMode: false,
-    // },
-
-
-    // school_minimum_gpa_recommended: false,
-    // edited_school_minimum_gpa_recommended: {
-    //     input: null,
-    //     prev: null,
-    //     isEditMode: false,
-    //     link: '',
-    // },
-    // school_minimum_overall_gpa_recommended: null,
-    // edited_school_minimum_overall_gpa_recommended: {
-    //     input: null,
-    //     prev: null,
-    //     isEditMode: false,
-    // },
-    // school_minimum_science_gpa_recommended: null,
-    // edited_school_minimum_science_gpa_recommended: {
-    //     input: null,
-    //     prev: null,
-    //     isEditMode: false,
-    // },
-    // school_minimum_prerequisite_gpa_recommended: null,
-    // edited_school_minimum_prerequisite_gpa_recommended: {
-    //     input: null,
-    //     prev: null,
-    //     isEditMode: false,
-    // },
     school_other_types_of_gpa_evaluated: [
         {
             gpa_value_required_or_recommended: "required",
@@ -1761,16 +1726,146 @@ export const generalInfoFields: {label: string, name: string}[] = [
         label: 'General Information',
         name: 'school_general_information'
     }
+];
+
+export const tuitionFields: {label: string, name: string}[] = [
+    {
+        label: 'In-State Tuition',
+        name: 'school_in_state_tuition',
+    },
+    {
+        label: 'Out-of-State Tuition',
+        name: 'school_out_of_state_tuition'
+    },
+    {
+        label: 'In-State Seat Deposit',
+        name: 'school_seat_deposit_in_state'
+    },
+    {
+        label: 'Out-of-State Seat Deposit',
+        name: 'school_seat_deposit_out_of_state'
+    }
+
 ]
+
+export const degreeInfoFields: {label: string, name: string}[] = [
+    {
+        label: 'Type of Degrees Offered',
+        name: 'school_type_of_degree_offered'
+    },
+    {
+        label: 'Dual-Degree Program',
+        name: 'school_dual_degree_program'
+    },
+    {
+        label: 'Bachelors Degree Required',
+        name: 'school_bachelors_degree_required'
+    }
+]
+
+export const paShadowingFields: {label: string, name: string, altNoteName?: string}[] = [
+    {
+        label: 'PA Shadowing Required',
+        name: 'school_pa_shadowing_required',
+        altNoteName: 'school_minimum_pa_shadowing_hours_required_notes'
+    },
+    {
+        label: 'PA Shadowing Recommended',
+        name: 'school_pa_shadowing_recommended',
+        altNoteName: 'school_minimum_pa_shadowing_hours_recommended_notes'
+    },
+    {
+        label: 'Average PA Shadowing Hours Accepted Previous Cycle',
+        name: 'school_average_pa_shadowing_hours_accepted_previous_cycle',
+        altNoteName: 'school_average_pa_shadowing_hours_accepted_previous_cycle_notes'
+    }
+]
+
+export const experienceFields:  {label: string, name: string, altNoteName?: string}[] = [
+    {
+        label: 'Paid Experience Required',
+        name: 'school_paid_experience_required',
+        altNoteName: 'school_paid_experience_required_notes'
+    },
+    {
+        label: 'Patient Experience (PCE)',
+        name: 'school_patient_experience',
+        altNoteName: 'school_patient_care_experience_general_notes',
+    },
+    {
+        label: 'Healthcare Experience (HCE)',
+        name: 'school_healthcare_experience',
+        altNoteName: 'school_healthcare_experience_general_notes'
+    },
+    {
+        label: 'Community Service',
+        name: 'school_community_service',
+        altNoteName: 'school_community_service_general_notes'
+    },
+    {
+        label: 'Volunteer Service',
+        name: 'school_volunteer_service',
+        altNoteName: 'school_volunteer_service_general_notes'
+    }
+]
+
+export const booleanFields: {label: string, name: string, altInputName?: string, altNoteName?: string}[] = [
+    {
+        label: "Pass/Fail Courses Accepted",
+        name: "school_pass_fail_criteria",
+        altInputName: 'school_pass_fail_grade_accepted',
+        altNoteName: "school_pass_fail_grade_criteria_note_section",
+      },
+      {
+        label: "AP Courses Accepted",
+        name: "school_ap_criteria",
+        altInputName: 'school_ap_courses_accepted',
+        altNoteName: "school_ap_courses_criteria_note_section",
+      },
+      {
+        label: "Community College Courses Accepted",
+        name: "school_community_college_criteria",
+        altInputName: 'school_community_college_credits_accepted',
+        altNoteName: "school_community_college_criteria_note_section",
+      },
+      {
+        label: "CLEP Credits Accepted",
+        name: "school_clep_criteria",
+        altInputName: 'school_clep_credits_accepted',
+        altNoteName: "school_clep_credits_criteria_note_section",
+      },
+      {
+        label: "Online Courses Accepted",
+        name: "school_online_courses_criteria",
+        altInputName: 'school_online_courses_accepted',
+        altNoteName: "school_online_courses_criteria_note_section",
+      },
+]
+
+export const gpaFields: {label: string, name: string, altNoteName?: string}[] = [
+    {
+        label: 'Minimum GPA Required',
+        name: 'school_minimum_gpa_required',
+    },
+    {
+        label: 'Minimum GPA Recommended',
+        name: 'school_minimum_gpa_recommended',
+    },
+    {
+        label: 'Other Types of GPA Evaluated',
+        name: 'school_other_types_of_gpa_evaluated',
+    }
+]
+
 
 export const userPermissions: {label: string, value: string}[] = [
     {
         label: 'Edit input fields with verification required',
-        value: 'canEditWithoutVerificationNeeded'
+        value: 'canEditWithVerificationNeeded'
     },
     {
         label: 'Edit input fields without verification required',
-        value: 'canEditWithVerificationNeeded'
+        value: 'canEditWithoutVerificationNeeded'
     },
     {
         label: 'Verify input fields',
@@ -1828,8 +1923,8 @@ export const defaultUserWithPassword = {
     email: '',
     isSuperAdmin: false,
     permissions: {
-        canEditWithoutVerificationNeeded: true,
-        canEditWithVerificationNeeded: false,
+        canEditWithoutVerificationNeeded: false,
+        canEditWithVerificationNeeded: true,
         canVerify: true,
         canMakeLive: false,
         canAddOrDelete: true,

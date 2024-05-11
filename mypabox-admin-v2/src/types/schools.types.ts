@@ -7,6 +7,12 @@ export interface EditedField {
     [key: string]: any | null,
 }
 
+export interface EditedArrInputObj {
+    isCorrect: boolean,
+    isNew: boolean,
+    [key: string]: any;
+}
+
 export interface OriginalField {
     notes?: Note[];
     [key: string]: any;
@@ -285,7 +291,7 @@ export interface School {
         notes: Note[] | null;
     };
 
-    school_seat_deposit_in_state: NumberInput;
+    school_seat_deposit_in_state: StringInput;
     edited_school_seat_deposit_in_state: {
         input: number | null;
         prev: number | null;
@@ -293,7 +299,7 @@ export interface School {
         link: string;
         notes: Note[] | null;
     }
-    school_seat_deposit_out_of_state: NumberInput;
+    school_seat_deposit_out_of_state: StringInput;
     edited_school_seat_deposit_out_of_state: {
         input: number | null;
         prev: number | null;
@@ -448,18 +454,18 @@ export interface School {
         link: string;
     }
 
-    school_in_state_tuition: NumberInput;
+    school_in_state_tuition: StringInput;
     edited_school_in_state_tuition: {
-        input: number | null,
-        prev: number | null;
+        input: string | null,
+        prev: string | null;
         isEditMode: boolean,
         link: string;
         notes: Note[] | null;
     }
-    school_out_of_state_tuition: NumberInput;
+    school_out_of_state_tuition: StringInput;
     edited_school_out_of_state_tuition: {
-        input: number | null,
-        prev: number | null;
+        input: string | null,
+        prev: string | null;
         isEditMode: boolean,
         link: string;
         notes: Note[] | null;

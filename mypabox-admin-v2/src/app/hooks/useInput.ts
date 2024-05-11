@@ -1,6 +1,17 @@
 import { EditedField, School } from "../../types/schools.types";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
+const convertToCurrency = (value: string) => {
+    const conversion = parseInt(value.replace(/,/g, ''));
+    if (isNaN(conversion)) {
+        return ''
+    } else {
+        return conversion.toLocaleString();
+    }
+}
+
+const currencyFields = ['school_in_state_tuition', 'school_out_of_state_tuition', 'school_seat_deposit_in_state', 'school_seat_deposit_out_of_state'];
+
 const useInput = ({ newSchool, setNewSchool }: { 
     newSchool: School,
     setNewSchool: Dispatch<SetStateAction<School>>,
@@ -10,7 +21,12 @@ const useInput = ({ newSchool, setNewSchool }: {
         const name = e.target.name as keyof School;
         const editedName = `edited_${name}` as keyof School;
         const field = newSchool[isEditMode ? editedName : name] as object;
-        const value = e.target.value;
+        let value = '';
+        if (currencyFields.includes(name)) {
+            value = convertToCurrency(e.target.value);
+        } else {
+            value = e.target.value;
+        }
 
         if (innerFieldName === undefined) {
             setNewSchool({

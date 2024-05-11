@@ -120,10 +120,12 @@ export default function AddSchool() {
    }, [location.hash]);
 
    useEffect(() => {
+
     const newCategories = categories.map(category => {
-      const editedFields = category.fields.find(field => (newSchool[`edited_${field.value}` as keyof object] as any) !== undefined && (newSchool[`edited_${field.value}` as keyof object] as any).input !== null);
+      const editedFields = category.fields.find(field => (newSchool[`edited_${field.value}` as keyof object] as any) !== undefined && ((newSchool[`edited_${field.value}` as keyof object] as any).input !== null || 
+      (field.innervalue !== undefined && (newSchool[`edited_${field.value}` as keyof object][`edited_${field.innervalue}`] as any).input !== null)));
       if (editedFields) {
-        console.log(editedFields)
+        
         return {...category, isEdited: true}
       } else {
         return { ...category, isEdited: false }
@@ -386,12 +388,8 @@ export default function AddSchool() {
     };
 
     const navigateTabs = (hash: string) => {
-      if (!newSchool.school_name.input || !newSchool.school_street.input || !newSchool.school_city.input || !newSchool.school_zip_code.input || !newSchool.school_website.input) {
-        return;
-      } else {
-        navigate(`/schools/add-school${hash}`);
+      navigate(`/schools/add-school${hash}`);
         setTab(hash);
-      }
     }
 
     const cancel = async (e:MouseEvent<HTMLButtonElement>) => {

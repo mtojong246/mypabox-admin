@@ -28,6 +28,7 @@ export default function BooleanFields({ label, name, handleInputChange, value, e
     const [ isOriginalInputDisabled, setIsOriginalInputDisabled ] = useState(false);
     const [ isOriginalFieldShown, setIsOriginalFieldShown ] = useState(false);
 
+
     useEffect(() => {
         const edited = `edited_${name}` as keyof School;
         const field = newSchool[edited] as EditedField;

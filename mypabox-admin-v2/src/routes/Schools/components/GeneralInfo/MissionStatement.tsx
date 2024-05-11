@@ -89,7 +89,7 @@ export default function MissionStatement({newSchool, setNewSchool, loggedInUser,
                     )}
                     
                 </div>
-                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_mission_statement.isEditMode} input={newSchool.edited_school_mission_statement.input} link={newSchool.edited_school_mission_statement.link} 
+                {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_mission_statement.isEditMode} input={newSchool.edited_school_mission_statement.input} link={newSchool.edited_school_mission_statement.link} 
                    setLinkObj={setLinkObj} name='school_mission_statement' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
                 />}
             </div>

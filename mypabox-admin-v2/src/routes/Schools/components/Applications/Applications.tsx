@@ -59,6 +59,7 @@ export default function Applications({ newSchool, setNewSchool, loggedInUser, is
             })
         } else {
             const name = `edited_${e.target.name}`;
+        
             setNewSchool({
                 ...newSchool,
                 [category]: {
@@ -73,8 +74,9 @@ export default function Applications({ newSchool, setNewSchool, loggedInUser, is
     }
 
     const handleInputInCategory = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
-        const field = newSchool[category as keyof School] as object;
+       
         if (!isEditedInput) {
+            const field = newSchool[category as keyof School] as object;
             if (e.target.name === 'school_supplemental_application_fee' || e.target.name === 'school_application_direct_to_school_fee') {
                 if (e.target.value === '') {
                     setNewSchool({
@@ -110,11 +112,13 @@ export default function Applications({ newSchool, setNewSchool, loggedInUser, is
             }
         } else {
             const name = `edited_${e.target.name}`;
+            const editedCategory = `edited_${category}`
+            const field = newSchool[editedCategory as keyof School] as object;
             if (e.target.name === 'school_supplemental_application_fee' || e.target.name === 'school_application_direct_to_school_fee') {
                 if (e.target.value === '') {
                     setNewSchool({
                         ...newSchool,
-                        [category]: {
+                        [editedCategory]: {
                             ...field,
                             [name]: {
                                 ...field[name as keyof object] as object,
@@ -130,7 +134,7 @@ export default function Applications({ newSchool, setNewSchool, loggedInUser, is
                         const value = conversion.toLocaleString();
                         setNewSchool({
                             ...newSchool,
-                            [category]: {
+                            [editedCategory]: {
                                 ...field,
                                 [name]: {
                                     ...field[name as keyof object] as object,
@@ -143,7 +147,7 @@ export default function Applications({ newSchool, setNewSchool, loggedInUser, is
             } else {
                 setNewSchool({
                     ...newSchool,
-                    [category]: {
+                    [editedCategory]: {
                         ...field,
                         [name]: {
                             ...field[name as keyof object] as object,

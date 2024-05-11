@@ -22,7 +22,53 @@ export default function TitleFields({loggedInUser, input, originalInput, isEditM
 }) {
     return (
         <>
-        {loggedInUser.permissions.canVerify ? (
+        <div className='flex justify-start items-center gap-2'>
+            <div className='grow flex justify-center items-start gap-1'>
+                <CreatableSelect options={options} onChange={(e:any) => setEvaluator(e.value)} className="grow focus:outline-none"/> 
+                <Tooltip title="Type and press enter to create new option" placement='right'>
+                    <IconButton style={{padding: '0px'}}>
+                        <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
+                    </IconButton>
+                </Tooltip>
+            </div>
+            <button onClick={(e:MouseEvent<HTMLButtonElement>) => addEvaluator(e, isEditMode)} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
+                Add Evaluator
+            </button>
+        </div>
+        {input !== null && input.length > 0 && (
+            <div className={`flex flex-col justify-center items-center gap-3 ${input.length ? 'mt-3' : 'mt-0'}`}>
+            {input.map((opt, i) => {
+                return (
+                    <div className={`py-2 pl-3 pr-2 border-2 rounded w-full ${opt.isNew ? 'border-orange-600' : 'border-[#B4B4B4]'}`}>
+                        <div className='flex justify-between items-center w-full'>
+                            <p className={`font-medium ${!opt.isCorrect && !opt.isNew ? 'line-through' : 'no-underline'}`}>{opt.name}</p>
+                            {!opt.isCorrect && !opt.isNew ? (
+                                <button onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)}><LuUndo2 className="h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]" /></button>
+                            ) : (
+                                <button onClick={(e:MouseEvent<HTMLButtonElement>) => deleteEvaluator(e,i, opt.isNew, isEditMode)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                            )}
+                        </div>
+                    </div>
+                )
+            })}
+            </div>
+        )}
+
+        {input === null && originalInput !== null && originalInput.length > 0 && (
+            <div className={`flex flex-col justify-center items-center gap-3 ${originalInput.length ? 'mt-3' : 'mt-0'}`}>
+            {originalInput.map((opt, i) => {
+                return (
+                    <div className='py-2 pl-3 pr-2 border-2 border-[#B4B4B4] rounded w-full'>
+                        <div className='flex justify-between items-center w-full'>
+                            <p className='font-medium'>{opt}</p>
+                            <button onClick={(e:MouseEvent<HTMLButtonElement>) => deleteEvaluator(e,i, false, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
+                        </div>
+                    </div>
+                )
+            })}
+            </div>
+        )}
+        {/* {loggedInUser.permissions.canVerify ? (
             <>
             {input !== null ? (
             <>
@@ -135,7 +181,7 @@ export default function TitleFields({loggedInUser, input, originalInput, isEditM
             )}
             </>
             </>
-        )}
+        )} */}
         </>
     )
 }

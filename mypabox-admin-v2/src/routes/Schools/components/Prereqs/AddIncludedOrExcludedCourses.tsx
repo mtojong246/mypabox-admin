@@ -20,8 +20,9 @@ const defaultCourse = {
     school_required_course_note: '',
 }
 
-export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, excluded, category, categoryEdited, editedCourse, setEditedCourse, requiredCategory, setEditedCategory, editedCategory, setRequiredCategory, input, groupIndex, newSchool, loggedInUser }: { 
+export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, isEdit, excluded, category, categoryEdited, editedCourse, setEditedCourse, requiredCategory, setEditedCategory, editedCategory, setRequiredCategory, input, groupIndex, newSchool, loggedInUser }: { 
     toggleCoursePopup: (e: any) => void, 
+    isEdit: boolean,
     excluded: boolean, category: string, 
     categoryEdited: string,
     editedCourse: any | null,
@@ -378,7 +379,7 @@ export default function AddIncludedOrExcludedCourses({ toggleCoursePopup, exclud
                     <p className='text-xl font-semibold mb-8'>{excluded && editedCourse ? 'Edit Excluded Course' : !excluded && editedCourse ? 'Edit Included Course' : excluded && !editedCourse ? 'Add Excluded Course' : 'Add Included Course'}</p>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
-                        <SelectFieldsGroup isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={editedOption ? editedOption.school_required_course_id : null}
+                        <SelectFieldsGroup isEdit={isEdit} isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={editedOption ? editedOption.school_required_course_id : null}
                         originalInput={addedCourse.school_required_course_id} handleSelect={handleSelection} label={editedSelection} originalLabel={selection} options={courseOptions} name='school_required_course_id' category="school_required_course_id"
                         />
                         {/* <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} className='w-full focus:outline-none rounded mt-2' options={courseOptions}/> */}

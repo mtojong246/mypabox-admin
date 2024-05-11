@@ -18,7 +18,7 @@ const defaultCourse = {
     school_required_course_note_section: '',
 }
 
-export default function AddRequiredCourses({loggedInUser, toggleRequiredCourses, editedRequiredCourse, setEditedRequiredCourse, newSchool, setNewSchool, input, originalInput, groupIndex }: { 
+export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequiredCourses, editedRequiredCourse, setEditedRequiredCourse, newSchool, setNewSchool, input, originalInput, groupIndex }: { 
     toggleRequiredCourses: (e:any) => void, 
     loggedInUser: UserObject,
     editedRequiredCourse: any | null,
@@ -35,6 +35,7 @@ export default function AddRequiredCourses({loggedInUser, toggleRequiredCourses,
         school_required_course_note_section: string;
     }[],
     groupIndex: number | null,
+    isEdit: boolean
 }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
@@ -305,20 +306,20 @@ export default function AddRequiredCourses({loggedInUser, toggleRequiredCourses,
                     <p className='text-xl font-semibold mb-8'>{editedRequiredCourse ? 'Edit' : 'Add'} Required Course</p>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
-                        <SelectFieldsGroup isBlank={isBlank} label={editedSelection} originalLabel={selection} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_id} handleSelect={handleSelection} 
+                        <SelectFieldsGroup isEdit={isEdit} isBlank={isBlank} label={editedSelection} originalLabel={selection} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_id} handleSelect={handleSelection} 
                         originalInput={requiredCourse.school_required_course_id} category='school_required_course_id' name='school_required_course_id' options={courseOptions}/>
                         {/* <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} className='w-full focus:outline-none rounded mt-2' options={courseOptions}/> */}
                     </div>
                     {/* <div className='w-full mb-8 flex justify-start items-center gap-10'> */}
                         <div className='w-full mb-8'>
-                            <BooleanFields isBlank={isBlank} label="With Lab" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_lab} originalInput={requiredCourse.school_required_course_lab}
+                            <BooleanFields isEdit={isEdit} newSchool={newSchool}  isBlank={isBlank} label="With Lab" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_lab} originalInput={requiredCourse.school_required_course_lab}
                             name='school_required_course_lab' handleCheck={handleCheck}
                             />
                             {/* <input type='checkbox' name='school_required_course_lab' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab ? true : false}/> */}
                             {/* <label className='font-medium'>With Lab</label> */}
                         </div>
                         <div className='w-full mb-8'>
-                            <BooleanFields isBlank={isBlank} label="Lab Preferred" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_lab_preferred} 
+                            <BooleanFields isEdit={isEdit} newSchool={newSchool}  isBlank={isBlank} label="Lab Preferred" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_lab_preferred} 
                             originalInput={requiredCourse.school_required_course_lab_preferred} name='school_required_course_lab_preferred' handleCheck={handleCheck}
                             />
                             {/* <input type='checkbox' name='school_required_course_lab_preferred' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab_preferred ? true : false}/> */}
@@ -327,14 +328,14 @@ export default function AddRequiredCourses({loggedInUser, toggleRequiredCourses,
                     {/* </div> */}
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Credits:</label>
-                        <InputFields isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_credit_hours}
+                        <InputFields isEdit={isEdit} newSchool={newSchool} isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_credit_hours}
                         originalInput={requiredCourse.school_required_course_credit_hours} name='school_required_course_credit_hours' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={requiredCourse.school_required_course_credit_hours ? requiredCourse.school_required_course_credit_hours : ''} name='school_required_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Quarter hours:</label>
-                        <InputFields isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_quarter_hours} 
+                        <InputFields isEdit={isEdit} newSchool={newSchool} isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_quarter_hours} 
                         originalInput={requiredCourse.school_required_course_quarter_hours} name='school_required_course_quarter_hours' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={requiredCourse.school_required_course_quarter_hours ? requiredCourse.school_required_course_quarter_hours : ''} name='school_required_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}

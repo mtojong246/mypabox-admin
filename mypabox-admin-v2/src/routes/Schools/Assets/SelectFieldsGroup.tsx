@@ -1,7 +1,8 @@
 import { UserObject } from "../../../types/users.types";
 import Select from 'react-select';
+import { useState, useEffect } from "react";
 
-export default function SelectFieldsGroup({loggedInUser, input, originalInput, isEditMode, name, category, options, handleSelect, label, originalLabel, handleSelectInArray, index, isBlank}: {
+export default function SelectFieldsGroup({loggedInUser, isEdit, input, originalInput, isEditMode, name, category, options, handleSelect, label, originalLabel, handleSelectInArray, index, isBlank}: {
     loggedInUser: UserObject, 
     input: string | null,
     originalInput: string | null,
@@ -16,13 +17,51 @@ export default function SelectFieldsGroup({loggedInUser, input, originalInput, i
     handleSelectInArray?: (e: any, name: string, index: number, isEditedInput: boolean) => void,
     index? : number,
     isBlank?: boolean,
+    isEdit: boolean,
 }) {
 
-    console.log(originalLabel)
+    const [ isOriginalInputDisabled, setIsOriginalInputDisabled ] = useState(false);
+    const [ isOriginalFieldShown, setIsOriginalFieldShown ] = useState(false);
+
+    useEffect(() => {
+        if (!isEdit) {
+            setIsOriginalInputDisabled(false);
+        } else {
+            if (loggedInUser.permissions.canEditWithVerificationNeeded) {
+                setIsOriginalInputDisabled(true);
+            } else if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
+                if (loggedInUser.permissions.canVerify && input !== null) {
+                    setIsOriginalInputDisabled(true);
+                } else {
+                    setIsOriginalInputDisabled(false);
+                }
+                
+            }
+        }
+    }, [isEdit, loggedInUser, input]);
+
+    useEffect(() => {
+        if ((input === null && isEditMode) || (input !== null && input === originalInput)) {
+            setIsOriginalFieldShown(false);
+        } else {
+            setIsOriginalFieldShown(true);
+        }
+    }, [input, originalInput, isEditMode]);
 
     return (
         <>
-        {loggedInUser.permissions.canVerify ? (
+        <div className='flex flex-col justify-start items-start gap-3 grow'>
+            {(input !== null || isEditMode) && (
+                <Select onChange={(e:any) => {index !== undefined && handleSelectInArray !== undefined ? handleSelectInArray(e, category, index, isEditMode) :  handleSelect(e, category, isEditMode)}} className="w-full focus:outline-none rounded"
+                options={options} value={{value: input, label: label ? label : input}}/>
+            )}
+            {isOriginalFieldShown && (
+                <Select isDisabled={isOriginalInputDisabled} className={`w-full focus:outline-none rounded ${input ? 'line-through' : 'no-underline'}`}
+                options={options} value={{value: originalInput, label: originalLabel ? originalLabel : originalInput}}/>
+            )}
+
+        </div>
+        {/* {loggedInUser.permissions.canVerify ? (
             <>
             {input !== null ? (
             <div className='flex flex-col justify-start items-start gap-3 grow'>
@@ -43,7 +82,7 @@ export default function SelectFieldsGroup({loggedInUser, input, originalInput, i
                 {(!isEditMode || ((input !== originalInput) && isEditMode)) && !isBlank && <Select isDisabled className={`w-full focus:outline-none rounded ${input ? 'line-through' : 'no-underline'}`}
                 options={options} value={{value: originalInput, label: originalLabel ? originalLabel : originalInput}}/>}
             </div>
-        )}
+        )} */}
         </>
     )
 }

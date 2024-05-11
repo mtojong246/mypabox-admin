@@ -55,7 +55,7 @@ export default function AddUpdateNote({ noteInfoObj, toggleNotePopup, addNote, s
             if (noteInfoObj) {
                 const { altNoteName, index, innerFieldName, isEditField, name} = noteInfoObj;
 
-                if (index) {
+                if (index !== undefined) {
                     updateNote(e, name, isEditField, noteObj, index, innerFieldName, altNoteName);
                 } else {
                     addNote(e, name, isEditField, noteObj, innerFieldName, altNoteName);
@@ -72,7 +72,7 @@ export default function AddUpdateNote({ noteInfoObj, toggleNotePopup, addNote, s
         <div className='fixed top-0 left-0 right-0 bottom-0 z-[100]'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                 <div className='w-full max-w-[900px] rounded-lg p-4 bg-white'>
-                    <p className='text-xl font-semibold mb-8'>{noteInfoObj && noteInfoObj.index ? 'Edit Note' : 'Add Note'}</p>
+                    <p className='text-xl font-semibold mb-8'>{noteInfoObj && noteInfoObj.index !== undefined ? 'Edit Note' : 'Add Note'}</p>
                     <div className='w-full mb-8'>
                         <p className='mb-4 font-medium'>Select type:</p>
                         <div className='ml-4 mb-2'>
@@ -90,7 +90,7 @@ export default function AddUpdateNote({ noteInfoObj, toggleNotePopup, addNote, s
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={(e) => {toggleNotePopup(e); setNoteInfoObj(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
-                        <button onClick={(e) => addOrEditNote(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:text-white hover:bg-[#3558A0]'>{noteInfoObj && noteInfoObj.index ? 'Edit note' : 'Add note'}</button>
+                        <button onClick={(e) => addOrEditNote(e)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:text-white hover:bg-[#3558A0]'>{noteInfoObj && noteInfoObj.index !== undefined ? 'Edit note' : 'Add note'}</button>
                     </div>
                 </div>
             </div>

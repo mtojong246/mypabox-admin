@@ -314,7 +314,7 @@ export default function AddRequiredOptionalExam({toggleOptions, newSchool, setNe
                         <p className='text-xl font-semibold mb-8'>{editedRequiredOption ? 'Edit' : 'Add'} Required Optional Exam</p>
                         <div className='w-full mb-8'>
                             <label className='text-lg font-medium'>Minimum number of exams to be completed:</label>
-                            <InputFields isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_required_optional_exams.isEditMode} input={editedOption ? editedOption.school_minimum_number_of_exams_to_be_completed : null}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_required_optional_exams.isEditMode} input={editedOption ? editedOption.school_minimum_number_of_exams_to_be_completed : null}
                             originalInput={option.school_minimum_number_of_exams_to_be_completed} name='school_minimum_number_of_exams_to_be_completed' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} value={option.school_minimum_number_of_exams_to_be_completed ? option.school_minimum_number_of_exams_to_be_completed : ''} className='w-32 focus:outline-none border border-[#B4B4B4] h-[50px] px-3 rounded mt-2 block' /> */}

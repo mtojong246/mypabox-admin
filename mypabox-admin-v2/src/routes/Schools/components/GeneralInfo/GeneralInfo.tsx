@@ -6,9 +6,8 @@ import Select from 'react-select';
 import AddNote from "../Prereqs/AddNote";
 import { UserObject } from "../../../../types/users.types";
 import AddPhoneOrEmail from "../../Assets/AddPhoneOrEmail";
-
-import { PiCheckCircle } from "react-icons/pi";
-import { PiWarningCircle } from "react-icons/pi";
+import Screen from "../../../../components/Screen";
+import Indicator from "../../../../components/Indicator";
 
 import LinkPopup from "../../LinkPopup";
 
@@ -19,6 +18,7 @@ import InputFields from "../../Assets/InputsFields";
 import { enableEditMode, confirmEdit, undoEdit, revertEdit, confirmEditBool, undoEditBool, revertEditBool, enableEditModeBool } from "./GeneralInfoFunctions";
 import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./EmailPhoneFunctions";
 import AddNoteFields from "../../Assets/AddNoteFields";
+import SelectFields from "../../Assets/SelectFields";
 
 
 
@@ -629,6 +629,15 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         })
     }
 
+    const getOptions = (value: string) => {
+        if (value === 'school_country') {
+            return countryNames;
+        } else if (value === 'school_state') {
+            return stateNames;
+        } else if (value === 'school_start_month') {
+            return months;
+        }
+    }
 
 
 
@@ -642,42 +651,20 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && field.input !== null) || (!loggedInUser.permissions.canVerify && !field.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${field.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <Screen isEdit={isEdit} editedInput={field.input} loggedInUser={loggedInUser} isEditMode={field.isEditMode} />
+                <Indicator label={cat.name} editedInput={field.input} />
                     <div className='flex justify-start items-start gap-3'>
-                        <InputFields loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number)} name={cat.value} handleInput={handleInput}/>
+                        <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number)} name={cat.value} handleInput={handleInput}/>
                         {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="disabled:opacity-70 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white disabled:hover:bg-none hover:bg-[#F06A6A]">
                             Add Note
                         </button>)}
                     </div>
-                    {/* {
-                    (newSchool[cat.value as keyof School] as StringInput | NumberInput).notes ? (
-                    <>
-                    <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes?.map((note: any, i: number) => {
-                        return (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-start w-full mb-1'>
-                                <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                    {note.type}:
-                                </p>
-                                <div className='flex gap-2'>
-                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                                </div> 
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                        )})}
-                    </div>
-                    </>
-                    ) : ''
-                    } */}
+                    
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={field.isEditMode} notes={field.notes ? field.notes : null} originalNotes={((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) : null} name={cat.value} toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                     />
                 </div>
-                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
+                {isEdit && <EditButtons isEdit={isEdit}  loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
                    setLinkObj={setLinkObj} name={cat.value} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
                 />}
             </div>
@@ -692,10 +679,12 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && field.input !== null) || (!loggedInUser.permissions.canVerify && !field.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${field.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <Screen isEdit={isEdit} editedInput={field.input} loggedInUser={loggedInUser} isEditMode={field.isEditMode} />
+                <Indicator label={cat.name} editedInput={field.input} />
                     <div className='flex justify-center items-start gap-3'>
-                    {loggedInUser.permissions.canVerify ? (
+                        <SelectFields isEdit={isEdit}  loggedInUser={loggedInUser} input={field.input} originalInput={originalField.input} isEditMode={field.isEditMode} handleSelect={handleSelect}
+                        options={getOptions(cat.value)}  category={cat.value} name={cat.value}/>
+                    {/* {loggedInUser.permissions.canVerify ? (
                         <>
                         {field.input !== null ? (
                         <div className='flex flex-col justify-start items-start gap-3 grow'>
@@ -716,39 +705,17 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                             {(!field.isEditMode || (field.isEditMode && (field.input !== originalField.input))) && <Select isDisabled className={`w-full focus:outline-none rounded ${field.input ? 'line-through' : 'no-underline'}`}
                             options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>}
                         </div>
-                    )}
+                    )} */}
                         {(newSchool[cat.value as keyof School] as StringInput).notes && <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                             Add Note
                         </button>}
                     </div>
-                    {/* {
-                    (newSchool[cat.value as keyof School] as StringInput).notes ? (
-                    <>
-                    <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as StringInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {(newSchool[cat.value as keyof School] as StringInput).notes?.map((note: any, i: number) => {
-                        return (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-start w-full mb-1'>
-                                <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                    {note.type}:
-                                </p>
-                                <div className='flex gap-2'>
-                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                                </div> 
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                        )})}
-                    </div>
-                    </>
-                    ) : ''
-                    } */}
+                   
                 <AddNoteFields loggedInUser={loggedInUser} isEditMode={field.isEditMode} notes={field.notes ? field.notes : null} originalNotes={((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) : null} name={cat.value} toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                 />
                 </div>
-                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
+                {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
                    setLinkObj={setLinkObj} name={cat.value} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
                 />}
             </div>
@@ -762,43 +729,21 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`${cat.margin} flex justify-start items-start gap-3 w-full`}>
                 <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-                    {((loggedInUser.permissions.canVerify && field.input !== null) || (!loggedInUser.permissions.canVerify && !field.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                    <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20 bg-none">{cat.name}{cat.required && <span className='text-red-600'>*</span>}<PiCheckCircle className={`h-5 w-5 ml-[2px] ${field.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${field.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+                <Screen isEdit={isEdit} editedInput={field.input} loggedInUser={loggedInUser} isEditMode={field.isEditMode} />
+                <Indicator label={cat.name} editedInput={field.input} />
                     <div className='flex justify-start items-center gap-3 '>
-                        <BooleanFields loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={(newSchool[cat.value as keyof School] as BooleanInput).input} name={cat.value} handleCheck={handleCheck}/>
+                        <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={(newSchool[cat.value as keyof School] as BooleanInput).input} name={cat.value} handleCheck={handleCheck}/>
                         <button  onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
                     
-                    {/* {
-                    (newSchool[cat.value as keyof School] as BooleanInput).notes ? (
-                    <>
-                    <div className={`w-full flex flex-col justify-center items-center gap-3 ${(newSchool[cat.value as keyof School] as BooleanInput).notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {(newSchool[cat.value as keyof School] as BooleanInput).notes?.map((note: any, i: number) => {
-                        return (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-start w-full mb-1'>
-                                <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                    {note.type}:
-                                </p>
-                                <div className='flex gap-2'>
-                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                                </div> 
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                        )})}
-                    </div>
-                    </>
-                    ) : ''
-                    } */}
+                   
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={field.isEditMode} notes={field.notes ? field.notes : null} originalNotes={((newSchool[cat.value as keyof School] as BooleanInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as BooleanInput).notes as Note[]) : null} name={cat.value} toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                     />
                 </div>
-                {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
+                {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
                    setLinkObj={setLinkObj} name={cat.value} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
                 />}
             </div>
@@ -819,61 +764,17 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-                {((loggedInUser.permissions.canVerify && newSchool.edited_school_phone_number.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_phone_number.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">School Phone Number<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_phone_number.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_phone_number.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
-                <AddPhoneOrEmail loggedInUser={loggedInUser} input={newSchool.edited_school_phone_number.input} originalInput={newSchool.school_phone_number.input} isEditMode={newSchool.edited_school_phone_number.isEditMode} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
+                <Screen isEdit={isEdit} editedInput={newSchool.edited_school_phone_number.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} />
+                <Indicator label={cat.name} editedInput={newSchool.edited_school_phone_number.input} />
+                <AddPhoneOrEmail isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_phone_number.input} originalInput={newSchool.school_phone_number.input} isEditMode={newSchool.edited_school_phone_number.isEditMode} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
                 addFunc={addPhone} deleteFunc={deletePhone} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNotePopup} newSchool={newSchool}
                 />
-                {/* <div className='flex justify-center items-center gap-3'>
-                    <div className='w-1/4 flex justify-center items-start gap-1'>
-                        <CreatableSelect className="grow focus:outline-none rounded"
-                        options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setPhone({...phone, category: e.value})}/>
-                        <Tooltip title="Type and press enter to create new option" placement='right'>
-                            <IconButton style={{padding: '0px'}}>
-                                <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={phone.number} onChange={setPhoneFormat}/>
-                    <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={addPhone}>Add Number</button>
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
-                        Add Note
-                    </button>
-                </div>
-                {newSchool.school_phone_number.input && newSchool.school_phone_number.input.map((num, i) => (
-                    <div className='w-full flex justify-between items-center py-2 pl-3 pr-2 mt-3 rounded border border-[#B4B4B4]'>
-                        <p className='text font-semibold'>{num.category}: <span className='font-normal inline-block ml-1'>{num.number}</span></p>
-                        <button onClick={(e:any) => deletePhone(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                    </div>
-                ))} */}
-                {/* {newSchool.school_phone_number.notes.length ? (
-                <>
-                <label className='font-semibold inline-block mt-6'>Notes:</label>
-                <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_phone_number.notes.length ? 'mt-1' : 'mt-0'}`}>
-                    {newSchool.school_phone_number.notes.map((note: any, i: number) => {
-                    return (
-                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                        <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                {note.type}:
-                            </p>
-                            <div className='flex gap-2'>
-                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                            </div>
-                            </div> 
-                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                    </div>
-                    )})}
-                </div>
-                </>
-                ) : ''
-                } */}
+                
                 <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} notes={newSchool.edited_school_phone_number.notes ? newSchool.edited_school_phone_number.notes : null} originalNotes={newSchool.school_phone_number.notes} name='school_phone_number' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                 />
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} input={newSchool.edited_school_phone_number.input} link={newSchool.edited_school_phone_number.link} 
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} input={newSchool.edited_school_phone_number.input} link={newSchool.edited_school_phone_number.link} 
             setLinkObj={setLinkObj} toggleLinkPopup={toggleLinkPopup} undoEdit={undoEditGroup} confirmEdit={confirmEditGroup} enableEditMode={enableEditModeGroup} revertEdit={revertEditGroup} name="school_phone_number" newSchool={newSchool}
             setNewSchool={setNewSchool}
             />}
@@ -883,62 +784,17 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             return (
             <div className={`mt-12 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_email.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_email.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                <label className="absolute top-[-16px] text-xl bg-white flex justify-start items-center z-20">School Email<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_email.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_email.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
-                <AddPhoneOrEmail loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} originalInput={newSchool.school_email.input} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
+            <Screen isEdit={isEdit} editedInput={newSchool.edited_school_email.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} />
+                <Indicator label={cat.name} editedInput={newSchool.edited_school_email.input} />
+                <AddPhoneOrEmail isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} originalInput={newSchool.school_email.input} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
                 addFunc={addEmail} deleteFunc={deleteEmail} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNotePopup} newSchool={newSchool}
                 />
-                {/* <div className='flex justify-center items-center gap-3'>
-                    <div className='w-1/4 flex justify-center items-start gap-1'>
-                        <CreatableSelect className="grow focus:outline-none rounded"
-                        options={[{value: 'Main', label: 'Main'}]} onChange={(e:any) => setEmail({...email, category: e.value})}/>
-                        <Tooltip title="Type and press enter to create new option" placement='right'>
-                            <IconButton style={{padding: '0px'}}>
-                                <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                    <input className="grow focus:outline-none border border-[#B4B4B4] p-3 rounded" value={email.email} onChange={(e:any) => setEmail({...email, email: e.target.value})}/>
-                    <button className="px-5 border text-[#4573D2] border-[#4573D2] rounded h-[50px] text-xl hover:text-white hover:bg-[#4573D2]" onClick={addEmail}>Add Email</button>
-                    <button disabled={!loggedInUser.isSuperAdmin ? true : false} onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
-                        Add Note
-                    </button>
-                </div>
-                {newSchool.school_email.input && newSchool.school_email.input.map((em, i) => (
-                    <div className='w-full flex justify-between items-center py-2 pl-3 pr-2 mt-3 rounded border border-[#B4B4B4]'>
-                        <p className='text font-semibold'>{em.category}: <span className='font-normal inline-block ml-1'>{em.email}</span></p>
-                        <button onClick={(e:any) => deleteEmail(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                    </div>
-                ))} */}
-                {/* {
-                newSchool.school_email.notes.length ? (
-                <>
-                <label className='font-semibold inline-block mt-6'>Notes:</label>
-                <div className={`w-full flex flex-col justify-center items-center gap-3 ${newSchool.school_email.notes.length ? 'mt-1' : 'mt-0'}`}>
-                    {newSchool.school_email.notes.map((note: any, i: number) => {
-                    return (
-                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                        <div className='flex justify-between items-start w-full mb-1'>
-                            <p className={`capitalize mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#d2455f]'}`}>
-                                {note.type}:
-                            </p>
-                            <div className='flex gap-2'>
-                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName(cat.value)}} ><FiEdit3 className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                <button disabled={!loggedInUser.isSuperAdmin ? true : false} value={cat.value} onClick={(e:any) => {deleteNote(e, i, cat.value)}} ><AiOutlineClose className='disabled:opacity-70 disabled:hover:bg-none h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                            </div>
-                            </div> 
-                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                    </div>
-                    )})}
-                </div>
-                </>
-                ) : ''
-                } */}
+               
                 <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} notes={newSchool.edited_school_email.notes ? newSchool.edited_school_email.notes : null} originalNotes={newSchool.school_email.notes} name='school_email' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                 />
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} link={newSchool.edited_school_email.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} link={newSchool.edited_school_email.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}
             confirmEdit={confirmEditGroup} enableEditMode={enableEditModeGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool} name='school_email'
             />}
             </div>

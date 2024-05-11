@@ -4,8 +4,8 @@ import AddNote from "../Prereqs/AddNote";
 import AddNoteFields from "../../Assets/AddNoteFields";
 
 import { UserObject } from "../../../../types/users.types";
-import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
-
+import Screen from "../../../../components/Screen";
+import Indicator from "../../../../components/Indicator";
 import BooleanFields from "../../Assets/BooleanFields";
 import EditButtons from "../../Assets/EditButtons";
 import LinkPopup from "../../LinkPopup";
@@ -144,16 +144,17 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
             name: '',
         })
     }
+    
 
 
     return (
         <>
         <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
             <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_international_students_accepted.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_international_students_accepted.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-            <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">International Students Accepted<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_international_students_accepted.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_international_students_accepted.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+            <Screen isEdit={isEdit} editedInput={newSchool.edited_school_international_students_accepted.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} />
+                <Indicator label="International Students Accepted" editedInput={newSchool.edited_school_international_students_accepted.input} />
                 <div className='flex justify-center items-center gap-3'>
-                    <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_international_students_accepted.input} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} originalInput={newSchool.school_international_students_accepted.input}
+                    <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} input={newSchool.edited_school_international_students_accepted.input} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} originalInput={newSchool.school_international_students_accepted.input}
                     name='school_international_students_accepted' handleCheck={handleCheck}
                     />
                     {/* <div className='mt-2 grow'>
@@ -187,7 +188,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
                     deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
                     />
             </div>
-            <EditButtons loggedInUser={loggedInUser} input={newSchool.edited_school_international_students_accepted.input} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} link={newSchool.edited_school_international_students_accepted.link} 
+            <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_international_students_accepted.input} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} link={newSchool.edited_school_international_students_accepted.link} 
             name='school_international_students_accepted' toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} enableEditMode={enableEditModeBool} confirmEdit={confirmEditBool} undoEdit={undoEditBool} revertEdit={revertEditBool} newSchool={newSchool} setNewSchool={setNewSchool}
             />
         </div>

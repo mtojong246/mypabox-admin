@@ -186,7 +186,7 @@ export default function PreviousCycleSection({newSchool, setNewSchool, loggedInU
                         <div className={`${i === 0 ? 'mt-8' : 'mt-12'} mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                             <label className='absolute top-[-16px] text-xl font-medium bg-white'>{gpa.label}</label>
                             <div className='flex justify-start items-start gap-4'>
-                                <InputFields loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={originalField.input} name={gpa.value} handleInput={handleInput}/>
+                                <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={originalField.input} name={gpa.value} handleInput={handleInput}/>
                                 {/* <input className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' value={(newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input ? (newSchool.school_average_gpa_accepted_previous_cycle[gpa.value as keyof PreviousCycle] as NumberInput).input : ''} name={gpa.value} onChange={handleInput} /> */}
                                 <button className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]"
                                 onClick={(e) => {toggleNotePopup(e); setName(gpa.value)}}>
@@ -212,7 +212,7 @@ export default function PreviousCycleSection({newSchool, setNewSchool, loggedInU
                     )
                     })}               
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} input={hasInputs} isEditMode={newSchool.edited_school_average_gpa_accepted_previous_cycle.isEditMode} link={newSchool.edited_school_average_gpa_accepted_previous_cycle.link} setLinkObj={setLinkObj}
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} input={hasInputs} isEditMode={newSchool.edited_school_average_gpa_accepted_previous_cycle.isEditMode} link={newSchool.edited_school_average_gpa_accepted_previous_cycle.link} setLinkObj={setLinkObj}
             toggleLinkPopup={toggleLinkPopup} name='school_average_gpa_accepted_previous_cycle' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool}
             />}
         </div>

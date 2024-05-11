@@ -8,13 +8,13 @@ export default function AddUser({toggleAdd}: {toggleAdd: (e:any) => void}) {
     const [ user, setUser ] = useState(defaultUserWithPassword);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (user.permissions.canEditWithVerificationNeeded) {
-            setUser({...user, permissions: {...user.permissions, canEditWithoutVerificationNeeded: false}})
-        } else if (user.permissions.canEditWithoutVerificationNeeded) {
-            setUser({...user, permissions: {...user.permissions, canEditWithVerificationNeeded: false}})
-        }
-    }, [user]);
+    // useEffect(() => {
+    //     if (user.permissions.canEditWithVerificationNeeded) {
+    //         setUser({...user, permissions: {...user.permissions, canEditWithoutVerificationNeeded: false}})
+    //     } else if (user.permissions.canEditWithoutVerificationNeeded) {
+    //         setUser({...user, permissions: {...user.permissions, canEditWithVerificationNeeded: false}})
+    //     }
+    // }, [user]);
 
     const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
         setUser({
@@ -31,14 +31,48 @@ export default function AddUser({toggleAdd}: {toggleAdd: (e:any) => void}) {
                 permissions: {
                     canVerify: e.target.checked ? true : user.permissions.canVerify,
                     canEditWithoutVerificationNeeded: e.target.checked ? true : user.permissions.canEditWithoutVerificationNeeded,
-                    canEditWithVerificationNeeded: e.target.checked ? true : user.permissions.canEditWithVerificationNeeded,
+                    canEditWithVerificationNeeded: e.target.checked ? false : user.permissions.canEditWithVerificationNeeded,
                     canMakeLive: e.target.checked ? true : user.permissions.canMakeLive,
                     canAddOrDelete: e.target.checked ? true : user.permissions.canAddOrDelete,
+                }
+            })
+        } else if (e.target.name === 'canEditWithVerificationNeeded') {
+            setUser({
+                ...user,
+                isSuperAdmin: user.isSuperAdmin && e.target.checked ? false : user.isSuperAdmin,
+                permissions: {
+                    ...user.permissions,
+                    [e.target.name]: e.target.checked,
+                    canVerify: e.target.checked ? false : user.permissions.canVerify,
+                    canEditWithoutVerificationNeeded: e.target.checked ? false : user.permissions.canEditWithoutVerificationNeeded,
+                }
+            })
+        } else if (e.target.name === 'canEditWithoutVerificationNeeded')  {
+            setUser({
+                ...user,
+                isSuperAdmin: user.isSuperAdmin && !e.target.checked ? false : user.isSuperAdmin,
+                permissions: {
+                    ...user.permissions,
+                    [e.target.name]: e.target.checked,
+                    canVerify: e.target.checked,
+                    canEditWithVerificationNeeded: e.target.checked ? false : user.permissions.canEditWithVerificationNeeded,
+                }
+            })
+        } else if (e.target.name === 'canVerify') {
+            setUser({
+                ...user,
+                isSuperAdmin: user.isSuperAdmin && !e.target.checked ? false : user.isSuperAdmin,
+                permissions: {
+                    ...user.permissions,
+                    [e.target.name]: e.target.checked,
+                    canEditWithoutVerificationNeeded: e.target.checked,
+                    canEditWithVerificationNeeded: e.target.checked ? false : user.permissions.canEditWithVerificationNeeded,
                 }
             })
         } else {
             setUser({
                 ...user, 
+                isSuperAdmin: user.isSuperAdmin && !e.target.checked ? false : user.isSuperAdmin,
                 permissions: {
                     ...user.permissions,
                     [e.target.name]: e.target.checked,

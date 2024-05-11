@@ -59,7 +59,7 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
 }
 
 export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, original?: string) => {
-    e.preventDefault();;
+    e.preventDefault();
     if (!original) {
         const name = `edited_${e.currentTarget.name}` as keyof School;
         if (name === 'edited_school_phone_number') {

@@ -129,13 +129,54 @@ export default function Individual({user, toggleOpenTask, setAssignee, setEdited
     }
 
     const handleCheck = async (e:ChangeEvent<HTMLInputElement>) => {
-        const updatedUser = {
-            ...user,
-            permissions: {
-                ...user.permissions,
-                [e.target.name]: e.target.checked,
+        let updatedUser: UserObject | null = null
+        if (e.target.name === 'canEditWithVerificationNeeded') {
+            updatedUser = {
+                ...user,
+                permissions: {
+                    ...user.permissions,
+                    [e.target.name]: e.target.checked,
+                    canVerify: e.target.checked ? false : user.permissions.canVerify,
+                    canEditWithoutVerificationNeeded: e.target.checked ? false : user.permissions.canEditWithoutVerificationNeeded,
+                }
+            }
+        } else if (e.target.name === 'canEditWithoutVerificationNeeded')  {
+            updatedUser = {
+                ...user,
+                isSuperAdmin: user.isSuperAdmin && !e.target.checked ? false : user.isSuperAdmin,
+                permissions: {
+                    ...user.permissions,
+                    [e.target.name]: e.target.checked,
+                    canVerify: e.target.checked,
+                    canEditWithVerificationNeeded: e.target.checked ? false : user.permissions.canEditWithVerificationNeeded,
+                }
+            }
+        } else if (e.target.name === 'canVerify') {
+            updatedUser = {
+                ...user,
+                permissions: {
+                    ...user.permissions,
+                    [e.target.name]: e.target.checked,
+                    canEditWithoutVerificationNeeded: e.target.checked,
+                    canEditWithVerificationNeeded: e.target.checked ? false : user.permissions.canEditWithVerificationNeeded,
+                }
+            }
+        } else {
+            updatedUser = {
+                ...user, 
+                permissions: {
+                    ...user.permissions,
+                    [e.target.name]: e.target.checked,
+                }
             }
         }
+        // const updatedUser = {
+        //     ...user,
+        //     permissions: {
+        //         ...user.permissions,
+        //         [e.target.name]: e.target.checked,
+        //     }
+        // }
         try {
             await updateUsersDoc(updatedUser, updatedUser.id);
             dispatch(editUsers(updatedUser));

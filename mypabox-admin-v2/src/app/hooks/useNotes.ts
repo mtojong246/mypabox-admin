@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, MouseEvent, useState } from "react";
 import { Note, NoteInfoObj, School } from "../../types/schools.types";
+import { UserObject } from "../../types/users.types";
 
 const useNotes = ({ newSchool, setNewSchool }: {
     newSchool: School,
@@ -10,10 +11,14 @@ const useNotes = ({ newSchool, setNewSchool }: {
     const [ noteInfoObj, setNoteInfoObj ] = useState<NoteInfoObj | null>(null);
 
     const toggleNotePopup = (e:any) => {
+        e.preventDefault();
         setIsNoteOpen(!isNoteOpen);
     }
 
-    const addNewNote = (e:MouseEvent<HTMLButtonElement>, fieldName: string, isEditMode: boolean, innerFieldName?: string, altNoteName?: string) => {
+    const addNewNote = (e:MouseEvent<HTMLButtonElement>, isDisabled: boolean, fieldName: string, isEditMode: boolean, innerFieldName?: string, altNoteName?: string) => {
+        e.preventDefault();
+        if (isDisabled) return;
+
         setNoteInfoObj({
             name: fieldName,
             isEditField: isEditMode,
@@ -43,6 +48,7 @@ const useNotes = ({ newSchool, setNewSchool }: {
                     }
                 })
             } else {
+                console.log(field, altNoteName, field[altNoteName ? alt : notes])
                 const noteArr: Note[] = Array.from(field[altNoteName ? alt : notes]);
                 setNewSchool({
                     ...newSchool,

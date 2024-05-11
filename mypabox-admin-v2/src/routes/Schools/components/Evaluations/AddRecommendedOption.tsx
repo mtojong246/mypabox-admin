@@ -348,7 +348,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                     <p className='text-xl font-semibold mb-8'>{editedOption ? "Edit" : 'Add'} Recommended Optional Evaluators</p>
                     <div className='w-full mb-8'>
                         <label className='text-lg font-medium'>Minimum Number of Evaluators Recommended:</label>
-                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={editedOptions ? editedOptions.school_minimum_number_evaluators_recommended_in_group : null}
+                        <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={editedOptions ? editedOptions.school_minimum_number_evaluators_recommended_in_group : null}
                         originalInput={options.school_minimum_number_evaluators_recommended_in_group} name='school_minimum_number_evaluators_recommended_in_group' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={options.school_minimum_number_evaluators_recommended_in_group ? options.school_minimum_number_evaluators_recommended_in_group : ''} className='w-32 focus:outline-none border border-[#B4B4B4] h-[50px] px-3 rounded mt-2 block' /> */}
@@ -403,7 +403,7 @@ export default function AddRecommendedOption({ newSchool, setNewSchool, toggleOp
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium text-lg'>Minimum Time Evaluator Knows Applicant:</label>
-                        <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={editedOptions ? editedOptions.school_minimum_time_evaluator_knows_applicant : null} originalInput={options.school_minimum_time_evaluator_knows_applicant}
+                        <SelectInputsFields isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_recommended.isEditMode} input={editedOptions ? editedOptions.school_minimum_time_evaluator_knows_applicant : null} originalInput={options.school_minimum_time_evaluator_knows_applicant}
                         name='school_minimum_time_evaluator_knows_applicant' number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration}
                         handleInput={handleNumber} handleSelect={handleDuration} options={timeOptions}
                         />

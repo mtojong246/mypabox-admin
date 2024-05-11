@@ -2,7 +2,8 @@ import { School, Note } from '../../../../types/schools.types'
 import { Dispatch, SetStateAction, ChangeEvent, useEffect, useState, MouseEvent } from 'react'
 import AddNote from '../Prereqs/AddNote'
 import { UserObject } from '../../../../types/users.types';
-import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import Screen from '../../../../components/Screen';
+import Indicator from '../../../../components/Indicator';
 import LinkPopup from "../../LinkPopup";
 import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from './ExamFunctions';
 import EditButtons from '../../Assets/EditButtons'
@@ -617,19 +618,12 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
         <>
         <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_english_proficiency_exams.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_english_proficiency_exams.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-            <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">English Proficiency Exams Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
+            <Screen isEdit={isEdit} editedInput={newSchool.edited_school_english_proficiency_exams.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} />
+            <Indicator label="English Proficiency Exams Required" editedInput={newSchool.edited_school_english_proficiency_exams.input} />
                 <div className={`flex justify-between items-center ${isOpen ? 'mx-4' : 'mx-0'}`}>
-                <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} originalInput={newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required}
+                <BooleanFields  isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} originalInput={newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required}
                 name='school_english_proficiency_exams_required' handleCheck={handleCheck} input={newSchool.edited_school_english_proficiency_exams.edited_school_english_proficiency_exams_required.input}
                 />
-                {/* <div className='w-full mt-2'>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                        <input onChange={handleCheck} name='school_english_proficiency_exams_required' checked={newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required ? true : false} type="checkbox" className="sr-only peer"/>
-                        <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                        <span className="ml-3 text-xl text-black">{newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required ? 'True' : 'False'}</span>
-                    </label>
-                </div> */}
                 
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
@@ -645,64 +639,43 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                 <>
                 <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block border-2 rounded ${newSchool.school_english_proficiency_exams.school_toefl_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white block">TOEFL Required</label>   
-                    <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_required}
+                    <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_required}
                     name='school_toefl_required' handleCheck={handleCheck}
                     />
-                    {/* <div className='w-full mt-2'>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input onChange={handleCheck} name='school_toefl_required' checked={newSchool.school_english_proficiency_exams.school_toefl_required ? true : false} type="checkbox" className="sr-only peer"/>
-                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                            <span className="ml-3 text-xl text-black">{newSchool.school_english_proficiency_exams.school_toefl_required ? 'True' : 'False'}</span>
-                        </label>
-                    </div> */}
+
 
                     {isToeflOpen && (
                     <>
                     <div className={`mt-8 mx-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white block">Minimum Time Frame TOEFL Needs To Be Completed</label>   
-                        <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_minimum_time_frame_toefl_needs_to_be_completed.input}
+                        <SelectInputsFields isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_minimum_time_frame_toefl_needs_to_be_completed.input}
                         originalInput={newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed} name='school_minimum_time_frame_toefl_needs_to_be_completed' handleInput={handleSelectNumber} handleSelect={handleSelectDuration}
                         number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration} options={options}
                         />
-                        {/* <div className='flex justify-start items-center gap-2'>
-                            <input onChange={(e) => setSelection({...selection, number: e.target.value.trim()})} value={selection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
-                            <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={options} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="w-1/3 focus:outline-none"/>
-                        </div>      */}
+
                     </div>
 
                     <div className={`mt-12 mx-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white block">TOEFL Exempt with Masters Degree</label>   
-                        <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_exempt_with_masters_degree.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_exempt_with_masters_degree}
+                        <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_exempt_with_masters_degree.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_exempt_with_masters_degree}
                         name='school_toefl_exempt_with_masters_degree' handleCheck={handleCheck}
                         />
-                        {/* <div className='w-full mt-2'>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input onChange={handleCheck} name='school_toefl_exempt_with_masters_degree' checked={newSchool.school_english_proficiency_exams.school_toefl_exempt_with_masters_degree ? true : false} type="checkbox" className="sr-only peer"/>
-                                <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                <span className="ml-3 text-xl text-black">{newSchool.school_english_proficiency_exams.school_toefl_exempt_with_masters_degree ? 'True' : 'False'}</span>
-                            </label>
-                        </div>     */}
+                      
                     </div>
 
                     <div className={`mt-12 mx-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white block">TOEFL Exempt with Doctoral Degree</label>   
-                        <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_exempt_with_doctoral_degree.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_exempt_with_doctoral_degree}
+                        <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_exempt_with_doctoral_degree.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_exempt_with_doctoral_degree}
                         name='school_toefl_exempt_with_doctoral_degree' handleCheck={handleCheck}
                         />
-                        {/* <div className='w-full mt-2'>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input onChange={handleCheck} name='school_toefl_exempt_with_doctoral_degree' checked={newSchool.school_english_proficiency_exams.school_toefl_exempt_with_doctoral_degree ? true : false} type="checkbox" className="sr-only peer"/>
-                                <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                <span className="ml-3 text-xl text-black">{newSchool.school_english_proficiency_exams.school_toefl_exempt_with_doctoral_degree ? 'True' : 'False'}</span>
-                            </label>
-                        </div>     */}
+                       
                     </div>
 
                     <div className={`mt-12 mx-5 relative max-w-[900px] py-5 px-8 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium text-orange-600 bg-white">TOEFL IBT Minimum Scores Required</label>
                         <div className='mt-2'>
                             <label className="text-xl font-medium bg-white block">Total Score</label>   
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_total_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_total_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required}
                             name='school_toefl_ibt_minimum_total_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_toefl_ibt_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_total_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -710,7 +683,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                         <div className='mt-8'>
                             <label className="text-xl font-medium bg-white block">Reading Score</label>   
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_reading_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_reading_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required}
                             name='school_toefl_ibt_minimum_reading_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_toefl_ibt_minimum_reading_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_reading_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -718,7 +691,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                         <div className='mt-8'>
                             <label className="text-xl font-medium bg-white block">Writing Score</label>   
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_writing_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_writing_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required}
                             name='school_toefl_ibt_minimum_writing_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_toefl_ibt_minimum_writing_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_writing_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -726,7 +699,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                         <div className='mt-8'>
                             <label className="text-xl font-medium bg-white block">Listening Score</label>   
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_listening_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_listening_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required}
                             name='school_toefl_ibt_minimum_listening_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_toefl_ibt_minimum_listening_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_listening_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -734,7 +707,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                         <div className='mt-8'>
                             <label className="text-xl font-medium bg-white block">Speaking Score</label>   
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_speaking_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_speaking_score_required.input} originalInput={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required}
                             name='school_toefl_ibt_minimum_speaking_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_toefl_ibt_minimum_speaking_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required ? newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_speaking_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -745,20 +718,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_ibt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
-                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                            {newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes?.map((note, i) => (
-                                <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                    <div className='flex justify-between items-center w-full mb-1'>
-                                        <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                        <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_ibt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i, 'school_toefl_ibt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                        </div>
-                                    </div>
-                                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                                </div>
-                            ))}
-                        </div> */}
+                           
                         <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_ibt_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_toefl_ibt_minimum_score_notes} name='school_toefl_ibt_minimum_score_notes' toggleNotePopup={toggleNotePopup}
                         deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                         />
@@ -770,7 +730,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                         <label className="absolute top-[-16px] text-xl font-medium bg-white text-orange-600">TOEFL PBT Minimum Scores Required</label>   
                         <div className='mt-2'>
                             <label className="text-xl font-medium bg-white block">Total Score</label>   
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_total_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_total_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required}
                             name='school_toefl_pbt_minimum_total_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_toefl_pbt_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_total_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -778,7 +738,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                         <div className='mt-8'>
                             <label className="text-xl font-medium bg-white block">Reading Score</label>   
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_reading_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_reading_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required}
                             name='school_toefl_pbt_minimum_reading_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_toefl_pbt_minimum_reading_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_reading_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -786,7 +746,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                         <div className="mt-8">
                             <label className="text-xl font-medium bg-white block">Writing Score</label>   
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_writing_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_writing_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required}
                             name='school_toefl_pbt_minimum_writing_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_toefl_pbt_minimum_writing_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_writing_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -794,7 +754,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                         <div className="mt-8">
                             <label className="text-xl font-medium bg-white block">Listening Score</label>   
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_listening_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_listening_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required}
                             name='school_toefl_pbt_minimum_listening_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_toefl_pbt_minimum_listening_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_listening_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -802,10 +762,9 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                         <div className="mt-8">
                             <label className="text-xl font-medium bg-white block">Speaking Score</label>  
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_speaking_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_speaking_score_required.input}  originalInput={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required}
                             name='school_toefl_pbt_minimum_speaking_score_required' handleInput={handleInput}
                             /> 
-                            {/* <input onChange={handleInput} name='school_toefl_pbt_minimum_speaking_score_required' value={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required ? newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_speaking_score_required : ''} className='mt-1 block w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
                         </div>
 
                         <div className="mt-8 mb-5">
@@ -813,20 +772,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_toefl_pbt_minimum_score_notes')}} className="mt-1 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
-                            {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                            {newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes?.map((note, i) => (
-                                <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                    <div className='flex justify-between items-center w-full mb-1'>
-                                        <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                        <div className='flex gap-2'>
-                                            <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_toefl_pbt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                            <button onClick={(e) => deleteNote(e, i, 'school_toefl_pbt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                        </div>
-                                    </div>
-                                    <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                                </div>
-                            ))}
-                        </div> */}
+                           
                         <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_toefl_pbt_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_toefl_pbt_minimum_score_notes} name='school_toefl_pbt_minimum_score_notes' toggleNotePopup={toggleNotePopup}
                         deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                         />
@@ -840,7 +786,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                 <div className={`mt-12 mx-4 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_english_proficiency_exams.school_ielt_required? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white block">IELTS Required</label>   
-                    <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_required.input} originalInput={newSchool.school_english_proficiency_exams.school_ielt_required}
+                    <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_required.input} originalInput={newSchool.school_english_proficiency_exams.school_ielt_required}
                     name='school_ielt_required' handleCheck={handleCheck}
                     />
                     {/* <div className='w-full mt-2'>
@@ -855,28 +801,14 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white block">IELTS Minimum Total Score Required</label>  
                         <div className='flex justify-center items-center gap-3'> 
-                            <InputFields  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_minimum_total_score_required.input}
+                            <InputFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_minimum_total_score_required.input}
                             originalInput={newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required} name='school_ielt_minimum_total_score_required' handleInput={handleInput}
                             />
-                            {/* <input onChange={handleInput} name='school_ielt_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_ielt_minimum_total_score_required : ''} className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
                             <button onClick={(e) => {toggleNotePopup(e); setName('school_ielt_minimum_score_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                         </div>
-                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes && newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes?.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_ielt_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_ielt_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
-                    </div> */}
+                        
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_ielt_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_ielt_minimum_score_notes} name='school_ielt_minimum_score_notes' toggleNotePopup={toggleNotePopup}
                         deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                         />
@@ -886,22 +818,16 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                 <div className={`mt-12 mx-4 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_english_proficiency_exams.school_melab_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white block">MELAB Required</label>   
-                    <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_melab_required.input}
+                    <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_melab_required.input}
                     originalInput={newSchool.school_english_proficiency_exams.school_melab_required} name='school_melab_required' handleCheck={handleCheck}
                     />
-                    {/* <div className='w-full mt-2'>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input onChange={handleCheck} name='school_melab_required' checked={newSchool.school_english_proficiency_exams.school_melab_required ? true : false} type="checkbox" className="sr-only peer"/>
-                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                            <span className="ml-3 text-xl text-black">{newSchool.school_english_proficiency_exams.school_melab_required ? 'True' : 'False'}</span>
-                        </label>
-                    </div> */}
+                    
             
                     {isMelabOpen && (
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white block">MELAB Minimum Total Score Required</label> 
                         <div className='flex justify-center items-center gap-3'>  
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_melab_minimum_total_score_required.input}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_melab_minimum_total_score_required.input}
                             originalInput={newSchool.school_english_proficiency_exams.school_melab_minimum_total_score_required} name='school_melab_minimum_total_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_melab_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_melab_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_melab_minimum_total_score_required : ''} className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -909,20 +835,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 Add Note
                             </button>
                         </div>
-                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes && newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes && newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes?.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_melab_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_melab_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
-                    </div> */}
+                      
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_melab_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_melab_minimum_score_notes} name='school_melab_minimum_score_notes' toggleNotePopup={toggleNotePopup}
                         deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                         />
@@ -932,22 +845,16 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                 <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block border-2 rounded ${newSchool.school_english_proficiency_exams.school_pte_academic_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white block">PTE Academic Required</label>   
-                    <BooleanFields  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_pte_academic_required.input} 
+                    <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_pte_academic_required.input} 
                     originalInput={newSchool.school_english_proficiency_exams.school_pte_academic_required} name='school_pte_academic_required' handleCheck={handleCheck}
                     />
-                    {/* <div className='w-full mt-2'>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input onChange={handleCheck} name='school_pte_academic_required' checked={newSchool.school_english_proficiency_exams.school_pte_academic_required ? true : false} type="checkbox" className="sr-only peer"/>
-                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                            <span className="ml-3 text-xl text-black">{newSchool.school_english_proficiency_exams.school_pte_academic_required ? 'True' : 'False'}</span>
-                        </label>
-                    </div> */}
+                   
 
                     {isPteOpen && (
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white block">PTE Academic Minimum Total Score Required</label>   
                         <div className='flex justify-center items-center gap-3'>
-                            <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} originalInput={newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required} 
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} originalInput={newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required} 
                             name='school_pte_academic_minimum_total_score_required' input={newSchool.edited_school_english_proficiency_exams.edited_school_pte_academic_minimum_total_score_required.input} handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_pte_academic_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_pte_academic_minimum_total_score_required : ''} className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -955,20 +862,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 Add Note
                             </button>
                         </div>
-                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes && newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes && newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes?.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_pte_academic_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_pte_academic_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
-                    </div> */}
+                    
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_pte_academic_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_pte_academic_minimum_score_notes} name='school_pte_academic_minimum_score_notes' toggleNotePopup={toggleNotePopup}
                         deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                         />
@@ -978,22 +872,16 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
                 <div className={`mt-12 mx-4 mb-5 relative max-w-[900px] border-2 p-4 block rounded ${newSchool.school_english_proficiency_exams.school_itep_academic_plus_required ? 'border-[#4573D2]' : 'border-[#545454]'}`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white block">ITEP Academic Required</label>  
-                    <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_itep_academic_plus_required.input}
+                    <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_itep_academic_plus_required.input}
                     originalInput={newSchool.school_english_proficiency_exams.school_itep_academic_plus_required} name='school_itep_academic_plus_required' handleCheck={handleCheck}
                     /> 
-                    {/* <div className='w-full mt-2'>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input onChange={handleCheck} name='school_itep_academic_plus_required' checked={newSchool.school_english_proficiency_exams.school_itep_academic_plus_required ? true : false} type="checkbox" className="sr-only peer"/>
-                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                            <span className="ml-3 text-xl text-black">{newSchool.school_english_proficiency_exams.school_itep_academic_plus_required ? 'True' : 'False'}</span>
-                        </label>
-                    </div> */}
+                  
 
                     {isItepOpen && (
                     <div className={`mt-8 mx-5 mb-5 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white block">ITEP Academic Minimum Total Score Required</label>   
                         <div className='flex justify-center items-center gap-3'>
-                            <InputFields  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_itep_academic_plus_minimum_total_score_required.input}
+                            <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={newSchool.edited_school_english_proficiency_exams.edited_school_itep_academic_plus_minimum_total_score_required.input}
                             originalInput={newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_total_score_required} name='school_itep_academic_plus_minimum_total_score_required' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} name='school_itep_academic_plus_minimum_total_score_required' value={newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_total_score_required ? newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_total_score_required : ''} className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
@@ -1001,20 +889,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                                 Add Note
                             </button>
                         </div>
-                        {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes && newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes?.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes && newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes?.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i); setName('school_itep_academic_plus_minimum_score_notes')}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i, 'school_itep_academic_plus_minimum_score_notes')}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
-                    </div> */}
+                      
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} notes={newSchool.edited_school_english_proficiency_exams.edited_school_itep_academic_plus_minimum_score_notes} originalNotes={newSchool.school_english_proficiency_exams.school_itep_academic_plus_minimum_score_notes} name='school_itep_academic_plus_minimum_score_notes' toggleNotePopup={toggleNotePopup}
                         deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                         />
@@ -1024,7 +899,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                 </>
                 )}
             </div> 
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={hasInputs} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup}
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_english_proficiency_exams.isEditMode} input={hasInputs} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup}
             name='school_english_proficiency_exams' link={newSchool.edited_school_english_proficiency_exams.link} setLinkObj={setLinkObj} toggleLinkPopup={toggleLinkPopup} newSchool={newSchool} setNewSchool={setNewSchool}
             />}
             </div>

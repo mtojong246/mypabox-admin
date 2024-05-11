@@ -12,6 +12,8 @@ import AddNote from "../Prereqs/AddNote";
 import { UserObject } from "../../../../types/users.types";
 import SelectFieldsGroup from "../../Assets/SelectFieldsGroup";
 import InputFields from "../../Assets/InputsFields";
+import Indicator from "../../../../components/Indicator";
+import Screen from "../../../../components/Screen";
 
 const specificCourseDefault = {
     minimum_gpa_required_for_course: 0,
@@ -397,9 +399,9 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
         return (
         <div className={`${i>0 ? 'mt-10' : 'mt-28'} flex justify-start items-start gap-3 w-full`}>
         <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-        {((loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
+        <Screen isEdit={isEdit} editedInput={newSchool.edited_school_minimum_gpa_for_specific_course.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} />
             <div className='absolute top-[-16px] left-[20px] flex justify-between items-center w-full pr-[40px]'>
-                <label className={`z-20 flex justify-start items-center text-xl bg-white ${input ? input.isCorrect ? 'no-underline' : 'line-through' : 'no-underline'}`}>Minimum GPA for Specific Course <PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_for_specific_course.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_minimum_gpa_for_specific_course.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/> <span className='font-bold'>{i > 0 ? `- Additional Field ${i}` : ''}</span></label> 
+            <Indicator label="Minimum GPA for Specific Courses" editedInput={newSchool.edited_school_minimum_gpa_for_specific_course.input} />
                 {!loggedInUser.permissions.canVerify && input && !input.isCorrect && !input.isNew ? 
                 <button disabled={!newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode ? true : false} onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)} className={`bg-[#4573D2] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#26354C] ${i > 0 ? 'block' : 'hidden'}`}>Undo</button> : 
                     <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) ? true : false} onClick={(e:any) => {input === null ? deleteField(e, i, false, false) : deleteField(e, i, input!.isNew, true)}} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#B52020] relative z-20 ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>}
@@ -412,7 +414,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
                         <label className='text-xl'>Course Name</label>
                         <button onClick={(e) => deleteField(e,i)} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>
                     </div> */}
-                    <SelectFieldsGroup loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} input={input ? input.courseID : null} originalInput={originalInput ? originalInput.courseID : null}
+                    <SelectFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} input={input ? input.courseID : null} originalInput={originalInput ? originalInput.courseID : null}
                     label={input && courseOptions.find(course => course.value === input.courseID)?.label} originalLabel={originalInput && courseOptions.find(course => course.value === originalInput.courseID)?.label}  name='courseID' category="school_minimum_gpa_for_specific_course" options={courseOptions} handleSelect={handleSelect} handleSelectInArray={handleSelectInArray} index={i}/>
                     {/* <Select
                     className="w-full focus:outline-none rounded" 
@@ -423,7 +425,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
                 </div>
                 <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                     <label className='absolute top-[-16px] text-xl font-medium bg-white'>Minimum GPA Required</label>
-                    <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} input={input ? input.minimum_gpa_required_for_course : null} originalInput={originalInput ? originalInput.minimum_gpa_required_for_course : null}
+                    <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} input={input ? input.minimum_gpa_required_for_course : null} originalInput={originalInput ? originalInput.minimum_gpa_required_for_course : null}
                     name='minimum_gpa_required_for_course' handleInput={handleInput} handleInputInArray={handleObjInput} index={i} />
                     {/* <input onChange={(e) => handleObjInput(e, i, 'minimum_gpa_required_for_course')} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded block' */}
                     {/* value={field.minimum_gpa_required_for_course ? field.minimum_gpa_required_for_course : ''} name='minimum_gpa_required_for_course'/> */}
@@ -462,7 +464,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
                 <div className='w-full mb-5'></div>
             )}
         </div>
-        {isEdit && i === 0 && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} input={newSchool.edited_school_minimum_gpa_for_specific_course.input} link={newSchool.edited_school_minimum_gpa_for_specific_course.link}
+        {isEdit && i === 0 && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} input={newSchool.edited_school_minimum_gpa_for_specific_course.input} link={newSchool.edited_school_minimum_gpa_for_specific_course.link}
         toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj} newSchool={newSchool} setNewSchool={setNewSchool} name='school_minimum_gpa_for_specific_course' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup}
         revertEdit={revertEditGroup} undoEdit={undoEditGroup}
         />}

@@ -95,7 +95,7 @@ const Schools = () => {
   useEffect(() => {
     const currentUser = users.find(user => user.email === login);
     if (currentUser) {
-        setLoggedInUser(mockUser);
+        setLoggedInUser(currentUser);
 
         if (mockUser.permissions.canEditWithVerificationNeeded || mockUser.permissions.canEditWithoutVerificationNeeded) {
           setCanEdit(true);

@@ -67,7 +67,7 @@ export default function NoteFields({toggleNotePopup, name, notes, newSchool, log
 
     return (
         <>
-        {notes.length && (
+        {notes.length !== 0 && (
             <div className={`w-full flex flex-col justify-center items-center gap-3 ${notes.length ? 'mt-3' : 'mt-0'}`}>
                 {notes.map((note: any, i: number) => {
                 return (

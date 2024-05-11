@@ -23,7 +23,7 @@ const defaultGroup = {
     school_optional_course_note_section: [] as Note[],
 }
 
-export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCourses, editedRequiredOption, setEditedRequiredOption, loggedInUser, groupIndex, setGroupIndex, newSchool, setNewSchool, input }: { 
+export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCourses, isEdit, editedRequiredOption, setEditedRequiredOption, loggedInUser, groupIndex, setGroupIndex, newSchool, setNewSchool, input }: { 
     toggleRequiredOptionalCourses: (e:any) => void, 
     editedRequiredOption: any | null,
     setEditedRequiredOption: Dispatch<SetStateAction<any | null>>,
@@ -33,6 +33,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
     newSchool: School,
     setNewSchool: Dispatch<SetStateAction<School>>,
     input: boolean | null,
+    isEdit: boolean,
 }) {
     const courses = useSelector(selectCourses)
     const [ group, setGroup ] = useState(defaultGroup);
@@ -324,7 +325,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                         <p className='text-xl font-semibold mb-8'>{editedRequiredOption ? 'Edit' : 'Add'} Required Optional Group</p>
                         <div className='w-full mb-8'>
                             <label className='font-medium'>Minimum number of courses that need to be completed:</label>
-                            <InputFields isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedGroup && editedGroup.school_minimum_number_of_courses_to_be_completed} 
+                            <InputFields isEdit={isEdit} newSchool={newSchool} isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={editedGroup && editedGroup.school_minimum_number_of_courses_to_be_completed} 
                             originalInput={group.school_minimum_number_of_courses_to_be_completed} name='school_minimum_number_of_courses_to_be_completed' handleInput={handleInput}
                             />
                             {/* <input onChange={handleInput} value={group.school_minimum_number_of_courses_to_be_completed ? group.school_minimum_number_of_courses_to_be_completed : ''} className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
@@ -402,7 +403,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                     </div>
                 </div>
             </div>
-            {coursePopup && <AddCourseToOption loggedInUser={loggedInUser} editedGroup={editedGroup} index={index} input={input} setEditedGroup={setEditedGroup} setGroup={setGroup}
+            {coursePopup && <AddCourseToOption isEdit={isEdit} loggedInUser={loggedInUser} editedGroup={editedGroup} index={index} input={input} setEditedGroup={setEditedGroup} setGroup={setGroup}
              toggleCoursePopup={toggleCoursePopup} editedCourse={editedCourse} setEditedCourse={setEditedCourse} group={group} newSchool={newSchool}/>}
             {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
         </>

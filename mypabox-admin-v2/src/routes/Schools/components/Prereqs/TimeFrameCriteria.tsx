@@ -3,7 +3,8 @@ import { ChangeEvent, Dispatch, SetStateAction, useState, useEffect, MouseEvent 
 import { Note } from '../../../../types/schools.types';
 import AddNote from './AddNote';
 import LinkPopup from '../../LinkPopup';
-import { PiCheckCircle, PiWarningCircle } from 'react-icons/pi';
+import Indicator from '../../../../components/Indicator';
+import Screen from '../../../../components/Screen';
 import { UserObject } from '../../../../types/users.types';
 import EditButtons from '../../Assets/EditButtons';
 import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from './CriteriaFunctions';
@@ -163,26 +164,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
         })
     }, [allSelection, mathSelection, scienceSelection])
 
-    // useEffect(() => {
-    //     setNewSchool({
-    //         ...newSchool,
-    //         edited_school_time_frame_criteria: {
-    //             ...newSchool.edited_school_time_frame_criteria,
-    //             edited_school_time_frame_all_courses_must_be_completed: {
-    //                 ...newSchool.edited_school_time_frame_criteria.edited_school_time_frame_all_courses_must_be_completed,
-    //                 input: editedAllSelection.number + ' ' + editedAllSelection.duration,
-    //             },
-    //             edited_school_time_frame_math_courses_must_be_completed: {
-    //                 ...newSchool.edited_school_time_frame_criteria.edited_school_time_frame_math_courses_must_be_completed,
-    //                 input: editedMathSelection.number + ' ' + editedMathSelection.duration,
-    //             },
-    //             edited_school_time_frame_science_courses_must_be_completed: {
-    //                 ...newSchool.edited_school_time_frame_criteria.edited_school_time_frame_science_courses_must_be_completed,
-    //                 input: editedScienceSelection.number + ' ' + editedScienceSelection.duration,
-    //             }
-    //         }
-    //     })
-    // }, [editedAllSelection, editedMathSelection, editedScienceSelection])
+    
 
 
 
@@ -520,40 +502,20 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
         <>
         <div className={`mt-28 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 py-5 px-8 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_time_frame_criteria.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_time_frame_criteria.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-            <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Time Frame Critera<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>  
+            <Screen isEdit={isEdit} editedInput={newSchool.edited_school_time_frame_criteria.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} />
+            <Indicator label="Time Frame Criteria" editedInput={newSchool.edited_school_time_frame_criteria.input} /> 
                 <div className={`mt-7 relative w-full border-2 p-5 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All Courses Must Be Completed Within:</label> 
                     <div className='flex justify-between items-start gap-3'>
-                        <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} input={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_all_courses_must_be_completed.input}
+                        <SelectInputsFields isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} input={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_all_courses_must_be_completed.input}
                         originalInput={newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.input} name='school_time_frame_all_courses_must_be_completed' options={options} handleInput={handleInput} handleSelect={handleSelect}
                         number={editedAllSelection.number} duration={editedAllSelection.duration} originalNumber={allSelection.number} originalDuration={allSelection.duration}
                         />
-                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}} className="text-nowrap border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
-                    {/* <div className='flex justify-start items-center gap-3'>
-                        <input onChange={(e) => {handleInput(e); setName('school_time_frame_all_courses_must_be_completed')}} name='school_time_frame_all_courses_must_be_completed' value={allSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
-                        <Select options={options} value={allSelection.duration ? {value: allSelection.duration, label: allSelection.duration} : null} onChange={(e) => {handleSelect(e, 'school_time_frame_all_courses_must_be_completed'); setName('school_time_frame_all_courses_must_be_completed')}} className="grow focus:outline-none"/>
-                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
-                            Add Note
-                        </button>
-                    </div> */}
-                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
-                    {newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes.map((note, i) => (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-center w-full mb-1'>
-                                <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_all_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button name='school_time_frame_all_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                            </div>
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                    ))}
-                    </div> */}
+                    
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} notes={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_all_courses_must_be_completed.notes} originalNotes={newSchool.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes} name='school_time_frame_all_courses_must_be_completed' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} isIndividual={true} setIsIndividual={setIsIndividual}
                     />
@@ -563,30 +525,16 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                 <div className={`mt-12 relative w-full border-2 p-5 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All SCIENCE Courses Must Be Completed Within:</label> 
                     <div className='flex justify-start items-start gap-3'>
-                        <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} input={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_science_courses_must_be_completed.input}
+                        <SelectInputsFields isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} input={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_science_courses_must_be_completed.input}
                         originalInput={newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.input} name='school_time_frame_science_courses_must_be_completed' options={options} handleInput={handleInput} handleSelect={handleSelect}
                         number={editedScienceSelection.number} duration={editedScienceSelection.duration} originalNumber={scienceSelection.number} originalDuration={scienceSelection.duration}
                         />
-                        {/* <input onChange={(e) => {handleInput(e); setName('school_time_frame_science_courses_must_be_completed')}} name='school_time_frame_science_courses_must_be_completed' value={scienceSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
-                        <Select options={options} value={scienceSelection.duration ? {value: scienceSelection.duration, label: scienceSelection.duration} : null} onChange={(e) => {handleSelect(e, 'school_time_frame_science_courses_must_be_completed'); setName('school_time_frame_science_courses_must_be_completed')}}  className="grow focus:outline-none"/> */}
-                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                       
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}} className="text-nowrap border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                         </button>
                     </div>
-                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
-                    {newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes.map((note, i) => (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-center w-full mb-1'>
-                                <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_science_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button name='school_time_frame_science_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                            </div>
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                    ))}
-                    </div> */}
+                   
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} notes={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_science_courses_must_be_completed.notes} originalNotes={newSchool.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes} name='school_time_frame_science_courses_must_be_completed' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} isIndividual={true} setIsIndividual={setIsIndividual}
                     />
@@ -596,30 +544,16 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                 <div className={`mt-12 relative w-full border-2 p-5 block rounded border-[#545454]`}>
                     <label className="absolute top-[-16px] text-xl font-medium bg-white">All MATH Courses Must Be Completed Within:</label> 
                     <div className='flex justify-start items-center gap-3'>
-                        <SelectInputsFields  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} input={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_math_courses_must_be_completed.input}
+                        <SelectInputsFields isEdit={isEdit}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} input={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_math_courses_must_be_completed.input}
                         originalInput={newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.input} options={options} handleInput={handleInput} handleSelect={handleSelect}
                         number={editedMathSelection.number} duration={editedMathSelection.duration} originalNumber={mathSelection.number} originalDuration={mathSelection.duration} name='school_time_frame_math_courses_must_be_completed'
                         />
-                        {/* <input onChange={(e) => {handleInput(e); setName('school_time_frame_math_courses_must_be_completed')}} name='school_time_frame_math_courses_must_be_completed' value={mathSelection.number} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
-                        <Select options={options} value={mathSelection.duration ? {value: mathSelection.duration, label: mathSelection.duration} : null} onChange={(e) => {handleSelect(e, 'school_time_frame_math_courses_must_be_completed'); setName('school_time_frame_math_courses_must_be_completed')}} className="grow focus:outline-none"/> */}
-                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                       
+                        <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}} className="text-nowrap border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                         </button>
                     </div>
-                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes.length ? 'mt-3' : 'mt-0'}`}>
-                    {newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes.map((note, i) => (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-center w-full mb-1'>
-                                <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(true); setName('school_time_frame_math_courses_must_be_completed')}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button name='school_time_frame_math_courses_must_be_completed' onClick={(e) => {deleteNote(e, i, true); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                            </div>
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                    ))}
-                    </div> */}
+                   
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} notes={newSchool.edited_school_time_frame_criteria.edited_school_time_frame_math_courses_must_be_completed.notes} originalNotes={newSchool.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes} name='school_time_frame_math_courses_must_be_completed' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} isIndividual={true} setIsIndividual={setIsIndividual}
                     />
@@ -628,29 +562,16 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
 
                 <div className='w-full mt-8 mb-5'>
                     <label className='font-medium text-xl'>Notes:</label>
-                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(false)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e) => {toggleNotePopup(e); setIsIndividual(false)}} className="text-nowrap block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
-                    {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.length ? 'mt-3' : 'mt-0'}`}>
-                    {newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section.map((note, i) => (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-center w-full mb-1'>
-                                <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setIndex(i); setEditedNote(note); setIsIndividual(false);}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e) => {deleteNote(e, i, false); }}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                            </div>
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                    ))}
-                    </div> */}
+                   
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} notes={newSchool.edited_school_time_frame_criteria.notes} originalNotes={newSchool.school_time_frame_criteria.school_time_frame_criteria_note_section} name='school_time_frame_criteria_note_section' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} isIndividual={false} setIsIndividual={setIsIndividual}
                     />
                 </div>
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} input={hasInputs} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup}
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_time_frame_criteria.isEditMode} input={hasInputs} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup}
             revertEdit={revertEditGroup} undoEdit={undoEditGroup} setLinkObj={setLinkObj} toggleLinkPopup={toggleLinkPopup} link={newSchool.edited_school_time_frame_criteria.link} name='school_time_frame_criteria'
             newSchool={newSchool} setNewSchool={setNewSchool}
             />}

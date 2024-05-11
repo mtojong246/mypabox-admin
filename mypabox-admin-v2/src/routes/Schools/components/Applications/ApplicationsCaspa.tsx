@@ -5,8 +5,8 @@ import AddNote from "../Prereqs/AddNote";
 import AddNoteFields from "../../Assets/AddNoteFields";
 
 import LinkPopup from "../../LinkPopup";
-
-import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import Screen from "../../../../components/Screen";
+import Indicator from "../../../../components/Indicator";
 
 import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from "./ApplicationFunctions";
 
@@ -299,9 +299,9 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
         {/* <div className={`${newSchool.school_application_submitted_directly_to_school.input && newSchool.edited_school_application_submitted_on_caspa.input === null && loggedInUser.permissions.canVerify ? 'hidden' : 'block'}`}> */}
             <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
             <div className={`relative max-w-[900px] grow border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_application_submitted_on_caspa.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_application_submitted_on_caspa.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-            <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Application Submitted On Caspa<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs  ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label> 
-                <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_application_submitted_on_caspa.input} isEditMode={newSchool.edited_school_application_submitted_on_caspa.isEditMode} originalInput={newSchool.school_application_submitted_on_caspa.input}
+            <Screen isEdit={isEdit} editedInput={newSchool.edited_school_application_submitted_on_caspa.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_application_submitted_on_caspa.isEditMode} />
+            <Indicator label="Application Submitted On Caspa" editedInput={newSchool.edited_school_application_submitted_on_caspa.input} />
+                <BooleanFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} input={newSchool.edited_school_application_submitted_on_caspa.input} isEditMode={newSchool.edited_school_application_submitted_on_caspa.isEditMode} originalInput={newSchool.school_application_submitted_on_caspa.input}
                 name='school_application_submitted_on_caspa' handleCheck={handleCheck}
                 />
                 {isOpen && (
@@ -309,7 +309,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
                         <div className={`mt-8 mx-4 relative max-w-[900px] flex justify-start items-start gap-3`}>
                             <div className={`p-4 grow block rounded border-[#545454] border-2`}>
                                 <label className="absolute top-[-16px] text-xl font-medium bg-white">Application Submission Deadline</label> 
-                                <InputFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_application_submitted_on_caspa.edited_school_caspa_application_deadline_date.input} isEditMode={newSchool.edited_school_application_submitted_on_caspa.edited_school_caspa_application_deadline_date.isEditMode} 
+                                <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_application_submitted_on_caspa.edited_school_caspa_application_deadline_date.input} isEditMode={newSchool.edited_school_application_submitted_on_caspa.edited_school_caspa_application_deadline_date.isEditMode} 
                                 originalInput={newSchool.school_application_submitted_on_caspa.school_caspa_application_deadline_date} handleInput={handleInputInCategory} name='school_caspa_application_deadline_date' category="school_application_submitted_on_caspa"
                                 />
                             </div> 
@@ -344,29 +344,14 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
                 <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] mt-2 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                {/* {newSchool.school_application_submitted_on_caspa.school_caspa_application_notes && (
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
-                    </div>
-                )} */}
+              
                 <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_application_submitted_on_caspa.isEditMode} notes={newSchool.edited_school_application_submitted_on_caspa.notes} originalNotes={newSchool.school_application_submitted_on_caspa.school_caspa_application_notes} name='school_application_submitted_on_caspa' toggleNotePopup={toggleNotePopup}
                     deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
                     />
                 </div>
                 )}
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} input={hasInputs} isEditMode={newSchool.edited_school_application_submitted_on_caspa.isEditMode} link={newSchool.edited_school_application_submitted_on_caspa.link} setLinkObj={setLinkObj} 
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} input={hasInputs} isEditMode={newSchool.edited_school_application_submitted_on_caspa.isEditMode} link={newSchool.edited_school_application_submitted_on_caspa.link} setLinkObj={setLinkObj} 
             toggleLinkPopup={toggleLinkPopup} name='school_application_submitted_on_caspa' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup} newSchool={newSchool} setNewSchool={setNewSchool} />}
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}

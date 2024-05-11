@@ -178,6 +178,8 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
         })
     }
 
+
+
     return (
         <>
         <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
@@ -185,7 +187,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
             {((loggedInUser.permissions.canVerify && newSchool.edited_school_in_state_tuition.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_in_state_tuition.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">In-State Tuition<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_in_state_tuition.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_in_state_tuition.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
-                    <InputFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_in_state_tuition.input} isEditMode={newSchool.edited_school_in_state_tuition.isEditMode} originalInput={newSchool.school_in_state_tuition.input} name='school_in_state_tuition' category="school_in_state_tuition" isMoney={true} handleInput={handleInput}/>
+                    <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_in_state_tuition.input} isEditMode={newSchool.edited_school_in_state_tuition.isEditMode} originalInput={newSchool.school_in_state_tuition.input} name='school_in_state_tuition' category="school_in_state_tuition" isMoney={true} handleInput={handleInput}/>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_in_state_tuition')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
@@ -217,7 +219,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                 />
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_in_state_tuition.isEditMode} input={newSchool.edited_school_in_state_tuition.input} link={newSchool.edited_school_in_state_tuition.link} 
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_in_state_tuition.isEditMode} input={newSchool.edited_school_in_state_tuition.input} link={newSchool.edited_school_in_state_tuition.link} 
                 setLinkObj={setLinkObj} name='school_in_state_tuition' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
             />}
         </div>
@@ -227,7 +229,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
             {((loggedInUser.permissions.canVerify && newSchool.edited_school_out_of_state_tuition.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_out_of_state_tuition.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Out-of-State Tuition<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_out_of_state_tuition.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_out_of_state_tuition.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
-                    <InputFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_out_of_state_tuition.input} isEditMode={newSchool.edited_school_out_of_state_tuition.isEditMode} originalInput={newSchool.school_out_of_state_tuition.input} name='school_out_of_state_tuition' category="school_out_of_state_tuition" isMoney={true} handleInput={handleInput}/>
+                    <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_out_of_state_tuition.input} isEditMode={newSchool.edited_school_out_of_state_tuition.isEditMode} originalInput={newSchool.school_out_of_state_tuition.input} name='school_out_of_state_tuition' category="school_out_of_state_tuition" isMoney={true} handleInput={handleInput}/>
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_out_of_state_tuition')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
@@ -259,7 +261,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                     />
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_out_of_state_tuition.isEditMode} input={newSchool.edited_school_out_of_state_tuition.input} link={newSchool.edited_school_out_of_state_tuition.link} 
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_out_of_state_tuition.isEditMode} input={newSchool.edited_school_out_of_state_tuition.input} link={newSchool.edited_school_out_of_state_tuition.link} 
                 setLinkObj={setLinkObj} name='school_out_of_state_tuition' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
             />}
         </div>
@@ -270,7 +272,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
             {((loggedInUser.permissions.canVerify && newSchool.edited_school_seat_deposit_in_state.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_seat_deposit_in_state.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Seat Deposit (In-State)<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_seat_deposit_in_state.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_seat_deposit_in_state.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
-                    <InputFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_seat_deposit_in_state.input} isEditMode={newSchool.edited_school_seat_deposit_in_state.isEditMode} originalInput={newSchool.school_seat_deposit_in_state.input} name='school_seat_deposit_in_state' category="school_seat_deposit_in_state" isMoney={true} handleInput={handleInput}/>    
+                    <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_seat_deposit_in_state.input} isEditMode={newSchool.edited_school_seat_deposit_in_state.isEditMode} originalInput={newSchool.school_seat_deposit_in_state.input} name='school_seat_deposit_in_state' category="school_seat_deposit_in_state" isMoney={true} handleInput={handleInput}/>    
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_seat_deposit_in_state')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
@@ -302,7 +304,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                     />
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_seat_deposit_in_state.isEditMode} input={newSchool.edited_school_seat_deposit_in_state.input} link={newSchool.edited_school_seat_deposit_in_state.link} 
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_seat_deposit_in_state.isEditMode} input={newSchool.edited_school_seat_deposit_in_state.input} link={newSchool.edited_school_seat_deposit_in_state.link} 
                    setLinkObj={setLinkObj} name='school_seat_deposit_in_state' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
                 />}
         </div>
@@ -312,7 +314,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
             {((loggedInUser.permissions.canVerify && newSchool.edited_school_seat_deposit_out_of_state.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_seat_deposit_out_of_state.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
             <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Seat Deposit (Out-of-State)<PiCheckCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_seat_deposit_out_of_state.input === null ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${newSchool.edited_school_seat_deposit_out_of_state.input !== null ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
                 <div className='flex justify-center items-start gap-3'>
-                    <InputFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_seat_deposit_out_of_state.input} isEditMode={newSchool.edited_school_seat_deposit_out_of_state.isEditMode} originalInput={newSchool.school_seat_deposit_out_of_state.input} name='school_seat_deposit_out_of_state' category="school_seat_deposit_out_of_state" isMoney={true} handleInput={handleInput}/>                    
+                    <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_seat_deposit_out_of_state.input} isEditMode={newSchool.edited_school_seat_deposit_out_of_state.isEditMode} originalInput={newSchool.school_seat_deposit_out_of_state.input} name='school_seat_deposit_out_of_state' category="school_seat_deposit_out_of_state" isMoney={true} handleInput={handleInput}/>                    
                     <button onClick={(e:any) => {toggleNotePopup(e); setName('school_seat_deposit_out_of_state')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
@@ -344,7 +346,7 @@ export default function Tuition({newSchool, setNewSchool, loggedInUser, isEdit}:
                     deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                     />
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_seat_deposit_out_of_state.isEditMode} input={newSchool.edited_school_seat_deposit_out_of_state.input} link={newSchool.edited_school_seat_deposit_out_of_state.link} 
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_seat_deposit_out_of_state.isEditMode} input={newSchool.edited_school_seat_deposit_out_of_state.input} link={newSchool.edited_school_seat_deposit_out_of_state.link} 
                    setLinkObj={setLinkObj} name='school_seat_deposit_out_of_state' toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
                 />}
         </div>

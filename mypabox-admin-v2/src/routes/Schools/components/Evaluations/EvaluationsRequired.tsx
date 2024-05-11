@@ -6,6 +6,8 @@ import { UserObject } from "../../../../types/users.types";
 import LinkPopup from "../../LinkPopup";
 import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./EvaluationFunctions";
 import AddNoteFields from "../../Assets/AddNoteFields";
+import Indicator from "../../../../components/Indicator";
+import Screen from "../../../../components/Screen";
 
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 import EditButtons from "../../Assets/EditButtons";
@@ -160,7 +162,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
     };
 
     useEffect(() => {
-        if (newSchool.edited_school_evaluations_required.input !== null) {
+        if (newSchool.edited_school_evaluations_required.input !== null || newSchool.edited_school_evaluations_required.edited_school_required_evaluator_title.input !== null) {
             setHasInputs(true)
         } else {
             setHasInputs(null)
@@ -492,66 +494,30 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
         <>
         <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
         <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-        {((loggedInUser.permissions.canVerify && newSchool.edited_school_evaluations_required.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_evaluations_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-        <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Evaluations Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
-            <BooleanFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={newSchool.edited_school_evaluations_required.input} originalInput={newSchool.school_evaluations_required.input}
+        <Screen isEdit={isEdit} editedInput={hasInputs} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} />
+        <Indicator label="Evaluations Required" editedInput={hasInputs} />
+            <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={newSchool.edited_school_evaluations_required.input} originalInput={newSchool.school_evaluations_required.input}
             name='school_evaluations_required' handleCheck={handleCheck}
             />
-            {/* <div className='w-full mt-2'>
-                <label className="relative inline-flex items-center cursor-pointer">
-                    <input onChange={handleCheck} checked={newSchool.school_evaluations_required.input ? true : false} type="checkbox" className="sr-only peer"/>
-                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                    <span className="ml-3 text-xl text-black">{newSchool.school_evaluations_required.input ? 'True' : 'False'}</span>
-                </label>
-            </div> */}
+           
             {isOpen && (
                 <>
                     <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Number of Evaluations Required</label>  
-                        <InputFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={newSchool.edited_school_evaluations_required.edited_school_minimum_number_of_evaluations_required.input} 
+                        <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={newSchool.edited_school_evaluations_required.edited_school_minimum_number_of_evaluations_required.input} 
                         originalInput={newSchool.school_evaluations_required.school_minimum_number_of_evaluations_required} name='school_minimum_number_of_evaluations_required' handleInput={handleInput} 
                         />
-                        {/* <input onChange={handleInput} name='school_minimum_number_of_evaluations_required' value={newSchool.school_evaluations_required.school_minimum_number_of_evaluations_required ? newSchool.school_evaluations_required.school_minimum_number_of_evaluations_required : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' /> */}
                     </div> 
                     <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Required Evaluator Title</label> 
                         <TitleFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={newSchool.edited_school_evaluations_required.edited_school_required_evaluator_title.input} originalInput={newSchool.school_evaluations_required.school_required_evaluator_title} setEvaluator={setEvaluator} addEvaluator={addEvaluator} deleteEvaluator={deleteEvaluator} undoDelete={undoDelete} options={evaluatorOptions}/>
-                        {/* <div className='flex justify-start items-center gap-2'>
-                            <div className='grow flex justify-center items-start gap-1'>
-                                <CreatableSelect options={evaluatorOptions} onChange={(e:any) => setEvaluator(e.value)} className="grow focus:outline-none"/> 
-                                <Tooltip title="Type and press enter to create new option" placement='right'>
-                                    <IconButton style={{padding: '0px'}}>
-                                        <AiOutlineInfoCircle className='h-4 w-4 text-[#b4b4b4]'/>
-                                    </IconButton>
-                                </Tooltip>
-                            </div>
-                            <button onClick={addEvaluator} className="text-lg block border text-[#F06A6A] border-[#F06A6A] rounded px-5 h-[50px] hover:text-white hover:bg-[#F06A6A]">
-                                Add Evaluator
-                            </button>
-                        </div>
-                        {newSchool.school_evaluations_required.school_required_evaluator_title && (
-                            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_evaluations_required.school_required_evaluator_title.length ? 'mt-3' : 'mt-0'}`}>
-                            {newSchool.school_evaluations_required.school_required_evaluator_title.map((opt, i) => {
-                                return (
-                                    <div className='p-4 border border-[#B4B4B4] rounded-lg w-full'>
-                                        <div className='flex justify-between items-center w-full'>
-                                            <p className='font-bold text-xl'>{opt}</p>
-                                            <button onClick={(e) => deleteEvaluator(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
-                                        </div>
-                                    </div>
-                                )
-                            })}
-                            </div>
-                            )} */}
+                        
                     </div> 
                     <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Minimum Time Evaluator Knows Applicant</label> 
-                        <SelectInputsFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={newSchool.edited_school_evaluations_required.edited_school_minimum_time_evaluator_knows_applicant.input} originalInput={newSchool.school_evaluations_required.school_minimum_time_evaluator_knows_applicant} name='school_minimum_time_evaluator_knows_applicant' number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration}
+                        <SelectInputsFields isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={newSchool.edited_school_evaluations_required.edited_school_minimum_time_evaluator_knows_applicant.input} originalInput={newSchool.school_evaluations_required.school_minimum_time_evaluator_knows_applicant} name='school_minimum_time_evaluator_knows_applicant' number={editedSelection.number} duration={editedSelection.duration} originalNumber={selection.number} originalDuration={selection.duration}
                         handleInput={handleNumber} handleSelect={handleDuration} options={timeOptions}/>
-                        {/* <div className='flex justify-start items-center gap-2'>
-                            <input onChange={handleNumber} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
-                            <Select onChange={(e:any) => setSelection({...selection, duration: e.value})} options={timeOptions} value={selection.duration ? {value: selection.duration, label: selection.duration} : null} className="grow focus:outline-none"/>
-                        </div>       */}
+                       
                     </div> 
                     <div className={`mt-12 mx-4 mb-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                         <label className="absolute top-[-16px] text-xl font-medium bg-white">Optional Evaluators Required</label>  
@@ -561,32 +527,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
                         <ReqOptionFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={newSchool.edited_school_evaluations_required.edited_school_optional_evaluators_required.input} 
                         originalInput={newSchool.school_evaluations_required.school_optional_evaluators_required} deleteOption={deleteOption} undoDelete={undoOption} setEditedOption={setEditedOption} toggleOptions={toggleOptions} setGroupIndex={setGroupIndex}
                         />
-                        {/* {newSchool.school_evaluations_required.school_optional_evaluators_required && (
-                        <div className={`flex flex-col justify-center items-center gap-5 ${newSchool.school_evaluations_required.school_optional_evaluators_required!.length ? 'mt-5' : 'mt-0'}`}>
-                        {newSchool.school_evaluations_required.school_optional_evaluators_required!.map((group, i) => (
-                            <div className='p-4 border border-[#545454] rounded w-full'>
-                                <div className='flex justify-between items-center w-full'>
-                                    <p className='font-bold text-xl'>{group.school_minimum_number_of_evaluators_required_in_group} <span className='font-normal'>evaluators are required with the following titles:</span></p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleOptions(e); setEditedOption(group); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteOption(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center items-center gap-4 mt-4'>
-                                {group.school_required_optional_group_evaluator_title.map(title => {
-
-                                        return (
-                                            <div className='p-3 border border-[#B4B4B4] rounded w-full'>
-                                                <p className='font-semibold'>{title}</p>
-                                            </div>
-                                        )
-                                })}
-                                </div>
-                                <p className='mt-4 text-lg font-semibold'>Minimum Time Evalutor Knows Applicant: <span className='font-normal'>{group.school_minimum_time_evaluator_knows_applicant}</span></p>
-                            </div>
-                        ))}
-                        </div>
-                        )} */}
+                       
                     </div> 
                 </>
             )}
@@ -596,29 +537,14 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
             <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Note
             </button>
-            {/* {newSchool.school_evaluations_required.school_evaluations_required_notes && (
-            <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_evaluations_required.school_evaluations_required_notes.length ? 'mt-3' : 'mt-0'}`}>
-                {newSchool.school_evaluations_required.school_evaluations_required_notes.map((note, i) => (
-                    <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                        <div className='flex justify-between items-center w-full mb-1'>
-                            <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                            <div className='flex gap-2'>
-                                <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2]'/></button>
-                                <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A]'/></button>
-                            </div>
-                        </div>
-                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                    </div>
-                ))}
-            </div>
-            )} */}
+          
             <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} notes={newSchool.edited_school_evaluations_required.notes} originalNotes={newSchool.school_evaluations_required.school_evaluations_required_notes} name='school_evaluations_required' toggleNotePopup={toggleNotePopup}
                 deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
                 />
             </div>
             )}
         </div>
-        {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={hasInputs} link={newSchool.edited_school_evaluations_required.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}
+        {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} input={hasInputs} link={newSchool.edited_school_evaluations_required.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}
         name='school_evaluations_required' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool}
         />}
         </div>

@@ -10,6 +10,8 @@ import EditButtons from "../../Assets/EditButtons";
 import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
 import CategoryFields from "./CategoryFields";
+import Indicator from "../../../../components/Indicator";
+import Screen from "../../../../components/Screen";
 
 export default function RequiredCourseCategories({ newSchool, setNewSchool, loggedInUser, isEdit }: { 
     newSchool: School, 
@@ -110,8 +112,8 @@ export default function RequiredCourseCategories({ newSchool, setNewSchool, logg
         <>
             <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_prereq_required_course_categories.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_prereq_required_course_categories.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Required Course Category<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label> 
+            <Screen isEdit={isEdit} editedInput={newSchool.edited_school_prereq_required_course_categories.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} />
+            <Indicator label="Required Course Categories" editedInput={newSchool.edited_school_prereq_required_course_categories.input} />
                 <button onClick={toggleRequiredCourseCategories} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Category
                 </button>
@@ -119,104 +121,14 @@ export default function RequiredCourseCategories({ newSchool, setNewSchool, logg
                 originalInput={newSchool.school_prereq_required_course_categories} categories={categories} courses={courses} setEditedOption={setEditedRequiredCategory} deleteOption={deleteCategory} undoDelete={undoDelete} toggleOptions={toggleRequiredCourseCategories}
                 setGroupIndex={setGroupIndex}
                 />
-                {/* <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_prereq_required_course_categories.length ? 'mt-3' : 'mt-0'}`}>
-                {newSchool.school_prereq_required_course_categories.map((category, i) => {
-                    const selectedCategory = categories.find(c => c.id === category.school_required_course_category);
-                    if (selectedCategory) {
-                        return (
-                        <div className='p-3 border border-[#545454] rounded w-full'>
-                            <div className='flex justify-between items-center w-full'>
-                                <p className='font-bold text-xl'>{selectedCategory.category_name}
-                                    <span className='font-semibold text-base inline-block pl-3 text-[#6A6A6A]'>
-                                        {`(${category.school_required_course_category_number_of_courses_that_need_lab} courses with lab
-                                        / ${category.school_required_course_category_number_of_credits_need_to_be_completed} credit hours 
-                                        / ${category.school_required_course_category_number_of_quarter_hours_need_to_be_completed} quarter hours)`}                                   
-                                    </span>
-                                </p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleRequiredCourseCategories(e); setEditedRequiredCategory(category); setGroupIndex(i)}}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteCategory(e,i)}><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                            </div>
-                            {category.school_required_course_category_extra_included_courses.length > 0 && (
-                            <>
-                                <p className='font-semibold underline underline-offset-2 mt-5 mb-2 text-[#4573D2]'>Included Courses:</p>
-                                <div className='flex flex-col justify-center items-center gap-4'>
-                                {category.school_required_course_category_extra_included_courses.map(course => {
-                                    const selectedCourse = courses.find(c => c.unique_id === course.school_required_course_id);
-                                    if (selectedCourse) {
-                                        return (
-                                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                                <p className='font-semibold'>{selectedCourse.course_name}</p>
-                                                {course.school_required_course_note ? (
-                                                    <>
-                                                        <p className='font-semibold underline underline-offset-2 mt-3 mb-1'>Note:</p>
-                                                        <ReactQuill theme='bubble' value={course.school_required_course_note} readOnly={true} className='edited-quill'/>
-                                                    </>
-                                                ) : null}
-                                            </div>
-                                        )
-                                    } else {
-                                        return null;
-                                    }
-                                    
-                                })}
-                                </div>
-                            </>
-                            )}
-                            {category.school_required_course_category_excluded_courses.length > 0 && (
-                            <>
-                                <p className='font-semibold underline underline-offset-2 mt-6 mb-2 text-[#F06A6A]'>Excluded Courses:</p>
-                                <div className='flex flex-col justify-center items-center gap-4'>
-                                {category.school_required_course_category_excluded_courses.map(course => {
-                                    const selectedCourse = courses.find(c => c.unique_id === course.school_required_course_id);
-                                    if (selectedCourse) {
-                                        return (
-                                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                                <p className='font-semibold'>{selectedCourse.course_name}</p>
-                                                {course.school_required_course_note ? (
-                                                    <>
-                                                        <p className='font-semibold underline underline-offset-2 mt-3 mb-1'>Note:</p>
-                                                        <ReactQuill theme='bubble' value={course.school_required_course_note} readOnly={true} className='edited-quill'/>
-                                                    </>
-                                                ) : null}
-                                            </div>
-                                        )
-                                    } else {
-                                        return null;
-                                    }
-                                    
-                                })}
-                                </div>
-                            </>
-                            )}
-                            {category.school_required_course_category_note_section.length > 0 && (
-                                <>
-                                    <p className='font-semibold underline underline-offset-2 mt-6 mb-2'>Optional Courses Notes:</p>
-                                    <div className='flex flex-col justify-center items-center gap-4'>
-                                    {category.school_required_course_category_note_section.map(note => (
-                                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                            <p className={`font-semibold mb-1 ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                                        </div>
-                                    ))}
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                        )
-                    } else {
-                        return null;
-                    }
-                })}
-                </div> */}
+                
             </div>
-            {isEdit && <EditButtons loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={hasInputs} name='school_prereq_required_course_categories'
+            {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} input={hasInputs} name='school_prereq_required_course_categories'
             toggleLinkPopup={toggleLinkPopup} link={newSchool.edited_school_prereq_required_course_categories.link} setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} 
             revertEdit={revertEditGroup} undoEdit={undoEditGroup} newSchool={newSchool} setNewSchool={setNewSchool}/>}
             </div>
             {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-            {openRequiredCourseCategories && <AddRequiredCourseCategories loggedInUser={loggedInUser} toggleRequiredCourseCategories={toggleRequiredCourseCategories} editedRequiredCategory={editedRequiredCategory} setEditedRequiredCategory={setEditedRequiredCategory} newSchool={newSchool}
+            {openRequiredCourseCategories && <AddRequiredCourseCategories isEdit={isEdit} loggedInUser={loggedInUser} toggleRequiredCourseCategories={toggleRequiredCourseCategories} editedRequiredCategory={editedRequiredCategory} setEditedRequiredCategory={setEditedRequiredCategory} newSchool={newSchool}
             setNewSchool={setNewSchool} input={hasInputs} groupIndex={groupIndex}
             />}
         </>

@@ -3,7 +3,8 @@ import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent 
 import AddNote from "../Prereqs/AddNote";
 import AddNoteFields from "../../Assets/AddNoteFields";
 
-import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
+import Screen from "../../../../components/Screen";
+import Indicator from "../../../../components/Indicator";
 import LinkPopup from "../../LinkPopup";
 
 import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./ApplicationFunctions";
@@ -233,9 +234,9 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
         <>
         <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
-            {((loggedInUser.permissions.canVerify && newSchool.edited_school_supplemental_application_required.input !== null) || (!loggedInUser.permissions.canVerify && !newSchool.edited_school_supplemental_application_required.isEditMode)) && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#999999] opacity-50 z-10'></div>}
-                <label className="z-20 absolute top-[-16px] text-xl bg-white flex justify-start items-center">Supplemental Application Required<PiCheckCircle className={`h-5 w-5 ml-[2px] ${!hasInputs ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`} /><PiWarningCircle className={`h-5 w-5 ml-[2px] ${hasInputs ? 'text-[#F06A6A]' : 'text-[#B4B4B4]'}`}/></label>
-                   <BooleanFields loggedInUser={loggedInUser} input={newSchool.edited_school_supplemental_application_required.input} isEditMode={newSchool.edited_school_supplemental_application_required.isEditMode} originalInput={newSchool.school_supplemental_application_required.input}
+            <Screen isEdit={isEdit} editedInput={newSchool.edited_school_supplemental_application_required.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.isEditMode} />
+            <Indicator label="Supplemental Application Required" editedInput={newSchool.edited_school_supplemental_application_required.input} />
+                   <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} input={newSchool.edited_school_supplemental_application_required.input} isEditMode={newSchool.edited_school_supplemental_application_required.isEditMode} originalInput={newSchool.school_supplemental_application_required.input}
                    name='school_supplemental_application_required' handleCheck={handleCheck}
                    />
                     {/* <div className='w-full mt-2'>
@@ -249,14 +250,14 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                     <>
                         <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                             <label className="absolute top-[-16px] text-xl font-medium bg-white">Supplemental Application Deadline</label> 
-                            <InputFieldsGroup loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_deadline.isEditMode} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_deadline.input}
+                            <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_deadline.isEditMode} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_deadline.input}
                             originalInput={newSchool.school_supplemental_application_required.school_supplemental_application_deadline} name='school_supplemental_application_deadline' category='school_supplemental_application_required' handleInput={handleInputInCategory} 
                             />
                             {/* <input onChange={handleInput} value={newSchool.school_supplemental_application_required.school_supplemental_application_deadline!} name='school_supplemental_application_deadline' type='date' className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 h-[50px] text-lg rounded' />   */}
                         </div> 
                         <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                             <label className="absolute top-[-16px] text-xl font-medium bg-white">Supplemental Application Fee</label> 
-                            <InputFieldsGroup loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_fee.isEditMode} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_fee.input}
+                            <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_fee.isEditMode} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_fee.input}
                             originalInput={newSchool.school_supplemental_application_required.school_supplemental_application_fee} name='school_supplemental_application_fee' category='school_supplemental_application_required' handleInput={handleInputInCategory} 
                             />
                             {/* <div className='flex justify-start items-center gap-1 w-1/3 border border-[#B4B4B4] rounded p-3'>
@@ -266,14 +267,14 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                         </div> 
                         <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                             <label className="absolute top-[-16px] text-xl font-medium bg-white">Supplemental Application Link</label> 
-                            <InputFieldsGroup loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link.isEditMode} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link.input}
+                            <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link.isEditMode} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link.input}
                             originalInput={newSchool.school_supplemental_application_required.school_supplemental_application_link} name='school_supplemental_application_link' category='school_supplemental_application_required' handleInput={handleInputInCategory} 
                             />
                             {/* <input onChange={handleInput} value={newSchool.school_supplemental_application_required.school_supplemental_application_link!} name='school_supplemental_application_link' className='w-1/3 focus:outline-none border border-[#B4B4B4] px-4 h-[50px] text-lg rounded' />   */}
                         </div> 
                         <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                             <label className="absolute top-[-16px] text-xl font-medium bg-white">Supplemental Application Link Provided With Invite Only</label> 
-                            <BooleanFieldsGroup loggedInUser={loggedInUser} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link_provided_with_invite_only.input} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link_provided_with_invite_only.isEditMode}
+                            <BooleanFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link_provided_with_invite_only.input} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link_provided_with_invite_only.isEditMode}
                             name='school_supplemental_application_link_provided_with_invite_only' originalInput={newSchool.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only} category="school_supplemental_application_required" handleCheck={handleCheckInCategory}
                             />
                             {/* <div className='w-full mt-2'>
@@ -315,7 +316,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                 )}
             </div>
             {isEdit && 
-            <EditButtons loggedInUser={loggedInUser} input={hasInputs} isEditMode={newSchool.edited_school_supplemental_application_required.isEditMode} name="school_supplemental_application_required" 
+            <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} input={hasInputs} isEditMode={newSchool.edited_school_supplemental_application_required.isEditMode} name="school_supplemental_application_required" 
             link={newSchool.edited_school_supplemental_application_required.link} setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup} newSchool={newSchool}
             setNewSchool={setNewSchool} toggleLinkPopup={toggleLinkPopup}
             />}
