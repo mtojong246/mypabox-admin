@@ -138,7 +138,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
     // };
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_application_submitted_directly_to_school: {
@@ -146,7 +146,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
                     school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_application_submitted_directly_to_school: {
@@ -159,7 +159,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_application_submitted_directly_to_school: {
@@ -173,7 +173,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_application_submitted_directly_to_school: {
@@ -193,7 +193,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_application_submitted_directly_to_school: {
@@ -201,7 +201,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
                     school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_application_submitted_directly_to_school: {

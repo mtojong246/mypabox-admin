@@ -396,7 +396,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_evaluations_required: {
@@ -404,7 +404,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
                     school_evaluations_required_notes: newSchool.school_evaluations_required.school_evaluations_required_notes.concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_evaluations_required: {
@@ -417,7 +417,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_evaluations_required: {
@@ -431,7 +431,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_evaluations_required: {
@@ -451,7 +451,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_evaluations_required: {
@@ -459,7 +459,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
                     school_evaluations_required_notes: newSchool.school_evaluations_required.school_evaluations_required_notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_evaluations_required: {

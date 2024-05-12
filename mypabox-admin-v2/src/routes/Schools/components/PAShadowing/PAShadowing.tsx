@@ -88,7 +88,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as object;
             setNewSchool({
                 ...newSchool,
@@ -97,7 +97,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                     [noteName]: (field[noteName as keyof object] as Note[]).concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof School] as any;
             setNewSchool({
                 ...newSchool,
@@ -112,7 +112,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
     }
 
     const updateNote = (note: Note) => {
-    if (loggedInUser.permissions.canAddOrDelete) {
+    if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
         const field = newSchool[name as keyof School] as object;
         setNewSchool({
             ...newSchool,
@@ -127,7 +127,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                 })
             }
         })
-    } else {
+    } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
         const field = newSchool[`edited_${name}` as keyof School] as any;
         setNewSchool({
             ...newSchool,
@@ -148,7 +148,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
 
     const deleteNote = (e: any, index: number, name: string, noteName?: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as object;
             setNewSchool({
                 ...newSchool,
@@ -157,7 +157,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                     [noteName!]: (field[noteName as keyof object] as Note[]).filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof School] as any;
             setNewSchool({
                 ...newSchool,

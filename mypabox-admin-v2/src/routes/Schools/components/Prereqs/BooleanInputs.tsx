@@ -123,7 +123,7 @@ export default function BooleanInputs({
   };
 
   const addNote = (note: Note) => {
-    if (loggedInUser.permissions.canAddOrDelete) {
+    if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
       const field = newSchool[value as keyof School] as object;
       setNewSchool({
         ...newSchool,
@@ -132,7 +132,7 @@ export default function BooleanInputs({
           [notes!]: (field[notes as keyof object] as Note[]).concat(note),
         },
       });
-    } else {
+    } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
       const field = newSchool[`edited_${value}` as keyof School] as any;
       setNewSchool({
         ...newSchool,
@@ -146,7 +146,7 @@ export default function BooleanInputs({
   };
 
   const updateNote = (note: Note) => {
-    if (loggedInUser.permissions.canAddOrDelete) {
+    if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
       const field = newSchool[value as keyof School] as object;
       setNewSchool({
         ...newSchool,
@@ -161,7 +161,7 @@ export default function BooleanInputs({
           }),
         },
       });
-    } else {
+    } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
       const field = newSchool[`edited_${value}` as keyof School] as any;
       setNewSchool({
         ...newSchool,
@@ -182,7 +182,7 @@ export default function BooleanInputs({
 
   const deleteNote = (e: any, index: number, name: string, noteName?: string) => {
     e.preventDefault();
-    if (loggedInUser.permissions.canAddOrDelete) {
+    if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
       const field = newSchool[name as keyof School] as object;
       setNewSchool({
         ...newSchool,
@@ -193,7 +193,7 @@ export default function BooleanInputs({
           ),
         },
       });
-    } else {
+    } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
       const field = newSchool[`edited_${name}` as keyof School] as any;
       setNewSchool({
         ...newSchool,

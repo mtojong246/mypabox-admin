@@ -487,7 +487,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_english_proficiency_exams: {
@@ -495,7 +495,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     [name]: (newSchool.school_english_proficiency_exams[name as keyof object] as Note[]).concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_english_proficiency_exams: {
@@ -508,7 +508,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
         }
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_english_proficiency_exams: {
@@ -522,7 +522,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_english_proficiency_exams: {
@@ -542,7 +542,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
 
     const deleteNote = (e:any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_english_proficiency_exams: {
@@ -550,7 +550,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
                     [name]: (newSchool.school_english_proficiency_exams[name as keyof object] as Note[]).filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_english_proficiency_exams: {

@@ -84,7 +84,7 @@ export default function MinimumGrade({ newSchool, setNewSchool, loggedInUser, is
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool.school_grade_criteria;
             setNewSchool({
                 ...newSchool,
@@ -93,7 +93,7 @@ export default function MinimumGrade({ newSchool, setNewSchool, loggedInUser, is
                     school_grade_criteria_note_section: field.school_grade_criteria_note_section.concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool.edited_school_grade_criteria;
             setNewSchool({
                 ...newSchool,
@@ -107,7 +107,7 @@ export default function MinimumGrade({ newSchool, setNewSchool, loggedInUser, is
     }
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool.school_grade_criteria;
             setNewSchool({
                 ...newSchool,
@@ -122,7 +122,7 @@ export default function MinimumGrade({ newSchool, setNewSchool, loggedInUser, is
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool.edited_school_grade_criteria;
             setNewSchool({
                 ...newSchool,
@@ -143,7 +143,7 @@ export default function MinimumGrade({ newSchool, setNewSchool, loggedInUser, is
 
     const deleteNote = (e:any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool.school_grade_criteria;
             setNewSchool({
                 ...newSchool,
@@ -152,7 +152,7 @@ export default function MinimumGrade({ newSchool, setNewSchool, loggedInUser, is
                     school_grade_criteria_note_section: field.school_grade_criteria_note_section.filter((n,i) => i !== index),
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool.edited_school_grade_criteria;
             setNewSchool({
                 ...newSchool,

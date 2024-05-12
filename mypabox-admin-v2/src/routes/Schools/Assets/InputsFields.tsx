@@ -76,7 +76,7 @@ export default function InputFields({ loggedInUser, isEdit, newSchool, input, is
                 {isOriginalFieldShown && (
                 <div className="flex justify-between items-center border border-[#B4B4B4] rounded w-full">
                     {currencyFields.includes(name) && <BiDollar className="h-5 w-5 text-[#A1A1A1] ml-3"/>}
-                    <input disabled={isOriginalInputDisabled} type={dateFields.includes(name) ? 'date' : 'text'} className="w-full focus:outline-none p-3 rounded" value={originalInput ? originalInput : ''} name={name} onChange={(e:ChangeEvent<HTMLInputElement>) => {
+                    <input disabled={isOriginalInputDisabled} type={dateFields.includes(name) ? 'date' : 'text'} className={`w-full focus:outline-none p-3 rounded ${isOriginalInputDisabled && input !== null && 'line-through'}`} value={originalInput ? originalInput : ''} name={name} onChange={(e:ChangeEvent<HTMLInputElement>) => {
                             handleInputInArray !== undefined && index !== undefined ? handleInputInArray(e, name, index, false) : handleInput(e, false);
                     }} placeholder={monthFields.includes(name) ? '# of months' : ''} onKeyDown={keyDown}/>
                 </div>

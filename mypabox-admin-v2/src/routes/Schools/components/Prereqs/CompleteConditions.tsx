@@ -230,7 +230,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
                 setNewSchool({
@@ -253,7 +253,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                     }
                 })
             }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.edited_school_prerequisite_completion_criteria[`edited_${name}` as keyof object] as any;
                 setNewSchool({
@@ -281,7 +281,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
     }
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
                 setNewSchool({
@@ -315,7 +315,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                     }
                 })
             }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.edited_school_prerequisite_completion_criteria[`edited_${name}` as keyof object] as any;
                 setNewSchool({
@@ -355,7 +355,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
 
     const deleteNote = (e:any, index: number, name: string, noteName?:string, isIndividual?: boolean) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.school_prerequisite_completion_criteria[name as keyof object] as StringInput | NumberInput;
                 setNewSchool({
@@ -377,7 +377,7 @@ export default function CompleteConditions({ newSchool, setNewSchool, loggedInUs
                     }
                 })
             }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.edited_school_prerequisite_completion_criteria[`edited_${name}` as keyof object] as any;
                 setNewSchool({

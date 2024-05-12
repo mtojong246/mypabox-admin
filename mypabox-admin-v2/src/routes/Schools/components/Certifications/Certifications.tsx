@@ -194,7 +194,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
     };
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_certifications_required: {
@@ -202,7 +202,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
                     school_certification_notes: newSchool.school_certifications_required.school_certification_notes.concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_certifications_required: {
@@ -215,7 +215,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_certifications_required: {
@@ -229,7 +229,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_certifications_required: {
@@ -249,7 +249,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_certifications_required: {
@@ -257,7 +257,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
                     school_certification_notes: newSchool.school_certifications_required.school_certification_notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_certifications_required: {

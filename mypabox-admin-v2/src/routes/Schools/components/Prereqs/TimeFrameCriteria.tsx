@@ -309,7 +309,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.school_time_frame_criteria[name as keyof object] as StringInput;
                 setNewSchool({
@@ -331,7 +331,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                     }
                 })
             }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.edited_school_time_frame_criteria[`edited_${name}` as keyof object] as any;
                 setNewSchool({
@@ -358,7 +358,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
     }
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.school_time_frame_criteria[name as keyof object] as StringInput;
                 setNewSchool({
@@ -392,7 +392,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                     }
                 })
             }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.edited_school_time_frame_criteria[`edited_${name}` as keyof object] as any;
                 setNewSchool({
@@ -432,7 +432,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
 
     const deleteNote = (e:any, index: number, name: string, noteName?: string, isIndividual?: boolean) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.school_time_frame_criteria[name as keyof object] as StringInput;
                 setNewSchool({
@@ -454,7 +454,7 @@ export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUse
                     }
                 })
             }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (isIndividual) {
                 const field = newSchool.edited_school_time_frame_criteria[`edited_${name}` as keyof object] as StringInput;
                 setNewSchool({

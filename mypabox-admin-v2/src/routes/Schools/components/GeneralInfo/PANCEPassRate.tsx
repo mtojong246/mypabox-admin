@@ -131,7 +131,7 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
     };
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -140,7 +140,7 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
                     notes: (field.notes as Note[]).concat(note),
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof School] as any;
             setNewSchool({
                 ...newSchool,
@@ -154,7 +154,7 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -169,7 +169,7 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof School] as any;
             setNewSchool({
                 ...newSchool,
@@ -190,7 +190,7 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -199,7 +199,7 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
                     notes: (field.notes as Note[]).filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof School] as any;
             setNewSchool({
                 ...newSchool,

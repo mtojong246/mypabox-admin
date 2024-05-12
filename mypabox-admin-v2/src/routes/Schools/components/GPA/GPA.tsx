@@ -211,7 +211,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
 
 
       const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (name.includes('required')) {
                 setNewSchool({
                     ...newSchool,
@@ -236,7 +236,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                 })
             
         }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (name.includes('required')) {
                 const field = newSchool.edited_school_minimum_gpa_required[`edited_${name}` as keyof object] as any;
                 setNewSchool({
@@ -269,7 +269,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (name.includes('required')) {
                 setNewSchool({
                     ...newSchool,
@@ -305,7 +305,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                         }
                     })
                 }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (name.includes('required')) {
                 const field = newSchool.edited_school_minimum_gpa_required[`edited_${name}` as keyof object] as any;
                 setNewSchool({
@@ -351,7 +351,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (name.includes('required')) {
                 setNewSchool({
                     ...newSchool,
@@ -375,7 +375,7 @@ export default function GPA({ newSchool, setNewSchool, handleInputChange, logged
                         }
                     })
                 }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (name.includes('required')) {
                 const field = newSchool.edited_school_minimum_gpa_required[`edited_${name}` as keyof object] as any;
                 setNewSchool({

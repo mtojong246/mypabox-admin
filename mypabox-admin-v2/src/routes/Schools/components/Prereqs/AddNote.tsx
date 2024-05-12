@@ -28,7 +28,6 @@ export default function AddNote({ loggedInUser, toggleNotePopup, addNote, edited
     }, [editedNote])
 
     const handleType = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target)
         setOptionalNote({
             ...optionalNote,
             type: (e.target as HTMLInputElement).value,

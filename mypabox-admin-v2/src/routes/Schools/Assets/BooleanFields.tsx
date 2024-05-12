@@ -71,7 +71,7 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
                 <label className="relative inline-flex items-center cursor-pointer">
                     <input disabled={isOriginalInputDisabled} type="checkbox" className="sr-only peer" name={name} onChange={(e:ChangeEvent<HTMLInputElement>) => handleCheck(e, false)} checked={originalInput ? true : false}  />
                     <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                    <span className={`ml-3 text-black text-xl`}>
+                    <span className={`ml-3 text-black text-xl ${isOriginalInputDisabled && input !== null && 'line-through' }`}>
                     {label ? label : originalInput ? 'True' : 'False'}
                     </span>
                 </label>

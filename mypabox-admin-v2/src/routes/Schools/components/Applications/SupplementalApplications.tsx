@@ -139,7 +139,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
     // };
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_supplemental_application_required: {
@@ -147,7 +147,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                     school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_supplemental_application_required: {
@@ -160,7 +160,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_supplemental_application_required: {
@@ -174,7 +174,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_supplemental_application_required: {
@@ -194,7 +194,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_supplemental_application_required: {
@@ -202,7 +202,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                     school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_supplemental_application_required: {

@@ -62,7 +62,7 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_paid_experience_required: {
@@ -70,7 +70,7 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
                     school_paid_experience_required_notes: newSchool.school_paid_experience_required.school_paid_experience_required_notes.concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_paid_experience_required: {
@@ -83,7 +83,7 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
     }
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_paid_experience_required: {
@@ -97,7 +97,7 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_paid_experience_required: {
@@ -117,7 +117,7 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault()
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_paid_experience_required: {
@@ -125,7 +125,7 @@ export default function Experience({ newSchool, setNewSchool, loggedInUser, isEd
                     school_paid_experience_required_notes: newSchool.school_paid_experience_required.school_paid_experience_required_notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_paid_experience_required: {

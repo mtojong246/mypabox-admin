@@ -359,7 +359,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
     };
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -368,7 +368,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     notes: (field.notes as Note[]).concat(note),
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof object] as any;
             setNewSchool({
                 ...newSchool,
@@ -383,7 +383,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -398,7 +398,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof object] as any;
             setNewSchool({
                 ...newSchool,
@@ -419,7 +419,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -428,7 +428,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     notes: (field.notes as Note[]).filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof object] as any;
             setNewSchool({
                 ...newSchool,

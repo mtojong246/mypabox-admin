@@ -202,7 +202,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
     };
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_application_submitted_on_caspa: {
@@ -210,7 +210,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
                     school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.concat(note),
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_application_submitted_on_caspa: {
@@ -223,7 +223,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_application_submitted_on_caspa: {
@@ -237,7 +237,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_application_submitted_on_caspa: {
@@ -257,7 +257,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_application_submitted_on_caspa: {
@@ -265,7 +265,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
                     school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_application_submitted_on_caspa: {

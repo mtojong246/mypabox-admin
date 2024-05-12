@@ -90,7 +90,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
     };
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_accreditation_status: {
@@ -98,7 +98,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                     notes: newSchool.school_accreditation_status.notes.concat(note),
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_accreditation_status: {
@@ -111,7 +111,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_accreditation_status: {
@@ -125,7 +125,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_accreditation_status: {
@@ -145,7 +145,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_accreditation_status: {
@@ -153,7 +153,7 @@ export default function AccreditationStatus({newSchool, setNewSchool, loggedInUs
                     notes: newSchool.school_accreditation_status.notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_accreditation_status: {

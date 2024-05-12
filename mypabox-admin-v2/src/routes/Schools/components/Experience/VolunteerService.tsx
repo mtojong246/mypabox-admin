@@ -57,7 +57,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (isGroup) {
                 setNewSchool({
                     ...newSchool,
@@ -79,7 +79,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                     }
                 })
             }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (isGroup) {
                 setNewSchool({
                     ...newSchool,
@@ -106,7 +106,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
     }
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (isGroup) {
                 setNewSchool({
                     ...newSchool,
@@ -140,7 +140,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                     }
                 })
             }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (isGroup) {
                 setNewSchool({
                     ...newSchool,
@@ -180,7 +180,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
 
     const deleteNote = (e: any, index: number, name?: string, noteName?: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             if (!name && !noteName) {
                 setNewSchool({
                     ...newSchool,
@@ -202,7 +202,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                     }
                 })
             }
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             if (!name && !noteName) {
                 setNewSchool({
                     ...newSchool,

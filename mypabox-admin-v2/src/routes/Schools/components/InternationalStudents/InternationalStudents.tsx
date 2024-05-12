@@ -54,7 +54,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
     };
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_international_students_accepted: {
@@ -62,7 +62,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
                     notes: newSchool.school_international_students_accepted.notes.concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_international_students_accepted: {
@@ -75,7 +75,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_international_students_accepted: {
@@ -89,7 +89,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_international_students_accepted: {
@@ -109,7 +109,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_international_students_accepted: {
@@ -117,7 +117,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
                     notes: newSchool.school_international_students_accepted.notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_international_students_accepted: {

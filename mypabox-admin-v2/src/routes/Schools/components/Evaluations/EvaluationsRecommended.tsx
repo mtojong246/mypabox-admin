@@ -425,7 +425,7 @@ export default function EvaluationsRecommended({
   }
 
   const addNote = (note: Note) => {
-    if (loggedInUser.permissions.canAddOrDelete) {
+    if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
       setNewSchool({
         ...newSchool,
         school_evaluations_recommended: {
@@ -436,7 +436,7 @@ export default function EvaluationsRecommended({
             ),
         },
       });
-    } else {
+    } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
       setNewSchool({
         ...newSchool,
         edited_school_evaluations_recommended: {
@@ -452,7 +452,7 @@ export default function EvaluationsRecommended({
   };
 
   const updateNote = (note: Note) => {
-    if (loggedInUser.permissions.canAddOrDelete) {
+    if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
       setNewSchool({
         ...newSchool,
         school_evaluations_recommended: {
@@ -469,7 +469,7 @@ export default function EvaluationsRecommended({
             ),
         },
       });
-    } else {
+    } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
       setNewSchool({
         ...newSchool,
         edited_school_evaluations_recommended: {
@@ -492,7 +492,7 @@ export default function EvaluationsRecommended({
 
   const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
     e.preventDefault();
-    if (loggedInUser.permissions.canAddOrDelete) {
+    if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
       setNewSchool({
         ...newSchool,
         school_evaluations_recommended: {
@@ -503,7 +503,7 @@ export default function EvaluationsRecommended({
             ),
         },
       });
-    } else {
+    } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
       setNewSchool({
         ...newSchool,
         edited_school_evaluations_recommended: {

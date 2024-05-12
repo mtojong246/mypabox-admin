@@ -144,7 +144,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_pacat: {
@@ -152,7 +152,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
                     school_pacat_exam_notes: newSchool.school_pacat.school_pacat_exam_notes.concat(note)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_pacat: {
@@ -165,7 +165,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
     }
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_pacat: {
@@ -179,7 +179,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_pacat: {
@@ -198,7 +198,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
     }
 
     const deleteNote = (e:any, index: number) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 school_pacat: {
@@ -206,7 +206,7 @@ export default function PACAT({ newSchool, setNewSchool, loggedInUser, isEdit }:
                     school_pacat_exam_notes: newSchool.school_pacat.school_pacat_exam_notes.filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             setNewSchool({
                 ...newSchool,
                 edited_school_pacat: {

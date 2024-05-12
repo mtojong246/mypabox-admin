@@ -122,7 +122,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
 
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -131,7 +131,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                     notes: (field.notes as Note[]).concat(note),
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof School] as any;
             setNewSchool({
                 ...newSchool,
@@ -145,7 +145,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
     };
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -160,7 +160,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                     })
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof School] as any;
             setNewSchool({
                 ...newSchool,
@@ -181,7 +181,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const field = newSchool[name as keyof School] as StringInputWithFields | BooleanInput;
             setNewSchool({
                 ...newSchool,
@@ -190,7 +190,7 @@ export default function DegreeInfo({newSchool, setNewSchool, loggedInUser, isEdi
                     notes: (field.notes as Note[]).filter((n,i) => i !== index)
                 }
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const field = newSchool[`edited_${name}` as keyof School] as any;
             setNewSchool({
                 ...newSchool,
