@@ -48,6 +48,8 @@ export default function SelectFieldsGroup({loggedInUser, isEdit, input, original
         }
     }, [input, originalInput, isEditMode]);
 
+
+
     return (
         <>
         <div className='flex flex-col justify-start items-start gap-3 grow'>

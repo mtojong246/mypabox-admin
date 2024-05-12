@@ -35,6 +35,8 @@ export default function ReqField({loggedInUser, input, originalInput, isEditMode
     toggleOptions: (e:MouseEvent<HTMLButtonElement>) => void,
     courses: Course[],
 }) {
+
+
     return (
         <>
         {input !== null && input.length > 0 && (

@@ -18,6 +18,15 @@ const defaultCourse = {
     school_recommended_course_note_section: '',
 }
 
+interface RecCourseType {
+    school_recommended_course_id: string,
+    school_recommended_course_lab: boolean,
+    school_recommended_course_lab_preferred: boolean,
+    school_recommended_course_credit_hours: number,
+    school_recommended_course_quarter_hours: number,
+    school_recommended_course_note_section: string,
+}
+
 export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit, editedRecommendedCourse, setEditedRecommendedCourse,newSchool, setNewSchool, loggedInUser, input, originalInput, groupIndex }: { 
     toggleRecommendedCourses: (e:any) => void,
     editedRecommendedCourse: any | null,
@@ -39,7 +48,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
 }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
-    const [ recommendedCourse, setRecommendedCourse ] = useState(defaultCourse);
+    const [ recommendedCourse, setRecommendedCourse ] = useState<RecCourseType | null>(null);
     const [ editedOption, setEditedOption ] = useState<{
         school_recommended_course_id: string;
         school_recommended_course_lab: boolean;
@@ -56,7 +65,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
 
 
     const addCourseOrCategory = (isEditedInput: boolean) => {
-        if (!isEditedInput) {
+        if (!isEditedInput && recommendedCourse) {
             const field = newSchool.school_prereq_recommended_courses;
             setNewSchool({
                 ...newSchool,
@@ -76,7 +85,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
     }
 
      const updateCourseOrCategory = (isEditedInput: boolean) => {
-        if (!isEditedInput) {
+        if (!isEditedInput && recommendedCourse) {
             setNewSchool({
                 ...newSchool,
                 school_prereq_recommended_courses: newSchool.school_prereq_recommended_courses.map((group,i) => {
@@ -205,7 +214,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
     }, [editedRecommendedCourse, input])
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
-        if (!isEditedInput) {
+        if (!isEditedInput && recommendedCourse) {
             setRecommendedCourse({
                 ...recommendedCourse,
                 [e.target.name]: e.target.value, 
@@ -220,7 +229,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
     }
 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
-        if (!isEditedInput) {
+        if (!isEditedInput && recommendedCourse) {
             setRecommendedCourse({
                 ...recommendedCourse, 
                 [e.target.name]: e.target.checked
@@ -236,7 +245,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
 
     const handleSelection = (e:any, category: string, isEditedInput: boolean) => {
         const selectedCourse = courses.find(course => course.course_name === e.value);
-        if (!isEditedInput && selectedCourse) {
+        if (!isEditedInput && selectedCourse && recommendedCourse) {
             setSelection(e.value)
             setRecommendedCourse({
                 ...recommendedCourse,
@@ -258,7 +267,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
         } else {
             note = e
         }
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canAddOrDelete && recommendedCourse) {
             setRecommendedCourse({
                 ...recommendedCourse,
                 school_recommended_course_note_section: note,
@@ -275,7 +284,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
 
     const addOrEditCourse = (e:any, isEditedInput: boolean) => {
         e.preventDefault();
-        if (!input && !recommendedCourse.school_recommended_course_id) {
+        if (!input && recommendedCourse && !recommendedCourse.school_recommended_course_id) {
             alert('Please select a course')
         } else if (input && editedOption && !editedOption.school_recommended_course_id) {
             alert('Please select a course')
@@ -299,19 +308,19 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
                         <SelectFieldsGroup isEdit={isEdit} isBlank={isBlank} label={editedSelection} originalLabel={selection} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} input={editedOption && editedOption.school_recommended_course_id} handleSelect={handleSelection} 
-                        originalInput={recommendedCourse.school_recommended_course_id} category='school_recommended_course_id' name='school_recommended_course_id' options={courseOptions}/>
+                        originalInput={recommendedCourse && recommendedCourse.school_recommended_course_id} category='school_recommended_course_id' name='school_recommended_course_id' options={courseOptions}/>
                         {/* <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} className='w-full focus:outline-none rounded mt-2' options={courseOptions}/> */}
                     </div>
                     {/* <div className='w-full mb-8 flex justify-start items-center gap-10'> */}
                         <div className='w-full mb-8'>
-                            <BooleanFields isEdit={isEdit} newSchool={newSchool}  isBlank={isBlank} label="With Lab" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} input={editedOption && editedOption.school_recommended_course_lab} originalInput={recommendedCourse.school_recommended_course_lab}
+                            <BooleanFields isEdit={isEdit} newSchool={newSchool}  isBlank={isBlank} label="With Lab" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} input={editedOption && editedOption.school_recommended_course_lab} originalInput={recommendedCourse && recommendedCourse.school_recommended_course_lab}
                             name='school_recommended_course_lab' handleCheck={handleCheck} />
                             {/* <input type='checkbox' className='mr-2' name='school_recommended_course_lab' onChange={handleCheck} checked={recommendedCourse.school_recommended_course_lab ? true : false}/> */}
                             {/* <label className='font-medium'>With Lab</label> */}
                         </div>
                         <div className='w-full mb-8'>
                             <BooleanFields isEdit={isEdit} newSchool={newSchool}  isBlank={isBlank} label="Lab Preferred" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} input={editedOption && editedOption.school_recommended_course_lab_preferred} 
-                            originalInput={recommendedCourse.school_recommended_course_lab_preferred} name='school_recommended_course_lab_preferred' handleCheck={handleCheck}/>
+                            originalInput={recommendedCourse && recommendedCourse.school_recommended_course_lab_preferred} name='school_recommended_course_lab_preferred' handleCheck={handleCheck}/>
                             {/* <input type='checkbox' className='mr-2' name='school_recommended_course_lab_preferred' onChange={handleCheck} checked={recommendedCourse.school_recommended_course_lab_preferred ? true : false}/>
                             <label className='font-medium'>Lab Preferred</label> */}
                         </div>
@@ -319,20 +328,20 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Credits:</label>
                         <InputFields isEdit={isEdit} newSchool={newSchool} isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} input={editedOption && editedOption.school_recommended_course_credit_hours}
-                        originalInput={recommendedCourse.school_recommended_course_credit_hours} name='school_recommended_course_credit_hours' handleInput={handleInput}
+                        originalInput={recommendedCourse && recommendedCourse.school_recommended_course_credit_hours} name='school_recommended_course_credit_hours' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={recommendedCourse.school_recommended_course_credit_hours ? recommendedCourse.school_recommended_course_credit_hours : ''} name='school_recommended_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Quarter hours:</label>
                         <InputFields isEdit={isEdit} newSchool={newSchool} isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} input={editedOption && editedOption.school_recommended_course_quarter_hours}
-                        originalInput={recommendedCourse.school_recommended_course_quarter_hours} name='school_recommended_course_quarter_hours' handleInput={handleInput}
+                        originalInput={recommendedCourse && recommendedCourse.school_recommended_course_quarter_hours} name='school_recommended_course_quarter_hours' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={recommendedCourse.school_recommended_course_quarter_hours ? recommendedCourse.school_recommended_course_quarter_hours : ''} name='school_recommended_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>
-                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={editedOption ? editedOption.school_recommended_course_note_section : recommendedCourse.school_recommended_course_note_section}/>
+                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={editedOption ? editedOption.school_recommended_course_note_section : recommendedCourse ? recommendedCourse.school_recommended_course_note_section : ''}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={(e) => {toggleRecommendedCourses(e); setEditedRecommendedCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>

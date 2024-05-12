@@ -18,6 +18,15 @@ const defaultCourse = {
     school_required_course_note_section: '',
 }
 
+interface ReqCourseType {
+    school_required_course_id: string,
+    school_required_course_lab: boolean,
+    school_required_course_lab_preferred: boolean,
+    school_required_course_credit_hours: number,
+    school_required_course_quarter_hours: number,
+    school_required_course_note_section: string,
+}
+
 export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequiredCourses, editedRequiredCourse, setEditedRequiredCourse, newSchool, setNewSchool, input, originalInput, groupIndex }: { 
     toggleRequiredCourses: (e:any) => void, 
     loggedInUser: UserObject,
@@ -39,14 +48,7 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
 }) {
     const courses = useSelector(selectCourses)
     const [ courseOptions, setCourseOptions ] = useState<{ value: string, label: string }[]>([]);
-    const [ requiredCourse, setRequiredCourse ] = useState({
-        school_required_course_id: '',
-        school_required_course_lab: false,
-        school_required_course_lab_preferred: false,
-        school_required_course_credit_hours: 0,
-        school_required_course_quarter_hours: 0,
-        school_required_course_note_section: '',
-    });
+    const [ requiredCourse, setRequiredCourse ] = useState<ReqCourseType | null>(null);
     const [ editedOption, setEditedOption ] = useState<{
         school_required_course_id:  string,
         school_required_course_lab: boolean,
@@ -74,34 +76,10 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
         )))
     }, [courses, newSchool.school_prereq_required_courses])
 
-    // useEffect(() => {
-    //     if (selection) {
-    //         const selectedCourse = courses.find(course => course.course_name === selection)
-    //         if (selectedCourse) {
-    //             setRequiredCourse({
-    //                 ...requiredCourse,
-    //                 school_required_course_id: selectedCourse.unique_id,
-    //             })
-    //         }
-    //     }
-    // }, [selection, courses])
-
-    // useEffect(() => {
-        
-    //     if (editedRequiredCourse) {
-    //         const selectedCourse = courses.find(course => course.unique_id === editedRequiredCourse.school_required_course_id)
-    //         if (selectedCourse) {
-    //             setRequiredCourse(editedRequiredCourse);
-    //             setSelection(selectedCourse.course_name)
-    //         }
-    //     } else {
-    //         setRequiredCourse(defaultCourse)
-    //         setSelection('')
-    //     }
-    // }, [editedRequiredCourse, courses])
+   
 
     const addCourseOrCategory = (isEditedInput: boolean) => {
-        if (!isEditedInput) {
+        if (!isEditedInput && requiredCourse) {
             const field = newSchool.school_prereq_required_courses;
             setNewSchool({
                 ...newSchool,
@@ -121,7 +99,7 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
     }
 
     const updateCourseOrCategory = (isEditedInput: boolean) => {
-        if (!isEditedInput) {
+        if (!isEditedInput && requiredCourse) {
             setNewSchool({
                 ...newSchool,
                 school_prereq_required_courses: newSchool.school_prereq_required_courses.map((group,i) => {
@@ -152,7 +130,7 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
     }
 
     useEffect(() => {
-        if (editedRequiredCourse) {
+        if (editedRequiredCourse !== null) {
              
             if (input) {
                 setEditedOption(editedRequiredCourse);
@@ -163,6 +141,7 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
                     setEditedSelection('');
                 }
                 const opt = originalInput.find((inp,i) => i === groupIndex);
+                
                 if (opt) {
                     setRequiredCourse(opt);
                     const selectedCourse = courses.find(course => course.unique_id === opt.school_required_course_id)
@@ -184,7 +163,9 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
                     setSelection('');
                 };
                 setEditedSelection('');
-                setEditedOption(null)
+                setEditedOption(null);
+
+                
             }
             setIsBlank(false);
         } else {
@@ -210,11 +191,12 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
             setIsBlank(true);
             
         }
-    }, [editedRequiredCourse, input])
+    }, [editedRequiredCourse, input, originalInput, groupIndex, courses]);
 
+  
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
-        if (!isEditedInput) {
+        if (!isEditedInput && requiredCourse) {
             setRequiredCourse({
                 ...requiredCourse,
                 [e.target.name]: e.target.value, 
@@ -229,13 +211,13 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
     }
 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
-        if (!isEditedInput) {
+        if (!isEditedInput && requiredCourse) {
             setRequiredCourse({
                 ...requiredCourse, 
                 [e.target.name]: e.target.checked
             })
         } else {
-            editedOption &&setEditedOption({
+            editedOption && setEditedOption({
                 ...editedOption,
                 [e.target.name]: e.target.checked,
             })
@@ -245,7 +227,7 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
 
     const handleSelection = (e:any, category: string, isEditedInput: boolean) => {
         const selectedCourse = courses.find(course => course.course_name === e.value);
-        if (!isEditedInput && selectedCourse) {
+        if (!isEditedInput && selectedCourse && requiredCourse) {
             setSelection(e.value)
             setRequiredCourse({
                 ...requiredCourse,
@@ -267,7 +249,7 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
         } else {
             note = e
         }
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canAddOrDelete && requiredCourse) {
             setRequiredCourse({
                 ...requiredCourse,
                 school_required_course_note_section: note,
@@ -283,7 +265,7 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
 
     const addOrEditCourse = (e:any, isEditedInput: boolean) => {
         e.preventDefault();
-        if (!input && !requiredCourse.school_required_course_id) {
+        if (!input && requiredCourse && !requiredCourse.school_required_course_id) {
             alert('Please select a course')
         } else if (input && editedOption && !editedOption.school_required_course_id) {
             alert('Please select a course')
@@ -298,6 +280,9 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
         }
     }
 
+    console.log(requiredCourse)
+
+
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-50'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
@@ -307,12 +292,12 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Course name:</label>
                         <SelectFieldsGroup isEdit={isEdit} isBlank={isBlank} label={editedSelection} originalLabel={selection} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_id} handleSelect={handleSelection} 
-                        originalInput={requiredCourse.school_required_course_id} category='school_required_course_id' name='school_required_course_id' options={courseOptions}/>
+                        originalInput={requiredCourse && requiredCourse.school_required_course_id} category='school_required_course_id' name='school_required_course_id' options={courseOptions}/>
                         {/* <Select onChange={(e) => setSelection(e?.value)} value={selection ? { value: selection, label: selection } : null} className='w-full focus:outline-none rounded mt-2' options={courseOptions}/> */}
                     </div>
                     {/* <div className='w-full mb-8 flex justify-start items-center gap-10'> */}
                         <div className='w-full mb-8'>
-                            <BooleanFields isEdit={isEdit} newSchool={newSchool}  isBlank={isBlank} label="With Lab" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_lab} originalInput={requiredCourse.school_required_course_lab}
+                            <BooleanFields isEdit={isEdit} newSchool={newSchool}  isBlank={isBlank} label="With Lab" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_lab} originalInput={requiredCourse && requiredCourse.school_required_course_lab}
                             name='school_required_course_lab' handleCheck={handleCheck}
                             />
                             {/* <input type='checkbox' name='school_required_course_lab' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab ? true : false}/> */}
@@ -320,7 +305,7 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
                         </div>
                         <div className='w-full mb-8'>
                             <BooleanFields isEdit={isEdit} newSchool={newSchool}  isBlank={isBlank} label="Lab Preferred" loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_lab_preferred} 
-                            originalInput={requiredCourse.school_required_course_lab_preferred} name='school_required_course_lab_preferred' handleCheck={handleCheck}
+                            originalInput={requiredCourse && requiredCourse.school_required_course_lab_preferred} name='school_required_course_lab_preferred' handleCheck={handleCheck}
                             />
                             {/* <input type='checkbox' name='school_required_course_lab_preferred' className='mr-2' onChange={handleCheck} checked={requiredCourse.school_required_course_lab_preferred ? true : false}/> */}
                             {/* <label className='font-medium'>Lab Preferred</label> */}
@@ -329,20 +314,20 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Credits:</label>
                         <InputFields isEdit={isEdit} newSchool={newSchool} isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_credit_hours}
-                        originalInput={requiredCourse.school_required_course_credit_hours} name='school_required_course_credit_hours' handleInput={handleInput}
+                        originalInput={requiredCourse && requiredCourse.school_required_course_credit_hours} name='school_required_course_credit_hours' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={requiredCourse.school_required_course_credit_hours ? requiredCourse.school_required_course_credit_hours : ''} name='school_required_course_credit_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                     </div>
                     <div className='w-full mb-8'>
                         <label className='font-medium'>Quarter hours:</label>
                         <InputFields isEdit={isEdit} newSchool={newSchool} isBlank={isBlank} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} input={editedOption && editedOption.school_required_course_quarter_hours} 
-                        originalInput={requiredCourse.school_required_course_quarter_hours} name='school_required_course_quarter_hours' handleInput={handleInput}
+                        originalInput={requiredCourse && requiredCourse.school_required_course_quarter_hours} name='school_required_course_quarter_hours' handleInput={handleInput}
                         />
                         {/* <input onChange={handleInput} value={requiredCourse.school_required_course_quarter_hours ? requiredCourse.school_required_course_quarter_hours : ''} name='school_required_course_quarter_hours' className='w-32 focus:outline-none border border-[#B4B4B4] py-2 px-3 rounded mt-2 block' /> */}
                     </div>
                     <div className='w-full mb-14'>
                         <label className='font-medium'>Note:</label>
-                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={editedOption ? editedOption.school_required_course_note_section : requiredCourse.school_required_course_note_section}/>
+                        <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={editedOption ? editedOption.school_required_course_note_section : requiredCourse ? requiredCourse.school_required_course_note_section : ''}/>
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={(e) => {toggleRequiredCourses(e); setEditedRequiredCourse(null)}} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
