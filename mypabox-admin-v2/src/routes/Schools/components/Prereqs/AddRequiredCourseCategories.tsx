@@ -381,12 +381,12 @@ export default function AddRequiredCourseCategories({ isEdit, loggedInUser, togg
 
     // Adds new note to course category
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setRequiredCategory({
                 ...requiredCategory,
                 school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.concat(note),
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             editedOption && setEditedOption({
                 ...editedOption,
                 school_required_course_category_note_section: editedOption.school_required_course_category_note_section.concat(note),
@@ -397,7 +397,7 @@ export default function AddRequiredCourseCategories({ isEdit, loggedInUser, togg
 
     // Updates note from course category using set index 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setRequiredCategory({
                 ...requiredCategory, 
                 school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.map((n,i) => {
@@ -408,7 +408,7 @@ export default function AddRequiredCourseCategories({ isEdit, loggedInUser, togg
                     }
                 })
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             editedOption && setEditedOption({
                 ...editedOption, 
                 school_required_course_category_note_section: editedOption.school_required_course_category_note_section.map((n,i) => {
@@ -430,12 +430,12 @@ export default function AddRequiredCourseCategories({ isEdit, loggedInUser, togg
     // Deletes note from category
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setRequiredCategory({
                 ...requiredCategory,
                 school_required_course_category_note_section: requiredCategory.school_required_course_category_note_section.filter((course,i) => i !== index)
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             editedOption && setEditedOption({
                 ...editedOption,
                 school_required_course_category_note_section: editedOption.school_required_course_category_note_section.filter((course,i) => i !== index)

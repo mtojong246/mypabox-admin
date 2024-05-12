@@ -238,7 +238,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
     }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const obj = newSchool.school_minimum_gpa_for_specific_course.find((obj, i) => i === objIndex) as MinimumGpaSpecificCourse;
 
             const currentField = newSchool.school_minimum_gpa_for_specific_course
@@ -253,7 +253,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
                     ...newSchool,
                     school_minimum_gpa_for_specific_course: updatedField,
                 })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const obj = newSchool.edited_school_minimum_gpa_for_specific_course.input!.find((obj, i) => i === objIndex);
 
             const currentField = newSchool.edited_school_minimum_gpa_for_specific_course;
@@ -279,7 +279,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
         }
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const obj = newSchool.school_minimum_gpa_for_specific_course.find((obj, i) => i === objIndex) as MinimumGpaSpecificCourse;
 
             const currentField = newSchool.school_minimum_gpa_for_specific_course
@@ -300,7 +300,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
                     ...newSchool,
                     school_minimum_gpa_for_specific_course: updatedField,
                 })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const obj = newSchool.edited_school_minimum_gpa_for_specific_course.input!.find((obj, i) => i === objIndex);
 
             const currentField = newSchool.edited_school_minimum_gpa_for_specific_course;
@@ -332,7 +332,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
     };
 
     const deleteNote = (e: any, index: number, name: string, noteName?: string, isIndividual?: boolean, objIndex?: number) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             const obj = newSchool.school_minimum_gpa_for_specific_course.find((obj, i) => i === objIndex) as MinimumGpaSpecificCourse;
 
             const currentField = newSchool.school_minimum_gpa_for_specific_course
@@ -348,7 +348,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
                     school_minimum_gpa_for_specific_course: updatedField,
                 })
                 
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             const obj = newSchool.edited_school_minimum_gpa_for_specific_course.input!.find((obj, i) => i === objIndex);
 
             const currentField = newSchool.edited_school_minimum_gpa_for_specific_course
@@ -401,7 +401,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
         <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
         <Screen isEdit={isEdit} editedInput={newSchool.edited_school_minimum_gpa_for_specific_course.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode} />
             <div className='absolute top-[-16px] left-[20px] flex justify-between items-center w-full pr-[40px]'>
-            <Indicator label="Minimum GPA for Specific Courses" editedInput={newSchool.edited_school_minimum_gpa_for_specific_course.input} />
+            <Indicator isArrayField={true} label="Minimum GPA for Specific Courses" editedInput={newSchool.edited_school_minimum_gpa_for_specific_course.input} />
                 {!loggedInUser.permissions.canVerify && input && !input.isCorrect && !input.isNew ? 
                 <button disabled={!newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode ? true : false} onClick={(e:MouseEvent<HTMLButtonElement>) => undoDelete(e, i)} className={`bg-[#4573D2] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#26354C] ${i > 0 ? 'block' : 'hidden'}`}>Undo</button> : 
                     <button disabled={(!loggedInUser.permissions.canVerify && !newSchool.edited_school_minimum_gpa_for_specific_course.isEditMode) || (loggedInUser.permissions.canVerify && newSchool.edited_school_minimum_gpa_for_specific_course.input !== null) ? true : false} onClick={(e:any) => {input === null ? deleteField(e, i, false, false) : deleteField(e, i, input!.isNew, true)}} className={`bg-[#F06A6A] rounded text-white text-sm px-3 py-1 font-bold hover:bg-[#B52020] relative z-20 ${i > 0 ? 'block' : 'hidden'}`}>- Delete Field</button>}

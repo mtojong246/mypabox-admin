@@ -162,7 +162,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
     };
 
     useEffect(() => {
-        if (newSchool.edited_school_evaluations_required.input !== null || newSchool.edited_school_evaluations_required.edited_school_required_evaluator_title.input !== null) {
+        if (newSchool.edited_school_evaluations_required.input !== null) {
             setHasInputs(true)
         } else {
             setHasInputs(null)

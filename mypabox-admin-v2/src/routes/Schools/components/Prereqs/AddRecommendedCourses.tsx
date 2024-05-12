@@ -267,12 +267,12 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
         } else {
             note = e
         }
-        if (loggedInUser.permissions.canAddOrDelete && recommendedCourse) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded && recommendedCourse) {
             setRecommendedCourse({
                 ...recommendedCourse,
                 school_recommended_course_note_section: note,
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
            editedOption && setEditedOption({
                 ...editedOption,
                 school_recommended_course_note_section: note,

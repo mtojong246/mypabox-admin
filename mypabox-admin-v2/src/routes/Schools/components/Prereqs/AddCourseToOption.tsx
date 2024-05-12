@@ -233,12 +233,12 @@ export default function AddCourseToOption({ newSchool, isEdit, loggedInUser, tog
         } else {
             note = e
         }
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setOptionalCourse({
                 ...optionalCourse,
                 school_optional_course_note_section: note,
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             editedOption && setEditedOption({
                 ...editedOption,
                 school_optional_course_note_section: note,

@@ -117,8 +117,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_evaluations_required: {
                     ...field,
                     isEditMode: false,
-                    input: field.input === originalField.input ? null : field.input,
-                    prev: field.input === originalField.input ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                     edited_school_minimum_number_of_evaluations_required: {
                         ...field.edited_school_minimum_number_of_evaluations_required,
                         input: field.edited_school_minimum_number_of_evaluations_required.input === originalField.school_minimum_number_of_evaluations_required ? null : field.edited_school_minimum_number_of_evaluations_required.input,
@@ -159,8 +159,8 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
                 edited_school_evaluations_recommended: {
                     ...field,
                     isEditMode: false,
-                    input: field.input === originalField.input ? null : field.input,
-                    prev: field.input === originalField.input ? null : field.input,
+                    input: field.input,
+                    prev: field.input,
                     edited_school_minimum_number_of_evaluations_recommended: {
                         ...field.edited_school_minimum_number_of_evaluations_recommended,
                         input: field.edited_school_minimum_number_of_evaluations_recommended.input === originalField.school_minimum_number_of_evaluations_recommended ? null : field.edited_school_minimum_number_of_evaluations_recommended.input,

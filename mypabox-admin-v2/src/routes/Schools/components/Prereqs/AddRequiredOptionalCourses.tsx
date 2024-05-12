@@ -204,12 +204,12 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
     // }
 
     const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setGroup({
                 ...group,
                 school_optional_course_note_section: group.school_optional_course_note_section.concat(note)
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             editedGroup && setEditedGroup({
                 ...editedGroup,
                 school_optional_course_note_section: editedGroup.school_optional_course_note_section.concat(note)
@@ -219,7 +219,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
     }
 
     const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setGroup({
                 ...group, 
                 school_optional_course_note_section: group.school_optional_course_note_section.map((n,i) => {
@@ -230,7 +230,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                     }
                 })
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             editedGroup && setEditedGroup({
                 ...editedGroup, 
                 school_optional_course_note_section: editedGroup.school_optional_course_note_section.map((n,i) => {
@@ -284,12 +284,12 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
 
     const deleteNote = (e: any, index: number, name: string) => {
         e.preventDefault();
-        if (loggedInUser.permissions.canAddOrDelete) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
             setGroup({
                 ...group,
                 school_optional_course_note_section: group.school_optional_course_note_section.filter((course, i) => i !== index)
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             editedGroup && setEditedGroup({
                 ...editedGroup,
                 school_optional_course_note_section: editedGroup.school_optional_course_note_section.filter((course, i) => i !== index)

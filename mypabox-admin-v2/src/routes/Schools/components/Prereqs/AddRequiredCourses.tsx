@@ -249,12 +249,12 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
         } else {
             note = e
         }
-        if (loggedInUser.permissions.canAddOrDelete && requiredCourse) {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded && requiredCourse) {
             setRequiredCourse({
                 ...requiredCourse,
                 school_required_course_note_section: note,
             })
-        } else {
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
             editedOption && setEditedOption({
                 ...editedOption,
                 school_required_course_note_section: note,
@@ -280,7 +280,6 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
         }
     }
 
-    console.log(requiredCourse)
 
 
     return (
