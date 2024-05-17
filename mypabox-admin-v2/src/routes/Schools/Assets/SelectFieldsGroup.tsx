@@ -48,7 +48,7 @@ export default function SelectFieldsGroup({loggedInUser, isEdit, input, original
         }
     }, [input, originalInput, isEditMode]);
 
-
+    console.log(originalLabel, originalInput)
 
     return (
         <>
@@ -58,7 +58,7 @@ export default function SelectFieldsGroup({loggedInUser, isEdit, input, original
                 options={options} value={{value: input, label: label ? label : input}}/>
             )}
             {isOriginalFieldShown && (
-                <Select isDisabled={isOriginalInputDisabled} className={`w-full focus:outline-none rounded ${input ? 'line-through' : 'no-underline'}`}
+                <Select onChange={(e:any) => {index !== undefined && handleSelectInArray !== undefined ? handleSelectInArray(e, category, index, false) :  handleSelect(e, category, false)}} isDisabled={isOriginalInputDisabled} className={`w-full focus:outline-none rounded ${input ? 'line-through' : 'no-underline'}`}
                 options={options} value={{value: originalInput, label: originalLabel ? originalLabel : originalInput}}/>
             )}
 
