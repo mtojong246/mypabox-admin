@@ -533,7 +533,7 @@ export default function AddSchool() {
           </div>
         </div>
         <div className={`flex justify-start items-start gap-10 `}>
-          <div className={`text-md py-4 sticky border-r border-[#DCDCDC] ${tab === '#accreditation-status' || tab === '#mission-statement' ? 'min-h-0' : 'min-h-screen'} pr-10 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
+          <div className={`text-md py-4 side-max overflow-y-scroll sticky border-r border-[#DCDCDC]  pr-10 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
             <div className='flex flex-col justify-start items-start gap-5'>
             {allCategories.map(category => (
               <button onClick={(e:any) => {handleSave(e, newSchool.id, category.hash)}} 
