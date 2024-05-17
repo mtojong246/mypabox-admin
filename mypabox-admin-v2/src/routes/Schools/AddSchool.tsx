@@ -297,8 +297,7 @@ export default function AddSchool() {
                 navigate('/');
                 return;
             } else {
-                alert('Error adding school');
-                return;
+                console.log(error)
             }
           }
         } else {
@@ -340,7 +339,7 @@ export default function AddSchool() {
               navigate('/');
               return;
             } else {
-                alert('Error adding school');
+                console.log(error)
                 return;
             }
           }
