@@ -109,7 +109,7 @@ export default function OptionalFields({loggedInUser, input, originalInput, isEd
                     </div>
                     {group.school_optional_course_note_section.length > 0 && (
                         <>
-                            <p className='font-semibold underline underline-offset-2 mt-5 mb-2'>Optional Courses Notes:</p>
+                            <p className='font-semibold underline underline-offset-2 mt-5 mb-2'>Optional Course Notes:</p>
                             <div className='flex flex-col justify-center items-center gap-4'>
                             {group.school_optional_course_note_section.map(note => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -165,7 +165,7 @@ export default function OptionalFields({loggedInUser, input, originalInput, isEd
                     </div>
                     {group.school_optional_course_note_section.length > 0 && (
                         <>
-                            <p className='font-semibold underline underline-offset-2 mt-5 mb-2'>Optional Courses Notes:</p>
+                            <p className='font-semibold underline underline-offset-2 mt-5 mb-2'>Optional Course Notes:</p>
                             <div className='flex flex-col justify-center items-center gap-4'>
                             {group.school_optional_course_note_section.map(note => (
                                 <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
