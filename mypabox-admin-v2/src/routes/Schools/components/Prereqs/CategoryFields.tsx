@@ -151,7 +151,7 @@ export default function CategoryFields({loggedInUser, input, originalInput, isEd
                         )}
                         {category.school_required_course_category_note_section.length > 0 && (
                             <>
-                                <p className='font-semibold underline underline-offset-2 mt-6 mb-2'>Optional Course Category Notes:</p>
+                                <p className='font-semibold underline underline-offset-2 mt-6 mb-2'>Course Category Notes:</p>
                                 <div className='flex flex-col justify-center items-center gap-4'>
                                 {category.school_required_course_category_note_section.map(note => (
                                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
@@ -245,7 +245,7 @@ export default function CategoryFields({loggedInUser, input, originalInput, isEd
                         )}
                         {category.school_required_course_category_note_section.length > 0 && (
                             <>
-                                <p className='font-semibold underline underline-offset-2 mt-6 mb-2'>Optional Course Category Notes:</p>
+                                <p className='font-semibold underline underline-offset-2 mt-6 mb-2'>Course Category Notes:</p>
                                 <div className='flex flex-col justify-center items-center gap-4'>
                                 {category.school_required_course_category_note_section.map(note => (
                                     <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>

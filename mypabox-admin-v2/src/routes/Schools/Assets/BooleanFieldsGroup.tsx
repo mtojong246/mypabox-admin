@@ -18,7 +18,6 @@ export default function BooleanFieldsGroup({ loggedInUser, isEdit, input, isEdit
     const [ isOriginalInputDisabled, setIsOriginalInputDisabled ] = useState(false);
 
 
-
     // useEffect(() => {
 
 

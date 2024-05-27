@@ -54,7 +54,7 @@ export default function Applications({ newSchool, setNewSchool, loggedInUser, is
                 ...newSchool,
                 [category]: {
                     ...field,
-                    [e.target.name]: e.target.value,
+                    [e.target.name]: e.target.checked,
                 }
             })
         } else {

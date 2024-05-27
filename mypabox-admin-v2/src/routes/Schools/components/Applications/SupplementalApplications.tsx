@@ -38,6 +38,8 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
         setNotePopup(!notePopup);
       };
 
+      console.log(newSchool.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only)
+
     useEffect(() => {
         if (newSchool.school_supplemental_application_required.input) {
             setNewSchool({
