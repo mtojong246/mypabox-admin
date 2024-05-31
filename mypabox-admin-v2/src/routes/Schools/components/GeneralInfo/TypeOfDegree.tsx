@@ -35,7 +35,7 @@ export default function TypeOfDegree({ loggedInUser, isEditMode, input, original
         {input === null && originalInput.length > 0 && originalInput.map((field,i) => (
                 <div className='flex justify-between items-center border border-[#B4B4B4] rounded mt-3 py-2 pl-3 pr-2'>
                     <p className='font-medium'>{field}</p>
-                    <button disabled onClick={(e:any) => deleteFunc(e,i, false, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
+                    <button onClick={(e:any) => deleteFunc(e,i, false, false)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
                 </div>
             ))}
 
