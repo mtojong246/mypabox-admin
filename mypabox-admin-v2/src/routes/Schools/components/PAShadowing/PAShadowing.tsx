@@ -329,7 +329,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                             Add Note
                         </button>
                         <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_pa_shadowing_required.isEditMode} notes={newSchool.edited_school_pa_shadowing_required.notes} originalNotes={newSchool.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required_notes} name='school_pa_shadowing_required' noteName="school_minimum_pa_shadowing_hours_required_notes" toggleNotePopup={toggleNotePopup}
-                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
                             />
                     </div>
                     )}
@@ -361,7 +361,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                             Add Note
                         </button>
                         <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_pa_shadowing_recommended.isEditMode} notes={newSchool.edited_school_pa_shadowing_recommended.notes} originalNotes={newSchool.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended_notes} name='school_pa_shadowing_recommended' noteName="school_minimum_pa_shadowing_hours_recommended_notes" toggleNotePopup={toggleNotePopup}
-                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                            deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
                             />
                     </div>
                     )}
@@ -384,7 +384,7 @@ export default function PAShadowing({ newSchool, setNewSchool, loggedInUser, isE
                         </button>
                     </div>
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.isEditMode} notes={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.notes} originalNotes={newSchool.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes} name='school_average_pa_shadowing_hours_accepted_previous_cycle' noteName="school_average_pa_shadowing_hours_accepted_previous_cycle_notes" toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
                     />
                 </div>
                 {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.isEditMode} input={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.input} link={newSchool.edited_school_average_pa_shadowing_hours_accepted_previous_cycle.link}

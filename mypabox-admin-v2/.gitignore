@@ -1,3 +1,5 @@
 node_modules/
 
 build/
+
+functions/test/serviceAccountKey.json
