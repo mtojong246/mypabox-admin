@@ -570,13 +570,17 @@ export const defaultSchool: School = {
     },
     school_gpa_general_note: "",
 
-    school_prereq_required_courses: [],
+    school_prereq_required_courses: {
+        courses: [],
+        notes: [],
+    },
     school_prereq_required_optional_courses: [],
     school_prereq_required_course_categories: [],
     school_prereq_recommended_courses: [],
 
     edited_school_prereq_required_courses: {
         link: '',
+        notes: null,
         isEditMode: false,
         input: null,
         prev: null,

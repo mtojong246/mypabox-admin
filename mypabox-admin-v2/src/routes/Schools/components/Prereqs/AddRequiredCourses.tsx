@@ -67,7 +67,7 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
     useEffect(() => {
         let filteredCourses = [] as Course[];
         courses.forEach(course => {
-            if (!newSchool.school_prereq_required_courses.find(c => c.school_required_course_id === course.unique_id)) {
+            if (!newSchool.school_prereq_required_courses.courses.find(c => c.school_required_course_id === course.unique_id)) {
                 filteredCourses.push(course)
             }
         })
@@ -80,10 +80,13 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
 
     const addCourseOrCategory = (isEditedInput: boolean) => {
         if (!isEditedInput && requiredCourse) {
-            const field = newSchool.school_prereq_required_courses;
+            const field = newSchool.school_prereq_required_courses.courses;
             setNewSchool({
                 ...newSchool,
-                school_prereq_required_courses: field.concat(requiredCourse)
+                school_prereq_required_courses: {
+                    ...newSchool.school_prereq_required_courses,
+                    courses: field.concat(requiredCourse),
+                } 
             })
         } else {
             const field = newSchool.edited_school_prereq_required_courses;
@@ -102,13 +105,16 @@ export default function AddRequiredCourses({loggedInUser, isEdit, toggleRequired
         if (!isEditedInput && requiredCourse) {
             setNewSchool({
                 ...newSchool,
-                school_prereq_required_courses: newSchool.school_prereq_required_courses.map((group,i) => {
-                    if (i === groupIndex) {
-                        return { ...requiredCourse }
-                    } else {
-                        return { ...group }
-                    }
-                })
+                school_prereq_required_courses: {
+                    ...newSchool.school_prereq_required_courses,
+                    courses: newSchool.school_prereq_required_courses.courses.map((group,i) => {
+                        if (i === groupIndex) {
+                            return { ...requiredCourse }
+                        } else {
+                            return { ...group }
+                        }
+                    })
+                } 
             })
         } else {
             const field = newSchool.edited_school_prereq_required_courses;

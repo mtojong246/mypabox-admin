@@ -642,7 +642,10 @@ export interface School {
 
     school_gpa_general_note: string;
 
-    school_prereq_required_courses: SchoolPrereqRequiredCourse[];
+    school_prereq_required_courses: {
+        courses: SchoolPrereqRequiredCourse[];
+        notes: Note[];
+    }
     school_prereq_required_optional_courses: SchoolPrereqRequiredOptionalCourse[];
     school_prereq_required_course_categories: SchoolPrereqRequiredCourseCategory[];
     school_prereq_recommended_courses: SchoolPrereqRecommendedCourse[];
@@ -650,6 +653,7 @@ export interface School {
     edited_school_prereq_required_courses: {
         link: string;
         isEditMode: boolean;
+        notes: Note[] | null;
         input: {
             school_required_course_id: string;
             school_required_course_lab: boolean;

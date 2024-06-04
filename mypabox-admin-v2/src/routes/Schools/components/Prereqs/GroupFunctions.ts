@@ -8,12 +8,13 @@ export const enableEditModeGroup = (e: MouseEvent<HTMLButtonElement>, newSchool:
     const name = `edited_${e.currentTarget.name}` as keyof School;
     if (name === 'edited_school_prereq_required_courses') {
         const field = newSchool.edited_school_prereq_required_courses;
-        const originalField = newSchool.school_prereq_required_courses;
+        const originalField = newSchool.school_prereq_required_courses.courses;
         setNewSchool({
             ...newSchool,
             [name]: {
                 ...field,
                 isEditMode: true,
+                notes: field.notes === null ? newSchool.school_prereq_required_courses.notes : field.notes,
                 input: field.input === null ? originalField.map(field => ({
                     school_required_course_id: field.school_required_course_id,
                     school_required_course_lab: field.school_required_course_lab,
@@ -123,11 +124,16 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
             }))
             setNewSchool({
                 ...newSchool,
+                school_prereq_required_courses: {
+                    ...newSchool.school_prereq_required_courses,
+                    notes: field.notes ? field.notes : newSchool.school_prereq_required_courses.notes,
+                },
                 [name]: {
                     ...field,
                     isEditMode: false,
                     input: field.input,
                     prev: field.input,
+                    notes: field.notes,
                 }
             })
         } else if (name === 'edited_school_prereq_recommended_courses') {
@@ -202,20 +208,25 @@ export const confirmEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Sch
     } else {
         if (name === 'edited_school_prereq_required_courses') {
             const field = newSchool.edited_school_prereq_required_courses;
-            const originalField = newSchool.school_prereq_required_courses;
+            const originalField = newSchool.school_prereq_required_courses.courses;
             const correctList = field.input && field.input.filter(inp => inp.isCorrect);
             setNewSchool({
                 ...newSchool,
-                school_prereq_required_courses: correctList ? correctList.map(list => ({
-                    school_required_course_id: list.school_required_course_id,
-                    school_required_course_lab: list.school_required_course_lab,
-                    school_required_course_lab_preferred: list.school_required_course_lab_preferred,
-                    school_required_course_credit_hours: list.school_required_course_credit_hours,
-                    school_required_course_quarter_hours: list.school_required_course_quarter_hours,
-                    school_required_course_note_section: list.school_required_course_note_section,
-                })) : originalField,
+                school_prereq_required_courses: {
+                    ...newSchool.school_prereq_required_courses,
+                    courses: correctList ? correctList.map(list => ({
+                        school_required_course_id: list.school_required_course_id,
+                        school_required_course_lab: list.school_required_course_lab,
+                        school_required_course_lab_preferred: list.school_required_course_lab_preferred,
+                        school_required_course_credit_hours: list.school_required_course_credit_hours,
+                        school_required_course_quarter_hours: list.school_required_course_quarter_hours,
+                        school_required_course_note_section: list.school_required_course_note_section,
+                    })) : originalField,
+                    notes: field.notes ? field.notes : newSchool.school_prereq_required_courses.notes,
+                },
                 [name]: {
                     link: '',
+                    notes: null,
                     isEditMode: false,
                     input: null,
                     prev: null,
@@ -308,6 +319,7 @@ export const revertEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: Scho
             [name]: {
                 link: '',
                 isEditMode: false,
+                notes: null,
                 input: null,
                 prev: null,
             }
@@ -355,6 +367,7 @@ export const undoEditGroup = (e:MouseEvent<HTMLButtonElement>, newSchool: School
             [name]: {
                 link: '',
                 isEditMode: false,
+                notes: field.notes,
                 input: field.prev,
                 prev: null,
             }

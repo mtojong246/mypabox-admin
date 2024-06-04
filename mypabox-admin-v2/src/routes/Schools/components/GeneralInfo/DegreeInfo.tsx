@@ -1,8 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent, useEffect } from "react";
 import { School, Note, BooleanInput, StringInputWithFields } from "../../../../types/schools.types";
 import AddNote from "../Prereqs/AddNote";
-import { PiCheckCircle } from "react-icons/pi";
-import { PiWarningCircle } from "react-icons/pi";
 import LinkPopup from "../../LinkPopup";
 import EditButtons from "../../Assets/EditButtons";
 import BooleanFields from "../../Assets/BooleanFields";

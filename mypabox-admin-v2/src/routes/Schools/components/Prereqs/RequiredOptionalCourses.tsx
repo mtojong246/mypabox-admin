@@ -111,7 +111,7 @@ export default function RequiredOptionalCourses({ newSchool, setNewSchool, logge
         <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
         <Screen isEdit={isEdit} editedInput={newSchool.edited_school_prereq_required_optional_courses.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} />
         <Indicator label="Required Optional Courses" editedInput={newSchool.edited_school_prereq_required_optional_courses.input} />
-            <button disabled={(loggedInUser.permissions.canVerify && !hasInputs) || (!loggedInUser.permissions.canVerify && newSchool.edited_school_prereq_required_optional_courses.isEditMode) ? false: true} onClick={toggleRequiredOptionalCourses} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+            <button disabled={(loggedInUser.permissions.canVerify && !hasInputs) || (!loggedInUser.permissions.canVerify && newSchool.edited_school_prereq_required_optional_courses.isEditMode) ? false: true} onClick={toggleRequiredOptionalCourses} className="border text-[#4573D2] border-[#4573D2] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#4573D2]">
                 Add Option
             </button>
             <OptionalFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} input={newSchool.edited_school_prereq_required_optional_courses.input} originalInput={newSchool.school_prereq_required_optional_courses} 

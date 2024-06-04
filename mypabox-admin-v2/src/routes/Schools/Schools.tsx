@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSchools } from '../../app/selectors/schools.selectors';
-import {  getSchoolsAndDocuments, getAllCourses, getAllCategories, addDocToSchoolCollection, getAllUsers } from '../../utils/firebase/firebase.utils';
+import {  getSchoolsAndDocuments, getAllCourses, getAllCategories, addDocToSchoolCollection, getAllUsers, updateSchoolDoc } from '../../utils/firebase/firebase.utils';
 import { setIsEdit, setSchools } from '../../app/slices/schools';
 import { setUsers } from '../../app/slices/users';
 import { AppDispatch } from '../../app/store';
@@ -142,6 +142,7 @@ const Schools = () => {
     fetchSchools();
 
   }, [dispatch, navigate, setStateSearch]);
+
 
   useEffect(() => {
 
