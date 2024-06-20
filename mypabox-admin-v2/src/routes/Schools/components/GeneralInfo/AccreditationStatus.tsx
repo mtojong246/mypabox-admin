@@ -38,6 +38,8 @@ export const options: Option[] = [
     value: 'Accreditation Withdrawn' }},
     { label: 'Voluntary Inactive Status', value: 'Voluntary Inactive Status', target: {name: "school_accreditation_status", type: 'text', 
     value: 'Voluntary Inactive Status' }},
+    { label: 'Developing - Not Accredited', value: 'Developing - Not Accredited', target: {name: "school_accreditation_status", type: 'text', 
+    value: 'Developing - Not Accredited' }},
   ]
 
 export default function AccreditationStatus({newSchool, setNewSchool, loggedInUser, isEdit}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
