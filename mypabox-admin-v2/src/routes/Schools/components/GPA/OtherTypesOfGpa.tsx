@@ -18,7 +18,8 @@ const typeOfGpa = [
     { value: 'Science', label: 'Science' },
     { value: 'Overall', label: 'Overall' },
     { value: 'Prerequisite', label: 'Prerequisite' },
-    { value: 'BCP', label: 'BCP' }
+    { value: 'BCP', label: 'BCP' },
+    { value: '', label: 'Select' }
 ]
 
 const otherGpaDefault = {

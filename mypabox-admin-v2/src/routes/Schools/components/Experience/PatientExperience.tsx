@@ -98,7 +98,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                         ...newSchool.school_patient_experience,
                         [name]: {
                             ...field,
-                            [noteName]: (field[noteName as keyof object] as Note[]).concat(note)
+                            [noteName]: field[noteName as keyof object] ? (field[noteName as keyof object] as Note[]).concat(note) : [note],
                         }
                     }
                 })
@@ -128,6 +128,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
         }
         
     }
+
 
     const updateNote = (note: Note) => {
         if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
@@ -289,6 +290,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
             }
         }
     }, [newSchool.edited_school_patient_experience, newSchool.school_patient_experience])
+
 
     useEffect(() => {
         if (newSchool.school_patient_experience.school_patient_experience_required) {

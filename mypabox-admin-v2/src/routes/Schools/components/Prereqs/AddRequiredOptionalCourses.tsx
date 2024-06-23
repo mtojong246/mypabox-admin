@@ -104,6 +104,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
             setIsBlank(true)
         }
     }, [editedRequiredOption, input])
+
     
     const addCourseOrCategory = (isEditedInput: boolean) => {
         if (!isEditedInput) {
@@ -336,7 +337,7 @@ export default function AddRequiredOptionalCourses({ toggleRequiredOptionalCours
                                 Add Course
                             </button>
                             <OptionalCourses loggedInUser={loggedInUser} input={editedGroup ? editedGroup.school_required_optional_courses_list : null} originalInput={group.school_required_optional_courses_list} 
-                            courses={courses} toggleOptions={toggleCoursePopup} deleteOption={deleteCourse} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} setGroupIndex={setGroupIndex}
+                            courses={courses} toggleOptions={toggleCoursePopup} deleteOption={deleteCourse} isEditMode={newSchool.edited_school_prereq_required_optional_courses.isEditMode} setGroupIndex={setIndex}
                             undoDelete={undoDelete} setEditedOption={setEditedCourse}
                             />
                             {/* <div className={`flex flex-col justify-center items-center gap-3 ${group.school_required_optional_courses_list.length ? 'mt-3' : 'mt-0'}`}>
