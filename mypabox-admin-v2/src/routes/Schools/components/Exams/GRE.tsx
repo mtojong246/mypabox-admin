@@ -13,6 +13,7 @@ import Screen from '../../../../components/Screen';
 import Indicator from '../../../../components/Indicator';
 
 const options = [
+    { value: '', label: 'Select' },
     { value: 'Weeks', label: 'Weeks' },
     { value: 'Months', label: 'Months' },
     { value: 'Years', label: 'Years' }

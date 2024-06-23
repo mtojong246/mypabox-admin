@@ -54,7 +54,7 @@ export default function SpecificCourse({newSchool, setNewSchool, loggedInUser, i
         const options = courses.map(course => (
             { value: course.unique_id, label: course.course_name }
         ))
-        setCourseOptions(options)
+        setCourseOptions([{value: '', label: 'Select'}].concat(options))
     }, [courses]);
 
     const [index, setIndex] = useState<number | null>(null);

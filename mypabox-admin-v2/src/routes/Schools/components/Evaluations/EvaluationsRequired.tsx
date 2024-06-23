@@ -26,6 +26,7 @@ const evaluatorOptions = [
 ];
 
 const timeOptions = [
+    { value: '', label: 'Select' },
     {value: 'Months', label: 'Months'},
     {value: 'Years', label: 'Years'}
 ]

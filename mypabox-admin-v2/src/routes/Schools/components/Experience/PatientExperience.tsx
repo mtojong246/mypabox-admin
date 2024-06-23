@@ -14,6 +14,7 @@ import InputFields from "../../Assets/InputsFields";
 import SelectInputsFields from "../../Assets/SelectInputsFields";
 
 const options = [
+    { value: '', label: 'Select' },
     { value: 'Weeks', label: 'Weeks' },
     { value: 'Months', label: 'Months' },
     { value: 'Years', label: 'Years' }

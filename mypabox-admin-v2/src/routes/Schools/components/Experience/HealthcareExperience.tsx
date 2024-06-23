@@ -13,6 +13,7 @@ import SelectInputsFields from "../../Assets/SelectInputsFields";
 import EditButtons from "../../Assets/EditButtons";
 
 const options = [
+    { value: '', label: 'Select' },
     { value: 'Weeks', label: 'Weeks' },
     { value: 'Months', label: 'Months' },
     { value: 'Years', label: 'Years' }

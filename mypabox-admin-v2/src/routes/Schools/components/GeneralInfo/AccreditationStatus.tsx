@@ -25,6 +25,7 @@ export interface Option {
 }
 
 export const options: Option[] = [
+    { label: 'Select', value: '', target: {name: "school_accreditation_status", type: 'text', value: '' }},
     { label: 'Provisional', value: 'Provisional', target: {name: "school_accreditation_status", type: 'text', value: 'Provisional' }},
     { label: 'Continued', value: 'Continued', target: {name: "school_accreditation_status", type: 'text', value: 'Continued' }},
     { label: 'Clinical Postgraduate Program', value: 'Clinical Postgraduate Program', target: {name: "school_accreditation_status", type: 'text', 

@@ -12,6 +12,7 @@ import Indicator from '../../../../components/Indicator';
 import Screen from '../../../../components/Screen';
 
 const options = [
+    { value: '', label: 'Select' },
     { value: 'A+', label: 'A+' },
     { value: 'A', label: 'A' },
     { value: 'A-', label: 'A-' },

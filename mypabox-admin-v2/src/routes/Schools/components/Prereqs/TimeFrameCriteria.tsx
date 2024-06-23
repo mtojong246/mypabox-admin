@@ -12,10 +12,10 @@ import SelectInputsFields from '../../Assets/SelectInputsFields';
 import AddNoteFields from '../../Assets/AddNoteFields';
 
 const options = [
+    { value: '', label: 'Select' },
     { value: 'Weeks', label: 'Weeks' },
     { value: 'Months', label: 'Months' },
     { value: 'Years', label: 'Years' },
-    { value: '', label: '' },
 ]
 
 export default function TimeFrameCriteria({ newSchool, setNewSchool, loggedInUser, isEdit }: { 
