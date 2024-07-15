@@ -263,7 +263,7 @@ const Schools = () => {
           that are shown are the school who's state is included in the stateSearch array
           After the filters are ran, the remaining schools array is then mapped through and the schools data is displayed
       */}
-      <div className={`w-full flex justify-between items-start p-10 bg-white sticky top-0 z-10`}>
+      <div className={`w-full flex justify-between items-start p-10 bg-white sticky top-[76px] z-10`}>
         <div >
           <p className='text-[48px] font-medium'>Schools</p>
           <p className='text-xl'>Total: {schools.length}</p>
@@ -278,7 +278,7 @@ const Schools = () => {
       <div className={`w-full rounded-t-xl shadow-lg 
       shadow-gray-600`}>
         <table className='w-full relative'>
-          <thead className='bg-[#eeeef2] mt-8 sticky top-[175px] z-20'>
+          <thead className='bg-[#eeeef2] mt-8 sticky top-[256px] z-20'>
             <tr>
               <th scope="col" className='font-semibold text-xl text-left p-[10px]'>Name</th>
               <th scope="col" className='font-semibold text-xl text-left p-[10px]'>City</th>

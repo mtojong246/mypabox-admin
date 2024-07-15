@@ -16,9 +16,10 @@ function App() {
   return (
     <div className="">
       <Router>
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
-          <Route path='/' element={<Login />} />
+          <Route path='/' element={<Navbar />} >
+          <Route index element={<Login />} />
           <Route path='main' element={<Main />} />
           <Route path='schools' element={<Schools />} />
           <Route path='schools/add-school' element={<AddSchool />} />  
@@ -28,6 +29,7 @@ function App() {
           <Route path='categories' element={<CourseCategories />} />
           <Route path='categories/add-category' element={<AddCourseCategory />} />
           <Route path='staff' element={<Staff />} />
+          </Route>
         </Routes>
       </Router>
     </div>

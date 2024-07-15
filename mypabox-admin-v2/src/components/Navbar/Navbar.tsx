@@ -1,5 +1,5 @@
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import logo from "../../My PA Box - Logo Monochrome Flat Horizontal Negative.png"
 import Select from 'react-select';
 import { RxHamburgerMenu } from 'react-icons/rx'
@@ -46,7 +46,7 @@ const Navbar = () => {
       {/* If the current path is '/', do not show the navigation bar, otherwise show the navigation bar*/}
       {/* Top navigation bar */}
       {location.pathname === '/' ? '' : (
-        <div className={`sticky z-[90] bg-[#252628] py-[10px] px-5 w-screen font-['Noto Sans'] flex justify-between 
+        <div className={`${location.pathname === '/schools' ? 'sticky' : 'block'} z-[90] top-0 bg-[#252628] py-[10px] px-5 w-screen font-['Noto Sans'] flex justify-between 
         items-center gap-12`}>
           {/* Logo image */}
           <div className='flex justify-center items-center gap-1'>
@@ -91,6 +91,7 @@ const Navbar = () => {
     { 
       toggleSideMenu ? <Sidebar /> : ''
     }
+    <Outlet/>
     </>
   )
 }
