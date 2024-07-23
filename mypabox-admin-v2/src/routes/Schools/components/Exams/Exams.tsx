@@ -28,7 +28,7 @@ export default function Exams({ newSchool, setNewSchool, loggedInUser, isEdit }:
                 <EnglishExams newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}/>
 
                 <div className={`mt-28 text-xl w-full`}>
-                    <p>Exams Information Notes</p>
+                    <p>Exams General Notes</p>
                     <ReactQuill className='mt-4 h-60 rounded-2xl max-w-[900px]' theme="snow" value={newSchool.school_exams_general_note} 
                     onChange={handleQuill}/>
                 </div>
