@@ -205,7 +205,6 @@ export default function RequiredCourses({ newSchool, setNewSchool, loggedInUser,
         }
     }, [newSchool.edited_school_prereq_required_courses.input])
 
-    console.log(newSchool.school_prereq_required_courses.notes)
 
     return (
         <>

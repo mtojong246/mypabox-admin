@@ -69,7 +69,10 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
             const field = newSchool.school_prereq_recommended_courses;
             setNewSchool({
                 ...newSchool,
-                school_prereq_recommended_courses: field.concat(recommendedCourse)
+                school_prereq_recommended_courses: {
+                    ...field,
+                    courses: field.courses.concat(recommendedCourse),
+                }
             })
         } else {
             const field = newSchool.edited_school_prereq_recommended_courses;
@@ -88,13 +91,16 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
         if (!isEditedInput && recommendedCourse) {
             setNewSchool({
                 ...newSchool,
-                school_prereq_recommended_courses: newSchool.school_prereq_recommended_courses.map((group,i) => {
-                    if (i === groupIndex) {
-                        return { ...recommendedCourse }
-                    } else {
-                        return { ...group }
-                    }
-                })
+                school_prereq_recommended_courses: {
+                    ...newSchool.school_prereq_recommended_courses,
+                    courses: newSchool.school_prereq_recommended_courses.courses.map((group,i) => {
+                        if (i === groupIndex) {
+                            return { ...recommendedCourse }
+                        } else {
+                            return { ...group }
+                        }
+                    })
+                } 
             })
         } else {
             const field = newSchool.edited_school_prereq_recommended_courses;
@@ -118,7 +124,7 @@ export default function AddRecommendedCourses({ toggleRecommendedCourses, isEdit
     useEffect(() => {
         let filteredCourses = [] as Course[];
         courses.forEach(course => {
-            if (!newSchool.school_prereq_recommended_courses.find(c => c.school_recommended_course_id === course.unique_id)) {
+            if (!newSchool.school_prereq_recommended_courses.courses.find(c => c.school_recommended_course_id === course.unique_id)) {
                 filteredCourses.push(course)
             }
         })

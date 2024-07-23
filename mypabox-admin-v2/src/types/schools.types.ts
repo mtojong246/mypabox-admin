@@ -648,7 +648,10 @@ export interface School {
     }
     school_prereq_required_optional_courses: SchoolPrereqRequiredOptionalCourse[];
     school_prereq_required_course_categories: SchoolPrereqRequiredCourseCategory[];
-    school_prereq_recommended_courses: SchoolPrereqRecommendedCourse[];
+    school_prereq_recommended_courses: {
+        courses: SchoolPrereqRecommendedCourse[],
+        notes: Note[];
+    }
 
     edited_school_prereq_required_courses: {
         link: string;
@@ -679,6 +682,7 @@ export interface School {
     edited_school_prereq_recommended_courses: {
         link: string;
         isEditMode: boolean;
+        notes: Note[] | null;
         input: {
             school_recommended_course_id: string;
             school_recommended_course_lab: boolean;

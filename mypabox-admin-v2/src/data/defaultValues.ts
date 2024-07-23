@@ -576,7 +576,10 @@ export const defaultSchool: School = {
     },
     school_prereq_required_optional_courses: [],
     school_prereq_required_course_categories: [],
-    school_prereq_recommended_courses: [],
+    school_prereq_recommended_courses: {
+        courses: [],
+        notes: [],
+    },
 
     edited_school_prereq_required_courses: {
         link: '',
@@ -588,6 +591,7 @@ export const defaultSchool: School = {
 
     edited_school_prereq_recommended_courses: {
         link: '',
+        notes: null,
         isEditMode: false,
         input: null,
         prev: null,

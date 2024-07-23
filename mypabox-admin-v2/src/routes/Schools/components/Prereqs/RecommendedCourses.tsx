@@ -11,6 +11,9 @@ import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup }
 import LinkPopup from "../../LinkPopup"
 import { UserObject } from "../../../../types/users.types"
 import RecField from "./RecField"
+import AddNoteFields from "../../Assets/AddNoteFields"
+import { Note } from "../../../../types/schools.types"
+import AddNote from "./AddNote"
 
 export default function RecommendedCourses({ newSchool, setNewSchool, loggedInUser, isEdit }: { 
     newSchool: School, 
@@ -28,6 +31,15 @@ export default function RecommendedCourses({ newSchool, setNewSchool, loggedInUs
         link: '',
         name: '',
     });
+
+    const [notePopup, setNotePopup] = useState(false);
+    const [ index, setIndex ] = useState<number | null>(null);
+    const [editedNote, setEditedNote] = useState<Note | null>(null);
+
+    const toggleNotePopup = (e: any) => {
+        e.preventDefault();
+        setNotePopup(!notePopup);
+      };
 
     useEffect(() => {
         if (newSchool.edited_school_prereq_recommended_courses.input !== null) {
@@ -55,7 +67,10 @@ export default function RecommendedCourses({ newSchool, setNewSchool, loggedInUs
         if (!isEditedInput) {
             setNewSchool({
                 ...newSchool,
-                school_prereq_recommended_courses: newSchool.school_prereq_recommended_courses.filter((course,i) => i !== index)
+                school_prereq_recommended_courses: {
+                    ...newSchool.school_prereq_recommended_courses,
+                    courses: newSchool.school_prereq_recommended_courses.courses.filter((course,i) => i !== index)
+                } 
             })
         } else {
             setNewSchool({
@@ -90,7 +105,90 @@ export default function RecommendedCourses({ newSchool, setNewSchool, loggedInUs
                 })
             }
         })
-    }
+    };
+
+
+    const addNote = (note: Note) => {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
+            const field = newSchool.school_prereq_recommended_courses;
+            setNewSchool({
+                ...newSchool,
+                school_prereq_recommended_courses: {
+                    ...field,
+                    notes: (field.notes as Note[]).concat(note),
+                }
+            })
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
+            const field = newSchool.edited_school_prereq_recommended_courses;
+            setNewSchool({
+                ...newSchool,
+                edited_school_prereq_recommended_courses: {
+                    ...field,
+                    notes: (field.notes as Note[]).concat(note),
+                }
+            })
+        }
+        
+    };
+
+    const updateNote = (note: Note) => {
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
+            const field = newSchool.school_prereq_recommended_courses;
+            setNewSchool({
+                ...newSchool,
+                school_prereq_recommended_courses: {
+                    ...field,
+                    notes: (field.notes as Note[]).map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
+            const field = newSchool.edited_school_prereq_recommended_courses;
+            setNewSchool({
+                ...newSchool,
+                edited_school_prereq_recommended_courses: {
+                    ...field,
+                    notes: (field.notes as Note[]).map((n,i) => {
+                        if (i === index) {
+                            return { ...note }
+                        } else {
+                            return { ...n }
+                        }
+                    })
+                }
+            })
+        }
+        
+    };
+
+    const deleteNote = (e: any, index: number, name: string) => {
+        e.preventDefault();
+        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
+            const field = newSchool.school_prereq_recommended_courses;
+            setNewSchool({
+                ...newSchool,
+                school_prereq_recommended_courses: {
+                    ...field,
+                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
+            const field = newSchool.edited_school_prereq_recommended_courses;
+            setNewSchool({
+                ...newSchool,
+                edited_school_prereq_recommended_courses: {
+                    ...field,
+                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
+                }
+            })
+        }
+        
+    };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
@@ -114,11 +212,19 @@ export default function RecommendedCourses({ newSchool, setNewSchool, loggedInUs
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
             <Screen isEdit={isEdit} editedInput={newSchool.edited_school_prereq_recommended_courses.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} />
             <Indicator label="Recommended Courses" editedInput={newSchool.edited_school_prereq_recommended_courses.input} />
-                <button  disabled={(loggedInUser.permissions.canVerify && !hasInputs) || (!loggedInUser.permissions.canVerify && newSchool.edited_school_prereq_recommended_courses.isEditMode) ? false: true}  onClick={toggleRecommendedCourses} className="border text-[#4573D2] border-[#4573D2] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#4573D2]">
-                    Add Course
-                </button>
-                <RecField loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} input={newSchool.edited_school_prereq_recommended_courses.input} originalInput={newSchool.school_prereq_recommended_courses} 
+                <div className="w-full flex justify-between items-center gap-3">
+                    <button  disabled={(loggedInUser.permissions.canVerify && !hasInputs) || (!loggedInUser.permissions.canVerify && newSchool.edited_school_prereq_recommended_courses.isEditMode) ? false: true}  onClick={toggleRecommendedCourses} className="border text-[#4573D2] border-[#4573D2] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#4573D2]">
+                        Add Course
+                    </button>
+                    <button onClick={toggleNotePopup}  name='add' className="disabled:opacity-70 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white disabled:hover:bg-none hover:bg-[#F06A6A]">
+                        Add Note
+                    </button>
+                </div>
+                <RecField loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} input={newSchool.edited_school_prereq_recommended_courses.input} originalInput={newSchool.school_prereq_recommended_courses.courses} 
                 courses={courses} toggleOptions={toggleRecommendedCourses} setEditedOption={setEditedRecommendedCourse} deleteOption={deleteCourse} undoDelete={undoDelete} setGroupIndex={setGroupIndex}/>
+                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} notes={newSchool.edited_school_prereq_recommended_courses.notes} originalNotes={newSchool.school_prereq_recommended_courses.notes} name='school_prereq_recommended_courses' toggleNotePopup={toggleNotePopup}
+                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                    />
             </div>
             {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_recommended_courses.isEditMode} input={hasInputs} name='school_prereq_recommended_courses'
             toggleLinkPopup={toggleLinkPopup} link={newSchool.edited_school_prereq_required_courses.link} setLinkObj={setLinkObj} enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} 
@@ -126,7 +232,9 @@ export default function RecommendedCourses({ newSchool, setNewSchool, loggedInUs
             />}
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-        {openRecommendedCourses && <AddRecommendedCourses isEdit={isEdit} toggleRecommendedCourses={toggleRecommendedCourses} groupIndex={groupIndex} loggedInUser={loggedInUser} input={hasInputs} originalInput={newSchool.school_prereq_recommended_courses} setNewSchool={setNewSchool} editedRecommendedCourse={editedRecommendedCourse} setEditedRecommendedCourse={setEditedRecommendedCourse} newSchool={newSchool}/>}
+        {openRecommendedCourses && <AddRecommendedCourses isEdit={isEdit} toggleRecommendedCourses={toggleRecommendedCourses} groupIndex={groupIndex} loggedInUser={loggedInUser} input={hasInputs} originalInput={newSchool.school_prereq_recommended_courses.courses} setNewSchool={setNewSchool} editedRecommendedCourse={editedRecommendedCourse} setEditedRecommendedCourse={setEditedRecommendedCourse} newSchool={newSchool}/>}
+        {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />)}
+
         </>
     )
 }
