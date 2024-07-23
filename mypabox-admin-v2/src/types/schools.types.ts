@@ -400,6 +400,8 @@ export interface School {
 
     school_general_information: string;
 
+    school_exams_general_note: string;
+
     school_dual_degree_program: BooleanInput;
     edited_school_dual_degree_program: {
         input: boolean | null,

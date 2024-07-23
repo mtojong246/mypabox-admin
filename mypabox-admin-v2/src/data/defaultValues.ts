@@ -324,6 +324,8 @@ export const defaultSchool: School = {
 
     school_general_information: "",
 
+    school_exams_general_note: "",
+
     school_dual_degree_program: {
         input: false,
         notes: [],

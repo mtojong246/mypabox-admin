@@ -147,14 +147,10 @@ const Schools = () => {
   //   const updateAllSchools = async () => {
   //     if (schools) {
   //       const promises = schools.map(async (school) => {
-  //         if (school.school_prereq_recommended_courses.notes === undefined) {
-  //           const courses = school.school_prereq_recommended_courses;
+  //         if (school.school_exams_general_note === undefined) {
   //           const updatedSchool: School = {
   //             ...school, 
-  //             school_prereq_recommended_courses: {
-  //               courses: courses as any,
-  //               notes: [],
-  //             }
+  //             school_exams_general_note: "",
   //           }
             
   //           return updateSchoolDoc(updatedSchool, school.id);
