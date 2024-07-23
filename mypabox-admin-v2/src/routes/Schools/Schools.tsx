@@ -7,7 +7,7 @@ import { setUsers } from '../../app/slices/users';
 import { AppDispatch } from '../../app/store';
 import { SchoolContext } from '../../useContext';
 import { useNavigate } from 'react-router-dom';
-import { School } from '../../types/schools.types';
+import { School, SchoolPrereqRecommendedCourse } from '../../types/schools.types';
 import { Course } from '../../types/courses.types';
 import { CategoryType } from '../../types/categories.types';
 import { setCourses } from '../../app/slices/courses';
@@ -142,6 +142,36 @@ const Schools = () => {
     fetchSchools();
 
   }, [dispatch, navigate, setStateSearch]);
+
+  // useEffect(() => {
+  //   const updateAllSchools = async () => {
+  //     if (schools) {
+  //       const promises = schools.map(async (school) => {
+  //         if (school.school_prereq_recommended_courses.notes === undefined) {
+  //           const courses = school.school_prereq_recommended_courses;
+  //           const updatedSchool: School = {
+  //             ...school, 
+  //             school_prereq_recommended_courses: {
+  //               courses: courses as any,
+  //               notes: [],
+  //             }
+  //           }
+            
+  //           return updateSchoolDoc(updatedSchool, school.id);
+  //         }
+  //       });
+
+  //       try {
+  //         await Promise.all(promises);
+  //       } catch (err:any) {
+  //         console.log(err);
+  //       }
+  //     }
+  //   };
+
+  //   updateAllSchools();
+    
+  // })
 
 
   useEffect(() => {
