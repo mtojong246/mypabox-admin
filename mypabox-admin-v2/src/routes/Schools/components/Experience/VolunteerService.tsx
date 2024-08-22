@@ -463,7 +463,7 @@ export default function VolunteerService({ newSchool, setNewSchool, loggedInUser
                 </button>
                 
                 <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_volunteer_service.isEditMode} notes={newSchool.edited_school_volunteer_service.notes} originalNotes={newSchool.school_volunteer_service.school_volunteer_service_general_notes} name='' toggleNotePopup={toggleNotePopup}
-                deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                deleteNote={deleteNote} setIsGroup={setIsGroup} isGroup={true} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                 />
             </div>
         </div>

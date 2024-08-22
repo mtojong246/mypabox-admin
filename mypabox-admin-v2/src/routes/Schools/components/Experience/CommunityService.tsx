@@ -462,7 +462,7 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
                     Add Note
                 </button>
                 
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} notes={newSchool.edited_school_community_service.notes} originalNotes={newSchool.school_community_service.school_community_service_general_notes} name='' toggleNotePopup={toggleNotePopup}
+                <AddNoteFields setIsGroup={setIsGroup} isGroup={true} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} notes={newSchool.edited_school_community_service.notes} originalNotes={newSchool.school_community_service.school_community_service_general_notes} name='' toggleNotePopup={toggleNotePopup}
                 deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                 />
             </div>

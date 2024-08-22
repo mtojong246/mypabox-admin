@@ -709,7 +709,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
                 <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} notes={newSchool.edited_school_healthcare_experience.notes} originalNotes={newSchool.school_healthcare_experience.school_healthcare_experience_general_notes} name='' toggleNotePopup={toggleNotePopup}
+                <AddNoteFields setIsGroup={setIsGroup} isGroup={true} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} notes={newSchool.edited_school_healthcare_experience.notes} originalNotes={newSchool.school_healthcare_experience.school_healthcare_experience_general_notes} name='' toggleNotePopup={toggleNotePopup}
                 deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
                 />
             </div>
