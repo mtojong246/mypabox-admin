@@ -9,10 +9,11 @@ const defaultNote = {
 }
 
 
-export default function AddNote({ editedNote, addOrEditNote, cancelNote }: { 
+export default function AddNote({ editedNote, addOrEditNote, cancelNote, groupName }: { 
     editedNote: Note | null,
-    addOrEditNote: (e: MouseEvent<HTMLButtonElement>, noteForm: Note) => void,
+    addOrEditNote: (e: MouseEvent<HTMLButtonElement>, noteForm: Note, groupName?: string) => void,
     cancelNote: (e: MouseEvent<HTMLButtonElement>) => void,
+    groupName?: string,
 }) {
     const [ noteForm, setNoteForm ] = useState<Note>(defaultNote)
 
@@ -68,7 +69,7 @@ export default function AddNote({ editedNote, addOrEditNote, cancelNote }: {
                     </div>
                     <div className='w-full flex justify-end items-center gap-3'>
                         <button onClick={(e) => cancelNote(e)} className='border-2 border-[#B4B4B4] bg-none text-[#B4B4B4] font-medium px-3 py-2 rounded hover:text-white hover:bg-[#B4B4B4]'>Cancel</button>
-                        <button onClick={(e) => addOrEditNote(e, noteForm)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:text-white hover:bg-[#3558A0]'>{editedNote ? 'Edit note' : 'Add note'}</button>
+                        <button onClick={(e) => addOrEditNote(e, noteForm, groupName)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:text-white hover:bg-[#3558A0]'>{editedNote ? 'Edit note' : 'Add note'}</button>
                     </div>
                 </div>
             </div>

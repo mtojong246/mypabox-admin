@@ -32,20 +32,22 @@ const useNotes = ({ newSchool, setNewSchool }: {
         setIsNoteOpen(!isNoteOpen);
     };
 
-   const openAddNote = (e:MouseEvent<HTMLButtonElement>, name: string, noteName?: string) => {
+   const openAddNote = (e:MouseEvent<HTMLButtonElement>, name: string, noteName?: string, groupName?: string) => {
         e.preventDefault();
         toggleNote(e);
         setName(name);
         setNoteName(noteName);
+        setGroupName(groupName);
    };
 
-   const openEditNote = (e:MouseEvent<HTMLButtonElement>, index: number, note: Note, name: string, noteName?: string) => {
+   const openEditNote = (e:MouseEvent<HTMLButtonElement>, index: number, note: Note, name: string, noteName?: string, groupName?: string) => {
         e.preventDefault();
         toggleNote(e);
         setName(name);
         setNoteToEdit(note);
         setNoteName(noteName);
         setNoteIndex(index);
+        setGroupName(groupName);
    }
 
     const addNote = (note: Note) => {
@@ -84,20 +86,39 @@ const useNotes = ({ newSchool, setNewSchool }: {
         if (loggedInUser && groupName) {
 
             if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
+
+                const field = newSchool[groupName as keyof School] as any;
+                const nestedField = field[name];
+                const notes = nestedField[noteName ? noteName : 'notes'] as Note[];
                 
                 setNewSchool({
                     ...newSchool,
-                    school_certifications_required: {
-                        ...newSchool.school_certifications_required,
-                        school_certification_notes: newSchool.school_certifications_required.school_certification_notes.concat(note)
+                    [groupName]: {
+                        ...field,
+                        [name]: {
+                            ...nestedField,
+                            [noteName ? noteName : 'notes']: notes.concat(note),
+                        }
                     }
                 })
+
             } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
+
+                const editedGroupName = `edited_${groupName}`;
+                const editedName = `edited_${name}`;
+
+                const field = newSchool[editedGroupName as keyof School] as any;
+                const nestedField = field[editedName];
+                const notes = nestedField.notes as Note[];
+
                 setNewSchool({
                     ...newSchool,
-                    edited_school_certifications_required: {
-                        ...newSchool.edited_school_certifications_required,
-                        notes: newSchool.edited_school_certifications_required.notes!.concat(note)
+                    [editedGroupName]: {
+                        ...field,
+                        [editedName]: {
+                            ...nestedField,
+                            notes: notes.concat(note),
+                        }
                     }
                 })
             }
@@ -137,7 +158,7 @@ const useNotes = ({ newSchool, setNewSchool }: {
                     ...newSchool,
                     [editedName]: {
                         ...field,
-                        [noteName ? noteName : 'notes']: notes.map((n,i) => {
+                        notes: notes.map((n,i) => {
                             if (i === noteIndex) {
                                 return { ...note }
                             } else {
@@ -152,6 +173,62 @@ const useNotes = ({ newSchool, setNewSchool }: {
         
         
     };
+
+    const updateNestedNote = (note: Note) => {
+        if (loggedInUser && groupName) {
+
+            if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
+
+                const field = newSchool[groupName as keyof School] as any;
+                const nestedField = field[name];
+                const notes = nestedField[noteName ? noteName : 'notes'] as Note[];
+                
+                setNewSchool({
+                    ...newSchool,
+                    [groupName]: {
+                        ...field,
+                        [name]: {
+                            ...nestedField,
+                            [noteName ? noteName : 'notes']: notes.map((n,i) => {
+                                if (i === noteIndex) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
+                        }
+                    }
+                })
+
+            } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
+
+                const editedGroupName = `edited_${groupName}`;
+                const editedName = `edited_${name}`;
+
+                const field = newSchool[editedGroupName as keyof School] as any;
+                const nestedField = field[editedName];
+                const notes = nestedField.notes as Note[];
+
+                setNewSchool({
+                    ...newSchool,
+                    [editedGroupName]: {
+                        ...field,
+                        [editedName]: {
+                            ...nestedField,
+                            notes: notes.map((n,i) => {
+                                if (i === noteIndex) {
+                                    return { ...note }
+                                } else {
+                                    return { ...n }
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+
+        }
+    } 
 
 
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number, name: string, noteName?: string) => {
@@ -180,7 +257,7 @@ const useNotes = ({ newSchool, setNewSchool }: {
                     ...newSchool,
                     [editedName]: {
                         ...field,
-                        [noteName ? noteName : 'notes']: notes.filter((n,i) => i !== index)
+                        notes: notes.filter((n,i) => i !== index)
                     }
                 })
             }
@@ -189,15 +266,74 @@ const useNotes = ({ newSchool, setNewSchool }: {
         resetValues();
     };
 
-    const addOrEditNote = (e: MouseEvent<HTMLButtonElement>, noteForm: Note) => {
+
+    const deleteNestedNote = (e: MouseEvent<HTMLButtonElement>, index: number, groupName: string, name: string, noteName?: string) => {
+        e.preventDefault();
+
+        if (loggedInUser) {
+
+            if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
+
+                const field = newSchool[groupName as keyof School] as any;
+                const nestedField = field[name];
+                const notes = nestedField[noteName ? noteName : 'notes'] as Note[];
+                
+                setNewSchool({
+                    ...newSchool,
+                    [groupName]: {
+                        ...field,
+                        [name]: {
+                            ...nestedField,
+                            [noteName ? noteName : 'notes']: notes.filter((n,i) => i !== index)
+                        }
+                    }
+                })
+
+            } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
+
+                const editedGroupName = `edited_${groupName}`;
+                const editedName = `edited_${name}`;
+
+                const field = newSchool[editedGroupName as keyof School] as any;
+                const nestedField = field[editedName];
+                const notes = nestedField.notes as Note[];
+
+                setNewSchool({
+                    ...newSchool,
+                    [editedGroupName]: {
+                        ...field,
+                        [editedName]: {
+                            ...nestedField,
+                            notes: notes.map((n,i) => i !== index)
+                        }
+                    }
+                })
+            }
+
+        }
+        resetValues();
+
+    }
+
+    const addOrEditNote = (e: MouseEvent<HTMLButtonElement>, noteForm: Note, groupName?: string) => {
         e.preventDefault();
         if (noteForm.note === '') {
             alert('Please add text to note')
         } else {
             if (noteToEdit) {
-              updateNote(noteForm);
+                if (groupName) {
+                    updateNestedNote(noteForm)
+                } else {
+                    updateNote(noteForm);
+                }
+              
             } else {
-                addNote(noteForm);
+                if (groupName) {
+                    addNestedNotes(noteForm)
+                } else {
+                    addNote(noteForm);
+                }
+                
             }
             toggleNote(e)
             resetValues();
@@ -215,6 +351,7 @@ const useNotes = ({ newSchool, setNewSchool }: {
         setNoteIndex(0);
         setNoteName(undefined);
         setNoteToEdit(null);
+        setGroupName(undefined);
     }
 
     return {
@@ -226,7 +363,9 @@ const useNotes = ({ newSchool, setNewSchool }: {
         noteToEdit,
         addOrEditNote,
         cancelNote,
-        setName
+        setName,
+        groupName,
+        deleteNestedNote,
     }
 
 };
