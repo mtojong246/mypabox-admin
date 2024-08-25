@@ -6,72 +6,11 @@ import ApplicationsDirectly from "./ApplicationsDirectly";
 import SupplementalApplications from "./SupplementalApplications";
 import { UserObject } from "../../../../types/users.types";
 
-// school_application_submitted_on_caspa: {
-//     input: false,
-//     school_caspa_application_deadline_date: null,
-//     school_caspa_application_deadline_type: null,
-//     school_caspa_application_notes: [],
-// },
 
-// school_application_submitted_directly_to_school: {
-//     input: false,
-//     school_application_direct_to_school_deadline: null,
-//     school_application_direct_to_school_fee: null,
-//     school_application_direct_to_school_notes: [],
-// },
 
 export default function Applications({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
 
-    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
-        if (!isEditedInput) {
-            const name = e.target.name as keyof School;
-            const field = newSchool[name] as object;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    input: e.target.checked,
-                }
-            })
-        } else {
-            const name = `edited_${e.currentTarget.name}` as keyof School;
-            const field = newSchool[name] as object;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    input: e.target.checked,
-                }
-            })
-        }
-        
-    };
-
-    const handleCheckInCategory = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
-        const field = newSchool[category as keyof School] as object;
-        if (!isEditedInput) {
-            setNewSchool({
-                ...newSchool,
-                [category]: {
-                    ...field,
-                    [e.target.name]: e.target.checked,
-                }
-            })
-        } else {
-            const name = `edited_${e.target.name}`;
-        
-            setNewSchool({
-                ...newSchool,
-                [category]: {
-                    ...field,
-                    [name]: {
-                        ...field[name as keyof object] as object,
-                        input: e.target.checked,
-                    }
-                }
-            })
-        }
-    }
+    
 
     const handleInputInCategory = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
        
@@ -161,13 +100,13 @@ export default function Applications({ newSchool, setNewSchool, loggedInUser, is
 
     return (
         <>
-            {(<ApplicationsCaspa newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit} handleCheck={handleCheck}
+            {(<ApplicationsCaspa newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit} 
             handleInputInCategory={handleInputInCategory}
             />)}
-            {(<ApplicationsDirectly newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit} handleCheck={handleCheck}
+            {(<ApplicationsDirectly newSchool={newSchool} setNewSchool={setNewSchool} loggedInUser={loggedInUser} isEdit={isEdit}
              handleInputInCategory={handleInputInCategory} /> )}
-            <SupplementalApplications newSchool={newSchool} setNewSchool={setNewSchool}  loggedInUser={loggedInUser} isEdit={isEdit} handleCheck={handleCheck}
-             handleInputInCategory={handleInputInCategory} handleCheckInCategory={handleCheckInCategory}/>
+            <SupplementalApplications newSchool={newSchool} setNewSchool={setNewSchool}  loggedInUser={loggedInUser} isEdit={isEdit}
+             handleInputInCategory={handleInputInCategory} />
         </>
     )
 }

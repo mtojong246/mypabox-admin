@@ -1,7 +1,7 @@
-import { School, Note } from "../../../../types/schools.types";
+import { School } from "../../../../types/schools.types";
 import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent } from "react"
-import AddNote from "../Prereqs/AddNote";
-import AddNoteFields from "../../Assets/AddNoteFields";
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 
 import Screen from "../../../../components/Screen";
 import Indicator from "../../../../components/Indicator";
@@ -13,12 +13,11 @@ import EditButtons from "../../Assets/EditButtons";
 import BooleanFields from "../../Assets/BooleanFields";
 import BooleanFieldsGroup from "../../Assets/BooleanFieldsGroup";
 import InputFieldsGroup from "../../Assets/InputsFieldsGroup";
+import useNotes from "../../../../hooks/useNotes";
 
-export default function SupplementalApplications({ newSchool, setNewSchool, loggedInUser, isEdit, handleCheck, handleInputInCategory, handleCheckInCategory }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean, handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void,
-     handleInputInCategory: (e:ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => void, handleCheckInCategory: (e:ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => void }) {
-    const [index, setIndex] = useState<number | null>(null);
-    const [editedNote, setEditedNote] = useState<Note | null>(null);
-    const [notePopup, setNotePopup] = useState(false);
+export default function SupplementalApplications({ newSchool, setNewSchool, loggedInUser, isEdit, handleInputInCategory }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean,
+     handleInputInCategory: (e:ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => void}) {
+ 
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
@@ -33,12 +32,15 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
         setOpenLinkPopup(!openLinkPopup);
     }
 
-    const toggleNotePopup = (e: any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup);
-      };
-
-      console.log(newSchool.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only)
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+    } = useNotes({newSchool, setNewSchool});
 
     useEffect(() => {
         if (newSchool.school_supplemental_application_required.input) {
@@ -94,127 +96,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
         }
     }, [newSchool.edited_school_supplemental_application_required])
 
-    // const handleCheck = (e:ChangeEvent<HTMLInputElement>) => {
-    //     setNewSchool({
-    //         ...newSchool,
-    //         school_supplemental_application_required: {
-    //             ...newSchool.school_supplemental_application_required,
-    //             [e.target.name]: e.target.checked,
-    //         }
-    //     })
-    // };
-
-    // const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    //     if (e.target.name === 'school_supplemental_application_fee') {
-    //         if (e.target.value === '') {
-    //             setNewSchool({
-    //                 ...newSchool,
-    //                 school_supplemental_application_required: {
-    //                     ...newSchool.school_supplemental_application_required,
-    //                     [e.target.name]: '',
-    //                 }
-    //             })
-    //         } else {
-    //             const conversion = parseInt(e.target.value.replace(/,/g, ''));
-    //             if (isNaN(conversion)) {
-    //                 return
-    //             } else {
-    //                 const value = conversion.toLocaleString();
-    //                 setNewSchool({
-    //                     ...newSchool,
-    //                     school_supplemental_application_required: {
-    //                         ...newSchool.school_supplemental_application_required,
-    //                         [e.target.name]: value,
-    //                     }
-    //                 })
-    //             }
-    //         }
-    //     } else {
-    //         setNewSchool({
-    //             ...newSchool,
-    //             school_supplemental_application_required: {
-    //                 ...newSchool.school_supplemental_application_required,
-    //                 [e.target.name]: e.target.value,
-    //             }
-    //         })
-    //     }
-    // };
-
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_supplemental_application_required: {
-                    ...newSchool.school_supplemental_application_required,
-                    school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.concat(note)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_supplemental_application_required: {
-                    ...newSchool.edited_school_supplemental_application_required,
-                    notes: newSchool.edited_school_supplemental_application_required.notes!.concat(note)
-                }
-            })
-        }
-        
-    };
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_supplemental_application_required: {
-                    ...newSchool.school_supplemental_application_required,
-                    school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.map((n ,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_supplemental_application_required: {
-                    ...newSchool.edited_school_supplemental_application_required,
-                    notes: newSchool.edited_school_supplemental_application_required.notes!.map((n ,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        }
-        
-    };
-
-    const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-        e.preventDefault();
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_supplemental_application_required: {
-                    ...newSchool.school_supplemental_application_required,
-                    school_supplemental_application_notes: newSchool.school_supplemental_application_required.school_supplemental_application_notes.filter((n,i) => i !== index)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_supplemental_application_required: {
-                    ...newSchool.edited_school_supplemental_application_required,
-                    notes: newSchool.edited_school_supplemental_application_required.notes!.filter((n,i) => i !== index)
-                }
-            })
-        }
-        
-    };
+    
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
@@ -230,6 +112,57 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
             link: '',
             name: '',
         })
+    };
+
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            const name = e.target.name as keyof School;
+            const field = newSchool[name] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        } else {
+            const name = `edited_${e.currentTarget.name}` as keyof School;
+            const field = newSchool[name] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        }
+        
+    };
+
+    const handleCheckInCategory = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
+        const field = newSchool[category as keyof School] as object;
+        if (!isEditedInput) {
+            setNewSchool({
+                ...newSchool,
+                [category]: {
+                    ...field,
+                    [e.target.name]: e.target.checked,
+                }
+            })
+        } else {
+            const name = `edited_${e.target.name}`;
+        
+            setNewSchool({
+                ...newSchool,
+                [category]: {
+                    ...field,
+                    [name]: {
+                        ...field[name as keyof object] as object,
+                        input: e.target.checked,
+                    }
+                }
+            })
+        }
     }
 
     return (
@@ -241,13 +174,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                    <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} input={newSchool.edited_school_supplemental_application_required.input} isEditMode={newSchool.edited_school_supplemental_application_required.isEditMode} originalInput={newSchool.school_supplemental_application_required.input}
                    name='school_supplemental_application_required' handleCheck={handleCheck}
                    />
-                    {/* <div className='w-full mt-2'>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input onChange={handleCheck} checked={newSchool.school_supplemental_application_required.input ? true : false} name='input' type="checkbox" className="sr-only peer"/>
-                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                            <span className="ml-3 text-xl text-black">{newSchool.school_supplemental_application_required.input ? 'True' : 'False'}</span>
-                        </label>
-                    </div> */}
+               
                     {isOpen && (
                     <>
                         <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
@@ -262,10 +189,7 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                             <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_fee.isEditMode} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_fee.input}
                             originalInput={newSchool.school_supplemental_application_required.school_supplemental_application_fee} name='school_supplemental_application_fee' category='school_supplemental_application_required' handleInput={handleInputInCategory} 
                             />
-                            {/* <div className='flex justify-start items-center gap-1 w-1/3 border border-[#B4B4B4] rounded p-3'>
-                                <BiDollar className='h-5 w-5 text-[#717171]'/>
-                                <input onChange={handleInput} value={newSchool.school_supplemental_application_required.school_supplemental_application_fee ? newSchool.school_supplemental_application_required.school_supplemental_application_fee : ''} name='school_supplemental_application_fee' className='grow focus:outline-none border-none' />  
-                            </div> */}
+                           
                         </div> 
                         <div className={`mt-12 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
                             <label className="absolute top-[-16px] text-xl font-medium bg-white">Supplemental Application Link</label> 
@@ -279,40 +203,25 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
                             <BooleanFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link_provided_with_invite_only.input} isEditMode={newSchool.edited_school_supplemental_application_required.edited_school_supplemental_application_link_provided_with_invite_only.isEditMode}
                             name='school_supplemental_application_link_provided_with_invite_only' originalInput={newSchool.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only} category="school_supplemental_application_required" handleCheck={handleCheckInCategory}
                             />
-                            {/* <div className='w-full mt-2'>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input onChange={handleCheck} checked={newSchool.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only ? true : false} name='school_supplemental_application_link_provided_with_invite_only' type="checkbox" className="sr-only peer"/>
-                                    <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                                    <span className="ml-3 text-xl text-black">{newSchool.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only ? 'True' : 'False'}</span>
-                                </label>
-                            </div> */}
+                          
                         </div> 
                     </>
                 )}
                 {isOpen && (
                 <div className={`mx-5 mb-5`}>
                 <label className='font-medium inline-block mt-6 text-xl'>Notes:</label>
-                <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={(e:any) => openAddNote(e, 'school_supplemental_application_required', 'school_supplemental_application_notes')} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                {/* {newSchool.school_supplemental_application_required.school_supplemental_application_notes && (
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_supplemental_application_required.school_supplemental_application_notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_supplemental_application_required.school_supplemental_application_notes.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
-                    </div>
-                )} */}
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_supplemental_application_required.isEditMode} notes={newSchool.edited_school_supplemental_application_required.notes} originalNotes={newSchool.school_supplemental_application_required.school_supplemental_application_notes} name='school_supplemental_application_required' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                
+                <AddNoteFields 
+                isEditMode={newSchool.edited_school_supplemental_application_required.isEditMode} 
+                notes={newSchool.edited_school_supplemental_application_required.notes} 
+                originalNotes={newSchool.school_supplemental_application_required.school_supplemental_application_notes} 
+                name='school_supplemental_application_required' 
+                noteName="school_supplemental_application_notes"
+                deleteNote={deleteNote} 
+                openEditNote={openEditNote}
                     />
                 </div>
                 )}
@@ -324,7 +233,9 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
             />}
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
+        {isNoteOpen && (
+        <AddNote editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
+        )}
         </>
     )
 }

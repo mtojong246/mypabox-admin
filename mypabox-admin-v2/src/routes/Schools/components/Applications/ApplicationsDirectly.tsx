@@ -1,7 +1,7 @@
-import { School, Note } from "../../../../types/schools.types";
+import { School } from "../../../../types/schools.types";
 import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent } from "react"
-import AddNote from "../Prereqs/AddNote";
-import AddNoteFields from "../../Assets/AddNoteFields";
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 
 import Screen from "../../../../components/Screen";
 import Indicator from "../../../../components/Indicator";
@@ -14,17 +14,26 @@ import InputFieldsGroup from "../../Assets/InputsFieldsGroup";
 import EditButtons from "../../Assets/EditButtons";
 
 import { enableEditModeGroup, confirmEditGroup, undoEditGroup, revertEditGroup } from "./ApplicationFunctions";
+import useNotes from "../../../../hooks/useNotes";
 
-export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedInUser, isEdit, handleCheck, handleInputInCategory}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean, handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void,
+export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedInUser, isEdit, handleInputInCategory}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean, 
     handleInputInCategory: (e:ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => void }) {
-    const [index, setIndex] = useState<number | null>(null);
-    const [editedNote, setEditedNote] = useState<Note | null>(null);
-    const [notePopup, setNotePopup] = useState(false);
+   
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
         name: '',
     });
+
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+    } = useNotes({newSchool, setNewSchool});
 
     const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
     const [ isOpen, setIsOpen ] = useState(false);    
@@ -34,10 +43,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
         setOpenLinkPopup(!openLinkPopup);
     }
 
-    const toggleNotePopup = (e: any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup);
-      };
+
 
     useEffect(() => {
         if (newSchool.school_application_submitted_directly_to_school.input) {
@@ -91,127 +97,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
 
 
 
-    // const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    //     setNewSchool({
-    //         ...newSchool,
-    //         school_application_submitted_directly_to_school: {
-    //             ...newSchool.school_application_submitted_directly_to_school,
-    //             input: e.target.checked,
-    //         }
-    //     })
-    // };
-
-    // const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    //     if (e.target.name === 'school_application_direct_to_school_fee') {
-    //         if (e.target.value === '') {
-    //             setNewSchool({
-    //                 ...newSchool,
-    //                 school_application_submitted_directly_to_school: {
-    //                     ...newSchool.school_application_submitted_directly_to_school,
-    //                     [e.target.name]: '',
-    //                 }
-    //             })
-    //         } else {
-    //             const conversion = parseInt(e.target.value.replace(/,/g, ''));
-    //             if (isNaN(conversion)) {
-    //                 return
-    //             } else {
-    //                 const value = conversion.toLocaleString();
-    //                 setNewSchool({
-    //                     ...newSchool,
-    //                     school_application_submitted_directly_to_school: {
-    //                         ...newSchool.school_application_submitted_directly_to_school,
-    //                         [e.target.name]: value,
-    //                     }
-    //                 })
-    //             }
-    //         }
-    //     } else {
-    //         setNewSchool({
-    //             ...newSchool,
-    //             school_application_submitted_directly_to_school: {
-    //                 ...newSchool.school_application_submitted_directly_to_school,
-    //                 [e.target.name]: e.target.value,
-    //             }
-    //         })
-    //     }
-    // };
-
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_application_submitted_directly_to_school: {
-                    ...newSchool.school_application_submitted_directly_to_school,
-                    school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.concat(note)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_application_submitted_directly_to_school: {
-                    ...newSchool.edited_school_application_submitted_directly_to_school,
-                    notes: newSchool.edited_school_application_submitted_directly_to_school.notes!.concat(note)
-                }
-            })
-        }
-        
-    };
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_application_submitted_directly_to_school: {
-                    ...newSchool.school_application_submitted_directly_to_school,
-                    school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_application_submitted_directly_to_school: {
-                    ...newSchool.edited_school_application_submitted_directly_to_school,
-                    notes: newSchool.edited_school_application_submitted_directly_to_school.notes!.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        }
-        
-    };
-
-    const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-        e.preventDefault();
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_application_submitted_directly_to_school: {
-                    ...newSchool.school_application_submitted_directly_to_school,
-                    school_application_direct_to_school_notes: newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.filter((n,i) => i !== index)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_application_submitted_directly_to_school: {
-                    ...newSchool.edited_school_application_submitted_directly_to_school,
-                    notes: newSchool.edited_school_application_submitted_directly_to_school.notes!.filter((n,i) => i !== index)
-                }
-            })
-        }
-        
-    };
+    
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
@@ -227,7 +113,34 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
             link: '',
             name: '',
         })
-    }
+    };
+
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+            
+            setNewSchool({
+                ...newSchool,
+                school_application_submitted_directly_to_school: {
+                    ...newSchool.school_application_submitted_directly_to_school,
+                    input: e.target.checked,
+                    school_application_direct_to_school_deadline: e.target.checked ? '' : null,
+                    school_application_direct_to_school_fee: e.target.checked ? '' : null,
+                    school_application_direct_to_school_notes: [],
+                }
+            })
+        } else {
+            const name = `edited_${e.currentTarget.name}` as keyof School;
+            const field = newSchool[name] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        }
+        
+    };
 
     return (
         <>
@@ -240,13 +153,7 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
                     <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} input={newSchool.edited_school_application_submitted_directly_to_school.input} isEditMode={newSchool.edited_school_application_submitted_directly_to_school.isEditMode} originalInput={newSchool.school_application_submitted_directly_to_school.input} 
                     name='school_application_submitted_directly_to_school' handleCheck={handleCheck}
                     />
-                    {/* <div className='w-full mt-2'>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input onChange={handleCheck} checked={newSchool.school_application_submitted_directly_to_school.input? true : false} type="checkbox" className="sr-only peer"/>
-                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                            <span className="ml-3 text-xl text-black">{newSchool.school_application_submitted_directly_to_school.input ? 'True' : 'False'}</span>
-                        </label>
-                    </div> */}
+                
                     {isOpen && (
                     <>
                         <div className={`mt-8 mx-4 relative max-w-[900px] p-4 block rounded border-[#545454] border-2`}>
@@ -261,37 +168,25 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
                             <InputFieldsGroup isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_application_submitted_directly_to_school.edited_school_application_direct_to_school_fee.input} isEditMode={newSchool.edited_school_application_submitted_directly_to_school.edited_school_application_direct_to_school_fee.isEditMode} 
                             originalInput={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_fee} name='school_application_direct_to_school_fee' category="school_application_submitted_directly_to_school" handleInput={handleInputInCategory}
                             />
-                            {/* <div className='flex justify-start items-center gap-1 w-1/3 border border-[#B4B4B4] rounded p-3'>
-                                <BiDollar className='h-5 w-5 text-[#717171]'/>
-                                <input onChange={handleInput} value={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_fee ? newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_fee : ''} name='school_application_direct_to_school_fee' className='grow focus:outline-none border-none' />  
-                            </div> */}
+                          
                         </div> 
                     </>
                 )}
                 {isOpen && (
                 <div className={`mx-5 mb-5`}>
                 <label className='font-medium inline-block mt-6 text-xl'>Notes:</label>
-                <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={(e:any) => openAddNote(e, 'school_application_submitted_directly_to_school', 'school_application_direct_to_school_notes')} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                {/* {newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes && (
-                    <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.length ? 'mt-3' : 'mt-0'}`}>
-                        {newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes.map((note, i) => (
-                            <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                                <div className='flex justify-between items-center w-full mb-1'>
-                                    <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                    <div className='flex gap-2'>
-                                        <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                        <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                    </div>
-                                </div>
-                                <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                            </div>
-                        ))}
-                    </div>
-                )} */}
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_application_submitted_directly_to_school.isEditMode} notes={newSchool.edited_school_application_submitted_directly_to_school.notes} originalNotes={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes} name='school_application_submitted_directly_to_school' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                
+                <AddNoteFields 
+                isEditMode={newSchool.edited_school_application_submitted_directly_to_school.isEditMode} 
+                notes={newSchool.edited_school_application_submitted_directly_to_school.notes} 
+                originalNotes={newSchool.school_application_submitted_directly_to_school.school_application_direct_to_school_notes} 
+                name='school_application_submitted_directly_to_school' 
+                noteName="school_application_direct_to_school_notes"
+                    deleteNote={deleteNote} 
+                    openEditNote={openEditNote}
                     />
                 </div>
                 )}
@@ -301,7 +196,9 @@ export default function ApplicationsDirectly({ newSchool, setNewSchool, loggedIn
             />}
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
+        {isNoteOpen && (
+        <AddNote editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
+        )}
         {/* // </div> */}
         </>
     )

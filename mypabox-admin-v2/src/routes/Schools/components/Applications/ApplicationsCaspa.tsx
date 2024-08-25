@@ -1,8 +1,8 @@
-import { School, Note } from "../../../../types/schools.types";
+import { School } from "../../../../types/schools.types";
 import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent} from "react"
 import Select, {StylesConfig} from 'react-select'
-import AddNote from "../Prereqs/AddNote";
-import AddNoteFields from "../../Assets/AddNoteFields";
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 
 import LinkPopup from "../../LinkPopup";
 import Screen from "../../../../components/Screen";
@@ -15,6 +15,7 @@ import { UserObject } from "../../../../types/users.types";
 import EditButtons from "../../Assets/EditButtons";
 import BooleanFields from "../../Assets/BooleanFields";
 import InputFieldsGroup from "../../Assets/InputsFieldsGroup";
+import useNotes from "../../../../hooks/useNotes";
 
 const options = [
     {value: 'Verified', label: 'Verified', color: '#27AE60', focus: '#27AE60'},
@@ -61,12 +62,9 @@ const colorStyles: StylesConfig<ColorOptions> = {
 }
 
 
-export default function ApplicationsCaspa({ newSchool, setNewSchool, loggedInUser, isEdit, handleCheck, handleInputInCategory }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean,
-handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, handleInputInCategory: (e:ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => void,
+export default function ApplicationsCaspa({ newSchool, setNewSchool, loggedInUser, isEdit, handleInputInCategory }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean,
+handleInputInCategory: (e:ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => void,
 }) {
-    const [index, setIndex] = useState<number | null>(null);
-    const [editedNote, setEditedNote] = useState<Note | null>(null);
-    const [notePopup, setNotePopup] = useState(false);
     const [ color, setColor ] = useState('');
     const [ editedColor, setEditedColor ] = useState('');
 
@@ -84,10 +82,15 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
         setOpenLinkPopup(!openLinkPopup);
     }
 
-    const toggleNotePopup = (e: any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup);
-      };
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+    } = useNotes({newSchool, setNewSchool});
 
     useEffect(() => {
         if (newSchool.school_application_submitted_on_caspa.input) {
@@ -146,36 +149,7 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
         }
     }, [newSchool.edited_school_application_submitted_on_caspa])
 
-    // const handleCheck = (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
-    //     if (!isEditedInput) {
-    //         setNewSchool({
-    //             ...newSchool,
-    //             school_application_submitted_on_caspa: {
-    //                 ...newSchool.school_application_submitted_on_caspa,
-    //                 input: e.target.checked,
-    //             }
-    //         })
-    //     } else {
-    //         setNewSchool({
-    //             ...newSchool,
-    //             edited_school_application_submitted_on_caspa: {
-    //                 ...newSchool.edited_school_application_submitted_on_caspa,
-    //                 input: e.target.checked,
-    //             }
-    //         })
-    //     }
-        
-    // };
-
-    // const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    //     setNewSchool({
-    //         ...newSchool,
-    //         school_application_submitted_on_caspa: {
-    //             ...newSchool.school_application_submitted_on_caspa,
-    //             school_caspa_application_deadline_date: e.target.value,
-    //         }
-    //     })
-    // }
+    
 
     const handleSelect = (e: any, isEditedInput: boolean) => {
         if (!isEditedInput) {
@@ -201,81 +175,6 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
         
     };
 
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_application_submitted_on_caspa: {
-                    ...newSchool.school_application_submitted_on_caspa,
-                    school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.concat(note),
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_application_submitted_on_caspa: {
-                    ...newSchool.edited_school_application_submitted_on_caspa,
-                    notes: newSchool.edited_school_application_submitted_on_caspa.notes!.concat(note),
-                }
-            })
-        }
-        
-    };
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_application_submitted_on_caspa: {
-                    ...newSchool.school_application_submitted_on_caspa,
-                    school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_application_submitted_on_caspa: {
-                    ...newSchool.edited_school_application_submitted_on_caspa,
-                    notes: newSchool.edited_school_application_submitted_on_caspa.notes!.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        }
-        
-    };
-
-    const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-        e.preventDefault();
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_application_submitted_on_caspa: {
-                    ...newSchool.school_application_submitted_on_caspa,
-                    school_caspa_application_notes: newSchool.school_application_submitted_on_caspa.school_caspa_application_notes.filter((n,i) => i !== index)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_application_submitted_on_caspa: {
-                    ...newSchool.edited_school_application_submitted_on_caspa,
-                    notes: newSchool.edited_school_application_submitted_on_caspa.notes!.filter((n,i) => i !== index)
-                }
-            })
-        }
-        
-    };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
@@ -291,7 +190,34 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
             link: '',
             name: '',
         })
-    }
+    };
+
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
+        if (!isEditedInput) {
+ 
+            setNewSchool({
+                ...newSchool,
+                school_application_submitted_on_caspa: {
+                    ...newSchool.school_application_submitted_on_caspa,
+                    input: e.target.checked,
+                    school_caspa_application_deadline_date: e.target.checked ? '' : null,
+                    school_caspa_application_deadline_type:  e.target.checked ? '' : null,
+                    school_caspa_application_notes: [],
+                }
+            })
+        } else {
+            const name = `edited_${e.currentTarget.name}` as keyof School;
+            const field = newSchool[name] as object;
+            setNewSchool({
+                ...newSchool,
+                [name]: {
+                    ...field,
+                    input: e.target.checked,
+                }
+            })
+        }
+        
+    };
 
 
     return (
@@ -341,12 +267,18 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
                 {isOpen && (
                 <div className={`mx-5 mb-5`}>
                 <label className='font-medium inline-block mt-6 text-xl'>Notes:</label>
-                <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] mt-2 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={(e:any) => openAddNote(e, 'school_application_submitted_on_caspa', 'school_caspa_application_notes')} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] mt-2 px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
               
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_application_submitted_on_caspa.isEditMode} notes={newSchool.edited_school_application_submitted_on_caspa.notes} originalNotes={newSchool.school_application_submitted_on_caspa.school_caspa_application_notes} name='school_application_submitted_on_caspa' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                <AddNoteFields 
+                isEditMode={newSchool.edited_school_application_submitted_on_caspa.isEditMode} 
+                notes={newSchool.edited_school_application_submitted_on_caspa.notes}
+                originalNotes={newSchool.school_application_submitted_on_caspa.school_caspa_application_notes} 
+                name='school_application_submitted_on_caspa' 
+                noteName="school_caspa_application_notes"
+                deleteNote={deleteNote} 
+                openEditNote={openEditNote}
                     />
                 </div>
                 )}
@@ -355,7 +287,9 @@ handleCheck: (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => void, 
             toggleLinkPopup={toggleLinkPopup} name='school_application_submitted_on_caspa' enableEditMode={enableEditModeGroup} confirmEdit={confirmEditGroup} undoEdit={undoEditGroup} revertEdit={revertEditGroup} newSchool={newSchool} setNewSchool={setNewSchool} />}
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
+        {isNoteOpen && (
+        <AddNote editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
+        )}
         {/* </div> */}
         </>
     )
