@@ -292,20 +292,20 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
 
     useEffect(() => {
         if (newSchool.school_healthcare_experience.school_healthcare_experience_required) {
-            setNewSchool({
-                ...newSchool,
-                school_healthcare_experience: {
-                    ...newSchool.school_healthcare_experience,
-                    school_minimum_healthcare_experience_hours_required: {
-                        input: newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input : 0,
-                        school_minimum_healthcare_experience_hours_required_notes: newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.school_minimum_healthcare_experience_hours_required_notes ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.school_minimum_healthcare_experience_hours_required_notes : [],
-                    },
-                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
-                        input: newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed?.input ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed?.input : '',
-                        school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes: newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed?.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed?.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes : [],
-                    }
-                }
-            })
+            // setNewSchool({
+            //     ...newSchool,
+            //     school_healthcare_experience: {
+            //         ...newSchool.school_healthcare_experience,
+            //         school_minimum_healthcare_experience_hours_required: {
+            //             input: newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.input : 0,
+            //             school_minimum_healthcare_experience_hours_required_notes: newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.school_minimum_healthcare_experience_hours_required_notes ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required?.school_minimum_healthcare_experience_hours_required_notes : [],
+            //         },
+            //         school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
+            //             input: newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed?.input ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed?.input : '',
+            //             school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes: newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed?.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed?.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes : [],
+            //         }
+            //     }
+            // })
 
             if (newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed) {
                 const array = newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input.split(' ');
@@ -315,14 +315,14 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
                 })
             }
         } else {
-            setNewSchool({
-                ...newSchool,
-                school_healthcare_experience: {
-                    ...newSchool.school_healthcare_experience,
-                    school_minimum_healthcare_experience_hours_required: null,
-                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed: null,
-                }
-            })
+            // setNewSchool({
+            //     ...newSchool,
+            //     school_healthcare_experience: {
+            //         ...newSchool.school_healthcare_experience,
+            //         school_minimum_healthcare_experience_hours_required: null,
+            //         school_minimum_time_frame_healthcare_experience_needs_to_be_completed: null,
+            //     }
+            // })
             setSelection({
                 number: '',
                 duration: ''
@@ -330,20 +330,20 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
         }
 
         if (newSchool.school_healthcare_experience.school_healthcare_experience_recommended) {
-            setNewSchool({
-                ...newSchool,
-                school_healthcare_experience: {
-                    ...newSchool.school_healthcare_experience,
-                    school_minimum_healthcare_experience_hours_recommended: {
-                        input: newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended?.input ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended?.input : 0,
-                        school_minimum_healthcare_experience_hours_recommended_notes: newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended?.school_minimum_healthcare_experience_hours_recommended_notes ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended?.school_minimum_healthcare_experience_hours_recommended_notes : [],
-                    },
-                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
-                        input: newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended?.input ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended?.input : '',
-                        school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes: newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended?.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended?.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes : [],
-                    }
-                }
-            })
+            // setNewSchool({
+            //     ...newSchool,
+            //     school_healthcare_experience: {
+            //         ...newSchool.school_healthcare_experience,
+            //         school_minimum_healthcare_experience_hours_recommended: {
+            //             input: newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended?.input ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended?.input : 0,
+            //             school_minimum_healthcare_experience_hours_recommended_notes: newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended?.school_minimum_healthcare_experience_hours_recommended_notes ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended?.school_minimum_healthcare_experience_hours_recommended_notes : [],
+            //         },
+            //         school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
+            //             input: newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended?.input ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended?.input : '',
+            //             school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes: newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended?.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended?.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes : [],
+            //         }
+            //     }
+            // })
 
             if (newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended) {
                 const array = newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input.split(' ');
@@ -353,14 +353,14 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
                 })
             }
         } else {
-            setNewSchool({
-                ...newSchool,
-                school_healthcare_experience: {
-                    ...newSchool.school_healthcare_experience,
-                    school_minimum_healthcare_experience_hours_recommended: null,
-                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: null,
-                }
-            })
+            // setNewSchool({
+            //     ...newSchool,
+            //     school_healthcare_experience: {
+            //         ...newSchool.school_healthcare_experience,
+            //         school_minimum_healthcare_experience_hours_recommended: null,
+            //         school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: null,
+            //     }
+            // })
             setSelection2({
                 number: '',
                 duration: ''
@@ -577,13 +577,42 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
         if (!isEditedInput) {
-            setNewSchool({
-                ...newSchool,
-                school_healthcare_experience: {
-                    ...newSchool.school_healthcare_experience,
-                    [e.target.name]: e.target.checked,
-                }
-            })
+
+            if (e.target.name === 'school_healthcare_experience_required') {
+                setNewSchool({
+                    ...newSchool,
+                    school_healthcare_experience: {
+                        ...newSchool.school_healthcare_experience,
+                        school_healthcare_experience_required: e.target.checked,
+                        school_minimum_healthcare_experience_hours_required: e.target.checked ? {
+                            input: 0,
+                            school_minimum_healthcare_experience_hours_required_notes: [],
+                        } : null,
+                        school_minimum_time_frame_healthcare_experience_needs_to_be_completed: e.target.checked ? {
+                            input: '',
+                            school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes: [],
+                        } : null,
+                    }
+                })
+            } else if (e.target.name === 'school_healthcare_experience_recommended') {
+                setNewSchool({
+                    ...newSchool,
+                    school_healthcare_experience: {
+                        ...newSchool.school_healthcare_experience,
+                        school_healthcare_experience_recommended: e.target.checked,
+                        school_minimum_healthcare_experience_hours_recommended: e.target.checked ? {
+                            input: 0,
+                            school_minimum_healthcare_experience_hours_recommended_notes: [],
+                        } : null,
+                        school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: e.target.checked ? {
+                            input: '',
+                            school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes: [],
+                        } : null,
+                    }
+                })
+            }
+
+            
         } else {
             const name = `edited_${e.target.name}`
             setNewSchool({
@@ -627,7 +656,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
                             </button> 
                         </div>
                         <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} notes={newSchool.edited_school_healthcare_experience.edited_school_minimum_healthcare_experience_hours_required.notes ? newSchool.edited_school_healthcare_experience.edited_school_minimum_healthcare_experience_hours_required.notes : null} originalNotes={newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.school_minimum_healthcare_experience_hours_required_notes : null} name='school_minimum_healthcare_experience_hours_required' noteName="school_minimum_healthcare_experience_hours_required_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
                         />
                     </div>
 
@@ -645,7 +674,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
                             </button> 
                         </div> 
                         <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} notes={newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.notes ? newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed.notes : null} originalNotes={newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes : null} name='school_minimum_time_frame_healthcare_experience_needs_to_be_completed' noteName="school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
                         />
                     </div>
                 </>
@@ -671,7 +700,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
                             </button> 
                         </div>
                         <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} notes={newSchool.edited_school_healthcare_experience.edited_school_minimum_healthcare_experience_hours_recommended.notes ? newSchool.edited_school_healthcare_experience.edited_school_minimum_healthcare_experience_hours_recommended.notes : null} originalNotes={newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended ? newSchool.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended.school_minimum_healthcare_experience_hours_recommended_notes : null} name='school_minimum_healthcare_experience_hours_recommended' noteName="school_minimum_healthcare_experience_hours_recommended_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
                         />
                     </div>
 
@@ -688,7 +717,7 @@ export default function HealthcareExperience({ newSchool, setNewSchool, loggedIn
                             </button> 
                         </div> 
                         <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_healthcare_experience.isEditMode} notes={newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.notes ? newSchool.edited_school_healthcare_experience.edited_school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.notes : null} originalNotes={newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended ? newSchool.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes : null} name='school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended' noteName="school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
                         />
                     </div>
                 </>

@@ -268,61 +268,37 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
     }, [newSchool.edited_school_community_service.edited_school_community_service_required, newSchool.school_community_service.school_community_service_required, newSchool.edited_school_community_service.edited_school_community_service_recommended,
         newSchool.school_community_service.school_community_service_recommended])
 
-    useEffect(() => {
-        if (newSchool.school_community_service.school_community_service_recommended) {
-            setNewSchool({
-                ...newSchool,
-                school_community_service: {
-                    ...newSchool.school_community_service,
-                    school_minimum_community_service_hours_recommended: {
-                        input: newSchool.school_community_service.school_minimum_community_service_hours_recommended && newSchool.school_community_service.school_minimum_community_service_hours_recommended.input ? newSchool.school_community_service.school_minimum_community_service_hours_recommended.input : 0,
-                        school_minimum_community_service_hours_recommended_notes: newSchool.school_community_service.school_minimum_community_service_hours_recommended && newSchool.school_community_service.school_minimum_community_service_hours_recommended.school_minimum_community_service_hours_recommended_notes ? newSchool.school_community_service.school_minimum_community_service_hours_recommended.school_minimum_community_service_hours_recommended_notes : [],
-                    },
-                }
-            })
-        } else {
-            setNewSchool({
-                ...newSchool,
-                school_community_service: {
-                    ...newSchool.school_community_service,
-                    school_minimum_community_service_hours_recommended: null,
-                }
-            })
-        }
-    }, [newSchool.school_community_service.school_community_service_recommended])
-    
-    useEffect(() => {
-        if (newSchool.school_community_service.school_community_service_required) {
-            setNewSchool({
-                ...newSchool,
-                school_community_service: {
-                    ...newSchool.school_community_service,
-                    school_minimum_community_service_hours_required: {
-                        input: newSchool.school_community_service.school_minimum_community_service_hours_required && newSchool.school_community_service.school_minimum_community_service_hours_required.input ? newSchool.school_community_service.school_minimum_community_service_hours_required.input : 0,
-                        school_minimum_community_service_hours_required_notes: newSchool.school_community_service.school_minimum_community_service_hours_required && newSchool.school_community_service.school_minimum_community_service_hours_required.school_minimum_community_service_hours_required_notes ? newSchool.school_community_service.school_minimum_community_service_hours_required.school_minimum_community_service_hours_required_notes : [],
-                    },
-                }
-            })
-        } else {
-            setNewSchool({
-                ...newSchool,
-                school_community_service: {
-                    ...newSchool.school_community_service,
-                    school_minimum_community_service_hours_required: null,
-                }
-            })
-        }
-    }, [newSchool.school_community_service.school_community_service_required])
     
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
         if (!isEditedInput) {
-            setNewSchool({
-                ...newSchool,
-                school_community_service: {
-                    ...newSchool.school_community_service,
-                    [e.target.name]: e.target.checked,
-                }
-            })
+
+            if (e.target.name === 'school_community_service_required') {
+                setNewSchool({
+                    ...newSchool,
+                    school_community_service: {
+                        ...newSchool.school_community_service,
+                        school_community_service_required: e.target.checked,
+                        school_minimum_community_service_hours_required: e.target.checked ? {
+                            input: 0,
+                            school_minimum_community_service_hours_required_notes: [],
+                        } : null,
+                    }
+                })
+            } else if (e.target.name === 'school_community_service_recommended') {
+                setNewSchool({
+                    ...newSchool,
+                    school_community_service: {
+                        ...newSchool.school_community_service,
+                        school_community_service_recommended: e.target.checked,
+                        school_minimum_community_service_hours_recommended: e.target.checked ? {
+                            input: 0,
+                            school_minimum_community_service_hours_recommended_notes: [],
+                        } : null,
+                    }
+                })
+            }
+
+            
         } else {
             const name = `edited_${e.target.name}`;
             const field = newSchool.edited_school_community_service[name as keyof object] as object;
@@ -417,7 +393,7 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
                     </div>
                     
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} notes={newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_required.notes ? newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_required.notes : null} originalNotes={newSchool.school_community_service.school_minimum_community_service_hours_required ? newSchool.school_community_service.school_minimum_community_service_hours_required.school_minimum_community_service_hours_required_notes : null} name='school_minimum_community_service_hours_required' noteName="school_minimum_community_service_hours_required_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
                         />
                 </div>
                 )}
@@ -443,7 +419,7 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
                     </div>
                    
                     <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} notes={newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_recommended.notes ? newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_recommended.notes : null} originalNotes={newSchool.school_community_service.school_minimum_community_service_hours_recommended ? newSchool.school_community_service.school_minimum_community_service_hours_recommended.school_minimum_community_service_hours_recommended_notes : null} name='school_minimum_community_service_hours_recommended' noteName="school_minimum_community_service_hours_recommended_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
                         />
                 </div>
                 )}
