@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState, MouseEvent } from "react";
-import { School, Note } from "../../../../types/schools.types";
-import AddNote from "../Prereqs/AddNote";
-import AddNoteFields from "../../Assets/AddNoteFields";
+import { School } from "../../../../types/schools.types";
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 
 import { UserObject } from "../../../../types/users.types";
 import Screen from "../../../../components/Screen";
@@ -11,26 +11,31 @@ import EditButtons from "../../Assets/EditButtons";
 import LinkPopup from "../../LinkPopup";
 
 import { enableEditModeBool, confirmEditBool, revertEditBool, undoEditBool } from "../GeneralInfo/GeneralInfoFunctions";
+import useNotes from "../../../../hooks/useNotes";
 
 export default function InternationalStudents({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
-    const [ index, setIndex ] = useState<number | null>(null);
-    const [ editedNote, setEditedNote ] = useState<Note | null>(null);
-    const [ notePopup, setNotePopup ] = useState(false);
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
         name: '',
     })
 
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+    } = useNotes({newSchool, setNewSchool});
+
     const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setOpenLinkPopup(!openLinkPopup);
     }
 
-    const toggleNotePopup = (e:any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup)
-    }
+  
 
     const handleCheck = (e: ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
         if (!isEditedInput) {
@@ -53,81 +58,7 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
         
     };
 
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_international_students_accepted: {
-                    ...newSchool.school_international_students_accepted,
-                    notes: newSchool.school_international_students_accepted.notes.concat(note)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_international_students_accepted: {
-                    ...newSchool.edited_school_international_students_accepted,
-                    notes: newSchool.edited_school_international_students_accepted.notes!.concat(note)
-                }
-            })
-        }
-        
-    };
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_international_students_accepted: {
-                    ...newSchool.school_international_students_accepted,
-                    notes: newSchool.school_international_students_accepted.notes.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_international_students_accepted: {
-                    ...newSchool.edited_school_international_students_accepted,
-                    notes: newSchool.edited_school_international_students_accepted.notes!.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        }
-        
-    };
-
-    const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-        e.preventDefault();
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_international_students_accepted: {
-                    ...newSchool.school_international_students_accepted,
-                    notes: newSchool.school_international_students_accepted.notes.filter((n,i) => i !== index)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_international_students_accepted: {
-                    ...newSchool.edited_school_international_students_accepted,
-                    notes: newSchool.edited_school_international_students_accepted.notes!.filter((n,i) => i !== index)
-                }
-            })
-        }
-        
-    }
+    
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
@@ -157,35 +88,19 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
                     <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} input={newSchool.edited_school_international_students_accepted.input} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} originalInput={newSchool.school_international_students_accepted.input}
                     name='school_international_students_accepted' handleCheck={handleCheck}
                     />
-                    {/* <div className='mt-2 grow'>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input onChange={handleCheck} checked={newSchool.school_international_students_accepted.input ? true : false} type="checkbox" className="sr-only peer"/>
-                            <div className="w-12 h-8 bg-gray-200 peer-focus:outline-none rounded-full shadow-inner peer dark:bg-gray-200 peer-checked:after:translate-x-[16px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-600"></div>
-                            <span className="ml-3 text-xl text-black">{newSchool.school_international_students_accepted.input ? 'True' : 'False'}</span>
-                        </label>
-                    </div> */}
-                    <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+        
+                    <button onClick={(e:any) => openAddNote(e, 'school_international_students_accepted')} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                 </div>
-                {/* {newSchool.school_international_students_accepted.school_international_students_notes && (
-                <div className={`flex flex-col justify-center items-center gap-3 ${newSchool.school_international_students_accepted.school_international_students_notes.length ? 'mt-3' : 'mt-0'}`}>
-                    {newSchool.school_international_students_accepted.school_international_students_notes.map((note, i) => (
-                        <div className='py-2 pr-2 pl-3 border border-[#B4B4B4] rounded w-full'>
-                            <div className='flex justify-between items-center w-full mb-1'>
-                                <p className={`font-semibold ${note.type === 'information' ? 'text-[#4573D2]' : 'text-[#F06A6A]'}`}>{note.type}:</p>
-                                <div className='flex gap-2'>
-                                    <button onClick={(e) => {toggleNotePopup(e); setEditedNote(note); setIndex(i);}}><FiEdit3 className='h-7 w-7 border-2 rounded-md border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>
-                                    <button onClick={(e) => deleteNote(e, i)}><AiOutlineClose className='h-7 w-7 border-2 rounded-md border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>
-                                </div>
-                            </div>
-                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                        </div>
-                    ))}
-                </div>
-                )} */}
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} notes={newSchool.edited_school_international_students_accepted.notes} originalNotes={newSchool.school_international_students_accepted.notes} name='school_international_students_accepted' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+               
+                <AddNoteFields 
+                 isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} 
+                 notes={newSchool.edited_school_international_students_accepted.notes} 
+                 originalNotes={newSchool.school_international_students_accepted.notes} 
+                 name='school_international_students_accepted' 
+                deleteNote={deleteNote} 
+                openEditNote={openEditNote}
                     />
             </div>
             <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_international_students_accepted.input} isEditMode={newSchool.edited_school_international_students_accepted.isEditMode} link={newSchool.edited_school_international_students_accepted.link} 
@@ -193,7 +108,9 @@ export default function InternationalStudents({ newSchool, setNewSchool, loggedI
             />
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
+        {isNoteOpen && (
+            <AddNote editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
+            )}
         </>
     )
 }

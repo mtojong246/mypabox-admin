@@ -15,6 +15,7 @@ const useNotes = ({ newSchool, setNewSchool }: {
     const [ loggedInUser, setLoggedInUser ] = useState<UserObject | null>(null);
     const [ noteToEdit, setNoteToEdit ] = useState<Note | null>(null);
     const [ name, setName ] = useState('');
+    const [ groupName, setGroupName ] = useState<string | undefined>(undefined);
     const [ noteName, setNoteName ] = useState<string | undefined>(undefined);
     const [ noteIndex, setNoteIndex ] = useState(0);
     const [ isNoteOpen, setIsNoteOpen ] = useState(false);
@@ -53,6 +54,7 @@ const useNotes = ({ newSchool, setNewSchool }: {
             if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
                 const field = newSchool[name as keyof School] as any;
                 const notes = field[noteName ? noteName : 'notes'] as Note[];
+
                 setNewSchool({
                     ...newSchool,
                     [name]: {
@@ -77,6 +79,31 @@ const useNotes = ({ newSchool, setNewSchool }: {
         }
         
     };
+
+    const addNestedNotes = (note: Note) => {
+        if (loggedInUser && groupName) {
+
+            if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
+                
+                setNewSchool({
+                    ...newSchool,
+                    school_certifications_required: {
+                        ...newSchool.school_certifications_required,
+                        school_certification_notes: newSchool.school_certifications_required.school_certification_notes.concat(note)
+                    }
+                })
+            } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
+                setNewSchool({
+                    ...newSchool,
+                    edited_school_certifications_required: {
+                        ...newSchool.edited_school_certifications_required,
+                        notes: newSchool.edited_school_certifications_required.notes!.concat(note)
+                    }
+                })
+            }
+
+        }
+    }
     
 
     const updateNote = (note: Note) => {

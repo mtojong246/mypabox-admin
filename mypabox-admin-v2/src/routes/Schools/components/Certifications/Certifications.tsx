@@ -1,7 +1,7 @@
-import { School, Note } from "../../../../types/schools.types"
+import { School } from "../../../../types/schools.types"
 import { Dispatch, SetStateAction, useEffect, useState, MouseEvent, ChangeEvent } from "react"
-import AddNote from "../Prereqs/AddNote";
-import AddNoteFields from "../../Assets/AddNoteFields";
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 
 import { UserObject } from "../../../../types/users.types";
 
@@ -12,6 +12,7 @@ import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup }
 import Screen from "../../../../components/Screen";
 import Indicator from "../../../../components/Indicator";
 import AddSelected from "../../Assets/AddSelected";
+import useNotes from "../../../../hooks/useNotes";
 
 const options = [
     {value: 'CPR', label: 'CPR'},
@@ -20,9 +21,6 @@ const options = [
 ]
 
 export default function Certifications({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
-    const [ index, setIndex ] = useState<number | null>(null);
-    const [ editedNote, setEditedNote ] = useState<Note | null>(null);
-    const [ notePopup, setNotePopup ] = useState(false);
     const [ certification, setCertification ] = useState('');
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
@@ -38,25 +36,16 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
         setOpenLinkPopup(!openLinkPopup);
     }
 
-    useEffect(() => {
-        if (newSchool.school_certifications_required.input) {
-            setNewSchool({
-                ...newSchool,
-                school_certifications_required: {
-                    ...newSchool.school_certifications_required,
-                    school_certifications_required_options: newSchool.school_certifications_required.school_certifications_required_options ? newSchool.school_certifications_required.school_certifications_required_options : [],
-                }
-            })
-        } else {
-            setNewSchool({
-                ...newSchool,
-                school_certifications_required: {
-                    ...newSchool.school_certifications_required,
-                    school_certifications_required_options: null,
-                }
-            })
-        }
-    }, [newSchool.school_certifications_required.input]);
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+    } = useNotes({newSchool, setNewSchool});
+
 
     useEffect(() => {
         if (newSchool.edited_school_certifications_required.input !== null || newSchool.edited_school_certifications_required.edited_school_certifications_required_options.input !== null) {
@@ -82,20 +71,19 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
         }
     }, [newSchool.edited_school_certifications_required, newSchool.school_certifications_required])
 
-    const toggleNotePopup = (e:any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup)
-    };
 
     const handleCheck = (e:ChangeEvent<HTMLInputElement>, isEditedInput: boolean) => {
         if (!isEditedInput) {
+            
             setNewSchool({
                 ...newSchool,
                 school_certifications_required: {
                     ...newSchool.school_certifications_required,
                     input: e.target.checked,
+                    school_certifications_required_options: e.target.checked ? [] : null,
                 }
             })
+
         } else {
             setNewSchool({
                 ...newSchool,
@@ -193,81 +181,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
         
     };
 
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_certifications_required: {
-                    ...newSchool.school_certifications_required,
-                    school_certification_notes: newSchool.school_certifications_required.school_certification_notes.concat(note)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_certifications_required: {
-                    ...newSchool.edited_school_certifications_required,
-                    notes: newSchool.edited_school_certifications_required.notes!.concat(note)
-                }
-            })
-        }
-        
-    };
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_certifications_required: {
-                    ...newSchool.school_certifications_required,
-                    school_certification_notes: newSchool.school_certifications_required.school_certification_notes.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_certifications_required: {
-                    ...newSchool.edited_school_certifications_required,
-                    notes: newSchool.edited_school_certifications_required.notes!.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        }
-        
-    };
-
-    const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-        e.preventDefault();
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_certifications_required: {
-                    ...newSchool.school_certifications_required,
-                    school_certification_notes: newSchool.school_certifications_required.school_certification_notes.filter((n,i) => i !== index)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_certifications_required: {
-                    ...newSchool.edited_school_certifications_required,
-                    notes: newSchool.edited_school_certifications_required.notes!.filter((n,i) => i !== index)
-                }
-            })
-        }
-        
-    }
+    
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
@@ -298,7 +212,7 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
                     name='school_certifications_required' handleCheck={handleCheck} />
                     
                     {!isOpen && (
-                        <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e:any) => openAddNote(e, 'school_certifications_required', 'school_certification_notes')} className="block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     )}
@@ -316,20 +230,32 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
                 {newSchool.school_certifications_required.input && (
                 <div className={`${newSchool.school_certifications_required.input ? 'mx-5 mb-5' : 'mx-0 mb-0'}`}>
                 <label className='font-medium text-xl inline-block mt-8'>Notes:</label>
-                <button onClick={toggleNotePopup} className="mt-2 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={(e:any) => openAddNote(e, 'school_certifications_required', 'school_certification_notes')} className="mt-2 block border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
                
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} notes={newSchool.edited_school_certifications_required.notes} originalNotes={newSchool.school_certifications_required.school_certification_notes} name='edited_school_certifications_required' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+                <AddNoteFields 
+                    isEditMode={newSchool.edited_school_certifications_required.isEditMode} 
+                    notes={newSchool.edited_school_certifications_required.notes} 
+                    originalNotes={newSchool.school_certifications_required.school_certification_notes} 
+                    name='school_certifications_required' 
+                    noteName="school_certification_notes"
+                    deleteNote={deleteNote}
+                    openEditNote={openEditNote}
                     />
                 </div>
                 )}
                 {newSchool.school_certifications_required.school_certification_notes && !newSchool.school_certifications_required.input && (
                    
-                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} notes={newSchool.edited_school_certifications_required.notes} originalNotes={newSchool.school_certifications_required.school_certification_notes} name='edited_school_certifications_required' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
-                    />
+                   <AddNoteFields 
+                   isEditMode={newSchool.edited_school_certifications_required.isEditMode} 
+                   notes={newSchool.edited_school_certifications_required.notes} 
+                   originalNotes={newSchool.school_certifications_required.school_certification_notes} 
+                   name='school_certifications_required' 
+                   noteName="school_certification_notes"
+                   deleteNote={deleteNote}
+                   openEditNote={openEditNote}
+                   />
                 )}
             </div>
             {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_certifications_required.isEditMode} input={hasInputs} name='edited_school_certifications_required' enableEditMode={enableEditModeGroup} 
@@ -337,7 +263,9 @@ export default function Certifications({ newSchool, setNewSchool, loggedInUser, 
             />}
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
+        {isNoteOpen && (
+            <AddNote editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
+            )}
         </>
     )
 }
