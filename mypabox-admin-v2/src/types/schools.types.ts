@@ -40,9 +40,7 @@ export interface NoteInfoObj {
     index?: number,
 }
 
-interface AdditionalField {
-    input: string;
-}
+
 
 export interface StringInput {
     input: string;

@@ -2,8 +2,8 @@ import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent 
 import { School, Note, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
 import countries from "../../../../data/countries.json";
-import Select from 'react-select';
-import AddNote from "../Prereqs/AddNote";
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 import { UserObject } from "../../../../types/users.types";
 import AddPhoneOrEmail from "../../Assets/AddPhoneOrEmail";
 import Screen from "../../../../components/Screen";
@@ -17,9 +17,8 @@ import InputFields from "../../Assets/InputsFields";
 
 import { enableEditMode, confirmEdit, undoEdit, revertEdit, confirmEditBool, undoEditBool, revertEditBool, enableEditModeBool } from "./GeneralInfoFunctions";
 import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./EmailPhoneFunctions";
-import AddNoteFields from "../../Assets/AddNoteFields";
 import SelectFields from "../../Assets/SelectFields";
-
+import useNotes from "../../../../hooks/useNotes";
 
 
 
@@ -235,15 +234,25 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
     const [stateNames, setStateNames] = useState<any>([]);
     const [countryNames, setCountryNames] = useState<any>([]);
 
-    const [index, setIndex] = useState<number | null>(null);
-    const [editedNote, setEditedNote] = useState<Note | null>(null);
-    const [notePopup, setNotePopup] = useState(false);
-    const [name, setName] = useState('');
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
         name: '',
-    })
+    });
+
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        toggleNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+        setName,
+    } = useNotes({newSchool, setNewSchool});
+
+
 
     const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -260,10 +269,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         email: '',
     })
 
-    const toggleNotePopup = (e: any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup);
-      };
+    
 
     useEffect(() => {
         setCountryNames(countries.map(country => ({ value: country.name, label: country.name, 
@@ -358,88 +364,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         })
     };
 
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    notes: (field.notes as Note[]).concat(note),
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            const field = newSchool[`edited_${name}` as keyof object] as any;
-            setNewSchool({
-                ...newSchool,
-                [`edited_${name}`]: {
-                    ...field,
-                    notes: (field.notes as Note[]).concat(note),
-                }
-            })
-        }
-        
-    };
-
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    notes: (field.notes as Note[]).map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            const field = newSchool[`edited_${name}` as keyof object] as any;
-            setNewSchool({
-                ...newSchool,
-                [`edited_${name}`]: {
-                    ...field,
-                    notes: (field.notes as Note[]).map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        }
-        
-    };
-
-    const deleteNote = (e: any, index: number, name: string) => {
-        e.preventDefault();
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            const field = newSchool[`edited_${name}` as keyof object] as any;
-            setNewSchool({
-                ...newSchool,
-                [`edited_${name}`]: {
-                    ...field,
-                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
-                }
-            })
-        }
-        
-    };
+    
 
     const addPhone = (e: MouseEvent<HTMLButtonElement>, isEditedInput: boolean) => {
         e.preventDefault();
@@ -655,13 +580,18 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                 <Indicator label={cat.name} editedInput={field.input} />
                     <div className='flex justify-start items-start gap-3'>
                         <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={((newSchool[cat.value as keyof School] as StringInput | NumberInput).input as string | number)} name={cat.value} handleInput={handleInput}/>
-                        {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} name='add' value={cat.value} className="disabled:opacity-70 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white disabled:hover:bg-none hover:bg-[#F06A6A]">
+                        {(newSchool[cat.value as keyof School] as StringInput | NumberInput).notes && (<button onClick={(e:any) => {openAddNote(e, cat.value)}} name='add' value={cat.value} className="disabled:opacity-70 w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white disabled:hover:bg-none hover:bg-[#F06A6A]">
                             Add Note
                         </button>)}
                     </div>
                     
-                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={field.isEditMode} notes={field.notes ? field.notes : null} originalNotes={((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) : null} name={cat.value} toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    <AddNoteFields 
+                        isEditMode={field.isEditMode} 
+                        notes={field.notes ? field.notes : null} 
+                        originalNotes={((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) : null} 
+                        name={cat.value} 
+                        deleteNote={deleteNote} 
+                        openEditNote={openEditNote}
                     />
                 </div>
                 {isEdit && <EditButtons isEdit={isEdit}  loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
@@ -684,36 +614,19 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                     <div className='flex justify-center items-start gap-3'>
                         <SelectFields isEdit={isEdit}  loggedInUser={loggedInUser} input={field.input} originalInput={originalField.input} isEditMode={field.isEditMode} handleSelect={handleSelect}
                         options={getOptions(cat.value)}  category={cat.value} name={cat.value}/>
-                    {/* {loggedInUser.permissions.canVerify ? (
-                        <>
-                        {field.input !== null ? (
-                        <div className='flex flex-col justify-start items-start gap-3 grow'>
-                            <Select isDisabled className="w-full focus:outline-none rounded"
-                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.edited_school_state.input ? {value: newSchool.edited_school_state.input, label: newSchool.edited_school_state.input} : cat.value === 'school_country' && newSchool.edited_school_country.input ? {value: newSchool.edited_school_country.input, label: newSchool.edited_school_country.input} : cat.value === 'school_start_month' && newSchool.edited_school_start_month.input ? {value: newSchool.edited_school_start_month.input, label: newSchool.edited_school_start_month.input} : null}/>
-                            <Select isDisabled className={`w-full focus:outline-none rounded ${field.input ? 'line-through' : 'no-underline'}`}
-                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>
-                            </div>
-                        ) : (
-                        <Select className="grow focus:outline-none rounded"
-                        options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} onChange={(e:any) => handleSelect(e, cat.value, false)} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>
-                        )}
-                        </>
-                    ) : (
-                        <div className='flex flex-col justify-start items-start gap-3 grow'>
-                            {(field.input !== null || field.isEditMode) && <Select onChange={(e:any) => handleSelect(e, name, true)} isDisabled={field.isEditMode ? false : true} className="w-full focus:outline-none rounded"
-                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.edited_school_state.input ? {value: newSchool.edited_school_state.input, label: newSchool.edited_school_state.input} : cat.value === 'school_country' && newSchool.edited_school_country.input ? {value: newSchool.edited_school_country.input, label: newSchool.edited_school_country.input} : cat.value === 'school_start_month' && newSchool.edited_school_start_month.input ? {value: newSchool.edited_school_start_month.input, label: newSchool.edited_school_start_month.input} : null}/>}
-                            {(!field.isEditMode || (field.isEditMode && (field.input !== originalField.input))) && <Select isDisabled className={`w-full focus:outline-none rounded ${field.input ? 'line-through' : 'no-underline'}`}
-                            options={cat.value === 'school_state' ? stateNames : cat.value === 'school_country' ? countryNames : months} value={cat.value === 'school_state' && newSchool.school_state.input ? {value: newSchool.school_state.input, label: newSchool.school_state.input} : cat.value === 'school_country' && newSchool.school_country.input ? {value: newSchool.school_country.input, label: newSchool.school_country.input} : cat.value === 'school_start_month' && newSchool.school_start_month.input ? {value: newSchool.school_start_month.input, label: newSchool.school_start_month.input} : null}/>}
-                        </div>
-                    )} */}
-                        {(newSchool[cat.value as keyof School] as StringInput).notes && <button onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
+                        {(newSchool[cat.value as keyof School] as StringInput).notes && <button onClick={(e:any) => {openAddNote(e, cat.value)}} value={cat.value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]" >
                             Add Note
                         </button>}
                     </div>
                    
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={field.isEditMode} notes={field.notes ? field.notes : null} originalNotes={((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) : null} name={cat.value} toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
-                />
+                    <AddNoteFields 
+                        isEditMode={field.isEditMode} 
+                        notes={field.notes ? field.notes : null} 
+                        originalNotes={((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as StringInput | NumberInput).notes as Note[]) : null} 
+                        name={cat.value} 
+                        deleteNote={deleteNote} 
+                        openEditNote={openEditNote}
+                    />
                 </div>
                 {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
                    setLinkObj={setLinkObj} name={cat.value} toggleLinkPopup={toggleLinkPopup} enableEditMode={enableEditMode} confirmEdit={confirmEdit} undoEdit={undoEdit} revertEdit={revertEdit} newSchool={newSchool} setNewSchool={setNewSchool}
@@ -733,14 +646,19 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                 <Indicator label={cat.name} editedInput={field.input} />
                     <div className='flex justify-start items-center gap-3 '>
                         <BooleanFields isEdit={isEdit} newSchool={newSchool}  loggedInUser={loggedInUser} input={field.input} isEditMode={field.isEditMode} originalInput={(newSchool[cat.value as keyof School] as BooleanInput).input} name={cat.value} handleCheck={handleCheck}/>
-                        <button  onClick={(e:any) => {toggleNotePopup(e); setName(cat.value)}} value={cat.value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button  onClick={(e:any) => {openAddNote(e, cat.value)}} value={cat.value} className="disabled:opacity-70 disabled:hover:bg-none w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
                     
                    
-                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={field.isEditMode} notes={field.notes ? field.notes : null} originalNotes={((newSchool[cat.value as keyof School] as BooleanInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as BooleanInput).notes as Note[]) : null} name={cat.value} toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                    <AddNoteFields 
+                        isEditMode={field.isEditMode} 
+                        notes={field.notes ? field.notes : null} 
+                        originalNotes={((newSchool[cat.value as keyof School] as BooleanInput).notes as Note[]) ? ((newSchool[cat.value as keyof School] as BooleanInput).notes as Note[]) : null} 
+                        name={cat.value} 
+                        deleteNote={deleteNote} 
+                        openEditNote={openEditNote}
                     />
                 </div>
                 {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={field.isEditMode} input={field.input} link={field.link} 
@@ -767,11 +685,16 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
                 <Screen isEdit={isEdit} editedInput={newSchool.edited_school_phone_number.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} />
                 <Indicator label={cat.name} editedInput={newSchool.edited_school_phone_number.input} />
                 <AddPhoneOrEmail isEdit={isEdit} loggedInUser={loggedInUser} input={newSchool.edited_school_phone_number.input} originalInput={newSchool.school_phone_number.input} isEditMode={newSchool.edited_school_phone_number.isEditMode} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
-                addFunc={addPhone} deleteFunc={deletePhone} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNotePopup} newSchool={newSchool}
+                addFunc={addPhone} deleteFunc={deletePhone} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNote} newSchool={newSchool}
                 />
                 
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} notes={newSchool.edited_school_phone_number.notes ? newSchool.edited_school_phone_number.notes : null} originalNotes={newSchool.school_phone_number.notes} name='school_phone_number' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                <AddNoteFields 
+                    isEditMode={newSchool.edited_school_phone_number.isEditMode} 
+                    notes={newSchool.edited_school_phone_number.notes ? newSchool.edited_school_phone_number.notes : null} 
+                    originalNotes={newSchool.school_phone_number.notes} 
+                    name='school_phone_number'
+                    deleteNote={deleteNote} 
+                    openEditNote={openEditNote} 
                 />
             </div>
             {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_phone_number.isEditMode} input={newSchool.edited_school_phone_number.input} link={newSchool.edited_school_phone_number.link} 
@@ -787,11 +710,16 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
             <Screen isEdit={isEdit} editedInput={newSchool.edited_school_email.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} />
                 <Indicator label={cat.name} editedInput={newSchool.edited_school_email.input} />
                 <AddPhoneOrEmail isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} originalInput={newSchool.school_email.input} setEmail={setEmail} setPhone={setPhone} setPhoneFormat={setPhoneFormat} setName={setName} email={email} phone={phone} 
-                addFunc={addEmail} deleteFunc={deleteEmail} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNotePopup} newSchool={newSchool}
+                addFunc={addEmail} deleteFunc={deleteEmail} undoFunc={undoChange} value={cat.value} toggleNotePopup={toggleNote} newSchool={newSchool}
                 />
                
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} notes={newSchool.edited_school_email.notes ? newSchool.edited_school_email.notes : null} originalNotes={newSchool.school_email.notes} name='school_email' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                <AddNoteFields 
+                    isEditMode={newSchool.edited_school_email.isEditMode} 
+                    notes={newSchool.edited_school_email.notes ? newSchool.edited_school_email.notes : null} 
+                    originalNotes={newSchool.school_email.notes} 
+                    name='school_email' 
+                    deleteNote={deleteNote} 
+                    openEditNote={openEditNote}
                 />
             </div>
             {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_email.isEditMode} input={newSchool.edited_school_email.input} link={newSchool.edited_school_email.link} toggleLinkPopup={toggleLinkPopup} setLinkObj={setLinkObj}
@@ -802,7 +730,7 @@ export default function GeneralInfo({newSchool, setNewSchool, loggedInUser, isEd
         }
 
         })}
-        {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />
+        {isNoteOpen && (<AddNote editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
       )}
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
         </>

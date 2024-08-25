@@ -551,8 +551,8 @@ export default function AddSchool() {
       </div>
 
     </div>
-    {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
-    {openEdit && <EditNote currentInput={currentInput} note={note} index={index} toggleEdit={toggleEdit} editNote={editNote}/>}
+    {/* {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
+    {openEdit && <EditNote currentInput={currentInput} note={note} index={index} toggleEdit={toggleEdit} editNote={editNote}/>} */}
     {isCancelOpen && <CancelPopup toggleDelete={toggleCancelPopup} cancel={cancel} />}
     {<Snackbar
         open={open}

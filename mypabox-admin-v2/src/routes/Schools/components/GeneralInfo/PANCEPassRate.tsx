@@ -1,11 +1,11 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState, KeyboardEvent, MouseEvent } from "react";
-import { School, Note, StringInput, NumberInput, BooleanInput } from "../../../../types/schools.types";
+import { School, StringInput, NumberInput } from "../../../../types/schools.types";
 import ReactQuill from "react-quill";
-import AddNote from "../Prereqs/AddNote";
 import { UserObject } from "../../../../types/users.types";
-import AddNoteFields from "../../Assets/AddNoteFields";
 import Screen from "../../../../components/Screen";
 import Indicator from "../../../../components/Indicator";
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 
 import LinkPopup from "../../LinkPopup";
 
@@ -13,12 +13,9 @@ import EditButtons from "../../Assets/EditButtons";
 
 import { enableEditMode, confirmEdit, undoEdit, revertEdit } from "./GeneralInfoFunctions";
 import InputFields from "../../Assets/InputsFields";
+import useNotes from "../../../../hooks/useNotes";
 
 export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, isEdit}: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean }) {
-    const [index, setIndex] = useState<number | null>(null);
-    const [editedNote, setEditedNote] = useState<Note | null>(null);
-    const [notePopup, setNotePopup] = useState(false);
-    const [name, setName] = useState('');
 
     const [firstSelected, setFirstSelected] = useState('');
     const [fiveSelected, setFiveSelected] = useState('');
@@ -29,15 +26,22 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
         name: '',
     })
 
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+    } = useNotes({newSchool, setNewSchool});
+
     const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setOpenLinkPopup(!openLinkPopup);
     }
 
-    const toggleNotePopup = (e: any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup);
-      };
+
 
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -130,87 +134,6 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
         })
     };
 
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    notes: (field.notes as Note[]).concat(note),
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            const field = newSchool[`edited_${name}` as keyof School] as any;
-            setNewSchool({
-                ...newSchool,
-                [`edited_${name}`]: {
-                    ...field,
-                    notes: (field.notes as Note[]).concat(note),
-                }
-            })
-        }
-        
-    };
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    notes: (field.notes as Note[]).map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            const field = newSchool[`edited_${name}` as keyof School] as any;
-            setNewSchool({
-                ...newSchool,
-                [`edited_${name}`]: {
-                    ...field,
-                    notes: (field.notes as Note[]).map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        }
-        
-    };
-
-    const deleteNote = (e: any, index: number, name: string) => {
-        e.preventDefault();
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            const field = newSchool[name as keyof School] as StringInput | NumberInput | BooleanInput;
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            const field = newSchool[`edited_${name}` as keyof School] as any;
-            setNewSchool({
-                ...newSchool,
-                [`edited_${name}`]: {
-                    ...field,
-                    notes: (field.notes as Note[]).filter((n,i) => i !== index)
-                }
-            })
-        }
-        
-    };
 
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
@@ -228,7 +151,6 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
         })
     }
 
-    console.log(newSchool.edited_school_first_time_pass_rate)
 
 
     return (
@@ -239,12 +161,17 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
             <Indicator label="First Time Pass Rate" editedInput={newSchool.edited_school_first_time_pass_rate.input} />
                 <div className='flex justify-center items-start gap-3'>
                     <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} input={newSchool.edited_school_first_time_pass_rate.input} isEditMode={newSchool.edited_school_first_time_pass_rate.isEditMode} originalInput={newSchool.school_first_time_pass_rate.input} name='school_first_time_pass_rate' handleInput={handleInput} keyDown={keyDownFirst}/>
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName('school_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e:any) => {openAddNote(e, 'school_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                 </div>
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_first_time_pass_rate.isEditMode} notes={newSchool.edited_school_first_time_pass_rate.notes} originalNotes={newSchool.school_first_time_pass_rate.notes} name='school_first_time_pass_rate' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                <AddNoteFields 
+                isEditMode={newSchool.edited_school_first_time_pass_rate.isEditMode} 
+                notes={newSchool.edited_school_first_time_pass_rate.notes} 
+                originalNotes={newSchool.school_first_time_pass_rate.notes} 
+                name='school_first_time_pass_rate' 
+                deleteNote={deleteNote} 
+                openEditNote={openEditNote}
                     />
             </div>
             {isEdit && <EditButtons isEdit={isEdit} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_first_time_pass_rate.isEditMode} input={newSchool.edited_school_first_time_pass_rate.input} link={newSchool.edited_school_first_time_pass_rate.link} 
@@ -259,12 +186,17 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
                 <div className='flex justify-center items-start gap-3'>
                     <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} input={newSchool.edited_school_average_five_year_first_time_pass_rate.input} isEditMode={newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode} originalInput={newSchool.school_average_five_year_first_time_pass_rate.input} name='school_average_five_year_first_time_pass_rate' handleInput={handleInput} keyDown={keyDownFive}/>
                     
-                    <button onClick={(e:any) => {toggleNotePopup(e); setName('school_average_five_year_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
+                    <button onClick={(e:any) => {openAddNote(e, 'school_average_five_year_first_time_pass_rate')}} name='add' className="w-32 border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] text-xl hover:text-white hover:bg-[#F06A6A]">
                         Add Note
                     </button>
                 </div>
-                <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode} notes={newSchool.edited_school_average_five_year_first_time_pass_rate.notes} originalNotes={newSchool.school_average_five_year_first_time_pass_rate.notes} name='school_average_five_year_first_time_pass_rate' toggleNotePopup={toggleNotePopup}
-                    deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                <AddNoteFields 
+                isEditMode={newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode} 
+                notes={newSchool.edited_school_average_five_year_first_time_pass_rate.notes} 
+                originalNotes={newSchool.school_average_five_year_first_time_pass_rate.notes} 
+                name='school_average_five_year_first_time_pass_rate'
+                deleteNote={deleteNote} 
+                openEditNote={openEditNote}
                     />
             </div>
             {isEdit && <EditButtons isEdit={isEdit}loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_average_five_year_first_time_pass_rate.isEditMode} input={newSchool.edited_school_average_five_year_first_time_pass_rate.input} link={newSchool.edited_school_average_five_year_first_time_pass_rate.link} 
@@ -279,7 +211,9 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
             </div>
 
             {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-            {notePopup && (<AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote} />)}
+            {isNoteOpen && (
+                <AddNote editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
+                )}
         </>
     )
 }
