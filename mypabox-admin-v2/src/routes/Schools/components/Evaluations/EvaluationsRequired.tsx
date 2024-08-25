@@ -1,21 +1,21 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react";
-import { Note, School } from "../../../../types/schools.types";
+import { School } from "../../../../types/schools.types";
 import AddRequiredOption from "./AddRequiredOption";
-import AddNote from "../Prereqs/AddNote";
 import { UserObject } from "../../../../types/users.types";
 import LinkPopup from "../../LinkPopup";
 import { enableEditModeGroup, confirmEditGroup, revertEditGroup, undoEditGroup } from "./EvaluationFunctions";
-import AddNoteFields from "../../Assets/AddNoteFields";
 import Indicator from "../../../../components/Indicator";
 import Screen from "../../../../components/Screen";
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 
-import { PiCheckCircle, PiWarningCircle } from "react-icons/pi";
 import EditButtons from "../../Assets/EditButtons";
 import BooleanFields from "../../Assets/BooleanFields";
 import InputFields from "../../Assets/InputsFields";
 import SelectInputsFields from "../../Assets/SelectInputsFields";
 import TitleFields from "./TitleFields";
 import ReqOptionFields from "./ReqOptionFields";
+import useNotes from "../../../../hooks/useNotes";
 
 const evaluatorOptions = [
     {value: 'PA', label: 'PA'},
@@ -49,9 +49,6 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
     const [ openOptions, setOpenOptions ] = useState(false);
     const [ editedOption, setEditedOption ] = useState<Options | null>(null);
     const [ groupIndex, setGroupIndex ] = useState<number | null>(null);
-    const [ index, setIndex ] = useState<number | null>(null);
-    const [ editedNote, setEditedNote ] = useState<Note | null>(null);
-    const [ notePopup, setNotePopup ] = useState(false);
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
@@ -59,6 +56,16 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
     });
     const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
     const [ isOpen, setIsOpen ] = useState(false);
+
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+    } = useNotes({newSchool, setNewSchool});
 
     const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -152,10 +159,7 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
         })
     }
 
-    const toggleNotePopup = (e:any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup)
-    }
+    
 
     const toggleOptions = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -170,31 +174,6 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
         }
     }, [newSchool.edited_school_evaluations_required.input])
 
-    useEffect(() => {
-        if (newSchool.school_evaluations_required.input) {
-            setNewSchool({
-                ...newSchool,
-                school_evaluations_required: {
-                    ...newSchool.school_evaluations_required,
-                    school_minimum_number_of_evaluations_required: newSchool.school_evaluations_required.school_minimum_number_of_evaluations_required ? newSchool.school_evaluations_required.school_minimum_number_of_evaluations_required : 0,
-                    school_required_evaluator_title: newSchool.school_evaluations_required.school_required_evaluator_title ? newSchool.school_evaluations_required.school_required_evaluator_title : [],
-                    school_minimum_time_evaluator_knows_applicant: newSchool.school_evaluations_required.school_minimum_time_evaluator_knows_applicant ? newSchool.school_evaluations_required.school_minimum_time_evaluator_knows_applicant : '',
-                    school_optional_evaluators_required: newSchool.school_evaluations_required.school_optional_evaluators_required ? newSchool.school_evaluations_required.school_optional_evaluators_required : [],
-                }
-            })
-        } else {
-            setNewSchool({
-                ...newSchool,
-                school_evaluations_required: {
-                    ...newSchool.school_evaluations_required,
-                    school_minimum_number_of_evaluations_required: null,
-                    school_required_evaluator_title: null,
-                    school_minimum_time_evaluator_knows_applicant: null,
-                    school_optional_evaluators_required: null,
-                }
-            })
-        }
-    }, [newSchool.school_evaluations_required.input]);
 
     useEffect(() => {
         if (newSchool.edited_school_evaluations_required.input === null) {
@@ -255,6 +234,11 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
                 school_evaluations_required: {
                     ...newSchool.school_evaluations_required,
                     input: e.target.checked,
+                    school_minimum_number_of_evaluations_required: e.target.checked ? 0 : null,
+                    school_required_evaluator_title: e.target.checked ? [] : null,
+                    school_minimum_time_evaluator_knows_applicant: e.target.checked ? '' : null,
+                    school_optional_evaluators_required: e.target.checked ? [] : null,
+                    school_evaluations_required_notes: [],
                 }
             })
         } else {
@@ -295,15 +279,6 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
         
     }
 
-    // const handleSelect = (e:any, name: string) => {
-    //     setNewSchool({
-    //         ...newSchool,
-    //         school_evaluations_required: {
-    //             ...newSchool.school_evaluations_required,
-    //             [name]: e.value,
-    //         }
-    //     })
-    // }
 
     const handleNumber = (e: ChangeEvent<HTMLInputElement>, category: string, isEditedInput: boolean) => {
         if (!isEditedInput) {
@@ -396,82 +371,6 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
         })
     }
 
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_evaluations_required: {
-                    ...newSchool.school_evaluations_required,
-                    school_evaluations_required_notes: newSchool.school_evaluations_required.school_evaluations_required_notes.concat(note)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_evaluations_required: {
-                    ...newSchool.edited_school_evaluations_required,
-                    notes: newSchool.edited_school_evaluations_required.notes!.concat(note)
-                }
-            })
-        }
-        
-    };
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_evaluations_required: {
-                    ...newSchool.school_evaluations_required,
-                    school_evaluations_required_notes: newSchool.school_evaluations_required.school_evaluations_required_notes.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_evaluations_required: {
-                    ...newSchool.edited_school_evaluations_required,
-                    notes: newSchool.edited_school_evaluations_required.notes!.map((n,i) => {
-                        if (i === index) {
-                            return { ...note }
-                        } else {
-                            return { ...n }
-                        }
-                    })
-                }
-            })
-        }
-        
-    };
-
-    const deleteNote = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-        e.preventDefault();
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                school_evaluations_required: {
-                    ...newSchool.school_evaluations_required,
-                    school_evaluations_required_notes: newSchool.school_evaluations_required.school_evaluations_required_notes.filter((n,i) => i !== index)
-                }
-            })
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            setNewSchool({
-                ...newSchool,
-                edited_school_evaluations_required: {
-                    ...newSchool.edited_school_evaluations_required,
-                    notes: newSchool.edited_school_evaluations_required.notes!.filter((n,i) => i !== index)
-                }
-            })
-        }
-        
-    };
-
     const addLink = (e:MouseEvent<HTMLButtonElement>, newLink: string) => {
         e.preventDefault();
         const linkName = `edited_${linkObj.name}`
@@ -535,12 +434,18 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
             {isOpen && (
             <div className={`mx-5 mb-5`}>
             <label className='font-medium text-xl inline-block mt-8'>Notes:</label>
-            <button onClick={toggleNotePopup} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+            <button onClick={(e:any) => openAddNote(e, 'school_evaluations_required', 'school_evaluations_required_notes')} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                 Add Note
             </button>
           
-            <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_evaluations_required.isEditMode} notes={newSchool.edited_school_evaluations_required.notes} originalNotes={newSchool.school_evaluations_required.school_evaluations_required_notes} name='school_evaluations_required' toggleNotePopup={toggleNotePopup}
-                deleteNote={deleteNote} setIndex={setIndex} setEditedNote={setEditedNote}
+            <AddNoteFields 
+            isEditMode={newSchool.edited_school_evaluations_required.isEditMode} 
+            notes={newSchool.edited_school_evaluations_required.notes} 
+            originalNotes={newSchool.school_evaluations_required.school_evaluations_required_notes} 
+            name='school_evaluations_required' 
+            noteName="school_evaluations_required_notes"
+            deleteNote={deleteNote}
+            openEditNote={openEditNote}
                 />
             </div>
             )}
@@ -551,7 +456,9 @@ export default function EvaluationsRequired({ newSchool, setNewSchool, loggedInU
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
         {openOptions && <AddRequiredOption loggedInUser={loggedInUser} isEdit={isEdit} input={hasInputs} originalInput={newSchool.school_evaluations_required.school_optional_evaluators_required} newSchool={newSchool} setNewSchool={setNewSchool} toggleOptions={toggleOptions} editedOption={editedOption} setEditedOption={setEditedOption} groupIndex={groupIndex}/>}
-        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
+        {isNoteOpen && (
+        <AddNote editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
+        )}
         </>
 
     )
