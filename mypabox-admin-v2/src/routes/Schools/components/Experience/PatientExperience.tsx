@@ -1,10 +1,10 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react"
-import { School, Note } from "../../../../types/schools.types"
-import AddNoteFields from "../../Assets/AddNoteFields";
+import { School } from "../../../../types/schools.types"
 import Screen from "../../../../components/Screen";
 import Indicator from "../../../../components/Indicator";
 
-import AddNote from "../Prereqs/AddNote"
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 import { UserObject } from "../../../../types/users.types";
 import LinkPopup from "../../LinkPopup";
 import { enableEditModeGroup, revertEditGroup, confirmEditGroup, undoEditGroup } from "./ExperienceFunctions";
@@ -12,6 +12,7 @@ import EditButtons from "../../Assets/EditButtons";
 import BooleanFields from "../../Assets/BooleanFields";
 import InputFields from "../../Assets/InputsFields";
 import SelectInputsFields from "../../Assets/SelectInputsFields";
+import useNotes from "../../../../hooks/useNotes";
 
 const options = [
     { value: '', label: 'Select' },
@@ -38,17 +39,24 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
         number: null,
         duration: null,
     }) 
-    const [ notePopup, setNotePopup ] = useState(false);
-    const [ index, setIndex ] = useState<number | null>(null);
-    const [ editedNote, setEditedNote ] = useState<Note | null>(null);
-    const [ isGroup, setIsGroup ] = useState(false);
-    const [ name, setName ] = useState('');
-    const [ noteName, setNoteName ] = useState('');
+
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
         name: '',
     });
+
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+        groupName,
+        deleteNestedNote,
+    } = useNotes({newSchool, setNewSchool})
 
     const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
     const [ isOpen, setIsOpen ] = useState(false);
@@ -76,183 +84,6 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
         })
     };
 
-    const toggleNotePopup = (e:any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup)
-    }
-
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            if (isGroup) {
-                setNewSchool({
-                    ...newSchool,
-                    school_patient_experience: {
-                        ...newSchool.school_patient_experience,
-                        school_patient_care_experience_general_notes: newSchool.school_patient_experience.school_patient_care_experience_general_notes.concat(note)
-                    }
-                })
-            } else {   
-                const field = newSchool.school_patient_experience[name as keyof object] as object;
-                setNewSchool({
-                    ...newSchool,
-                    school_patient_experience: {
-                        ...newSchool.school_patient_experience,
-                        [name]: {
-                            ...field,
-                            [noteName]: field[noteName as keyof object] ? (field[noteName as keyof object] as Note[]).concat(note) : [note],
-                        }
-                    }
-                })
-            }
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            if (isGroup) {
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_patient_experience: {
-                        ...newSchool.edited_school_patient_experience,
-                        notes: newSchool.edited_school_patient_experience.notes ? newSchool.edited_school_patient_experience.notes.concat(note) : [note]
-                    }
-                })
-            } else {
-                const field = newSchool.edited_school_patient_experience[`edited_${name}` as keyof object] as any;
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_patient_experience: {
-                        ...newSchool.edited_school_patient_experience,
-                        [`edited_${name}`]: {
-                            ...field,
-                            notes: field.notes ? field.notes.concat(note) : [note]
-                        }
-                    }
-                })
-            }
-        }
-        
-    }
-
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            if (isGroup) {
-                setNewSchool({
-                    ...newSchool,
-                    school_patient_experience: {
-                        ...newSchool.school_patient_experience,
-                        school_patient_care_experience_general_notes: newSchool.school_patient_experience.school_patient_care_experience_general_notes.map((n,i) => {
-                            if (i === index) {
-                                return { ...note }
-                            } else {
-                                return { ...n }
-                            }
-                        })
-                    }
-                })
-            } else {
-                const field = newSchool.school_patient_experience[name as keyof object] as object;
-                setNewSchool({
-                    ...newSchool,
-                    school_patient_experience: {
-                        ...newSchool.school_patient_experience,
-                        [name]: {
-                            ...field,
-                            [noteName]: (field[noteName as keyof object] as Note[]).map((n,i) => {
-                                if (i === index) {
-                                    return { ...note }
-                                } else {
-                                    return { ...n }
-                                }
-                            })
-                        }
-                    }
-                })
-            }
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            if (isGroup) {
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_patient_experience: {
-                        ...newSchool.edited_school_patient_experience,
-                        notes: newSchool.edited_school_patient_experience.notes!.map((n,i) => {
-                            if (i === index) {
-                                return { ...note }
-                            } else {
-                                return { ...n }
-                            }
-                        })
-                    }
-                })
-            } else {
-                const field = newSchool.edited_school_patient_experience[`edited_${name}` as keyof object] as any;
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_patient_experience: {
-                        ...newSchool.edited_school_patient_experience,
-                        [`edited_${name}`]: {
-                            ...field,
-                            notes: field.notes!.map((n:any,i:number) => {
-                                if (i === index) {
-                                    return { ...note }
-                                } else {
-                                    return { ...n }
-                                }
-                            })
-                        }
-                    }
-                })
-            }
-        }
-        
-    }
-
-    const deleteNote = (e: any, index: number, name: string, noteName?: string) => {
-        e.preventDefault()
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            if (!name.length && !noteName) {
-                setNewSchool({
-                    ...newSchool,
-                    school_patient_experience: {
-                        ...newSchool.school_patient_experience,
-                        school_patient_care_experience_general_notes: newSchool.school_patient_experience.school_patient_care_experience_general_notes.filter((n,i) => i !== index)
-                    }
-                })
-            } else if (name.length && noteName) {
-                const field = newSchool.school_patient_experience[name as keyof object] as object;
-                setNewSchool({
-                    ...newSchool,
-                    school_patient_experience: {
-                        ...newSchool.school_patient_experience,
-                        [name]: {
-                            ...field,
-                            [noteName]: (field[noteName as keyof object] as Note[]).filter((n,i) => i !== index)
-                        }
-                    }
-                })
-            }
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            if (!name.length && !noteName) {
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_patient_experience: {
-                        ...newSchool.edited_school_patient_experience,
-                        notes: newSchool.edited_school_patient_experience.notes!.filter((n,i) => i !== index)
-                    }
-                })
-            } else if (name.length && noteName) {
-                const field = newSchool.edited_school_patient_experience[`edited_${name}` as keyof object] as any;
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_patient_experience: {
-                        ...newSchool.edited_school_patient_experience,
-                        [`edited_${name}`]: {
-                            ...field,
-                            notes: field.notes!.filter((n:any,i:number) => i !== index)
-                        }
-                    }
-                })
-            }
-        }
-        
-    };
 
     useEffect(() => {
         if (newSchool.edited_school_patient_experience.input !== null) {
@@ -296,26 +127,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
 
     useEffect(() => {
         if (newSchool.school_patient_experience.school_patient_experience_required) {
-            // setNewSchool({
-            //     ...newSchool,
-            //     school_patient_experience: {
-            //         ...newSchool.school_patient_experience,
-            //         school_minimum_patient_care_experience_hours_required: newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required ? {
-            //             input: newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required.input ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required.input : 0,
-            //             school_minimum_patient_care_experience_hours_required_notes: newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required?.school_minimum_patient_care_experience_hours_required_notes ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required?.school_minimum_patient_care_experience_hours_required_notes  : [],
-            //         } : {
-            //             input: 0,
-            //             school_minimum_patient_care_experience_hours_required_notes: [],
-            //         },
-            //         school_minimum_time_frame_patient_care_experience_needs_to_be_completed: newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed ? {
-            //             input: newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed?.input ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.input : '',
-            //             school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes: newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed?.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed?.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes : [] ,
-            //         } : {
-            //             input: '',
-            //             school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes: [],
-            //         },
-            //     }
-            // })
+            
 
             if (newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed) {
                 const array = newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.input.split(' ');
@@ -325,14 +137,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                 })
             }
         } else {
-            // setNewSchool({
-            //     ...newSchool,
-            //     school_patient_experience: {
-            //         ...newSchool.school_patient_experience,
-            //         school_minimum_patient_care_experience_hours_required: null,
-            //         school_minimum_time_frame_patient_care_experience_needs_to_be_completed: null,
-            //     }
-            // })
+            
             setSelection({
                 number: '',
                 duration: ''
@@ -340,20 +145,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
         }
 
         if (newSchool.school_patient_experience.school_patient_experience_recommended) {
-            // setNewSchool({
-            //     ...newSchool,
-            //     school_patient_experience: {
-            //         ...newSchool.school_patient_experience,
-            //         school_minimum_patient_care_experience_hours_recommended: {
-            //             input: newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended?.input ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.input : 0,
-            //             school_minimum_patient_care_experience_hours_recommended_notes: newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended?.school_minimum_patient_care_experience_hours_recommended_notes ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended?.school_minimum_patient_care_experience_hours_recommended_notes  : [],
-            //         },
-            //         school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
-            //             input: newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended?.input ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input : '',
-            //             school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes: newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended?.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended?.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes : [] ,
-            //         },
-            //     }
-            // })
+          
 
             if (newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended) {
                 const array = newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input.split(' ');
@@ -363,14 +155,7 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                 })
             }
         } else {
-            // setNewSchool({
-            //     ...newSchool,
-            //     school_patient_experience: {
-            //         ...newSchool.school_patient_experience,
-            //         school_minimum_patient_care_experience_hours_recommended: null,
-            //         school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: null,
-            //     }
-            // })
+           
             setSelection2({
                 number: '',
                 duration: ''
@@ -654,13 +439,21 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                             <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} input={newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_required.input}
                             originalInput={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required.input : null} name='school_minimum_patient_care_experience_hours_required' handleInput={handleInputGroup}
                             />
-                            <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_patient_care_experience_hours_required'); setNoteName('school_minimum_patient_care_experience_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                            <button onClick={(e) => {openAddNote(e, 'school_minimum_patient_care_experience_hours_required', 'school_minimum_patient_care_experience_hours_required_notes', 'school_patient_experience' )}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                         </div>
 
-                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} notes={newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_required.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_required.notes : null} originalNotes={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required.school_minimum_patient_care_experience_hours_required_notes : null} name='school_minimum_patient_care_experience_hours_required' noteName="school_minimum_patient_care_experience_hours_required_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
+                        <AddNoteFields 
+                        isEditMode={newSchool.edited_school_patient_experience.isEditMode} 
+                        notes={newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_required.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_required.notes : null} 
+                        originalNotes={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required.school_minimum_patient_care_experience_hours_required_notes : null} 
+                        name='school_minimum_patient_care_experience_hours_required' 
+                        noteName="school_minimum_patient_care_experience_hours_required_notes" 
+                        deleteNote={deleteNote}
+                        deleteNestedNote={deleteNestedNote}
+                        groupName="school_patient_experience"
+                        openEditNote={openEditNote}
                         />
                     </div>
 
@@ -672,12 +465,20 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                             options={options}
                             />
                             
-                            <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_time_frame_patient_care_experience_needs_to_be_completed'); setNoteName('school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                            <button onClick={(e) => {openAddNote(e, 'school_minimum_time_frame_patient_care_experience_needs_to_be_completed', 'school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes', 'school_patient_experience')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>  
                         </div>
-                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} notes={newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed.notes : null} originalNotes={newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes : null} name='school_minimum_time_frame_patient_care_experience_needs_to_be_completed' noteName="school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
+                        <AddNoteFields 
+                        isEditMode={newSchool.edited_school_patient_experience.isEditMode} 
+                        notes={newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed.notes : null} 
+                        originalNotes={newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes : null} 
+                        name='school_minimum_time_frame_patient_care_experience_needs_to_be_completed' 
+                        noteName="school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes" 
+                        deleteNote={deleteNote}
+                        deleteNestedNote={deleteNestedNote}
+                        openEditNote={openEditNote}
+                        groupName="school_patient_experience"
                         />
                     </div>
                 </>
@@ -698,13 +499,21 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                             originalInput={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.input : null} name='school_minimum_patient_care_experience_hours_recommended' handleInput={handleInputGroup}
                             />
                             {/* <input onChange={handleInput} value={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required?.input ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_required?.input : ''} name='school_minimum_patient_care_experience_hours_required' className='grow focus:outline-none border border-[#B4B4B4] p-3 rounded' />   */}
-                            <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_patient_care_experience_hours_recommended'); setNoteName('school_minimum_patient_care_experience_hours_recommended_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                            <button onClick={(e) => {openAddNote(e, 'school_minimum_patient_care_experience_hours_recommended', 'school_minimum_patient_care_experience_hours_recommended_notes', 'school_patient_experience')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>
                         </div>
             
-                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} notes={newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_recommended.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_recommended.notes : null} originalNotes={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.school_minimum_patient_care_experience_hours_recommended_notes : null} name='school_minimum_patient_care_experience_hours_recommended' noteName="school_minimum_patient_care_experience_hours_recommended_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
+                        <AddNoteFields 
+                        isEditMode={newSchool.edited_school_patient_experience.isEditMode} 
+                        notes={newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_recommended.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_patient_care_experience_hours_recommended.notes : null} 
+                        originalNotes={newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended ? newSchool.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.school_minimum_patient_care_experience_hours_recommended_notes : null} 
+                        name='school_minimum_patient_care_experience_hours_recommended' 
+                        noteName="school_minimum_patient_care_experience_hours_recommended_notes" 
+                        deleteNote={deleteNote} 
+                        deleteNestedNote={deleteNestedNote} 
+                        groupName="school_patient_experience"
+                        openEditNote={openEditNote}
                         />
                     </div>
 
@@ -716,13 +525,21 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
                             options={options}
                             />
                             
-                            <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended'); setNoteName('school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                            <button onClick={(e) => {openAddNote(e, 'school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended', 'school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes', 'school_patient_experience') }} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                                 Add Note
                             </button>  
                         </div>
                         
-                        <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} notes={newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes : null} originalNotes={newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes : null} name='school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended' noteName="school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
+                        <AddNoteFields 
+                        isEditMode={newSchool.edited_school_patient_experience.isEditMode} 
+                        notes={newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes ? newSchool.edited_school_patient_experience.edited_school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.notes : null} 
+                        originalNotes={newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended ? newSchool.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes : null} 
+                        name='school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended' 
+                        noteName="school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes" 
+                        deleteNote={deleteNote} 
+                        deleteNestedNote={deleteNestedNote}
+                        openEditNote={openEditNote}
+                        groupName="school_patient_experience"
                         />
                     </div>
                 </>
@@ -742,11 +559,17 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
 
             <div className='w-full mt-8 mb-5'>
                 <label className='font-medium text-xl'>Notes:</label>
-                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={(e) => {openAddNote(e, 'school_patient_experience' ,'school_patient_care_experience_general_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
-                <AddNoteFields setIsGroup={setIsGroup} isGroup={true} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_patient_experience.isEditMode} notes={newSchool.edited_school_patient_experience.notes} originalNotes={newSchool.school_patient_experience.school_patient_care_experience_general_notes} name='' toggleNotePopup={toggleNotePopup}
-                deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                <AddNoteFields 
+                isEditMode={newSchool.edited_school_patient_experience.isEditMode} 
+                notes={newSchool.edited_school_patient_experience.notes} 
+                originalNotes={newSchool.school_patient_experience.school_patient_care_experience_general_notes} 
+                name="school_patient_experience"
+                noteName="school_patient_care_experience_general_notes"
+                deleteNote={deleteNote}
+                openEditNote={openEditNote}
                 />
             </div>
         </div>
@@ -755,7 +578,9 @@ export default function PatientExperience({newSchool, setNewSchool, loggedInUser
         />}
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
+        {isNoteOpen && (
+        <AddNote groupName={groupName} editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
+        )}
         </>
     )
 }

@@ -1,8 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, MouseEvent } from "react"
-import { School, Note } from "../../../../types/schools.types"
-import AddNoteFields from "../../Assets/AddNoteFields";
-
-import AddNote from "../Prereqs/AddNote"
+import { School } from "../../../../types/schools.types"
+import AddNote from "../AddNote";
+import AddNoteFields from "../AddNoteFields";
 import { UserObject } from "../../../../types/users.types";
 import LinkPopup from "../../LinkPopup";
 import { enableEditModeGroup, revertEditGroup, confirmEditGroup, undoEditGroup } from "./ExperienceFunctions";
@@ -11,14 +10,9 @@ import InputFields from "../../Assets/InputsFields";
 import EditButtons from "../../Assets/EditButtons";
 import Screen from "../../../../components/Screen";
 import Indicator from "../../../../components/Indicator";
+import useNotes from "../../../../hooks/useNotes";
 
 export default function CommunityService({ newSchool, setNewSchool, loggedInUser, isEdit }: { newSchool: School, setNewSchool: Dispatch<SetStateAction<School>>, loggedInUser: UserObject, isEdit: boolean } ) {
-    const [ notePopup, setNotePopup ] = useState(false);
-    const [ index, setIndex ] = useState<number | null>(null);
-    const [ editedNote, setEditedNote ] = useState<Note | null>(null);
-    const [ isGroup, setIsGroup ] = useState(false);
-    const [ name, setName ] = useState('');
-    const [ noteName, setNoteName ] = useState('');
     const [ openLinkPopup, setOpenLinkPopup ] = useState(false);
     const [ linkObj, setLinkObj ] = useState<{link: string, name: string}>({
         link: '',
@@ -28,6 +22,18 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
     const [ hasInputs, setHasInputs ] = useState<boolean | null>(null);
     const [ isReqOpen, setIsReqOpen ] = useState(false);
     const [ isRecOpen, setIsRecOpen ] = useState(false);
+
+    const {
+        deleteNote,
+        openAddNote,
+        openEditNote,
+        isNoteOpen,
+        noteToEdit,
+        addOrEditNote,
+        cancelNote,
+        groupName,
+        deleteNestedNote,
+    } = useNotes({newSchool, setNewSchool})
 
 
     const toggleLinkPopup = (e:MouseEvent<HTMLButtonElement>) => {
@@ -49,184 +55,6 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
             link: '',
             name: '',
         })
-    };
-
-
-    const toggleNotePopup = (e:any) => {
-        e.preventDefault();
-        setNotePopup(!notePopup)
-    }
-
-    const addNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            if (isGroup) {
-                setNewSchool({
-                    ...newSchool,
-                    school_community_service: {
-                        ...newSchool.school_community_service,
-                        school_community_service_general_notes: newSchool.school_community_service.school_community_service_general_notes.concat(note)
-                    }
-                })
-            } else {
-                const field = newSchool.school_community_service[name as keyof object] as object;
-                setNewSchool({
-                    ...newSchool,
-                    school_community_service: {
-                        ...newSchool.school_community_service,
-                        [name]: {
-                            ...field,
-                            [noteName]: (field[noteName as keyof object] as Note[]).concat(note)
-                        }
-                    }
-                })
-            }
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            if (isGroup) {
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_community_service: {
-                        ...newSchool.edited_school_community_service,
-                        notes: newSchool.edited_school_community_service.notes ? newSchool.edited_school_community_service.notes.concat(note) : [note]
-                    }
-                })
-            } else {
-                const field = newSchool.edited_school_community_service[`edited_${name}` as keyof object] as any;
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_community_service: {
-                        ...newSchool.edited_school_community_service,
-                        [`edited_${name}`]: {
-                            ...field,
-                            notes:  field.notes ? field.notes.concat(note) : [note],
-                        }
-                    }
-                })
-            }
-        }
-        
-    }
-
-    const updateNote = (note: Note) => {
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            if (isGroup) {
-                setNewSchool({
-                    ...newSchool,
-                    school_community_service: {
-                        ...newSchool.school_community_service,
-                        school_community_service_general_notes: newSchool.school_community_service.school_community_service_general_notes.map((n,i) => {
-                            if (i === index) {
-                                return { ...note }
-                            } else {
-                                return { ...n }
-                            }
-                        })
-                    }
-                })
-            } else {
-                const field = newSchool.school_community_service[name as keyof object] as object;
-                setNewSchool({
-                    ...newSchool,
-                    school_community_service: {
-                        ...newSchool.school_community_service,
-                        [name]: {
-                            ...field,
-                            [noteName]: (field[noteName as keyof object] as Note[]).map((n,i) => {
-                                if (i === index) {
-                                    return { ...note }
-                                } else {
-                                    return { ...n }
-                                }
-                            })
-                        }
-                    }
-                })
-            }
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            if (isGroup) {
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_community_service: {
-                        ...newSchool.edited_school_community_service,
-                        notes: newSchool.edited_school_community_service.notes!.map((n,i) => {
-                            if (i === index) {
-                                return { ...note }
-                            } else {
-                                return { ...n }
-                            }
-                        })
-                    }
-                })
-            } else {
-                const field = newSchool.edited_school_community_service[`edited_${name}` as keyof object] as any;
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_community_service: {
-                        ...newSchool.edited_school_community_service,
-                        [`edited_${name}`]: {
-                            ...field,
-                            notes: field.notes!.map((n:any,i:number) => {
-                                if (i === index) {
-                                    return { ...note }
-                                } else {
-                                    return { ...n }
-                                }
-                            })
-                        }
-                    }
-                })
-            }
-        }
-        
-    }
-
-    const deleteNote = (e: any, index: number, name?: string, noteName?: string) => {
-        e.preventDefault()
-        if (loggedInUser.permissions.canEditWithoutVerificationNeeded) {
-            if (!name && !noteName) {
-                setNewSchool({
-                    ...newSchool,
-                    school_community_service: {
-                        ...newSchool.school_community_service,
-                        school_community_service_general_notes: newSchool.school_community_service.school_community_service_general_notes.filter((n,i) => i !== index)
-                    }
-                })
-            } else if (name && noteName) {
-                const field = newSchool.school_community_service[name as keyof object] as object;
-                setNewSchool({
-                    ...newSchool,
-                    school_community_service: {
-                        ...newSchool.school_community_service,
-                        [name]: {
-                            ...field,
-                            [noteName]: (field[noteName as keyof object] as Note[]).filter((n,i) => i !== index)
-                        }
-                    }
-                })
-            }
-        } else if (loggedInUser.permissions.canEditWithVerificationNeeded) {
-            if (!name && !noteName) {
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_community_service: {
-                        ...newSchool.edited_school_community_service,
-                        notes: newSchool.edited_school_community_service.notes!.filter((n,i) => i !== index)
-                    }
-                })
-            } else if (name && noteName) {
-                const field = newSchool.edited_school_community_service[`edited_${name}` as keyof object] as any;
-                setNewSchool({
-                    ...newSchool,
-                    edited_school_community_service: {
-                        ...newSchool.edited_school_community_service,
-                        [`edited_${name}`]: {
-                            ...field,
-                            notes: field.notes!.filter((n:any,i:number) => i !== index)
-                        }
-                    }
-                })
-            }
-        }
-        
     };
 
     useEffect(() => {
@@ -387,13 +215,21 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
                         <InputFields isEdit={isEdit} newSchool={newSchool} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} input={newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_required.input}
                         originalInput={newSchool.school_community_service.school_minimum_community_service_hours_required ? newSchool.school_community_service.school_minimum_community_service_hours_required.input : null } name='school_minimum_community_service_hours_required' handleInput={handleInputGroup}
                         />
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_community_service_hours_required'); setNoteName('school_minimum_community_service_hours_required_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {openAddNote(e, 'school_minimum_community_service_hours_required', 'school_minimum_community_service_hours_required_notes', 'school_community_service') }} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
                     
-                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} notes={newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_required.notes ? newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_required.notes : null} originalNotes={newSchool.school_community_service.school_minimum_community_service_hours_required ? newSchool.school_community_service.school_minimum_community_service_hours_required.school_minimum_community_service_hours_required_notes : null} name='school_minimum_community_service_hours_required' noteName="school_minimum_community_service_hours_required_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
+                    <AddNoteFields 
+                    isEditMode={newSchool.edited_school_community_service.isEditMode} 
+                    notes={newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_required.notes ? newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_required.notes : null} 
+                    originalNotes={newSchool.school_community_service.school_minimum_community_service_hours_required ? newSchool.school_community_service.school_minimum_community_service_hours_required.school_minimum_community_service_hours_required_notes : null} 
+                    name='school_minimum_community_service_hours_required' 
+                    noteName="school_minimum_community_service_hours_required_notes" 
+                    groupName="school_community_service"
+                    deleteNote={deleteNote} 
+                    deleteNestedNote={deleteNestedNote}
+                    openEditNote={openEditNote}
                         />
                 </div>
                 )}
@@ -413,13 +249,21 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
                         originalInput={newSchool.school_community_service.school_minimum_community_service_hours_recommended ? newSchool.school_community_service.school_minimum_community_service_hours_recommended.input : null} name='school_minimum_community_service_hours_recommended'
                         handleInput={handleInputGroup}
                         />
-                        <button onClick={(e) => {toggleNotePopup(e); setIsGroup(false); setName('school_minimum_community_service_hours_recommended'); setNoteName('school_minimum_community_service_hours_recommended_notes')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                        <button onClick={(e) => {openAddNote(e, 'school_minimum_community_service_hours_recommended', 'school_minimum_community_service_hours_recommended_notes', 'school_community_service')}} className="border text-[#F06A6A] border-[#F06A6A] rounded h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                             Add Note
                         </button>
                     </div>
                    
-                    <AddNoteFields loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} notes={newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_recommended.notes ? newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_recommended.notes : null} originalNotes={newSchool.school_community_service.school_minimum_community_service_hours_recommended ? newSchool.school_community_service.school_minimum_community_service_hours_recommended.school_minimum_community_service_hours_recommended_notes : null} name='school_minimum_community_service_hours_recommended' noteName="school_minimum_community_service_hours_recommended_notes" toggleNotePopup={toggleNotePopup}
-                        deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote} setNoteName={setNoteName}
+                    <AddNoteFields 
+                    isEditMode={newSchool.edited_school_community_service.isEditMode} 
+                    notes={newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_recommended.notes ? newSchool.edited_school_community_service.edited_school_minimum_community_service_hours_recommended.notes : null} 
+                    originalNotes={newSchool.school_community_service.school_minimum_community_service_hours_recommended ? newSchool.school_community_service.school_minimum_community_service_hours_recommended.school_minimum_community_service_hours_recommended_notes : null} 
+                    name='school_minimum_community_service_hours_recommended' 
+                    noteName="school_minimum_community_service_hours_recommended_notes" 
+                    groupName="school_community_service"
+                    deleteNote={deleteNote} 
+                    deleteNestedNote={deleteNestedNote}
+                    openEditNote={openEditNote}
                         />
                 </div>
                 )}
@@ -434,12 +278,18 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
 
             <div className='w-full mt-8 mb-5'>
                 <label className='font-medium text-xl'>Notes:</label>
-                <button onClick={(e) => {toggleNotePopup(e); setIsGroup(true)}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
+                <button onClick={(e) => {openAddNote(e, 'school_community_service', 'school_community_service_general_notes')}} className="block border text-[#F06A6A] border-[#F06A6A] rounded mt-2 h-[50px] px-5 text-xl hover:text-white hover:bg-[#F06A6A]">
                     Add Note
                 </button>
                 
-                <AddNoteFields setIsGroup={setIsGroup} isGroup={true} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_community_service.isEditMode} notes={newSchool.edited_school_community_service.notes} originalNotes={newSchool.school_community_service.school_community_service_general_notes} name='' toggleNotePopup={toggleNotePopup}
-                deleteNote={deleteNote} setIndex={setIndex} setName={setName} setEditedNote={setEditedNote}
+                <AddNoteFields 
+                isEditMode={newSchool.edited_school_community_service.isEditMode} 
+                notes={newSchool.edited_school_community_service.notes} 
+                originalNotes={newSchool.school_community_service.school_community_service_general_notes} 
+                name='school_community_service'
+                noteName="school_community_service_general_notes"
+                deleteNote={deleteNote}
+                openEditNote={openEditNote}
                 />
             </div>
         </div>
@@ -448,7 +298,9 @@ export default function CommunityService({ newSchool, setNewSchool, loggedInUser
         />}
         </div>
         {openLinkPopup && <LinkPopup toggleLinkPopup={toggleLinkPopup} addLink={addLink} linkObj={linkObj} />}
-        {notePopup && <AddNote toggleNotePopup={toggleNotePopup} addNote={addNote} editedNote={editedNote} setEditedNote={setEditedNote} updateNote={updateNote}/>}
+        {isNoteOpen && (
+        <AddNote groupName={groupName} editedNote={noteToEdit} addOrEditNote={addOrEditNote} cancelNote={cancelNote} />
+        )}
         </>
     )
 }
