@@ -514,7 +514,7 @@ export default function AddSchool() {
             </div>
             <div className="flex flex-col justify-start items-start gap-1">
               {newSchool.school_name.input && <p className="text-4xl font-medium">- {newSchool.school_name.input}</p>}
-              {newSchool.school_website.input && <a className="text-blue-600 pl-6 hover:underline" href={newSchool.school_website.input} target="_blank" rel="noreferrer">{newSchool.school_website.input}</a>}
+              {newSchool.school_website.input && <a className="text-blue-600 pl-6 hover:underline max-w-[700px] truncate" href={newSchool.school_website.input} target="_blank" rel="noreferrer">{newSchool.school_website.input}</a>}
             </div>
           </div>
           </div>
