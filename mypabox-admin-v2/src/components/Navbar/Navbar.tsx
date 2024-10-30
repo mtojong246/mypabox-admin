@@ -58,7 +58,7 @@ const Navbar = () => {
               
               {/* Search field that allows you to filter through schools */}
               <input type='input' className=' rounded py-2 px-3 max-w-[700px] grow focus:outline-none 
-               placeholder:select-none bg-[#424244]' value={schoolName} onChange={handleSchoolName} 
+               placeholder:select-none bg-white' value={schoolName} onChange={handleSchoolName} 
               placeholder='Search name' />
 
               {/* Select component that allows you to select multiple states */}
@@ -80,7 +80,7 @@ const Navbar = () => {
         {location.pathname === '/courses' ? (
           <>
             <input type='input' className=' rounded-lg p-2 max-w-[700px] grow focus:outline-none 
-              text-xl placeholder:select-none bg-[#424244]' value={filteredCourses} onChange={(e) => handleCourseSearch(e)}
+              text-xl placeholder:select-none bg-white' value={filteredCourses} onChange={(e) => handleCourseSearch(e)}
               placeholder='Search' />
             <div className='w-[15em]'></div>
           </>
