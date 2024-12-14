@@ -642,6 +642,10 @@ export interface School {
 
     school_gpa_general_note: string;
 
+    school_prereq_required_notes: {
+        notes: Note[];
+    }
+
     school_prereq_required_courses: {
         courses: SchoolPrereqRequiredCourse[];
         notes: Note[];

@@ -208,7 +208,7 @@ export default function RequiredCourses({ newSchool, setNewSchool, loggedInUser,
 
     return (
         <>
-        <div className={`mt-10 flex justify-start items-start gap-3 w-full`}>
+        <div className={`mt-4 flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
             <Screen isEdit={isEdit} editedInput={newSchool.edited_school_prereq_required_courses.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_courses.isEditMode} />
             <Indicator label="Required Courses" editedInput={newSchool.edited_school_prereq_required_courses.input} /> 

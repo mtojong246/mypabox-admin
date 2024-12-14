@@ -110,7 +110,7 @@ export default function RequiredCourseCategories({ newSchool, setNewSchool, logg
     
     return (
         <>
-            <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
+            <div className={`flex justify-start items-start gap-3 w-full`}>
             <div className={`grow relative max-w-[900px] border-2 p-4 block rounded border-[#B4B4B4]`}>
             <Screen isEdit={isEdit} editedInput={newSchool.edited_school_prereq_required_course_categories.input} loggedInUser={loggedInUser} isEditMode={newSchool.edited_school_prereq_required_course_categories.isEditMode} />
             <Indicator label="Required Course Categories" editedInput={newSchool.edited_school_prereq_required_course_categories.input} />

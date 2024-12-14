@@ -182,6 +182,7 @@ export default function AddSchool() {
       })
     }
 
+
     // Sends newSchool data to db 
     const handleSave = async (e: MouseEvent<HTMLButtonElement>, id: string, hash?: string) => {
         if ((e.target as HTMLButtonElement).value === 'done') {

@@ -572,6 +572,10 @@ export const defaultSchool: School = {
     },
     school_gpa_general_note: "",
 
+    school_prereq_required_notes: {
+        notes: [],
+    },
+
     school_prereq_required_courses: {
         courses: [],
         notes: [],

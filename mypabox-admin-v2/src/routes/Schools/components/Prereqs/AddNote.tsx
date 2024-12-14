@@ -47,6 +47,7 @@ export default function AddNote({ loggedInUser, toggleNotePopup, addNote, edited
         })
     }
 
+
     const addOrEditNote = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (optionalNote.note === '') {
