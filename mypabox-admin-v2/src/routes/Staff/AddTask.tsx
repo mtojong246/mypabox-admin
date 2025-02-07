@@ -133,12 +133,14 @@ export default function AddTask({toggleOpenTask, assignee, users, editedTask, ed
                     <div className='mt-6'>
                         <p className='font-medium mb-1'>Select schools:</p>
                         <div className='w-full border border-[#B4B4B4] rounded'>
+                            <div className='w-full max-h-[200px] overflow-auto'>
                             {stateSchools.map((school,i) => (
                             <div className={`w-full p-3 ${i !== stateSchools.length-1 ? 'border-b' : 'border-0'} border-[#B4B4B4] flex justify-start items-center gap-3`}>
                                 <input type='checkbox' checked={school.isSelected} name={school.name} onChange={handleCheck}/>
                                 <p>{school.name}</p>
                             </div>
                             ))}
+                            </div>
                         </div>
                     </div>
                     )}
