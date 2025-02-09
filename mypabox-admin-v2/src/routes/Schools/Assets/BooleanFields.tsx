@@ -22,7 +22,6 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
     const [ editedField, setEditedField ] = useState<EditedField | null>(null);
 
 
-
     useEffect(() => {
         if (!isEdit) {
             setIsOriginalInputDisabled(false);
@@ -48,13 +47,13 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
         }
     }, [input, originalInput]);
 
-
+    console.log(isOriginalFieldShown, name)
 
     return (
         <>
         <div className='flex justify-start items-start gap-5 grow'>
 
-        {input !== null && (
+        {(input !== null || isEditMode) && (
             <div className='mt-2'>
                 <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" className="sr-only peer" name={name} onChange={(e:ChangeEvent<HTMLInputElement>) => handleCheck(e, isEditMode)} checked={input ? true : false}  />

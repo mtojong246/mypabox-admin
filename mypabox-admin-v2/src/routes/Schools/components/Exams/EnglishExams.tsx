@@ -58,6 +58,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
         setNotePopup(!notePopup)
     }
 
+    console.log(newSchool.edited_school_english_proficiency_exams)
     useEffect(() => {
         if (newSchool.edited_school_english_proficiency_exams.input !== null) {
             setHasInputs(true)
@@ -65,6 +66,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
             setHasInputs(null)
         }
     }, [newSchool.edited_school_english_proficiency_exams.input])
+
 
     useEffect(() => {
         if (newSchool.school_english_proficiency_exams.school_minimum_time_frame_toefl_needs_to_be_completed !== null) {
@@ -77,6 +79,7 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
             })
         } 
     }, [selection])
+
 
     useEffect(() => {
         if (newSchool.school_english_proficiency_exams.school_english_proficiency_exams_required) {
@@ -728,7 +731,6 @@ export default function EnglishExams({ newSchool, setNewSchool, loggedInUser, is
         }
     }
 
-    console.log(newSchool.school_english_proficiency_exams)
     
     return (
         <>
