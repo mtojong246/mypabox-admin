@@ -49,7 +49,7 @@ export default function SelectInputsFields({loggedInUser,isEdit, input, original
 
     return (
         <div className='flex flex-col justify-start items-start gap-3 grow'>
-        {input !== null && (
+        {(input !== null || isEditMode) && (
             <div className='flex justify-start items-center gap-3 w-full'>
                 <input onChange={(e:ChangeEvent<HTMLInputElement>) => handleInput(e, name, isEditMode)} name={name} value={number ? number : ''} className='w-1/3 focus:outline-none border border-[#B4B4B4] p-3 rounded' />  
                 <Select options={options} value={duration ? {value: duration, label: duration} : ''} onChange={(e:any) => handleSelect(e, name, isEditMode)}  className="grow focus:outline-none"/>

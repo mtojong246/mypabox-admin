@@ -37,6 +37,7 @@ setObjIndex, objIndex} : {
         }
     }
 
+    console.log(originalNotes, notes)
 
     return (
         <>

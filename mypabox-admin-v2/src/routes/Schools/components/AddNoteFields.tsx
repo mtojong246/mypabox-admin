@@ -20,7 +20,6 @@ export default function AddNoteFields({ notes, originalNotes, deleteNote, openEd
 
  }) {
 
-
     return (
         <>
         {notes !== null && notes.length > 0 && (
@@ -43,7 +42,7 @@ export default function AddNoteFields({ notes, originalNotes, deleteNote, openEd
         </div>
         )}
 
-        {notes === null && originalNotes && originalNotes.length > 0 && (
+        {(notes === null || notes.length === 0) && originalNotes && originalNotes.length > 0 && (
             <div className={`w-full flex flex-col justify-center items-center gap-3 ${originalNotes && originalNotes.length ? 'mt-3' : 'mt-0'}`}>
                     {originalNotes && originalNotes.map((note: any, i: number) => {
                     return (

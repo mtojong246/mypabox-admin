@@ -57,6 +57,7 @@ const useNotes = ({ newSchool, setNewSchool }: {
                 const field = newSchool[name as keyof School] as any;
                 const notes = field[noteName ? noteName : 'notes'] as Note[];
 
+
                 setNewSchool({
                     ...newSchool,
                     [name]: {

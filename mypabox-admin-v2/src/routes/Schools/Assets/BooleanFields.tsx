@@ -47,7 +47,6 @@ export default function BooleanFields({ loggedInUser, input, isEditMode, origina
         }
     }, [input, originalInput]);
 
-    console.log(isOriginalFieldShown, name)
 
     return (
         <>

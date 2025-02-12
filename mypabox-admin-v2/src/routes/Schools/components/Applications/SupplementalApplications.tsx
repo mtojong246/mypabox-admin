@@ -165,6 +165,8 @@ export default function SupplementalApplications({ newSchool, setNewSchool, logg
         }
     }
 
+
+
     return (
         <>
         <div className={`mt-20 flex justify-start items-start gap-3 w-full`}>
