@@ -41,9 +41,6 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
         setOpenLinkPopup(!openLinkPopup);
     }
 
-
-
-
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof School;
         const field = newSchool[name] as StringInput | NumberInput;
@@ -51,13 +48,15 @@ export default function PANCEPassRate({newSchool, setNewSchool, loggedInUser, is
         if (e.target.value.includes('%')) {
             value = e.target.value.replace('%', '')
         }
-            setNewSchool({
-                ...newSchool,
-                [name]: {
-                    ...field,
-                    input: value + '%',
-                }
-            })
+
+        setNewSchool({
+            ...newSchool,
+            [name]: {
+                ...field,
+                input: value + '%',
+            }
+        })
+            
         
     };
 

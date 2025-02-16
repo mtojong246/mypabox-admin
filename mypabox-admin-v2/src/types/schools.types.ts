@@ -1,3 +1,19 @@
+// {
+//     "tags": {
+//       "original": "inputOne",
+//       "draft": "inputTwo",
+//       "changes": [
+//         { 
+//             "type": "modified", 
+//             "original": "inputOne", 
+//             "new": "inputTwo", 
+//             "editedBy": "user123", 
+//             "timestamp": "2025-02-12T12:00:00Z" 
+//         }
+//       ]
+//     },
+//   }
+
 export interface EditedField {
     input: any | null,
     prev: any | null,
