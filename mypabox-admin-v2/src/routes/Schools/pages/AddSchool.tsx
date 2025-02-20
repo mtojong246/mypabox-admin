@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { categories } from "../../../data/categories"
 import { useState } from "react";
+import AddSchoolForms from "../functionalComponents/AddSchoolForms";
 
 export default function AddSchool() {
     const navigate = useNavigate();
@@ -62,6 +63,7 @@ export default function AddSchool() {
     
             {/* Body */}
             <div className={`grow`}>
+                <AddSchoolForms tab={tab}/>
               {/* <Category tab={tab} newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}
               handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} /> */}
             </div>
