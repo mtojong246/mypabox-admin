@@ -30,7 +30,7 @@ export default function Container({
                     }))}
                     selectedIndex={selectedIndex}
                 />
-                <div className={`border border-outline rounded-tr-lg rounded-br-lg rounded-bl-lg p-5 w-full max-w-[600px]`}>
+                <div className={`border border-outline rounded-tr-lg rounded-br-lg rounded-bl-lg p-6 w-full max-w-[600px]`}>
                     {tabs[selectedIndex] === 'Modified' ? (
                         <>{modifiedInputs}</>
                     ) : (

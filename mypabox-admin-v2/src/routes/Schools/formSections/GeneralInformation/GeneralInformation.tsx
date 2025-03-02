@@ -3,6 +3,44 @@ import { BasicNumberInput, BasicStringInput, NewSchool } from "../../../../types
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
 
+const permissions = {
+    canEditWithVerificationNeeded: true,
+    canEditWithoutVerificationNeeded: false,
+    canVerify: false,
+    canMakeLive: false,
+    canAddOrDelete: false,
+};
+
+const generalInfoLabels = [
+    { label: 'School Name', value: 'school_name' },
+    { label: 'School Logo', value: 'school_logo' },
+    { label: 'Street Address', value: 'school_street' },
+    { label: 'City', value: 'school_city' },
+    { label: 'Country', value: 'school_country' },
+    { label: 'State', value: 'school_state' },
+    { label: 'Zip Code', value: 'school_zip_code' },
+    { label: 'Website Link', value: 'school_website' },
+    { label: 'School Email', value: 'school_email' },
+    { label: 'School Phone Number', value: 'school_phone_number' },
+    { label: 'Campus Location', value: 'school_campus_location' },
+    { label: 'Start Month', value: 'school_start_month' },
+    { label: 'Class Capacity', value: 'school_class_capacity' },
+    { label: 'Duration (Full-time)', value: 'school_duration_full_time' },
+    { label: 'Duration (Part-time)', value: 'school_duration_part_time' },
+    { label: 'Rolling Admissions', value: 'school_rolling_admissions' },
+    { label: 'Non-rolling Admissions', value: 'school_nonrolling_admissions' },
+    { label: 'Pre-PA Curriculum', value: 'school_pre_pa_curriculum' },
+    { label: 'Direct High School Entry', value: 'school_direct_high_school_entry' },
+    { label: 'Part-time Option', value: 'school_part_time_option' },
+    { label: 'Online Learning', value: 'school_online_learning' },
+    { label: 'On-Campus Housing', value: 'school_on_campus_housing' },
+    { label: 'Cadaver Lab', value: 'school_cadaver_lab' },
+    { label: 'Faith-Based Learning', value: 'school_faith_based_learning' },
+    { label: 'Military Personnel Preference', value: 'school_military_personnel_preference' },
+    { label: 'Holistic Review', value: 'school_holistic_review' },
+    { label: 'General Information Notes', value: 'school_general_information' },
+]
+
 export default function GeneralInformation({
     school,
     setSchool,
