@@ -1,5 +1,42 @@
-export default function GeneralInformation() {
+import { ChangeEvent, Dispatch, SetStateAction } from "react"
+import { BasicNumberInput, BasicStringInput, NewSchool } from "../../../../types/newSchools.types"
+import TextInput from "../../../../components/Form/InputTypes/TextInput";
+
+export default function GeneralInformation({
+    school,
+    setSchool,
+}: {
+    school: NewSchool,
+    setSchool: Dispatch<SetStateAction<NewSchool>>,
+}) {
+
+    const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        
+        const inputObj = school[name as keyof NewSchool]['input' as keyof object] as BasicStringInput | BasicNumberInput;
+        setSchool({
+            ...school,
+            [name]: {
+                ...school[name as keyof NewSchool] as object,
+                input: {
+                    ...inputObj,
+                    original: value,
+                }
+            }
+        });
+    }
+
     return (
-        <></>
+        <>
+        <TextInput 
+            label='School Name'
+            placeholder='Name'
+            name='school_name'
+            value={school.school_name.input.original}
+            handleInput={handleInput}
+            isRequired
+        />
+        </>
     )
 }

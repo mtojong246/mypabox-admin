@@ -21,16 +21,24 @@ export default function TextInput({
     endingAdornment?: ReactNode,
 }) {
     return (
-        <div className="w-full flex flex-col gap-1 justify-start items-start">
-            <label className={`text-[14px] font-medium ${isRequired && 'required'}`}>{label}</label>
+        <div className="w-full flex flex-col gap-2 justify-start items-start">
+            <label className={`font-medium ${isRequired && 'required'}`}>{label}</label>
             <OutlinedInput
                 type='text'
-                label={placeholder}
+                placeholder={placeholder}
                 startAdornment={startingAdornment}
                 endAdornment={endingAdornment}
                 name={name}
                 value={value ? value : ''}
                 onChange={handleInput}
+                sx={{
+                    maxWidth: 600,
+                    width: '100%',
+                    borderRadius: '8px',
+                    '& .MuiOutlinedInput-input': {
+                        padding: '12px 16px',
+                    }
+                }}
             />
         </div>
     )

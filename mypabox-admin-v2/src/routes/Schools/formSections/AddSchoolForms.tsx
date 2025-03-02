@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react"
 import { NewSchool } from "../../../types/newSchools.types"
+import GeneralInformation from "./GeneralInformation/GeneralInformation"
 
 export default function AddSchoolForms({
     tab,
@@ -14,7 +15,10 @@ export default function AddSchoolForms({
         <form className={`flex flex-col gap-10 p-8 justify-start items-start`}>
             <>
                 {tab === '#general-info' ? (
-                    <></>
+                    <GeneralInformation 
+                        school={school}
+                        setSchool={setSchool}
+                    />
                 ) : tab === '#degree-info' ? (
                     <></>
                 ) : tab === '#accreditation-status' ? (
