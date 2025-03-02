@@ -1,10 +1,17 @@
+import { Dispatch, SetStateAction } from "react"
+import { NewSchool } from "../../../types/newSchools.types"
+
 export default function AddSchoolForms({
     tab,
+    school,
+    setSchool,
 }: {
     tab: string,
+    school: NewSchool,
+    setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) {
     return (
-        <form className={`pb-24 `}>
+        <form className={`flex flex-col gap-10 p-8 justify-start items-start`}>
             <>
                 {tab === '#general-info' ? (
                     <></>

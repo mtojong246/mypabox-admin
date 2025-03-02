@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { categories } from "../../../data/categories"
 import { useState } from "react";
-import AddSchoolForms from "../functionalComponents/AddSchoolForms";
+import AddSchoolForms from "../formSections/AddSchoolForms";
+import { NewSchool } from "../../../types/newSchools.types";
+import { defaultSchool } from "../../../utils/defaults";
 
 export default function AddSchool() {
     const navigate = useNavigate();
-    const [ tab, setTab ] = useState('#general-info')
+    const [ tab, setTab ] = useState('#general-info');
+    const [ school, setSchool ] = useState<NewSchool>(defaultSchool);
 
     const navigateTabs = (hash: string) => {
         navigate(`/schools/add-school${hash}`);
@@ -45,7 +48,7 @@ export default function AddSchool() {
             </div>
 
             {/* Side Navbar */}
-            <div className={`flex justify-start items-start gap-10 `}>
+            <div className={`flex justify-start items-start `}>
               <div className={`text-md py-4 side-max overflow-y-scroll sticky border-r border-[#DCDCDC]  pr-10 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
                 <div className='flex flex-col justify-start items-start gap-5'>
                 {categories.map(category => (
@@ -63,7 +66,11 @@ export default function AddSchool() {
     
             {/* Body */}
             <div className={`grow`}>
-                <AddSchoolForms tab={tab}/>
+                <AddSchoolForms 
+                    tab={tab}
+                    school={school}
+                    setSchool={setSchool}
+                />
               {/* <Category tab={tab} newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}
               handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} /> */}
             </div>

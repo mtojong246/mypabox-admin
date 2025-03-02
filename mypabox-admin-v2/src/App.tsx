@@ -4,12 +4,13 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
 import Login from "./routes/Login/Login";
 import Schools from "./routes/Schools/Schools";
 import Navbar from "./components/Navbar/Navbar";
-import AddSchool from "./routes/Schools/AddSchool";
+// import AddSchool from "./routes/Schools/AddSchool";
 import Courses from './routes/Courses/Course';
 import AddOrEditCourse from './routes/Courses/AddOrEditCourse';
 import CourseCategories from './routes/CourseCategories/CourseCategories';
 import AddCourseCategory from './routes/CourseCategories/AddCourseCategory';
 import Staff from './routes/Staff/Staff';
+import AddSchool from './routes/Schools/pages/AddSchool';
 
 
 function App() {
