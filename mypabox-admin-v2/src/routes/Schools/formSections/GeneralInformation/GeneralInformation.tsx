@@ -1,6 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react"
 import { BasicNumberInput, BasicStringInput, NewSchool } from "../../../../types/newSchools.types"
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
+import Container from "../../../../components/Form/Validation/Container";
 
 export default function GeneralInformation({
     school,
@@ -29,6 +30,29 @@ export default function GeneralInformation({
 
     return (
         <>
+        <Container
+            label="School Name"
+            originalInputs={
+                <TextInput 
+                    label='School Name'
+                    placeholder='Name'
+                    name='school_name'
+                    value={school.school_name.input.original}
+                    handleInput={handleInput}
+                    isRequired
+                />
+            }
+            modifiedInputs={
+                <TextInput 
+                    label='School Name'
+                    placeholder='Name'
+                    name='school_name'
+                    value={school.school_name.input.original}
+                    handleInput={handleInput}
+                    isRequired
+                />
+            }
+        />
         <TextInput 
             label='School Name'
             placeholder='Name'
