@@ -1,7 +1,8 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react"
-import { BasicNumberInput, BasicStringInput, NewSchool } from "../../../../types/newSchools.types"
+import { BasicBooleanInput, BasicNumberInput, BasicStringInput, NewSchool } from "../../../../types/newSchools.types"
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
+import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -42,9 +43,11 @@ const generalInfoLabels = [
 ]
 
 export default function GeneralInformation({
+    isEditSchool,
     school,
     setSchool,
 }: {
+    isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) {
@@ -65,6 +68,23 @@ export default function GeneralInformation({
             }
         });
     }
+
+    const handleCheck = (e:ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.name;
+        const inputObj = school[name as keyof NewSchool]['input' as keyof object] as BasicBooleanInput;
+        setSchool({
+            ...school,
+            [name]: {
+                ...school[name as keyof NewSchool] as object,
+                input: {
+                    ...inputObj,
+                    original: e.target.checked,
+                }
+            }
+        })
+
+    } 
+
 
     return (
         <>

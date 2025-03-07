@@ -8,7 +8,7 @@ export default function Container({
 }: {
     label: string,
     originalInputs: ReactNode,
-    modifiedInputs: ReactNode,
+    modifiedInputs?: ReactNode,
 }) {
     const [ selectedIndex, setSelectedIndex ] = useState(0);
     const tabs = [ 'Modified', 'Original' ];
@@ -20,7 +20,7 @@ export default function Container({
             </div>
 
             <div className="flex flex-col justify-start items-start rounded-lg overflow-hidden w-full">
-                <Tabs 
+                {modifiedInputs && <Tabs 
                     tabs={tabs.map((tab,i) => ({
                         label: tab,
                         action: (e: MouseEvent<HTMLButtonElement>) => {
@@ -29,9 +29,9 @@ export default function Container({
                         }
                     }))}
                     selectedIndex={selectedIndex}
-                />
-                <div className={`border border-outline rounded-tr-lg rounded-br-lg rounded-bl-lg p-6 w-full max-w-[600px]`}>
-                    {tabs[selectedIndex] === 'Modified' ? (
+                />}
+                <div className={`${!modifiedInputs && 'rounded-tl-lg'} border border-outline rounded-tr-lg rounded-br-lg rounded-bl-lg p-6 w-full max-w-[600px]`}>
+                    {modifiedInputs && tabs[selectedIndex] === 'Modified' ? (
                         <>{modifiedInputs}</>
                     ) : (
                         <>{originalInputs}</>

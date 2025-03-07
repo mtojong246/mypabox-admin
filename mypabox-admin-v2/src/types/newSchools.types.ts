@@ -131,7 +131,7 @@ export interface NewSchool {
                     timestamp: string;
                 }
             )[];
-        }[],
+        },
         notes: NoteInput;
         link: string;
     };
@@ -163,7 +163,7 @@ export interface NewSchool {
                     timestamp: string;
                 }
             )[];
-        }[],
+        },
         notes: NoteInput;
         link: string;
     };

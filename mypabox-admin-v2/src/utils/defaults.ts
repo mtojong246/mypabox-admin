@@ -68,7 +68,11 @@ export const defaultSchool: NewSchool = {
         link: '',
     },
     school_email: {
-        input: [],
+        input: {
+            original: [],
+            draft: [],
+            changes: [],
+        },
         notes: {
             original: [],
             draft: [],
@@ -77,7 +81,11 @@ export const defaultSchool: NewSchool = {
         link: '',
     },
     school_phone_number: {
-        input: [],
+        input: {
+            original: [],
+            draft: [],
+            changes: [],
+        },
         notes: {
             original: [],
             draft: [],
