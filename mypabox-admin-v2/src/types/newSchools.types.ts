@@ -1,12 +1,19 @@
 export interface Change {
+    type: 'modified' | 'added' | 'removed';
+    field: string;
     editedBy: string;
     timestamp: string;
+    original: any;
+    modified: any;
 }
 
 export interface NewNote {
     type: string;
     note: string;
 }
+
+
+
 
 export interface NoteInput {
     original: NewNote[];

@@ -1,14 +1,10 @@
 import { Dispatch, MouseEvent, SetStateAction } from "react";
-import { NewSchool, NoteInput } from "../types/newSchools.types";
+import { Change, NewSchool } from "../types/newSchools.types";
 
 interface GenericSchoolField {
-    input: {
-        original: any,
-        draft: any,
-        changes: any[],
-    },
-    notes?: NoteInput,
-    link: string,
+    original: any;
+    draft: any;
+    changes: Change[];
 }
 
 const useVerification = ({
@@ -26,22 +22,8 @@ const useVerification = ({
 
         field = {
             ...field,
-            input: {
-                ...field.input,
-                draft: field.input.original,
-                changes: [],
-            }
-        }
-
-        if (field.notes) {
-            field = {
-                ...field,
-                notes: {
-                    ...field.notes,
-                    draft: field.notes.original,
-                    changes: [],
-                }
-            }
+            draft: field.original,
+            changes: [],
         }
 
         setSchool({
@@ -58,22 +40,8 @@ const useVerification = ({
 
         field = {
             ...field,
-            input: {
-                ...field.input,
-                original: field.input.draft,
-                changes: [],
-            }
-        }
-
-        if (field.notes) {
-            field = {
-                ...field,
-                notes: {
-                    ...field.notes,
-                    original: field.notes.draft,
-                    changes: [],
-                }
-            }
+            original: field.draft,
+            changes: [],
         }
 
         setSchool({
@@ -83,9 +51,45 @@ const useVerification = ({
 
     }
 
+    const validateIndividualChanges = (e: MouseEvent<HTMLButtonElement>, name: string, path: string) => {
+        e.preventDefault();
+
+        let field = school[name as keyof NewSchool] as GenericSchoolField;
+
+        const keys = path.split('.'); // Split the index string into keys
+        let original = field.original;
+        let draft = field.draft;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in original)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in draft)) {
+                console.log('path invalid');
+            }
+            draft = draft[keys[i]];
+        }
+
+        original[keys[keys.length - 1]] = draft[keys[keys.length - 1]];
+        
+        setSchool({
+            ...school,
+            [name]: {
+                original,
+                draft,
+                changes: field.changes.filter(change => change.field !== path),
+            }
+        })
+    }
+
     return {
         revertToOriginal,
         validateAllChanges,
+        validateIndividualChanges,
     }
 
 };
