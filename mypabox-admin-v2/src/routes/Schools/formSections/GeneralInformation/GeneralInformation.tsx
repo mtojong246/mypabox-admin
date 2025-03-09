@@ -1,8 +1,14 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
 import { BasicBooleanInput, BasicNumberInput, BasicStringInput, Change, NewSchool } from "../../../../types/newSchools.types"
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
+import SelectInput from "../../../../components/Form/InputTypes/SelectInput";
+
+import countries from '../../../../data/countries.json';
+import useSchoolNotes from "../../../../hooks/useSchoolNotes";
+import NotePopup from "../../../../components/Popups/NotePopup";
+
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -16,21 +22,70 @@ const genericSchoolInfoFields = [
     {
         label: 'School Name',
         name: 'school_name',
-        type: 'string',
+        type: 'text',
         path: '.input',
     },
     {
         label: 'School Logo',
         name: 'school_logo',
-        type: 'string',
+        type: 'text',
         path: '.input',
     },
     {
         label: 'Street Address',
         name: 'school_street',
-        type: 'string',
+        type: 'text',
         path: '.input',
     },
+    {
+        label: 'City',
+        name: 'school_city',
+        type: 'text',
+        path: '.input'
+    },
+    {
+        label: 'Country',
+        name: 'school_country',
+        type: 'select',
+        path: '.input',
+    },
+    {
+        label: 'State',
+        name: 'school_state',
+        type: 'select',
+        path: '.input',
+    },
+    {
+        label: 'Zip Code',
+        name: 'school_zip_code',
+        type: 'text',
+        path: '.input',
+    },
+    {
+        label: 'Website',
+        name: 'school_website',
+        type: 'text',
+        path: '.input',
+    },
+    {
+        label: 'School Emails',
+        name: 'school_email',
+        type: 'array',
+        path: '.input'
+    },
+    {
+        label: 'School Phone Numbers',
+        name: 'school_phone_number',
+        type: 'array',
+        path: '.input'
+    },
+    {
+        label: 'School Campus Location',
+        name: 'school_campus_location',
+        type: 'text',
+        path: '.input',
+        notePath: '.notes',
+    }
 ]
 
 interface SchoolField {
@@ -48,23 +103,20 @@ export default function GeneralInformation({
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) {
+    const {
+        toggleNote,
+        isNoteOpen,
+        selectedName,
+        selectedNote,
+    } = useSchoolNotes({ school, setSchool });
 
-    const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        
-        const inputObj = school[name as keyof NewSchool]['input' as keyof object] as BasicStringInput | BasicNumberInput;
-        setSchool({
-            ...school,
-            [name]: {
-                ...school[name as keyof NewSchool] as object,
-                input: {
-                    ...inputObj,
-                    original: value,
-                }
-            }
-        });
-    }
+    const [ countryNames, setCountryNames ] = useState<{ value: string, label: string }[]>([]);
+    const [ stateNames, setStateNames ] = useState<{ value: string, label: string }[]>([]);
+
+    useEffect(() => {
+        setCountryNames(countries.map(country => ({ value: country.name, label: country.name})))    
+    }, []);
+
 
     const handleGenericInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
@@ -74,7 +126,7 @@ export default function GeneralInformation({
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
         let original = field.original;
-        // let draft = field.draft;
+        let draft = field.draft;
 
         for (let i = 0; i < keys.length - 1; i++) {
             if (!(keys[i] in field)) {
@@ -85,6 +137,15 @@ export default function GeneralInformation({
         
         original[keys[keys.length - 1]] = value;
 
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            draft = draft[keys[i]];
+        }
+        
+        draft[keys[keys.length - 1]] = value;
+
         setSchool({
             ...school,
             [name]: {
@@ -92,30 +153,92 @@ export default function GeneralInformation({
                 original,
             }
         })
-    }
+    };
 
-    const handleCheck = (e:ChangeEvent<HTMLInputElement>) => {
+    const handleGenericBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
-        const inputObj = school[name as keyof NewSchool]['input' as keyof object] as BasicBooleanInput;
+        const value = e.target.checked;
+
+        let field = school[name as keyof NewSchool] as SchoolField;
+
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        let original = field.original;
+        let draft = field.draft;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+        
+        original[keys[keys.length - 1]] = value;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            draft = draft[keys[i]];
+        }
+        
+        draft[keys[keys.length - 1]] = value;
+
         setSchool({
             ...school,
             [name]: {
-                ...school[name as keyof NewSchool] as object,
-                input: {
-                    ...inputObj,
-                    original: e.target.checked,
-                }
+                ...field,
+                original,
+            }
+        })
+    };
+
+    const handleGenericSelect = (e: any, name: string, path: string) => {
+        const value = e.value;
+
+        let field = school[name as keyof NewSchool] as SchoolField;
+
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        let original = field.original;
+        let draft = field.draft;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+        
+        original[keys[keys.length - 1]] = value;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            draft = draft[keys[i]];
+        }
+        
+        draft[keys[keys.length - 1]] = value;
+
+        setSchool({
+            ...school,
+            [name]: {
+                ...field,
+                original,
             }
         })
 
-    } 
+        if (name === 'school_country') {
+            setStateNames(countries.filter(country => country.name === school.school_country.original.input)[0].states.map(state => ({ value: state.name, label: state.name })));
+        }
+    };
 
-    console.log(school)
+
+
+
 
 
     return (
         <>
-        {/* <input onChange={(e: any) => handleGenericInput(e, '.input')} name='school_name' /> */}
         {genericSchoolInfoFields.map(field => {
             let original = (school[field.name as keyof NewSchool] as SchoolField).original;
             const keys = field.path.split('.').filter(key => key);
@@ -132,7 +255,8 @@ export default function GeneralInformation({
                 <Container 
                     label={field.label} 
                     originalInputs={
-                        field.type === 'string' ? (
+                        <>
+                        {field.type === 'text' ? (
                             <TextInput 
                                 label={field.label}
                                 placeholder={field.label}
@@ -142,9 +266,35 @@ export default function GeneralInformation({
                                 handleInput={handleGenericInput}
                                 isRequired={false}
                             />
+                        ) : field.type === 'boolean' ? (
+                            <BooleanInput 
+                                label={field.label}
+                                name={field.name}
+                                value={value}
+                                path={field.path}
+                                handleCheck={handleGenericBoolean}
+                                isRequired={false}
+                                isDisabled={false}
+                            />
+                        ) : field.type === 'select' ? (
+                            <SelectInput 
+                                label={field.label}
+                                placeholder={field.label}
+                                name={field.name}
+                                value={value}
+                                path={field.path}
+                                handleSelect={handleGenericSelect}
+                                isRequired={false}
+                                options={field.name === 'school_country' ? countryNames : stateNames}
+                            />
+                        ) : field.type === 'array' ? (
+                            <>
+                            
+                            </>
                         ) : (
                             <></>
-                        )
+                        )}
+                        </>
                     }
                 />
             )
@@ -195,6 +345,11 @@ export default function GeneralInformation({
             handleInput={handleInput}
             isRequired
         /> */}
+        {isNoteOpen && (
+            <NotePopup 
+                
+            />
+        )}
         </>
     )
 }

@@ -83,6 +83,38 @@ export const defaultSchool: NewSchool = {
         changes: [],
         link: '',
     },
+    school_email: {
+        original: {
+            input: [],
+        },
+        draft: {
+            input: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_phone_number: {
+        original: {
+            input: [],
+        },
+        draft: {
+            input: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_campus_location: {
+        original: {
+            input: '',
+            notes: [],
+        },
+        draft: {
+            input: '',
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    }
 }
 
 // export const defaultSchool: NewSchool = {

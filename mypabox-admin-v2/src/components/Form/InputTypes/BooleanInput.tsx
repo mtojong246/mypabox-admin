@@ -5,6 +5,7 @@ export default function BooleanInput({
     label,
     name,
     value,
+    path,
     handleCheck,
     isRequired,
     isDisabled,
@@ -12,7 +13,8 @@ export default function BooleanInput({
     label: string,
     name: string,
     value: boolean,
-    handleCheck: (e: ChangeEvent<HTMLInputElement>) => void,
+    path: string,
+    handleCheck: (e: ChangeEvent<HTMLInputElement>, path: string) => void,
     isRequired: boolean,
     isDisabled: boolean,
 }) {
@@ -24,7 +26,7 @@ export default function BooleanInput({
                     id={name}
                     name={name}
                     checked={value}
-                    onChange={handleCheck}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => handleCheck(e, path)}
                     disabled={isDisabled}
                 />
                 {value ? 'True' : 'False'}

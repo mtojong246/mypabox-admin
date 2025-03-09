@@ -156,6 +156,50 @@ export interface NewSchool {
         changes: Change[];
         link: string;
     };
+    school_email: {
+        original: {
+            input: {
+                category: string;
+                email: string;
+            }[],
+        },
+        draft: {
+            input: {
+                category: string;
+                email: string;
+            }[],
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_phone_number: {
+        original: {
+            input: {
+                category: string;
+                number: string;
+            }[],
+        },
+        draft: {
+            input: {
+                category: string;
+                number: string;
+            }[],
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_campus_location: {
+        original: {
+            input: string;
+            notes: NewNote[];
+        },
+        draft: {
+            input: string;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    }
 
 }
 

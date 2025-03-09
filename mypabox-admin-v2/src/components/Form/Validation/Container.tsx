@@ -19,7 +19,7 @@ export default function Container({
                 <label className="text-[18px] font-semibold">{label}</label>
             </div>
 
-            <div className="flex flex-col justify-start items-start rounded-lg overflow-hidden w-full">
+            <div className="flex flex-col justify-start items-start rounded-lg w-full">
                 {modifiedInputs && <Tabs 
                     tabs={tabs.map((tab,i) => ({
                         label: tab,

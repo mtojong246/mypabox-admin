@@ -20,6 +20,7 @@ export default function DegreeInformation({
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) {
+    const [ field, setField ] = useState('');
 
     // const handleCheck = (e:ChangeEvent<HTMLInputElement>) => {
     //     const name = e.target.name;
