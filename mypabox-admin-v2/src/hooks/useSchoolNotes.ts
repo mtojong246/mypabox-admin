@@ -9,17 +9,20 @@ const useSchoolNotes = ({
     setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) => {
     const [ isNoteOpen, setIsNoteOpen ] = useState(false);
-    const [ selectedName, setSelectedName ] = useState('');
+    const [ selectedField, setSelectedField ] = useState<{
+        name: string,
+        path: string,
+    } | null>(null);
     const [ selectedNote, setSelectedNote ] = useState<NewNote | null>(null);
 
-    const toggleNote = (e:MouseEvent<HTMLButtonElement>, name?: string, note?: NewNote) => {
+    const toggleNote = (e:MouseEvent<HTMLButtonElement>, field?: { name: string, path: string }, note?: NewNote) => {
         e.preventDefault();
         setIsNoteOpen(!isNoteOpen);
 
-        if (name !== undefined) {
-            setSelectedName(name);
+        if (field !== undefined) {
+            setSelectedField(field);
         } else {
-            setSelectedName('');
+            setSelectedField(null);
         }
 
         if (note !== undefined) {
@@ -33,7 +36,7 @@ const useSchoolNotes = ({
     return {
         toggleNote,
         isNoteOpen,
-        selectedName,
+        selectedField,
         selectedNote,
     }
 

@@ -8,6 +8,8 @@ import SelectInput from "../../../../components/Form/InputTypes/SelectInput";
 import countries from '../../../../data/countries.json';
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
+import Button from "../../../../components/Buttons/Button";
+import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
 
 
 const permissions = {
@@ -106,7 +108,7 @@ export default function GeneralInformation({
     const {
         toggleNote,
         isNoteOpen,
-        selectedName,
+        selectedField,
         selectedNote,
     } = useSchoolNotes({ school, setSchool });
 
@@ -255,7 +257,7 @@ export default function GeneralInformation({
                 <Container 
                     label={field.label} 
                     originalInputs={
-                        <>
+                        <div className="flex flex-col gap-8 justify-start items-start">
                         {field.type === 'text' ? (
                             <TextInput 
                                 label={field.label}
@@ -294,7 +296,18 @@ export default function GeneralInformation({
                         ) : (
                             <></>
                         )}
-                        </>
+                        {field.notePath && (
+                            <div className="flex flex-col gap-4 justify-start items-center">
+                                <Button 
+                                    type='warning'
+                                    styling="outline"
+                                    label='Add Note'
+                                    action={(e: any) => {toggleNote(e, { name: field.name, path: field.path })}}
+                                    adornment={<PlusIcon/>}
+                                />
+                            </div>
+                        )}
+                        </div>
                     }
                 />
             )
@@ -345,9 +358,11 @@ export default function GeneralInformation({
             handleInput={handleInput}
             isRequired
         /> */}
-        {isNoteOpen && (
+        {isNoteOpen && selectedField && (
             <NotePopup 
-                
+                toggleNotePopup={toggleNote}
+                selectedField={selectedField}
+                selectedNote={selectedNote}
             />
         )}
         </>
