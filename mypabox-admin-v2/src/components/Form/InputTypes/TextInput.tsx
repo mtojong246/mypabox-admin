@@ -6,6 +6,7 @@ export default function TextInput({
     placeholder,
     name,
     value,
+    path,
     handleInput,
     isRequired,
     startingAdornment,
@@ -15,7 +16,8 @@ export default function TextInput({
     placeholder: string,
     name: string,
     value: string | number,
-    handleInput: (e: ChangeEvent<HTMLInputElement>) => void,
+    path: string,
+    handleInput: (e: ChangeEvent<HTMLInputElement>, path: string) => void,
     isRequired: boolean,
     startingAdornment?: ReactNode,
     endingAdornment?: ReactNode,
@@ -30,7 +32,7 @@ export default function TextInput({
                 endAdornment={endingAdornment}
                 name={name}
                 value={value ? value : ''}
-                onChange={handleInput}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleInput(e, path)}
                 sx={{
                     maxWidth: 600,
                     width: '100%',

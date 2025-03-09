@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react"
-import { BasicBooleanInput, BasicNumberInput, BasicStringInput, NewSchool } from "../../../../types/newSchools.types"
+import { BasicBooleanInput, BasicNumberInput, BasicStringInput, Change, NewSchool } from "../../../../types/newSchools.types"
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
@@ -12,35 +12,32 @@ const permissions = {
     canAddOrDelete: false,
 };
 
-const generalInfoLabels = [
-    { label: 'School Name', value: 'school_name' },
-    { label: 'School Logo', value: 'school_logo' },
-    { label: 'Street Address', value: 'school_street' },
-    { label: 'City', value: 'school_city' },
-    { label: 'Country', value: 'school_country' },
-    { label: 'State', value: 'school_state' },
-    { label: 'Zip Code', value: 'school_zip_code' },
-    { label: 'Website Link', value: 'school_website' },
-    { label: 'School Email', value: 'school_email' },
-    { label: 'School Phone Number', value: 'school_phone_number' },
-    { label: 'Campus Location', value: 'school_campus_location' },
-    { label: 'Start Month', value: 'school_start_month' },
-    { label: 'Class Capacity', value: 'school_class_capacity' },
-    { label: 'Duration (Full-time)', value: 'school_duration_full_time' },
-    { label: 'Duration (Part-time)', value: 'school_duration_part_time' },
-    { label: 'Rolling Admissions', value: 'school_rolling_admissions' },
-    { label: 'Non-rolling Admissions', value: 'school_nonrolling_admissions' },
-    { label: 'Pre-PA Curriculum', value: 'school_pre_pa_curriculum' },
-    { label: 'Direct High School Entry', value: 'school_direct_high_school_entry' },
-    { label: 'Part-time Option', value: 'school_part_time_option' },
-    { label: 'Online Learning', value: 'school_online_learning' },
-    { label: 'On-Campus Housing', value: 'school_on_campus_housing' },
-    { label: 'Cadaver Lab', value: 'school_cadaver_lab' },
-    { label: 'Faith-Based Learning', value: 'school_faith_based_learning' },
-    { label: 'Military Personnel Preference', value: 'school_military_personnel_preference' },
-    { label: 'Holistic Review', value: 'school_holistic_review' },
-    { label: 'General Information Notes', value: 'school_general_information' },
+const genericSchoolInfoFields = [
+    {
+        label: 'School Name',
+        name: 'school_name',
+        type: 'string',
+        path: '.input',
+    },
+    {
+        label: 'School Logo',
+        name: 'school_logo',
+        type: 'string',
+        path: '.input',
+    },
+    {
+        label: 'Street Address',
+        name: 'school_street',
+        type: 'string',
+        path: '.input',
+    },
 ]
+
+interface SchoolField {
+    original: any,
+    draft: any,
+    changes: Change[],
+}
 
 export default function GeneralInformation({
     isEditSchool,
@@ -69,6 +66,34 @@ export default function GeneralInformation({
         });
     }
 
+    const handleGenericInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        let field = school[name as keyof NewSchool] as SchoolField;
+
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        let original = field.original;
+        // let draft = field.draft;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+        
+        original[keys[keys.length - 1]] = value;
+
+        setSchool({
+            ...school,
+            [name]: {
+                ...field,
+                original,
+            }
+        })
+    }
+
     const handleCheck = (e:ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
         const inputObj = school[name as keyof NewSchool]['input' as keyof object] as BasicBooleanInput;
@@ -85,10 +110,61 @@ export default function GeneralInformation({
 
     } 
 
+    console.log(school)
+
 
     return (
         <>
-        <Container
+        {/* <input onChange={(e: any) => handleGenericInput(e, '.input')} name='school_name' /> */}
+        {genericSchoolInfoFields.map(field => {
+            let original = (school[field.name as keyof NewSchool] as SchoolField).original;
+            const keys = field.path.split('.').filter(key => key);
+            for (let i = 0; i < keys.length - 1; i++) {
+                if (!(keys[i] in field)) {
+                    console.log('path invalid');
+                }
+                original = original[keys[i]];
+            }
+
+            const value = original[keys[keys.length - 1]];
+
+            return (
+                <Container 
+                    label={field.label} 
+                    originalInputs={
+                        field.type === 'string' ? (
+                            <TextInput 
+                                label={field.label}
+                                placeholder={field.label}
+                                name={field.name}
+                                value={value}
+                                path={field.path}
+                                handleInput={handleGenericInput}
+                                isRequired={false}
+                            />
+                        ) : (
+                            <></>
+                        )
+                    }
+                />
+            )
+        })}
+        {/* {genericSchoolInfoFields.map(field => (
+            <Container 
+                label={field.label} 
+                originalInputs={
+                    field.type === 'string' ? (
+                        <TextInput 
+                            label={field.label}
+                            placeholder={field.label}
+                            name={field.name}
+                            value={(school[field.name as keyof NewSchool] as SchoolField).original.}
+                        />
+                    )
+                }
+            />
+        ))} */}
+        {/* <Container
             label="School Name"
             originalInputs={
                 <TextInput 
@@ -118,7 +194,7 @@ export default function GeneralInformation({
             value={school.school_name.input.original}
             handleInput={handleInput}
             isRequired
-        />
+        /> */}
         </>
     )
 }

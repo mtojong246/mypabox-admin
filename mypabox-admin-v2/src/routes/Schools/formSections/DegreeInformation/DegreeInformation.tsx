@@ -21,28 +21,28 @@ export default function DegreeInformation({
     setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) {
 
-    const handleCheck = (e:ChangeEvent<HTMLInputElement>) => {
-        const name = e.target.name;
-        const field = school[name as keyof NewSchool] as {
-            input: BasicBooleanInput;
-            notes: NoteInput;
-            link: string;
-        };
-        setSchool({
-            ...school,
-            [name]: {
-                ...field,
-                input: {
-                    ...field.input,
-                    original: e.target.checked,
-                    draft: e.target.checked,
-                }
-            }
-        })
-    } 
+    // const handleCheck = (e:ChangeEvent<HTMLInputElement>) => {
+    //     const name = e.target.name;
+    //     const field = school[name as keyof NewSchool] as {
+    //         input: BasicBooleanInput;
+    //         notes: NoteInput;
+    //         link: string;
+    //     };
+    //     setSchool({
+    //         ...school,
+    //         [name]: {
+    //             ...field,
+    //             input: {
+    //                 ...field.input,
+    //                 original: e.target.checked,
+    //                 draft: e.target.checked,
+    //             }
+    //         }
+    //     })
+    // } 
 
     const handleCheckWithModification = (e:ChangeEvent<HTMLInputElement>) => {
-        
+
     }
 
     
@@ -50,7 +50,7 @@ export default function DegreeInformation({
     return (
         <>
         
-        <Container 
+        {/* <Container 
             label="Dual-Degree Program"
             originalInputs={
                 <BooleanInput 
@@ -62,7 +62,7 @@ export default function DegreeInformation({
                     isDisabled={false}
                 />
             }
-        />
+        /> */}
         
         
         </>

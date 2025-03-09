@@ -73,9 +73,94 @@ export interface ModifiedBooleanChange extends Change {
     modified: boolean;
 }
 
-
-
 export interface NewSchool {
+    id: string;
+    isLive: boolean;
+    school_name: {
+        original: {
+            input: string;
+        }
+        draft: {
+            input: string;
+        }
+        changes: Change[];
+        link: string;
+    };
+    school_logo: {
+        original: {
+            input: string;
+        }
+        draft: {
+            input: string;
+        }
+        changes: Change[];
+        link: string;
+    };
+    school_street: {
+        original: {
+            input: string;
+        }
+        draft: {
+            input: string;
+        }
+        changes: Change[];
+        link: string;
+    };
+    school_city: {
+        original: {
+            input: string;
+        }
+        draft: {
+            input: string;
+        }
+        changes: Change[];
+        link: string;
+    };
+    school_state: {
+        original: {
+            input: string;
+        }
+        draft: {
+            input: string;
+        }
+        changes: Change[];
+        link: string;
+    };
+    school_zip_code: {
+        original: {
+            input: string;
+        }
+        draft: {
+            input: string;
+        }
+        changes: Change[];
+        link: string;
+    };
+    school_country: {
+        original: {
+            input: string;
+        }
+        draft: {
+            input: string;
+        }
+        changes: Change[];
+        link: string;
+    };
+    school_website: {
+        original: {
+            input: string;
+        }
+        draft: {
+            input: string;
+        }
+        changes: Change[];
+        link: string;
+    };
+
+}
+
+
+export interface NewSchoolDraft {
     id: string;
     isLive: boolean;
     school_name: {
