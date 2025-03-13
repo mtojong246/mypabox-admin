@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
-import { BasicBooleanInput, BasicNumberInput, BasicStringInput, Change, NewSchool } from "../../../../types/newSchools.types"
+import { BasicBooleanInput, BasicNumberInput, BasicStringInput, Change, GenericSchoolField, NewSchool } from "../../../../types/newSchools.types"
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
@@ -90,11 +90,7 @@ const genericSchoolInfoFields = [
     }
 ]
 
-interface SchoolField {
-    original: any,
-    draft: any,
-    changes: Change[],
-}
+
 
 export default function GeneralInformation({
     isEditSchool,
@@ -124,7 +120,7 @@ export default function GeneralInformation({
         const name = e.target.name;
         const value = e.target.value;
 
-        let field = school[name as keyof NewSchool] as SchoolField;
+        let field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
         let original = field.original;
@@ -161,7 +157,7 @@ export default function GeneralInformation({
         const name = e.target.name;
         const value = e.target.checked;
 
-        let field = school[name as keyof NewSchool] as SchoolField;
+        let field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
         let original = field.original;
@@ -197,7 +193,7 @@ export default function GeneralInformation({
     const handleGenericSelect = (e: any, name: string, path: string) => {
         const value = e.value;
 
-        let field = school[name as keyof NewSchool] as SchoolField;
+        let field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
         let original = field.original;
@@ -242,7 +238,7 @@ export default function GeneralInformation({
     return (
         <>
         {genericSchoolInfoFields.map(field => {
-            let original = (school[field.name as keyof NewSchool] as SchoolField).original;
+            let original = (school[field.name as keyof NewSchool] as GenericSchoolField).original;
             const keys = field.path.split('.').filter(key => key);
             for (let i = 0; i < keys.length - 1; i++) {
                 if (!(keys[i] in field)) {
@@ -302,7 +298,7 @@ export default function GeneralInformation({
                                     type='warning'
                                     styling="outline"
                                     label='Add Note'
-                                    action={(e: any) => {toggleNote(e, { name: field.name, path: field.path })}}
+                                    action={(e: any) => {toggleNote(e, { name: field.name, path: field.notePath })}}
                                     adornment={<PlusIcon/>}
                                 />
                             </div>
@@ -363,6 +359,8 @@ export default function GeneralInformation({
                 toggleNotePopup={toggleNote}
                 selectedField={selectedField}
                 selectedNote={selectedNote}
+                school={school}
+                setSchool={setSchool}
             />
         )}
         </>

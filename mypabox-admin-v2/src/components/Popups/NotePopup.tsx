@@ -1,7 +1,7 @@
 import ReactQuill from "react-quill"
-import { ChangeEvent, useState, MouseEvent, useEffect } from "react"
+import { ChangeEvent, useState, MouseEvent, useEffect, Dispatch, SetStateAction } from "react"
 import 'react-quill/dist/quill.snow.css';
-import { NewNote } from "../../types/newSchools.types";
+import { GenericSchoolField, NewNote, NewSchool } from "../../types/newSchools.types";
 
 import { ReactComponent as CloseIcon } from '../Icons/X.svg';
 import Button from "../Buttons/Button";
@@ -16,10 +16,14 @@ export default function NotePopup({
     toggleNotePopup,
     selectedField,
     selectedNote,
+    school,
+    setSchool,
 }: {
     toggleNotePopup: (e:MouseEvent<HTMLButtonElement>, field?: { name: string, path: string }, note?: NewNote) => void,
     selectedField: { name: string, path: string },
     selectedNote: NewNote | null,
+    school: NewSchool,
+    setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) {
     const [ noteForm, setNoteForm ] = useState<NewNote>(defaultNote)
 
@@ -49,6 +53,37 @@ export default function NotePopup({
             ...noteForm,
             note: note,
         })
+    };
+
+    const addNote = (e: MouseEvent<HTMLButtonElement>, name: string, path: string, newNote: NewNote) => {
+        e.preventDefault();
+
+        let field = school[name as keyof NewSchool] as GenericSchoolField;
+
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        let original = field.original;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+
+        let lastKey: string | number = keys[keys.length-1];
+        if (!isNaN(Number(lastKey))) {
+            lastKey = Number(lastKey);
+        }
+        
+        const originalNotes = original[lastKey] as NewNote[];
+        original[lastKey] = originalNotes.concat(newNote);
+
     }
 
 
@@ -84,11 +119,16 @@ export default function NotePopup({
                     <div className='w-full p-6 flex justify-end items-center gap-3'>
                         <Button 
                             label="Cancel"
-                            action={toggleNotePopup}
+                            action={(e:any) => toggleNotePopup(e)}
                             type='disable'
                             styling="outline"
                         />
-                        {/* <button onClick={(e) => addOrEditNote(e, noteForm, groupName)} className='border-2 border-[#4573D2] bg-[#4573D2] text-white font-medium px-3 py-2 rounded hover:text-white hover:bg-[#3558A0]'>{editedNote ? 'Edit note' : 'Add note'}</button> */}
+                        <Button 
+                            label="Add Note"
+                            action={(e:any) => addNote(e, selectedField.name, selectedField.path, noteForm)}
+                            type='warning'
+                            styling="solid"
+                        />
                     </div>
                 </div>
             </div>

@@ -73,6 +73,13 @@ export interface ModifiedBooleanChange extends Change {
     modified: boolean;
 }
 
+export interface GenericSchoolField {
+    original: any,
+    draft: any,
+    changes: Change[],
+    link: string,
+}
+
 export interface NewSchool {
     id: string;
     isLive: boolean;

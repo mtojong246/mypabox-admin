@@ -1,15 +1,17 @@
+export interface UserPermissions {
+    canEditWithVerificationNeeded: boolean;
+    canEditWithoutVerificationNeeded: boolean;
+    canVerify: boolean;
+    canMakeLive: boolean;
+    canAddOrDelete: boolean;
+}
+
 export interface UserObject {
     id: string;
     displayName: string;
     email: string;
     isSuperAdmin: boolean;
-    permissions: {
-        canEditWithVerificationNeeded: boolean;
-        canEditWithoutVerificationNeeded: boolean;
-        canVerify: boolean;
-        canMakeLive: boolean;
-        canAddOrDelete: boolean;
-    };
+    permissions: UserPermissions;
     activeTasks: {
         state: string;
         schools: string[];
