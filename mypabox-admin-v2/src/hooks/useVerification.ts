@@ -1,14 +1,74 @@
 import { Dispatch, MouseEvent, SetStateAction } from "react";
 import { Change, GenericSchoolField, NewSchool } from "../types/newSchools.types";
+import { UserPermissions } from "../types/users.types";
 
 
 const useVerification = ({
     school,
-    setSchool
+    setSchool,
+    isEditSchool,
+    permissions,
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
+    isEditSchool: boolean,
+    permissions: UserPermissions,
 }) => {
+
+    const handleChanges = (
+            field: GenericSchoolField, 
+            name: string, 
+            original: any, 
+            draft: any, 
+            path: string, 
+            type: 'modified' | 'added' | 'removed',
+            originalValue?: any, 
+            value?: any
+    ) => {
+        let changes = field.changes;
+
+        if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
+            setSchool({
+                ...school,
+                [name]: {
+                    ...field,
+                    original,
+                    draft,
+                }
+            })
+        } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
+            const newChange: Change = {
+                type,
+                path,
+                editedBy: 'user',
+                timestamp: new Date().toISOString(),
+                original: originalValue,
+                modified: value,
+            }
+            const existingChanges = changes.find(change => change.type === type && change.path === path);
+            if (existingChanges) {
+                changes = changes.map(change => {
+                    if (change.type === type && change.path === path) {
+                        return {...newChange}
+                    } else {
+                        return {...change}
+                    }
+                })
+            } else {
+                changes = changes.concat(newChange);
+            }
+
+
+            setSchool({
+                ...school,
+                [name]: {
+                    ...field,
+                    draft,
+                    changes,
+                }
+            })
+        }
+    }
 
 
     const revertToOriginal = (e: MouseEvent<HTMLButtonElement>, name: string) => {
@@ -85,6 +145,7 @@ const useVerification = ({
         revertToOriginal,
         validateAllChanges,
         validateIndividualChanges,
+        handleChanges,
     }
 
 };

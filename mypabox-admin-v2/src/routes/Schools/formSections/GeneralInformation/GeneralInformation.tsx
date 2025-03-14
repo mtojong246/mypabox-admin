@@ -10,6 +10,7 @@ import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import Button from "../../../../components/Buttons/Button";
 import Notes from "../../../../components/Form/Notes/Notes";
+import useVerification from "../../../../hooks/useVerification";
 
 
 const permissions = {
@@ -109,6 +110,10 @@ export default function GeneralInformation({
         deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
+    const {
+        handleChanges
+    } = useVerification({ school, setSchool, isEditSchool, permissions });
+
     const [ countryNames, setCountryNames ] = useState<{ value: string, label: string }[]>([]);
     const [ stateNames, setStateNames ] = useState<{ value: string, label: string }[]>([]);
 
@@ -116,16 +121,15 @@ export default function GeneralInformation({
         setCountryNames(countries.map(country => ({ value: country.name, label: country.name})))    
     }, []);
 
-
     const handleGenericInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
         const value = e.target.value;
 
-        let field = school[name as keyof NewSchool] as GenericSchoolField;
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = field.original;
-        let draft = field.draft;
+        let original = {...field.original};
+        let draft = {...field.draft};
 
         for (let i = 0; i < keys.length - 1; i++) {
             if (!(keys[i] in field)) {
@@ -146,47 +150,7 @@ export default function GeneralInformation({
         
         draft[keys[keys.length - 1]] = value;
         
-        let changes = field.changes;
-
-        if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-            setSchool({
-                ...school,
-                [name]: {
-                    ...field,
-                    original,
-                }
-            })
-        } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-            const newChange: Change = {
-                type: 'modified',
-                path,
-                editedBy: 'user',
-                timestamp: new Date().toISOString(),
-                original: originalValue,
-                modified: value,
-            }
-            const existingChanges = changes.find(change => change.type === 'modified' && change.path === path);
-            if (existingChanges) {
-                changes = changes.map(change => {
-                    if (change.type === 'modified' && change.path === path) {
-                        return {...newChange}
-                    } else {
-                        return {...change}
-                    }
-                })
-            } else {
-                changes = changes.concat(newChange);
-            }
-
-            setSchool({
-                ...school,
-                [name]: {
-                    ...field,
-                    draft,
-                    changes,
-                }
-            })
-        }
+        handleChanges(field, name, original, draft, path, 'modified', originalValue, value);
 
         
     };
@@ -267,6 +231,7 @@ export default function GeneralInformation({
             setStateNames(countries.filter(country => country.name === school.school_country.original.input)[0].states.map(state => ({ value: state.name, label: state.name })));
         }
     };
+
 
     return (
         <>

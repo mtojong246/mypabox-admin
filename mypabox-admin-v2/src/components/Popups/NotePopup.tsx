@@ -183,9 +183,9 @@ export default function NotePopup({
                             styling="outline"
                         />
                         <Button 
-                            label="Add Note"
+                            label={`${selectedNote ? 'Edit' : 'Add'} Note`}
                             action={handleSubmit}
-                            type='warning'
+                            type='primary'
                             styling="solid"
                         />
                     </div>
