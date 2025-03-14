@@ -12,10 +12,11 @@ const useSchoolNotes = ({
     const [ selectedField, setSelectedField ] = useState<{
         name: string,
         path: string,
+        noteIndex?: number,
     } | null>(null);
     const [ selectedNote, setSelectedNote ] = useState<NewNote | null>(null);
 
-    const toggleNote = (e:MouseEvent<HTMLButtonElement>, field?: { name: string, path: string }, note?: NewNote) => {
+    const toggleNote = (e:MouseEvent<HTMLButtonElement>, field?: { name: string, path: string, noteIndex?: number }, note?: NewNote) => {
         e.preventDefault();
         setIsNoteOpen(!isNoteOpen);
 
@@ -32,7 +33,7 @@ const useSchoolNotes = ({
         }
     };
 
-    const deleteNote = (e: MouseEvent<HTMLButtonElement>, name: string, path: string, newNote: NewNote) => {
+    const deleteNote = (e: MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => {
         e.preventDefault();
 
         let field = school[name as keyof NewSchool] as GenericSchoolField;
@@ -59,7 +60,15 @@ const useSchoolNotes = ({
         }
         
         const originalNotes = original[lastKey] as NewNote[];
-        original[lastKey] = originalNotes.filter((note, i) => i !== lastKey);
+        original[lastKey] = originalNotes.filter((note, i) => i !== noteIndex);
+
+        setSchool({
+            ...school,
+            [name]: {
+                ...field,
+                original,
+            }
+        })
     }
 
 
@@ -70,6 +79,7 @@ const useSchoolNotes = ({
         isNoteOpen,
         selectedField,
         selectedNote,
+        deleteNote
     }
 
 

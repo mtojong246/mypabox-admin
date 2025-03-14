@@ -20,7 +20,7 @@ export default function NotePopup({
     setSchool,
 }: {
     toggleNotePopup: (e:MouseEvent<HTMLButtonElement>, field?: { name: string, path: string }, note?: NewNote) => void,
-    selectedField: { name: string, path: string },
+    selectedField: { name: string, path: string, noteIndex?: number },
     selectedNote: NewNote | null,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -92,7 +92,7 @@ export default function NotePopup({
 
     }
 
-    const editNote = (name: string, path: string, newNote: NewNote) => {
+    const editNote = (name: string, path: string, newNote: NewNote, noteIndex: number) => {
         let field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
@@ -118,7 +118,7 @@ export default function NotePopup({
         
         const originalNotes = original[lastKey] as NewNote[];
         original[lastKey] = originalNotes.map((note, i) => {
-            if (i === lastKey) {
+            if (i === noteIndex) {
                 return {...newNote}
             } else {
                 return {...note}
@@ -136,8 +136,8 @@ export default function NotePopup({
 
     const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (selectedNote) {
-            editNote(selectedField.name, selectedField.path, noteForm);
+        if (selectedNote && selectedField.noteIndex) {
+            editNote(selectedField.name, selectedField.path, noteForm, selectedField.noteIndex);
         } else {
             addNote(selectedField.name, selectedField.path, noteForm);
         }

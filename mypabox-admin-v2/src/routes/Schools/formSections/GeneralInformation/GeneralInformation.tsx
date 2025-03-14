@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
-import { BasicBooleanInput, BasicNumberInput, BasicStringInput, Change, GenericSchoolField, NewSchool } from "../../../../types/newSchools.types"
+import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
@@ -10,15 +10,18 @@ import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import Button from "../../../../components/Buttons/Button";
 import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
+import { ReactComponent as EditIcon } from '../../../../components/Icons/Edit-With-Line.svg';
+import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
+import ReactQuill from "react-quill";
 
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
+// const permissions = {
+//     canEditWithVerificationNeeded: true,
+//     canEditWithoutVerificationNeeded: false,
+//     canVerify: false,
+//     canMakeLive: false,
+//     canAddOrDelete: false,
+// };
 
 const genericSchoolInfoFields = [
     {
@@ -106,6 +109,7 @@ export default function GeneralInformation({
         isNoteOpen,
         selectedField,
         selectedNote,
+        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const [ countryNames, setCountryNames ] = useState<{ value: string, label: string }[]>([]);
@@ -249,6 +253,21 @@ export default function GeneralInformation({
 
             const value = original[keys[keys.length - 1]];
 
+            let noteValue: NewNote[] = [];
+
+            if (field.notePath !== undefined) {
+                let originalWithNotes = (school[field.name as keyof NewSchool] as GenericSchoolField).original;
+                const keys = field.notePath.split('.').filter(key => key);
+                for (let i = 0; i < keys.length - 1; i++) {
+                    if (!(keys[i] in field)) {
+                        console.log('path invalid');
+                    }
+                    originalWithNotes = originalWithNotes[keys[i]];
+                }
+
+                noteValue = originalWithNotes[keys[keys.length - 1]];
+            }
+
             return (
                 <Container 
                     label={field.label} 
@@ -293,9 +312,22 @@ export default function GeneralInformation({
                             <></>
                         )}
                         {field.notePath && (
-                            <div className="flex flex-col gap-4 justify-start items-center">
+                            <div className="flex flex-col gap-4 justify-start items-start w-full">
+                                <p className="text-default">Notes:</p>
+                                {noteValue.length > 0 && noteValue.map((note,i) => (
+                                    <div className="w-full flex justify-between items-start gap-6">
+                                        <div className="grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline">
+                                            <p className="text-primary text-[14px] font-medium">{note.type}</p>
+                                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <button onClick={(e:any) => {toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i })}} className="w-[24px] text-primary"><EditIcon/></button>
+                                            <button onClick={(e:any) => {deleteNote(e, field.name, field.notePath, i)}} className="w-[24px] text-warning"><DeleteIcon/></button>
+                                        </div>
+                                    </div>
+                                ))}
                                 <Button 
-                                    type='warning'
+                                    type='primary'
                                     styling="outline"
                                     label='Add Note'
                                     action={(e: any) => {toggleNote(e, { name: field.name, path: field.notePath })}}
