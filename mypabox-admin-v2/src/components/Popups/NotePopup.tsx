@@ -55,9 +55,7 @@ export default function NotePopup({
         })
     };
 
-    const addNote = (e: MouseEvent<HTMLButtonElement>, name: string, path: string, newNote: NewNote) => {
-        e.preventDefault();
-
+    const addNote = (name: string, path: string, newNote: NewNote) => {
         let field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
@@ -84,6 +82,67 @@ export default function NotePopup({
         const originalNotes = original[lastKey] as NewNote[];
         original[lastKey] = originalNotes.concat(newNote);
 
+        setSchool({
+            ...school,
+            [name]: {
+                ...field,
+                original,
+            }
+        })
+
+    }
+
+    const editNote = (name: string, path: string, newNote: NewNote) => {
+        let field = school[name as keyof NewSchool] as GenericSchoolField;
+
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        let original = field.original;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+
+        let lastKey: string | number = keys[keys.length-1];
+        if (!isNaN(Number(lastKey))) {
+            lastKey = Number(lastKey);
+        }
+        
+        const originalNotes = original[lastKey] as NewNote[];
+        original[lastKey] = originalNotes.map((note, i) => {
+            if (i === lastKey) {
+                return {...newNote}
+            } else {
+                return {...note}
+            }
+        })
+
+        setSchool({
+            ...school,
+            [name]: {
+                ...field,
+                original,
+            }
+        })
+    };
+
+    const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if (selectedNote) {
+            editNote(selectedField.name, selectedField.path, noteForm);
+        } else {
+            addNote(selectedField.name, selectedField.path, noteForm);
+        }
+
+        toggleNotePopup(e);
     }
 
 
@@ -119,13 +178,13 @@ export default function NotePopup({
                     <div className='w-full p-6 flex justify-end items-center gap-3'>
                         <Button 
                             label="Cancel"
-                            action={(e:any) => toggleNotePopup(e)}
+                            action={toggleNotePopup}
                             type='disable'
                             styling="outline"
                         />
                         <Button 
                             label="Add Note"
-                            action={(e:any) => addNote(e, selectedField.name, selectedField.path, noteForm)}
+                            action={handleSubmit}
                             type='warning'
                             styling="solid"
                         />

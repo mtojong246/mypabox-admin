@@ -32,7 +32,7 @@ const useSchoolNotes = ({
         }
     };
 
-    const addNote = (e: MouseEvent<HTMLButtonElement>, name: string, path: string, newNote: NewNote) => {
+    const deleteNote = (e: MouseEvent<HTMLButtonElement>, name: string, path: string, newNote: NewNote) => {
         e.preventDefault();
 
         let field = school[name as keyof NewSchool] as GenericSchoolField;
@@ -58,10 +58,11 @@ const useSchoolNotes = ({
             lastKey = Number(lastKey);
         }
         
-        original[lastKey] = newNote;
-
-        console.log(original);
+        const originalNotes = original[lastKey] as NewNote[];
+        original[lastKey] = originalNotes.filter((note, i) => i !== lastKey);
     }
+
+
 
 
     return {
@@ -69,7 +70,6 @@ const useSchoolNotes = ({
         isNoteOpen,
         selectedField,
         selectedNote,
-        addNote,
     }
 
 
