@@ -1,11 +1,6 @@
 import { Dispatch, MouseEvent, SetStateAction } from "react";
-import { Change, NewSchool } from "../types/newSchools.types";
+import { Change, GenericSchoolField, NewSchool } from "../types/newSchools.types";
 
-interface GenericSchoolField {
-    original: any;
-    draft: any;
-    changes: Change[];
-}
 
 const useVerification = ({
     school,
@@ -81,7 +76,7 @@ const useVerification = ({
             [name]: {
                 original,
                 draft,
-                changes: field.changes.filter(change => change.field !== path),
+                changes: field.changes.filter(change => change.path !== path),
             }
         })
     }

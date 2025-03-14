@@ -34,7 +34,7 @@ export default function Notes({
                     </div>
                     <div className="flex gap-4">
                         <button 
-                            onClick={(e:any) => {toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i })}} 
+                            onClick={(e:any) => {toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i }, note)}} 
                             className="w-[24px] text-primary"
                         >   
                             <EditIcon/>

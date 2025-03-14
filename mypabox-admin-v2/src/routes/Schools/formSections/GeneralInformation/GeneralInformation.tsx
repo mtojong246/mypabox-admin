@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
-import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
+import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
@@ -9,20 +9,16 @@ import countries from '../../../../data/countries.json';
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import Button from "../../../../components/Buttons/Button";
-import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
-import { ReactComponent as EditIcon } from '../../../../components/Icons/Edit-With-Line.svg';
-import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
-import ReactQuill from "react-quill";
 import Notes from "../../../../components/Form/Notes/Notes";
 
 
-// const permissions = {
-//     canEditWithVerificationNeeded: true,
-//     canEditWithoutVerificationNeeded: false,
-//     canVerify: false,
-//     canMakeLive: false,
-//     canAddOrDelete: false,
-// };
+const permissions = {
+    canEditWithVerificationNeeded: true,
+    canEditWithoutVerificationNeeded: false,
+    canVerify: false,
+    canMakeLive: false,
+    canAddOrDelete: false,
+};
 
 const genericSchoolInfoFields = [
     {
@@ -138,6 +134,7 @@ export default function GeneralInformation({
             original = original[keys[i]];
         }
         
+        const originalValue = original[keys[keys.length - 1]];
         original[keys[keys.length - 1]] = value;
 
         for (let i = 0; i < keys.length - 1; i++) {
@@ -148,14 +145,50 @@ export default function GeneralInformation({
         }
         
         draft[keys[keys.length - 1]] = value;
+        
+        let changes = field.changes;
 
-        setSchool({
-            ...school,
-            [name]: {
-                ...field,
-                original,
+        if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
+            setSchool({
+                ...school,
+                [name]: {
+                    ...field,
+                    original,
+                }
+            })
+        } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
+            const newChange: Change = {
+                type: 'modified',
+                path,
+                editedBy: 'user',
+                timestamp: new Date().toISOString(),
+                original: originalValue,
+                modified: value,
             }
-        })
+            const existingChanges = changes.find(change => change.type === 'modified' && change.path === path);
+            if (existingChanges) {
+                changes = changes.map(change => {
+                    if (change.type === 'modified' && change.path === path) {
+                        return {...newChange}
+                    } else {
+                        return {...change}
+                    }
+                })
+            } else {
+                changes = changes.concat(newChange);
+            }
+
+            setSchool({
+                ...school,
+                [name]: {
+                    ...field,
+                    draft,
+                    changes,
+                }
+            })
+        }
+
+        
     };
 
     const handleGenericBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {

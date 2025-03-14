@@ -136,7 +136,7 @@ export default function NotePopup({
 
     const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (selectedNote && selectedField.noteIndex) {
+        if (selectedNote && selectedField.noteIndex !== undefined) {
             editNote(selectedField.name, selectedField.path, noteForm, selectedField.noteIndex);
         } else {
             addNote(selectedField.name, selectedField.path, noteForm);

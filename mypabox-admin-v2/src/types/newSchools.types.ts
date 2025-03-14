@@ -1,10 +1,10 @@
 export interface Change {
     type: 'modified' | 'added' | 'removed';
-    field: string;
+    path: string;
     editedBy: string;
     timestamp: string;
-    original: any;
-    modified: any;
+    original?: any;
+    modified?: any;
 }
 
 export interface NewNote {
