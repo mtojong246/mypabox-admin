@@ -13,6 +13,7 @@ import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.sv
 import { ReactComponent as EditIcon } from '../../../../components/Icons/Edit-With-Line.svg';
 import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
 import ReactQuill from "react-quill";
+import Notes from "../../../../components/Form/Notes/Notes";
 
 
 // const permissions = {
@@ -234,11 +235,6 @@ export default function GeneralInformation({
         }
     };
 
-
-
-
-
-
     return (
         <>
         {genericSchoolInfoFields.map(field => {
@@ -312,80 +308,19 @@ export default function GeneralInformation({
                             <></>
                         )}
                         {field.notePath && (
-                            <div className="flex flex-col gap-4 justify-start items-start w-full">
-                                <p className="text-default">Notes:</p>
-                                {noteValue.length > 0 && noteValue.map((note,i) => (
-                                    <div className="w-full flex justify-between items-start gap-6">
-                                        <div className="grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline">
-                                            <p className="text-primary text-[14px] font-medium">{note.type}</p>
-                                            <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
-                                        </div>
-                                        <div className="flex gap-4">
-                                            <button onClick={(e:any) => {toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i })}} className="w-[24px] text-primary"><EditIcon/></button>
-                                            <button onClick={(e:any) => {deleteNote(e, field.name, field.notePath, i)}} className="w-[24px] text-warning"><DeleteIcon/></button>
-                                        </div>
-                                    </div>
-                                ))}
-                                <Button 
-                                    type='primary'
-                                    styling="outline"
-                                    label='Add Note'
-                                    action={(e: any) => {toggleNote(e, { name: field.name, path: field.notePath })}}
-                                    adornment={<PlusIcon/>}
-                                />
-                            </div>
+                            <Notes 
+                                notes={noteValue}
+                                field={field}
+                                toggleNote={toggleNote}
+                                deleteNote={deleteNote}
+                            />
                         )}
                         </div>
                     }
                 />
             )
         })}
-        {/* {genericSchoolInfoFields.map(field => (
-            <Container 
-                label={field.label} 
-                originalInputs={
-                    field.type === 'string' ? (
-                        <TextInput 
-                            label={field.label}
-                            placeholder={field.label}
-                            name={field.name}
-                            value={(school[field.name as keyof NewSchool] as SchoolField).original.}
-                        />
-                    )
-                }
-            />
-        ))} */}
-        {/* <Container
-            label="School Name"
-            originalInputs={
-                <TextInput 
-                    label='School Name'
-                    placeholder='Name'
-                    name='school_name'
-                    value={school.school_name.input.original}
-                    handleInput={handleInput}
-                    isRequired
-                />
-            }
-            modifiedInputs={
-                <TextInput 
-                    label='School Name'
-                    placeholder='Name'
-                    name='school_name'
-                    value={school.school_name.input.original}
-                    handleInput={handleInput}
-                    isRequired
-                />
-            }
-        />
-        <TextInput 
-            label='School Name'
-            placeholder='Name'
-            name='school_name'
-            value={school.school_name.input.original}
-            handleInput={handleInput}
-            isRequired
-        /> */}
+
         {isNoteOpen && selectedField && (
             <NotePopup 
                 toggleNotePopup={toggleNote}
