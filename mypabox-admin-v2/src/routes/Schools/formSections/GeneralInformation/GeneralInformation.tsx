@@ -265,6 +265,11 @@ export default function GeneralInformation({
             return (
                 <Container 
                     label={field.label} 
+                    name={field.name}
+                    school={school}
+                    setSchool={setSchool}
+                    isEditSchool={isEditSchool}
+                    permissions={permissions}
                     originalInputs={
                         <div className="flex flex-col gap-8 justify-start items-start">
                         {field.type === 'text' ? (
