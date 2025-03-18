@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
-import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
+import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
@@ -11,6 +11,8 @@ import NotePopup from "../../../../components/Popups/NotePopup";
 import Button from "../../../../components/Buttons/Button";
 import Notes from "../../../../components/Form/Notes/Notes";
 import useVerification from "../../../../hooks/useVerification";
+import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
+import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
 
 
 const permissions = {
@@ -127,17 +129,23 @@ export default function GeneralInformation({
 
     const handleGenericInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
-        const value = e.target.value;
+        let value = e.target.value;
+
+        if (name === 'school_phone_number') {
+            value = e.target.value.replace(/(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)/, '$1$2$3-$4$5$6-$7$8$9$10');
+        } else {
+            value = e.target.value;
+        }
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const {
-            original,
-            draft,
+            originalField,
+            draftField,
             originalValue 
         } = handleModify(path, field, value);
         
-        handleChanges(field, name, original, draft, path, 'modified', originalValue, value);
+        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
 
         
     };
@@ -149,12 +157,12 @@ export default function GeneralInformation({
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const {
-            original,
-            draft,
+            originalField,
+            draftField,
             originalValue 
         } = handleModify(path, field, value);
         
-        handleChanges(field, name, original, draft, path, 'modified', originalValue, value);
+        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
     };
 
     const handleGenericSelect = (e: any, name: string, path: string) => {
@@ -163,29 +171,70 @@ export default function GeneralInformation({
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const {
-            original,
-            draft,
+            originalField,
+            draftField,
             originalValue 
         } = handleModify(path, field, value);
         
-        handleChanges(field, name, original, draft, path, 'modified', originalValue, value);
+        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
 
         if (name === 'school_country') {
             setStateNames(countries.filter(country => country.name === school.school_country.original.input)[0].states.map(state => ({ value: state.name, label: state.name })));
         }
     };
 
+    const handleAddEmailOrPhone = (e:any, name: string, path: string) => {
+        e.preventDefault();
+        let value = {};
+
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
+
+        if (name === 'school_email') {
+            value = {
+                category: 'Main',
+                email: '',
+            }
+        } else {
+            value = {
+                category: 'Main',
+                number: '',
+            }
+        };
+
+        const {
+            original,
+            draft,
+        } = handleAddition(path, field, value);
+
+        handleChanges(field, name, original, draft, path, 'added');
+    }
+
+    const handleRemoveEmailOrPhone = (e:any, name: string, path: string, index: number) => {
+        e.preventDefault();
+
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
+
+        const {
+            original,
+            draft,
+        } = handleDeletion(path, field, index);
+
+        handleChanges(field, name, original, draft, path, 'removed');
+
+    }
+
 
     return (
         <>
         {genericSchoolInfoFields.map(field => {
-            const inputs = handleRetrieveValue(field.path, school[field.name as keyof NewSchool] as GenericSchoolField);
+            const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
+            const inputs = handleRetrieveValue(field.path, schoolField);
             const value = inputs.originalValue;
 
             let noteValue: NewNote[] = [];
 
             if (field.notePath !== undefined) {
-                const notes = handleRetrieveValue(field.notePath, school[field.name as keyof NewSchool] as GenericSchoolField);
+                const notes = handleRetrieveValue(field.notePath, schoolField);
                 noteValue = notes.originalValue;
             }
 
@@ -228,11 +277,66 @@ export default function GeneralInformation({
                                 path={field.path}
                                 handleSelect={handleGenericSelect}
                                 isRequired={false}
+                                isCreatable={false}
                                 options={field.name === 'school_country' ? countryNames : stateNames}
                             />
                         ) : field.type === 'array' ? (
                             <>
-                            
+                            {(value as any[]).length > 0 && (value as any[]).map((val,i) => {
+                                const selectPath = `${field.path}.${i}.category`;
+                                const selectInput = handleRetrieveValue(selectPath, schoolField);
+
+                                let inputPath = '';
+
+                                if (field.name === 'school_email') {
+                                    inputPath = `${field.path}.${i}.email`;
+                                } else {
+                                    inputPath = `${field.path}.${i}.number`;
+                                }
+
+                                const textInput = handleRetrieveValue(inputPath, schoolField);
+
+                                return (
+                                    <div className="w-full flex gap-4">
+                                        <SelectInput 
+                                            label="Category"
+                                            placeholder="Category"
+                                            name={field.name}
+                                            value={selectInput.originalValue}
+                                            path={selectPath}
+                                            handleSelect={handleGenericSelect}
+                                            options={[{value: 'Main', label: 'Main'}]}
+                                            isRequired={false}
+                                            isCreatable={true}
+                                        />
+                                        <TextInput 
+                                            label={field.name === 'school_email' ? 'Email Address' : 'Phone Number'}
+                                            placeholder={field.name === 'school_email' ? 'Email Address' : 'Phone Number'}
+                                            name={field.name}
+                                            value={textInput.originalValue}
+                                            path={inputPath}
+                                            handleInput={handleGenericInput}
+                                            isRequired={false}
+                                        />
+                                        <div className="py-4 flex justify-center items-end">
+                                            <button 
+                                                onClick={(e:any) => handleRemoveEmailOrPhone(e, field.name, field.path, i)} 
+                                                className="w-[24px] text-warning"
+                                            >
+                                                <DeleteIcon/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )
+                                
+                            })}
+                            <Button 
+                                type="primary"
+                                styling="outline"
+                                label={`Add ${field.name === 'school_email' ? 'Email' : 'Phone Number'}`}
+                                action={(e:any) => handleAddEmailOrPhone(e, field.name, field.path)}
+                                adornment={<PlusIcon/>}
+                            />
                             </>
                         ) : (
                             <></>

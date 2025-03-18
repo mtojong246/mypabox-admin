@@ -17,31 +17,53 @@ const useVerification = ({
 
     const handleModify = (path: string, field: GenericSchoolField, newValue: any) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = {...field.original};
-        let draft = {...field.draft};
+        const originalField = field.original;
+        const draftField = field.draft;
+
+        let original = originalField;
+        let draft = draftField;
 
         for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in field)) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(key in original)) {
                 console.log('path invalid');
             }
-            original = original[keys[i]];
+            original = original[key];
         }
-        
-        const originalValue = original[keys[keys.length - 1]];
-        original[keys[keys.length - 1]] = newValue;
 
         for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in field)) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(key in draft)) {
                 console.log('path invalid');
             }
-            draft = draft[keys[i]];
+            draft = draft[key];
         }
-        
-        draft[keys[keys.length - 1]] = newValue;
+
+        let lastKey: string | number = keys[keys.length-1];
+        if (!isNaN(Number(lastKey))) {
+            lastKey = Number(lastKey);
+        }
+
+        const originalValue = original[lastKey];
+
+        original[lastKey] = newValue;
+        draft[lastKey] = newValue;
+
+
 
         return {
-            original,
-            draft,
+            originalField,
+            draftField,
             originalValue,
         }
     }
