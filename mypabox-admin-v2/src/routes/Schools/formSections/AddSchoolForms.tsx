@@ -22,7 +22,7 @@ export default function AddSchoolForms({
                     <GeneralInformation 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                     />
                 ) : tab === '#degree-info' ? (
                     <DegreeInformation

@@ -56,10 +56,11 @@ export default function NotePopup({
     };
 
     const addNote = (name: string, path: string, newNote: NewNote) => {
-        let field = school[name as keyof NewSchool] as GenericSchoolField;
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = field.original;
+        const originalField = {...field.original};
+        let original = originalField;
 
         for (let i = 0; i < keys.length - 1; i++) {
             let key: string | number = keys[i];
@@ -68,7 +69,7 @@ export default function NotePopup({
                 key = Number(key);
             }
             
-            if (!(keys[i] in field)) {
+            if (!(keys[i] in original)) {
                 console.log('path invalid');
             }
             original = original[keys[i]];
@@ -86,17 +87,18 @@ export default function NotePopup({
             ...school,
             [name]: {
                 ...field,
-                original,
+                originalField,
             }
         })
 
     }
 
     const editNote = (name: string, path: string, newNote: NewNote, noteIndex: number) => {
-        let field = school[name as keyof NewSchool] as GenericSchoolField;
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = field.original;
+        const originalField = {...field.original};
+        let original = originalField;
 
         for (let i = 0; i < keys.length - 1; i++) {
             let key: string | number = keys[i];
@@ -105,7 +107,7 @@ export default function NotePopup({
                 key = Number(key);
             }
             
-            if (!(keys[i] in field)) {
+            if (!(keys[i] in original)) {
                 console.log('path invalid');
             }
             original = original[keys[i]];
@@ -129,7 +131,7 @@ export default function NotePopup({
             ...school,
             [name]: {
                 ...field,
-                original,
+                originalField,
             }
         })
     };

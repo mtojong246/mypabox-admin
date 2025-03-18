@@ -16,9 +16,9 @@ import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash
 
 
 const permissions = {
-    canEditWithVerificationNeeded: false,
+    canEditWithVerificationNeeded: true,
     canEditWithoutVerificationNeeded: false,
-    canVerify: true,
+    canVerify: false,
     canMakeLive: false,
     canAddOrDelete: false,
 };
@@ -230,12 +230,15 @@ export default function GeneralInformation({
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
             const inputs = handleRetrieveValue(field.path, schoolField);
             const value = inputs.originalValue;
+            const draftValue = inputs.originalDraftValue;
 
             let noteValue: NewNote[] = [];
+            let draftNoteValue: NewNote[] = [];
 
             if (field.notePath !== undefined) {
                 const notes = handleRetrieveValue(field.notePath, schoolField);
                 noteValue = notes.originalValue;
+                draftNoteValue = notes.originalDraftValue;
             }
 
             return (
@@ -344,6 +347,112 @@ export default function GeneralInformation({
                         {field.notePath && (
                             <Notes 
                                 notes={noteValue}
+                                field={field}
+                                toggleNote={toggleNote}
+                                deleteNote={deleteNote}
+                            />
+                        )}
+                        </div>
+                    }
+
+                    modifiedInputs={
+                        <div className="flex flex-col gap-8 justify-start items-start">
+                        {field.type === 'text' ? (
+                            <TextInput 
+                                label={field.label}
+                                placeholder={field.label}
+                                name={field.name}
+                                value={draftValue}
+                                path={field.path}
+                                handleInput={handleGenericInput}
+                                isRequired={false}
+                            />
+                        ) : field.type === 'boolean' ? (
+                            <BooleanInput 
+                                label={field.label}
+                                name={field.name}
+                                value={draftValue}
+                                path={field.path}
+                                handleCheck={handleGenericBoolean}
+                                isRequired={false}
+                                isDisabled={false}
+                            />
+                        ) : field.type === 'select' ? (
+                            <SelectInput 
+                                label={field.label}
+                                placeholder={field.label}
+                                name={field.name}
+                                value={draftValue}
+                                path={field.path}
+                                handleSelect={handleGenericSelect}
+                                isRequired={false}
+                                isCreatable={false}
+                                options={field.name === 'school_country' ? countryNames : stateNames}
+                            />
+                        ) : field.type === 'array' ? (
+                            <>
+                            {(draftValue as any[]).length > 0 && (draftValue as any[]).map((val,i) => {
+                                const selectPath = `${field.path}.${i}.category`;
+                                const selectInput = handleRetrieveValue(selectPath, schoolField);
+
+                                let inputPath = '';
+
+                                if (field.name === 'school_email') {
+                                    inputPath = `${field.path}.${i}.email`;
+                                } else {
+                                    inputPath = `${field.path}.${i}.number`;
+                                }
+
+                                const textInput = handleRetrieveValue(inputPath, schoolField);
+
+                                return (
+                                    <div className="w-full flex gap-4">
+                                        <SelectInput 
+                                            label="Category"
+                                            placeholder="Category"
+                                            name={field.name}
+                                            value={selectInput.originalDraftValue}
+                                            path={selectPath}
+                                            handleSelect={handleGenericSelect}
+                                            options={[{value: 'Main', label: 'Main'}]}
+                                            isRequired={false}
+                                            isCreatable={true}
+                                        />
+                                        <TextInput 
+                                            label={field.name === 'school_email' ? 'Email Address' : 'Phone Number'}
+                                            placeholder={field.name === 'school_email' ? 'Email Address' : 'Phone Number'}
+                                            name={field.name}
+                                            value={textInput.originalDraftValue}
+                                            path={inputPath}
+                                            handleInput={handleGenericInput}
+                                            isRequired={false}
+                                        />
+                                        <div className="py-4 flex justify-center items-end">
+                                            <button 
+                                                onClick={(e:any) => handleRemoveEmailOrPhone(e, field.name, field.path, i)} 
+                                                className="w-[24px] text-warning"
+                                            >
+                                                <DeleteIcon/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )
+                                
+                            })}
+                            <Button 
+                                type="primary"
+                                styling="outline"
+                                label={`Add ${field.name === 'school_email' ? 'Email' : 'Phone Number'}`}
+                                action={(e:any) => handleAddEmailOrPhone(e, field.name, field.path)}
+                                adornment={<PlusIcon/>}
+                            />
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                        {field.notePath && (
+                            <Notes 
+                                notes={draftNoteValue}
                                 field={field}
                                 toggleNote={toggleNote}
                                 deleteNote={deleteNote}

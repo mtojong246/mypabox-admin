@@ -17,8 +17,8 @@ const useVerification = ({
 
     const handleModify = (path: string, field: GenericSchoolField, newValue: any) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        const originalField = field.original;
-        const draftField = field.draft;
+        const originalField = {...field.original};
+        const draftField = {...field.draft};
 
         let original = originalField;
         let draft = draftField;
@@ -59,8 +59,6 @@ const useVerification = ({
         original[lastKey] = newValue;
         draft[lastKey] = newValue;
 
-
-
         return {
             originalField,
             draftField,
@@ -70,8 +68,8 @@ const useVerification = ({
 
     const handleAddition = (path: string, field: GenericSchoolField, newValue: any) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        const originalField = field.original;
-        const draftField = field.draft;
+        const originalField = {...field.original};
+        const draftField = {...field.draft};
 
         let original = originalField;
         let draft = draftField;
@@ -121,8 +119,8 @@ const useVerification = ({
 
     const handleDeletion = (path: string, field: GenericSchoolField, index: number) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        const originalField = field.original;
-        const draftField = field.draft;
+        const originalField = {...field.original};
+        const draftField = {...field.draft};
 
         let original = originalField;
         let draft = draftField;
@@ -163,7 +161,7 @@ const useVerification = ({
 
         const originalDraftValue = draft[lastKey] as any[];
         draft[lastKey] = originalDraftValue.filter((val,i) => i !== index);
-
+        
         return {
             originalField,
             draftField,

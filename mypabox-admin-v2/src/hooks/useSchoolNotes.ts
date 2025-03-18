@@ -36,10 +36,11 @@ const useSchoolNotes = ({
     const deleteNote = (e: MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => {
         e.preventDefault();
 
-        let field = school[name as keyof NewSchool] as GenericSchoolField;
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = field.original;
+        const originalField = {...field.original};
+        let original = originalField;
 
         for (let i = 0; i < keys.length - 1; i++) {
             let key: string | number = keys[i];
@@ -66,7 +67,7 @@ const useSchoolNotes = ({
             ...school,
             [name]: {
                 ...field,
-                original,
+                originalField,
             }
         })
     }
