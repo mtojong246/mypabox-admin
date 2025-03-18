@@ -202,11 +202,11 @@ export default function GeneralInformation({
         };
 
         const {
-            original,
-            draft,
+            originalField,
+            draftField,
         } = handleAddition(path, field, value);
 
-        handleChanges(field, name, original, draft, path, 'added');
+        handleChanges(field, name, originalField, draftField, path, 'added');
     }
 
     const handleRemoveEmailOrPhone = (e:any, name: string, path: string, index: number) => {
@@ -215,11 +215,11 @@ export default function GeneralInformation({
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
         const {
-            original,
-            draft,
+            originalField,
+            draftField,
         } = handleDeletion(path, field, index);
 
-        handleChanges(field, name, original, draft, path, 'removed');
+        handleChanges(field, name, originalField, draftField, path, 'removed');
 
     }
 

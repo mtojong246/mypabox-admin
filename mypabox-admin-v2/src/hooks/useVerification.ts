@@ -70,8 +70,11 @@ const useVerification = ({
 
     const handleAddition = (path: string, field: GenericSchoolField, newValue: any) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = {...field.original};
-        let draft = {...field.draft};
+        const originalField = field.original;
+        const draftField = field.draft;
+
+        let original = originalField;
+        let draft = draftField;
 
         for (let i = 0; i < keys.length - 1; i++) {
             let key: string | number = keys[i];
@@ -80,7 +83,7 @@ const useVerification = ({
                 key = Number(key);
             }
             
-            if (!(keys[i] in field)) {
+            if (!(keys[i] in original)) {
                 console.log('path invalid');
             }
             original = original[keys[i]];
@@ -93,7 +96,7 @@ const useVerification = ({
                 key = Number(key);
             }
             
-            if (!(keys[i] in field)) {
+            if (!(keys[i] in draft)) {
                 console.log('path invalid');
             }
             draft = draft[keys[i]];
@@ -111,15 +114,18 @@ const useVerification = ({
         draft[lastKey] = originalDraftValue.concat(newValue);
 
         return {
-            original,
-            draft,
+            originalField,
+            draftField,
         }
     }
 
     const handleDeletion = (path: string, field: GenericSchoolField, index: number) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = {...field.original};
-        let draft = {...field.draft};
+        const originalField = field.original;
+        const draftField = field.draft;
+
+        let original = originalField;
+        let draft = draftField;
 
         for (let i = 0; i < keys.length - 1; i++) {
             let key: string | number = keys[i];
@@ -128,7 +134,7 @@ const useVerification = ({
                 key = Number(key);
             }
             
-            if (!(keys[i] in field)) {
+            if (!(keys[i] in original)) {
                 console.log('path invalid');
             }
             original = original[keys[i]];
@@ -141,7 +147,7 @@ const useVerification = ({
                 key = Number(key);
             }
             
-            if (!(keys[i] in field)) {
+            if (!(keys[i] in draft)) {
                 console.log('path invalid');
             }
             draft = draft[keys[i]];
@@ -159,8 +165,8 @@ const useVerification = ({
         draft[lastKey] = originalDraftValue.filter((val,i) => i !== index);
 
         return {
-            original,
-            draft,
+            originalField,
+            draftField,
         }
     }
 
@@ -176,7 +182,7 @@ const useVerification = ({
                 key = Number(key);
             }
             
-            if (!(keys[i] in field)) {
+            if (!(keys[i] in original)) {
                 console.log('path invalid');
             }
             original = original[keys[i]];
@@ -189,7 +195,7 @@ const useVerification = ({
                 key = Number(key);
             }
             
-            if (!(keys[i] in field)) {
+            if (!(keys[i] in draft)) {
                 console.log('path invalid');
             }
             draft = draft[keys[i]];
