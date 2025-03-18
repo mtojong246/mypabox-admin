@@ -1,4 +1,4 @@
-import { Dispatch, MouseEvent, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Change, GenericSchoolField, NewSchool } from "../types/newSchools.types";
 import { UserPermissions } from "../types/users.types";
 
@@ -14,6 +14,178 @@ const useVerification = ({
     isEditSchool: boolean,
     permissions: UserPermissions,
 }) => {
+
+    const handleModify = (path: string, field: GenericSchoolField, newValue: any) => {
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        let original = {...field.original};
+        let draft = {...field.draft};
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+        
+        const originalValue = original[keys[keys.length - 1]];
+        original[keys[keys.length - 1]] = newValue;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            draft = draft[keys[i]];
+        }
+        
+        draft[keys[keys.length - 1]] = newValue;
+
+        return {
+            original,
+            draft,
+            originalValue,
+        }
+    }
+
+    const handleAddition = (path: string, field: GenericSchoolField, newValue: any) => {
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        let original = {...field.original};
+        let draft = {...field.draft};
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            draft = draft[keys[i]];
+        }
+
+        let lastKey: string | number = keys[keys.length-1];
+        if (!isNaN(Number(lastKey))) {
+            lastKey = Number(lastKey);
+        }
+        
+        const originalValue = original[lastKey] as any[];
+        original[lastKey] = originalValue.concat(newValue);
+
+        const originalDraftValue = draft[lastKey] as any[];
+        draft[lastKey] = originalDraftValue.concat(newValue);
+
+        return {
+            original,
+            draft,
+        }
+    }
+
+    const handleDeletion = (path: string, field: GenericSchoolField, index: number) => {
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        let original = {...field.original};
+        let draft = {...field.draft};
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            draft = draft[keys[i]];
+        }
+
+        let lastKey: string | number = keys[keys.length-1];
+        if (!isNaN(Number(lastKey))) {
+            lastKey = Number(lastKey);
+        }
+        
+        const originalValue = original[lastKey] as any[];
+        original[lastKey] = originalValue.filter((val, i) => i !== index);
+
+        const originalDraftValue = draft[lastKey] as any[];
+        draft[lastKey] = originalDraftValue.filter((val,i) => i !== index);
+
+        return {
+            original,
+            draft,
+        }
+    }
+
+    const handleRetrieveValue = (path: string, field: GenericSchoolField) => {
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        let original = {...field.original};
+        let draft = {...field.draft};
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            original = original[keys[i]];
+        }
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in field)) {
+                console.log('path invalid');
+            }
+            draft = draft[keys[i]];
+        }
+
+        let lastKey: string | number = keys[keys.length-1];
+        if (!isNaN(Number(lastKey))) {
+            lastKey = Number(lastKey);
+        }
+
+        const originalValue = original[lastKey];
+        const originalDraftValue = draft[lastKey];
+
+        return {
+            originalValue,
+            originalDraftValue,
+        }
+    }
 
     const handleChanges = (
             field: GenericSchoolField, 
@@ -70,82 +242,47 @@ const useVerification = ({
         }
     }
 
+    // const validateIndividualChanges = (e: MouseEvent<HTMLButtonElement>, name: string, path: string) => {
+    //     e.preventDefault();
 
-    const revertToOriginal = (e: MouseEvent<HTMLButtonElement>, name: string) => {
-        e.preventDefault();
-        let field = school[name as keyof NewSchool] as GenericSchoolField;
+    //     let field = school[name as keyof NewSchool] as GenericSchoolField;
 
-        field = {
-            ...field,
-            draft: field.original,
-            changes: [],
-        }
+    //     const keys = path.split('.'); // Split the index string into keys
+    //     let original = field.original;
+    //     let draft = field.draft;
 
-        setSchool({
-            ...school,
-            [name]: field,
-        })
+    //     for (let i = 0; i < keys.length - 1; i++) {
+    //         if (!(keys[i] in original)) {
+    //             console.log('path invalid');
+    //         }
+    //         original = original[keys[i]];
+    //     }
+
+    //     for (let i = 0; i < keys.length - 1; i++) {
+    //         if (!(keys[i] in draft)) {
+    //             console.log('path invalid');
+    //         }
+    //         draft = draft[keys[i]];
+    //     }
+
+    //     original[keys[keys.length - 1]] = draft[keys[keys.length - 1]];
         
-    }
-
-    const validateAllChanges = (e: MouseEvent<HTMLButtonElement>, name: string) => {
-        e.preventDefault();
-
-        let field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        field = {
-            ...field,
-            original: field.draft,
-            changes: [],
-        }
-
-        setSchool({
-            ...school,
-            [name]: field,
-        })
-
-    }
-
-    const validateIndividualChanges = (e: MouseEvent<HTMLButtonElement>, name: string, path: string) => {
-        e.preventDefault();
-
-        let field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const keys = path.split('.'); // Split the index string into keys
-        let original = field.original;
-        let draft = field.draft;
-
-        for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in original)) {
-                console.log('path invalid');
-            }
-            original = original[keys[i]];
-        }
-
-        for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in draft)) {
-                console.log('path invalid');
-            }
-            draft = draft[keys[i]];
-        }
-
-        original[keys[keys.length - 1]] = draft[keys[keys.length - 1]];
-        
-        setSchool({
-            ...school,
-            [name]: {
-                original,
-                draft,
-                changes: field.changes.filter(change => change.path !== path),
-            }
-        })
-    }
+    //     setSchool({
+    //         ...school,
+    //         [name]: {
+    //             original,
+    //             draft,
+    //             changes: field.changes.filter(change => change.path !== path),
+    //         }
+    //     })
+    // }
 
     return {
-        revertToOriginal,
-        validateAllChanges,
-        validateIndividualChanges,
         handleChanges,
+        handleModify,
+        handleAddition,
+        handleDeletion,
+        handleRetrieveValue,
     }
 
 };

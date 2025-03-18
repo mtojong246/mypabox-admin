@@ -90,55 +90,20 @@ export default function Container({
 
     }
 
-    // const validateIndividualChanges = (e: MouseEvent<HTMLButtonElement>, name: string, path: string) => {
-    //     e.preventDefault();
-
-    //     let field = school[name as keyof NewSchool] as GenericSchoolField;
-
-    //     const keys = path.split('.'); // Split the index string into keys
-    //     let original = field.original;
-    //     let draft = field.draft;
-
-    //     for (let i = 0; i < keys.length - 1; i++) {
-    //         if (!(keys[i] in original)) {
-    //             console.log('path invalid');
-    //         }
-    //         original = original[keys[i]];
-    //     }
-
-    //     for (let i = 0; i < keys.length - 1; i++) {
-    //         if (!(keys[i] in draft)) {
-    //             console.log('path invalid');
-    //         }
-    //         draft = draft[keys[i]];
-    //     }
-
-    //     original[keys[keys.length - 1]] = draft[keys[keys.length - 1]];
-        
-    //     setSchool({
-    //         ...school,
-    //         [name]: {
-    //             original,
-    //             draft,
-    //             changes: field.changes.filter(change => change.path !== path),
-    //         }
-    //     })
-    // }
-
     return (
         <div className="flex flex-col justify-start items-start gap-2 w-full">
-            <div className="flex justify-between items-center gap-2">
+            <div className="flex justify-between items-center gap-2 w-full max-w-[600px]">
                 <label className="text-[18px] font-semibold">{label}</label>
-                <div className="flex gap-2 justify-end items-center">
+                <div className="flex gap-4 justify-end items-center">
                     {showRevertButton && (
-                        <button onClick={(e:any) => revertToOriginal(e, name)} className="flex gap-1 text-warning hover:brightness-90 transition-all">
+                        <button onClick={(e:any) => revertToOriginal(e, name)} className="flex gap-1 justify-center items-center text-warning hover:brightness-90 transition-all">
                             <div className="w-[16px]"><RevertIcon /></div>
                             <p className="text-[14px]">Revert to original</p>
                         </button>
                     )}
                     {showValidateAllButton && (
-                        <button onClick={(e:any) => validateAllChanges(e, name)} className="flex gap-1 text-success hover:brightness-90 transition-all">
-                            <div className="w-[16px]"><CheckIcon/></div>
+                        <button onClick={(e:any) => validateAllChanges(e, name)} className="flex gap-1 justify-center items-center text-success hover:brightness-90 transition-all">
+                            <div className="w-[20px]"><CheckIcon/></div>
                             <p className="text-[14px]">Accept all changes</p>
                         </button>
                     )}

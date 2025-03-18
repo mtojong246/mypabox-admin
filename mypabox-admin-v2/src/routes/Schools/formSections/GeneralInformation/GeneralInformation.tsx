@@ -14,9 +14,9 @@ import useVerification from "../../../../hooks/useVerification";
 
 
 const permissions = {
-    canEditWithVerificationNeeded: true,
+    canEditWithVerificationNeeded: false,
     canEditWithoutVerificationNeeded: false,
-    canVerify: false,
+    canVerify: true,
     canMakeLive: false,
     canAddOrDelete: false,
 };
@@ -111,7 +111,11 @@ export default function GeneralInformation({
     } = useSchoolNotes({ school, setSchool });
 
     const {
-        handleChanges
+        handleChanges,
+        handleModify,
+        handleAddition,
+        handleDeletion,
+        handleRetrieveValue,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const [ countryNames, setCountryNames ] = useState<{ value: string, label: string }[]>([]);
@@ -127,28 +131,11 @@ export default function GeneralInformation({
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
-        const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = {...field.original};
-        let draft = {...field.draft};
-
-        for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in field)) {
-                console.log('path invalid');
-            }
-            original = original[keys[i]];
-        }
-        
-        const originalValue = original[keys[keys.length - 1]];
-        original[keys[keys.length - 1]] = value;
-
-        for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in field)) {
-                console.log('path invalid');
-            }
-            draft = draft[keys[i]];
-        }
-        
-        draft[keys[keys.length - 1]] = value;
+        const {
+            original,
+            draft,
+            originalValue 
+        } = handleModify(path, field, value);
         
         handleChanges(field, name, original, draft, path, 'modified', originalValue, value);
 
@@ -159,73 +146,29 @@ export default function GeneralInformation({
         const name = e.target.name;
         const value = e.target.checked;
 
-        let field = school[name as keyof NewSchool] as GenericSchoolField;
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
 
-        const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = field.original;
-        let draft = field.draft;
-
-        for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in field)) {
-                console.log('path invalid');
-            }
-            original = original[keys[i]];
-        }
+        const {
+            original,
+            draft,
+            originalValue 
+        } = handleModify(path, field, value);
         
-        original[keys[keys.length - 1]] = value;
-
-        for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in field)) {
-                console.log('path invalid');
-            }
-            draft = draft[keys[i]];
-        }
-        
-        draft[keys[keys.length - 1]] = value;
-
-        setSchool({
-            ...school,
-            [name]: {
-                ...field,
-                original,
-            }
-        })
+        handleChanges(field, name, original, draft, path, 'modified', originalValue, value);
     };
 
     const handleGenericSelect = (e: any, name: string, path: string) => {
         const value = e.value;
 
-        let field = school[name as keyof NewSchool] as GenericSchoolField;
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
 
-        const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = field.original;
-        let draft = field.draft;
-
-        for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in field)) {
-                console.log('path invalid');
-            }
-            original = original[keys[i]];
-        }
+        const {
+            original,
+            draft,
+            originalValue 
+        } = handleModify(path, field, value);
         
-        original[keys[keys.length - 1]] = value;
-
-        for (let i = 0; i < keys.length - 1; i++) {
-            if (!(keys[i] in field)) {
-                console.log('path invalid');
-            }
-            draft = draft[keys[i]];
-        }
-        
-        draft[keys[keys.length - 1]] = value;
-
-        setSchool({
-            ...school,
-            [name]: {
-                ...field,
-                original,
-            }
-        })
+        handleChanges(field, name, original, draft, path, 'modified', originalValue, value);
 
         if (name === 'school_country') {
             setStateNames(countries.filter(country => country.name === school.school_country.original.input)[0].states.map(state => ({ value: state.name, label: state.name })));
@@ -236,30 +179,14 @@ export default function GeneralInformation({
     return (
         <>
         {genericSchoolInfoFields.map(field => {
-            let original = (school[field.name as keyof NewSchool] as GenericSchoolField).original;
-            const keys = field.path.split('.').filter(key => key);
-            for (let i = 0; i < keys.length - 1; i++) {
-                if (!(keys[i] in field)) {
-                    console.log('path invalid');
-                }
-                original = original[keys[i]];
-            }
-
-            const value = original[keys[keys.length - 1]];
+            const inputs = handleRetrieveValue(field.path, school[field.name as keyof NewSchool] as GenericSchoolField);
+            const value = inputs.originalValue;
 
             let noteValue: NewNote[] = [];
 
             if (field.notePath !== undefined) {
-                let originalWithNotes = (school[field.name as keyof NewSchool] as GenericSchoolField).original;
-                const keys = field.notePath.split('.').filter(key => key);
-                for (let i = 0; i < keys.length - 1; i++) {
-                    if (!(keys[i] in field)) {
-                        console.log('path invalid');
-                    }
-                    originalWithNotes = originalWithNotes[keys[i]];
-                }
-
-                noteValue = originalWithNotes[keys[keys.length - 1]];
+                const notes = handleRetrieveValue(field.notePath, school[field.name as keyof NewSchool] as GenericSchoolField);
+                noteValue = notes.originalValue;
             }
 
             return (
