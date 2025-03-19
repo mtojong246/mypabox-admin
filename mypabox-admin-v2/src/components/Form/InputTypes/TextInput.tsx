@@ -1,4 +1,4 @@
-import { OutlinedInput } from "@mui/material"
+import { InputAdornment, OutlinedInput } from "@mui/material"
 import { ChangeEvent, ReactNode } from "react"
 
 export default function TextInput({
@@ -28,7 +28,18 @@ export default function TextInput({
             <OutlinedInput
                 type='text'
                 placeholder={placeholder}
-                startAdornment={startingAdornment}
+                startAdornment={
+                    <InputAdornment
+                        position="start"
+                        sx={{
+                            width: 16,
+                            height: 16,
+                            color: '#A2A0A2',
+                        }}
+                    >
+                        {startingAdornment}
+                    </InputAdornment>
+                }
                 endAdornment={endingAdornment}
                 name={name}
                 value={value ? value : ''}

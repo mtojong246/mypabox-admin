@@ -393,6 +393,30 @@ export const defaultSchool: NewSchool = {
         changes: [],
         link: '',
     },
+    school_in_state_tuition: {
+        original: {
+            input: '',
+            notes: [],
+        },
+        draft: {
+            input: '',
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_out_of_state_tuition: {
+        original: {
+            input: '',
+            notes: [],
+        },
+        draft: {
+            input: '',
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
 }
 
 // export const defaultSchool: NewSchool = {

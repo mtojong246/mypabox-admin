@@ -4,6 +4,7 @@ import GeneralInformation from "./GeneralInformation/GeneralInformation"
 import DegreeInformation from "./DegreeInformation/DegreeInformation"
 import AccreditationStatus from "./AccreditationStatus/AccreditationStatus"
 import MissionStatement from "./MissionStatement/MissionStatement"
+import Tuition from "./Tuition/Tuition"
 
 
 
@@ -45,7 +46,11 @@ export default function AddSchoolForms({
                         isEditSchool={false}
                    />
                 ) : tab === '#tuition' ? (
-                    <></>
+                    <Tuition 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#pance-pass-rate' ? (
                     <></>
                 ) : tab === '#GPA' ? (

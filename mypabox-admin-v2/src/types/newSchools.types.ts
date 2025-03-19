@@ -488,7 +488,32 @@ export interface NewSchool {
         },
         changes: Change[];
         link: string;
-    }
+    };
+    school_in_state_tuition: {
+        original: {
+            input: string;
+            notes: NewNote[];
+        },
+        draft: {
+            input: string;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_out_of_state_tuition: {
+        original: {
+            input: string;
+            notes: NewNote[];
+        },
+        draft: {
+            input: string;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    
     
     
 
