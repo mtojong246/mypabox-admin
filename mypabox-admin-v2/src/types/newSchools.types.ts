@@ -424,7 +424,52 @@ export interface NewSchool {
         },
         changes: Change[];
         link: string;
-    }
+    };
+
+    school_dual_degree_program: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_bachelors_degree_required: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+
+    school_type_of_degree_offered: {
+        original: {
+            input: {
+                value: string;
+            }[];
+            notes: NewNote[];
+        },
+        draft: {
+            input: {
+                value: string;
+            }[];
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    
+    
+
 
 }
 

@@ -58,9 +58,13 @@ export default function NotePopup({
     const addNote = (name: string, path: string, newNote: NewNote) => {
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
+
         const keys = path.split('.').filter(key => key); // Split the index string into keys
         const originalField = {...field.original};
+        const draftField = {...field.draft};
+
         let original = originalField;
+        let draft = draftField;
 
         for (let i = 0; i < keys.length - 1; i++) {
             let key: string | number = keys[i];
@@ -87,7 +91,7 @@ export default function NotePopup({
             ...school,
             [name]: {
                 ...field,
-                originalField,
+                original: originalField,
             }
         })
 
@@ -131,7 +135,7 @@ export default function NotePopup({
             ...school,
             [name]: {
                 ...field,
-                originalField,
+                original: originalField,
             }
         })
     };

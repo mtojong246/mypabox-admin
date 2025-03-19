@@ -67,7 +67,7 @@ const useSchoolNotes = ({
             ...school,
             [name]: {
                 ...field,
-                originalField,
+                original: originalField,
             }
         })
     }

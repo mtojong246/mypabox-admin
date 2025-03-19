@@ -332,7 +332,44 @@ export const defaultSchool: NewSchool = {
         },
         changes: [],
         link: '',
-    }
+    },
+    school_dual_degree_program: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_bachelors_degree_required: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_type_of_degree_offered: {
+        original: {
+            input: [],
+            notes: [],
+        },
+        draft: {
+            input: [],
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
 }
 
 // export const defaultSchool: NewSchool = {

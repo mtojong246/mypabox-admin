@@ -173,6 +173,7 @@ const useVerification = ({
         let original = {...field.original};
         let draft = {...field.draft};
 
+
         for (let i = 0; i < keys.length - 1; i++) {
             let key: string | number = keys[i];
 

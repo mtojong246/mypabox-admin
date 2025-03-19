@@ -241,7 +241,7 @@ export default function GeneralInformation({
         setCountryNames(countries.map(country => ({ value: country.name, label: country.name})))    
     }, []);
 
-    const handleGenericInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
         let value = e.target.value;
 
@@ -280,7 +280,7 @@ export default function GeneralInformation({
         
     };
 
-    const handleGenericBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
         const value = e.target.checked;
 
@@ -295,7 +295,7 @@ export default function GeneralInformation({
         handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
     };
 
-    const handleGenericSelect = (e: any, name: string, path: string) => {
+    const handleSelect = (e: any, name: string, path: string) => {
         const value = e.value;
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
@@ -388,7 +388,7 @@ export default function GeneralInformation({
                                 name={field.name}
                                 value={value}
                                 path={field.path}
-                                handleInput={handleGenericInput}
+                                handleInput={handleInput}
                                 isRequired={false}
                             />
                         ) : field.type === 'boolean' ? (
@@ -397,7 +397,7 @@ export default function GeneralInformation({
                                 name={field.name}
                                 value={value}
                                 path={field.path}
-                                handleCheck={handleGenericBoolean}
+                                handleCheck={handleBoolean}
                                 isRequired={false}
                                 isDisabled={false}
                             />
@@ -408,7 +408,7 @@ export default function GeneralInformation({
                                 name={field.name}
                                 value={value}
                                 path={field.path}
-                                handleSelect={handleGenericSelect}
+                                handleSelect={handleSelect}
                                 isRequired={false}
                                 isCreatable={false}
                                 options={field.name === 'school_country' ? countryNames : stateNames}
@@ -437,7 +437,7 @@ export default function GeneralInformation({
                                             name={field.name}
                                             value={selectInput.originalValue}
                                             path={selectPath}
-                                            handleSelect={handleGenericSelect}
+                                            handleSelect={handleSelect}
                                             options={[{value: 'Main', label: 'Main'}]}
                                             isRequired={false}
                                             isCreatable={true}
@@ -448,7 +448,7 @@ export default function GeneralInformation({
                                             name={field.name}
                                             value={textInput.originalValue}
                                             path={inputPath}
-                                            handleInput={handleGenericInput}
+                                            handleInput={handleInput}
                                             isRequired={false}
                                         />
                                         <div className="py-4 flex justify-center items-end">
@@ -501,7 +501,7 @@ export default function GeneralInformation({
                                 name={field.name}
                                 value={draftValue}
                                 path={field.path}
-                                handleInput={handleGenericInput}
+                                handleInput={handleInput}
                                 isRequired={false}
                             />
                         ) : field.type === 'boolean' ? (
@@ -510,7 +510,7 @@ export default function GeneralInformation({
                                 name={field.name}
                                 value={draftValue}
                                 path={field.path}
-                                handleCheck={handleGenericBoolean}
+                                handleCheck={handleBoolean}
                                 isRequired={false}
                                 isDisabled={false}
                             />
@@ -521,7 +521,7 @@ export default function GeneralInformation({
                                 name={field.name}
                                 value={draftValue}
                                 path={field.path}
-                                handleSelect={handleGenericSelect}
+                                handleSelect={handleSelect}
                                 isRequired={false}
                                 isCreatable={false}
                                 options={field.name === 'school_country' ? countryNames : stateNames}
@@ -550,7 +550,7 @@ export default function GeneralInformation({
                                             name={field.name}
                                             value={selectInput.originalDraftValue}
                                             path={selectPath}
-                                            handleSelect={handleGenericSelect}
+                                            handleSelect={handleSelect}
                                             options={[{value: 'Main', label: 'Main'}]}
                                             isRequired={false}
                                             isCreatable={true}
@@ -561,7 +561,7 @@ export default function GeneralInformation({
                                             name={field.name}
                                             value={textInput.originalDraftValue}
                                             path={inputPath}
-                                            handleInput={handleGenericInput}
+                                            handleInput={handleInput}
                                             isRequired={false}
                                         />
                                         <div className="py-4 flex justify-center items-end">
