@@ -169,12 +169,14 @@ export interface NewSchool {
                 category: string;
                 email: string;
             }[],
+            notes: NewNote[],
         },
         draft: {
             input: {
                 category: string;
                 email: string;
             }[],
+            notes: NewNote[],
         },
         changes: Change[];
         link: string;
@@ -185,12 +187,14 @@ export interface NewSchool {
                 category: string;
                 number: string;
             }[],
+            notes: NewNote[],
         },
         draft: {
             input: {
                 category: string;
                 number: string;
             }[],
+            notes: NewNote[],
         },
         changes: Change[];
         link: string;
@@ -203,6 +207,220 @@ export interface NewSchool {
         draft: {
             input: string;
             notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_start_month: {
+        original: {
+            input: string;
+            notes: NewNote[];
+        },
+        draft: {
+            input: string;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_class_capacity: {
+        original: {
+            input: number;
+            notes: NewNote[];
+        },
+        draft: {
+            input: number;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_duration_full_time: {
+        original: {
+            input: number;
+            notes: NewNote[];
+        },
+        draft: {
+            input: number;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_duration_part_time: {
+        original: {
+            input: number;
+            notes: NewNote[];
+        },
+        draft: {
+            input: number;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_seat_deposit_in_state: {
+        original: {
+            input: string;
+            notes: NewNote[];
+        },
+        draft: {
+            input: string;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_seat_deposit_out_of_state: {
+        original: {
+            input: string;
+            notes: NewNote[];
+        },
+        draft: {
+            input: string;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_rolling_admissions: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_nonrolling_admissions: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_pre_pa_curriculum: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_direct_high_school_entry: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_part_time_option: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_online_learning: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_on_campus_housing: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_cadaver_lab: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_faith_based_learning: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_military_personnel_preference: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_holistic_review: {
+        original: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        draft: {
+            input: boolean;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_general_information: {
+        original: {
+            input: string;
+        },
+        draft: {
+            input: string;
         },
         changes: Change[];
         link: string;

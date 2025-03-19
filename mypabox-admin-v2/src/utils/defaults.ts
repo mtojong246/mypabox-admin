@@ -86,9 +86,11 @@ export const defaultSchool: NewSchool = {
     school_email: {
         original: {
             input: [],
+            notes: [],
         },
         draft: {
             input: [],
+            notes: [],
         },
         changes: [],
         link: '',
@@ -96,9 +98,11 @@ export const defaultSchool: NewSchool = {
     school_phone_number: {
         original: {
             input: [],
+            notes: [],
         },
         draft: {
             input: [],
+            notes: [],
         },
         changes: [],
         link: '',
@@ -111,6 +115,220 @@ export const defaultSchool: NewSchool = {
         draft: {
             input: '',
             notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_start_month: {
+        original: {
+            input: '',
+            notes: [],
+        },
+        draft: {
+            input: '',
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_class_capacity: {
+        original: {
+            input: 0,
+            notes: [],
+        },
+        draft: {
+            input: 0,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_duration_full_time: {
+        original: {
+            input: 0,
+            notes: [],
+        },
+        draft: {
+            input: 0,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_duration_part_time: {
+        original: {
+            input: 0,
+            notes: [],
+        },
+        draft: {
+            input: 0,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_seat_deposit_in_state: {
+        original: {
+            input: '',
+            notes: [],
+        },
+        draft: {
+            input: '',
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_seat_deposit_out_of_state: {
+        original: {
+            input: '',
+            notes: [],
+        },
+        draft: {
+            input: '',
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_rolling_admissions: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_nonrolling_admissions: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_pre_pa_curriculum: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_direct_high_school_entry: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_part_time_option: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_online_learning: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_on_campus_housing: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_cadaver_lab: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_faith_based_learning: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_military_personnel_preference: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_holistic_review: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_general_information: {
+        original: {
+            input: '',
+        },
+        draft: {
+            input: '',
         },
         changes: [],
         link: '',

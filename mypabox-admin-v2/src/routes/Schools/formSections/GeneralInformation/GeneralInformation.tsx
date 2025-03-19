@@ -13,6 +13,7 @@ import Notes from "../../../../components/Form/Notes/Notes";
 import useVerification from "../../../../hooks/useVerification";
 import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
 import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
+import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
 
 
 const permissions = {
@@ -76,13 +77,15 @@ const genericSchoolInfoFields = [
         label: 'School Emails',
         name: 'school_email',
         type: 'array',
-        path: '.input'
+        path: '.input',
+        notePath: '.notes',
     },
     {
         label: 'School Phone Numbers',
         name: 'school_phone_number',
         type: 'array',
-        path: '.input'
+        path: '.input',
+        notePath: '.notes',
     },
     {
         label: 'School Campus Location',
@@ -90,7 +93,118 @@ const genericSchoolInfoFields = [
         type: 'text',
         path: '.input',
         notePath: '.notes',
-    }
+    },
+    {
+        label: 'Start Month',
+        name: 'school_start_month',
+        type: 'text',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Class Capacity',
+        name: 'school_class_capacity',
+        type: 'text',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Duration (Full-time)',
+        name: 'school_duration_full_time',
+        type: 'text',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Duration (Part-time)',
+        name: 'school_duration_part_time',
+        type: 'text',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Rolling Admissions',
+        name: 'school_rolling_admissions',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Non-Rolling Admissions',
+        name: 'school_nonrolling_admissions',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Pre-PA Curriculum',
+        name: 'school_pre_pa_curriculum',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Direct High School Entry',
+        name: 'school_direct_high_school_entry',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Part-time Options',
+        name: 'school_part_time_option',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Online Learning',
+        name: 'school_online_learning',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'On-Campus Housing',
+        name: 'school_on_campus_housing',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Cadaver Lab',
+        name: 'school_cadaver_lab',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Faith-Based Learning',
+        name: 'school_faith_based_learning',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Military Personnel Preference',
+        name: 'school_military_personnel_preference',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'Holistic Review',
+        name: 'school_holistic_review',
+        type: 'boolean',
+        path: '.input',
+        notePath: '.notes',
+    },
+    {
+        label: 'General Information',
+        name: 'school_general_information',
+        type: 'text-area',
+        path: '.input',
+    },
 ]
 
 
@@ -136,6 +250,22 @@ export default function GeneralInformation({
         } else {
             value = e.target.value;
         }
+
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
+
+        const {
+            originalField,
+            draftField,
+            originalValue 
+        } = handleModify(path, field, value);
+        
+        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
+
+        
+    };
+
+    const handleQuill = (e: any, name: string, path: string) => {
+        const value = e;
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
@@ -342,7 +472,14 @@ export default function GeneralInformation({
                             />
                             </>
                         ) : (
-                            <></>
+                            <TextEditorInput 
+                                label={field.label}
+                                name={field.name}
+                                value={value}
+                                path={field.path}
+                                handleQuill={handleQuill}
+                                isRequired={false}
+                            />
                         )}
                         {field.notePath && (
                             <Notes 
@@ -448,7 +585,14 @@ export default function GeneralInformation({
                             />
                             </>
                         ) : (
-                            <></>
+                            <TextEditorInput 
+                                label={field.label}
+                                name={field.name}
+                                value={draftValue}
+                                path={field.path}
+                                handleQuill={handleQuill}
+                                isRequired={false}
+                            />
                         )}
                         {field.notePath && (
                             <Notes 

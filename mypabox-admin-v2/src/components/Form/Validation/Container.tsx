@@ -121,7 +121,7 @@ export default function Container({
                     }))}
                     selectedIndex={selectedIndex}
                 />}
-                <div className={`${!modifiedInputs && 'rounded-tl-lg'} border border-outline rounded-tr-lg rounded-br-lg rounded-bl-lg p-6 w-full max-w-[600px]`}>
+                <div className={`${!modifiedInputs && 'rounded-tl-lg'} border border-outline rounded-tr-lg rounded-br-lg rounded-bl-lg p-6 w-full max-w-[600px] flex flex-col gap-8`}>
                     {modifiedInputs && tabs[selectedIndex] === 'Modified' ? (
                         <>{modifiedInputs}</>
                     ) : (
