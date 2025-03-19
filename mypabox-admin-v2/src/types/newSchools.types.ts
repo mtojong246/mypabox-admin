@@ -467,6 +467,28 @@ export interface NewSchool {
         changes: Change[];
         link: string;
     };
+    school_accreditation_status: {
+        original: {
+            input: string;
+            notes: NewNote[];
+        },
+        draft: {
+            input: string;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+    school_mission_statement: {
+        original: {
+            input: string;
+        },
+        draft: {
+            input: string;
+        },
+        changes: Change[];
+        link: string;
+    }
     
     
 

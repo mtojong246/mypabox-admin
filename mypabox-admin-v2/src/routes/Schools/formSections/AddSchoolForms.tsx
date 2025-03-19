@@ -1,7 +1,9 @@
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { NewSchool } from "../../../types/newSchools.types"
 import GeneralInformation from "./GeneralInformation/GeneralInformation"
 import DegreeInformation from "./DegreeInformation/DegreeInformation"
+import AccreditationStatus from "./AccreditationStatus/AccreditationStatus"
+import MissionStatement from "./MissionStatement/MissionStatement"
 
 
 
@@ -31,9 +33,17 @@ export default function AddSchoolForms({
                         isEditSchool={false}
                     />
                 ) : tab === '#accreditation-status' ? (
-                    <></>
+                   <AccreditationStatus 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#mission-statement' ? (
-                    <></>
+                    <MissionStatement 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#tuition' ? (
                     <></>
                 ) : tab === '#pance-pass-rate' ? (

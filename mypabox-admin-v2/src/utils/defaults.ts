@@ -370,6 +370,29 @@ export const defaultSchool: NewSchool = {
         changes: [],
         link: '',
     },
+
+    school_accreditation_status: {
+        original: {
+            input: '',
+            notes: [],
+        },
+        draft: {
+            input: '',
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_mission_statement: {
+        original: {
+            input: '',
+        },
+        draft: {
+            input: '',
+        },
+        changes: [],
+        link: '',
+    },
 }
 
 // export const defaultSchool: NewSchool = {

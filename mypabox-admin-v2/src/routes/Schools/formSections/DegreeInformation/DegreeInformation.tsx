@@ -171,7 +171,7 @@ export default function DegreeInformation({
                                 isRequired={false}
                                 isDisabled={false}
                             />
-                        ) : (
+                        ) : field.type === 'array' ? (
                             <>
                             {(value as any[]).length > 0 && (value as any[]).map((val,i) => {
                                 const inputPath = `${field.path}.${i}.value`
@@ -208,6 +208,8 @@ export default function DegreeInformation({
                                 adornment={<PlusIcon/>}
                             />
                             </>
+                        ) : (
+                            <></>
                         )}
                         {field.notePath && (
                             <Notes 
@@ -232,7 +234,7 @@ export default function DegreeInformation({
                                 isRequired={false}
                                 isDisabled={false}
                             />
-                        ) : (
+                        ) : field.type === 'array' ? (
                             <>
                             {(draftValue as any[]).length > 0 && (draftValue as any[]).map((val,i) => {
                                 const inputPath = `${field.path}.${i}.value`
@@ -269,6 +271,8 @@ export default function DegreeInformation({
                                 adornment={<PlusIcon/>}
                             />
                             </>
+                        ) : (
+                            <></>
                         )}
                         {field.notePath && (
                             <Notes 
