@@ -450,6 +450,136 @@ export const defaultSchool: NewSchool = {
         },
         changes: [],
         link: '',
+    },
+    school_minimum_gpa_required: {
+        original: {
+            input: {
+                school_minimum_gpa_required: {
+                    input: false,
+                },
+                school_minimum_overall_gpa_required: null,
+                school_minimum_science_gpa_required: null,
+                school_minimum_prerequisite_gpa_required: null,
+            }
+        },
+        draft: {
+            input: {
+                school_minimum_gpa_required: {
+                    input: false,
+                },
+                school_minimum_overall_gpa_required: null,
+                school_minimum_science_gpa_required: null,
+                school_minimum_prerequisite_gpa_required: null,
+            }
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_minimum_gpa_recommended: {
+        original: {
+            input: {
+                school_minimum_gpa_recommended: {
+                    input: false,
+                },
+                school_minimum_overall_gpa_recommended: null,
+                school_minimum_science_gpa_recommended: null,
+                school_minimum_prerequisite_gpa_recommended: null,
+            }
+        },
+        draft: {
+            input: {
+                school_minimum_gpa_recommended: {
+                    input: false,
+                },
+                school_minimum_overall_gpa_recommended: null,
+                school_minimum_science_gpa_recommended: null,
+                school_minimum_prerequisite_gpa_recommended: null,
+            }
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_other_types_of_gpa_evaluated: {
+        original: {
+            input: [],
+        },
+        draft: {
+            input: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_minimum_gpa_for_specific_course: {
+        original: {
+            input: [],
+        },
+        draft: {
+            input: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_average_gpa_accepted_previous_cycle: {
+        original: {
+            input: {
+                average_overall_gpa_accepted_previous_year: {
+                    input: 0,
+                    notes: [],
+                },
+                average_bcp_gpa_accepted_previous_year: {
+                    input: 0,
+                    notes: [],
+                },
+                average_science_gpa_accepted_previous_year: {
+                    input: 0,
+                    notes: [],
+                },
+                average_prerequisite_gpa_accepted_previous_year: {
+                    input: 0,
+                    notes: [],
+                },
+            }
+        },
+        draft: {
+            input: {
+                average_overall_gpa_accepted_previous_year: {
+                    input: 0,
+                    notes: [],
+                },
+                average_bcp_gpa_accepted_previous_year: {
+                    input: 0,
+                    notes: [],
+                },
+                average_science_gpa_accepted_previous_year: {
+                    input: 0,
+                    notes: [],
+                },
+                average_prerequisite_gpa_accepted_previous_year: {
+                    input: 0,
+                    notes: [],
+                },
+            }
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_gpa_general_note: {
+        original: {
+            input: '',
+        },
+        draft: {
+            input: '',
+        },
+        changes: [],
+        link: '',
     }
 }
 

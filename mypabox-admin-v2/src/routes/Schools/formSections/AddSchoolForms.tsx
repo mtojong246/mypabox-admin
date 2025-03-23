@@ -6,6 +6,7 @@ import AccreditationStatus from "./AccreditationStatus/AccreditationStatus"
 import MissionStatement from "./MissionStatement/MissionStatement"
 import Tuition from "./Tuition/Tuition"
 import PANCEPassRate from "./PANCEPassRate/PANCEPassRate"
+import GPA from "./GPA/GPA"
 
 
 
@@ -59,7 +60,11 @@ export default function AddSchoolForms({
                         isEditSchool={false}
                    />
                 ) : tab === '#GPA' ? (
-                    <></>
+                    <GPA 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#prerequisites' ? (
                     <></>
                 ) : tab === '#experience' ? (
