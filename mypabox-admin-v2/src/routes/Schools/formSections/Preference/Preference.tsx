@@ -1,16 +1,9 @@
-import { Dispatch, SetStateAction } from "react"
-import { GenericSchoolField, NewSchool } from "../../../../types/newSchools.types"
-
-import useSchoolNotes from "../../../../hooks/useSchoolNotes";
-import NotePopup from "../../../../components/Popups/NotePopup";
-import useVerification from "../../../../hooks/useVerification";
-import MinimumRequiredOrRecommendedGPA from "./components/MinimumRequiredOrRecommendedGPA";
-import OtherTypesAndSpecificCourses from "./components/OtherTypesAndSpecificCourses";
-import AverageGPA from "./components/AverageGPA";
+import { Dispatch, SetStateAction } from "react";
+import { GenericSchoolField, NewSchool } from "../../../../types/newSchools.types";
 import Container from "../../../../components/Form/Validation/Container";
+import useVerification from "../../../../hooks/useVerification";
+
 import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
-
-
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -20,16 +13,17 @@ const permissions = {
     canAddOrDelete: false,
 };
 
-const gpaFields = [
+
+const preferenceFields = [
     {
-        label: 'GPA General Notes',
-        name: 'school_gpa_general_note',
+        label: 'Preference',
+        name: 'school_preference',
         type: 'text-area',
         path: '.input',
     },
 ]
 
-export default function GPA({
+export default function Preference({
     isEditSchool,
     school,
     setSchool,
@@ -38,21 +32,14 @@ export default function GPA({
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) {
-    const {
-        toggleNote,
-        isNoteOpen,
-        selectedField,
-        selectedNote,
-        deleteNote,
-    } = useSchoolNotes({ school, setSchool });
+    
 
     const {
         handleChanges,
         handleModify,
-        handleAddition,
-        handleDeletion,
         handleRetrieveValue,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
+    
 
     const handleQuill = (e: any, name: string, path: string) => {
         const value = e;
@@ -70,45 +57,11 @@ export default function GPA({
         
     };
 
+    
 
     return (
         <>
-        <MinimumRequiredOrRecommendedGPA 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
-        <OtherTypesAndSpecificCourses 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            handleAddition={handleAddition}
-            handleDeletion={handleDeletion}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
-        <AverageGPA 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
-        {gpaFields.map(field => {
+        {preferenceFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
             const inputs = handleRetrieveValue(field.path, schoolField);
             const value = inputs.originalValue;
@@ -160,15 +113,6 @@ export default function GPA({
                 />
             )
         })}
-        {isNoteOpen && selectedField && (
-            <NotePopup 
-                toggleNotePopup={toggleNote}
-                selectedField={selectedField}
-                selectedNote={selectedNote}
-                school={school}
-                setSchool={setSchool}
-            />
-        )}
         </>
     )
 }

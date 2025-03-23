@@ -7,6 +7,8 @@ import MissionStatement from "./MissionStatement/MissionStatement"
 import Tuition from "./Tuition/Tuition"
 import PANCEPassRate from "./PANCEPassRate/PANCEPassRate"
 import GPA from "./GPA/GPA"
+import Preference from "./Preference/Preference"
+import InternationalStudents from "./InternationalStudents/InternationalStudents"
 
 
 
@@ -76,13 +78,21 @@ export default function AddSchoolForms({
                 ) : tab === '#evaluations' ? (
                     <></>
                 ) : tab === '#international-students' ? (
-                    <></>
+                    <InternationalStudents 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#certifications' ? (
                     <></>
                 ) : tab === '#applications' ? (
                     <></>
                 ) : tab === '#preference' ? (
-                    <></>
+                    <Preference 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : (
                     <></>
                 )}

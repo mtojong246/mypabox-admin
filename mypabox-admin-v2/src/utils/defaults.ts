@@ -580,6 +580,31 @@ export const defaultSchool: NewSchool = {
         },
         changes: [],
         link: '',
+    },
+
+    school_international_students_accepted: {
+        original: {
+            input: false,
+            notes: [],
+        },
+        draft: {
+            input: false,
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_preference: {
+        original: {
+            input: '',
+        },
+        draft: {
+            input: '',
+        },
+        changes: [],
+        link: '',
     }
 }
 

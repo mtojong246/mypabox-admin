@@ -1,16 +1,11 @@
-import { Dispatch, SetStateAction } from "react"
-import { GenericSchoolField, NewSchool } from "../../../../types/newSchools.types"
-
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types";
+import Container from "../../../../components/Form/Validation/Container";
+import useVerification from "../../../../hooks/useVerification";
+import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
+import Notes from "../../../../components/Form/Notes/Notes";
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
-import useVerification from "../../../../hooks/useVerification";
-import MinimumRequiredOrRecommendedGPA from "./components/MinimumRequiredOrRecommendedGPA";
-import OtherTypesAndSpecificCourses from "./components/OtherTypesAndSpecificCourses";
-import AverageGPA from "./components/AverageGPA";
-import Container from "../../../../components/Form/Validation/Container";
-import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
-
-
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -20,16 +15,18 @@ const permissions = {
     canAddOrDelete: false,
 };
 
-const gpaFields = [
+
+const internationalStudentsFields = [
     {
-        label: 'GPA General Notes',
-        name: 'school_gpa_general_note',
-        type: 'text-area',
+        label: 'International Students Accepted',
+        name: 'school_international_students_accepted',
+        type: 'boolean',
         path: '.input',
+        notePath: '.notes',
     },
 ]
 
-export default function GPA({
+export default function InternationalStudents({
     isEditSchool,
     school,
     setSchool,
@@ -49,13 +46,13 @@ export default function GPA({
     const {
         handleChanges,
         handleModify,
-        handleAddition,
-        handleDeletion,
         handleRetrieveValue,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
+    
 
-    const handleQuill = (e: any, name: string, path: string) => {
-        const value = e;
+    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+        const name = e.target.name;
+        const value = e.target.checked;
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
@@ -66,53 +63,26 @@ export default function GPA({
         } = handleModify(path, field, value);
         
         handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
     };
 
+    
 
     return (
         <>
-        <MinimumRequiredOrRecommendedGPA 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
-        <OtherTypesAndSpecificCourses 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            handleAddition={handleAddition}
-            handleDeletion={handleDeletion}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
-        <AverageGPA 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
-        {gpaFields.map(field => {
+        {internationalStudentsFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
             const inputs = handleRetrieveValue(field.path, schoolField);
             const value = inputs.originalValue;
             const draftValue = inputs.originalDraftValue;
+
+            let noteValue: NewNote[] = [];
+            let draftNoteValue: NewNote[] = [];
+
+            if (field.notePath !== undefined) {
+                const notes = handleRetrieveValue(field.notePath, schoolField);
+                noteValue = notes.originalValue;
+                draftNoteValue = notes.originalDraftValue;
+            }
 
             return (
                 <Container 
@@ -124,36 +94,54 @@ export default function GPA({
                     permissions={permissions}
                     originalInputs={
                         <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
+                        {field.type === 'boolean' ? (
+                            <BooleanInput 
                                 label={field.label}
                                 name={field.name}
                                 value={value}
                                 path={field.path}
-                                handleQuill={handleQuill}
+                                handleCheck={handleBoolean}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         ) : (
                             <>
                             </>
+                        )}
+                        {field.notePath && (
+                            <Notes 
+                                notes={noteValue}
+                                field={field}
+                                toggleNote={toggleNote}
+                                deleteNote={deleteNote}
+                            />
                         )}
                         </div>
                     }
 
                     modifiedInputs={
                         <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
+                        {field.type === 'boolean' ? (
+                            <BooleanInput 
                                 label={field.label}
                                 name={field.name}
                                 value={draftValue}
                                 path={field.path}
-                                handleQuill={handleQuill}
+                                handleCheck={handleBoolean}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         ) : (
                             <>
                             </>
+                        )}
+                        {field.notePath && (
+                            <Notes 
+                                notes={draftNoteValue}
+                                field={field}
+                                toggleNote={toggleNote}
+                                deleteNote={deleteNote}
+                            />
                         )}
                         </div>
                     }

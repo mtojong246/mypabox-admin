@@ -95,7 +95,7 @@ export default function MissionStatement({
 
                     modifiedInputs={
                         <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'select' ? (
+                        {field.type === 'text-area' ? (
                             <TextEditorInput 
                                 label={field.label}
                                 name={field.name}
