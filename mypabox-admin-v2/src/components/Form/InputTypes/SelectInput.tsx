@@ -15,7 +15,7 @@ export default function SelectInput({
     label: string,
     placeholder: string,
     name: string,
-    value: string | number,
+    value: { value: string | number, label: string | number },
     path: string,
     handleSelect: (e: any, name: string, path: string) => void,
     isRequired: boolean,
@@ -29,7 +29,7 @@ export default function SelectInput({
              <CreatableSelect 
                 className='w-full'
                 options={options}
-                value={!value.toString() ? null : { value: value, label: value }}
+                value={!value.value.toString() ? null : value}
                 onChange={(e:any) => handleSelect(e, name, path)}
                 styles={{
                     control: (baseStyles, state) => ({
@@ -47,7 +47,7 @@ export default function SelectInput({
             <Select 
                 className='w-full'
                 options={options}
-                value={!value.toString() ? null : { value: value, label: value }}
+                value={!value.value.toString() ? null : value}
                 onChange={(e:any) => handleSelect(e, name, path)}
                 styles={{
                     control: (baseStyles, state) => ({

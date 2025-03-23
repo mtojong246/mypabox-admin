@@ -113,7 +113,7 @@ export default function AccreditationStatus({
                                 label={field.label}
                                 placeholder={field.label}
                                 name={field.name}
-                                value={value}
+                                value={{value, label: value}}
                                 path={field.path}
                                 handleSelect={handleSelect}
                                 isRequired={false}
@@ -142,7 +142,7 @@ export default function AccreditationStatus({
                                 label={field.label}
                                 placeholder={field.label}
                                 name={field.name}
-                                value={draftValue}
+                                value={{value: draftValue, label: draftValue}}
                                 path={field.path}
                                 handleSelect={handleSelect}
                                 isRequired={false}
