@@ -223,7 +223,6 @@ export default function MinimumRequiredOrRecommendedGPA({
                             {field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
                                 const associatedFieldPath = `${field.path}.${associatedField.name}`;
                                 const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                console.log(associatedFieldObject)
                                 let originalInput;
                                 let originalNotes = [];
 
@@ -237,6 +236,7 @@ export default function MinimumRequiredOrRecommendedGPA({
                                         const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
                                         originalNotes = associatedFieldNotes.originalValue;
                                     }
+
 
                                     return (
                                         <>
@@ -266,7 +266,11 @@ export default function MinimumRequiredOrRecommendedGPA({
                                             {associatedField.notePath && originalNotes !== undefined && (
                                                 <Notes 
                                                     notes={originalNotes}
-                                                    field={associatedField}
+                                                    field={{
+                                                        ...associatedField,
+                                                        name: field.name,
+                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
+                                                    }}
                                                     toggleNote={toggleNote}
                                                     deleteNote={deleteNote}
                                                 />
@@ -286,106 +290,73 @@ export default function MinimumRequiredOrRecommendedGPA({
 
                     modifiedInputs={
                         <div className="flex flex-col gap-8 justify-start items-start">
-                        {/* {field.type === 'text' ? (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                            />
-                        ) : field.type === 'boolean' ? (
-                            <BooleanInput 
-                                label={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleCheck={handleBoolean}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : field.type === 'select' ? (
-                            <SelectInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleSelect={handleSelect}
-                                isRequired={false}
-                                isCreatable={false}
-                                options={field.name === 'school_country' ? countryNames : stateNames}
-                            />
-                        ) : field.type === 'array' ? (
+                        {field.type === 'object' ? (
                             <>
-                            {(draftValue as any[]).length > 0 && (draftValue as any[]).map((val,i) => {
-                                const selectPath = `${field.path}.${i}.category`;
-                                const selectInput = handleRetrieveValue(selectPath, schoolField);
+                            {field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
+                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
+                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
+                                let draftInput;
+                                let draftNotes = [];
 
-                                let inputPath = '';
+                                if (associatedFieldObject.originalDraftValue !== null) {
+                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
+                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
+                                    draftInput = associatedFieldInputs.originalDraftValue;
 
-                                if (field.name === 'school_email') {
-                                    inputPath = `${field.path}.${i}.email`;
+                                    if (associatedField.notePath !== undefined) {
+                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
+                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
+                                        draftNotes = associatedFieldNotes.originalDraftValue;
+                                    }
+
+
+                                    return (
+                                        <>
+                                            {associatedField.type === 'text' ? (
+                                                <TextInput 
+                                                    label={associatedField.label}
+                                                    placeholder={associatedField.label}
+                                                    name={field.name}
+                                                    value={draftInput}
+                                                    path={inputPath}
+                                                    handleInput={handleInput}
+                                                    isRequired={false}
+                                                />
+                                            ) : associatedField.type === 'boolean' ? (
+                                                <BooleanInput 
+                                                    label={field.label}
+                                                    name={field.name}
+                                                    value={draftInput}
+                                                    path={field.path}
+                                                    handleCheck={handleBoolean}
+                                                    isRequired={false}
+                                                    isDisabled={false}
+                                                />
+                                            ) : (
+                                                <></>
+                                            )}
+                                            {associatedField.notePath && draftNotes !== undefined && (
+                                                <Notes 
+                                                    notes={draftNotes}
+                                                    field={{
+                                                        ...associatedField,
+                                                        name: field.name,
+                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
+                                                    }}
+                                                    toggleNote={toggleNote}
+                                                    deleteNote={deleteNote}
+                                                />
+                                            )}
+                                        </>
+                                    )
                                 } else {
-                                    inputPath = `${field.path}.${i}.number`;
-                                }
-
-                                const textInput = handleRetrieveValue(inputPath, schoolField);
-
-                                return (
-                                    <div className="w-full flex gap-4">
-                                        <SelectInput 
-                                            label="Category"
-                                            placeholder="Category"
-                                            name={field.name}
-                                            value={selectInput.originalDraftValue}
-                                            path={selectPath}
-                                            handleSelect={handleSelect}
-                                            options={[{value: 'Main', label: 'Main'}]}
-                                            isRequired={false}
-                                            isCreatable={true}
-                                        />
-                                        <TextInput 
-                                            label={field.name === 'school_email' ? 'Email Address' : 'Phone Number'}
-                                            placeholder={field.name === 'school_email' ? 'Email Address' : 'Phone Number'}
-                                            name={field.name}
-                                            value={textInput.originalDraftValue}
-                                            path={inputPath}
-                                            handleInput={handleInput}
-                                            isRequired={false}
-                                        />
-                                        <div className="py-4 flex justify-center items-end">
-                                            <button 
-                                                onClick={(e:any) => handleRemoveEmailOrPhone(e, field.name, field.path, i)} 
-                                                className="w-[24px] text-warning"
-                                            >
-                                                <DeleteIcon/>
-                                            </button>
-                                        </div>
-                                    </div>
-                                )
-                                
+                                    return null;
+                                }     
                             })}
-                            <Button 
-                                type="primary"
-                                styling="outline"
-                                label={`Add ${field.name === 'school_email' ? 'Email' : 'Phone Number'}`}
-                                action={(e:any) => handleAddEmailOrPhone(e, field.name, field.path)}
-                                adornment={<PlusIcon/>}
-                            />
                             </>
                         ) : (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                            />
-                        )} */}
+                            <></>
+                        )}
                         </div>
                     }
                 />
