@@ -6,6 +6,7 @@ import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import MinimumRequiredOrRecommendedGPA from "./components/MinimumRequiredOrRecommendedGPA";
 import OtherTypesAndSpecificCourses from "./components/OtherTypesAndSpecificCourses";
+import AverageGPA from "./components/AverageGPA";
 
 
 
@@ -69,7 +70,17 @@ export default function GPA({
             deleteNote={deleteNote}
             toggleNote={toggleNote}
         />
-
+        <AverageGPA 
+            school={school}
+            setSchool={setSchool}
+            isEditSchool={isEditSchool}
+            permissions={permissions}
+            handleRetrieveValue={handleRetrieveValue}
+            handleChanges={handleChanges}
+            handleModify={handleModify}
+            deleteNote={deleteNote}
+            toggleNote={toggleNote}
+        />
         {isNoteOpen && selectedField && (
             <NotePopup 
                 toggleNotePopup={toggleNote}
