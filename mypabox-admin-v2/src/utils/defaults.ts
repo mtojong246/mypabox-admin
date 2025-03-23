@@ -582,6 +582,29 @@ export const defaultSchool: NewSchool = {
         link: '',
     },
 
+    school_certifications_required: {
+        original: {
+            input: {
+                school_certifications_required: {
+                    input: false,
+                },
+                school_certifications_required_options: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_certifications_required: {
+                    input: false,
+                },
+                school_certifications_required_options: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
     school_international_students_accepted: {
         original: {
             input: false,

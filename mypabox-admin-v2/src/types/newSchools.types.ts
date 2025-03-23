@@ -762,7 +762,36 @@ export interface NewSchool {
         link: string;
     };
 
-
+    school_certifications_required: {
+        original: {
+            input: {
+                school_certifications_required: {
+                    input: boolean;
+                };
+                school_certifications_required_options: {
+                    input: {
+                        value: string;
+                    }[];
+                } | null,
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_certifications_required: {
+                    input: boolean;
+                };
+                school_certifications_required_options: {
+                    input: {
+                        value: string;
+                    }[];
+                } | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
     
     school_international_students_accepted: {
         original: {

@@ -9,6 +9,7 @@ import PANCEPassRate from "./PANCEPassRate/PANCEPassRate"
 import GPA from "./GPA/GPA"
 import Preference from "./Preference/Preference"
 import InternationalStudents from "./InternationalStudents/InternationalStudents"
+import Certifications from "./Certifications/Certifications"
 
 
 
@@ -84,7 +85,11 @@ export default function AddSchoolForms({
                         isEditSchool={false}
                    />
                 ) : tab === '#certifications' ? (
-                    <></>
+                    <Certifications 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#applications' ? (
                     <></>
                 ) : tab === '#preference' ? (

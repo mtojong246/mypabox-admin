@@ -106,7 +106,7 @@ export default function DegreeInformation({
     const handleAddDegree = (e:any, name: string, path: string) => {
         e.preventDefault();
         const value = {
-            field: ''
+            value: ''
         };
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;

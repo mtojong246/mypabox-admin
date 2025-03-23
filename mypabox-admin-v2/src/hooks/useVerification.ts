@@ -17,8 +17,8 @@ const useVerification = ({
 
     const handleModify = (path: string, field: GenericSchoolField, newValue: any) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        const originalField = {...field.original};
-        const draftField = {...field.draft};
+        const originalField = JSON.parse(JSON.stringify(field.original))
+        const draftField = JSON.parse(JSON.stringify(field.draft));
 
         let original = originalField;
         let draft = draftField;
@@ -68,8 +68,8 @@ const useVerification = ({
 
     const handleAddition = (path: string, field: GenericSchoolField, newValue: any) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        const originalField = {...field.original};
-        const draftField = {...field.draft};
+        const originalField = JSON.parse(JSON.stringify(field.original))
+        const draftField = JSON.parse(JSON.stringify(field.draft));
 
         let original = originalField;
         let draft = draftField;
@@ -85,6 +85,7 @@ const useVerification = ({
                 console.log('path invalid');
             }
             original = original[keys[i]];
+
         }
 
         for (let i = 0; i < keys.length - 1; i++) {
@@ -119,8 +120,8 @@ const useVerification = ({
 
     const handleDeletion = (path: string, field: GenericSchoolField, index: number) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        const originalField = {...field.original};
-        const draftField = {...field.draft};
+        const originalField = JSON.parse(JSON.stringify(field.original))
+        const draftField = JSON.parse(JSON.stringify(field.draft));
 
         let original = originalField;
         let draft = draftField;

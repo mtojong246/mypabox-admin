@@ -18,7 +18,6 @@ const minimumGPAFields = [
                 name: 'school_minimum_gpa_required',
                 type: 'boolean',
                 path: '.input',
-                notePath: '.notes',
             },
             {
                 label: 'Minimum Overall GPA Required',
@@ -252,10 +251,10 @@ export default function MinimumRequiredOrRecommendedGPA({
                                                 />
                                             ) : associatedField.type === 'boolean' ? (
                                                 <BooleanInput 
-                                                    label={field.label}
+                                                    label={associatedField.label}
                                                     name={field.name}
                                                     value={originalInput}
-                                                    path={field.path}
+                                                    path={inputPath}
                                                     handleCheck={handleBoolean}
                                                     isRequired={false}
                                                     isDisabled={false}
@@ -324,10 +323,10 @@ export default function MinimumRequiredOrRecommendedGPA({
                                                 />
                                             ) : associatedField.type === 'boolean' ? (
                                                 <BooleanInput 
-                                                    label={field.label}
+                                                    label={associatedField.label}
                                                     name={field.name}
                                                     value={draftInput}
-                                                    path={field.path}
+                                                    path={inputPath}
                                                     handleCheck={handleBoolean}
                                                     isRequired={false}
                                                     isDisabled={false}
