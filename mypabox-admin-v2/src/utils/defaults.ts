@@ -417,6 +417,40 @@ export const defaultSchool: NewSchool = {
         changes: [],
         link: '',
     },
+    school_first_time_pass_rate: {
+        original: {
+            input: '',
+            notes: [],
+        },
+        draft: {
+            input: '',
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_average_five_year_first_time_pass_rate: {
+        original: {
+            input: '',
+            notes: [],
+        },
+        draft: {
+            input: '',
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+    school_pance_pass_rate_note: {
+        original: {
+            input: '',
+        },
+        draft: {
+            input: '',
+        },
+        changes: [],
+        link: '',
+    }
 }
 
 // export const defaultSchool: NewSchool = {

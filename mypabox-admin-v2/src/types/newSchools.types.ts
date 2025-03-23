@@ -513,6 +513,43 @@ export interface NewSchool {
         changes: Change[];
         link: string;
     };
+
+    school_first_time_pass_rate: {
+        original: {
+            input: string;
+            notes: NewNote[];
+        },
+        draft: {
+            input: string;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+
+    school_average_five_year_first_time_pass_rate: {
+        original: {
+            input: string;
+            notes: NewNote[];
+        },
+        draft: {
+            input: string;
+            notes: NewNote[];
+        },
+        changes: Change[];
+        link: string;
+    };
+
+    school_pance_pass_rate_note: {
+        original: {
+            input: string;
+        },
+        draft: {
+            input: string;
+        },
+        changes: Change[];
+        link: string;
+    };
     
     
     

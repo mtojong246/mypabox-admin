@@ -29,6 +29,7 @@ export default function TextInput({
                 type='text'
                 placeholder={placeholder}
                 startAdornment={
+                    startingAdornment ? 
                     <InputAdornment
                         position="start"
                         sx={{
@@ -39,6 +40,7 @@ export default function TextInput({
                     >
                         {startingAdornment}
                     </InputAdornment>
+                    : undefined
                 }
                 endAdornment={endingAdornment}
                 name={name}

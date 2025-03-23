@@ -5,6 +5,7 @@ import DegreeInformation from "./DegreeInformation/DegreeInformation"
 import AccreditationStatus from "./AccreditationStatus/AccreditationStatus"
 import MissionStatement from "./MissionStatement/MissionStatement"
 import Tuition from "./Tuition/Tuition"
+import PANCEPassRate from "./PANCEPassRate/PANCEPassRate"
 
 
 
@@ -52,7 +53,11 @@ export default function AddSchoolForms({
                         isEditSchool={false}
                    />
                 ) : tab === '#pance-pass-rate' ? (
-                    <></>
+                    <PANCEPassRate 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#GPA' ? (
                     <></>
                 ) : tab === '#prerequisites' ? (
