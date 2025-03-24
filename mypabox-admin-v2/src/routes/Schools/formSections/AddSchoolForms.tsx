@@ -10,6 +10,7 @@ import GPA from "./GPA/GPA"
 import Preference from "./Preference/Preference"
 import InternationalStudents from "./InternationalStudents/InternationalStudents"
 import Certifications from "./Certifications/Certifications"
+import Evaluations from "./Evaluations/Evaluations"
 
 
 
@@ -77,7 +78,11 @@ export default function AddSchoolForms({
                 ) : tab === '#exams' ? (
                     <></>
                 ) : tab === '#evaluations' ? (
-                    <></>
+                    <Evaluations 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#international-students' ? (
                     <InternationalStudents 
                         school={school}
