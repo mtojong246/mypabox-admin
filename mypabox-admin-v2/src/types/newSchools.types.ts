@@ -762,6 +762,81 @@ export interface NewSchool {
         link: string;
     };
 
+    school_evaluations_required: {
+        original: {
+            input: {
+                school_evaluations_required: boolean;
+                school_minimum_number_of_evaluations_required: number | null;
+                school_required_evaluator_title: {
+                    value: string;
+                }[] | null;
+                school_minimum_time_evaluator_knows_applicant: string | null;
+                school_optional_evaluators_required: {
+                    school_minimum_number_of_evaluators_required_in_group: number;
+                    school_required_optional_group_evaluator_title: { value: string }[];
+                    school_minimum_time_evaluator_knows_applicant: string;
+                }[] | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_evaluations_required: boolean;
+                school_minimum_number_of_evaluations_required: number | null;
+                school_required_evaluator_title: {
+                    value: string;
+                }[] | null;
+                school_minimum_time_evaluator_knows_applicant: string | null;
+                school_optional_evaluators_required: {
+                    school_minimum_number_of_evaluators_required_in_group: number;
+                    school_required_optional_group_evaluator_title: { value: string }[];
+                    school_minimum_time_evaluator_knows_applicant: string;
+                }[] | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+    school_evaluations_recommended: {
+        original: {
+            input: {
+                school_evaluations_recommended: boolean;
+                school_minimum_number_of_evaluations_recommended: number | null;
+                school_recommended_evaluator_title: {
+                    value: string;
+                }[] | null;
+                school_minimum_time_evaluator_knows_applicant: string | null;
+                school_optional_evaluators_recommended: {
+                    school_minimum_number_evaluators_recommended_in_group: number;
+                    school_recommended_optional_group_evaluator_title: { value: string }[];
+                    school_minimum_time_evaluator_knows_applicant: string;
+                }[] | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_evaluations_recommended: boolean;
+                school_minimum_number_of_evaluations_recommended: number | null;
+                school_recommended_evaluator_title: {
+                    value: string;
+                }[] | null;
+                school_minimum_time_evaluator_knows_applicant: string | null;
+                school_optional_evaluators_recommended: {
+                    school_minimum_number_evaluators_recommended_in_group: number;
+                    school_recommended_optional_group_evaluator_title: { value: string }[];
+                    school_minimum_time_evaluator_knows_applicant: string;
+                }[] | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+
     school_certifications_required: {
         original: {
             input: {

@@ -582,6 +582,56 @@ export const defaultSchool: NewSchool = {
         link: '',
     },
 
+    school_evaluations_required: {
+        original: {
+            input: {
+                school_evaluations_required: false,
+                school_minimum_number_of_evaluations_required: null,
+                school_required_evaluator_title: null,
+                school_minimum_time_evaluator_knows_applicant: null,
+                school_optional_evaluators_required: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_evaluations_required: false,
+                school_minimum_number_of_evaluations_required: null,
+                school_required_evaluator_title: null,
+                school_minimum_time_evaluator_knows_applicant: null,
+                school_optional_evaluators_required: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_evaluations_recommended: {
+        original: {
+            input: {
+                school_evaluations_recommended: false,
+                school_minimum_number_of_evaluations_recommended: null,
+                school_recommended_evaluator_title: null,
+                school_minimum_time_evaluator_knows_applicant: null,
+                school_optional_evaluators_recommended: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_evaluations_recommended: false,
+                school_minimum_number_of_evaluations_recommended: null,
+                school_recommended_evaluator_title: null,
+                school_minimum_time_evaluator_knows_applicant: null,
+                school_optional_evaluators_recommended: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
     school_certifications_required: {
         original: {
             input: {
