@@ -8,6 +8,7 @@ import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import Notes from "../../../../components/Form/Notes/Notes";
 import useVerification from "../../../../hooks/useVerification";
+import TextSelectInput from "../../../../components/Form/InputTypes/TextSelectInput";
 
 
 const permissions = {
@@ -18,7 +19,7 @@ const permissions = {
     canAddOrDelete: false,
 };
 
-const shadowingFields = [
+const experienceFields = [
     {
         label: 'Paid Experience required',
         name: 'school_paid_experience_required',
@@ -37,40 +38,47 @@ const shadowingFields = [
                 label: 'PCE Required',
                 name: 'school_patient_experience_required',
                 type: 'boolean',
+                path: '.input',
             },
             {
                 label: 'Minimum PCE Hours Required',
                 name: 'school_minimum_patient_care_experience_hours_required',
                 type: 'text',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'Required Minimum Time Frame PCE Needs To Be Completed',
                 name: 'school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required',
                 type: 'text-select',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'PCE Recommended',
                 name: 'school_patient_experience_recommended',
                 type: 'boolean',
+                path: '.input',
             },
             {
                 label: 'Minimum PCE Hours Recommended',
                 name: 'school_minimum_patient_care_experience_hours_recommended',
                 type: 'text',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'Recommended Minimum Time Frame PCE Needs To Be Completed',
                 name: 'school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended',
                 type: 'text-select',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'Average PCE Hours Accepted Previous Cycle',
                 name: 'school_average_patient_care_experience_hours_accepted_previous_cycle',
                 type: 'text',
+                path: '.input',
             }
         ],
     },
@@ -85,40 +93,47 @@ const shadowingFields = [
                 label: 'HCE Required', 
                 name: 'school_healthcare_experience_required',
                 type: 'boolean',
+                path: '.input',
             },
             {
                 label: 'Minimum HCE Hours Required',
                 name: 'school_minimum_healthcare_experience_hours_required',
                 type: 'text',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'Required Minimum Time Frame HCE Needs To Be Completed',
                 name: 'school_minimum_time_frame_healthcare_experience_needs_to_be_completed_required',
                 type: 'text-select',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'HCE Recommended', 
                 name: 'school_healthcare_experience_recommended',
                 type: 'boolean',
+                path: '.input',
             },
             {
                 label: 'Minimum HCE Hours Recommended',
                 name: 'school_minimum_healthcare_experience_hours_recommended',
                 type: 'text',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'Recommended Minimum Time Frame HCE Needs To Be Completed',
                 name: 'school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended',
                 type: 'text-select',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'Average HCE Hours Accepted Previous Cycle',
                 name: 'school_average_healthcare_experience_hours_accepted_previous_cycle',
                 type: 'text',
+                path: '.input',
             }
         ]
     },
@@ -133,28 +148,33 @@ const shadowingFields = [
                 label: 'Community Service Required', 
                 name: 'school_community_service_required',
                 type: 'boolean',
+                path: '.input',
             },
             {
                 label: 'Minimum Community Service Hours Required',
                 name: 'school_minimum_community_service_hours_required',
                 type: 'text',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'Community Service Recommended', 
                 name: 'school_community_service_recommended',
                 type: 'boolean',
+                path: '.input',
             },
             {
                 label: 'Minimum Community Service Hours Recommended',
                 name: 'school_minimum_community_service_hours_recommended',
                 type: 'text',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'Average Community Service Hours Accepted Previous Cycle',
                 name: 'school_average_community_service_hours_accepted_previous_cycle',
                 type: 'text',
+                path: '.input',
             },
         ]
     },
@@ -169,34 +189,43 @@ const shadowingFields = [
                 label: 'Volunteer Service Required', 
                 name: 'school_volunteer_service_required',
                 type: 'boolean',
+                path: '.input',
             },
             {
                 label: 'Minimum Volunteer Service Hours Required',
                 name: 'school_minimum_volunteer_service_hours_required',
                 type: 'text',
+                path: '.input',
                 notePath: '.notes',
             },
             {
                 label: 'Volunteer Service Recommended', 
                 name: 'school_volunteer_service_recommended',
                 type: 'boolean',
+                path: '.input',
             },
             {
                 label: "Minimum Volunteer Service Hours Recommended",
                 name: 'school_minimum_volunteer_service_hours_recommended',
                 type: 'text',
+                path: '.input',
                 notePath: '.notes',
             },
             {
-                label: 'Average Community Service Hours Accepted Previous Cycle',
-                name: 'school_average_community_service_hours_accepted_previous_cycle',
+                label: 'Average Volunteer Service Hours Accepted Previous Cycle',
+                name: 'school_average_volunteer_service_hours_accepted_previous_cycle',
                 type: 'text',
+                path: '.input',
             },
         ]
     },
 ]
 
-
+const unitOptions = [
+    {value: '', label: 'Select'},
+    {value: 'Years', label: 'Years'},
+    {value: 'Months', label: 'Months'}
+]
 
 export default function Experience({
     isEditSchool,
@@ -238,21 +267,109 @@ export default function Experience({
         
     };
 
+    const handleDuration = (name: string, path: string, value: string | number) => {
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
+
+        const {
+            originalField,
+            draftField,
+            originalValue 
+        } = handleModify(path, field, value);
+        
+        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
+    }
+
     const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
         const checked = e.target.checked;
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
+        const keys = path.split('.');
 
         let value = {};
         let inputPath = '';
 
-        if (name === 'school_pa_shadowing_required') {
+        
+        if (name === 'school_patient_experience') {
             inputPath = '.input';
-            value = {
-                school_pa_shadowing_required: checked,
-                school_minimum_pa_shadowing_hours_required: checked ? 0 : null,
+            if (keys.includes('school_patient_experience_required')) {
+                if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
+                    value = {
+                        ...school.school_patient_experience.original.input,
+                        school_patient_experience_required: {
+                            input: checked,
+                        },
+                        school_minimum_patient_care_experience_hours_required: checked ? {
+                            input: 0,
+                            notes: [],
+                        } : null,
+                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: checked ? {
+                            input: {
+                                quantity: 0,
+                                units: '',
+                            },
+                            notes: [],
+                        } : null,
+                    }
+                } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
+                    value = {
+                        ...school.school_patient_experience.draft.input,
+                        school_patient_experience_required: {
+                            input: checked,
+                        },
+                        school_minimum_patient_care_experience_hours_required: checked ? {
+                            input: 0,
+                            notes: [],
+                        } : null,
+                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: checked ? {
+                            input: {
+                                quantity: 0,
+                                units: '',
+                            },
+                            notes: [],
+                        } : null,
+                    }
+                }
+            } else if (keys.includes('school_patient_experience_recommended')) {
+                if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
+                    value = {
+                        ...school.school_patient_experience.original.input,
+                        school_patient_experience_required: {
+                            input: checked,
+                        },
+                        school_minimum_patient_care_experience_hours_required: checked ? {
+                            input: 0,
+                            notes: [],
+                        } : null,
+                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: checked ? {
+                            input: {
+                                quantity: 0,
+                                units: '',
+                            },
+                            notes: [],
+                        } : null,
+                    }
+                } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
+                    value = {
+                        ...school.school_patient_experience.draft.input,
+                        school_patient_experience_recommended: {
+                            input: checked,
+                        },
+                        school_minimum_patient_care_experience_hours_recommended: checked ? {
+                            input: 0,
+                            notes: [],
+                        } : null,
+                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: checked ? {
+                            input: {
+                                quantity: 0,
+                                units: '',
+                            },
+                            notes: [],
+                        } : null,
+                    }
+                }
             }
+            
 
         } else if (name === 'school_pa_shadowing_recommended') {
             inputPath = '.input';
@@ -277,7 +394,7 @@ export default function Experience({
 
     return (
         <>
-        {shadowingFields.map(field => {
+        {experienceFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;  
             const inputs = handleRetrieveValue(field.path, schoolField);
    
@@ -309,11 +426,18 @@ export default function Experience({
                                 const associatedFieldPath = `${field.path}.${associatedField.name}`;
                                 const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
                                 let originalInput;
+                                let originalNotes = [];
 
                                 if (associatedFieldObject.originalValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}`;
+                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
                                     const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
                                     originalInput = associatedFieldInputs.originalValue;
+
+                                    if (associatedField.notePath !== undefined) {
+                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
+                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
+                                        originalNotes = associatedFieldNotes.originalValue;
+                                    }
 
                                     return (
                                         <>
@@ -337,8 +461,31 @@ export default function Experience({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                 />
+                                            ) : associatedField.type === 'text-select' ? (
+                                                <TextSelectInput 
+                                                    label={associatedField.label}
+                                                    placeholder="Quantity"
+                                                    name={field.name}
+                                                    value={originalInput}
+                                                    inputPath={`${inputPath}.quantity`}
+                                                    selectPath={`${inputPath}.units`}
+                                                    handleChange={handleDuration}
+                                                    options={unitOptions}
+                                                />
                                             ) : (
                                                 <></>
+                                            )}
+                                            {associatedField.notePath && originalNotes !== undefined && (
+                                                <Notes 
+                                                    notes={originalNotes}
+                                                    field={{
+                                                        ...associatedField,
+                                                        name: field.name,
+                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
+                                                    }}
+                                                    toggleNote={toggleNote}
+                                                    deleteNote={deleteNote}
+                                                />
                                             )}
                                         </>
                                     )
@@ -346,16 +493,17 @@ export default function Experience({
                                     return null;
                                 }     
                             })}
+                            
                             </>
                         ) : (
-                            <TextInput 
+                            <BooleanInput 
                                 label={field.label}
-                                placeholder={field.label}
                                 name={field.name}
                                 value={value}
                                 path={field.path}
-                                handleInput={handleInput}
+                                handleCheck={handleBoolean}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         )}
                         {field.notePath && (
@@ -377,11 +525,18 @@ export default function Experience({
                                 const associatedFieldPath = `${field.path}.${associatedField.name}`;
                                 const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
                                 let draftInput;
+                                let draftNotes = [];
 
                                 if (associatedFieldObject.originalDraftValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}`;
+                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
                                     const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
                                     draftInput = associatedFieldInputs.originalDraftValue;
+
+                                    if (associatedField.notePath !== undefined) {
+                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
+                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
+                                        draftNotes = associatedFieldNotes.originalDraftValue;
+                                    }
 
                                     return (
                                         <>
@@ -405,8 +560,31 @@ export default function Experience({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                 />
+                                            ) : associatedField.type === 'text-select' ? (
+                                                <TextSelectInput 
+                                                    label={associatedField.label}
+                                                    placeholder="Quantity"
+                                                    name={field.name}
+                                                    value={draftInput}
+                                                    inputPath={`${inputPath}.quantity`}
+                                                    selectPath={`${inputPath}.units`}
+                                                    handleChange={handleDuration}
+                                                    options={unitOptions}
+                                                />
                                             ) : (
                                                 <></>
+                                            )}
+                                            {associatedField.notePath && draftNotes !== undefined && (
+                                                <Notes 
+                                                    notes={draftNotes}
+                                                    field={{
+                                                        ...associatedField,
+                                                        name: field.name,
+                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
+                                                    }}
+                                                    toggleNote={toggleNote}
+                                                    deleteNote={deleteNote}
+                                                />
                                             )}
                                         </>
                                     )
@@ -416,14 +594,14 @@ export default function Experience({
                             })}
                             </>
                         ) : (
-                            <TextInput 
+                            <BooleanInput 
                                 label={field.label}
-                                placeholder={field.label}
                                 name={field.name}
                                 value={draftValue}
                                 path={field.path}
-                                handleInput={handleInput}
+                                handleCheck={handleBoolean}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         )}
                         {field.notePath && (

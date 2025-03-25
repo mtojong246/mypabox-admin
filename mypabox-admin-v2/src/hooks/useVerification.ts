@@ -188,6 +188,8 @@ const useVerification = ({
             
             if (!(keys[i] in original)) {
                 console.log('path invalid');
+                console.log(keys)
+                console.log(field);
             }
             original = original[keys[i]];
         }
