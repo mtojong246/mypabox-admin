@@ -762,6 +762,58 @@ export interface NewSchool {
         link: string;
     };
 
+    school_pa_shadowing_required: {
+        original: {
+            input: {
+                school_pa_shadowing_required: boolean;
+                school_minimum_pa_shadowing_hours_required: number | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_pa_shadowing_required: boolean;
+                school_minimum_pa_shadowing_hours_required: number | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+
+    school_pa_shadowing_recommended: {
+        original: {
+            input: {
+                school_pa_shadowing_recommended: boolean;
+                school_minimum_pa_shadowing_hours_recommended: number | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_pa_shadowing_recommended: boolean;
+                school_minimum_pa_shadowing_hours_recommended: number | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+    school_average_pa_shadowing_hours_accepted_previous_cycle: {
+        original: {
+            input: number;
+            notes: NewNote[];
+        };
+        draft: {
+            input: number;
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
     school_evaluations_required: {
         original: {
             input: {

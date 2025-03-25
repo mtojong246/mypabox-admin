@@ -582,6 +582,58 @@ export const defaultSchool: NewSchool = {
         link: '',
     },
 
+    school_pa_shadowing_required: {
+        original: {
+            input: {
+                school_pa_shadowing_required: false,
+                school_minimum_pa_shadowing_hours_required: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_pa_shadowing_required: false,
+                school_minimum_pa_shadowing_hours_required: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_pa_shadowing_recommended: {
+        original: {
+            input: {
+                school_pa_shadowing_recommended: false,
+                school_minimum_pa_shadowing_hours_recommended: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_pa_shadowing_recommended: false,
+                school_minimum_pa_shadowing_hours_recommended: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_average_pa_shadowing_hours_accepted_previous_cycle: {
+        original: {
+            input: 0,
+            notes: [],
+        },
+        draft: {
+            input: 0,
+            notes: [],
+        },
+        changes: [],
+        link: ''
+    },
+
     school_evaluations_required: {
         original: {
             input: {

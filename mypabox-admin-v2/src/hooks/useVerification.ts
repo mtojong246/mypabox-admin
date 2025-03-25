@@ -171,8 +171,12 @@ const useVerification = ({
 
     const handleRetrieveValue = (path: string, field: GenericSchoolField) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
-        let original = {...field.original};
-        let draft = {...field.draft};
+        const originalField = JSON.parse(JSON.stringify(field.original))
+        const draftField = JSON.parse(JSON.stringify(field.draft));
+
+        let original = originalField;
+        let draft = draftField;
+        
 
 
         for (let i = 0; i < keys.length - 1; i++) {

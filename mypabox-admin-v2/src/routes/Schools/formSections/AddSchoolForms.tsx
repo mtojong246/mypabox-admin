@@ -11,6 +11,7 @@ import Preference from "./Preference/Preference"
 import InternationalStudents from "./InternationalStudents/InternationalStudents"
 import Certifications from "./Certifications/Certifications"
 import Evaluations from "./Evaluations/Evaluations"
+import PAShadowing from "./PAShadowing/PAShadowing"
 
 
 
@@ -74,7 +75,11 @@ export default function AddSchoolForms({
                 ) : tab === '#experience' ? (
                     <></>
                 ) : tab === '#pa-shadowing' ? (
-                    <></>
+                    <PAShadowing 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#exams' ? (
                     <></>
                 ) : tab === '#evaluations' ? (
