@@ -291,91 +291,179 @@ export default function Experience({
 
         
         if (name === 'school_patient_experience') {
+            let pceValue = {}
             inputPath = '.input';
             if (keys.includes('school_patient_experience_required')) {
-                if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                    value = {
-                        ...school.school_patient_experience.original.input,
-                        school_patient_experience_required: {
-                            input: checked,
+                pceValue = {
+                    school_patient_experience_required: {
+                        input: checked,
+                    },
+                    school_minimum_patient_care_experience_hours_required: checked ? {
+                        input: 0,
+                        notes: [],
+                    } : null,
+                    school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: checked ? {
+                        input: {
+                            quantity: 0,
+                            units: '',
                         },
-                        school_minimum_patient_care_experience_hours_required: checked ? {
-                            input: 0,
-                            notes: [],
-                        } : null,
-                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: checked ? {
-                            input: {
-                                quantity: 0,
-                                units: '',
-                            },
-                            notes: [],
-                        } : null,
-                    }
-                } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                    value = {
-                        ...school.school_patient_experience.draft.input,
-                        school_patient_experience_required: {
-                            input: checked,
-                        },
-                        school_minimum_patient_care_experience_hours_required: checked ? {
-                            input: 0,
-                            notes: [],
-                        } : null,
-                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: checked ? {
-                            input: {
-                                quantity: 0,
-                                units: '',
-                            },
-                            notes: [],
-                        } : null,
-                    }
+                        notes: [],
+                    } : null,
                 }
             } else if (keys.includes('school_patient_experience_recommended')) {
-                if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                    value = {
-                        ...school.school_patient_experience.original.input,
-                        school_patient_experience_required: {
-                            input: checked,
+                pceValue = {
+                    school_patient_experience_recommended: {
+                        input: checked,
+                    },
+                    school_minimum_patient_care_experience_hours_recommended: checked ? {
+                        input: 0,
+                        notes: [],
+                    } : null,
+                    school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: checked ? {
+                        input: {
+                            quantity: 0,
+                            units: '',
                         },
-                        school_minimum_patient_care_experience_hours_required: checked ? {
-                            input: 0,
-                            notes: [],
-                        } : null,
-                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: checked ? {
-                            input: {
-                                quantity: 0,
-                                units: '',
-                            },
-                            notes: [],
-                        } : null,
-                    }
-                } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                    value = {
-                        ...school.school_patient_experience.draft.input,
-                        school_patient_experience_recommended: {
-                            input: checked,
-                        },
-                        school_minimum_patient_care_experience_hours_recommended: checked ? {
-                            input: 0,
-                            notes: [],
-                        } : null,
-                        school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: checked ? {
-                            input: {
-                                quantity: 0,
-                                units: '',
-                            },
-                            notes: [],
-                        } : null,
-                    }
+                        notes: [],
+                    } : null,
+                }
+            }
+
+            if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
+                value = {
+                    ...school.school_patient_experience.original.input,
+                    ...pceValue,
+                }
+            } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
+                value = {
+                    ...school.school_patient_experience.draft.input,
+                    ...pceValue,
                 }
             }
             
-
-        } else if (name === 'school_pa_shadowing_recommended') {
+        } else if (name === 'school_healthcare_experience') {
+            let hceValue = {};
             inputPath = '.input';
-            value = {
-                school_pa_shadowing_recommended: checked,
-                school_minimum_pa_shadowing_hours_recommended: checked ? 0 : null,
+            if (keys.includes('school_healthcare_experience_required')) {
+                hceValue = {
+                    school_healthcare_experience_required: {
+                        input: checked,
+                    },
+                    school_minimum_healthcare_experience_hours_required: checked ? {
+                        input: 0,
+                        notes: [],
+                    } : null,
+                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed_required: checked ? {
+                        input: {
+                            quantity: 0,
+                            units: '',
+                        },
+                        notes: [],
+                    } : null,
+                }
+            } else if (keys.includes('school_healthcare_experience_recommended')) {
+                hceValue = {
+                    school_healthcare_experience_recommended: {
+                        input: checked,
+                    },
+                    school_minimum_healthcare_experience_hours_recommended: checked ? {
+                        input: 0,
+                        notes: [],
+                    } : null,
+                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: checked ? {
+                        input: {
+                            quantity: 0,
+                            units: '',
+                        },
+                        notes: [],
+                    } : null,
+                }
+            }
+
+            if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
+                value = {
+                    ...school.school_healthcare_experience.original.input,
+                    ...hceValue,
+                }
+            } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
+                value = {
+                    ...school.school_healthcare_experience.draft.input,
+                    ...hceValue,
+                }
+            }
+
+        } else if (name === 'school_community_service') {
+            let communityValue = {}
+            inputPath = '.input';
+            if (keys.includes('school_community_service_required')) {
+                communityValue = {
+                    school_community_service_required: {
+                        input: checked,
+                    },
+                    school_minimum_community_service_hours_required: checked ? {
+                        input: 0,
+                        notes: [],
+                    } : null,
+                }
+            } else if (keys.includes('school_healthcare_experience_recommended')) {
+                communityValue = {
+                    school_community_service_recommended: {
+                        input: checked,
+                    },
+                    school_minimum_community_service_hours_recommended: checked ? {
+                        input: 0,
+                        notes: [],
+                    } : null,
+                }
+            }
+
+            if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
+                value = {
+                    ...school.school_community_service.original.input,
+                    ...communityValue,
+                }
+            } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
+                value = {
+                    ...school.school_community_service.draft.input,
+                    ...communityValue,
+                }
+            }
+
+        } else if (name === 'school_volunteer_service') {
+            let volunteerValue = {}
+            inputPath = '.input';
+            if (keys.includes('school_volunteer_service_required')) {
+                volunteerValue = {
+                    school_volunteer_service_required: {
+                        input: checked,
+                    },
+                    school_minimum_volunteer_service_hours_required: checked ? {
+                        input: 0,
+                        notes: [],
+                    } : null,
+                }
+            } else if (keys.includes('school_volunteer_service_recommended')) {
+                volunteerValue = {
+                    school_volunteer_service_recommended: {
+                        input: checked,
+                    },
+                    school_minimum_volunteer_service_hours_recommended: checked ? {
+                        input: 0,
+                        notes: [],
+                    } : null,
+                }
+            }
+
+            if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
+                value = {
+                    ...school.school_volunteer_service.original.input,
+                    ...volunteerValue,
+                }
+            } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
+                value = {
+                    ...school.school_volunteer_service.draft.input,
+                    ...volunteerValue,
+                }
             }
         } else {
             inputPath = path;
