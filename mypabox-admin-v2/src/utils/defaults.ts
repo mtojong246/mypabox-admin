@@ -879,6 +879,73 @@ export const defaultSchool: NewSchool = {
         link: '',
     },
 
+    school_application_submitted_on_caspa: {
+        original: {
+            input: {
+                school_application_submitted_on_caspa: false,
+                school_caspa_application_deadline_date: null,
+                school_caspa_application_deadline_type: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_application_submitted_on_caspa: false,
+                school_caspa_application_deadline_date: null,
+                school_caspa_application_deadline_type: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_application_submitted_directly_to_school: {
+        original: {
+            input: {
+                school_application_submitted_directly_to_school: false,
+                school_application_direct_to_school_deadline: null,
+                school_application_direct_to_school_fee: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_application_submitted_directly_to_school: false,
+                school_application_direct_to_school_deadline: null,
+                school_application_direct_to_school_fee: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_supplemental_application_required: {
+        original: {
+            input: {
+                school_supplemental_application_required: false,
+                school_supplemental_application_deadline: null,
+                school_supplemental_application_fee: null,
+                school_supplemental_application_link: null,
+                school_supplemental_application_link_provided_with_invite_only: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_supplemental_application_required: false,
+                school_supplemental_application_deadline: null,
+                school_supplemental_application_fee: null,
+                school_supplemental_application_link: null,
+                school_supplemental_application_link_provided_with_invite_only: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
     school_international_students_accepted: {
         original: {
             input: false,

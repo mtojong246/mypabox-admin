@@ -1211,6 +1211,73 @@ export interface NewSchool {
         changes: Change[];
         link: string;
     }
+
+    school_application_submitted_on_caspa: {
+        original: {
+            input: {
+                school_application_submitted_on_caspa: boolean,
+                school_caspa_application_deadline_date: string | null;
+                school_caspa_application_deadline_type: string | null;
+            },
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_application_submitted_on_caspa: boolean,
+                school_caspa_application_deadline_date: string | null;
+                school_caspa_application_deadline_type: string | null;
+            },
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+    school_application_submitted_directly_to_school: {
+        original: {
+            input: {
+                school_application_submitted_directly_to_school: boolean;
+                school_application_direct_to_school_deadline: string | null;
+                school_application_direct_to_school_fee: number | string | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_application_submitted_directly_to_school: boolean;
+                school_application_direct_to_school_deadline: string | null;
+                school_application_direct_to_school_fee: number | string | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+    school_supplemental_application_required: {
+        original: {
+            input: {
+                school_supplemental_application_required: boolean;
+                school_supplemental_application_deadline: string | null;
+                school_supplemental_application_fee: number | string | null;
+                school_supplemental_application_link: string | null;
+                school_supplemental_application_link_provided_with_invite_only: boolean | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_supplemental_application_required: boolean;
+                school_supplemental_application_deadline: string | null;
+                school_supplemental_application_fee: number | string | null;
+                school_supplemental_application_link: string | null;
+                school_supplemental_application_link_provided_with_invite_only: boolean | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    };
     
     school_international_students_accepted: {
         original: {

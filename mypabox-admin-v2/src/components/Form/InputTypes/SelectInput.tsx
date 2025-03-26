@@ -20,7 +20,7 @@ export default function SelectInput({
     handleSelect: (e: any, name: string, path: string) => void,
     isRequired: boolean,
     isCreatable: boolean,
-    options: { value: string | number, label: string | number }[],
+    options: { value: string | number, label: string | number, color?: string, focus?: string }[],
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">

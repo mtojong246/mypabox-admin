@@ -13,6 +13,7 @@ import Certifications from "./Certifications/Certifications"
 import Evaluations from "./Evaluations/Evaluations"
 import PAShadowing from "./PAShadowing/PAShadowing"
 import Experience from "./Experience/Experience"
+import Applications from "./Applications/Applications"
 
 
 
@@ -106,7 +107,11 @@ export default function AddSchoolForms({
                         isEditSchool={false}
                    />
                 ) : tab === '#applications' ? (
-                    <></>
+                    <Applications 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#preference' ? (
                     <Preference 
                         school={school}
