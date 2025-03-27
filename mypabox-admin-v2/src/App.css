@@ -41,8 +41,25 @@
   }
 }
 
+
 /* Overriding default styling */
-.edited-quill .ql-container {
+
+.ql-container {
+  border-radius: 0px 0px 8px 8px !important;
+}
+
+.ql-toolbar {
+  border-radius: 8px 8px 0px 0px !important;
+}
+
+.edited-quill .ql-container.ql-bubble.ql-disabled .ql-editor {
+  padding: 0 !important;
+}
+
+.edited-quill .ql-container.ql-disabled .ql-tooltip {
+  display: none !important;
+}
+/* .edited-quill .ql-container {
   font-size: 16px;
 }
 
@@ -63,7 +80,7 @@
 .ql-container.ql-snow {
   border-radius: 0 0 5px 5px;
   border: 2px solid #B4B4B4 !important;
-}
+} */
 
 /* .ql-disabled {
   background-color: #999999 !important;

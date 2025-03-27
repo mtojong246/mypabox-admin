@@ -177,7 +177,15 @@ export default function NotePopup({
                         
                         <div className='flex flex-col gap-2 justify-start items-start w-full mb-10'>
                             <label className='font-medium'>Note:</label>
-                            <ReactQuill className='mt-2 h-[200px] rounded w-full' theme="snow" onChange={handleNote} value={noteForm.note}/>
+                            <ReactQuill 
+                                theme="snow" 
+                                onChange={handleNote} 
+                                value={noteForm.note}
+                                style={{
+                                    width: '100%',
+                                    height: '200px',
+                                }}
+                            />
                         </div>
                     </div>
                     

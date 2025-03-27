@@ -19,10 +19,14 @@ export default function TextEditorInput({
         <div className="w-full flex flex-col gap-2 justify-start items-start">
             <label className={`font-medium ${isRequired && 'required'}`}>{label}</label>
             <ReactQuill 
-                className='mt-4 h-60 rounded-2xl max-w-[900px]' 
                 theme="snow" 
                 value={value} 
                 onChange={(e:any) => handleQuill(e, name, path)}
+                style={{
+                    width: '100%',
+                    height: '200px',
+                    marginBottom: '40px'
+                }}
             />
         </div>
     )

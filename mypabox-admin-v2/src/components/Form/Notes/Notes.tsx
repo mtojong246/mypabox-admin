@@ -30,7 +30,12 @@ export default function Notes({
                 <div className="w-full flex justify-between items-start gap-6">
                     <div className="grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline">
                         <p className={`${note.type === 'requirement' ? 'text-warning' : 'text-primary'} text-[14px] font-medium`}>{note.type}</p>
-                        <ReactQuill theme='bubble' value={note.note} readOnly={true} className='edited-quill'/>
+                        <ReactQuill 
+                            theme='bubble'
+                            value={note.note} 
+                            readOnly={true} 
+                            className='edited-quill'
+                        />
                     </div>
                     <div className="flex gap-4">
                         <button 
