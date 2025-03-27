@@ -9,179 +9,187 @@ import TextSelectInput from "../../../../../components/Form/InputTypes/TextSelec
 
 
 
-const greFields = [
+const englishExamFields = [
     {
-        label: 'GRE',
-        name: 'school_gre',
+        label: 'English Proficiency Exams',
+        name: 'school_english_proficiency_exams',
         type: 'object',
         path: '.input',
         notePath: '.notes',
         associatedFields: [
             {
-                label: 'GRE Required',
-                name: 'school_gre_required',
+                label: 'English Proficiency Exams Required',
+                name: 'school_english_proficiency_exams_required',
                 type: 'boolean',
                 path: '.input',
             },
             {
-                label: 'GRE Recommended',
-                name: 'school_gre_recommended',
+                label: 'TOEFL Required',
+                name: 'school_toefl_required',
                 type: 'boolean',
                 path: '.input',
             },
             {
-                label: 'CASPA GRE Institution Code',
-                name: 'school_caspa_gre_institution_code',
-                type: 'text',
-                path: '.input',
-            },
-            {
-                label: 'GRE Institution Code',
-                name: 'school_gre_institution_code',
-                type: 'text',
-                path: '.input',
-            },
-            {
-                label: 'Minimum Time Frame GRE Must Be Completed',
-                name: 'school_minimum_time_frame_gre_must_be_completed',
+                label: 'Minimum Time Frame TOEFL Needs To Be Completed',
+                name: 'school_minimum_time_frame_toefl_needs_to_be_completed',
                 type: 'text-select',
                 path: '.input',
-                notePath: '.notes',
             },
             {
-                label: 'MCAT Accepted In Place of GRE',
-                name: 'school_mcat_accepted_in_place_of_gre',
-                type: 'boolean',
-                path: '.input',
-                notePath: '.notes',
-            },
-            {
-                label: 'GRE Exempt with Masters Degree',
-                name: 'school_gre_exempt_with_masters_degree',
-                type: 'boolean',
-                path: '.input',
-                notePath: '.notes',
-            },
-            {
-                label: 'GRE Exempt with Doctoral Degree',
-                name: 'school_gre_exempt_with_phd_degree',
-                type: 'boolean',
-                path: '.input',
-                notePath: '.notes',
-            },
-            {
-                label: 'Minimum GRE Scores Required',
-                name: 'school_minimum_gre_scores_required',
+                label: 'TOEFL Exempt With Masters Degree',
+                name: 'school_toefl_exempt_with_masters_degree',
                 type: 'boolean',
                 path: '.input',
             },
             {
-                label: 'Minimum GRE Verbal Score',
-                name: 'school_gre_minimum_verbal_score',
+                label: 'TOEFL Exempt With Doctoral Degree',
+                name: 'school_toefl_exempt_with_doctoral_degree',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Minimum GRE Quantitative Score',
-                name: 'school_gre_minimum_quantitative_score',
+                label: 'TOEFL IBT Minimum Total Score Required',
+                name: 'school_toefl_ibt_minimum_total_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Minimum GRE Analytical Writing Score',
-                name: 'school_gre_minimum_analytical_writing_score',
+                label: 'TOEFL IBT Minimum Reading Score Required',
+                name: 'school_toefl_ibt_minimum_reading_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Minimum GRE Combined Score',
-                name: 'school_gre_minimum_combined_score',
+                label: 'TOEFL IBT Minimum Writing Score Required',
+                name: 'school_toefl_ibt_minimum_writing_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Minimum GRE Scores Notes',
-                name: 'school_minimum_gre_score_notes',
+                label: 'TOEFL IBT Minimum Listening Score Required',
+                name: 'school_toefl_ibt_minimum_listening_score_required',
+                type: 'text',
+                path: '.input',
+            },
+            {
+                label: 'TOEFL IBT Minimum Speaking Score Required',
+                name: 'school_toefl_ibt_minimum_speaking_score_required',
+                type: 'text',
+                path: '.input',
+            },
+            {
+                label: 'TOEFL IBT Minimum Scores Notes',
+                name: 'school_toefl_ibt_minimum_score_notes',
                 type: 'note',
                 path: '.notes',
             },
             {
-                label: 'Minimum GRE Verbal Percentile',
-                name: 'school_gre_minimum_verbal_percentile',
+                label: 'TOEFL PBT Minimum Total Score Required',
+                name: 'school_toefl_pbt_minimum_total_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Minimum GRE Quantitative Percentile',
-                name: 'school_gre_minimum_quantitative_percentile',
+                label: 'TOEFL PBT Minimum Reading Score Required',
+                name: 'school_toefl_pbt_minimum_reading_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Minimum GRE Analytical Writing Percentile',
-                name: 'school_gre_minimum_analytical_writing_percentile',
+                label: 'TOEFL PBT Minimum Writing Score Required',
+                name: 'school_toefl_pbt_minimum_writing_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Minimum GRE Combined Percentile',
-                name: 'school_gre_minimum_combined_percentile',
+                label: 'TOEFL PBT Minimum Listening Score Required',
+                name: 'school_toefl_pbt_minimum_listening_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Minimum GRE Percentiles Notes',
-                name: 'school_minimum_gre_percentile_notes',
+                label: 'TOEFL PBT Minimum Speaking Score Required',
+                name: 'school_toefl_pbt_minimum_speaking_score_required',
+                type: 'text',
+                path: '.input',
+            },
+            {
+                label: 'TOEFL PBT Minimum Scores Notes',
+                name: 'school_toefl_pbt_minimum_score_notes',
                 type: 'note',
                 path: '.notes',
             },
             {
-                label: 'Average GRE Verbal Score Accepted Previous Year',
-                name: 'school_average_gre_verbal_score_accepted_previous_year',
+                label: 'IELT Required',
+                name: 'school_ielt_required',
+                type: 'boolean',
+                path: '.input',
+            },
+            {
+                label: 'IELT Minimum Total Score Required',
+                name: 'school_ielt_minimum_total_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Average GRE Quantitative Score Accepted Previous Year',
-                name: 'school_average_gre_quantitative_score_accepted_previous_year',
+                label: 'IELT Minimum Scores Notes',
+                name: 'school_ielt_minimum_score_notes',
+                type: 'note',
+                path: '.notes',
+            },
+            {
+                label: 'MELAB Required',
+                name: 'school_melab_required',
+                type: 'boolean',
+                path: '.input',
+            },
+            {
+                label: 'MELAB Minimum Total Score Required',
+                name: 'school_melab_minimum_total_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Average GRE Analytical Writing Score Accepted Previous Year',
-                name: 'school_average_gre_analytical_writing_score_accepted_previous_year',
+                label: 'MELAB Minimum Scores Notes',
+                name: 'school_melab_minimum_score_notes',
+                type: 'note',
+                path: '.notes',
+            },
+            {
+                label: 'PTE Academic Required',
+                name: 'school_pte_academic_required',
+                type: 'boolean',
+                path: '.input',
+            },
+            {
+                label: 'PTE Academic Minimum Total Score Required',
+                name: 'school_pte_academic_minimum_total_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Average GRE Combined Score Accepted Previous Year',
-                name: 'school_average_gre_combined_score_accepted_previous_year',
+                label: 'PTE Academic Minimum Scores Notes',
+                name: 'school_pte_academic_minimum_score_notes',
+                type: 'note',
+                path: '.notes',
+            },
+            {
+                label: 'ITEP Academic Plus Required',
+                name: 'school_itep_academic_plus_required',
+                type: 'boolean',
+                path: '.input',
+            },
+            {
+                label: 'ITEP Academic Plus Minimum Total Score Required',
+                name: 'school_itep_academic_plus_minimum_total_score_required',
                 type: 'text',
                 path: '.input',
             },
             {
-                label: 'Average GRE Verbal Percentile Accepted Previous Year',
-                name: 'school_average_gre_verbal_percentile_accepted_previous_year',
-                type: 'text',
-                path: '.input',
-            },
-            {
-                label: 'Average GRE Quantitative Percentile Accepted Previous Year',
-                name: 'school_average_gre_quantitative_percentile_accepted_previous_year',
-                type: 'text',
-                path: '.input',
-            },
-            {
-                label: 'Average GRE Analytical Writing Percentile Accepted Previous Year',
-                name: 'school_average_gre_analytical_writing_percentile_accepted_previous_year',
-                type: 'text',
-                path: '.input',
-            },
-            {
-                label: 'Average GRE Combined Percentile Accepted Previous Year',
-                name: 'school_average_gre_combined_percentile_accepted_previous_year',
-                type: 'text',
-                path: '.input',
+                label: 'ITEP Academic Plus Minimum Scores Notes',
+                name: 'school_itep_academic_plus_minimum_score_notes',
+                type: 'note',
+                path: '.notes',
             },
         ],
     },
@@ -275,143 +283,195 @@ export default function EnglishExams({
         let inputPath = '';
 
         
-        if (name === 'school_gre') {
-            let greValue = {}
-            if (keys[keys.length-2].includes('school_gre_required') || keys[keys.length-2].includes('school_gre_recommended')) {
+        if (name === 'school_english_proficiency_exams') {
+            let englishExamsValue = {}
+            if (keys[keys.length-2].includes('school_english_proficiency_exams_required')) {
                 inputPath = '.input';
-                greValue = {
-                    school_caspa_gre_institution_code: checked ? {
-                        input: 0,
+                englishExamsValue = {
+                    school_english_proficiency_exams_required: {
+                        input: checked,
+                    },
+                    school_toefl_required: checked ? {
+                        input: false,
                     } : null,
-                    school_gre_institution_code: checked ? {
-                        input: 0,
+                    school_minimum_time_frame_toefl_needs_to_be_completed: null,
+                    school_toefl_exempt_with_masters_degree: null,
+                    school_toefl_exempt_with_doctoral_degree: null,
+            
+                    school_toefl_ibt_minimum_total_score_required: null,
+                    school_toefl_ibt_minimum_reading_score_required: null,
+                    school_toefl_ibt_minimum_writing_score_required: null,
+                    school_toefl_ibt_minimum_listening_score_required: null,
+                    school_toefl_ibt_minimum_speaking_score_required: null,
+                    school_toefl_ibt_minimum_score_notes: null,
+            
+                    school_toefl_pbt_minimum_total_score_required: null,
+                    school_toefl_pbt_minimum_reading_score_required: null,
+                    school_toefl_pbt_minimum_writing_score_required: null,
+                    school_toefl_pbt_minimum_listening_score_required: null,
+                    school_toefl_pbt_minimum_speaking_score_required: null,
+                    school_toefl_pbt_minimum_score_notes: null,
+
+                    school_ielt_required: checked ? {
+                        input: false,
                     } : null,
-                    school_minimum_time_frame_gre_must_be_completed: checked ? {
+                    school_ielt_minimum_total_score_required: null,
+                    school_ielt_minimum_score_notes: null,
+            
+                    school_melab_required: checked ? {
+                        input: false,
+                    } : null,
+                    school_melab_minimum_total_score_required: null,
+                    school_melab_minimum_score_notes: null,
+            
+                    school_pte_academic_required: checked ? {
+                        input: false,
+                    } : null,
+                    school_pte_academic_minimum_total_score_required: null,
+                    school_pte_academic_minimum_score_notes: null,
+            
+                    school_itep_academic_plus_required: checked ? {
+                        input: false,
+                    } : null,
+                    school_itep_academic_plus_minimum_total_score_required: null,
+                    school_itep_academic_plus_minimum_score_notes: null,
+                }
+            } else if (keys[keys.length-2].includes('school_toefl_required')) {
+                inputPath = '.input';
+                englishExamsValue = {
+                    school_toefl_required: {
+                        input: checked,
+                    },
+                    school_minimum_time_frame_toefl_needs_to_be_completed: checked ? {
                         input: {
                             quantity: 0,
                             units: '',
                         },
+                    } : null,
+                    school_toefl_exempt_with_masters_degree: checked ? {
+                        input: false,
+                    } : null,
+                    school_toefl_exempt_with_doctoral_degree: checked ? {
+                        input: false,
+                    } : null,
+            
+                    school_toefl_ibt_minimum_total_score_required: checked ? {
+                        input: 0,
+                    } : null,
+                    school_toefl_ibt_minimum_reading_score_required: checked ? {
+                        input: 0,
+                    } : null,
+                    school_toefl_ibt_minimum_writing_score_required: checked ? {
+                        input: 0,
+                    } : null,
+                    school_toefl_ibt_minimum_listening_score_required: checked ? {
+                        input: 0,
+                    } : null,
+                    school_toefl_ibt_minimum_speaking_score_required: checked ? {
+                        input: 0,
+                    } : null,
+                    school_toefl_ibt_minimum_score_notes: checked ? {
                         notes: [],
                     } : null,
-                    school_mcat_accepted_in_place_of_gre: checked ? {
-                        input: false,
-                        note: [],
-                    } : null,
-                    school_gre_exempt_with_masters_degree: checked ? {
-                        input: false,
-                        note: [],
-                    } : null,
-                    school_gre_exempt_with_phd_degree: checked ? {
-                        input: false,
-                        note: [],
-                    } : null,
-                    school_minimum_gre_scores_required: checked ? {
-                        input: false,
-                    } : null,
-                    school_gre_minimum_verbal_score: null,
-                    school_gre_minimum_quantitative_score: null,
-                    school_gre_minimum_analytical_writing_score: null,
-                    school_gre_minimum_combined_score: null,
-                    school_minimum_gre_score_notes: null,
-                    school_gre_minimum_verbal_percentile: null,
-                    school_gre_minimum_quantitative_percentile: null,
-                    school_gre_minimum_analytical_writing_percentile: null,
-                    school_gre_minimum_combined_percentile: null,
-                    school_minimum_gre_percentile_notes: null,
-                    school_average_gre_verbal_score_accepted_previous_year: checked ? {
+            
+                    school_toefl_pbt_minimum_total_score_required: checked ? {
                         input: 0,
                     } : null,
-                    school_average_gre_quantitative_score_accepted_previous_year: checked ? {
+                    school_toefl_pbt_minimum_reading_score_required: checked ? {
                         input: 0,
                     } : null,
-                    school_average_gre_analytical_writing_score_accepted_previous_year: checked ? {
+                    school_toefl_pbt_minimum_writing_score_required: checked ? {
                         input: 0,
                     } : null,
-                    school_average_gre_combined_score_accepted_previous_year: checked ? {
+                    school_toefl_pbt_minimum_listening_score_required: checked ? {
                         input: 0,
                     } : null,
-                    school_average_gre_verbal_percentile_accepted_previous_year: checked ? {
+                    school_toefl_pbt_minimum_speaking_score_required: checked ? {
                         input: 0,
                     } : null,
-                    school_average_gre_quantitative_percentile_accepted_previous_year: checked ? {
-                        input: 0,
-                    } : null,
-                    school_average_gre_analytical_writing_percentile_accepted_previous_year: checked ? {
-                        input: 0,
-                    } : null,
-                    school_average_gre_combined_percentile_accepted_previous_year: checked ? {
-                        input: 0,
+                    school_toefl_pbt_minimum_score_notes: checked ? {
+                        notes: [],
                     } : null,
                 }
-            } else if (keys[keys.length-2].includes('school_minimum_gre_scores_required')) {
+
+            } else if (keys[keys.length-2].includes('school_ielt_required')) {
                 inputPath = '.input';
-                greValue = {
-                    school_minimum_gre_scores_required: {
+                englishExamsValue = {
+                    school_ielt_required: {
                         input: checked,
                     },
-                    school_gre_minimum_verbal_score: checked ? {
+                    school_ielt_minimum_total_score_required: checked ? {
                         input: 0,
                     } : null,
-                    school_gre_minimum_quantitative_score: checked ? {
-                        input: 0,
-                    } : null,
-                    school_gre_minimum_analytical_writing_score: checked ? {
-                        input: 0,
-                    } : null,
-                    school_gre_minimum_combined_score: checked ? {
-                        input: 0,
-                    } : null,
-                    school_minimum_gre_score_notes: checked ? {
-                        notes: [],
-                    } : null,
-                    school_gre_minimum_verbal_percentile: checked ? {
-                        input: 0,
-                    } : null,
-                    school_gre_minimum_quantitative_percentile: checked ? {
-                        input: 0,
-                    } : null,
-                    school_gre_minimum_analytical_writing_percentile: checked ? {
-                        input: 0,
-                    } : null,
-                    school_gre_minimum_combined_percentile: checked ? {
-                        input: 0,
-                    } : null,
-                    school_minimum_gre_percentile_notes: checked ? {
+                    school_ielt_minimum_score_notes: checked ? {
                         notes: [],
                     } : null,
                 }
-            } else {
+
+            } else if (keys[keys.length-2].includes('school_melab_required')) {
+                inputPath = '.input';
+                englishExamsValue = {
+                    school_melab_required: {
+                        input: checked,
+                    },
+                    school_melab_minimum_total_score_required: checked ? {
+                        input: 0,
+                    } : null,
+                    school_melab_minimum_score_notes: checked ? {
+                        notes: [],
+                    } : null,
+                }
+            } else if (keys[keys.length-2].includes('school_pte_academic_required')) {
+                inputPath = '.input';
+                englishExamsValue = {
+                    school_pte_academic_required: {
+                        input: checked,
+                    },
+                    school_pte_academic_minimum_total_score_required: checked ? {
+                        input: 0,
+                    } : null,
+                    school_pte_academic_minimum_score_notes: checked ? {
+                        notes: [],
+                    } : null,
+                }
+            } else if (keys[keys.length-2].includes('school_itep_academic_plus_required')) {
+                inputPath = '.input';
+                englishExamsValue = {
+                    school_itep_academic_plus_required: {
+                        input: checked,
+                    },
+                    school_itep_academic_plus_minimum_total_score_required: checked ? {
+                        input: 0,
+                    } : null,
+                    school_itep_academic_plus_minimum_score_notes: checked ? {
+                        notes: [],
+                    } : null,
+                }
+            }  else {
                 inputPath = path;
                 value = checked;
             }
 
-            if (['school_gre_required', 'school_gre_recommended', 'school_minimum_gre_scores_required'].includes(keys[keys.length-2])) {
+            if ([
+                    'school_english_proficiency_exams_required', 
+                    'school_toefl_required', 
+                    'school_ielt_required', 
+                    'school_melab_required' ,
+                    'school_pte_academic_required' ,
+                    'school_itep_academic_plus_required'
+                ].includes(keys[keys.length-2])) {
                 if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
                     value = {
-                        ...school.school_gre.original.input,
-                        ...greValue,
-                        school_gre_required: keys[keys.length-2].includes('school_gre_required') ? {
-                            input: checked,
-                        } : school.school_gre.original.input.school_gre_required,
-                        school_gre_recommended: keys[keys.length-2].includes('school_gre_recommended') ? {
-                            input: checked,
-                        } : school.school_gre.original.input.school_gre_recommended,
+                        ...school.school_english_proficiency_exams.original.input,
+                        ...englishExamsValue,
                     }
                 } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
                     value = {
-                        ...school.school_gre.draft.input,
-                        ...greValue,
-                        school_gre_required: keys[keys.length-2].includes('school_gre_required') ? {
-                            input: checked,
-                        } : school.school_gre.draft.input.school_gre_required,
-                        school_gre_recommended: keys[keys.length-2].includes('school_gre_recommended') ? {
-                            input: checked,
-                        } : school.school_gre.draft.input.school_gre_recommended,
+                        ...school.school_english_proficiency_exams.draft.input,
+                        ...englishExamsValue,
                     }
                 }
-            }
-
-            
+            }  
             
         } else {
             inputPath = path;
@@ -430,7 +490,7 @@ export default function EnglishExams({
 
     return (
         <>
-        {greFields.map(field => {
+        {englishExamFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;  
             const inputs = handleRetrieveValue(field.path, schoolField);
    
@@ -462,18 +522,11 @@ export default function EnglishExams({
                                 const associatedFieldPath = `${field.path}.${associatedField.name}`;
                                 const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
                                 let originalInput;
-                                let originalNotes = [];
 
                                 if (associatedFieldObject.originalValue !== null) {
                                     const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
                                     const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
                                     originalInput = associatedFieldInputs.originalValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        originalNotes = associatedFieldNotes.originalValue;
-                                    }
 
                                     return (
                                         <>
@@ -522,18 +575,6 @@ export default function EnglishExams({
                                             ) : (
                                                 <></>
                                             )}
-                                            {associatedField.notePath && originalNotes !== undefined && (
-                                                <Notes 
-                                                    notes={originalNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
-                                                />
-                                            )}
                                         </>
                                     )
                                 } else {
@@ -571,18 +612,11 @@ export default function EnglishExams({
                                 const associatedFieldPath = `${field.path}.${associatedField.name}`;
                                 const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
                                 let draftInput;
-                                let draftNotes = [];
 
                                 if (associatedFieldObject.originalDraftValue !== null) {
                                     const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
                                     const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
                                     draftInput = associatedFieldInputs.originalDraftValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        draftNotes = associatedFieldNotes.originalDraftValue;
-                                    }
 
                                     return (
                                         <>
@@ -630,18 +664,6 @@ export default function EnglishExams({
                                                 />
                                             ) : (
                                                 <></>
-                                            )}
-                                            {associatedField.notePath && draftNoteValue !== undefined && (
-                                                <Notes 
-                                                    notes={draftNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
-                                                />
                                             )}
                                         </>
                                     )

@@ -1051,7 +1051,10 @@ export interface NewSchool {
                     input: boolean;
                 } | null;
                 school_minimum_time_frame_toefl_needs_to_be_completed: {
-                    input: string;
+                    input: {
+                        quantity: number,
+                        units: string,
+                    }
                 } | null;
                 school_toefl_exempt_with_masters_degree: {
                     input: boolean;
@@ -1150,7 +1153,10 @@ export interface NewSchool {
                     input: boolean;
                 } | null;
                 school_minimum_time_frame_toefl_needs_to_be_completed: {
-                    input: string;
+                    input: {
+                        quantity: number,
+                        units: string,
+                    }
                 } | null;
                 school_toefl_exempt_with_masters_degree: {
                     input: boolean;
