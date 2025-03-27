@@ -10,6 +10,7 @@ import RequiredOptionalExams from "./components/RequiredOptionalExams";
 import GRE from "./components/GRE";
 import PACAT from "./components/PACAT";
 import CASPer from "./components/CASPer";
+import EnglishExams from "./components/EnglishExams";
 
 
 
@@ -21,6 +22,14 @@ const permissions = {
     canAddOrDelete: false,
 };
 
+const examFields = [
+    {
+        label: 'Exams General Notes',
+        name: 'school_exams_general_note',
+        type: 'text-area',
+        path: '.input',
+    },
+]
 
 
 export default function Exams({
@@ -113,7 +122,7 @@ export default function Exams({
             deleteNote={deleteNote}
             toggleNote={toggleNote}
         />
-        {/* <MinimumRequiredOrRecommendedGPA 
+        <EnglishExams 
             school={school}
             setSchool={setSchool}
             isEditSchool={isEditSchool}
@@ -124,31 +133,7 @@ export default function Exams({
             deleteNote={deleteNote}
             toggleNote={toggleNote}
         />
-        <OtherTypesAndSpecificCourses 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            handleAddition={handleAddition}
-            handleDeletion={handleDeletion}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
-        <AverageGPA 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        /> */}
-        {/* {gpaFields.map(field => {
+        {examFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
             const inputs = handleRetrieveValue(field.path, schoolField);
             const value = inputs.originalValue;
@@ -199,7 +184,7 @@ export default function Exams({
                     }
                 />
             )
-        })} */}
+        })}
         {isNoteOpen && selectedField && (
             <NotePopup 
                 toggleNotePopup={toggleNote}
