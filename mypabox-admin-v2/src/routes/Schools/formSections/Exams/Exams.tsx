@@ -9,6 +9,7 @@ import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorIn
 import RequiredOptionalExams from "./components/RequiredOptionalExams";
 import GRE from "./components/GRE";
 import PACAT from "./components/PACAT";
+import CASPer from "./components/CASPer";
 
 
 
@@ -91,6 +92,17 @@ export default function Exams({
             toggleNote={toggleNote}
         />
         <PACAT 
+            school={school}
+            setSchool={setSchool}
+            isEditSchool={isEditSchool}
+            permissions={permissions}
+            handleRetrieveValue={handleRetrieveValue}
+            handleChanges={handleChanges}
+            handleModify={handleModify}
+            deleteNote={deleteNote}
+            toggleNote={toggleNote}
+        />
+        <CASPer 
             school={school}
             setSchool={setSchool}
             isEditSchool={isEditSchool}
