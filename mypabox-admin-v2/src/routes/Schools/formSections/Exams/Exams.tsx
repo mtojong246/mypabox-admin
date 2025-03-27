@@ -8,6 +8,7 @@ import Container from "../../../../components/Form/Validation/Container";
 import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
 import RequiredOptionalExams from "./components/RequiredOptionalExams";
 import GRE from "./components/GRE";
+import PACAT from "./components/PACAT";
 
 
 
@@ -79,6 +80,17 @@ export default function Exams({
             toggleNote={toggleNote}
         />
         <GRE 
+            school={school}
+            setSchool={setSchool}
+            isEditSchool={isEditSchool}
+            permissions={permissions}
+            handleRetrieveValue={handleRetrieveValue}
+            handleChanges={handleChanges}
+            handleModify={handleModify}
+            deleteNote={deleteNote}
+            toggleNote={toggleNote}
+        />
+        <PACAT 
             school={school}
             setSchool={setSchool}
             isEditSchool={isEditSchool}
