@@ -7,6 +7,7 @@ import useVerification from "../../../../hooks/useVerification";
 import Container from "../../../../components/Form/Validation/Container";
 import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
 import MinimumGradeAndTimeCriteriaAndBoolean from "./components/MinimumGradeAndTimeCriteriaAndBoolean";
+import CompletionCriteria from "./components/CompletionCriteria";
 
 
 
@@ -65,6 +66,17 @@ export default function Prerequisites({
     return (
         <>
         <MinimumGradeAndTimeCriteriaAndBoolean 
+            school={school}
+            setSchool={setSchool}
+            isEditSchool={isEditSchool}
+            permissions={permissions}
+            handleRetrieveValue={handleRetrieveValue}
+            handleChanges={handleChanges}
+            handleModify={handleModify}
+            deleteNote={deleteNote}
+            toggleNote={toggleNote}
+        />
+        <CompletionCriteria 
             school={school}
             setSchool={setSchool}
             isEditSchool={isEditSchool}
