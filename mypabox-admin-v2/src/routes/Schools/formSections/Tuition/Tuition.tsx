@@ -136,6 +136,7 @@ export default function Tuition({
                                 handleInput={handleInput}
                                 isRequired={false}
                                 startingAdornment={<DollarSign/>}
+                                type="text"
                             />
                         ) : (
                             <></>
@@ -163,6 +164,7 @@ export default function Tuition({
                                 handleInput={handleInput}
                                 isRequired={false}
                                 startingAdornment={<DollarSign/>}
+                                type="text"
                             />
                         ) : (
                             <></>

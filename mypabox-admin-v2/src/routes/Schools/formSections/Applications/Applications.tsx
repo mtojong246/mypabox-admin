@@ -323,6 +323,7 @@ export default function Applications({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type={associatedField.type.includes('date') ? 'date' : 'text'}
                                                     startingAdornment={associatedField.type.includes('fee') ? <DollarIcon /> : undefined}
                                                     link={associatedField.name === 'school_supplemental_application_link' ? originalInput : undefined}
                                                 />
@@ -355,6 +356,7 @@ export default function Applications({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                type="text"
                             />
                         )}
                         {field.notePath && (
@@ -403,6 +405,7 @@ export default function Applications({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type={associatedField.type.includes('date') ? 'date' : 'text'}
                                                     startingAdornment={associatedField.type.includes('fee') ? <DollarIcon /> : undefined}
                                                     link={associatedField.name === 'school_supplemental_application_link' ? draftInput : undefined}
                                                 />
@@ -434,6 +437,7 @@ export default function Applications({
                                 value={draftValue}
                                 path={field.path}
                                 handleInput={handleInput}
+                                type="text"
                                 isRequired={false}
                             />
                         )}

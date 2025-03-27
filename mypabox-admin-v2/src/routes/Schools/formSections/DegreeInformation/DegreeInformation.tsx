@@ -187,6 +187,7 @@ export default function DegreeInformation({
                                             path={inputPath}
                                             handleInput={handleInput}
                                             isRequired={false}
+                                            type="text"
                                         />
                                         <div className="py-4 flex justify-center items-end">
                                             <button 
@@ -250,6 +251,7 @@ export default function DegreeInformation({
                                             path={inputPath}
                                             handleInput={handleInput}
                                             isRequired={false}
+                                            type="text"
                                         />
                                         <div className="py-4 flex justify-center items-end">
                                             <button 

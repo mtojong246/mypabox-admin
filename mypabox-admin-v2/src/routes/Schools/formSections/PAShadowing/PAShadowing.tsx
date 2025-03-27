@@ -206,6 +206,7 @@ export default function PAShadowing({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : (
                                                 <></>
@@ -226,6 +227,7 @@ export default function PAShadowing({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                type="text"
                             />
                         )}
                         {field.notePath && (
@@ -274,6 +276,7 @@ export default function PAShadowing({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : (
                                                 <></>
@@ -294,6 +297,7 @@ export default function PAShadowing({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                type="text"
                             />
                         )}
                         {field.notePath && (

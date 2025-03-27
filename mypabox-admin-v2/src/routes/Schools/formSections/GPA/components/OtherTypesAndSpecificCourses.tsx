@@ -285,6 +285,7 @@ export default function OtherTypesAndSpecificCourses({
                                                         path={inputPath}
                                                         handleInput={handleInput}
                                                         isRequired={false}
+                                                        type="text"
                                                     />
                                                 ) : associatedField.type === 'radio' ? (
                                                     <RadioInput 
@@ -402,6 +403,7 @@ export default function OtherTypesAndSpecificCourses({
                                                         path={inputPath}
                                                         handleInput={handleInput}
                                                         isRequired={false}
+                                                        type="text"
                                                     />
                                                 ) : associatedField.type === 'radio' ? (
                                                     <RadioInput 

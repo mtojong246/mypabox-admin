@@ -456,6 +456,7 @@ export default function RequiredCoursesAndCategories({
                                                                            path={arrayInputPath}
                                                                            handleInput={handleInput}
                                                                            isRequired={false}
+                                                                           type="text"
                                                                        />
                                                                    ) : associatedField.type === 'boolean' ? (
                                                                         <BooleanInput 
@@ -584,6 +585,7 @@ export default function RequiredCoursesAndCategories({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : (
                                                 <SelectInput 

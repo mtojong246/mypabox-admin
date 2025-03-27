@@ -320,6 +320,7 @@ export default function CompletionCriteria({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : (
                                                 <SelectInput 
@@ -410,6 +411,7 @@ export default function CompletionCriteria({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : (
                                                 <SelectInput 

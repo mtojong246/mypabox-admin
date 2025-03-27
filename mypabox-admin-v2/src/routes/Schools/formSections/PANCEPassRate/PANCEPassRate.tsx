@@ -133,6 +133,7 @@ export default function PANCEPassRate({
                                 handleInput={handleInput}
                                 isRequired={false}
                                 startingAdornment={<PercentIcon />}
+                                type="text"
                             />
                         ) : field.type === 'text-area' ? (
                             <TextEditorInput 
@@ -169,6 +170,7 @@ export default function PANCEPassRate({
                                 handleInput={handleInput}
                                 isRequired={false}
                                 startingAdornment={<PercentIcon />}
+                                type="text"
                             />
                         ) : field.type === 'text-area' ? (
                             <TextEditorInput 

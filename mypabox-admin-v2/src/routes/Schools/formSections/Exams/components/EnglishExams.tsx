@@ -549,6 +549,7 @@ export default function EnglishExams({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : associatedField.type === 'text-select' ? (
                                                 <TextSelectInput 
@@ -591,6 +592,7 @@ export default function EnglishExams({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                type="text"
                             />
                         )}
                         {field.notePath && (
@@ -639,6 +641,7 @@ export default function EnglishExams({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : associatedField.type === 'text-select' ? (
                                                 <TextSelectInput 
@@ -681,6 +684,7 @@ export default function EnglishExams({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                type="text"
                             />
                         )}
                         {field.notePath && (

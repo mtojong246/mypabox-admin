@@ -548,6 +548,7 @@ export default function Experience({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : associatedField.type === 'text-select' ? (
                                                 <TextSelectInput 
@@ -647,6 +648,7 @@ export default function Experience({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : associatedField.type === 'text-select' ? (
                                                 <TextSelectInput 

@@ -218,6 +218,7 @@ export default function RequiredOptionalExams({
                                                         path={inputPath}
                                                         handleInput={handleInput}
                                                         isRequired={false}
+                                                        type="text"
                                                     />
                                                 ) : associatedField.type === 'array' ? (
                                                     <div className="w-full flex flex-col justify-start items-start gap-2">
@@ -347,6 +348,7 @@ export default function RequiredOptionalExams({
                                                                         path={arrayInputPath}
                                                                         handleInput={handleInput}
                                                                         isRequired={false}
+                                                                        type="text"
                                                                     />
                                                                     <div className="py-4 flex justify-center items-end">
                                                                         <button 

@@ -331,6 +331,7 @@ export default function Evaluations({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             
                                             ) : associatedField.type === 'text-select' ? (
@@ -450,6 +451,7 @@ export default function Evaluations({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             
                                             ) : associatedField.type === 'text-select' ? (

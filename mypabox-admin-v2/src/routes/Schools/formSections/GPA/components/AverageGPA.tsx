@@ -148,6 +148,7 @@ export default function AverageGPA({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : (
                                                 <></>
@@ -210,6 +211,7 @@ export default function AverageGPA({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : (
                                                 <></>

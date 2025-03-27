@@ -496,6 +496,7 @@ export default function GRE({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : associatedField.type === 'text-select' ? (
                                                 <TextSelectInput 
@@ -550,6 +551,7 @@ export default function GRE({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                type="text"
                             />
                         )}
                         {field.notePath && (
@@ -605,6 +607,7 @@ export default function GRE({
                                                     path={inputPath}
                                                     handleInput={handleInput}
                                                     isRequired={false}
+                                                    type="text"
                                                 />
                                             ) : associatedField.type === 'text-select' ? (
                                                 <TextSelectInput 
@@ -659,6 +662,7 @@ export default function GRE({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                type="text"
                             />
                         )}
                         {field.notePath && (

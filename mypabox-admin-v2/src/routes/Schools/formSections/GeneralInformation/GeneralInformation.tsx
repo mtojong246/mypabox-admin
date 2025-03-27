@@ -390,6 +390,7 @@ export default function GeneralInformation({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                type="text"
                                 link={field.name === 'school_website' ? value : undefined}
                             />
                         ) : field.type === 'boolean' ? (
@@ -451,6 +452,7 @@ export default function GeneralInformation({
                                             path={inputPath}
                                             handleInput={handleInput}
                                             isRequired={false}
+                                            type="text"
                                         />
                                         <div className="py-4 flex justify-center items-end">
                                             <button 
@@ -504,6 +506,7 @@ export default function GeneralInformation({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                type="text"
                                 link={field.name === 'school_website' ? draftValue : undefined}
                             />
                         ) : field.type === 'boolean' ? (
@@ -565,6 +568,7 @@ export default function GeneralInformation({
                                             path={inputPath}
                                             handleInput={handleInput}
                                             isRequired={false}
+                                            type="text"
                                         />
                                         <div className="py-4 flex justify-center items-end">
                                             <button 
