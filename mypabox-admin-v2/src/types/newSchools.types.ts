@@ -762,6 +762,868 @@ export interface NewSchool {
         link: string;
     };
 
+    school_required_optional_exams: {
+        original: {
+            input: {
+                school_minimum_number_of_exams_to_be_completed: number;
+                school_required_optional_exams_list: {
+                    value: string,
+                }[],
+                notes: NewNote[];
+            }[];
+        };
+        draft: {
+            input: {
+                school_minimum_number_of_exams_to_be_completed: number;
+                school_required_optional_exams_list: {
+                    value: string,
+                }[],
+                notes: NewNote[];
+            }[];
+        };
+        changes: Change[];
+        link: string;
+    };
+
+
+    school_gre: {
+        original: {
+            input: {
+                school_gre_required: {
+                    input: boolean;
+                };
+                school_gre_recommended: {
+                    input: boolean;
+                };
+                school_caspa_gre_institution_code: {
+                    input: number;
+                } | null;
+                school_gre_institution_code: {
+                    input: number;
+                } | null;
+        
+                school_minimum_time_frame_gre_must_be_completed: {
+                    input: string;
+                    notes: NewNote[];
+                } | null;
+        
+                school_mcat_accepted_in_place_of_gre: {
+                    input: boolean;
+                    notes: NewNote[];
+                } | null;
+        
+                school_gre_exempt_with_masters_degree: {
+                    input: boolean;
+                    notes: NewNote[];
+                } | null;
+        
+                school_gre_exempt_with_phd_degree: {
+                    input: boolean; 
+                    notes: NewNote[];
+                } | null;
+        
+                school_minimum_gre_scores_required: {
+                    input: boolean;
+                } | null;
+                school_gre_minimum_verbal_score: {
+                    input: number;
+                } | null;
+                school_gre_minimum_quantitative_score: {
+                    input: number;
+                } | null;
+                school_gre_minimum_analytical_writing_score: {
+                    input: number;
+                } | null;
+                school_gre_minimum_combined_score: {
+                    input: number;
+                } | null;
+                school_minimum_gre_score_notes: {
+                    note: NewNote[];
+                } | null;
+        
+                school_gre_minimum_verbal_percentile: {
+                    input: number;
+                } | null;
+                school_gre_minimum_quantitative_percentile: {
+                    input: number;
+                } | null;
+                school_gre_minimum_analytical_writing_percentile: {
+                    input: number;
+                } | null;
+                school_gre_minimum_combined_percentile: {
+                    input: number;
+                } | null;
+                school_minimum_gre_percentile_notes: {
+                    note: NewNote[];
+                } | null;
+        
+                school_average_gre_verbal_score_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_quantitative_score_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_analytical_writing_score_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_combined_score_accepted_previous_year: {
+                    input: number;
+                } | null;
+        
+                school_average_gre_verbal_percentile_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_quantitative_percentile_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_analytical_writing_percentile_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_combined_percentile_accepted_previous_year: {
+                    input: number;
+                } | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_gre_required: {
+                    input: boolean;
+                };
+                school_gre_recommended: {
+                    input: boolean;
+                };
+                school_caspa_gre_institution_code: {
+                    input: number;
+                } | null;
+                school_gre_institution_code: {
+                    input: number;
+                } | null;
+        
+                school_minimum_time_frame_gre_must_be_completed: {
+                    input: string;
+                    notes: NewNote[];
+                } | null;
+        
+                school_mcat_accepted_in_place_of_gre: {
+                    input: boolean;
+                    notes: NewNote[];
+                } | null;
+        
+                school_gre_exempt_with_masters_degree: {
+                    input: boolean;
+                    notes: NewNote[];
+                } | null;
+        
+                school_gre_exempt_with_phd_degree: {
+                    input: boolean; 
+                    notes: NewNote[];
+                } | null;
+        
+                school_minimum_gre_scores_required: {
+                    input: boolean;
+                } | null;
+                school_gre_minimum_verbal_score: {
+                    input: number;
+                } | null;
+                school_gre_minimum_quantitative_score: {
+                    input: number;
+                } | null;
+                school_gre_minimum_analytical_writing_score: {
+                    input: number;
+                } | null;
+                school_gre_minimum_combined_score: {
+                    input: number;
+                } | null;
+                school_minimum_gre_score_notes: {
+                    note: NewNote[];
+                } | null;
+        
+                school_gre_minimum_verbal_percentile: {
+                    input: number;
+                } | null;
+                school_gre_minimum_quantitative_percentile: {
+                    input: number;
+                } | null;
+                school_gre_minimum_analytical_writing_percentile: {
+                    input: number;
+                } | null;
+                school_gre_minimum_combined_percentile: {
+                    input: number;
+                } | null;
+                school_minimum_gre_percentile_notes: {
+                    note: NewNote[];
+                } | null;
+        
+                school_average_gre_verbal_score_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_quantitative_score_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_analytical_writing_score_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_combined_score_accepted_previous_year: {
+                    input: number;
+                } | null;
+        
+                school_average_gre_verbal_percentile_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_quantitative_percentile_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_analytical_writing_percentile_accepted_previous_year: {
+                    input: number;
+                } | null;
+                school_average_gre_combined_percentile_accepted_previous_year: {
+                    input: number;
+                } | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+
+    school_pacat: {
+        original: {
+            input: {
+                school_pacat_required: boolean;
+                school_pacat_recommended: boolean;
+                school_pacat_exam_school_code: number | null;
+                school_pacat_exam_scaled_minimum_score_required: number | null;
+                school_pacat_exam_group_scaled_minimum_score_required: number | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_pacat_required: boolean;
+                school_pacat_recommended: boolean;
+                school_pacat_exam_school_code: number | null;
+                school_pacat_exam_scaled_minimum_score_required: number | null;
+                school_pacat_exam_group_scaled_minimum_score_required: number | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+
+    school_casper: {
+        original: {
+            input: {
+                school_casper_required: boolean;
+                school_casper_recommended: boolean;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_casper_required: boolean;
+                school_casper_recommended: boolean;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+
+    school_english_proficiency_exams: {
+        original: {
+            input: {
+                school_english_proficiency_exams_required: {
+                    input: boolean;
+                };
+
+                school_toefl_required: {
+                    input: boolean;
+                } | null;
+                school_minimum_time_frame_toefl_needs_to_be_completed: {
+                    input: string;
+                } | null;
+                school_toefl_exempt_with_masters_degree: {
+                    input: boolean;
+                } | null;
+                school_toefl_exempt_with_doctoral_degree: {
+                    input: boolean;
+                } | null;
+        
+                school_toefl_ibt_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_reading_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_writing_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_listening_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_speaking_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_toefl_pbt_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_reading_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_writing_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_listening_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_speaking_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_ielt_required: {
+                    input: boolean;
+                } | null;
+                school_ielt_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_ielt_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_melab_required: {
+                    input: boolean;
+                } | null;
+                school_melab_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_melab_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_pte_academic_required: {
+                    input: boolean;
+                } | null;
+                school_pte_academic_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_pte_academic_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_itep_academic_plus_required: {
+                    input: boolean;
+                } | null;
+                school_itep_academic_plus_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_itep_academic_plus_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_english_proficiency_exams_required: {
+                    input: boolean;
+                };
+
+                school_toefl_required: {
+                    input: boolean;
+                } | null;
+                school_minimum_time_frame_toefl_needs_to_be_completed: {
+                    input: string;
+                } | null;
+                school_toefl_exempt_with_masters_degree: {
+                    input: boolean;
+                } | null;
+                school_toefl_exempt_with_doctoral_degree: {
+                    input: boolean;
+                } | null;
+        
+                school_toefl_ibt_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_reading_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_writing_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_listening_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_speaking_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_ibt_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_toefl_pbt_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_reading_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_writing_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_listening_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_speaking_score_required: {
+                    input: number;
+                } | null;
+                school_toefl_pbt_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_ielt_required: {
+                    input: boolean;
+                } | null;
+                school_ielt_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_ielt_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_melab_required: {
+                    input: boolean;
+                } | null;
+                school_melab_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_melab_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_pte_academic_required: {
+                    input: boolean;
+                } | null;
+                school_pte_academic_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_pte_academic_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+        
+                school_itep_academic_plus_required: {
+                    input: boolean;
+                } | null;
+                school_itep_academic_plus_minimum_total_score_required: {
+                    input: number;
+                } | null;
+                school_itep_academic_plus_minimum_score_notes: {
+                    notes: NewNote[];
+                } | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    };
+
+    school_exams_general_note: {
+        original: {
+            input: string;
+        };
+        draft: {
+            input: string;
+        };
+        changes: Change[];
+        link: string;
+    };
+
+    school_prereq_required_notes: {
+        original: {
+            input: string;
+        };
+        draft: {
+            input: string;
+        };
+        changes: Change[];
+        link: string;
+    };
+
+    school_prereq_required_courses: {
+        original: {
+            input: {
+                school_required_course_id: string;
+                school_required_course_lab: boolean;
+                school_required_course_lab_preferred: boolean;
+                school_required_course_credit_hours: number;
+                school_required_course_quarter_hours: number;
+                school_required_course_note_section: string;
+            }[];
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_required_course_id: string;
+                school_required_course_lab: boolean;
+                school_required_course_lab_preferred: boolean;
+                school_required_course_credit_hours: number;
+                school_required_course_quarter_hours: number;
+                school_required_course_note_section: string;
+            }[];
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+        
+    }
+
+
+    school_prereq_required_optional_courses: {
+        original: {
+            input: {
+                school_minimum_number_of_courses_to_be_completed: number;
+                school_required_optional_courses_list: {
+                    school_optional_course_id: string;
+                    school_optional_course_lab: boolean;
+                    school_optional_course_lab_preferred: boolean;
+                    school_optional_course_credit_hours: number;
+                    school_optional_course_quarter_hours: number;
+                    school_optional_course_note_section: string;
+                }[];
+                notes: NewNote[];
+            }
+        };
+        draft: {
+            input: {
+                school_minimum_number_of_courses_to_be_completed: number;
+                school_required_optional_courses_list: {
+                    school_optional_course_id: string;
+                    school_optional_course_lab: boolean;
+                    school_optional_course_lab_preferred: boolean;
+                    school_optional_course_credit_hours: number;
+                    school_optional_course_quarter_hours: number;
+                    school_optional_course_note_section: string;
+                }[];
+                notes: NewNote[];
+            }
+        };
+        changes: Change[];
+        link: string;
+    }
+
+    school_prereq_required_course_categories: {
+        original: {
+            input: {
+                school_required_course_category: string;
+                school_required_course_category_number_of_credits_need_to_be_completed: number;
+                school_required_course_category_number_of_quarter_hours_need_to_be_completed: number;
+                school_required_course_category_number_of_courses_that_need_lab: number;
+                school_required_course_category_extra_included_courses: {
+                    school_required_course_id: string;
+                    school_required_course_note: string;
+                }[],
+                school_required_course_category_excluded_courses: {
+                    school_required_course_id: string;
+                    school_required_course_note: string;
+                }[],
+                notes: NewNote[];
+            }[];
+        };
+        draft: {
+            input: {
+                school_required_course_category: string;
+                school_required_course_category_number_of_credits_need_to_be_completed: number;
+                school_required_course_category_number_of_quarter_hours_need_to_be_completed: number;
+                school_required_course_category_number_of_courses_that_need_lab: number;
+                school_required_course_category_extra_included_courses: {
+                    school_required_course_id: string;
+                    school_required_course_note: string;
+                }[],
+                school_required_course_category_excluded_courses: {
+                    school_required_course_id: string;
+                    school_required_course_note: string;
+                }[],
+                notes: NewNote[];
+            }[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+    school_prereq_recommended_courses: {
+        original: {
+            input: {
+                school_recommended_course_id: string;
+                school_recommended_course_lab: boolean;
+                school_recommended_course_lab_preferred: boolean;
+                school_recommended_course_credit_hours: number;
+                school_recommended_course_quarter_hours: number;
+                school_recommended_course_note_section: string;
+            }[];
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_recommended_course_id: string;
+                school_recommended_course_lab: boolean;
+                school_recommended_course_lab_preferred: boolean;
+                school_recommended_course_credit_hours: number;
+                school_recommended_course_quarter_hours: number;
+                school_recommended_course_note_section: string;
+            }[];
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+    school_grade_criteria: {
+        original: {
+            input: {
+                school_minimum_grade_required_for_all_courses: string;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_minimum_grade_required_for_all_courses: string;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+    school_time_frame_criteria: {
+        original: {
+            input: {
+                school_time_frame_all_courses_must_be_completed: {
+                    input: {
+                        quantity: number;
+                        units: string; 
+                    };
+                    notes: NewNote[];
+                };
+                school_time_frame_science_courses_must_be_completed: {
+                    input: {
+                        quantity: number;
+                        units: string; 
+                    };
+                    notes: NewNote[];
+                };
+                school_time_frame_math_courses_must_be_completed: {
+                    input: {
+                        quantity: number;
+                        units: string; 
+                    };
+                    notes: NewNote[];
+                };
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_time_frame_all_courses_must_be_completed: {
+                    input: {
+                        quantity: number;
+                        units: string; 
+                    };
+                    notes: NewNote[];
+                };
+                school_time_frame_science_courses_must_be_completed: {
+                    input: {
+                        quantity: number;
+                        units: string; 
+                    };
+                    notes: NewNote[];
+                };
+                school_time_frame_math_courses_must_be_completed: {
+                    input: {
+                        quantity: number;
+                        units: string; 
+                    };
+                    notes: NewNote[];
+                };
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+
+    school_pass_fail_criteria: {
+        original: {
+            input: {
+                school_pass_fail_grade_accepted: boolean;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_pass_fail_grade_accepted: boolean;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+
+    school_ap_criteria: {
+        original: {
+            input: {
+                school_ap_courses_accepted: boolean;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_ap_courses_accepted: boolean;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+    school_community_college_criteria: {
+        original: {
+            input: {
+                school_community_college_credits_accepted: boolean;
+            };
+            notes: NewNote[];
+        }
+        draft: {
+            input: {
+                school_community_college_credits_accepted: boolean;
+            };
+            notes: NewNote[];
+        }
+        changes: Change[];
+        link: string;
+    }
+
+    school_clep_criteria: {
+        original: {
+            input: {
+                school_clep_credits_accepted: boolean;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_clep_credits_accepted: boolean;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
+
+    school_online_courses_criteria: {
+        original: {
+            input: {
+                school_online_courses_accepted: boolean;
+            };
+            notes: NewNote[];
+        }
+        draft: {
+            input: {
+                school_online_courses_accepted: boolean;
+            };
+            notes: NewNote[];
+        }
+        changes: Change[];
+        link: string;
+    };
+
+    school_prerequisite_completion_criteria: {
+        original: {
+            input: {
+                school_all_courses_most_be_completed_before_applying: boolean;
+                school_courses_can_be_in_progress_while_applying: boolean;
+                school_maximum_number_of_courses_pending_while_applying: {
+                    input: number;
+                    notes: NewNote[];
+                } | null;
+                school_maximum_number_of_credits_pending_while_applying: {
+                    input: number;
+                    notes: NewNote[];
+                } | null;
+                school_maximum_number_of_science_courses_pending_while_applying: {
+                    input: number;
+                    notes: NewNote[];
+                } | null;
+                school_maximum_number_of_non_science_courses_pending_while_applying: {
+                    input: number;
+                    notes: NewNote[];
+                } | null;
+                school_minimum_grade_required_for_pending_courses: {
+                    input: string;
+                    notes: NewNote[];
+                } | null;
+                school_date_pending_courses_must_be_completed: {
+                    input: string;
+                    notes: NewNote[];
+                } | null;
+                school_semester_pending_courses_must_be_completed: {
+                    input: string;
+                    notes: NewNote[];
+                } | null;
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_all_courses_most_be_completed_before_applying: boolean;
+                school_courses_can_be_in_progress_while_applying: boolean;
+                school_maximum_number_of_courses_pending_while_applying: {
+                    input: number;
+                    notes: NewNote[];
+                } | null;
+                school_maximum_number_of_credits_pending_while_applying: {
+                    input: number;
+                    notes: NewNote[];
+                } | null;
+                school_maximum_number_of_science_courses_pending_while_applying: {
+                    input: number;
+                    notes: NewNote[];
+                } | null;
+                school_maximum_number_of_non_science_courses_pending_while_applying: {
+                    input: number;
+                    notes: NewNote[];
+                } | null;
+                school_minimum_grade_required_for_pending_courses: {
+                    input: string;
+                    notes: NewNote[];
+                } | null;
+                school_date_pending_courses_must_be_completed: {
+                    input: string;
+                    notes: NewNote[];
+                } | null;
+                school_semester_pending_courses_must_be_completed: {
+                    input: string;
+                    notes: NewNote[];
+                } | null;
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
     school_paid_experience_required: {
         original: {
             input: boolean;

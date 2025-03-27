@@ -582,6 +582,595 @@ export const defaultSchool: NewSchool = {
         link: '',
     },
 
+    school_required_optional_exams: {
+        original: {
+            input: [],
+        },
+        draft: {
+            input: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_gre: {
+        original: {
+            input: {
+                school_gre_required: {
+                    input: false,
+                },
+                school_gre_recommended: {
+                    input: false,
+                },
+                school_caspa_gre_institution_code: null,
+                school_gre_institution_code: null,
+        
+                school_minimum_time_frame_gre_must_be_completed: null,
+        
+                school_mcat_accepted_in_place_of_gre: null,
+        
+                school_gre_exempt_with_masters_degree: null,
+        
+                school_gre_exempt_with_phd_degree: null,
+        
+                school_minimum_gre_scores_required: null,
+
+                school_gre_minimum_verbal_score: null,
+
+                school_gre_minimum_quantitative_score: null,
+
+                school_gre_minimum_analytical_writing_score: null,
+
+                school_gre_minimum_combined_score: null,
+
+                school_minimum_gre_score_notes: null,
+        
+                school_gre_minimum_verbal_percentile: null,
+
+                school_gre_minimum_quantitative_percentile: null,
+
+                school_gre_minimum_analytical_writing_percentile: null,
+
+                school_gre_minimum_combined_percentile: null,
+
+                school_minimum_gre_percentile_notes: null,
+        
+                school_average_gre_verbal_score_accepted_previous_year: null,
+
+                school_average_gre_quantitative_score_accepted_previous_year: null,
+
+                school_average_gre_analytical_writing_score_accepted_previous_year: null,
+
+                school_average_gre_combined_score_accepted_previous_year: null,
+        
+                school_average_gre_verbal_percentile_accepted_previous_year: null,
+
+                school_average_gre_quantitative_percentile_accepted_previous_year: null,
+
+                school_average_gre_analytical_writing_percentile_accepted_previous_year: null,
+
+                school_average_gre_combined_percentile_accepted_previous_year: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_gre_required: {
+                    input: false,
+                },
+                school_gre_recommended: {
+                    input: false,
+                },
+                school_caspa_gre_institution_code: null,
+                school_gre_institution_code: null,
+        
+                school_minimum_time_frame_gre_must_be_completed: null,
+        
+                school_mcat_accepted_in_place_of_gre: null,
+        
+                school_gre_exempt_with_masters_degree: null,
+        
+                school_gre_exempt_with_phd_degree: null,
+        
+                school_minimum_gre_scores_required: null,
+
+                school_gre_minimum_verbal_score: null,
+
+                school_gre_minimum_quantitative_score: null,
+
+                school_gre_minimum_analytical_writing_score: null,
+
+                school_gre_minimum_combined_score: null,
+
+                school_minimum_gre_score_notes: null,
+        
+                school_gre_minimum_verbal_percentile: null,
+
+                school_gre_minimum_quantitative_percentile: null,
+
+                school_gre_minimum_analytical_writing_percentile: null,
+
+                school_gre_minimum_combined_percentile: null,
+
+                school_minimum_gre_percentile_notes: null,
+        
+                school_average_gre_verbal_score_accepted_previous_year: null,
+
+                school_average_gre_quantitative_score_accepted_previous_year: null,
+
+                school_average_gre_analytical_writing_score_accepted_previous_year: null,
+
+                school_average_gre_combined_score_accepted_previous_year: null,
+        
+                school_average_gre_verbal_percentile_accepted_previous_year: null,
+
+                school_average_gre_quantitative_percentile_accepted_previous_year: null,
+
+                school_average_gre_analytical_writing_percentile_accepted_previous_year: null,
+
+                school_average_gre_combined_percentile_accepted_previous_year: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_pacat: {
+        original: {
+            input: {
+                school_pacat_required: false,
+                school_pacat_recommended: false,
+                school_pacat_exam_school_code: null,
+                school_pacat_exam_scaled_minimum_score_required: null,
+                school_pacat_exam_group_scaled_minimum_score_required: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_pacat_required: false,
+                school_pacat_recommended: false,
+                school_pacat_exam_school_code: null,
+                school_pacat_exam_scaled_minimum_score_required: null,
+                school_pacat_exam_group_scaled_minimum_score_required: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_casper: {
+        original: {
+            input: {
+                school_casper_required: false,
+                school_casper_recommended: false,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_casper_required: false,
+                school_casper_recommended: false,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_english_proficiency_exams: {
+        original: {
+            input: {
+                school_english_proficiency_exams_required: {
+                    input: false,
+                },
+
+                school_toefl_required: null,
+
+                school_minimum_time_frame_toefl_needs_to_be_completed: null,
+
+                school_toefl_exempt_with_masters_degree: null,
+
+                school_toefl_exempt_with_doctoral_degree: null,
+        
+                school_toefl_ibt_minimum_total_score_required: null,
+
+                school_toefl_ibt_minimum_reading_score_required: null,
+
+                school_toefl_ibt_minimum_writing_score_required: null,
+
+                school_toefl_ibt_minimum_listening_score_required: null, 
+
+                school_toefl_ibt_minimum_speaking_score_required: null,
+
+                school_toefl_ibt_minimum_score_notes: null,
+        
+                school_toefl_pbt_minimum_total_score_required: null,
+
+                school_toefl_pbt_minimum_reading_score_required: null,
+
+                school_toefl_pbt_minimum_writing_score_required: null,
+
+                school_toefl_pbt_minimum_listening_score_required: null,
+
+                school_toefl_pbt_minimum_speaking_score_required: null,
+
+                school_toefl_pbt_minimum_score_notes: null,
+        
+                school_ielt_required: null,
+
+                school_ielt_minimum_total_score_required: null,
+
+                school_ielt_minimum_score_notes: null,
+        
+                school_melab_required: null,
+
+                school_melab_minimum_total_score_required: null,
+
+                school_melab_minimum_score_notes: null,
+        
+                school_pte_academic_required: null,
+
+                school_pte_academic_minimum_total_score_required: null,
+
+                school_pte_academic_minimum_score_notes: null,
+        
+                school_itep_academic_plus_required: null,
+
+                school_itep_academic_plus_minimum_total_score_required: null,
+
+                school_itep_academic_plus_minimum_score_notes: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_english_proficiency_exams_required: {
+                    input: false,
+                },
+
+                school_toefl_required: null,
+
+                school_minimum_time_frame_toefl_needs_to_be_completed: null,
+
+                school_toefl_exempt_with_masters_degree: null,
+
+                school_toefl_exempt_with_doctoral_degree: null,
+        
+                school_toefl_ibt_minimum_total_score_required: null,
+
+                school_toefl_ibt_minimum_reading_score_required: null,
+
+                school_toefl_ibt_minimum_writing_score_required: null,
+
+                school_toefl_ibt_minimum_listening_score_required: null, 
+
+                school_toefl_ibt_minimum_speaking_score_required: null,
+
+                school_toefl_ibt_minimum_score_notes: null,
+        
+                school_toefl_pbt_minimum_total_score_required: null,
+
+                school_toefl_pbt_minimum_reading_score_required: null,
+
+                school_toefl_pbt_minimum_writing_score_required: null,
+
+                school_toefl_pbt_minimum_listening_score_required: null,
+
+                school_toefl_pbt_minimum_speaking_score_required: null,
+
+                school_toefl_pbt_minimum_score_notes: null,
+        
+                school_ielt_required: null,
+
+                school_ielt_minimum_total_score_required: null,
+
+                school_ielt_minimum_score_notes: null,
+        
+                school_melab_required: null,
+
+                school_melab_minimum_total_score_required: null,
+
+                school_melab_minimum_score_notes: null,
+        
+                school_pte_academic_required: null,
+
+                school_pte_academic_minimum_total_score_required: null,
+
+                school_pte_academic_minimum_score_notes: null,
+        
+                school_itep_academic_plus_required: null,
+
+                school_itep_academic_plus_minimum_total_score_required: null,
+
+                school_itep_academic_plus_minimum_score_notes: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_prereq_required_notes: {
+        original: {
+            input: '',
+        },
+        draft: {
+            input: '',
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_prereq_required_courses: {
+        original: {
+            input: [],
+            notes: [],
+        },
+        draft: {
+            input: [],
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_prereq_required_optional_courses: {
+        original: {
+            input: {
+                school_minimum_number_of_courses_to_be_completed: 0,
+                school_required_optional_courses_list: [],
+                notes: [],
+            }
+        },
+        draft: {
+            input: {
+                school_minimum_number_of_courses_to_be_completed: 0,
+                school_required_optional_courses_list: [],
+                notes: [],
+            }
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_prereq_required_course_categories: {
+        original: {
+            input: [],
+        },
+        draft: {
+            input: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_prereq_recommended_courses: {
+        original: {
+            input: [],
+            notes: [],
+        },
+        draft: {
+            input: [],
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_grade_criteria: {
+        original: {
+            input: {
+                school_minimum_grade_required_for_all_courses: '',
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_minimum_grade_required_for_all_courses: '',
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_time_frame_criteria: {
+        original: {
+            input: {
+                school_time_frame_all_courses_must_be_completed: {
+                    input: {
+                        quantity: 0,
+                        units: '',
+                    },
+                    notes: []
+                },
+                school_time_frame_science_courses_must_be_completed: {
+                    input: {
+                        quantity: 0,
+                        units: '',
+                    },
+                    notes: []
+                },
+                school_time_frame_math_courses_must_be_completed: {
+                    input: {
+                        quantity: 0,
+                        units: '',
+                    },
+                    notes: []
+                },
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_time_frame_all_courses_must_be_completed: {
+                    input: {
+                        quantity: 0,
+                        units: '',
+                    },
+                    notes: []
+                },
+                school_time_frame_science_courses_must_be_completed: {
+                    input: {
+                        quantity: 0,
+                        units: '',
+                    },
+                    notes: []
+                },
+                school_time_frame_math_courses_must_be_completed: {
+                    input: {
+                        quantity: 0,
+                        units: '',
+                    },
+                    notes: []
+                },
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_pass_fail_criteria: {
+        original: {
+            input: {
+                school_pass_fail_grade_accepted: false,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_pass_fail_grade_accepted: false,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_ap_criteria: {
+        original: {
+            input: {
+                school_ap_courses_accepted: false,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_ap_courses_accepted: false,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_community_college_criteria: {
+        original: {
+            input: {
+                school_community_college_credits_accepted: false,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_community_college_credits_accepted: false,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_clep_criteria: {
+        original: {
+            input: {
+                school_clep_credits_accepted: false,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_clep_credits_accepted: false,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+
+    school_online_courses_criteria: {
+        original: {
+            input: {
+                school_online_courses_accepted: false,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_online_courses_accepted: false,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_prerequisite_completion_criteria: {
+        original: {
+            input: {
+                school_all_courses_most_be_completed_before_applying: false,
+                school_courses_can_be_in_progress_while_applying: false,
+                school_maximum_number_of_courses_pending_while_applying: null,
+                school_maximum_number_of_credits_pending_while_applying: null,
+                school_maximum_number_of_science_courses_pending_while_applying: null,
+                school_maximum_number_of_non_science_courses_pending_while_applying: null,
+                school_minimum_grade_required_for_pending_courses: null,
+                school_date_pending_courses_must_be_completed: null,
+                school_semester_pending_courses_must_be_completed: null,
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_all_courses_most_be_completed_before_applying: false,
+                school_courses_can_be_in_progress_while_applying: false,
+                school_maximum_number_of_courses_pending_while_applying: null,
+                school_maximum_number_of_credits_pending_while_applying: null,
+                school_maximum_number_of_science_courses_pending_while_applying: null,
+                school_maximum_number_of_non_science_courses_pending_while_applying: null,
+                school_minimum_grade_required_for_pending_courses: null,
+                school_date_pending_courses_must_be_completed: null,
+                school_semester_pending_courses_must_be_completed: null,
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
+    school_exams_general_note: {
+        original: {
+            input: '',
+        },
+        draft: {
+            input: '',
+        },
+        changes: [],
+        link: '',
+    },
+
     school_paid_experience_required: {
         original: {
             input: false,
