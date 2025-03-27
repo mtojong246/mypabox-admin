@@ -14,6 +14,7 @@ import Evaluations from "./Evaluations/Evaluations"
 import PAShadowing from "./PAShadowing/PAShadowing"
 import Experience from "./Experience/Experience"
 import Applications from "./Applications/Applications"
+import Exams from "./Exams/Exams"
 
 
 
@@ -87,7 +88,11 @@ export default function AddSchoolForms({
                         isEditSchool={false}
                    />
                 ) : tab === '#exams' ? (
-                    <></>
+                    <Exams 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#evaluations' ? (
                     <Evaluations 
                         school={school}

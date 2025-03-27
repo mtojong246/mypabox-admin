@@ -6,7 +6,6 @@ import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import Container from "../../../../components/Form/Validation/Container";
 import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
-import RequiredOptionalExams from "./components/RequiredOptionalExams";
 
 
 
@@ -20,7 +19,7 @@ const permissions = {
 
 
 
-export default function Exams({
+export default function Prerequisites({
     isEditSchool,
     school,
     setSchool,
@@ -64,19 +63,6 @@ export default function Exams({
 
     return (
         <>
-        <RequiredOptionalExams 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            handleAddition={handleAddition}
-            handleDeletion={handleDeletion}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
         {/* <MinimumRequiredOrRecommendedGPA 
             school={school}
             setSchool={setSchool}
