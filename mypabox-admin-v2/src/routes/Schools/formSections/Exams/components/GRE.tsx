@@ -277,7 +277,7 @@ export default function GRE({
         
         if (name === 'school_gre') {
             let greValue = {}
-            if (keys[keys.length-1].includes('school_gre_required') || keys[keys.length-1].includes('school_gre_recommended')) {
+            if (keys[keys.length-2].includes('school_gre_required') || keys[keys.length-2].includes('school_gre_recommended')) {
                 inputPath = '.input';
                 greValue = {
                     school_caspa_gre_institution_code: checked ? {
@@ -343,7 +343,7 @@ export default function GRE({
                         input: 0,
                     } : null,
                 }
-            } else if (keys[keys.length-1].includes('school_minimum_gre_scores_required')) {
+            } else if (keys[keys.length-2].includes('school_minimum_gre_scores_required')) {
                 inputPath = '.input';
                 greValue = {
                     school_minimum_gre_scores_required: {
@@ -385,29 +385,33 @@ export default function GRE({
                 value = checked;
             }
 
-            if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                value = {
-                    ...school.school_gre.original.input,
-                    ...greValue,
-                    school_gre_required: keys[keys.length-1].includes('school_gre_required') ? {
-                        input: checked,
-                    } : school.school_gre.original.input.school_gre_required,
-                    school_gre_recommended: keys[keys.length-1].includes('school_gre_recommended') ? {
-                        input: checked,
-                    } : school.school_gre.original.input.school_gre_recommended,
-                }
-            } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                value = {
-                    ...school.school_gre.draft.input,
-                    ...greValue,
-                    school_gre_required: keys[keys.length-1].includes('school_gre_required') ? {
-                        input: checked,
-                    } : school.school_gre.draft.input.school_gre_required,
-                    school_gre_recommended: keys[keys.length-1].includes('school_gre_recommended') ? {
-                        input: checked,
-                    } : school.school_gre.draft.input.school_gre_recommended,
+            if (['school_gre_required', 'school_gre_recommended', 'school_minimum_gre_scores_required'].includes(keys[keys.length-2])) {
+                if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
+                    value = {
+                        ...school.school_gre.original.input,
+                        ...greValue,
+                        school_gre_required: keys[keys.length-2].includes('school_gre_required') ? {
+                            input: checked,
+                        } : school.school_gre.original.input.school_gre_required,
+                        school_gre_recommended: keys[keys.length-2].includes('school_gre_recommended') ? {
+                            input: checked,
+                        } : school.school_gre.original.input.school_gre_recommended,
+                    }
+                } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
+                    value = {
+                        ...school.school_gre.draft.input,
+                        ...greValue,
+                        school_gre_required: keys[keys.length-2].includes('school_gre_required') ? {
+                            input: checked,
+                        } : school.school_gre.draft.input.school_gre_required,
+                        school_gre_recommended: keys[keys.length-2].includes('school_gre_recommended') ? {
+                            input: checked,
+                        } : school.school_gre.draft.input.school_gre_recommended,
+                    }
                 }
             }
+
+            
             
         } else {
             inputPath = path;
