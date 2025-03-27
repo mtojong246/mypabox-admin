@@ -1271,6 +1271,105 @@ export interface NewSchool {
         link: string;
     };
 
+    school_prereq_required_courses_and_categories: {
+        original: {
+            input: {
+                school_prereq_required_courses: {
+                    input: {
+                        school_required_course_id: string;
+                        school_required_course_lab: boolean;
+                        school_required_course_lab_preferred: boolean;
+                        school_required_course_credit_hours: number;
+                        school_required_course_quarter_hours: number;
+                        school_required_course_note_section: string;
+                    }[];
+                    notes: NewNote[];
+                };
+                school_prereq_required_optional_courses: {
+                    input: {
+                        school_minimum_number_of_courses_to_be_completed: number;
+                        school_required_optional_courses_list: {
+                            school_optional_course_id: string;
+                            school_optional_course_lab: boolean;
+                            school_optional_course_lab_preferred: boolean;
+                            school_optional_course_credit_hours: number;
+                            school_optional_course_quarter_hours: number;
+                            school_optional_course_note_section: string;
+                        }[];
+                        notes: NewNote[];
+                    }[];
+                };
+                school_prereq_required_course_categories: {
+                    input: {
+                        school_required_course_category: string;
+                        school_required_course_category_number_of_credits_need_to_be_completed: number;
+                        school_required_course_category_number_of_quarter_hours_need_to_be_completed: number;
+                        school_required_course_category_number_of_courses_that_need_lab: number;
+                        school_required_course_category_extra_included_courses: {
+                            school_required_course_id: string;
+                            school_required_course_note: string;
+                        }[],
+                        school_required_course_category_excluded_courses: {
+                            school_required_course_id: string;
+                            school_required_course_note: string;
+                        }[],
+                        notes: NewNote[];
+                    }[];
+                };
+            };
+            notes: NewNote[];
+        };
+        draft: {
+            input: {
+                school_prereq_required_courses: {
+                    input: {
+                        school_required_course_id: string;
+                        school_required_course_lab: boolean;
+                        school_required_course_lab_preferred: boolean;
+                        school_required_course_credit_hours: number;
+                        school_required_course_quarter_hours: number;
+                        school_required_course_note_section: string;
+                    }[];
+                    notes: NewNote[];
+                };
+                school_prereq_required_optional_courses: {
+                    input: {
+                        school_minimum_number_of_courses_to_be_completed: number;
+                        school_required_optional_courses_list: {
+                            school_optional_course_id: string;
+                            school_optional_course_lab: boolean;
+                            school_optional_course_lab_preferred: boolean;
+                            school_optional_course_credit_hours: number;
+                            school_optional_course_quarter_hours: number;
+                            school_optional_course_note_section: string;
+                        }[];
+                        notes: NewNote[];
+                    }[];
+                };
+                school_prereq_required_course_categories: {
+                    input: {
+                        school_required_course_category: string;
+                        school_required_course_category_number_of_credits_need_to_be_completed: number;
+                        school_required_course_category_number_of_quarter_hours_need_to_be_completed: number;
+                        school_required_course_category_number_of_courses_that_need_lab: number;
+                        school_required_course_category_extra_included_courses: {
+                            school_required_course_id: string;
+                            school_required_course_note: string;
+                        }[],
+                        school_required_course_category_excluded_courses: {
+                            school_required_course_id: string;
+                            school_required_course_note: string;
+                        }[],
+                        notes: NewNote[];
+                    }[];
+                };
+            };
+            notes: NewNote[];
+        };
+        changes: Change[];
+        link: string;
+    }
+
     school_prereq_required_courses: {
         original: {
             input: {

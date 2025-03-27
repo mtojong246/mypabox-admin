@@ -15,6 +15,7 @@ import PAShadowing from "./PAShadowing/PAShadowing"
 import Experience from "./Experience/Experience"
 import Applications from "./Applications/Applications"
 import Exams from "./Exams/Exams"
+import Prerequisites from "./Prerequisites/Prerequisites"
 
 
 
@@ -74,7 +75,11 @@ export default function AddSchoolForms({
                         isEditSchool={false}
                    />
                 ) : tab === '#prerequisites' ? (
-                    <></>
+                    <Prerequisites 
+                        school={school}
+                        setSchool={setSchool}
+                        isEditSchool={false}
+                   />
                 ) : tab === '#experience' ? (
                     <Experience 
                         school={school}

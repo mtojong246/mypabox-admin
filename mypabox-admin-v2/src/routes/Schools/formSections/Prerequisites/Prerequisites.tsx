@@ -6,6 +6,7 @@ import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import Container from "../../../../components/Form/Validation/Container";
 import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
+import MinimumGradeAndTimeCriteriaAndBoolean from "./components/MinimumGradeAndTimeCriteriaAndBoolean";
 
 
 
@@ -63,6 +64,17 @@ export default function Prerequisites({
 
     return (
         <>
+        <MinimumGradeAndTimeCriteriaAndBoolean 
+            school={school}
+            setSchool={setSchool}
+            isEditSchool={isEditSchool}
+            permissions={permissions}
+            handleRetrieveValue={handleRetrieveValue}
+            handleChanges={handleChanges}
+            handleModify={handleModify}
+            deleteNote={deleteNote}
+            toggleNote={toggleNote}
+        />
         {/* <MinimumRequiredOrRecommendedGPA 
             school={school}
             setSchool={setSchool}

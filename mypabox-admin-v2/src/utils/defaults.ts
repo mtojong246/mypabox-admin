@@ -908,6 +908,41 @@ export const defaultSchool: NewSchool = {
         link: '',
     },
 
+    school_prereq_required_courses_and_categories: {
+        original: {
+            input: {
+                school_prereq_required_courses: {
+                    input: [],
+                    notes: [],
+                },
+                school_prereq_required_optional_courses: {
+                    input: [],
+                },
+                school_prereq_required_course_categories: {
+                    input: [],
+                },
+            },
+            notes: [],
+        },
+        draft: {
+            input: {
+                school_prereq_required_courses: {
+                    input: [],
+                    notes: [],
+                },
+                school_prereq_required_optional_courses: {
+                    input: [],
+                },
+                school_prereq_required_course_categories: {
+                    input: [],
+                },
+            },
+            notes: [],
+        },
+        changes: [],
+        link: '',
+    },
+
     school_prereq_required_courses: {
         original: {
             input: [],
