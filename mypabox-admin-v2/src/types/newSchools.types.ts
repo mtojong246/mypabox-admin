@@ -803,7 +803,10 @@ export interface NewSchool {
                 } | null;
         
                 school_minimum_time_frame_gre_must_be_completed: {
-                    input: string;
+                    input: {
+                        quantity: number,
+                        units: string,
+                    }
                     notes: NewNote[];
                 } | null;
         
@@ -838,7 +841,7 @@ export interface NewSchool {
                     input: number;
                 } | null;
                 school_minimum_gre_score_notes: {
-                    note: NewNote[];
+                    notes: NewNote[];
                 } | null;
         
                 school_gre_minimum_verbal_percentile: {
@@ -854,7 +857,7 @@ export interface NewSchool {
                     input: number;
                 } | null;
                 school_minimum_gre_percentile_notes: {
-                    note: NewNote[];
+                    notes: NewNote[];
                 } | null;
         
                 school_average_gre_verbal_score_accepted_previous_year: {
@@ -901,7 +904,10 @@ export interface NewSchool {
                 } | null;
         
                 school_minimum_time_frame_gre_must_be_completed: {
-                    input: string;
+                    input: {
+                        quantity: number,
+                        units: string,
+                    }
                     notes: NewNote[];
                 } | null;
         
@@ -936,7 +942,7 @@ export interface NewSchool {
                     input: number;
                 } | null;
                 school_minimum_gre_score_notes: {
-                    note: NewNote[];
+                    notes: NewNote[];
                 } | null;
         
                 school_gre_minimum_verbal_percentile: {
@@ -952,7 +958,7 @@ export interface NewSchool {
                     input: number;
                 } | null;
                 school_minimum_gre_percentile_notes: {
-                    note: NewNote[];
+                    notes: NewNote[];
                 } | null;
         
                 school_average_gre_verbal_score_accepted_previous_year: {
