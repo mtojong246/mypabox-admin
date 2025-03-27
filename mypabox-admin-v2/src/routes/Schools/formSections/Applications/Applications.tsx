@@ -324,6 +324,7 @@ export default function Applications({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     startingAdornment={associatedField.type.includes('fee') ? <DollarIcon /> : undefined}
+                                                    link={associatedField.name === 'school_supplemental_application_link' ? originalInput : undefined}
                                                 />
                                             ) : (
                                                 <SelectInput 
@@ -403,6 +404,7 @@ export default function Applications({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     startingAdornment={associatedField.type.includes('fee') ? <DollarIcon /> : undefined}
+                                                    link={associatedField.name === 'school_supplemental_application_link' ? draftInput : undefined}
                                                 />
                                             ) : (
                                                 <SelectInput 

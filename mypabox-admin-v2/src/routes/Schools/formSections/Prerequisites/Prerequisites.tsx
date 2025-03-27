@@ -4,8 +4,6 @@ import { GenericSchoolField, NewSchool } from "../../../../types/newSchools.type
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
-import Container from "../../../../components/Form/Validation/Container";
-import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
 import MinimumGradeAndTimeCriteriaAndBoolean from "./components/MinimumGradeAndTimeCriteriaAndBoolean";
 import CompletionCriteria from "./components/CompletionCriteria";
 

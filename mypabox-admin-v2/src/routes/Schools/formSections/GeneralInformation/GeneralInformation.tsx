@@ -390,6 +390,7 @@ export default function GeneralInformation({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                link={field.name === 'school_website' ? value : undefined}
                             />
                         ) : field.type === 'boolean' ? (
                             <BooleanInput 
@@ -503,6 +504,7 @@ export default function GeneralInformation({
                                 path={field.path}
                                 handleInput={handleInput}
                                 isRequired={false}
+                                link={field.name === 'school_website' ? draftValue : undefined}
                             />
                         ) : field.type === 'boolean' ? (
                             <BooleanInput 

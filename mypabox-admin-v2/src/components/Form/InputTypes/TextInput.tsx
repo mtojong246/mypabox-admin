@@ -1,5 +1,6 @@
 import { InputAdornment, OutlinedInput } from "@mui/material"
 import { ChangeEvent, ReactNode } from "react"
+import { ReactComponent as ExternalLinkIcon } from '../../Icons/External-Link.svg';
 
 export default function TextInput({
     label,
@@ -10,7 +11,7 @@ export default function TextInput({
     handleInput,
     isRequired,
     startingAdornment,
-    endingAdornment
+    link
 }: {
     label: string,
     placeholder: string,
@@ -20,7 +21,7 @@ export default function TextInput({
     handleInput: (e: ChangeEvent<HTMLInputElement>, path: string) => void,
     isRequired: boolean,
     startingAdornment?: ReactNode,
-    endingAdornment?: ReactNode,
+    link?: string,
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">
@@ -42,7 +43,17 @@ export default function TextInput({
                     </InputAdornment>
                     : undefined
                 }
-                endAdornment={endingAdornment}
+                endAdornment={
+                    link ? 
+                    <InputAdornment
+                        position="end"
+                    >
+                        <a href={link} rel="noreferrer" target="_blank" className="w-[18px] text-placeholder hover:text-primary transition-all">
+                            <ExternalLinkIcon />
+                        </a>
+                    </InputAdornment>
+                    : undefined
+                }
                 name={name}
                 value={value ? value : ''}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => handleInput(e, path)}
