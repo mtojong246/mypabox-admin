@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import { ReactComponent as InfoIcon } from '../../Icons/Info.svg';
 import Popover from '@mui/material/Popover';
 import { Change } from "../../../types/newSchools.types";
+import Button from "../../Buttons/Button";
+
 
 export default function ChangePopup({
     change,
+    name,
+    validateIndividualChange,
+    revertIndividualChange,
 }: {
-    change: Change
+    change: Change,
+    name: string,
+    validateIndividualChange: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    revertIndividualChange: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
 }) {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -38,7 +46,7 @@ export default function ChangePopup({
           horizontal: 'right',
         }}
       >
-        <div className="w-full max-w-[300px] flex flex-col gap-8 justify-start items-start p-6">
+        <div className="w-full flex flex-col gap-8 justify-start items-start p-6">
             <div className="flex flex-col gap-1 justify-start items-start">
                 <label className="text-[14px] font-medium text-placeholder">Type</label>
                 <p>{change.type}</p>
@@ -62,6 +70,21 @@ export default function ChangePopup({
             <div className="flex flex-col gap-1 justify-start items-start">
                 <label className="text-[14px] font-medium text-placeholder">Date Modified</label>
                 <p>{new Date(change.timestamp).toLocaleDateString()}</p>
+            </div>
+
+            <div className="flex w-full justify-between items-center gap-4">
+                <Button 
+                    type="warning"
+                    styling="outline"
+                    label="Reject"
+                    action={(e: MouseEvent<HTMLButtonElement>) => revertIndividualChange(e, name, change)}
+                />
+                <Button 
+                    type="success"
+                    styling="outline"
+                    label="Accept"
+                    action={(e: MouseEvent<HTMLButtonElement>) => validateIndividualChange(e, name, change)}
+                />
             </div>
         </div>
       </Popover>

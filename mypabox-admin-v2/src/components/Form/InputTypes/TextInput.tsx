@@ -1,5 +1,5 @@
 import { InputAdornment, OutlinedInput } from "@mui/material"
-import { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from "react"
+import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, MouseEvent } from "react"
 import { ReactComponent as ExternalLinkIcon } from '../../Icons/External-Link.svg';
 import { Change } from "../../../types/newSchools.types";
 import ChangePopup from "../Validation/ChangePopup";
@@ -16,6 +16,8 @@ export default function TextInput({
     link,
     type,
     change,
+    validateIndividualChange,
+    revertIndividualChange
 }: {
     label: string,
     placeholder: string,
@@ -27,7 +29,9 @@ export default function TextInput({
     startingAdornment?: ReactNode,
     type: HTMLInputTypeAttribute,
     link?: string,
-    change?: Change
+    change?: Change,
+    validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">
@@ -73,9 +77,12 @@ export default function TextInput({
                         }
                     }}
                 />
-                {change && (
+                {change && validateIndividualChange && revertIndividualChange && (
                     <ChangePopup 
                         change={change}
+                        name={name}
+                        validateIndividualChange={validateIndividualChange}
+                        revertIndividualChange={revertIndividualChange}
                     />
                 )}
             </div>

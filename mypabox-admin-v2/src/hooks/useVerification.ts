@@ -334,6 +334,8 @@ const useVerification = ({
         handleAddition,
         handleDeletion,
         handleRetrieveValue,
+        validateIndividualChange,
+        revertIndividualChange,
     }
 
 };

@@ -232,6 +232,8 @@ export default function GeneralInformation({
         handleAddition,
         handleDeletion,
         handleRetrieveValue,
+        validateIndividualChange,
+        revertIndividualChange
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const [ countryNames, setCountryNames ] = useState<{ value: string, label: string }[]>([]);
@@ -509,6 +511,8 @@ export default function GeneralInformation({
                                 type="text"
                                 link={field.name === 'school_website' ? draftValue : undefined}
                                 change={schoolField.changes.find(change => change.path === field.path)}
+                                validateIndividualChange={validateIndividualChange}
+                                revertIndividualChange={revertIndividualChange}
                             />
                         ) : field.type === 'boolean' ? (
                             <BooleanInput 
