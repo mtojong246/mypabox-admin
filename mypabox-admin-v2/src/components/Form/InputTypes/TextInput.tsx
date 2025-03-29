@@ -32,7 +32,7 @@ export default function TextInput({
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">
             <label className={`font-medium ${isRequired && 'required'}`}>{label}</label>
-            <div className="flex w-full gap-2 justify-start items-center">
+            <div className="flex w-full gap-2 justify-start items-start">
                 <OutlinedInput
                     type={type}
                     placeholder={placeholder}
@@ -74,7 +74,9 @@ export default function TextInput({
                     }}
                 />
                 {change && (
-                    <ChangePopup />
+                    <ChangePopup 
+                        change={change}
+                    />
                 )}
             </div>
         </div>

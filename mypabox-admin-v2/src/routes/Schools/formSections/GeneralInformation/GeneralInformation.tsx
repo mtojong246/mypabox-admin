@@ -508,6 +508,7 @@ export default function GeneralInformation({
                                 isRequired={false}
                                 type="text"
                                 link={field.name === 'school_website' ? draftValue : undefined}
+                                change={schoolField.changes.find(change => change.path === field.path)}
                             />
                         ) : field.type === 'boolean' ? (
                             <BooleanInput 
