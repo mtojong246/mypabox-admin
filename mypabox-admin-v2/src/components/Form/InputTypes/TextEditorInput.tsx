@@ -38,7 +38,7 @@ export default function TextEditorInput({
                         marginBottom: '40px'
                     }}
                 />
-                {change && validateIndividualChange && revertIndividualChange && (
+                {change && (
                     <ChangePopup 
                         change={change}
                         name={name}

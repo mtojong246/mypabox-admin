@@ -77,7 +77,7 @@ export default function TextInput({
                         }
                     }}
                 />
-                {change && validateIndividualChange && revertIndividualChange && (
+                {change && (
                     <ChangePopup 
                         change={change}
                         name={name}

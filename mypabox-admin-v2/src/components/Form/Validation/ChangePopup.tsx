@@ -13,8 +13,8 @@ export default function ChangePopup({
 }: {
     change: Change,
     name: string,
-    validateIndividualChange: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
-    revertIndividualChange: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
 }) {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -72,7 +72,8 @@ export default function ChangePopup({
                 <p>{new Date(change.timestamp).toLocaleDateString()}</p>
             </div>
 
-            <div className="flex w-full justify-between items-center gap-4">
+            {revertIndividualChange && validateIndividualChange && (
+              <div className="flex w-full justify-between items-center gap-4">
                 <Button 
                     type="warning"
                     styling="outline"
@@ -86,6 +87,7 @@ export default function ChangePopup({
                     action={(e: MouseEvent<HTMLButtonElement>) => {validateIndividualChange(e, name, change); handleClose()}}
                 />
             </div>
+            )}
         </div>
       </Popover>
     </div>

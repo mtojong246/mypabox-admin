@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 
 export default function SchoolFieldTabs({

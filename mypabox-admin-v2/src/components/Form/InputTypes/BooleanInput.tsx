@@ -41,7 +41,7 @@ export default function BooleanInput({
                     />
                     {value ? 'True' : 'False'}
                 </label>
-                {change && validateIndividualChange && revertIndividualChange && (
+                {change && (
                     <ChangePopup 
                         change={change}
                         name={name}

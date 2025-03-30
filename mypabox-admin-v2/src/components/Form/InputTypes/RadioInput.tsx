@@ -43,7 +43,7 @@ export default function RadioInput({
                     <FormControlLabel onChange={(e:any) => handleInput(e, path)} value={option.value} name={name} checked={value === option.value ? true : false} control={<Radio />} label={option.label} />
                 ))}
                 </RadioGroup>
-                {change && validateIndividualChange && revertIndividualChange && (
+                {change && (
                     <ChangePopup 
                         change={change}
                         name={name}

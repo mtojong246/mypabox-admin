@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
-import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
+import { GenericSchoolField, NewNote, NewSchool, SchoolFormField } from "../../../../types/newSchools.types"
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
@@ -15,6 +15,7 @@ import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.sv
 import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
 import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
 import SchoolFieldContainer from "../../../../components/Form/Validation/SchoolFieldContainer";
+import SchoolFieldForm from "../../../../components/Form/SchoolFieldForm";
 
 
 const permissions = {
@@ -219,147 +220,349 @@ export default function GeneralInformation({
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) {
-    const {
-        toggleNote,
-        isNoteOpen,
-        selectedField,
-        selectedNote,
-        deleteNote,
-    } = useSchoolNotes({ school, setSchool });
+    // const {
+    //     toggleNote,
+    //     isNoteOpen,
+    //     selectedField,
+    //     selectedNote,
+    //     deleteNote,
+    // } = useSchoolNotes({ school, setSchool });
 
-    const {
-        handleChanges,
-        handleModify,
-        handleAddition,
-        handleDeletion,
-        handleRetrieveValue,
-        validateIndividualChange,
-        revertIndividualChange
-    } = useVerification({ school, setSchool, isEditSchool, permissions });
+    // const {
+    //     handleChanges,
+    //     handleModify,
+    //     handleAddition,
+    //     handleDeletion,
+    //     handleRetrieveValue,
+    //     validateIndividualChange,
+    //     revertIndividualChange
+    // } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const [ countryNames, setCountryNames ] = useState<{ value: string, label: string }[]>([]);
     const [ stateNames, setStateNames ] = useState<{ value: string, label: string }[]>([]);
+    const [ formFields, setFormFields ] = useState<SchoolFormField[]>([]);
 
     useEffect(() => {
         setCountryNames(countries.map(country => ({ value: country.name, label: country.name})))    
     }, []);
+    
+    useEffect(() => {
+        setFormFields([
+            {
+                label: 'School Name',
+                name: 'school_name',
+                type: 'text',
+                path: '.input',
+            },
+            {
+                label: 'School Logo',
+                name: 'school_logo',
+                type: 'text',
+                path: '.input',
+            },
+            {
+                label: 'Street Address',
+                name: 'school_street',
+                type: 'text',
+                path: '.input',
+            },
+            {
+                label: 'City',
+                name: 'school_city',
+                type: 'text',
+                path: '.input'
+            },
+            {
+                label: 'Country',
+                name: 'school_country',
+                type: 'select',
+                path: '.input',
+                options: countryNames,
+            },
+            {
+                label: 'State',
+                name: 'school_state',
+                type: 'select',
+                path: '.input',
+                options: school.school_country.original.input ? countries.filter(country => country.name === school.school_country.original.input)[0].states.map(state => ({ value: state.name, label: state.name })) : [],
+                draftOptions: school.school_country.draft.input ? countries.filter(country => country.name === school.school_country.draft.input)[0].states.map(state => ({ value: state.name, label: state.name })) : [],
+            },
+            {
+                label: 'Zip Code',
+                name: 'school_zip_code',
+                type: 'text',
+                path: '.input',
+            },
+            {
+                label: 'Website',
+                name: 'school_website',
+                type: 'text',
+                path: '.input',
+            },
+            {
+                label: 'School Emails',
+                name: 'school_email',
+                type: 'array',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'School Phone Numbers',
+                name: 'school_phone_number',
+                type: 'array',
+                path: '.input',
+                notePath: '.notes',
+                modifyValueFn(value, keys) {
+                    return value.replace(/(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)/, '$1$2$3-$4$5$6-$7$8$9$10');
+                },
+            },
+            {
+                label: 'School Campus Location',
+                name: 'school_campus_location',
+                type: 'text',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Start Month',
+                name: 'school_start_month',
+                type: 'text',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Class Capacity',
+                name: 'school_class_capacity',
+                type: 'text',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Duration (Full-time)',
+                name: 'school_duration_full_time',
+                type: 'text',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Duration (Part-time)',
+                name: 'school_duration_part_time',
+                type: 'text',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Rolling Admissions',
+                name: 'school_rolling_admissions',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Non-Rolling Admissions',
+                name: 'school_nonrolling_admissions',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Pre-PA Curriculum',
+                name: 'school_pre_pa_curriculum',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Direct High School Entry',
+                name: 'school_direct_high_school_entry',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Part-time Options',
+                name: 'school_part_time_option',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Online Learning',
+                name: 'school_online_learning',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'On-Campus Housing',
+                name: 'school_on_campus_housing',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Cadaver Lab',
+                name: 'school_cadaver_lab',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Faith-Based Learning',
+                name: 'school_faith_based_learning',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Military Personnel Preference',
+                name: 'school_military_personnel_preference',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'Holistic Review',
+                name: 'school_holistic_review',
+                type: 'boolean',
+                path: '.input',
+                notePath: '.notes',
+            },
+            {
+                label: 'General Information',
+                name: 'school_general_information',
+                type: 'text-area',
+                path: '.input',
+            },
+        ])
+    }, [countryNames, stateNames, school.school_country]);
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        let value = e.target.value;
+    
 
-        if (name === 'school_phone_number') {
-            value = e.target.value.replace(/(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)/, '$1$2$3-$4$5$6-$7$8$9$10');
-        } else {
-            value = e.target.value;
-        }
+    // const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+    //     const name = e.target.name;
+    //     let value = e.target.value;
 
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
+    //     if (name === 'school_phone_number') {
+    //         value = e.target.value.replace(/(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)/, '$1$2$3-$4$5$6-$7$8$9$10');
+    //     } else {
+    //         value = e.target.value;
+    //     }
 
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
+    //     const field = school[name as keyof NewSchool] as GenericSchoolField;
+
+    //     const {
+    //         originalField,
+    //         draftField,
+    //         originalValue 
+    //     } = handleModify(path, field, value);
         
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
+    //     handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
 
         
-    };
+    // };
 
-    const handleQuill = (e: any, name: string, path: string) => {
-        const value = e;
+    // const handleQuill = (e: any, name: string, path: string) => {
+    //     const value = e;
 
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
+    //     const field = school[name as keyof NewSchool] as GenericSchoolField;
 
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
+    //     const {
+    //         originalField,
+    //         draftField,
+    //         originalValue 
+    //     } = handleModify(path, field, value);
         
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
+    //     handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
 
         
-    };
+    // };
 
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.checked;
+    // const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+    //     const name = e.target.name;
+    //     const value = e.target.checked;
 
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
+    //     const field = school[name as keyof NewSchool] as GenericSchoolField;
 
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
+    //     const {
+    //         originalField,
+    //         draftField,
+    //         originalValue 
+    //     } = handleModify(path, field, value);
         
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-    };
+    //     handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
+    // };
 
-    const handleSelect = (e: any, name: string, path: string) => {
-        const value = e.value;
+    // const handleSelect = (e: any, name: string, path: string) => {
+    //     const value = e.value;
 
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
+    //     const field = school[name as keyof NewSchool] as GenericSchoolField;
 
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
+    //     const {
+    //         originalField,
+    //         draftField,
+    //         originalValue 
+    //     } = handleModify(path, field, value);
         
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
+    //     handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
 
-        if (name === 'school_country') {
-            setStateNames(countries.filter(country => country.name === school.school_country.original.input)[0].states.map(state => ({ value: state.name, label: state.name })));
-        }
-    };
+    //     if (name === 'school_country') {
+    //         setStateNames(countries.filter(country => country.name === school.school_country.original.input)[0].states.map(state => ({ value: state.name, label: state.name })));
+    //     }
+    // };
 
-    const handleAddEmailOrPhone = (e:any, name: string, path: string) => {
-        e.preventDefault();
-        let value = {};
+    // const handleAddEmailOrPhone = (e:any, name: string, path: string) => {
+    //     e.preventDefault();
+    //     let value = {};
 
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
+    //     const field = school[name as keyof NewSchool] as GenericSchoolField;
 
-        if (name === 'school_email') {
-            value = {
-                category: 'Main',
-                email: '',
-            }
-        } else {
-            value = {
-                category: 'Main',
-                number: '',
-            }
-        };
+    //     if (name === 'school_email') {
+    //         value = {
+    //             category: 'Main',
+    //             email: '',
+    //         }
+    //     } else {
+    //         value = {
+    //             category: 'Main',
+    //             number: '',
+    //         }
+    //     };
 
-        const {
-            originalField,
-            draftField,
-        } = handleAddition(path, field, value);
+    //     const {
+    //         originalField,
+    //         draftField,
+    //     } = handleAddition(path, field, value);
 
-        handleChanges(field, name, originalField, draftField, path, 'added');
-    }
+    //     handleChanges(field, name, originalField, draftField, path, 'added');
+    // }
 
-    const handleRemoveEmailOrPhone = (e:any, name: string, path: string, index: number) => {
-        e.preventDefault();
+    // const handleRemoveEmailOrPhone = (e:any, name: string, path: string, index: number) => {
+    //     e.preventDefault();
 
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
+    //     const field = school[name as keyof NewSchool] as GenericSchoolField;
 
-        const {
-            originalField,
-            draftField,
-        } = handleDeletion(path, field, index);
+    //     const {
+    //         originalField,
+    //         draftField,
+    //     } = handleDeletion(path, field, index);
 
-        handleChanges(field, name, originalField, draftField, path, 'removed');
+    //     handleChanges(field, name, originalField, draftField, path, 'removed');
 
-    }
+    // }
 
 
     return (
         <>
-        {genericSchoolInfoFields.map(field => {
+        {formFields.length > 0 && (
+            <SchoolFieldForm 
+                isEditSchool={isEditSchool}
+                school={school}
+                setSchool={setSchool}
+                formFields={formFields}
+            />
+        )}
+        {/* {genericSchoolInfoFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
             const inputs = handleRetrieveValue(field.path, schoolField);
             const value = inputs.originalValue;
@@ -628,7 +831,7 @@ export default function GeneralInformation({
                 school={school}
                 setSchool={setSchool}
             />
-        )}
+        )} */}
         </>
     )
 }
