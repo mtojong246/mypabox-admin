@@ -232,6 +232,7 @@ export default function GeneralInformation({
         handleAddition,
         handleDeletion,
         handleRetrieveValue,
+        handleModification,
         validateIndividualChange,
         revertIndividualChange
     } = useVerification({ school, setSchool, isEditSchool, permissions });
@@ -259,7 +260,7 @@ export default function GeneralInformation({
             originalField,
             draftField,
             originalValue 
-        } = handleModify(path, field, value);
+        } = handleModification(path, field, value, 'modify');
         
         handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
 
@@ -292,7 +293,7 @@ export default function GeneralInformation({
             originalField,
             draftField,
             originalValue 
-        } = handleModify(path, field, value);
+        } = handleModification(path, field, value, 'modify');
         
         handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
     };
@@ -306,7 +307,7 @@ export default function GeneralInformation({
             originalField,
             draftField,
             originalValue 
-        } = handleModify(path, field, value);
+        } = handleModification(path, field, value, 'modify');
         
         handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
 
@@ -336,7 +337,7 @@ export default function GeneralInformation({
         const {
             originalField,
             draftField,
-        } = handleAddition(path, field, value);
+        } = handleModification(path, field, value, 'add');
 
         handleChanges(field, name, originalField, draftField, path, 'added');
     }
@@ -349,7 +350,7 @@ export default function GeneralInformation({
         const {
             originalField,
             draftField,
-        } = handleDeletion(path, field, index);
+        } = handleModification(path, field, '', 'remove', index);
 
         handleChanges(field, name, originalField, draftField, path, 'removed');
 

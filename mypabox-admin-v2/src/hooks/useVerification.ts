@@ -15,6 +15,81 @@ const useVerification = ({
     permissions: UserPermissions,
 }) => {
 
+    const handleModification = (path: string, field: GenericSchoolField, newValue: any, modificationType: 'modify' | 'add' | 'remove', index?: number) => {
+        const keys = path.split('.').filter(key => key); // Split the index string into keys
+        const originalField = JSON.parse(JSON.stringify(field.original))
+        const draftField = JSON.parse(JSON.stringify(field.draft));
+
+        let original = originalField;
+        let draft = draftField;
+        
+        let isOriginalInvalid = false;
+        let isDraftInvalid = false;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in original)) {
+                isOriginalInvalid = true;
+            }
+            original = original[keys[i]];
+        }
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            let key: string | number = keys[i];
+
+            if (!isNaN(Number(key))) {
+                key = Number(key);
+            }
+            
+            if (!(keys[i] in draft)) {
+                isDraftInvalid = true;
+            }
+            draft = draft[keys[i]];
+        }
+
+        let lastKey: string | number = keys[keys.length-1];
+        if (!isNaN(Number(lastKey))) {
+            lastKey = Number(lastKey);
+        }
+
+        let originalValue;
+
+        if (!isOriginalInvalid) {
+            originalValue = original[lastKey];
+            if (modificationType === 'modify') {
+                original[lastKey] = newValue;
+            } else if (modificationType === 'add') {
+                original[lastKey] = originalValue.concat(newValue);
+            } else if (modificationType === 'remove' && index !== undefined) {
+                original[lastKey] = (originalValue as any[]).filter((val, i) => i !== index);
+            }
+        } else {
+            originalValue = undefined;
+        }
+
+        if (!isDraftInvalid) {
+            const originalDraftValue = draft[lastKey] as any[];
+            if (modificationType === 'modify') {
+                draft[lastKey] = newValue;
+            } else if (modificationType === 'add') {
+                draft[lastKey] = originalDraftValue.concat(newValue);
+            } else if (modificationType === 'remove' && index !== undefined) {
+                draft[lastKey] = (originalDraftValue as any[]).filter((val, i) => i !== index);
+            }
+        };
+
+        return {
+            originalField,
+            draftField,
+            originalValue,
+        }
+    }
+
     const handleModify = (path: string, field: GenericSchoolField, newValue: any) => {
         const keys = path.split('.').filter(key => key); // Split the index string into keys
         const originalField = JSON.parse(JSON.stringify(field.original))
@@ -250,17 +325,30 @@ const useVerification = ({
                 original: originalValue,
                 modified: value,
             }
-            const existingChanges = changes.find(change => change.type === type && change.path === path);
-            if (existingChanges) {
-                changes = changes.map(change => {
-                    if (change.type === type && change.path === path) {
-                        return {...newChange}
-                    } else {
-                        return {...change}
-                    }
-                })
+            const existingChange = changes.find(change => change.path === path);
+
+            if (existingChange) {
+                if (type === 'modified') {
+                    if (existingChange.type === 'modified' && value !== originalValue && originalValue !== undefined) {
+                        changes = changes.map(change => {
+                            if (change.type === type && change.path === path) {
+                                return {...newChange}
+                            } else {
+                                return {...change}
+                            }
+                        })
+                    } else if (existingChange.type === 'modified' && value === originalValue) {
+                        changes = changes.filter(change => change.path !== path);
+                    } 
+                } else if (type === 'removed') {
+                    changes = changes.filter(change => change.path !== path);
+                }
             } else {
-                changes = changes.concat(newChange);
+                if (type === 'modified' && originalValue === undefined) {
+                    changes = field.changes;
+                } else {
+                    changes = changes.concat(newChange);
+                }
             }
 
 
@@ -335,6 +423,7 @@ const useVerification = ({
         handleRetrieveValue,
         validateIndividualChange,
         revertIndividualChange,
+        handleModification
     }
 
 };
