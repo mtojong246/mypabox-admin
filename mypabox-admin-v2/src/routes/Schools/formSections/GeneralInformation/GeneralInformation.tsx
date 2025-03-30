@@ -14,6 +14,7 @@ import useVerification from "../../../../hooks/useVerification";
 import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
 import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
 import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
+import SchoolFieldContainer from "../../../../components/Form/Validation/SchoolFieldContainer";
 
 
 const permissions = {
@@ -374,7 +375,7 @@ export default function GeneralInformation({
             }
 
             return (
-                <Container 
+                <SchoolFieldContainer 
                     label={field.label} 
                     name={field.name}
                     school={school}
