@@ -1,6 +1,7 @@
 import { OutlinedInput } from '@mui/material';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState, MouseEvent } from 'react';
 import Select from 'react-select';
+import { Change } from '../../../types/newSchools.types';
 
 export default function TextSelectInput({
     label,
@@ -11,6 +12,9 @@ export default function TextSelectInput({
     selectPath,
     handleChange,
     options,
+    change,
+    validateIndividualChange,
+    revertIndividualChange
 }: {
     label: string,
     placeholder: string,
@@ -23,6 +27,9 @@ export default function TextSelectInput({
     selectPath: string,
     handleChange: (name: string, path: string, value: string | number) => void,
     options: { value: string, label: string }[],
+    change?: Change,
+    validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
 }) {
     const [ units, setUnits ] = useState('');
     const [ quantity, setQuantity ] = useState(0);

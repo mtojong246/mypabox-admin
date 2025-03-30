@@ -1,5 +1,7 @@
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material"
-import { ChangeEvent } from "react"
+import { ChangeEvent, MouseEvent } from "react"
+import { Change } from "../../../types/newSchools.types"
+import ChangePopup from "../Validation/ChangePopup"
 
 export default function RadioInput({
     label,
@@ -9,6 +11,9 @@ export default function RadioInput({
     handleInput,
     options,
     isRequired,
+    change,
+    validateIndividualChange,
+    revertIndividualChange
 
 }: {
     label: string,
@@ -21,21 +26,32 @@ export default function RadioInput({
         value: string,
     }[],
     isRequired: boolean,
-
+    change?: Change,
+    validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">
             <label className={`font-medium ${isRequired && 'required'}`}>{label}</label>
-            <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-            >
-            {options.length > 0 && options.map(option => (
-                <FormControlLabel onChange={(e:any) => handleInput(e, path)} value={option.value} name={name} checked={value === option.value ? true : false} control={<Radio />} label={option.label} />
-            ))}
-            </RadioGroup>
-    
+            <div className="flex w-full gap-2 justify-start items-start">
+                <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                >
+                {options.length > 0 && options.map(option => (
+                    <FormControlLabel onChange={(e:any) => handleInput(e, path)} value={option.value} name={name} checked={value === option.value ? true : false} control={<Radio />} label={option.label} />
+                ))}
+                </RadioGroup>
+                {change && validateIndividualChange && revertIndividualChange && (
+                    <ChangePopup 
+                        change={change}
+                        name={name}
+                        validateIndividualChange={validateIndividualChange}
+                        revertIndividualChange={revertIndividualChange}
+                    />
+                )}
+            </div>
         </div>
     )
 }

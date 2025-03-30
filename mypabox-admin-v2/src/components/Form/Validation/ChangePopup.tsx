@@ -77,13 +77,13 @@ export default function ChangePopup({
                     type="warning"
                     styling="outline"
                     label="Reject"
-                    action={(e: MouseEvent<HTMLButtonElement>) => revertIndividualChange(e, name, change)}
+                    action={(e: MouseEvent<HTMLButtonElement>) => {revertIndividualChange(e, name, change); handleClose()}}
                 />
                 <Button 
                     type="success"
                     styling="outline"
                     label="Accept"
-                    action={(e: MouseEvent<HTMLButtonElement>) => validateIndividualChange(e, name, change)}
+                    action={(e: MouseEvent<HTMLButtonElement>) => {validateIndividualChange(e, name, change); handleClose()}}
                 />
             </div>
         </div>

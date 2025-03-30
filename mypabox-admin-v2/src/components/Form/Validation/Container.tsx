@@ -1,9 +1,13 @@
-import { ReactNode, useState, MouseEvent, useEffect, Dispatch, SetStateAction } from "react"
+import { ReactNode, useState, MouseEvent, useEffect, Dispatch, SetStateAction, ChangeEvent } from "react"
 import Tabs from "./Tabs";
 import { UserPermissions } from "../../../types/users.types";
 import { GenericSchoolField, NewSchool } from "../../../types/newSchools.types";
 import { ReactComponent as RevertIcon } from '../../../components/Icons/Revert.svg';
 import { ReactComponent as CheckIcon } from '../../../components/Icons/Check.svg';
+import { ReactComponent as LinkIcon } from '../../../components/Icons/Link.svg';
+import { ReactComponent as DeleteIcon } from '../../../components/Icons/Trash.svg';
+import TextInput from "../InputTypes/TextInput";
+import Button from "../../Buttons/Button";
 
 export default function Container({
     label,
@@ -28,6 +32,38 @@ export default function Container({
     const [ tabs, setTabs ] = useState<string[]>([]);
     const [ showRevertButton, setShowRevertButton ] = useState(false);
     const [ showValidateAllButton, setShowValidateAllButton ] = useState(false);
+    const [ link, setLink ] = useState<string | null>(null);
+
+    useEffect(() => {
+        const schoolField = school[name as keyof NewSchool] as GenericSchoolField;
+        setLink(schoolField.link ? schoolField.link : null);
+        
+    }, [name, school]);
+
+    const handleLink = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+        const value = e.target.value;
+        const schoolField = school[name as keyof NewSchool] as GenericSchoolField;
+        setSchool({
+            ...school,
+            [name]: {
+                ...schoolField,
+                link: value,
+            }
+        })
+    };
+
+    const removeLink = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setLink(null);
+        const schoolField = school[name as keyof NewSchool] as GenericSchoolField;
+        setSchool({
+            ...school,
+            [name]: {
+                ...schoolField,
+                link: '',
+            }
+        })
+    }
 
     useEffect(() => {
         if (isEditSchool) {
@@ -126,6 +162,43 @@ export default function Container({
                         <>{modifiedInputs}</>
                     ) : (
                         <>{originalInputs}</>
+                    )}
+                    {link !== null ? (
+                        <div className="flex justify-between items-end gap-4">
+                            <TextInput 
+                                type="text"
+                                label="Link:"
+                                placeholder="Link"
+                                name=""
+                                value={link}
+                                path=""
+                                isRequired={false}
+                                handleInput={handleLink}
+                                link={link}
+                            />
+                            <div className="flex justify-center items-center h-[47px]">
+                                <button 
+                                    onClick={removeLink}
+                                    className="w-[24px] text-warning hover:brightness-90 transition-all"
+                                >
+                                    <DeleteIcon />
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col gap-2 justify-start items-start">
+                            <label>Link:</label>
+                            <Button 
+                                label="Insert Link"
+                                type="primary"
+                                styling="outline"
+                                action={(e: MouseEvent<HTMLButtonElement>) => { 
+                                    e.preventDefault();  
+                                    setLink('');
+                                }}
+                                adornment={<LinkIcon/>}
+                            />
+                        </div>
                     )}
                 </div>
             </div>
