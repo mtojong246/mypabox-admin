@@ -1,5 +1,4 @@
 import { ReactNode, useState, MouseEvent, useEffect, Dispatch, SetStateAction, ChangeEvent } from "react"
-import Tabs from "./Tabs";
 import { UserPermissions } from "../../../types/users.types";
 import { GenericSchoolField, NewSchool } from "../../../types/newSchools.types";
 import { ReactComponent as RevertIcon } from '../../../components/Icons/Revert.svg';
@@ -8,6 +7,7 @@ import { ReactComponent as LinkIcon } from '../../../components/Icons/Link.svg';
 import { ReactComponent as DeleteIcon } from '../../../components/Icons/Trash.svg';
 import TextInput from "../InputTypes/TextInput";
 import Button from "../../Buttons/Button";
+import SchoolFieldTabs from "./SchoolFieldTabs";
 
 export default function Container({
     label,
@@ -127,8 +127,8 @@ export default function Container({
     }
 
     return (
-        <div className="flex flex-col justify-start items-start gap-2 w-full">
-            <div className="flex justify-between items-center gap-2 w-full max-w-[600px]">
+        <div className="flex flex-col justify-start items-start gap-2 w-full max-w-[700px]">
+            <div className="flex justify-between items-center gap-2 w-full">
                 <label className="text-[18px] font-semibold">{label}</label>
                 <div className="flex gap-4 justify-end items-center">
                     {showRevertButton && (
@@ -146,18 +146,15 @@ export default function Container({
                 </div>
             </div>
 
-            <div className="flex flex-col justify-start items-start rounded-lg w-full">
-                {tabs.length > 0 && <Tabs 
-                    tabs={tabs.map((tab,i) => ({
-                        label: tab,
-                        action: (e: MouseEvent<HTMLButtonElement>) => {
-                            e.preventDefault();
-                            setSelectedIndex(i);
-                        }
-                    }))}
-                    selectedIndex={selectedIndex}
-                />}
-                <div className={`${!modifiedInputs && 'rounded-tl-lg'} border border-outline rounded-tr-lg rounded-br-lg rounded-bl-lg p-6 w-full max-w-[600px] flex flex-col gap-8`}>
+            <div className="flex flex-col justify-start items-start rounded-lg w-full border border-outline">
+                {tabs.length > 0 && (
+                    <SchoolFieldTabs 
+                        tabs={tabs}
+                        selectedIndex={selectedIndex}
+                        setSelectedIndex={setSelectedIndex}
+                    />
+                )}
+                <div className={`p-6 w-full flex flex-col gap-8`}>
                     {modifiedInputs && tabs[selectedIndex] === 'Modified' ? (
                         <>{modifiedInputs}</>
                     ) : (

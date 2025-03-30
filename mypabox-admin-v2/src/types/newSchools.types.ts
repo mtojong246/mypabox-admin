@@ -1,12 +1,17 @@
 export interface SchoolFormField {
     label: string,
     name: string,
-    type: 'text' | 'boolean' | 'select' | 'time-frame' | 'array' | 'date' | 'percentage' | 'fee' | 'text-area',
-    path: string,
+    inputs: {
+        label: string,
+        name: string,
+        type: 'text' | 'boolean' | 'select' | 'time-frame' | 'array' | 'date' | 'percentage' | 'fee' | 'text-area',
+        path: string,
+        notePath?: string,
+        options?: { value: string | number, label: string | number }[],
+        draftOptions?: { value: string | number, label: string | number }[],
+        modifyValueFn?: (value: any, keys: string[]) => any,
+    }[],
     notePath?: string,
-    options?: { value: string | number, label: string | number }[],
-    draftOptions?: { value: string | number, label: string | number }[],
-    modifyValueFn?: (value: any, keys: string[]) => any,
 }
 
 export interface Change {

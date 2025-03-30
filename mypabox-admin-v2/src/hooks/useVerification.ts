@@ -177,7 +177,8 @@ const useVerification = ({
         let original = originalField;
         let draft = draftField;
         
-
+        let isOriginalInvalid = false;
+        let isDraftInvalid = false;
 
         for (let i = 0; i < keys.length - 1; i++) {
             let key: string | number = keys[i];
@@ -187,9 +188,7 @@ const useVerification = ({
             }
             
             if (!(keys[i] in original)) {
-                console.log('path invalid');
-                console.log(keys)
-                console.log(field);
+                isOriginalInvalid = true;
             }
             original = original[keys[i]];
         }
@@ -202,7 +201,7 @@ const useVerification = ({
             }
             
             if (!(keys[i] in draft)) {
-                console.log('path invalid');
+                isDraftInvalid = true;
             }
             draft = draft[keys[i]];
         }
@@ -212,8 +211,8 @@ const useVerification = ({
             lastKey = Number(lastKey);
         }
 
-        const originalValue = original[lastKey];
-        const originalDraftValue = draft[lastKey];
+        const originalValue = isOriginalInvalid ? undefined : original[lastKey];
+        const originalDraftValue = isDraftInvalid ? undefined : draft[lastKey];
 
         return {
             originalValue,

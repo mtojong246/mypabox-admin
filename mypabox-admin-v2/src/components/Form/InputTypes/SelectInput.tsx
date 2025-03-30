@@ -74,7 +74,7 @@ export default function SelectInput({
                 />
                 )}
                 </>
-                {change && validateIndividualChange && revertIndividualChange && (
+                {change && (
                     <ChangePopup 
                         change={change}
                         name={name}
