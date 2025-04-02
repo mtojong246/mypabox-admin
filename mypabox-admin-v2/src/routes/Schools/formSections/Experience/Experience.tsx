@@ -549,6 +549,7 @@ export default function Experience({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             ) : associatedField.type === 'text-select' ? (
                                                 <TextSelectInput 
@@ -649,6 +650,7 @@ export default function Experience({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             ) : associatedField.type === 'text-select' ? (
                                                 <TextSelectInput 

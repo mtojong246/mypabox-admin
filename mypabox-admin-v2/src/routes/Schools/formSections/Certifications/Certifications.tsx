@@ -219,6 +219,7 @@ export default function Certifications({
                                                                     handleInput={handleInput}
                                                                     isRequired={false}
                                                                     type="text"
+                                                                    isDisabled={false}
                                                                 />
                                                                 <div className="py-4 flex justify-center items-end">
                                                                     <button 
@@ -309,6 +310,7 @@ export default function Certifications({
                                                                     handleInput={handleInput}
                                                                     isRequired={false}
                                                                     type="text"
+                                                                    isDisabled={false}
                                                                 />
                                                                 <div className="py-4 flex justify-center items-end">
                                                                     <button 

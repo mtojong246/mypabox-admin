@@ -321,6 +321,7 @@ export default function CompletionCriteria({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <SelectInput 
@@ -333,6 +334,7 @@ export default function CompletionCriteria({
                                                     isRequired={false}
                                                     isCreatable={false}
                                                     options={associatedField.name === 'school_minimum_grade_required_for_pending_courses' ? options : semesterOptions}
+                                                    isDisabled={false}
                                                 />
                                             )}
                                             {associatedField.notePath && originalNotes !== undefined && (
@@ -412,6 +414,7 @@ export default function CompletionCriteria({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <SelectInput 
@@ -424,6 +427,7 @@ export default function CompletionCriteria({
                                                     isRequired={false}
                                                     isCreatable={false}
                                                     options={associatedField.name === 'school_minimum_grade_required_for_pending_courses' ? options : semesterOptions}
+                                                    isDisabled={false}
                                                 />
                                             )}
                                             {associatedField.notePath && draftNotes !== undefined && (

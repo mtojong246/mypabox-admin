@@ -119,6 +119,7 @@ export default function AccreditationStatus({
                                 isRequired={false}
                                 isCreatable={false}
                                 options={accreditationStatusOptions}
+                                isDisabled={false}
                             />
                         ) : (
                             <>
@@ -148,6 +149,7 @@ export default function AccreditationStatus({
                                 isRequired={false}
                                 isCreatable={false}
                                 options={accreditationStatusOptions}
+                                isDisabled={false}
                             />
                         ) : (
                             <>

@@ -326,6 +326,7 @@ export default function Applications({
                                                     type={associatedField.type.includes('date') ? 'date' : 'text'}
                                                     startingAdornment={associatedField.type.includes('fee') ? <DollarIcon /> : undefined}
                                                     link={associatedField.name === 'school_supplemental_application_link' ? originalInput : undefined}
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <SelectInput 
@@ -338,6 +339,7 @@ export default function Applications({
                                                     isRequired={false}
                                                     isCreatable={false}
                                                     options={options}
+                                                    isDisabled={false}
                                                 />
                                             )}
                                         </>
@@ -357,6 +359,7 @@ export default function Applications({
                                 handleInput={handleInput}
                                 isRequired={false}
                                 type="text"
+                                isDisabled={false}
                             />
                         )}
                         {field.notePath && (
@@ -408,6 +411,7 @@ export default function Applications({
                                                     type={associatedField.type.includes('date') ? 'date' : 'text'}
                                                     startingAdornment={associatedField.type.includes('fee') ? <DollarIcon /> : undefined}
                                                     link={associatedField.name === 'school_supplemental_application_link' ? draftInput : undefined}
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <SelectInput 
@@ -420,6 +424,7 @@ export default function Applications({
                                                     isRequired={false}
                                                     isCreatable={false}
                                                     options={options}
+                                                    isDisabled={false}
                                                 />
                                             )}
                                         </>
@@ -439,6 +444,7 @@ export default function Applications({
                                 handleInput={handleInput}
                                 type="text"
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         )}
                         {field.notePath && (

@@ -249,6 +249,7 @@ export default function MinimumRequiredOrRecommendedGPA({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             ) : associatedField.type === 'boolean' ? (
                                                 <BooleanInput 
@@ -322,6 +323,7 @@ export default function MinimumRequiredOrRecommendedGPA({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             ) : associatedField.type === 'boolean' ? (
                                                 <BooleanInput 

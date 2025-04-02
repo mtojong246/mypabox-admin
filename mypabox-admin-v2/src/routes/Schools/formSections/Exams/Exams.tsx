@@ -157,6 +157,7 @@ export default function Exams({
                                 path={field.path}
                                 handleQuill={handleQuill}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         ) : (
                             <>
@@ -175,6 +176,7 @@ export default function Exams({
                                 path={field.path}
                                 handleQuill={handleQuill}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         ) : (
                             <>

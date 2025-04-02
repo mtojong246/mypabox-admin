@@ -296,6 +296,7 @@ export default function MinimumGradeAndTimeCriteriaAndBoolean({
                                                     isRequired={false}
                                                     isCreatable={false}
                                                     options={options}
+                                                    isDisabled={false}
                                                 />
                                             ) : associatedField.type === 'boolean' ? (
                                                 <BooleanInput 
@@ -389,6 +390,7 @@ export default function MinimumGradeAndTimeCriteriaAndBoolean({
                                                     isRequired={false}
                                                     isCreatable={false}
                                                     options={options}
+                                                    isDisabled={false}
                                                 />
                                             ) : associatedField.type === 'boolean' ? (
                                                 <BooleanInput 

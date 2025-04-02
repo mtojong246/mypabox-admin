@@ -219,6 +219,7 @@ export default function RequiredOptionalExams({
                                                         handleInput={handleInput}
                                                         isRequired={false}
                                                         type="text"
+                                                        isDisabled={false}
                                                     />
                                                 ) : associatedField.type === 'array' ? (
                                                     <div className="w-full flex flex-col justify-start items-start gap-2">
@@ -240,6 +241,7 @@ export default function RequiredOptionalExams({
                                                                         isRequired={false}
                                                                         isCreatable
                                                                         options={options}
+                                                                        isDisabled={false}
                                                                     />
                                                                     <div className="py-4 flex justify-center items-end">
                                                                         <button 
@@ -330,6 +332,7 @@ export default function RequiredOptionalExams({
                                                         isRequired={false}
                                                         isCreatable
                                                         options={options}
+                                                        isDisabled={false}
                                                     />
                                                 ) : associatedField.type === 'array' ? (
                                                     <div className="w-full flex flex-col justify-start items-start gap-2">
@@ -349,6 +352,7 @@ export default function RequiredOptionalExams({
                                                                         handleInput={handleInput}
                                                                         isRequired={false}
                                                                         type="text"
+                                                                        isDisabled={false}
                                                                     />
                                                                     <div className="py-4 flex justify-center items-end">
                                                                         <button 

@@ -332,6 +332,7 @@ export default function Evaluations({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             
                                             ) : associatedField.type === 'text-select' ? (
@@ -366,6 +367,7 @@ export default function Evaluations({
                                                                         isRequired={false}
                                                                         isCreatable={false}
                                                                         options={evaluatorOptions}
+                                                                        isDisabled={false}
                                                                     />
                                                                     <div className="py-4 flex justify-center items-end">
                                                                         <button 
@@ -452,6 +454,7 @@ export default function Evaluations({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             
                                             ) : associatedField.type === 'text-select' ? (
@@ -485,6 +488,7 @@ export default function Evaluations({
                                                                         isRequired={false}
                                                                         isCreatable={false}
                                                                         options={evaluatorOptions}
+                                                                        isDisabled={false}
                                                                     />
                                                                     <div className="py-4 flex justify-center items-end">
                                                                         <button 

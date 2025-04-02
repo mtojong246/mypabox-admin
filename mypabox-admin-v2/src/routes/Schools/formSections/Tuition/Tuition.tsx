@@ -137,6 +137,7 @@ export default function Tuition({
                                 isRequired={false}
                                 startingAdornment={<DollarSign/>}
                                 type="text"
+                                isDisabled={false}
                             />
                         ) : (
                             <></>
@@ -165,6 +166,7 @@ export default function Tuition({
                                 isRequired={false}
                                 startingAdornment={<DollarSign/>}
                                 type="text"
+                                isDisabled={false}
                             />
                         ) : (
                             <></>

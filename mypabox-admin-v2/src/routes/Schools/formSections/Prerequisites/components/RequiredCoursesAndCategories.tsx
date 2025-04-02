@@ -457,6 +457,7 @@ export default function RequiredCoursesAndCategories({
                                                                            handleInput={handleInput}
                                                                            isRequired={false}
                                                                            type="text"
+                                                                           isDisabled={false}
                                                                        />
                                                                    ) : associatedField.type === 'boolean' ? (
                                                                         <BooleanInput 
@@ -476,6 +477,7 @@ export default function RequiredCoursesAndCategories({
                                                                             path={arrayInputPath}
                                                                             handleQuill={handleQuill}
                                                                             isRequired={false}
+                                                                            isDisabled={false}
                                                                         />
                                                                        
                                                                    ) : associatedField.type === 'note' ? (
@@ -586,6 +588,7 @@ export default function RequiredCoursesAndCategories({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <SelectInput 
@@ -598,6 +601,7 @@ export default function RequiredCoursesAndCategories({
                                                     isRequired={false}
                                                     isCreatable={false}
                                                     options={associatedField.name === 'school_minimum_grade_required_for_pending_courses' ? options : semesterOptions}
+                                                    isDisabled={false}
                                                 />
                                             )}
                                             {associatedField.notePath && draftNotes !== undefined && (

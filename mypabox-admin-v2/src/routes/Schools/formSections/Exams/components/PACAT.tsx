@@ -226,6 +226,7 @@ export default function PACAT({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <></>
@@ -248,6 +249,7 @@ export default function PACAT({
                                 handleInput={handleInput}
                                 isRequired={false}
                                 type="text"
+                                isDisabled={false}
                             />
                         )}
                         {field.notePath && (
@@ -297,6 +299,7 @@ export default function PACAT({
                                                     handleInput={handleInput}
                                                     isRequired={false}
                                                     type="text"
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <></>
@@ -318,6 +321,7 @@ export default function PACAT({
                                 handleInput={handleInput}
                                 isRequired={false}
                                 type="text"
+                                isDisabled={false}
                             />
                         )}
                         {field.notePath && (

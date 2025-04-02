@@ -286,6 +286,7 @@ export default function OtherTypesAndSpecificCourses({
                                                         handleInput={handleInput}
                                                         isRequired={false}
                                                         type="text"
+                                                        isDisabled={false}
                                                     />
                                                 ) : associatedField.type === 'radio' ? (
                                                     <RadioInput 
@@ -319,6 +320,7 @@ export default function OtherTypesAndSpecificCourses({
                                                             isRequired={false}
                                                             isCreatable={true}
                                                             options={gpaOptions}
+                                                            isDisabled={false}
                                                         />
                                                     ) : courseOptions.length > 0 ? (
                                                         <SelectInput 
@@ -331,6 +333,7 @@ export default function OtherTypesAndSpecificCourses({
                                                             isRequired={false}
                                                             isCreatable={false}
                                                             options={courseOptions}
+                                                            isDisabled={false}
                                                         />
                                                     ) : (
                                                         <></>
@@ -404,6 +407,7 @@ export default function OtherTypesAndSpecificCourses({
                                                         handleInput={handleInput}
                                                         isRequired={false}
                                                         type="text"
+                                                        isDisabled={false}
                                                     />
                                                 ) : associatedField.type === 'radio' ? (
                                                     <RadioInput 
@@ -437,6 +441,7 @@ export default function OtherTypesAndSpecificCourses({
                                                             isRequired={false}
                                                             isCreatable={true}
                                                             options={gpaOptions}
+                                                            isDisabled={false}
                                                         />
                                                     ) : courseOptions.length > 0 ? (
                                                         <SelectInput 
@@ -449,6 +454,7 @@ export default function OtherTypesAndSpecificCourses({
                                                             isRequired={false}
                                                             isCreatable={false}
                                                             options={courseOptions}
+                                                            isDisabled={false}
                                                         />
                                                     ) : (
                                                         <></>

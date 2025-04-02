@@ -85,6 +85,7 @@ export default function Preference({
                                 path={field.path}
                                 handleQuill={handleQuill}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         ) : (
                             <>
@@ -103,6 +104,7 @@ export default function Preference({
                                 path={field.path}
                                 handleQuill={handleQuill}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         ) : (
                             <>

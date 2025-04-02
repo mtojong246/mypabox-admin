@@ -132,6 +132,7 @@ export default function GPA({
                                 path={field.path}
                                 handleQuill={handleQuill}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         ) : (
                             <>
@@ -150,6 +151,7 @@ export default function GPA({
                                 path={field.path}
                                 handleQuill={handleQuill}
                                 isRequired={false}
+                                isDisabled={false}
                             />
                         ) : (
                             <>
