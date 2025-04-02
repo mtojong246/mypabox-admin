@@ -17,7 +17,8 @@ export default function TextInput({
     type,
     change,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
+    isDisabled,
 }: {
     label: string,
     placeholder: string,
@@ -28,6 +29,7 @@ export default function TextInput({
     isRequired: boolean,
     startingAdornment?: ReactNode,
     type: HTMLInputTypeAttribute,
+    isDisabled: boolean,
     link?: string,
     change?: Change,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
@@ -38,6 +40,7 @@ export default function TextInput({
             <label className={`font-medium ${isRequired && 'required'}`}>{label}</label>
             <div className="flex w-full gap-2 justify-start items-start">
                 <OutlinedInput
+                    disabled={isDisabled}
                     type={type}
                     placeholder={placeholder}
                     startAdornment={

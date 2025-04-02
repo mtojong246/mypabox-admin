@@ -19,7 +19,8 @@ export default function EmailAndPhoneNumber({
     handleRemove,
     change,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
+    isDisabled,
 }: {
     schoolField: GenericSchoolField,
     index: number,
@@ -35,6 +36,7 @@ export default function EmailAndPhoneNumber({
     change?: Change,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    isDisabled: boolean,
 }) {
     return (
         <div className="w-full flex gap-4 justify-start items-start">
@@ -53,6 +55,7 @@ export default function EmailAndPhoneNumber({
                         change={schoolField.changes.find(change => change.path === selectPath)}
                         validateIndividualChange={validateIndividualChange}
                         revertIndividualChange={revertIndividualChange}
+                        isDisabled={isDisabled}
                     />
                     <TextInput 
                         label={name === 'school_email' ? 'Email Address' : 'Phone Number'}
@@ -66,6 +69,7 @@ export default function EmailAndPhoneNumber({
                         change={schoolField.changes.find(change => change.path === inputPath)}
                         validateIndividualChange={validateIndividualChange}
                         revertIndividualChange={revertIndividualChange}
+                        isDisabled={isDisabled}
                     />
                 </div>
                 {change && (

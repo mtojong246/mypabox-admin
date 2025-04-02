@@ -16,7 +16,8 @@ export default function SelectInput({
     options,
     change,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
+    isDisabled,
 }: {
     label: string,
     placeholder: string,
@@ -30,6 +31,7 @@ export default function SelectInput({
     change?: Change,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    isDisabled: boolean,
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">
@@ -38,6 +40,7 @@ export default function SelectInput({
                 <>
                 {isCreatable ? (
                 <CreatableSelect 
+                    isDisabled={isDisabled}
                     className='w-full'
                     options={options}
                     value={!value.value.toString() ? null : value}
@@ -56,6 +59,7 @@ export default function SelectInput({
                 />
                 ) : (
                 <Select 
+                    isDisabled={isDisabled}
                     className='w-full'
                     options={options}
                     value={!value.value.toString() ? null : value}

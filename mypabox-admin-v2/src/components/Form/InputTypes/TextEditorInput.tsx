@@ -12,7 +12,8 @@ export default function TextEditorInput({
     isRequired,
     change,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
+    isDisabled,
 }: {
     label: string,
     name: string,
@@ -23,12 +24,14 @@ export default function TextEditorInput({
     change?: Change,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    isDisabled: boolean,
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">
             <label className={`font-medium ${isRequired && 'required'}`}>{label}</label>
             <div className="flex w-full gap-2 justify-start items-start">
                 <ReactQuill 
+                    readOnly={isDisabled}
                     theme="snow" 
                     value={value} 
                     onChange={(e:any) => handleQuill(e, name, path)}

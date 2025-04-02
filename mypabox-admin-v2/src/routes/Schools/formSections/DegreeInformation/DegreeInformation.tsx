@@ -1,16 +1,10 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types";
-import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
 import Container from "../../../../components/Form/Validation/Container";
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import useVerification from "../../../../hooks/useVerification";
-import Button from "../../../../components/Buttons/Button";
-
-import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
-import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
-import Notes from "../../../../components/Form/Notes/Notes";
 import NotePopup from "../../../../components/Popups/NotePopup";
-import TextInput from "../../../../components/Form/InputTypes/TextInput";
+import DegreeInformationInputs from "./DegreeInformationInputs";
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -65,73 +59,11 @@ export default function DegreeInformation({
 
     const {
         handleChanges,
-        handleModify,
-        handleAddition,
-        handleDeletion,
         handleRetrieveValue,
+        handleModification,
+        revertIndividualChange,
+        validateIndividualChange,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
-    
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.checked;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-    };
-
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
-
-    const handleAddDegree = (e:any, name: string, path: string) => {
-        e.preventDefault();
-        const value = {
-            value: ''
-        };
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-        } = handleAddition(path, field, value);
-
-        handleChanges(field, name, originalField, draftField, path, 'added');
-    }
-
-    const handleRemoveDegree = (e:any, name: string, path: string, index: number) => {
-        e.preventDefault();
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-        } = handleDeletion(path, field, index);
-
-        handleChanges(field, name, originalField, draftField, path, 'removed');
-
-    }
     
 
     return (
@@ -160,131 +92,40 @@ export default function DegreeInformation({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'boolean' ? (
-                            <BooleanInput 
-                                label={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleCheck={handleBoolean}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : field.type === 'array' ? (
-                            <>
-                            {(value as any[]).length > 0 && (value as any[]).map((val,i) => {
-                                const inputPath = `${field.path}.${i}.value`
-                                const textInput = handleRetrieveValue(inputPath, schoolField);
-
-                                return (
-                                    <div className="w-full flex gap-4">
-                                        <TextInput 
-                                            label='Degree'
-                                            placeholder='Degree'
-                                            name={field.name}
-                                            value={textInput.originalValue}
-                                            path={inputPath}
-                                            handleInput={handleInput}
-                                            isRequired={false}
-                                            type="text"
-                                        />
-                                        <div className="py-4 flex justify-center items-end">
-                                            <button 
-                                                onClick={(e:any) => handleRemoveDegree(e, field.name, field.path, i)} 
-                                                className="w-[24px] text-warning"
-                                            >
-                                                <DeleteIcon/>
-                                            </button>
-                                        </div>
-                                    </div>
-                                )
-                                
-                            })}
-                            <Button 
-                                type="primary"
-                                styling="outline"
-                                label='Add Type of Degree Offered'
-                                action={(e:any) => handleAddDegree(e, field.name, field.path)}
-                                adornment={<PlusIcon/>}
-                            />
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <DegreeInformationInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'boolean' ? (
-                            <BooleanInput 
-                                label={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleCheck={handleBoolean}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : field.type === 'array' ? (
-                            <>
-                            {(draftValue as any[]).length > 0 && (draftValue as any[]).map((val,i) => {
-                                const inputPath = `${field.path}.${i}.value`
-                                const textInput = handleRetrieveValue(inputPath, schoolField);
-
-                                return (
-                                    <div className="w-full flex gap-4">
-                                        <TextInput 
-                                            label='Degree'
-                                            placeholder='Degree'
-                                            name={field.name}
-                                            value={textInput.originalDraftValue}
-                                            path={inputPath}
-                                            handleInput={handleInput}
-                                            isRequired={false}
-                                            type="text"
-                                        />
-                                        <div className="py-4 flex justify-center items-end">
-                                            <button 
-                                                onClick={(e:any) => handleRemoveDegree(e, field.name, field.path, i)} 
-                                                className="w-[24px] text-warning"
-                                            >
-                                                <DeleteIcon/>
-                                            </button>
-                                        </div>
-                                    </div>
-                                )
-                                
-                            })}
-                            <Button 
-                                type="primary"
-                                styling="outline"
-                                label={`Add ${field.name === 'school_email' ? 'Email' : 'Phone Number'}`}
-                                action={(e:any) => handleAddDegree(e, field.name, field.path)}
-                                adornment={<PlusIcon/>}
-                            />
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={draftNoteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <DegreeInformationInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )

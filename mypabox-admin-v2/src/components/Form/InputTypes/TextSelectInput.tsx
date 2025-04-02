@@ -14,7 +14,7 @@ export default function TextSelectInput({
     options,
     change,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
 }: {
     label: string,
     placeholder: string,

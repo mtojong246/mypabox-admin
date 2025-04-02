@@ -172,6 +172,7 @@ export default function Container({
                                 isRequired={false}
                                 handleInput={handleLink}
                                 link={link}
+                                isDisabled={false}
                             />
                             <div className="flex justify-center items-center h-[47px]">
                                 <button 
