@@ -126,7 +126,7 @@ export default function AddSchoolForms({
                     <Preference 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : (
                     <></>

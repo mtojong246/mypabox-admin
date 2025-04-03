@@ -3,7 +3,7 @@ import { GenericSchoolField, NewSchool } from "../../../../types/newSchools.type
 import Container from "../../../../components/Form/Validation/Container";
 import useVerification from "../../../../hooks/useVerification";
 
-import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
+import PreferenceInputs from "./PreferenceInputs";
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -36,26 +36,12 @@ export default function Preference({
 
     const {
         handleChanges,
-        handleModify,
         handleRetrieveValue,
+        handleModification,
+        revertIndividualChange,
+        validateIndividualChange
     } = useVerification({ school, setSchool, isEditSchool, permissions });
     
-
-    const handleQuill = (e: any, name: string, path: string) => {
-        const value = e;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
 
     
 
@@ -76,41 +62,33 @@ export default function Preference({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        </div>
+                        <PreferenceInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        </div>
+                        <PreferenceInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )
