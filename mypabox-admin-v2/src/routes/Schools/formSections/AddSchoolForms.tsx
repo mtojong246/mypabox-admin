@@ -114,7 +114,7 @@ export default function AddSchoolForms({
                     <Certifications 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#applications' ? (
                     <Applications 
