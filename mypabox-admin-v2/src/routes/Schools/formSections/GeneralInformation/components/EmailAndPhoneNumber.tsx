@@ -84,7 +84,7 @@ export default function EmailAndPhoneNumber({
             <div className="py-4 flex justify-center items-end">
                 <button 
                     onClick={(e:any) => handleRemove(e, name, path, index)} 
-                    className="w-[24px] text-warning"
+                    className="w-[24px] text-warning transition-all hover:brightness-90"
                 >
                     <DeleteIcon/>
                 </button>

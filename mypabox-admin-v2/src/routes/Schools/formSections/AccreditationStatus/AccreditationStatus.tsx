@@ -4,9 +4,8 @@ import Container from "../../../../components/Form/Validation/Container";
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import useVerification from "../../../../hooks/useVerification";
 
-import Notes from "../../../../components/Form/Notes/Notes";
 import NotePopup from "../../../../components/Popups/NotePopup";
-import SelectInput from "../../../../components/Form/InputTypes/SelectInput";
+import AccreditationStatusInputs from "./AccreditationStatusInputs";
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -16,18 +15,6 @@ const permissions = {
     canAddOrDelete: false,
 };
 
-const accreditationStatusOptions = [
-    { label: 'Select', value: ''},
-    { label: 'Provisional', value: 'Provisional'},
-    { label: 'Continued', value: 'Continued'},
-    { label: 'Clinical Postgraduate Program', value: 'Clinical Postgraduate Program'},
-    { label: 'Probation', value: 'Probation'},
-    { label: 'Administrative Probation', value: 'Administrative Probation'},
-    { label: 'Accreditation Withheld', value: 'Accreditation Withheld'},
-    { label: 'Accreditation Withdrawn', value: 'Accreditation Withdrawn'},
-    { label: 'Voluntary Inactive Status', value: 'Voluntary Inactive Status'},
-    { label: 'Developing - Not Accredited', value: 'Developing - Not Accredited'},
-  ]
 
 const accreditationStatusFields = [
     {
@@ -59,26 +46,12 @@ export default function AccreditationStatus({
 
     const {
         handleChanges,
-        handleModify,
         handleRetrieveValue,
+        validateIndividualChange,
+        revertIndividualChange,
+        handleModification,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
     
-
-    const handleSelect = (e: any, name: string, path: string) => {
-        const value = e.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-    };
-
     
 
     return (
@@ -107,63 +80,38 @@ export default function AccreditationStatus({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'select' ? (
-                            <SelectInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={{value, label: value}}
-                                path={field.path}
-                                handleSelect={handleSelect}
-                                isRequired={false}
-                                isCreatable={false}
-                                options={accreditationStatusOptions}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <AccreditationStatusInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'select' ? (
-                            <SelectInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={{value: draftValue, label: draftValue}}
-                                path={field.path}
-                                handleSelect={handleSelect}
-                                isRequired={false}
-                                isCreatable={false}
-                                options={accreditationStatusOptions}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={draftNoteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <AccreditationStatusInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )
