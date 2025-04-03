@@ -42,19 +42,19 @@ export default function AddSchoolForms({
                     <DegreeInformation
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                     />
                 ) : tab === '#accreditation-status' ? (
                    <AccreditationStatus 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#mission-statement' ? (
                     <MissionStatement 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#tuition' ? (
                     <Tuition 
