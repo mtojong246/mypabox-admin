@@ -60,7 +60,7 @@ export default function AddSchoolForms({
                     <Tuition 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#pance-pass-rate' ? (
                     <PANCEPassRate 

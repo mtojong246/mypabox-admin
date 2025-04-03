@@ -1,13 +1,11 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
-import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
 
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
-import Notes from "../../../../components/Form/Notes/Notes";
 import useVerification from "../../../../hooks/useVerification";
-import { ReactComponent as DollarSign } from '../../../../components/Icons/Dollar-Sign.svg';
+import TuitionInputs from "./TuitionInputs";
 
 
 const permissions = {
@@ -71,33 +69,12 @@ export default function Tuition({
 
     const {
         handleChanges,
-        handleModify,
         handleRetrieveValue,
+        handleModification,
+        revertIndividualChange,
+        validateIndividualChange
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
-
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        let value = e.target.value;
-
-        if (name === 'school_phone_number') {
-            value = e.target.value.replace(/(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)/, '$1$2$3-$4$5$6-$7$8$9$10');
-        } else {
-            value = e.target.value;
-        }
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
 
     return (
         <>
@@ -125,61 +102,38 @@ export default function Tuition({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text' ? (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                startingAdornment={<DollarSign/>}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <></>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <TuitionInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text' ? (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                startingAdornment={<DollarSign/>}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <></>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={draftNoteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <TuitionInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )
