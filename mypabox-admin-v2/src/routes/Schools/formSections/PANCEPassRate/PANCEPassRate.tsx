@@ -1,13 +1,10 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types";
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import useVerification from "../../../../hooks/useVerification";
 import Container from "../../../../components/Form/Validation/Container";
-import TextInput from "../../../../components/Form/InputTypes/TextInput";
-import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
-import Notes from "../../../../components/Form/Notes/Notes";
 import NotePopup from "../../../../components/Popups/NotePopup";
-import { ReactComponent as PercentIcon } from '../../../../components/Icons/Percent.svg';
+import PANCEPassRateInputs from "./PANCEPassRateInputs";
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -60,40 +57,12 @@ export default function PANCEPassRate({
 
     const {
         handleChanges,
-        handleModify,
         handleRetrieveValue,
+        handleModification,
+        revertIndividualChange,
+        validateIndividualChange
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
- 
-    };
-
-    const handleQuill = (e: any, name: string, path: string) => {
-        const value = e;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-    };
 
 
     return (
@@ -122,81 +91,38 @@ export default function PANCEPassRate({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text' ? (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                startingAdornment={<PercentIcon />}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        ) : field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <></>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <PANCEPassRateInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text' ? (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                startingAdornment={<PercentIcon />}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        ) : field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <></>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={draftNoteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <PANCEPassRateInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )

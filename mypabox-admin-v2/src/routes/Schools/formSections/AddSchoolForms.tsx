@@ -66,7 +66,7 @@ export default function AddSchoolForms({
                     <PANCEPassRate 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#GPA' ? (
                     <GPA 
@@ -108,7 +108,7 @@ export default function AddSchoolForms({
                     <InternationalStudents 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#certifications' ? (
                     <Certifications 
