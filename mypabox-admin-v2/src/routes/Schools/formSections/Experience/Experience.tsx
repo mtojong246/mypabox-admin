@@ -561,6 +561,7 @@ export default function Experience({
                                                     selectPath={`${inputPath}.units`}
                                                     handleChange={handleDuration}
                                                     options={unitOptions}
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <></>
@@ -662,6 +663,7 @@ export default function Experience({
                                                     selectPath={`${inputPath}.units`}
                                                     handleChange={handleDuration}
                                                     options={unitOptions}
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <></>

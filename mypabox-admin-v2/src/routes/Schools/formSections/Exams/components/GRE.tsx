@@ -509,6 +509,7 @@ export default function GRE({
                                                     selectPath={`${inputPath}.units`}
                                                     handleChange={handleDuration}
                                                     options={unitOptions}
+                                                    isDisabled={false}
                                                 />
                                             ) : associatedField.type === 'note' ? (
                                                 <Notes 
@@ -622,6 +623,7 @@ export default function GRE({
                                                     selectPath={`${inputPath}.units`}
                                                     handleChange={handleDuration}
                                                     options={unitOptions}
+                                                    isDisabled={false}
                                                 />
                                             ) : associatedField.type === 'note' ? (
                                                 <Notes 

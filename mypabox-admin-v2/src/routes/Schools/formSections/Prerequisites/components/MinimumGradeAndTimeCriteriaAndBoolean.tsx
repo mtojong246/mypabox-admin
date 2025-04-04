@@ -318,6 +318,7 @@ export default function MinimumGradeAndTimeCriteriaAndBoolean({
                                                     selectPath={`${inputPath}.units`}
                                                     handleChange={handleDuration}
                                                     options={unitOptions}
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <></>
@@ -412,6 +413,7 @@ export default function MinimumGradeAndTimeCriteriaAndBoolean({
                                                     selectPath={`${inputPath}.units`}
                                                     handleChange={handleDuration}
                                                     options={unitOptions}
+                                                    isDisabled={false}
                                                 />
                                             ) : (
                                                 <></>

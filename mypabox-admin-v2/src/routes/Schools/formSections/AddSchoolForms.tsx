@@ -102,7 +102,7 @@ export default function AddSchoolForms({
                     <Evaluations 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#international-students' ? (
                     <InternationalStudents 
@@ -120,7 +120,7 @@ export default function AddSchoolForms({
                     <Applications 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#preference' ? (
                     <Preference 

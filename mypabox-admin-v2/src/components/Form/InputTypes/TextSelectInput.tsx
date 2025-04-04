@@ -15,6 +15,7 @@ export default function TextSelectInput({
     change,
     validateIndividualChange,
     revertIndividualChange,
+    isDisabled,
 }: {
     label: string,
     placeholder: string,
@@ -30,6 +31,7 @@ export default function TextSelectInput({
     change?: Change,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    isDisabled: boolean,
 }) {
     const [ units, setUnits ] = useState('');
     const [ quantity, setQuantity ] = useState(0);
@@ -69,6 +71,7 @@ export default function TextSelectInput({
                                 padding: '12px 16px',
                             }
                         }}
+                        disabled={isDisabled}
                     />
                 </div>
                 <div className="w-full flex flex-col gap-2 justify-start items-start">
@@ -89,6 +92,7 @@ export default function TextSelectInput({
                                 padding: '7px 16px',
                             })
                         }}
+                        isDisabled={isDisabled}
                     />
                     
                 </div>
