@@ -137,7 +137,8 @@ export default function DegreeInformation({
                 selectedField={selectedField}
                 selectedNote={selectedNote}
                 school={school}
-                setSchool={setSchool}
+                handleChanges={handleChanges}
+                handleModification={handleModification}
             />
         )}
         </>

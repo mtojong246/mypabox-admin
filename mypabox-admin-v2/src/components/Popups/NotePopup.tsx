@@ -1,5 +1,5 @@
 import ReactQuill from "react-quill"
-import { ChangeEvent, useState, MouseEvent, useEffect, Dispatch, SetStateAction } from "react"
+import { ChangeEvent, useState, MouseEvent, useEffect } from "react"
 import 'react-quill/dist/quill.snow.css';
 import { GenericSchoolField, NewNote, NewSchool } from "../../types/newSchools.types";
 
@@ -17,13 +17,19 @@ export default function NotePopup({
     selectedField,
     selectedNote,
     school,
-    setSchool,
+    handleChanges,
+    handleModification
 }: {
     toggleNotePopup: (e:MouseEvent<HTMLButtonElement>, field?: { name: string, path: string }, note?: NewNote) => void,
     selectedField: { name: string, path: string, noteIndex?: number },
     selectedNote: NewNote | null,
     school: NewSchool,
-    setSchool: Dispatch<SetStateAction<NewSchool>>,
+    handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
+    handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
+        originalField: any;
+        draftField: any;
+        originalValue: any;
+    },
 }) {
     const [ noteForm, setNoteForm ] = useState<NewNote>(defaultNote)
 
@@ -58,87 +64,27 @@ export default function NotePopup({
     const addNote = (name: string, path: string, newNote: NewNote) => {
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
+        const {
+            originalField,
+            draftField,
+        } = handleModification(path, field, newNote, 'add');
 
-        const keys = path.split('.').filter(key => key); // Split the index string into keys
-        const originalField = {...field.original};
-        const draftField = {...field.draft};
-
-        let original = originalField;
-        let draft = draftField;
-
-        for (let i = 0; i < keys.length - 1; i++) {
-            let key: string | number = keys[i];
-
-            if (!isNaN(Number(key))) {
-                key = Number(key);
-            }
-            
-            if (!(keys[i] in original)) {
-                console.log('path invalid');
-            }
-            original = original[keys[i]];
-        }
-
-        let lastKey: string | number = keys[keys.length-1];
-        if (!isNaN(Number(lastKey))) {
-            lastKey = Number(lastKey);
-        }
-        
-        const originalNotes = original[lastKey] as NewNote[];
-        original[lastKey] = originalNotes.concat(newNote);
-
-        setSchool({
-            ...school,
-            [name]: {
-                ...field,
-                original: originalField,
-            }
-        })
+        handleChanges(field, name, originalField, draftField, path, 'added');
 
     }
 
-    const editNote = (name: string, path: string, newNote: NewNote, noteIndex: number) => {
+    const editNote = (name: string, path: string, newNote: NewNote, index: number) => {
         const field = school[name as keyof NewSchool] as GenericSchoolField;
+        const notePath = `${path}.${index}`;
 
-        const keys = path.split('.').filter(key => key); // Split the index string into keys
-        const originalField = {...field.original};
-        let original = originalField;
+        const {
+            originalField,
+            draftField,
+        } = handleModification(notePath, field, newNote, 'modify');
 
-        for (let i = 0; i < keys.length - 1; i++) {
-            let key: string | number = keys[i];
+        handleChanges(field, name, originalField, draftField, notePath, 'modified');
 
-            if (!isNaN(Number(key))) {
-                key = Number(key);
-            }
-            
-            if (!(keys[i] in original)) {
-                console.log('path invalid');
-            }
-            original = original[keys[i]];
-        }
-
-        let lastKey: string | number = keys[keys.length-1];
-        if (!isNaN(Number(lastKey))) {
-            lastKey = Number(lastKey);
-        }
-        
-        const originalNotes = original[lastKey] as NewNote[];
-        original[lastKey] = originalNotes.map((note, i) => {
-            if (i === noteIndex) {
-                return {...newNote}
-            } else {
-                return {...note}
-            }
-        })
-
-        setSchool({
-            ...school,
-            [name]: {
-                ...field,
-                original: originalField,
-            }
-        })
-    };
+    }
 
     const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -152,24 +98,23 @@ export default function NotePopup({
     }
 
 
-
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 z-[100]'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
-                <div className='w-full max-w-[900px] rounded-lg bg-white'>
+                <div className='w-full max-w-[600px] rounded-lg bg-white'>
                     <div className="flex justify-between items-center gap-6 p-6">
                         <p className="font-medium text-[24px]">{selectedNote ? 'Edit Note' : 'Add Note'}</p>
                         <button onClick={toggleNotePopup} className="w-[16px] text-placeholder hover:text-default transition-all"><CloseIcon /></button>
                     </div>
 
-                    <div className='w-full p-6 flex flex-col justify-start items-start gap-8'>
-                        <div className="flex flex-col gap-2 justify-start items-start">
+                    <div className='w-full p-6 flex flex-col justify-start items-start gap-8 w-full'>
+                        <div className="flex flex-col gap-4 justify-start items-start w-full">
                             <label className="text-[16px] font-medium">Select note type:</label>
-                            <label htmlFor="information" className="flex justify-start items-center gap-2 py-3 px-6 rounded-lg">
+                            <label htmlFor="information" className={`flex justify-start items-center gap-2 py-3 px-6 rounded-lg border w-full hover:cursor-pointer transition-all ${noteForm.type === 'information' ? 'border-primary bg-primary/[0.1]' : 'border-outline bg-none hover:bg-primary/[0.05]'}`}>
                                 <input onChange={handleType} id='information' value='information' type='radio' checked={noteForm.type === 'information'}/>
                                 Information
                             </label>
-                            <label htmlFor="requirement" className="flex justify-start items-center gap-2 py-3 px-6 rounded-lg">
+                            <label htmlFor="requirement" className={`flex justify-start items-center gap-2 py-3 px-6 rounded-lg border w-full hover:cursor-pointer transition-all ${noteForm.type === 'requirement' ? 'border-primary bg-primary/[0.1]' : 'border-outline bg-none hover:bg-primary/[0.05]'}`}>
                                 <input onChange={handleType} id='requirement' value='requirement' type='radio' checked={noteForm.type === 'requirement'}/>
                                 Requirement
                             </label>
@@ -193,7 +138,7 @@ export default function NotePopup({
                         <Button 
                             label="Cancel"
                             action={toggleNotePopup}
-                            type='disable'
+                            type='default'
                             styling="outline"
                         />
                         <Button 

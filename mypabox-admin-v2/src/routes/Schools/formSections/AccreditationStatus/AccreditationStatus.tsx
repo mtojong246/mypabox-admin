@@ -123,7 +123,8 @@ export default function AccreditationStatus({
                 selectedField={selectedField}
                 selectedNote={selectedNote}
                 school={school}
-                setSchool={setSchool}
+                handleChanges={handleChanges}
+                handleModification={handleModification}
             />
         )}
         </>

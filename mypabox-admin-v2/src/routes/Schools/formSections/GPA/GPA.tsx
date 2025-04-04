@@ -52,6 +52,7 @@ export default function GPA({
         handleAddition,
         handleDeletion,
         handleRetrieveValue,
+        handleModification,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const handleQuill = (e: any, name: string, path: string) => {
@@ -168,7 +169,8 @@ export default function GPA({
                 selectedField={selectedField}
                 selectedNote={selectedNote}
                 school={school}
-                setSchool={setSchool}
+                handleChanges={handleChanges}
+                handleModification={handleModification}
             />
         )}
         </>

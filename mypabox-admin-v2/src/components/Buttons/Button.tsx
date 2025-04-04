@@ -8,7 +8,7 @@ export default function Button({
     adornment,
     value,
 }: {
-    type: 'warning' | 'primary' | 'success' | 'disable',
+    type: 'warning' | 'primary' | 'success' | 'disable' | 'default',
     styling: 'outline' | 'solid',
     label: string,
     action: (e: MouseEvent<HTMLButtonElement>) => void,
@@ -32,8 +32,13 @@ export default function Button({
                 {adornment && <div className="w-[14px]">{adornment}</div>}
                 <p>{label}</p>
             </button>
+        ) : type === 'default' ? (
+            <button value={value} onClick={action} className={`py-3 px-4 flex justify-center items-center gap-2 border rounded-lg border-outline transition-all ${styling === 'outline' ? 'bg-none text-default hover:text-primary hover:border-primary' : 'bg-disable text-white hover:brightness-90'}`}>
+                {adornment && <div className="w-[14px]">{adornment}</div>}
+                <p>{label}</p>
+            </button>
         ) : (
-            <button value={value} onClick={action} className={`py-3 px-4 flex justify-center items-center gap-2 border rounded-lg border-disable transition-all ${styling === 'outline' ? 'bg-none hover:bg-disable text-disable hover:text-white' : 'bg-disable text-white hover:brightness-90'}`}>
+            <button disabled value={value} onClick={action} className={`py-3 px-4 flex justify-center items-center gap-2 border rounded-lg border-outline text-outline opacity-[75]`}>
                 {adornment && <div className="w-[14px]">{adornment}</div>}
                 <p>{label}</p>
             </button>

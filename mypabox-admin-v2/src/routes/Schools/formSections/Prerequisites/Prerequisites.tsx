@@ -42,6 +42,7 @@ export default function Prerequisites({
         handleAddition,
         handleDeletion,
         handleRetrieveValue,
+        handleModification
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const handleQuill = (e: any, name: string, path: string) => {
@@ -178,7 +179,8 @@ export default function Prerequisites({
                 selectedField={selectedField}
                 selectedNote={selectedNote}
                 school={school}
-                setSchool={setSchool}
+                handleChanges={handleChanges}
+                handleModification={handleModification}
             />
         )}
         </>

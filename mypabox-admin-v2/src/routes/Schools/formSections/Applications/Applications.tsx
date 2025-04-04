@@ -5,7 +5,6 @@ import Container from "../../../../components/Form/Validation/Container";
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
-import { StylesConfig } from "react-select";
 import ApplicationsInputs from "./ApplicationsInputs";
 
 
@@ -103,43 +102,6 @@ const applicationFields = [
     
 ]
 
-
-interface ColorOptions {value: string, label: string, color: string, focus: string}
-
-
-const dot = (color:string = 'transparent') => ({
-    alignItems: 'center',
-    display: 'flex',
-  
-    ':before': {
-      backgroundColor: color ,
-      borderRadius: 10,
-      content: '" "',
-      display: 'block',
-      marginRight: 10,
-      height: 10,
-      width: 10,
-    },
-  });
-
-const colorStyles: StylesConfig<ColorOptions> = {
-    control: (styles) => ({...styles, backgroundColor: 'white'}),
-    option: (styles, {data, isDisabled, isFocused, isSelected}) => {
-        return {
-            ...styles,
-            backgroundColor: isDisabled ? undefined : isSelected ? data.color : isFocused ? data.focus : undefined,
-            color: isDisabled ? '#ccc' : isSelected ? 'white' : isFocused ? 'white' : data.color,
-            cursor: isDisabled ? 'not-allowed' : 'default',
-            ':active': {
-                ...styles[':active'],
-                backgroundColor: !isDisabled ? isSelected ? data.color : data.focus : undefined,
-            }
-        }
-    },
-    input: (styles) => ({...styles, ...dot()}),
-    placeholder: (styles) => ({...styles, ...dot('#ccc')}),
-    singleValue: (styles, {data}) => ({...styles, ...dot(data.color)})
-}
 
 
 
@@ -241,7 +203,8 @@ export default function Applications({
                 selectedField={selectedField}
                 selectedNote={selectedNote}
                 school={school}
-                setSchool={setSchool}
+                handleChanges={handleChanges}
+                handleModification={handleModification}
             />
         )}
         </>

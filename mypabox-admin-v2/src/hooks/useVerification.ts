@@ -364,6 +364,8 @@ const useVerification = ({
                 }
             }
 
+            console.log(changes)
+
 
             setSchool({
                 ...school,
@@ -390,7 +392,8 @@ const useVerification = ({
             originalField
         } = handleModify('.input', field, originalDraftValue);
 
-        const modifiedChanges = field.changes.filter(c => c.type === change.type && c.path === change.path);
+
+        const modifiedChanges = field.changes.filter(c => c.type !== change.type && c.path !== change.path);
         
         setSchool({
             ...school,
@@ -416,7 +419,7 @@ const useVerification = ({
             draftField,
         } = handleModify('.input', field, originalValue);
 
-        const modifiedChanges = field.changes.filter(c => c.type === change.type && c.path === change.path);
+        const modifiedChanges = field.changes.filter(c => c.type !== change.type && c.path !== change.path);
         
         setSchool({
             ...school,

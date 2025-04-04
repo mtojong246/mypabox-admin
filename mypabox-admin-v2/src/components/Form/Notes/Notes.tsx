@@ -23,6 +23,7 @@ export default function Notes({
     toggleNote: (e:MouseEvent<HTMLButtonElement>, field?: { name: string, path: string, noteIndex?: number }, note?: NewNote) => void,
     deleteNote: (e: MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
 }) {
+    
     return (
         <div className="flex flex-col gap-4 justify-start items-start w-full">
             <p className="text-default">Notes:</p>
