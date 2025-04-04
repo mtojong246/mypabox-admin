@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, MouseEvent } from "react";
 import { Change, GenericSchoolField, NewSchool } from "../types/newSchools.types";
 import { UserPermissions } from "../types/users.types";
-
+import isEqual from 'lodash/isEqual';
 
 const useVerification = ({
     school,
@@ -318,6 +318,8 @@ const useVerification = ({
 
         if (originalDraftValue === undefined || originalDraftValue === null) {
             return originalValue;
+        } else if (!isEqual(originalValue, originalDraftValue)) {
+            return originalValue;
         } else {
             return null;
         }
@@ -390,6 +392,40 @@ const useVerification = ({
         }
     }
 
+    // Modifies indices with the same base path to accomodate for validating or reverting an individual field that 
+    // is being removed
+    const adjustIndices = (changes: Change[], updatedPath: string, updatedIndex: number) => {
+        let updatedChanges: Change[] = [];
+
+        changes.forEach(change => {
+            const keys = change.path.split('.').filter(key => key !== '');
+            
+            const pathWithoutIndex = `.${keys.filter((key,i) => i !== keys.length-1).join('.')}`;
+            if (updatedPath === pathWithoutIndex) {
+                const lastKey = keys[keys.length-1];
+                if (isNaN(Number(lastKey))) {
+                    updatedChanges.push(change);
+                } else {
+                    let index = Number(lastKey);
+                    if (index > updatedIndex) {
+                        index = index - 1
+                    }
+
+                    const pathWithUpdatedIndex = `${pathWithoutIndex}.${index}`;
+                    updatedChanges.push({
+                        ...change,
+                        path: pathWithUpdatedIndex,
+                    })
+                }
+            } else {
+                updatedChanges.push(change);
+            }
+
+        });
+
+        return updatedChanges;
+    }
+
     const validateIndividualChange = (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => {
         e.preventDefault();
 
@@ -400,18 +436,38 @@ const useVerification = ({
             originalDraftValue,
         } = handleRetrieveValue(path, field);
 
-        const keys = path.split('.');
+        const keys = path.split('.').filter(key => key !== '');
         let index: undefined | number = undefined;
 
         if (change.type === 'added' || change.type === 'removed') {
             if (Number(keys[keys.length-1])) {
                 path = `.${keys.filter((key, i) => i !== keys.length-1).join('.')}`
-
-                if (change.type === 'removed') {
-                    index = Number(keys[keys.length-1])
-                }
+                index = Number(keys[keys.length-1])
             } else {
                 path = change.path;
+            }
+        }
+
+        let validatedValue: any = '';
+
+        if (change.type === 'modified') {
+            validatedValue = originalDraftValue;
+        } else {
+            const {
+                originalValue,
+            } = handleRetrieveValue(path, field);
+
+            if (change.type === 'added' && index !== undefined) {
+                let originalArr = originalValue as any[];
+                if (index >= originalValue.length) {
+                    originalArr = originalValue.concat(originalDraftValue);
+                } else {
+                    originalArr.splice(index, 0, originalDraftValue);
+                }
+                validatedValue = originalArr;
+
+            } else if (change.type === 'removed' && index !== undefined) {
+                validatedValue = (originalValue as any[]).filter((val,i) => i !== index);
             }
         }
 
@@ -420,12 +476,16 @@ const useVerification = ({
         } = handleModification(
             path, 
             field, 
-            originalDraftValue, 
-            change.type === 'modified' ? 'modify' : change.type === 'added' ? 'add' : 'remove', 
-            index,
+            validatedValue, 
+            'modify',
         );
 
-        const modifiedChanges = field.changes.filter(c => c.type !== change.type && c.path !== change.path);
+        let modifiedChanges = field.changes.filter(c => c.type !== change.type && c.path !== change.path);
+
+        if (change.type === 'removed' && index !== undefined) {
+            modifiedChanges = adjustIndices(modifiedChanges, path, index);
+        }
+
         
         setSchool({
             ...school,
@@ -441,39 +501,58 @@ const useVerification = ({
         e.preventDefault();
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
-        let path = change.path;
 
         const {
             originalValue,
-        } = handleRetrieveValue(path, field);
+        } = handleRetrieveValue(change.path, field);
 
-        const keys = path.split('.');
+        let path = change.path;
+
+        const keys = path.split('.').filter(key => key !== '');
         let index: undefined | number = undefined;
 
         if (change.type === 'added' || change.type === 'removed') {
             if (Number(keys[keys.length-1])) {
                 path = `.${keys.filter((key, i) => i !== keys.length-1).join('.')}`
-
-                if (change.type === 'removed') {
-                    index = Number(keys[keys.length-1])
-                }
+                index = Number(keys[keys.length-1])
             } else {
                 path = change.path;
             }
         }
+
+        let revertedValue: any = '';
         
+        if (change.type === 'modified') {
+            revertedValue = originalValue;
+        } else {
+            const {
+                originalDraftValue,
+            } = handleRetrieveValue(path, field);
+
+            if (change.type === 'added') {
+                revertedValue = (originalDraftValue as any[]).filter((val,i) => i !== index);
+            } else if (change.type === 'removed' && index !== undefined) {
+                let draftArr = originalDraftValue as any[];
+                draftArr.splice(index, 0, originalValue);
+                revertedValue = draftArr;
+            }
+        }
+
 
         const {
             draftField,
         } = handleModification(
             path, 
             field, 
-            originalValue, 
-            change.type === 'modified' ? 'modify' : change.type === 'added' ? 'add' : 'remove', 
-            index,
+            revertedValue, 
+            'modify',
         );
 
         const modifiedChanges = field.changes.filter(c => c.type !== change.type && c.path !== change.path);
+
+        // if (change.type === 'removed' && index !== undefined) {
+        //     adjustIndices(modifiedChanges, path, index, false);
+        // }
         
         setSchool({
             ...school,

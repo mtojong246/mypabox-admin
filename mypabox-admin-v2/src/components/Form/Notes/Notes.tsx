@@ -58,7 +58,6 @@ export default function Notes({
 
             if (checkIfValueHasBeenRemoved && tab !== undefined && tab === 'modified') {
                 const removedChanges = allChanges.filter(change => change.type === 'removed');
-                console.log(removedChanges)
                 if (removedChanges.length > 0) {
                     removedChanges.forEach(change => {
                         const keys = change.path.split('.');
