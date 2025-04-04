@@ -84,7 +84,7 @@ export default function AddSchoolForms({
                     <Experience 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#pa-shadowing' ? (
                     <PAShadowing 

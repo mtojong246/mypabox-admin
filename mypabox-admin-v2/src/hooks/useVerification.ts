@@ -59,18 +59,24 @@ const useVerification = ({
 
         let originalValue;
 
-        if (!isOriginalInvalid) {
-            originalValue = original[lastKey];
-            if (modificationType === 'modify') {
-                original[lastKey] = newValue;
-            } else if (modificationType === 'add') {
-                original[lastKey] = originalValue.concat(newValue);
-            } else if (modificationType === 'remove' && index !== undefined) {
-                original[lastKey] = (originalValue as any[]).filter((val, i) => i !== index);
-            }
+        if (original === null) {
+            originalValue = null;
         } else {
-            originalValue = undefined;
+            if (!isOriginalInvalid) {
+                originalValue = original[lastKey];
+                if (modificationType === 'modify') {
+                    original[lastKey] = newValue;
+                } else if (modificationType === 'add') {
+                    original[lastKey] = originalValue.concat(newValue);
+                } else if (modificationType === 'remove' && index !== undefined) {
+                    original[lastKey] = (originalValue as any[]).filter((val, i) => i !== index);
+                }
+            } else {
+                originalValue = undefined;
+            }
         }
+
+        
 
         if (!isDraftInvalid) {
             const originalDraftValue = draft[lastKey] as any[];
@@ -286,7 +292,14 @@ const useVerification = ({
             lastKey = Number(lastKey);
         }
 
-        const originalValue = isOriginalInvalid ? undefined : original[lastKey];
+        let originalValue = null;
+
+        if (original === null) {
+            originalValue = null;
+        } else {
+            originalValue = isOriginalInvalid ? undefined : original[lastKey];
+        }
+
         const originalDraftValue = isDraftInvalid ? undefined : draft[lastKey];
 
         return {

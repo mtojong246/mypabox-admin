@@ -1,14 +1,11 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
-import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
-import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
 
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
-import Notes from "../../../../components/Form/Notes/Notes";
 import useVerification from "../../../../hooks/useVerification";
-import TextSelectInput from "../../../../components/Form/InputTypes/TextSelectInput";
+import ExperienceInputs from "./ExperienceInputs";
 
 
 const permissions = {
@@ -221,11 +218,6 @@ const experienceFields = [
     },
 ]
 
-const unitOptions = [
-    {value: '', label: 'Select'},
-    {value: 'Years', label: 'Years'},
-    {value: 'Months', label: 'Months'}
-]
 
 export default function Experience({
     isEditSchool,
@@ -246,238 +238,11 @@ export default function Experience({
 
     const {
         handleChanges,
-        handleModify,
         handleRetrieveValue,
+        handleModification,
+        validateIndividualChange,
+        revertIndividualChange
     } = useVerification({ school, setSchool, isEditSchool, permissions });
-
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
-
-    const handleDuration = (name: string, path: string, value: string | number) => {
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-    }
-
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const checked = e.target.checked;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-        const keys = path.split('.');
-
-        let value = {};
-        let inputPath = '';
-
-        
-        if (name === 'school_patient_experience') {
-            let pceValue = {}
-            inputPath = '.input';
-            if (keys.includes('school_patient_experience_required')) {
-                pceValue = {
-                    school_patient_experience_required: {
-                        input: checked,
-                    },
-                    school_minimum_patient_care_experience_hours_required: checked ? {
-                        input: 0,
-                        notes: [],
-                    } : null,
-                    school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: checked ? {
-                        input: {
-                            quantity: 0,
-                            units: '',
-                        },
-                        notes: [],
-                    } : null,
-                }
-            } else if (keys.includes('school_patient_experience_recommended')) {
-                pceValue = {
-                    school_patient_experience_recommended: {
-                        input: checked,
-                    },
-                    school_minimum_patient_care_experience_hours_recommended: checked ? {
-                        input: 0,
-                        notes: [],
-                    } : null,
-                    school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: checked ? {
-                        input: {
-                            quantity: 0,
-                            units: '',
-                        },
-                        notes: [],
-                    } : null,
-                }
-            }
-
-            if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                value = {
-                    ...school.school_patient_experience.original.input,
-                    ...pceValue,
-                }
-            } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                value = {
-                    ...school.school_patient_experience.draft.input,
-                    ...pceValue,
-                }
-            }
-            
-        } else if (name === 'school_healthcare_experience') {
-            let hceValue = {};
-            inputPath = '.input';
-            if (keys.includes('school_healthcare_experience_required')) {
-                hceValue = {
-                    school_healthcare_experience_required: {
-                        input: checked,
-                    },
-                    school_minimum_healthcare_experience_hours_required: checked ? {
-                        input: 0,
-                        notes: [],
-                    } : null,
-                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed_required: checked ? {
-                        input: {
-                            quantity: 0,
-                            units: '',
-                        },
-                        notes: [],
-                    } : null,
-                }
-            } else if (keys.includes('school_healthcare_experience_recommended')) {
-                hceValue = {
-                    school_healthcare_experience_recommended: {
-                        input: checked,
-                    },
-                    school_minimum_healthcare_experience_hours_recommended: checked ? {
-                        input: 0,
-                        notes: [],
-                    } : null,
-                    school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: checked ? {
-                        input: {
-                            quantity: 0,
-                            units: '',
-                        },
-                        notes: [],
-                    } : null,
-                }
-            }
-
-            if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                value = {
-                    ...school.school_healthcare_experience.original.input,
-                    ...hceValue,
-                }
-            } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                value = {
-                    ...school.school_healthcare_experience.draft.input,
-                    ...hceValue,
-                }
-            }
-
-        } else if (name === 'school_community_service') {
-            let communityValue = {}
-            inputPath = '.input';
-            if (keys.includes('school_community_service_required')) {
-                communityValue = {
-                    school_community_service_required: {
-                        input: checked,
-                    },
-                    school_minimum_community_service_hours_required: checked ? {
-                        input: 0,
-                        notes: [],
-                    } : null,
-                }
-            } else if (keys.includes('school_healthcare_experience_recommended')) {
-                communityValue = {
-                    school_community_service_recommended: {
-                        input: checked,
-                    },
-                    school_minimum_community_service_hours_recommended: checked ? {
-                        input: 0,
-                        notes: [],
-                    } : null,
-                }
-            }
-
-            if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                value = {
-                    ...school.school_community_service.original.input,
-                    ...communityValue,
-                }
-            } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                value = {
-                    ...school.school_community_service.draft.input,
-                    ...communityValue,
-                }
-            }
-
-        } else if (name === 'school_volunteer_service') {
-            let volunteerValue = {}
-            inputPath = '.input';
-            if (keys.includes('school_volunteer_service_required')) {
-                volunteerValue = {
-                    school_volunteer_service_required: {
-                        input: checked,
-                    },
-                    school_minimum_volunteer_service_hours_required: checked ? {
-                        input: 0,
-                        notes: [],
-                    } : null,
-                }
-            } else if (keys.includes('school_volunteer_service_recommended')) {
-                volunteerValue = {
-                    school_volunteer_service_recommended: {
-                        input: checked,
-                    },
-                    school_minimum_volunteer_service_hours_recommended: checked ? {
-                        input: 0,
-                        notes: [],
-                    } : null,
-                }
-            }
-
-            if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                value = {
-                    ...school.school_volunteer_service.original.input,
-                    ...volunteerValue,
-                }
-            } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                value = {
-                    ...school.school_volunteer_service.draft.input,
-                    ...volunteerValue,
-                }
-            }
-        } else {
-            inputPath = path;
-            value = checked;
-        }
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(inputPath, field, value);
-        
-        handleChanges(field, name, originalField, draftField, inputPath, 'modified', originalValue, value);
-    };
 
 
     return (
@@ -507,206 +272,40 @@ export default function Experience({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let originalInput;
-                                let originalNotes = [];
-
-                                if (associatedFieldObject.originalValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    originalInput = associatedFieldInputs.originalValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        originalNotes = associatedFieldNotes.originalValue;
-                                    }
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text-select' ? (
-                                                <TextSelectInput 
-                                                    label={associatedField.label}
-                                                    placeholder="Quantity"
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    inputPath={`${inputPath}.quantity`}
-                                                    selectPath={`${inputPath}.units`}
-                                                    handleChange={handleDuration}
-                                                    options={unitOptions}
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                            {associatedField.notePath && originalNotes !== undefined && (
-                                                <Notes 
-                                                    notes={originalNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            
-                            </>
-                        ) : (
-                            <BooleanInput 
-                                label={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleCheck={handleBoolean}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <ExperienceInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let draftInput;
-                                let draftNotes = [];
-
-                                if (associatedFieldObject.originalDraftValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    draftInput = associatedFieldInputs.originalDraftValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        draftNotes = associatedFieldNotes.originalDraftValue;
-                                    }
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={field.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={field.path}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text-select' ? (
-                                                <TextSelectInput 
-                                                    label={associatedField.label}
-                                                    placeholder="Quantity"
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    inputPath={`${inputPath}.quantity`}
-                                                    selectPath={`${inputPath}.units`}
-                                                    handleChange={handleDuration}
-                                                    options={unitOptions}
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                            {associatedField.notePath && draftNotes !== undefined && (
-                                                <Notes 
-                                                    notes={draftNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <BooleanInput 
-                                label={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleCheck={handleBoolean}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={draftNoteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <ExperienceInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )
