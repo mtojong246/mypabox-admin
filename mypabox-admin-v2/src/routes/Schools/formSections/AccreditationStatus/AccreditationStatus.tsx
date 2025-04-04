@@ -41,7 +41,6 @@ export default function AccreditationStatus({
         isNoteOpen,
         selectedField,
         selectedNote,
-        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const {
@@ -50,6 +49,7 @@ export default function AccreditationStatus({
         validateIndividualChange,
         revertIndividualChange,
         handleModification,
+        checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
     
     // console.log(school.school_accreditation_status)
@@ -93,7 +93,6 @@ export default function AccreditationStatus({
                             handleChanges={handleChanges}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                         />
                     }
                     modifiedInputs={
@@ -109,9 +108,9 @@ export default function AccreditationStatus({
                             handleChanges={handleChanges}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

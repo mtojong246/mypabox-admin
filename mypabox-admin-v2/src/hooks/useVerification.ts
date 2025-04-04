@@ -60,7 +60,7 @@ const useVerification = ({
         let originalValue;
 
         if (original === null) {
-            originalValue = null;
+            originalValue = undefined;
         } else {
             if (!isOriginalInvalid) {
                 originalValue = original[lastKey];
@@ -80,7 +80,7 @@ const useVerification = ({
         let originalDraftValue;
 
         if (!isDraftInvalid) {
-            const originalDraftValue = draft[lastKey] as any[];
+            originalDraftValue = draft[lastKey] as any[];
             if (modificationType === 'modify') {
                 draft[lastKey] = newValue;
             } else if (modificationType === 'add') {
@@ -294,10 +294,10 @@ const useVerification = ({
             lastKey = Number(lastKey);
         }
 
-        let originalValue = null;
+        let originalValue = undefined;
 
         if (original === null) {
-            originalValue = null;
+            originalValue = undefined;
         } else {
             originalValue = isOriginalInvalid ? undefined : original[lastKey];
         }
@@ -308,7 +308,20 @@ const useVerification = ({
             originalValue,
             originalDraftValue,
         }
-    }
+    };
+
+    const checkIfValueHasBeenRemoved = (path: string, field: GenericSchoolField) => {
+        const {
+            originalValue,
+            originalDraftValue,
+        } = handleRetrieveValue(path, field);
+
+        if (originalDraftValue === undefined || originalDraftValue === null) {
+            return originalValue;
+        } else {
+            return null;
+        }
+    };
 
     const handleChanges = (
             field: GenericSchoolField, 
@@ -428,15 +441,37 @@ const useVerification = ({
         e.preventDefault();
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
-        const path = change.path;
+        let path = change.path;
 
         const {
             originalValue,
         } = handleRetrieveValue(path, field);
 
+        const keys = path.split('.');
+        let index: undefined | number = undefined;
+
+        if (change.type === 'added' || change.type === 'removed') {
+            if (Number(keys[keys.length-1])) {
+                path = `.${keys.filter((key, i) => i !== keys.length-1).join('.')}`
+
+                if (change.type === 'removed') {
+                    index = Number(keys[keys.length-1])
+                }
+            } else {
+                path = change.path;
+            }
+        }
+        
+
         const {
             draftField,
-        } = handleModify('.input', field, originalValue);
+        } = handleModification(
+            path, 
+            field, 
+            originalValue, 
+            change.type === 'modified' ? 'modify' : change.type === 'added' ? 'add' : 'remove', 
+            index,
+        );
 
         const modifiedChanges = field.changes.filter(c => c.type !== change.type && c.path !== change.path);
         
@@ -458,7 +493,8 @@ const useVerification = ({
         handleRetrieveValue,
         validateIndividualChange,
         revertIndividualChange,
-        handleModification
+        handleModification,
+        checkIfValueHasBeenRemoved
     }
 
 };

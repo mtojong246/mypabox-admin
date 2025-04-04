@@ -11,12 +11,13 @@ export default function Notes({
     notes,
     field,
     toggleNote,
-    // deleteNote,
     schoolField,
     validateIndividualChange,
     revertIndividualChange,
     handleChanges,
-    handleModification
+    handleModification,
+    checkIfValueHasBeenRemoved,
+    tab
 }: {
     notes: NewNote[],
     field: {
@@ -27,7 +28,6 @@ export default function Notes({
         notePath: string,
     },
     toggleNote: (e:MouseEvent<HTMLButtonElement>, field?: { name: string, path: string, noteIndex?: number }, note?: NewNote) => void,
-    // deleteNote: (e: MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
     schoolField: GenericSchoolField,
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
@@ -37,14 +37,49 @@ export default function Notes({
         draftField: any;
         originalValue: any;
     },
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
+    tab?: 'original' | 'modified';
 }) {
     const [ changes, setChanges ] = useState<Change[]>([]);
+    const [ noteValues, setNoteValues ] = useState<{
+        note: NewNote,
+        toBeRemoved: boolean,
+    }[]>([]);
 
     useEffect(() => {
         if (schoolField !== undefined) {
-            setChanges(schoolField.changes);
+            const allChanges = schoolField.changes;
+            setChanges(allChanges);
+
+            let flaggedNotes: {
+                note: NewNote,
+                toBeRemoved: boolean,
+            }[] = notes.map(note => ({ note, toBeRemoved: false }));
+
+            if (checkIfValueHasBeenRemoved && tab !== undefined && tab === 'modified') {
+                const removedChanges = allChanges.filter(change => change.type === 'removed');
+                console.log(removedChanges)
+                if (removedChanges.length > 0) {
+                    removedChanges.forEach(change => {
+                        const keys = change.path.split('.');
+                        const index = keys[keys.length-1];
+    
+                        const originalNoteValue = checkIfValueHasBeenRemoved(change.path, schoolField);
+                        if (originalNoteValue !== null) {
+                            flaggedNotes.splice(Number(index), 0, {
+                                note: originalNoteValue,
+                                toBeRemoved: true,
+                            })
+                        }
+                    })
+                }
+            };
+
+            setNoteValues(flaggedNotes);
+
         }
-    }, [schoolField]);
+    }, [schoolField, notes, checkIfValueHasBeenRemoved, tab]);
+
 
     const deleteNote = (e:any, name: string, path: string, index: number) => {
         e.preventDefault();
@@ -63,10 +98,15 @@ export default function Notes({
     return (
         <div className="flex flex-col gap-4 justify-start items-start w-full">
             <p className="text-default">Notes:</p>
-            {notes.length > 0 && notes.map((note,i) => (
+            {noteValues.length > 0 && noteValues.map((noteValue,i) => {
+                const notePath = `${field.notePath}.${i}`;
+                const change = changes.find(change => change.path === notePath);
+                const note = noteValue.note;
+
+                return (
                 <div className="w-full flex justify-between items-start gap-6">
                     <div className="grow flex justify-start items-start gap-2">
-                        <div className="grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline">
+                        <div className={`${noteValue.toBeRemoved && 'opacity-50'} grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
                             <p className={`${note.type === 'requirement' ? 'text-warning' : 'text-primary'} text-[14px] font-medium`}>{note.type}</p>
                             <ReactQuill 
                                 theme='bubble'
@@ -75,31 +115,34 @@ export default function Notes({
                                 className='edited-quill'
                             />
                         </div>
-                        {changes.find(change => change.path === `${field.notePath}.${i}`) && (
+                        {change && (
                             <ChangePopup 
-                                change={changes.find(change => change.path === `${field.notePath}.${i}`)!}
+                                change={change}
                                 name={field.name}
                                 validateIndividualChange={validateIndividualChange}
                                 revertIndividualChange={revertIndividualChange}
                             />
                         )}
                     </div>
-                    <div className="flex gap-4">
-                        <button 
-                            onClick={(e:any) => {toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i }, note)}} 
-                            className="w-[24px] text-primary"
-                        >   
-                            <EditIcon/>
-                        </button>
-                        <button 
-                            onClick={(e:any) => {deleteNote(e, field.name, field.notePath, i)}} 
-                            className="w-[24px] text-warning"
-                        >
-                            <DeleteIcon/>
-                        </button>
-                    </div>
+                    {!noteValue.toBeRemoved && (
+                        <div className="flex gap-4">
+                            <button 
+                                onClick={(e:any) => {toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i }, note)}} 
+                                className="w-[24px] text-primary"
+                            >   
+                                <EditIcon/>
+                            </button>
+                            <button 
+                                onClick={(e:any) => {deleteNote(e, field.name, field.notePath, i)}} 
+                                className="w-[24px] text-warning"
+                            >
+                                <DeleteIcon/>
+                            </button>
+                        </div>
+                    )}
                 </div>
-            ))}
+                )
+            })}
             <Button 
                 type='primary'
                 styling="outline"

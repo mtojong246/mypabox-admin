@@ -71,8 +71,7 @@ export default function NotePopup({
             originalDraftValue,
         } = handleModification(path, field, newNote, 'add');
 
-        const index = field.draft.notes!.length;
-        console.log(originalDraftValue)
+        const index = (originalDraftValue as NewNote[]).length;
 
         handleChanges(field, name, originalField, draftField, `${path}.${index}`, 'added');
 
