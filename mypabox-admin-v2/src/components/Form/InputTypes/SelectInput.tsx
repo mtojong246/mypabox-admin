@@ -1,8 +1,12 @@
-import Select from 'react-select';
+import Select, { StylesConfig } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { Change } from '../../../types/newSchools.types';
 import { MouseEvent } from 'react';
 import ChangePopup from '../Validation/ChangePopup';
+
+
+interface ColorOptions {value: string | number, label: string | number, color?: string, focus?: string}
+
 
 export default function SelectInput({
     label,
@@ -18,11 +22,12 @@ export default function SelectInput({
     validateIndividualChange,
     revertIndividualChange,
     isDisabled,
+    colorStyles,
 }: {
     label: string,
     placeholder: string,
     name: string,
-    value: { value: string | number, label: string | number },
+    value: { value: string | number, label: string | number, color?: string, focus?: string },
     path: string,
     handleSelect: (e: any, name: string, path: string) => void,
     isRequired: boolean,
@@ -32,6 +37,7 @@ export default function SelectInput({
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     isDisabled: boolean,
+    colorStyles?: StylesConfig<ColorOptions>
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">
@@ -54,7 +60,8 @@ export default function SelectInput({
                         valueContainer: (baseStyles, state) => ({
                             ...baseStyles,
                             padding: '7px 16px',
-                        })
+                        }),
+                        ...colorStyles,
                     }}
                 />
                 ) : (
@@ -73,7 +80,8 @@ export default function SelectInput({
                         valueContainer: (baseStyles, state) => ({
                             ...baseStyles,
                             padding: '7px 16px',
-                        })
+                        }),
+                        ...colorStyles,
                     }}
                 />
                 )}

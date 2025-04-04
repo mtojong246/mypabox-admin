@@ -67,6 +67,15 @@ export default function CertificationInputs({
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
 
+    useEffect(() => {
+        if (tab === 'original' && isEditSchool && (permissions.canEditWithVerificationNeeded || (schoolField.changes.length > 0 && permissions.canVerify))) {
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false);
+        }
+    }, [isEditSchool, permissions, schoolField, tab]);
+
+
     const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -148,14 +157,7 @@ export default function CertificationInputs({
 
     }
 
-    useEffect(() => {
-        if (tab === 'original' && isEditSchool && (permissions.canEditWithVerificationNeeded || (schoolField.changes.length > 0 && permissions.canVerify))) {
-            setIsDisabled(true);
-        } else {
-            setIsDisabled(false);
-        }
-    }, [isEditSchool, permissions, schoolField, tab]);
-
+    
     return (
         <div className="flex flex-col gap-8 justify-start items-start">
             {field.type === 'object' ? (
@@ -171,15 +173,15 @@ export default function CertificationInputs({
                         associatedFieldValue = associatedFieldObject.originalDraftValue;
                     }
 
-                    let value;
+                    let inputValue;
 
                     if (associatedFieldValue !== null) {
                         const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
                         const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
                         if (tab === 'original') {
-                            value = associatedFieldInputs.originalValue
+                            inputValue = associatedFieldInputs.originalValue
                         } else {
-                            value = associatedFieldInputs.originalDraftValue;
+                            inputValue = associatedFieldInputs.originalDraftValue;
                         }
 
                         return (
@@ -188,7 +190,7 @@ export default function CertificationInputs({
                                     <BooleanInput 
                                         label={associatedField.label}
                                         name={field.name}
-                                        value={value}
+                                        value={inputValue}
                                         path={inputPath}
                                         handleCheck={handleBoolean}
                                         isRequired={false}
@@ -200,7 +202,7 @@ export default function CertificationInputs({
                                 ) : associatedField.type === 'array' ? (
                                     <div className="w-full flex flex-col gap-4 justify-start items-start">
                                         <label className="text-default">{associatedField.label}</label>
-                                        {(value as any[]).length > 0 && (value as any[]).map((val,i) => {
+                                        {(inputValue as any[]).length > 0 && (inputValue as any[]).map((val,i) => {
                                             const arrayInputPath = `${inputPath}.${i}.value`
                                             const textInput = handleRetrieveValue(arrayInputPath, schoolField);
                                             const change = schoolField.changes.find(change => change.path === inputPath);
