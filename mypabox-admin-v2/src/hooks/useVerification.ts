@@ -77,6 +77,7 @@ const useVerification = ({
         }
 
         
+        let originalDraftValue;
 
         if (!isDraftInvalid) {
             const originalDraftValue = draft[lastKey] as any[];
@@ -93,6 +94,7 @@ const useVerification = ({
             originalField,
             draftField,
             originalValue,
+            originalDraftValue,
         }
     }
 

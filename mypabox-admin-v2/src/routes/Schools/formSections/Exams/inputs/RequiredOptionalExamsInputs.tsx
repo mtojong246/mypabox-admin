@@ -274,7 +274,11 @@ export default function RequiredOptionalExamsInputs({
                                                 path: '',
                                             }}
                                             toggleNote={toggleNote}
-                                            deleteNote={deleteNote}
+                                            schoolField={schoolField}
+                                            validateIndividualChange={validateIndividualChange}
+                                            revertIndividualChange={revertIndividualChange}
+                                            handleChanges={handleChanges}
+                                            handleModification={handleModification}
                                         />
                                     ) : (
                                         <></>

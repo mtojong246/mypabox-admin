@@ -42,7 +42,9 @@ export default function Prerequisites({
         handleAddition,
         handleDeletion,
         handleRetrieveValue,
-        handleModification
+        handleModification,
+        revertIndividualChange,
+        validateIndividualChange
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const handleQuill = (e: any, name: string, path: string) => {
@@ -74,6 +76,9 @@ export default function Prerequisites({
             handleModify={handleModify}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
         />
         <CompletionCriteria 
             school={school}
@@ -85,6 +90,9 @@ export default function Prerequisites({
             handleModify={handleModify}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
         />
         {/* <MinimumRequiredOrRecommendedGPA 
             school={school}

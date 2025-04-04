@@ -11,10 +11,12 @@ export default function Notes({
     notes,
     field,
     toggleNote,
-    deleteNote,
+    // deleteNote,
     schoolField,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
+    handleChanges,
+    handleModification
 }: {
     notes: NewNote[],
     field: {
@@ -25,10 +27,16 @@ export default function Notes({
         notePath: string,
     },
     toggleNote: (e:MouseEvent<HTMLButtonElement>, field?: { name: string, path: string, noteIndex?: number }, note?: NewNote) => void,
-    deleteNote: (e: MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
-    schoolField?: GenericSchoolField,
+    // deleteNote: (e: MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
+    schoolField: GenericSchoolField,
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
+    handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
+        originalField: any;
+        draftField: any;
+        originalValue: any;
+    },
 }) {
     const [ changes, setChanges ] = useState<Change[]>([]);
 
@@ -37,6 +45,20 @@ export default function Notes({
             setChanges(schoolField.changes);
         }
     }, [schoolField]);
+
+    const deleteNote = (e:any, name: string, path: string, index: number) => {
+        e.preventDefault();
+
+        const {
+            originalField,
+            draftField,
+        } = handleModification(path, schoolField, '', 'remove', index);
+
+        const notePath = `${path}.${index}`;
+
+        handleChanges(schoolField, name, originalField, draftField, notePath, 'removed');
+
+    }
     
     return (
         <div className="flex flex-col gap-4 justify-start items-start w-full">

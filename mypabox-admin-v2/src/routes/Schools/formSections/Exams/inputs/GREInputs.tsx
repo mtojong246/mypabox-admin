@@ -357,7 +357,11 @@ export default function GREInputs({
                                                         name: field.name,
                                                     }}
                                                     toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
+                                                    schoolField={schoolField}
+                                                    validateIndividualChange={validateIndividualChange}
+                                                    revertIndividualChange={revertIndividualChange}
+                                                    handleChanges={handleChanges}
+                                                    handleModification={handleModification}
                                                 />
                                             ) : (
                                                 <></>
@@ -371,7 +375,11 @@ export default function GREInputs({
                                                         notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
                                                     }}
                                                     toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
+                                                    schoolField={schoolField}
+                                                    validateIndividualChange={validateIndividualChange}
+                                                    revertIndividualChange={revertIndividualChange}
+                                                    handleChanges={handleChanges}
+                                                    handleModification={handleModification}
                                                 />
                                             )}
                                         </>
@@ -405,7 +413,11 @@ export default function GREInputs({
                                      notePath: field.notePath,
                                 }}
                                 toggleNote={toggleNote}
-                                deleteNote={deleteNote}
+                                schoolField={schoolField}
+                                validateIndividualChange={validateIndividualChange}
+                                revertIndividualChange={revertIndividualChange}
+                                handleChanges={handleChanges}
+                                handleModification={handleModification}
                             />
                         )}
                         </div>

@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
+import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import Container from "../../../../../components/Form/Validation/Container";
 import { UserPermissions } from "../../../../../types/users.types";
 import Notes from "../../../../../components/Form/Notes/Notes";
@@ -91,6 +91,9 @@ export default function MinimumRequiredOrRecommendedGPA({
     handleChanges,
     toggleNote,
     deleteNote,
+    handleModification,
+    validateIndividualChange,
+    revertIndividualChange
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -119,7 +122,14 @@ export default function MinimumRequiredOrRecommendedGPA({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void
+    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
+    handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
+        originalField: any;
+        draftField: any;
+        originalValue: any;
+    },
+    validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
 }) {
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
@@ -273,7 +283,11 @@ export default function MinimumRequiredOrRecommendedGPA({
                                                         notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
                                                     }}
                                                     toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
+                                                    schoolField={schoolField}
+                                                    validateIndividualChange={validateIndividualChange}
+                                                    revertIndividualChange={revertIndividualChange}
+                                                    handleChanges={handleChanges}
+                                                    handleModification={handleModification}
                                                 />
                                             )}
                                         </>
@@ -347,7 +361,11 @@ export default function MinimumRequiredOrRecommendedGPA({
                                                         notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
                                                     }}
                                                     toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
+                                                    schoolField={schoolField}
+                                                    validateIndividualChange={validateIndividualChange}
+                                                    revertIndividualChange={revertIndividualChange}
+                                                    handleChanges={handleChanges}
+                                                    handleModification={handleModification}
                                                 />
                                             )}
                                         </>

@@ -29,6 +29,7 @@ export default function NotePopup({
         originalField: any;
         draftField: any;
         originalValue: any;
+        originalDraftValue: any;
     },
 }) {
     const [ noteForm, setNoteForm ] = useState<NewNote>(defaultNote)
@@ -67,9 +68,11 @@ export default function NotePopup({
         const {
             originalField,
             draftField,
+            originalDraftValue,
         } = handleModification(path, field, newNote, 'add');
 
         const index = field.draft.notes!.length;
+        console.log(originalDraftValue)
 
         handleChanges(field, name, originalField, draftField, `${path}.${index}`, 'added');
 

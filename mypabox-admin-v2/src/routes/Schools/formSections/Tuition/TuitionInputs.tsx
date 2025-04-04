@@ -108,7 +108,11 @@ export default function TuitionInputs({
                         notePath: field.notePath
                     }}
                     toggleNote={toggleNote}
-                    deleteNote={deleteNote}
+                    schoolField={schoolField}
+                    validateIndividualChange={validateIndividualChange}
+                    revertIndividualChange={revertIndividualChange}
+                    handleChanges={handleChanges}
+                    handleModification={handleModification}
                 />
             )}
             </div>

@@ -404,7 +404,11 @@ export default function EnglishExamsInputs({
                                             name: field.name,
                                         }}
                                         toggleNote={toggleNote}
-                                        deleteNote={deleteNote}
+                                        schoolField={schoolField}
+                                        validateIndividualChange={validateIndividualChange}
+                                        revertIndividualChange={revertIndividualChange}
+                                        handleChanges={handleChanges}
+                                        handleModification={handleModification}
                                     />
                                 ) : (
                                     <></>
@@ -440,7 +444,11 @@ export default function EnglishExamsInputs({
                         notePath: field.notePath
                     }}
                     toggleNote={toggleNote}
-                    deleteNote={deleteNote}
+                    schoolField={schoolField}
+                    validateIndividualChange={validateIndividualChange}
+                    revertIndividualChange={revertIndividualChange}
+                    handleChanges={handleChanges}
+                    handleModification={handleModification}
                 />
             )}
             </div>

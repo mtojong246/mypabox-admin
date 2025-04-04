@@ -53,6 +53,8 @@ export default function GPA({
         handleDeletion,
         handleRetrieveValue,
         handleModification,
+        revertIndividualChange,
+        validateIndividualChange
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const handleQuill = (e: any, name: string, path: string) => {
@@ -84,6 +86,9 @@ export default function GPA({
             handleModify={handleModify}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
         />
         <OtherTypesAndSpecificCourses 
             school={school}
@@ -97,6 +102,9 @@ export default function GPA({
             handleDeletion={handleDeletion}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
         />
         <AverageGPA 
             school={school}
@@ -108,6 +116,9 @@ export default function GPA({
             handleModify={handleModify}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
         />
         {gpaFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
