@@ -364,9 +364,6 @@ const useVerification = ({
                 }
             }
 
-            console.log(changes)
-
-
             setSchool({
                 ...school,
                 [name]: {
@@ -388,10 +385,16 @@ const useVerification = ({
             originalDraftValue,
         } = handleRetrieveValue(path, field);
 
+        const keys = path.split('.');
+
         const {
             originalField
-        } = handleModify('.input', field, originalDraftValue);
-
+        } = handleModification(
+            path, 
+            field, 
+            originalDraftValue, 
+            change.type === 'modified' ? 'modify' : change.type === 'added' ? 'add' : 'remove' 
+        );
 
         const modifiedChanges = field.changes.filter(c => c.type !== change.type && c.path !== change.path);
         

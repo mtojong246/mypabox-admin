@@ -36,7 +36,7 @@ export default function ChangePopup({
     if (typeof value === 'object') {
       return (
         <>
-        {Object.entries(value).map((key, value) => (
+        {Object.entries(value).map(([key, value]) => (
           <p><span className="font-semibold">{key}: </span>{value}</p>
         ))}
         </>

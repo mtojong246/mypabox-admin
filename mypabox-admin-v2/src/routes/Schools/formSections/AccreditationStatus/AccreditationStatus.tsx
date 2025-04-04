@@ -52,6 +52,7 @@ export default function AccreditationStatus({
         handleModification,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
     
+    // console.log(school.school_accreditation_status)
     
 
     return (

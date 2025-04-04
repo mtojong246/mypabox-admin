@@ -121,6 +121,9 @@ export default function AccreditationStatusInputs({
                     }}
                     toggleNote={toggleNote}
                     deleteNote={deleteNote}
+                    schoolField={schoolField}
+                    validateIndividualChange={validateIndividualChange}
+                    revertIndividualChange={revertIndividualChange}
                 />
             )}
             </div>

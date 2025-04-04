@@ -80,9 +80,10 @@ export default function NotePopup({
         const {
             originalField,
             draftField,
+            originalValue,
         } = handleModification(notePath, field, newNote, 'modify');
 
-        handleChanges(field, name, originalField, draftField, notePath, 'modified');
+        handleChanges(field, name, originalField, draftField, notePath, 'modified', originalValue, newNote);
 
     }
 
