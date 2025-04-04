@@ -1,13 +1,11 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
-import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Container from "../../../../components/Form/Validation/Container";
-import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
 
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
-import Notes from "../../../../components/Form/Notes/Notes";
 import useVerification from "../../../../hooks/useVerification";
+import PAShadowingInputs from "./PAShadowingInputs";
 
 
 const permissions = {
@@ -87,62 +85,12 @@ export default function PAShadowing({
 
     const {
         handleChanges,
-        handleModify,
         handleRetrieveValue,
+        handleModification,
+        revertIndividualChange,
+        validateIndividualChange
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
-
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const checked = e.target.checked;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        let value = {};
-        let inputPath = '';
-
-        if (name === 'school_pa_shadowing_required') {
-            inputPath = '.input';
-            value = {
-                school_pa_shadowing_required: checked,
-                school_minimum_pa_shadowing_hours_required: checked ? 0 : null,
-            }
-
-        } else if (name === 'school_pa_shadowing_recommended') {
-            inputPath = '.input';
-            value = {
-                school_pa_shadowing_recommended: checked,
-                school_minimum_pa_shadowing_hours_recommended: checked ? 0 : null,
-            }
-        } else {
-            inputPath = path;
-            value = checked;
-        }
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(inputPath, field, value);
-        
-        handleChanges(field, name, originalField, draftField, inputPath, 'modified', originalValue, value);
-    };
 
 
     return (
@@ -172,147 +120,40 @@ export default function PAShadowing({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let originalInput;
-
-                                if (associatedFieldObject.originalValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    originalInput = associatedFieldInputs.originalValue;
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <PAShadowingInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            value={value}
+                            field={field}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let draftInput;
-
-                                if (associatedFieldObject.originalDraftValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    draftInput = associatedFieldInputs.originalDraftValue;
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={field.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={field.path}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={draftNoteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <PAShadowingInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )
