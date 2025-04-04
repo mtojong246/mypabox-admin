@@ -1,10 +1,8 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
-import { GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
+import { Dispatch, SetStateAction } from "react"
+import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import Container from "../../../../../components/Form/Validation/Container";
-import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput";
-import TextInput from "../../../../../components/Form/InputTypes/TextInput";
-import Notes from "../../../../../components/Form/Notes/Notes";
 import { UserPermissions } from "../../../../../types/users.types";
+import PACATInputs from "../inputs/PACATInputs";
 
 
 const pacatFields = [
@@ -51,7 +49,9 @@ export default function PACAT({
     isEditSchool,
     permissions,
     handleRetrieveValue,
-    handleModify,
+    handleModification,
+    revertIndividualChange,
+    validateIndividualChange,
     handleChanges,
     toggleNote,
     deleteNote,
@@ -64,11 +64,13 @@ export default function PACAT({
         originalValue: any,
         originalDraftValue: any,
     },
-    handleModify: (path: string, field: GenericSchoolField, newValue: any) => {
+    handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
         originalField: any;
         draftField: any;
         originalValue: any;
     },
+    validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     handleChanges: (
         field: GenericSchoolField, 
         name: string, 
@@ -85,83 +87,6 @@ export default function PACAT({
     }, note?: NewNote) => void,
     deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void
 }) {
-
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
-
-
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const checked = e.target.checked;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-        const keys = path.split('.');
-
-        let value = {};
-        let inputPath = '';
-
-        
-        if (name === 'school_pacat') {
-            let pacatValue = {}
-            if (keys[keys.length-1].includes('school_pacat_required') || keys[keys.length-1].includes('school_pacat_recommended')) {
-                inputPath = '.input';
-                pacatValue = {
-                    school_pacat_exam_school_code: checked ? 0 : null,
-                    school_pacat_exam_scaled_minimum_score_required: checked ? 0 : null,
-                    school_pacat_exam_group_scaled_minimum_score_required: checked ? 0 : null,
-                }
-            } else {
-                inputPath = path;
-                value = checked;
-            }
-
-            if (['school_pacat_required', 'school_pacat_recommended'].includes(keys[keys.length-1])) {
-                if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                    value = {
-                        ...school.school_pacat.original.input,
-                        ...pacatValue,
-                        school_pacat_required: keys[keys.length-1].includes('school_pacat_required') ? checked : school.school_pacat.original.input.school_pacat_required,
-                        school_pacat_recommended: keys[keys.length-1].includes('school_pacat_recommended') ? checked : school.school_pacat.original.input.school_pacat_recommended,
-                    }
-                } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                    value = {
-                        ...school.school_pacat.draft.input,
-                        ...pacatValue,
-                        school_pacat_required: keys[keys.length-1].includes('school_pacat_required') ? checked : school.school_pacat.draft.input.school_pacat_required,
-                        school_pacat_recommended: keys[keys.length-1].includes('school_pacat_recommended') ? checked : school.school_pacat.draft.input.school_pacat_recommended,
-                    }
-                }
-            }
-
-            
-            
-        } else {
-            inputPath = path;
-            value = checked;
-        }
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(inputPath, field, value);
-        
-        handleChanges(field, name, originalField, draftField, inputPath, 'modified', originalValue, value);
-    };
 
 
     return (
@@ -191,148 +116,40 @@ export default function PACAT({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let originalInput;
-
-                                if (associatedFieldObject.originalValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    originalInput = associatedFieldInputs.originalValue;
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                            
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <PACATInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let draftInput;
-
-                                if (associatedFieldObject.originalDraftValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    draftInput = associatedFieldInputs.originalDraftValue;
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={field.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={field.path}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={draftNoteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <PACATInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )

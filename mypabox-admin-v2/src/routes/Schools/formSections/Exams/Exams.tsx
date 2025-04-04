@@ -5,12 +5,12 @@ import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import Container from "../../../../components/Form/Validation/Container";
-import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
 import RequiredOptionalExams from "./components/RequiredOptionalExams";
 import GRE from "./components/GRE";
 import PACAT from "./components/PACAT";
 import CASPer from "./components/CASPer";
 import EnglishExams from "./components/EnglishExams";
+import ExamInputs from "./inputs/ExamInputs";
 
 
 
@@ -51,27 +51,11 @@ export default function Exams({
 
     const {
         handleChanges,
-        handleModify,
-        handleAddition,
-        handleDeletion,
         handleRetrieveValue,
+        handleModification,
+        validateIndividualChange,
+        revertIndividualChange,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
-
-    const handleQuill = (e: any, name: string, path: string) => {
-        const value = e;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
 
 
     return (
@@ -83,9 +67,9 @@ export default function Exams({
             permissions={permissions}
             handleRetrieveValue={handleRetrieveValue}
             handleChanges={handleChanges}
-            handleModify={handleModify}
-            handleAddition={handleAddition}
-            handleDeletion={handleDeletion}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
         />
@@ -96,7 +80,9 @@ export default function Exams({
             permissions={permissions}
             handleRetrieveValue={handleRetrieveValue}
             handleChanges={handleChanges}
-            handleModify={handleModify}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
         />
@@ -107,7 +93,9 @@ export default function Exams({
             permissions={permissions}
             handleRetrieveValue={handleRetrieveValue}
             handleChanges={handleChanges}
-            handleModify={handleModify}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
         />
@@ -118,7 +106,9 @@ export default function Exams({
             permissions={permissions}
             handleRetrieveValue={handleRetrieveValue}
             handleChanges={handleChanges}
-            handleModify={handleModify}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
         />
@@ -129,7 +119,9 @@ export default function Exams({
             permissions={permissions}
             handleRetrieveValue={handleRetrieveValue}
             handleChanges={handleChanges}
-            handleModify={handleModify}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
             deleteNote={deleteNote}
             toggleNote={toggleNote}
         />
@@ -148,41 +140,32 @@ export default function Exams({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        </div>
+                        <ExamInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        </div>
+                        <ExamInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )

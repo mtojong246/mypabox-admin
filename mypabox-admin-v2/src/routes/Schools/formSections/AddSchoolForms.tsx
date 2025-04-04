@@ -96,7 +96,7 @@ export default function AddSchoolForms({
                     <Exams 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={true}
                    />
                 ) : tab === '#evaluations' ? (
                     <Evaluations 

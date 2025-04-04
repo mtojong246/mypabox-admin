@@ -1,11 +1,8 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
-import { GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
+import { Dispatch, SetStateAction } from "react"
+import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import Container from "../../../../../components/Form/Validation/Container";
-import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput";
-import TextInput from "../../../../../components/Form/InputTypes/TextInput";
-import Notes from "../../../../../components/Form/Notes/Notes";
 import { UserPermissions } from "../../../../../types/users.types";
-import TextSelectInput from "../../../../../components/Form/InputTypes/TextSelectInput";
+import EnglishExamsInputs from "../inputs/EnglishExamsInputs";
 
 
 
@@ -195,11 +192,6 @@ const englishExamFields = [
     },
 ]
 
-const unitOptions = [
-    {value: '', label: 'Select'},
-    {value: 'Years', label: 'Years'},
-    {value: 'Months', label: 'Months'}
-]
 
 
 export default function EnglishExams({
@@ -208,7 +200,9 @@ export default function EnglishExams({
     isEditSchool,
     permissions,
     handleRetrieveValue,
-    handleModify,
+    handleModification,
+    revertIndividualChange,
+    validateIndividualChange,
     handleChanges,
     toggleNote,
     deleteNote,
@@ -221,11 +215,13 @@ export default function EnglishExams({
         originalValue: any,
         originalDraftValue: any,
     },
-    handleModify: (path: string, field: GenericSchoolField, newValue: any) => {
+    handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
         originalField: any;
         draftField: any;
         originalValue: any;
     },
+    validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     handleChanges: (
         field: GenericSchoolField, 
         name: string, 
@@ -242,250 +238,6 @@ export default function EnglishExams({
     }, note?: NewNote) => void,
     deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void
 }) {
-
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
-
-    const handleDuration = (name: string, path: string, value: string | number) => {
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-    }
-
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const checked = e.target.checked;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-        const keys = path.split('.');
-
-        let value = {};
-        let inputPath = '';
-
-        
-        if (name === 'school_english_proficiency_exams') {
-            let englishExamsValue = {}
-            if (keys[keys.length-2].includes('school_english_proficiency_exams_required')) {
-                inputPath = '.input';
-                englishExamsValue = {
-                    school_english_proficiency_exams_required: {
-                        input: checked,
-                    },
-                    school_toefl_required: checked ? {
-                        input: false,
-                    } : null,
-                    school_minimum_time_frame_toefl_needs_to_be_completed: null,
-                    school_toefl_exempt_with_masters_degree: null,
-                    school_toefl_exempt_with_doctoral_degree: null,
-            
-                    school_toefl_ibt_minimum_total_score_required: null,
-                    school_toefl_ibt_minimum_reading_score_required: null,
-                    school_toefl_ibt_minimum_writing_score_required: null,
-                    school_toefl_ibt_minimum_listening_score_required: null,
-                    school_toefl_ibt_minimum_speaking_score_required: null,
-                    school_toefl_ibt_minimum_score_notes: null,
-            
-                    school_toefl_pbt_minimum_total_score_required: null,
-                    school_toefl_pbt_minimum_reading_score_required: null,
-                    school_toefl_pbt_minimum_writing_score_required: null,
-                    school_toefl_pbt_minimum_listening_score_required: null,
-                    school_toefl_pbt_minimum_speaking_score_required: null,
-                    school_toefl_pbt_minimum_score_notes: null,
-
-                    school_ielt_required: checked ? {
-                        input: false,
-                    } : null,
-                    school_ielt_minimum_total_score_required: null,
-                    school_ielt_minimum_score_notes: null,
-            
-                    school_melab_required: checked ? {
-                        input: false,
-                    } : null,
-                    school_melab_minimum_total_score_required: null,
-                    school_melab_minimum_score_notes: null,
-            
-                    school_pte_academic_required: checked ? {
-                        input: false,
-                    } : null,
-                    school_pte_academic_minimum_total_score_required: null,
-                    school_pte_academic_minimum_score_notes: null,
-            
-                    school_itep_academic_plus_required: checked ? {
-                        input: false,
-                    } : null,
-                    school_itep_academic_plus_minimum_total_score_required: null,
-                    school_itep_academic_plus_minimum_score_notes: null,
-                }
-            } else if (keys[keys.length-2].includes('school_toefl_required')) {
-                inputPath = '.input';
-                englishExamsValue = {
-                    school_toefl_required: {
-                        input: checked,
-                    },
-                    school_minimum_time_frame_toefl_needs_to_be_completed: checked ? {
-                        input: {
-                            quantity: 0,
-                            units: '',
-                        },
-                    } : null,
-                    school_toefl_exempt_with_masters_degree: checked ? {
-                        input: false,
-                    } : null,
-                    school_toefl_exempt_with_doctoral_degree: checked ? {
-                        input: false,
-                    } : null,
-            
-                    school_toefl_ibt_minimum_total_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_ibt_minimum_reading_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_ibt_minimum_writing_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_ibt_minimum_listening_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_ibt_minimum_speaking_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_ibt_minimum_score_notes: checked ? {
-                        notes: [],
-                    } : null,
-            
-                    school_toefl_pbt_minimum_total_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_pbt_minimum_reading_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_pbt_minimum_writing_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_pbt_minimum_listening_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_pbt_minimum_speaking_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_toefl_pbt_minimum_score_notes: checked ? {
-                        notes: [],
-                    } : null,
-                }
-
-            } else if (keys[keys.length-2].includes('school_ielt_required')) {
-                inputPath = '.input';
-                englishExamsValue = {
-                    school_ielt_required: {
-                        input: checked,
-                    },
-                    school_ielt_minimum_total_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_ielt_minimum_score_notes: checked ? {
-                        notes: [],
-                    } : null,
-                }
-
-            } else if (keys[keys.length-2].includes('school_melab_required')) {
-                inputPath = '.input';
-                englishExamsValue = {
-                    school_melab_required: {
-                        input: checked,
-                    },
-                    school_melab_minimum_total_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_melab_minimum_score_notes: checked ? {
-                        notes: [],
-                    } : null,
-                }
-            } else if (keys[keys.length-2].includes('school_pte_academic_required')) {
-                inputPath = '.input';
-                englishExamsValue = {
-                    school_pte_academic_required: {
-                        input: checked,
-                    },
-                    school_pte_academic_minimum_total_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_pte_academic_minimum_score_notes: checked ? {
-                        notes: [],
-                    } : null,
-                }
-            } else if (keys[keys.length-2].includes('school_itep_academic_plus_required')) {
-                inputPath = '.input';
-                englishExamsValue = {
-                    school_itep_academic_plus_required: {
-                        input: checked,
-                    },
-                    school_itep_academic_plus_minimum_total_score_required: checked ? {
-                        input: 0,
-                    } : null,
-                    school_itep_academic_plus_minimum_score_notes: checked ? {
-                        notes: [],
-                    } : null,
-                }
-            }  else {
-                inputPath = path;
-                value = checked;
-            }
-
-            if ([
-                    'school_english_proficiency_exams_required', 
-                    'school_toefl_required', 
-                    'school_ielt_required', 
-                    'school_melab_required' ,
-                    'school_pte_academic_required' ,
-                    'school_itep_academic_plus_required'
-                ].includes(keys[keys.length-2])) {
-                if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                    value = {
-                        ...school.school_english_proficiency_exams.original.input,
-                        ...englishExamsValue,
-                    }
-                } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                    value = {
-                        ...school.school_english_proficiency_exams.draft.input,
-                        ...englishExamsValue,
-                    }
-                }
-            }  
-            
-        } else {
-            inputPath = path;
-            value = checked;
-        }
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(inputPath, field, value);
-        
-        handleChanges(field, name, originalField, draftField, inputPath, 'modified', originalValue, value);
-    };
 
 
     return (
@@ -515,193 +267,40 @@ export default function EnglishExams({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let originalInput;
-
-                                if (associatedFieldObject.originalValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    originalInput = associatedFieldInputs.originalValue;
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text-select' ? (
-                                                <TextSelectInput 
-                                                    label={associatedField.label}
-                                                    placeholder="Quantity"
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    inputPath={`${inputPath}.quantity`}
-                                                    selectPath={`${inputPath}.units`}
-                                                    handleChange={handleDuration}
-                                                    options={unitOptions}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'note' ? (
-                                                <Notes 
-                                                    notes={originalInput}
-                                                    field={{
-                                                        ...associatedField,
-                                                        notePath: inputPath,
-                                                        name: field.name,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <EnglishExamsInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let draftInput;
-
-                                if (associatedFieldObject.originalDraftValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    draftInput = associatedFieldInputs.originalDraftValue;
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={field.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={field.path}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text-select' ? (
-                                                <TextSelectInput 
-                                                    label={associatedField.label}
-                                                    placeholder="Quantity"
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    inputPath={`${inputPath}.quantity`}
-                                                    selectPath={`${inputPath}.units`}
-                                                    handleChange={handleDuration}
-                                                    options={unitOptions}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'note' ? (
-                                                <Notes 
-                                                    notes={draftInput}
-                                                    field={{
-                                                        ...associatedField,
-                                                        notePath: inputPath,
-                                                        name: field.name,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    deleteNote={deleteNote}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                type="text"
-                                isDisabled={false}
-                            />
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={draftNoteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                deleteNote={deleteNote}
-                            />
-                        )}
-                        </div>
+                        <EnglishExamsInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            deleteNote={deleteNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )
