@@ -4,6 +4,7 @@ import { useState } from "react";
 import AddSchoolForms from "../formSections/AddSchoolForms";
 import { NewSchool } from "../../../types/newSchools.types";
 import { defaultSchool } from "../../../utils/defaults";
+import Button from "../../../components/Buttons/Button";
 
 export default function AddSchool() {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function AddSchool() {
     const navigateTabs = (hash: string) => {
         navigate(`/schools/add-school${hash}`);
           setTab(hash);
-      }
+    }
 
     return (
         <div className={`w-screen px-10 ont-['Noto Sans']`}>
@@ -35,15 +36,27 @@ export default function AddSchool() {
               </div>
 
               <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
-                    <button value='save' className='border-2 border-[#4FC769] text-[#4FC769] h-[50px] w-[84px] rounded hover:text-white hover:bg-[#4FC769] flex justify-center items-center'>
-                        Save
-                    </button>
-                    <button value='done' className='border-2 border-blue-500 text-blue-500 rounded h-[50px] w-[84px] hover:text-white hover:bg-blue-500 flex justify-center items-center'>
-                        Finish
-                    </button>
-                    <button className='border-2 border-red-400 text-red-400 rounded h-[50px] px-5 hover:text-white hover:bg-red-400'>
-                            Cancel
-                    </button>
+                    <Button
+                      type="success"
+                      label="Save"
+                      styling='outline'
+                      action={() => {}}
+                      value='save'
+                    />
+                    <Button
+                      type="primary"
+                      label="Finish"
+                      styling='outline'
+                      action={() => {}}
+                      value='done'
+                    />
+                    <Button
+                      type="warning"
+                      label="Cancel"
+                      styling='outline'
+                      action={() => {}}
+                      value='cancel'
+                    />
               </div>
             </div>
 
