@@ -29,6 +29,26 @@ export default function ChangePopup({
 
   const open = Boolean(anchorEl);
 
+  const ChangeValueComponent = ({ value }: { value: string | number | boolean | {
+    [key: string] : any
+} }) => {
+
+    if (typeof value === 'object') {
+      return (
+        <>
+        {Object.entries(value).map((key, value) => (
+          <p><span className="font-semibold">{key}: </span>{value}</p>
+        ))}
+        </>
+      )
+    } else {
+      return (
+        <p>{value !== '' ? value : 'No value'}</p>
+      )
+    }
+    
+  }
+
   return (
     <div>
         <button
@@ -54,13 +74,15 @@ export default function ChangePopup({
             {change.type === 'modified' && change.original !== undefined && (
                 <div className="flex flex-col gap-1 justify-start items-start">
                     <label className="text-[14px] font-medium text-placeholder">Original Value</label>
-                    <p>{change.original !== '' ? change.original : 'No value'}</p>
+                    {/* <p>{change.original !== '' ? change.original : 'No value'}</p> */}
+                    <ChangeValueComponent value={change.original}/>
                 </div>
             )}
             {change.type === 'modified' && change.modified !== undefined && (
                 <div className="flex flex-col gap-1 justify-start items-start">
                     <label className="text-[14px] font-medium text-placeholder">Updated Value</label>
-                    <p>{change.modified !== '' ? change.modified : 'No value'}</p>
+                    {/* <p>{change.modified !== '' ? change.modified : 'No value'}</p> */}
+                    <ChangeValueComponent value={change.modified}/>
                 </div>
             )}
             <div className="flex flex-col gap-1 justify-start items-start">

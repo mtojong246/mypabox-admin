@@ -19,8 +19,12 @@ export interface Change {
     path: string;
     editedBy: string;
     timestamp: string;
-    original?: any;
-    modified?: any;
+    original?: string | number | boolean | {
+        [key: string] : any
+    };
+    modified?: string | number | boolean | {
+        [key: string] : any
+    };
 }
 
 export interface NewNote {
