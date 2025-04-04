@@ -94,8 +94,14 @@ export interface ModifiedBooleanChange extends Change {
 }
 
 export interface GenericSchoolField {
-    original: any,
-    draft: any,
+    original: {
+        input: any;
+        notes?: NewNote[];
+    },
+    draft: {
+        input: any;
+        notes?: NewNote[];
+    },
     changes: Change[],
     link: string,
 }

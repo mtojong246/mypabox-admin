@@ -52,7 +52,7 @@ const useSchoolNotes = ({
             if (!(keys[i] in field)) {
                 console.log('path invalid');
             }
-            original = original[keys[i]];
+            original = original[keys[i] as keyof object];
         }
 
         let lastKey: string | number = keys[keys.length-1];
@@ -60,8 +60,8 @@ const useSchoolNotes = ({
             lastKey = Number(lastKey);
         }
         
-        const originalNotes = original[lastKey] as NewNote[];
-        original[lastKey] = originalNotes.filter((note, i) => i !== noteIndex);
+        const originalNotes = original[lastKey as keyof object] as NewNote[];
+        (original[lastKey as keyof object] as NewNote[]) = originalNotes.filter((note, i) => i !== noteIndex);
 
         setSchool({
             ...school,

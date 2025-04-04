@@ -69,7 +69,9 @@ export default function NotePopup({
             draftField,
         } = handleModification(path, field, newNote, 'add');
 
-        handleChanges(field, name, originalField, draftField, path, 'added');
+        const index = field.draft.notes!.length;
+
+        handleChanges(field, name, originalField, draftField, `${path}.${index}`, 'added');
 
     }
 

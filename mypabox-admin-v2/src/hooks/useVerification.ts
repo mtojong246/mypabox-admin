@@ -379,13 +379,26 @@ const useVerification = ({
         e.preventDefault();
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
-        const path = change.path;
+        let path = change.path;
 
         const {
             originalDraftValue,
         } = handleRetrieveValue(path, field);
 
         const keys = path.split('.');
+        let index: undefined | number = undefined;
+
+        if (change.type === 'added' || change.type === 'removed') {
+            if (Number(keys[keys.length-1])) {
+                path = `.${keys.filter((key, i) => i !== keys.length-1).join('.')}`
+
+                if (change.type === 'removed') {
+                    index = Number(keys[keys.length-1])
+                }
+            } else {
+                path = change.path;
+            }
+        }
 
         const {
             originalField
@@ -393,7 +406,8 @@ const useVerification = ({
             path, 
             field, 
             originalDraftValue, 
-            change.type === 'modified' ? 'modify' : change.type === 'added' ? 'add' : 'remove' 
+            change.type === 'modified' ? 'modify' : change.type === 'added' ? 'add' : 'remove', 
+            index,
         );
 
         const modifiedChanges = field.changes.filter(c => c.type !== change.type && c.path !== change.path);
