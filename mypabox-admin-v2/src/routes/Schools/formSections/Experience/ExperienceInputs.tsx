@@ -387,7 +387,7 @@ export default function ExperienceInputs({
                                         handleChange={handleDuration}
                                         options={unitOptions}
                                         isDisabled={isDisabled}
-                                        change={schoolField.changes.find(change => change.path === inputPath)}
+                                        schoolField={schoolField}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
                                     />

@@ -215,18 +215,36 @@ export default function CompletionCriteriaInputs({
                 {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
                     const associatedFieldPath = `${field.path}.${associatedField.name}`;
                     const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                    let originalInput;
-                    let originalNotes = [];
+                    let associatedFieldValue = '';
+                    
+                    if (tab === 'original') {
+                        associatedFieldValue = associatedFieldObject.originalValue
+                    } else {
+                        associatedFieldValue = associatedFieldObject.originalDraftValue;
+                    }
 
-                    if (associatedFieldObject.originalValue !== null) {
+                    let inputValue;
+                    let inputNotes = [];
+
+                    if (associatedFieldValue !== null) {
                         const inputPath = `${field.path}.${associatedField.name}${associatedField.path ? associatedField.path : ''}`;
                         const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                        originalInput = associatedFieldInputs.originalValue;
+
+                        if (tab === 'original') {
+                            inputValue = associatedFieldInputs.originalValue;
+                        } else {
+                            inputValue = associatedFieldInputs.originalDraftValue;
+                        }
 
                         if (associatedField.notePath !== undefined) {
                             const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
                             const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                            originalNotes = associatedFieldNotes.originalValue;
+                            
+                            if (tab === 'original') {
+                                inputNotes = associatedFieldNotes.originalValue;
+                            } else {
+                                inputNotes = associatedFieldNotes.originalDraftValue;
+                            }
                         }
 
                         return (
@@ -235,7 +253,7 @@ export default function CompletionCriteriaInputs({
                                     <BooleanInput 
                                         label={associatedField.label}
                                         name={field.name}
-                                        value={originalInput}
+                                        value={inputValue}
                                         path={inputPath}
                                         handleCheck={handleBoolean}
                                         isRequired={false}
@@ -249,7 +267,7 @@ export default function CompletionCriteriaInputs({
                                         label={associatedField.label}
                                         placeholder={associatedField.label}
                                         name={field.name}
-                                        value={originalInput}
+                                        value={inputValue}
                                         path={inputPath}
                                         handleInput={handleInput}
                                         isRequired={false}
@@ -264,7 +282,7 @@ export default function CompletionCriteriaInputs({
                                         label={associatedField.label}
                                         placeholder={associatedField.label}
                                         name={field.name}
-                                        value={{ value: originalInput, label: originalInput }}
+                                        value={{ value: inputValue, label: inputValue }}
                                         path={inputPath}
                                         handleSelect={handleSelect}
                                         isRequired={false}
@@ -276,21 +294,23 @@ export default function CompletionCriteriaInputs({
                                         revertIndividualChange={revertIndividualChange}
                                     />
                                 )}
-                                {associatedField.notePath && originalNotes !== undefined && (
+                                {associatedField.notePath && inputNotes !== undefined && (
                                     <Notes 
-                                        notes={originalNotes}
+                                        notes={inputNotes}
                                         field={{
                                             ...associatedField,
                                             name: field.name,
                                             path: field.path,
                                             notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
                                         }}
+                                        tab={tab}
                                         toggleNote={toggleNote}
                                         schoolField={schoolField}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
+                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                     />
                                 )}
                                 

@@ -1,7 +1,8 @@
 import { OutlinedInput } from '@mui/material';
 import { ChangeEvent, useEffect, useState, MouseEvent } from 'react';
 import Select from 'react-select';
-import { Change } from '../../../types/newSchools.types';
+import { Change, GenericSchoolField } from '../../../types/newSchools.types';
+import ChangePopup from '../Validation/ChangePopup';
 
 export default function TextSelectInput({
     label,
@@ -12,7 +13,7 @@ export default function TextSelectInput({
     selectPath,
     handleChange,
     options,
-    change,
+    schoolField,
     validateIndividualChange,
     revertIndividualChange,
     isDisabled,
@@ -28,13 +29,29 @@ export default function TextSelectInput({
     selectPath: string,
     handleChange: (name: string, path: string, value: string | number) => void,
     options: { value: string, label: string }[],
-    change?: Change,
+    schoolField: GenericSchoolField,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     isDisabled: boolean,
 }) {
     const [ units, setUnits ] = useState('');
     const [ quantity, setQuantity ] = useState(0);
+
+    const [ inputChange, setInputChange ] = useState<Change | null>(null);
+    const [ selectChange, setSelectChange ] = useState<Change | null>(null);
+
+    useEffect(() => {
+        const input = schoolField.changes.find(change => change.path === inputPath);
+        const select = schoolField.changes.find(change => change.path === selectPath);
+
+        if (input) {
+            setInputChange(input);
+        }
+
+        if (select) {
+            setSelectChange(select);
+        }
+    }, [schoolField.changes, inputPath, selectPath]);
 
     useEffect(() => {
         setUnits(value.units);
@@ -57,44 +74,63 @@ export default function TextSelectInput({
             <div className='flex gap-4 p-6 border border-outline rounded-lg w-full'>
                 <div className="w-full flex flex-col gap-2 justify-start items-start">
                     <label className={`font-medium`}>Quantity</label>
-                    <OutlinedInput
-                        type='text'
-                        placeholder={placeholder}
-                        name={name}
-                        value={quantity ? quantity : ''}
-                        onChange={handleInput}
-                        sx={{
-                            maxWidth: 600,
-                            width: '100%',
-                            borderRadius: '8px',
-                            '& .MuiOutlinedInput-input': {
-                                padding: '12px 16px',
-                            }
-                        }}
-                        disabled={isDisabled}
-                    />
+                    <div className="flex w-full gap-2 justify-start items-start">
+                        <OutlinedInput
+                            type='text'
+                            placeholder={placeholder}
+                            name={name}
+                            value={quantity ? quantity : ''}
+                            onChange={handleInput}
+                            sx={{
+                                maxWidth: 600,
+                                width: '100%',
+                                borderRadius: '8px',
+                                '& .MuiOutlinedInput-input': {
+                                    padding: '12px 16px',
+                                }
+                            }}
+                            disabled={isDisabled}
+                        />
+                        {inputChange && (
+                            <ChangePopup 
+                                change={inputChange}
+                                name={name}
+                                validateIndividualChange={validateIndividualChange}
+                                revertIndividualChange={revertIndividualChange}
+                            />
+                        )}
+                    </div>
                 </div>
                 <div className="w-full flex flex-col gap-2 justify-start items-start">
                     <label className={`font-medium`}>Units</label>
-                    <Select 
-                        className='w-full'
-                        options={options}
-                        value={!units ? null : { value: units, label: units }}
-                        onChange={handleSelect}
-                        styles={{
-                            control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                borderColor: 'rgba(0, 0, 0, 0.23)',
-                                borderRadius: 8,
-                            }),
-                            valueContainer: (baseStyles, state) => ({
-                                ...baseStyles,
-                                padding: '7px 16px',
-                            })
-                        }}
-                        isDisabled={isDisabled}
-                    />
-                    
+                    <div className="flex w-full gap-2 justify-start items-start">
+                        <Select 
+                            className='w-full'
+                            options={options}
+                            value={!units ? null : { value: units, label: units }}
+                            onChange={handleSelect}
+                            styles={{
+                                control: (baseStyles, state) => ({
+                                    ...baseStyles,
+                                    borderColor: 'rgba(0, 0, 0, 0.23)',
+                                    borderRadius: 8,
+                                }),
+                                valueContainer: (baseStyles, state) => ({
+                                    ...baseStyles,
+                                    padding: '7px 16px',
+                                })
+                            }}
+                            isDisabled={isDisabled}
+                        />
+                        {selectChange && (
+                            <ChangePopup 
+                                change={selectChange}
+                                name={name}
+                                validateIndividualChange={validateIndividualChange}
+                                revertIndividualChange={revertIndividualChange}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

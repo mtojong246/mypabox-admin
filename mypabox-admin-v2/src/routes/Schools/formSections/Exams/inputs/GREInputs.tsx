@@ -344,7 +344,7 @@ export default function GREInputs({
                                                     handleChange={handleDuration}
                                                     options={inputValue}
                                                     isDisabled={isDisabled}
-                                                    change={schoolField.changes.find(change => change.path === inputPath)}
+                                                    schoolField={schoolField}
                                                     validateIndividualChange={validateIndividualChange}
                                                     revertIndividualChange={revertIndividualChange}
                                                 />

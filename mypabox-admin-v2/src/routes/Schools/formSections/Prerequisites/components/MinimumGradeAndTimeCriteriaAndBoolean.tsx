@@ -329,6 +329,7 @@ export default function MinimumGradeAndTimeCriteriaAndBoolean({
                                                     handleChange={handleDuration}
                                                     options={unitOptions}
                                                     isDisabled={false}
+                                                    schoolField={schoolField}
                                                 />
                                             ) : (
                                                 <></>
@@ -432,6 +433,7 @@ export default function MinimumGradeAndTimeCriteriaAndBoolean({
                                                     handleChange={handleDuration}
                                                     options={unitOptions}
                                                     isDisabled={false}
+                                                    schoolField={schoolField}
                                                 />
                                             ) : (
                                                 <></>
