@@ -102,7 +102,6 @@ export default function Evaluations({
         isNoteOpen,
         selectedField,
         selectedNote,
-        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const {
@@ -110,7 +109,8 @@ export default function Evaluations({
         handleRetrieveValue,
         handleModification,
         revertIndividualChange,
-        validateIndividualChange
+        validateIndividualChange,
+        checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
 
@@ -148,7 +148,6 @@ export default function Evaluations({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                         />
                     }
                     modifiedInputs={
@@ -164,9 +163,9 @@ export default function Evaluations({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

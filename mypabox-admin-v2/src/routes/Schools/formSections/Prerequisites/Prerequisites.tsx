@@ -33,7 +33,6 @@ export default function Prerequisites({
         isNoteOpen,
         selectedField,
         selectedNote,
-        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const {
@@ -72,12 +71,11 @@ export default function Prerequisites({
             permissions={permissions}
             handleRetrieveValue={handleRetrieveValue}
             handleChanges={handleChanges}
-            handleModify={handleModify}
-            deleteNote={deleteNote}
             toggleNote={toggleNote}
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
+            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
         />
         <CompletionCriteria 
             school={school}
