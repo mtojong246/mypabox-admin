@@ -147,7 +147,7 @@ export default function RequiredCourseCategoriesPopup({
     };
 
     const handleSelect = (e: any, name: string, path: string) => {
-        const value = e.target.value;
+        const value = e.value;
 
         setForm({
             ...form,
@@ -355,7 +355,7 @@ export default function RequiredCourseCategoriesPopup({
                                 type='text'  
                             />
 
-                            <div className="flex flex-col gap-2 justify-start items-start">
+                            <div className="w-full flex flex-col gap-2 justify-start items-start">
                                 <p>Included courses:</p>
                                 <div className="w-full flex flex-col gap-4 justify-start items-start">
                                     {form.school_required_course_category_extra_included_courses.map((includedCourse, includedCourseIndex) => {
@@ -404,7 +404,7 @@ export default function RequiredCourseCategoriesPopup({
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-2 justify-start items-start">
+                            <div className="w-full flex flex-col gap-2 justify-start items-start">
                                 <p>Excluded courses:</p>
                                 <div className="w-full flex flex-col gap-4 justify-start items-start">
                                     {form.school_required_course_category_excluded_courses.map((excludedCourse, excludedCourseIndex) => {
@@ -452,8 +452,6 @@ export default function RequiredCourseCategoriesPopup({
                                     action={(e:any) => toggleCoursePopup(e, undefined, undefined, 'Excluded')}
                                 />
                             </div>
-                            </div>
-
 
                             <div className="flex flex-col gap-2 justify-start items-start w-full">
                                 <p>Notes:</p>
@@ -499,6 +497,7 @@ export default function RequiredCourseCategoriesPopup({
                             </div>
                             
                             
+                        </div>
                         </div>
                         
                         <div className='w-full p-6 flex justify-end items-center gap-3 border-t border-outline'>

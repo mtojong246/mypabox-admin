@@ -79,7 +79,7 @@ export default function IncludedOrExcludedCoursePopup({
                                 <SelectInput 
                                     label='Course'
                                     placeholder='Course'
-                                    name='course_id'
+                                    name='school_required_course_id'
                                     value={{ 
                                         value: form.school_required_course_id, 
                                         label: courses.find(course => course.unique_id === form.school_required_course_id) 

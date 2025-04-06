@@ -2,6 +2,8 @@ import { useSelector } from "react-redux"
 import { RequiredCourseCategoryType } from "../popups/RequiredCourseCategoriesPopup"
 import { selectCourses } from "../../../../../app/selectors/courses.selectors"
 import ReactQuill from "react-quill";
+import { selectCategories } from "../../../../../app/selectors/categories.selectors";
+import { useEffect, useState } from "react";
 
 export default function RequiredCourseCategoriesField({
     value,
@@ -9,11 +11,20 @@ export default function RequiredCourseCategoriesField({
     value: RequiredCourseCategoryType,
 }) {
     const courses = useSelector(selectCourses);
+    const categories = useSelector(selectCategories);
+    const [ categoryName, setCategoryName ] = useState('');
+
+    useEffect(() => {
+        const matchingCategory = categories.find(cat => cat.id === value.school_required_course_category);
+        if (matchingCategory) {
+            setCategoryName(matchingCategory.category_name)
+        }
+    }, [categories, value]);
 
     return (
         <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
             <p>
-                <span className="font-semibold">{value.school_required_course_category} </span>
+                <span className="font-semibold">{categoryName}</span>
                 <span className='text-placeholder font-medium'>
                     {`(
                         ${value.school_required_course_category_number_of_courses_that_need_lab} courses with lab /
@@ -23,7 +34,7 @@ export default function RequiredCourseCategoriesField({
                 </span>
             </p>
             
-            <div className="flex flex-col gap-2 justify-start items-stretch">
+            <div className="w-full flex flex-col gap-2 justify-start items-stretch">
                 <p className="underline text-primary font-medium">Included Courses:</p>
                 {value.school_required_course_category_extra_included_courses.map(includedCourse => {
                     const matchingCourse = courses.find(course => course.unique_id === includedCourse.school_required_course_id);
@@ -44,7 +55,7 @@ export default function RequiredCourseCategoriesField({
                 })}
             </div>
 
-            <div className="flex flex-col gap-2 justify-start items-stretch">
+            <div className="w-full flex flex-col gap-2 justify-start items-stretch">
                 <p className="underline text-warning font-medium">Excluded Courses:</p>
                 {value.school_required_course_category_excluded_courses.map(excludedCourse => {
                     const matchingCourse = courses.find(course => course.unique_id === excludedCourse.school_required_course_id);
@@ -65,7 +76,7 @@ export default function RequiredCourseCategoriesField({
                 })}
             </div>
 
-            <div className="flex flex-col gap-2 justify-start items-stretch">
+            <div className="w-full flex flex-col gap-2 justify-start items-stretch">
                 <p className="underline text-default font-medium">Course Category Notes:</p>
                 {value.notes.map(note => (
                     <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
