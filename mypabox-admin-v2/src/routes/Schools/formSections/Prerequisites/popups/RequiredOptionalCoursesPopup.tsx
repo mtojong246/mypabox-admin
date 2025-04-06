@@ -2,9 +2,17 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { GenericSchoolField, NewSchool, NewNote } from "../../../../../types/newSchools.types";
 import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
 import { ReactComponent as CloseIcon } from '../../../../../components/Icons/X.svg';
+import { ReactComponent as EditIcon } from '../../../../../components/Icons/Edit-With-Line.svg';
+import { ReactComponent as DeleteIcon } from '../../../../../components/Icons/Trash.svg';
+
+
 import TextInput from "../../../../../components/Form/InputTypes/TextInput";
 import Button from "../../../../../components/Buttons/Button";
 import CoursePopup, { CourseForm } from "./CoursePopup";
+import Course from "../arrayFields/Course";
+import ReactQuill from "react-quill";
+import NotePopup from "./NotePopup";
+
 
 
 export interface RequiredOptionalCourseType {
@@ -66,6 +74,11 @@ export default function RequiredOptionalCoursesPopup({
     const [ selectedCourseIndex, setSelectedCourseIndex ] = useState<number | null>(null);
     const [ isCoursePopupOpen, setIsCoursePopupOpen ] = useState(false);
 
+    const [ selectedNote, setSelectedNote ] = useState<NewNote | null>(null);
+    const [ selectedNoteIndex, setSelectedNoteIndex ] = useState<number | null>(null);
+    const [ isNotePopupOpen, setIsNotePopupOpen ] = useState(false);
+
+
     const toggleCoursePopup = (e: React.MouseEvent<HTMLButtonElement>, index?: number, course?: OptionalCourseType) => {
         e.preventDefault();
         setIsCoursePopupOpen(!isCoursePopupOpen);
@@ -87,6 +100,23 @@ export default function RequiredOptionalCoursesPopup({
             });
         } else {
             setSelectedCourse(null);
+        }
+    }
+
+    const toggleNotePopup = (e: React.MouseEvent<HTMLButtonElement>, index?: number, note?: NewNote) => {
+        e.preventDefault();
+        setIsNotePopupOpen(!isNotePopupOpen);
+
+        if (index !== undefined) {
+            setSelectedNoteIndex(index); 
+        } else {
+            setSelectedNoteIndex(null);
+        }
+
+        if (note !== undefined) {
+            setSelectedNote(note);
+        } else {
+            setSelectedNote(null);
         }
     }
 
@@ -148,6 +178,13 @@ export default function RequiredOptionalCoursesPopup({
         })
     };
 
+    const deleteCourse = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+        setForm({
+            ...form,
+            school_required_optional_courses_list: form.school_required_optional_courses_list.filter((c, i) => i !== index)
+        })
+    }
+
     const handleSubmitCourse = (e: React.MouseEvent<HTMLButtonElement>, course: CourseForm) => {
         e.preventDefault();
         const existingCourses = form.school_required_optional_courses_list;
@@ -182,6 +219,39 @@ export default function RequiredOptionalCoursesPopup({
         toggleCoursePopup(e);
     };
 
+    const deleteNote = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+        setForm({
+            ...form,
+            notes: form.notes.filter((n, i) => i !== index)
+        })
+    }
+
+    const handleSubmitNote = (e: React.MouseEvent<HTMLButtonElement>, note: NewNote) => {
+        e.preventDefault();
+        const existingNotes = form.notes;
+
+        let noteList: NewNote[] = [];
+
+        if (selectedNoteIndex !== null) {
+            noteList = existingNotes.map((n, i) => {
+                if (i === selectedNoteIndex) {
+                    return {...note}
+                } else {
+                    return {...n}
+                }
+            })
+        } else {
+            noteList = existingNotes.concat(note);
+        }
+
+        setForm({
+            ...form,
+            notes: noteList,
+        })
+
+        toggleNotePopup(e);
+    };
+
     return (
         <>
             <div className='fixed top-0 left-0 right-0 bottom-0 z-[100]'>
@@ -206,7 +276,91 @@ export default function RequiredOptionalCoursesPopup({
                                 type='text'  
                             />
 
-                            
+                            <div className="flex flex-col gap-2 justify-start items-stretch">
+                                <p>Courses:</p>
+                                <div className="w-full flex flex-col gap-4 justify-start items-start">
+                                    {form.school_required_optional_courses_list.map((optionalCourse, courseIndex) => {
+                                        const course: CourseForm = {
+                                            course_id: optionalCourse.school_optional_course_id,
+                                            course_lab: optionalCourse.school_optional_course_lab,
+                                            course_lab_preferred: optionalCourse.school_optional_course_lab_preferred,
+                                            course_credit_hours: optionalCourse.school_optional_course_credit_hours,
+                                            course_quarter_hours: optionalCourse.school_optional_course_quarter_hours,
+                                            course_note_section: optionalCourse.school_optional_course_note_section,
+                                        };
+                                        return (
+                                        <div className="w-full flex justify-between items-start gap-6">
+                                            <Course course={course} />
+                                            <div className="flex gap-4">
+                                                <button 
+                                                    onClick={(e: any) => toggleCoursePopup(e, courseIndex, optionalCourse)}
+                                                    className="w-[24px] text-primary"
+                                                >   
+                                                    <EditIcon/>
+                                                </button>
+                                                <button 
+                                                    onClick={(e:any) => deleteCourse(e, courseIndex)} 
+                                                    className="w-[24px] text-warning"
+                                                >
+                                                    <DeleteIcon/>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        )
+                                        
+                                    })}
+                                </div>
+                                <Button 
+                                    label="Add Course"
+                                    type="primary"
+                                    styling="outline"
+                                    action={toggleCoursePopup}
+                                />
+                            </div>
+
+
+                            <div className="flex flex-col gap-2 justify-start items-stretch">
+                                <p>Notes:</p>
+                                <div className="w-full flex flex-col gap-4 justify-start items-start">
+                                    {form.notes.map((note, noteIndex) => {
+                                        
+                                        return (
+                                        <div className="w-full flex justify-between items-start gap-6">
+                                            <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
+                                                <p className={`${note.type === 'requirement' ? 'text-warning' : 'text-primary'} text-[14px] font-medium`}>{note.type}</p>
+                                                <ReactQuill 
+                                                    theme='bubble'
+                                                    value={note.note} 
+                                                    readOnly={true} 
+                                                    className='edited-quill'
+                                                />
+                                            </div>
+                                            <div className="flex gap-4">
+                                                <button 
+                                                    onClick={(e: any) => toggleNotePopup(e, noteIndex, note)}
+                                                    className="w-[24px] text-primary"
+                                                >   
+                                                    <EditIcon/>
+                                                </button>
+                                                <button 
+                                                    onClick={(e:any) => deleteNote(e, noteIndex)} 
+                                                    className="w-[24px] text-warning"
+                                                >
+                                                    <DeleteIcon/>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        )
+                                        
+                                    })}
+                                </div>
+                                <Button 
+                                    label="Add Course"
+                                    type="primary"
+                                    styling="outline"
+                                    action={toggleCoursePopup}
+                                />
+                            </div>
                             
                             
                         </div>
@@ -233,6 +387,13 @@ export default function RequiredOptionalCoursesPopup({
                     selectedCourse={selectedCourse}
                     toggleCoursePopup={toggleCoursePopup}
                     handleSubmit={handleSubmitCourse}
+                />
+            )}
+            {isNotePopupOpen && (
+                <NotePopup 
+                    selectedNote={selectedNote}
+                    toggleNotePopup={toggleNotePopup}
+                    handleSubmit={handleSubmitNote}
                 />
             )}
         </>
