@@ -1594,1438 +1594,183 @@ export const defaultSchool: NewSchool = {
         changes: [],
         link: '',
     }
-}
+};
 
-// export const defaultSchool: NewSchool = {
-//     id: '',
-//     isLive: true,
-//     school_name: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_logo: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_street: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_city: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_state: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_zip_code: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_country: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_website: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_email: {
-//         input: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_phone_number: {
-//         input: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_campus_location: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_start_month: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_class_capacity: {
-//         input: {
-//             original: 0,
-//             draft: 0,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_duration_full_time: {
-//         input: {
-//             original: 0,
-//             draft: 0,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_duration_part_time: {
-//         input: {
-//             original: 0,
-//             draft: 0,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_seat_deposit_in_state: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_seat_deposit_out_of_state: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_rolling_admissions: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_nonrolling_admissions: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_pre_pa_curriculum: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_direct_high_school_entry: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_part_time_option: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_online_learning: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_on_campus_housing: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_cadaver_lab: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_faith_based_learning: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_military_personnel_preference: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_holistic_review: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_general_information: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_exams_general_note: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_dual_degree_program: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_type_of_degree_offered: {
-//         input: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_bachelors_degree_required: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_accreditation_status: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_mission_statement: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_in_state_tuition: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_out_of_state_tuition: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_first_time_pass_rate: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_average_five_year_first_time_pass_rate: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-//     school_pance_pass_rate_note: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_minimum_gpa_required: {
-//         original: false,
-//         draft: false,
-//         changes: [],
-//         school_minimum_overall_gpa_required: {
-//                 input: {
-//                     original: 0,
-//                     draft: 0,
-//                     changes: [],
-//                 },
-//                 notes: {
-//                     original: [],
-//                     draft: [],
-//                     changes: [],
-//                 },
-//         },
-//         school_minimum_science_gpa_required: {
-//                 input: {
-//                     original: 0,
-//                     draft: 0,
-//                     changes: [],
-//                 },
-//                 notes: {
-//                     original: [],
-//                     draft: [],
-//                     changes: [],
-//                 },
-//         },
-//         school_minimum_prerequisite_gpa_required: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         link: '',
-//     },
-//     school_minimum_gpa_recommended: {
-//         original: false,
-//         draft: false,
-//         changes: [],
-//         school_minimum_overall_gpa_recommended: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_science_gpa_recommended: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//                 notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_prerequisite_gpa_recommended: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         link: '',
-//     },
-
-//     school_other_types_of_gpa_evaluated: {
-//         input: {
-//             original: [{
-//                 gpa_value_required_or_recommended: '',
-//                 minimum_gpa_value_needed: 0,
-//                 minimum_number_of_credits_evaluated: 0,
-//                 type_of_gpa_evaluated: 0,
-//                 notes: []
-//             }],
-//             draft: [{
-//                 gpa_value_required_or_recommended: '',
-//                 minimum_gpa_value_needed: 0,
-//                 minimum_number_of_credits_evaluated: 0,
-//                 type_of_gpa_evaluated: 0,
-//                 notes: []
-//             }],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_minimum_gpa_for_specific_course: {
-//         input: {
-//             original: [{
-//                 minimum_gpa_required_for_course: 0,
-//                 courseID: '',
-//                 notes: [],
-//             }],
-//             draft: [{
-//                 minimum_gpa_required_for_course: 0,
-//                 courseID: '',
-//                 notes: [],
-//             }],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-
-//     school_average_gpa_accepted_previous_cycle: {
-//         average_overall_gpa_accepted_previous_year: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         average_bcp_gpa_accepted_previous_year: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         average_science_gpa_accepted_previous_year: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         average_prerequisite_gpa_accepted_previous_year: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         link: '',
-//     },
-
-
-//     school_gpa_general_note: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-
-//     school_grade_criteria: {
-//         school_minimum_grade_required_for_all_courses: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_time_frame_criteria: {
-//         school_time_frame_all_courses_must_be_completed: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_time_frame_science_courses_must_be_completed: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_time_frame_math_courses_must_be_completed: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_pass_fail_criteria: {
-//         school_pass_fail_grade_accepted: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-
-//     school_ap_criteria: {
-//         school_ap_courses_accepted: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_community_college_criteria: {
-//         school_community_college_credits_accepted: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_clep_criteria: {
-//         school_clep_credits_accepted: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_online_courses_criteria: {
-//         school_online_courses_accepted: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-
-//     school_prerequisite_completion_criteria: {
-//         school_all_courses_most_be_completed_before_applying: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_courses_can_be_in_progress_while_applying: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_maximum_number_of_courses_pending_while_applying: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_maximum_number_of_credits_pending_while_applying: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_maximum_number_of_science_courses_pending_while_applying: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_maximum_number_of_non_science_courses_pending_while_applying: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_grade_required_for_pending_courses: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_date_pending_courses_must_be_completed: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_semester_pending_courses_must_be_completed: {
-//             input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//             notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-
-//     school_paid_experience_required: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_patient_experience: {
-//         school_patient_experience_required: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_patient_experience_recommended: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_patient_care_experience_hours_required: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_patient_care_experience_hours_recommended: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_time_frame_patient_care_experience_needs_to_be_completed: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_average_patient_care_experience_hours_accepted_previous_cycle: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_healthcare_experience: {
-//         school_healthcare_experience_required: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_healthcare_experience_recommended: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_healthcare_experience_hours_required: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_healthcare_experience_hours_recommended: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_time_frame_healthcare_experience_needs_to_be_completed: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_average_healthcare_experience_hours_accepted_previous_cycle: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_community_service: {
-//         school_community_service_required: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_community_service_hours_required: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_community_service_recommended: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_community_service_hours_recommended: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_average_community_service_hours_accepted_previous_cycle: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-
-//     school_volunteer_service: {
-//         school_volunteer_service_required: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_volunteer_service_hours_required: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_volunteer_service_recommended: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_minimum_volunteer_service_hours_recommended: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         school_average_volunteer_service_hours_accepted_previous_cycle: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_pa_shadowing_required: {
-//         original: false,
-//         draft: false,
-//         changes: [],
-//         school_minimum_pa_shadowing_hours_required: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_pa_shadowing_recommended: {
-//         original: false,
-//         draft: false,
-//         changes: [],
-//         school_minimum_pa_shadowing_hours_recommended: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_average_pa_shadowing_hours_accepted_previous_cycle: {
-//         input: {
-//             original: 0,
-//             draft: 0,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-
-//     school_required_optional_exams: {
-//         input: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_gre: {
-//         school_gre_required: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_gre_recommended: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_caspa_gre_institution_code: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//         },
-//         school_gre_institution_code: {
-//             input: {
-//                 original: 0,
-//                 draft: 0,
-//                 changes: [],
-//             },
-//         },
-
-//         school_minimum_time_frame_gre_must_be_completed: {
-//             input: {
-//                 original: '',
-//                 draft: '',
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-
-//         school_mcat_accepted_in_place_of_gre: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-
-//         school_gre_exempt_with_masters_degree: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-
-//         school_gre_exempt_with_phd_degree: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//             notes: {
-//                 original: [],
-//                 draft: [],
-//                 changes: [],
-//             },
-//         },
-//     },
+export const schoolCategories = [
+    {
+        hash: '#general-info',
+        name: 'General Info',
+        fields: [
+            'school_name',
+            'school_logo',
+            'school_street',
+            'school_city',
+            'school_state',
+            'school_zip_code',
+            'school_country',
+            'school_website',
+            'school_email',
+            'school_phone_number',
+            'school_campus_location',
+            'school_start_month',
+            'school_class_capacity',
+            'school_duration_full_time',
+            'school_duration_part_time',
+            'school_rolling_admissions',
+            'school_nonrolling_admissions',
+            'school_pre_pa_curriculum',
+            'school_direct_high_school_entry',
+            'school_part_time_option',
+            'school_online_learning',
+            'school_on_campus_housing',
+            'school_cadaver_lab',
+            'school_faith_based_learning',
+            'school_military_personnel_preference',
+            'school_holistic_review',
+            'school_general_information',
+        ]
+    },
+    {
+        hash: '#degree-info',
+        name: 'Degree Info',
+        fields: [
+            'school_type_of_degree_offered',
+            'school_dual_degree_program',
+            'school_bachelors_degree_required',
+        ]
+    },
+    {
+        hash: '#applications',
+        name: 'Applications',
+        fields: [
+            'school_application_submitted_on_caspa',
+            'school_application_submitted_directly_to_school',
+            'school_supplemental_application_required',
+        ],
+    },
+    {
+        hash: '#accreditation-status',
+        name: 'Accreditation Status',
+        fields: [
+            'school_accreditation_status',
+            'school_accreditation_status_general_note',
+        ]
+    },
+    {
+        hash: '#mission-statement',
+        name: 'Mission Statement',
+        fields: [
+            'school_mission_statement',
+        ]
+    },
+    {
+        hash: '#tuition',
+        name: 'Tuition',
+        fields: [
+            'school_in_state_tuition',
+            'school_out_of_state_tuition',
+            'school_seat_deposit_in_state',
+            'school_seat_deposit_out_of_state',
+            'school_tuition_general_note',
+        ]
+    },
+    {
+        hash: '#pance-pass-rate',
+        name: 'PANCE Pass Rate',
+        fields: [
+            'school_first_time_pass_rate',
+            'school_average_five_year_first_time_pass_rate',
+            'school_pance_pass_rate_note',
+        ]
+    },
+    {
+        hash: '#GPA',
+        name: 'GPA',
+        fields: [
+            'school_minimum_gpa_required',
+            'school_minimum_gpa_recommended',
+            'school_other_types_of_gpa_evaluated',
+            'school_minimum_gpa_for_specific_course',
+            'school_average_gpa_accepted_previous_cycle',
+        ],
+    },
+    {
+        hash: '#prerequisites',
+        name: 'Prerequisites',
+        fields: [
+            'school_prereq_required_courses',
+            'school_prereq_required_optional_courses',
+            'school_prereq_required_course_categories',
+            'school_prereq_recommended_courses',
+            'school_grade_criteria',
+            'school_time_frame_criteria',
+            'school_pass_fail_criteria',
+            'school_ap_criteria',
+            'school_community_college_criteria',
+            'school_clep_criteria',
+            'school_online_courses_criteria',
+            'school_prerequisite_completion_criteria',
+        ],
+    },
+    {
+        hash: '#experience',
+        name: 'Experience',
+        fields: [
+            'school_paid_experience_required',
+            'school_patient_experience',
+            'school_healthcare_experience',
+            'school_community_service',
+            'school_volunteer_service'
+        ],
+    },
+    {
+        hash: '#pa-shadowing',
+        name: 'PA Shadowing',
+        fields: [
+            'school_pa_shadowing_required',
+            'school_pa_shadowing_recommended',
+            'school_average_pa_shadowing_hours_accepted_previous_cycle',          
+        ],
+    },
+    {
+        hash: '#exams',
+        name: 'Exams',
+        fields: [
+            'school_required_optional_exams',
+            'school_gre',
+            'school_pacat',
+            'school_casper',
+            'school_english_proficiency_exams',
+        ],
+    },
+    {
+        hash: '#evaluations',
+        name: 'Evaluations',
+        fields: [
+            'school_evaluations_required',
+            'school_evaluations_recommended',      
+        ],
+    },
+    {
+        hash: '#international-students',
+        name: 'International Students',
+        fields: [
+            'school_international_students_accepted',
+        ],
+    },
+    {
+        hash: '#certifications',
+        name: 'Certifications',
+        fields: [
+            'school_certifications_required',
+        ],
+    },
+    {
+        hash: '#preference',
+        name: 'Preference',
+        fields: [
+            'school_preference',
+        ],
+    },
     
-
-//     school_pacat: {
-//         school_pacat_required: {
-//             input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         },
-//         school_pacat_recommended: {
-//             input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         },
-//         school_pacat_exam_school_code: {
-//             input: {
-//             original: 0,
-//             draft: 0,
-//             changes: [],
-//         },
-//         },
-//         school_pacat_exam_scaled_minimum_score_required: {
-//             input: {
-//             original: 0,
-//             draft: 0,
-//             changes: [],
-//         },
-//         },
-//         school_pacat_exam_group_scaled_minimum_score_required: {
-//             input: {
-//             original: 0,
-//             draft: 0,
-//             changes: [],
-//         },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//     },
-
-    
-
-//     school_casper: {
-//         school_casper_required: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         school_casper_recommended: {
-//             input: {
-//                 original: false,
-//                 draft: false,
-//                 changes: [],
-//             },
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//     },
-
-
-   
-
-//     school_international_students_accepted: {
-//         input: {
-//             original: false,
-//             draft: false,
-//             changes: [],
-//         },
-//         notes: {
-//             original: [],
-//             draft: [],
-//             changes: [],
-//         },
-//         link: '',
-//     },
-
-//     school_preference: {
-//         input: {
-//             original: '',
-//             draft: '',
-//             changes: [],
-//         },
-//         link: '',
-//     },
-// }
+];

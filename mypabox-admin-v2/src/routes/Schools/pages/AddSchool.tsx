@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { categories } from "../../../data/categories"
 import { useState } from "react";
 import AddSchoolForms from "../formSections/AddSchoolForms";
-import { NewSchool } from "../../../types/newSchools.types";
-import { defaultSchool } from "../../../utils/defaults";
+import { GenericSchoolField, NewSchool } from "../../../types/newSchools.types";
+import { defaultSchool, schoolCategories } from "../../../utils/defaults";
 import Button from "../../../components/Buttons/Button";
+import { ReactComponent as AlertIcon } from '../../../components/Icons/Info.svg';
 
 export default function AddSchool() {
     const navigate = useNavigate();
@@ -15,6 +15,24 @@ export default function AddSchool() {
         navigate(`/schools/add-school${hash}`);
           setTab(hash);
     }
+
+    const checkForChanges = (fields: string[]) => {
+      let hasChanges = false;
+
+      for (let i=0; i<fields.length; i++) {
+        const schoolField = school[fields[i] as keyof NewSchool] as GenericSchoolField;
+        if (schoolField) {
+          const changes = schoolField.changes;
+          if (changes && changes.length > 0) {
+            hasChanges = true;
+            break;
+          }
+        }
+      }
+
+      return hasChanges;
+    }
+
 
     return (
         <div className={`w-screen px-10 ont-['Noto Sans']`}>
@@ -64,13 +82,14 @@ export default function AddSchool() {
             <div className={`flex justify-start items-start `}>
               <div className={`text-md py-4 side-max overflow-y-scroll sticky border-r border-[#DCDCDC]  pr-10 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
                 <div className='flex flex-col justify-start items-start gap-5'>
-                {categories.map(category => (
+                {schoolCategories.map(category => (
                   <button 
                     onClick={(e:any) => {navigateTabs(category.hash)}} 
                     className={`whitespace-nowrap ${category.hash === tab ? 'text-red-500' : ''}`}
                   >
                     <div className='flex justify-start items-center gap-[2px]'>
                         {category.name}
+                        {checkForChanges(category.fields) && <AlertIcon className='w-[20px] text-warning'/>}
                     </div>
                   </button>
                 ))}
