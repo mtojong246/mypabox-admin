@@ -6,7 +6,7 @@ import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import EvaluationsInputs from "./EvaluationsInputs";
-import { OptionalEvaluatorsType } from "./popups/OptionalEvaluatorsPopup";
+import OptionalEvaluatorsPopup, { OptionalEvaluatorsType } from "./popups/OptionalEvaluatorsPopup";
 
 
 const permissions = {
@@ -174,6 +174,7 @@ export default function Evaluations({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
+                            togglePopup={togglePopup}
                         />
                     }
                     modifiedInputs={
@@ -192,6 +193,7 @@ export default function Evaluations({
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                             checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                            togglePopup={togglePopup}
                         />
                     }
                 />
@@ -204,6 +206,16 @@ export default function Evaluations({
                 selectedField={selectedField}
                 selectedNote={selectedNote}
                 school={school}
+                handleChanges={handleChanges}
+                handleModification={handleModification}
+            />
+        )}
+        {isPopupOpen && selectedEvalField && (
+            <OptionalEvaluatorsPopup 
+                school={school}
+                togglePopup={togglePopup}
+                selectedEvalArrItem={selectedEvalArrItem}
+                selectedEvalField={selectedEvalField}
                 handleChanges={handleChanges}
                 handleModification={handleModification}
             />

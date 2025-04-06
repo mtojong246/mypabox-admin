@@ -9,8 +9,11 @@ import Button from "../../../../components/Buttons/Button";
 import Notes from "../../../../components/Form/Notes/Notes";
 
 import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
+import { ReactComponent as EditIcon } from '../../../../components/Icons/Edit-With-Line.svg';
 import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
 import ChangePopup from "../../../../components/Form/Validation/ChangePopup";
+import { OptionalEvaluatorsType } from "./popups/OptionalEvaluatorsPopup";
+import OptionalEvaluatorsField from "./arrayFields/OptionalEvaluatorsField";
 
 const evaluatorOptions = [
     {value: 'PA', label: 'PA'},
@@ -41,6 +44,7 @@ export default function EvaluationsInputs({
     revertIndividualChange,
     toggleNote,
     checkIfValueHasBeenRemoved,
+    togglePopup,
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -78,6 +82,7 @@ export default function EvaluationsInputs({
         noteIndex?: number;
     }, note?: NewNote) => void,
     checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;    
+    togglePopup: (e:React.MouseEvent<HTMLButtonElement>, field?: { name: string, path: string, index?: number }, arrItem?: OptionalEvaluatorsType) => void,
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
 
@@ -350,8 +355,42 @@ export default function EvaluationsInputs({
                                                 </div>
                                                 )
                                             } else {
+                                                const arrayInputPath = `${inputPath}.${i}`;
+                                                const change = schoolField.changes.find(change => change.path === arrayInputPath);
+
                                                 return (
-                                                    <></>
+                                                    <div className="w-full flex justify-between items-start gap-6">
+                                                        <div className="grow flex justify-start items-start gap-2">
+                                                            <OptionalEvaluatorsField value={val}/>
+                                                            
+                                                            {change && (
+                                                                <ChangePopup 
+                                                                    change={change}
+                                                                    name={field.name}
+                                                                    validateIndividualChange={validateIndividualChange}
+                                                                    revertIndividualChange={revertIndividualChange}
+                                                                />
+                                                            )}
+                                                        </div>
+                                                        <div className="flex gap-4">
+                                                            <button 
+                                                                onClick={(e:any) => togglePopup(
+                                                                    e, 
+                                                                    { name: field.name, path: inputPath, index: i }, 
+                                                                    val
+                                                                )} 
+                                                                className="w-[24px] text-primary"
+                                                            >   
+                                                                <EditIcon/>
+                                                            </button>
+                                                            <button 
+                                                                onClick={(e:any) => handleRemove(e, field.name, inputPath, i)} 
+                                                                className="w-[24px] text-warning"
+                                                            >
+                                                                <DeleteIcon/>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 )
                                             }                      
                                         })}
