@@ -2,7 +2,7 @@ import ReactQuill from "react-quill"
 import { ChangeEvent, useState, MouseEvent, useEffect } from "react"
 import 'react-quill/dist/quill.snow.css';
 import { NewNote } from "../../../../../types/newSchools.types";
-import { ReactComponent as CloseIcon } from '../Icons/X.svg';
+import { ReactComponent as CloseIcon } from '../../../../../components/Icons/X.svg'
 import Button from "../../../../../components/Buttons/Button";
 
 const defaultNote = {

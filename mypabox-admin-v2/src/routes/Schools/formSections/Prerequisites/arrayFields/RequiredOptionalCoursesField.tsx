@@ -11,7 +11,7 @@ export default function RequiredOptionalCoursesField({
     return (
         <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
             <p><span className="font-semibold">{value.school_minimum_number_of_courses_to_be_completed}</span> of the following courses need to be completed:</p>
-            <div className="flex flex-col gap-2 justify-start items-stretch">
+            <div className="w-full flex flex-col gap-2 justify-start items-stretch">
                 {value.school_required_optional_courses_list.map(optionalCourse => {
                     const course: CourseForm = {
                         course_id: optionalCourse.school_optional_course_id,
@@ -28,10 +28,10 @@ export default function RequiredOptionalCoursesField({
                 })}
             </div>
             
-            <div className="flex flex-col gap-2 justify-start items-stretch">
+            <div className="w-full flex flex-col gap-2 justify-start items-stretch">
                 <p>Optional Course Notes:</p>
                 {value.notes.map(note => (
-                    <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
+                    <div className={`w-full grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
                         <p className={`${note.type === 'requirement' ? 'text-warning' : 'text-primary'} text-[14px] font-medium`}>{note.type}</p>
                         <ReactQuill 
                             theme='bubble'

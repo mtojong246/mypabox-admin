@@ -252,6 +252,7 @@ export default function RequiredOptionalCoursesPopup({
         toggleNotePopup(e);
     };
 
+
     return (
         <>
             <div className='fixed top-0 left-0 right-0 bottom-0 z-[100]'>
@@ -267,7 +268,7 @@ export default function RequiredOptionalCoursesPopup({
                             <TextInput 
                                 label='Minimum number of courses that need to be completed'
                                 placeholder='Minimum number of courses that need to be completed'
-                                name='school_required_course_credit_hours'
+                                name='school_minimum_number_of_courses_to_be_completed'
                                 value={form.school_minimum_number_of_courses_to_be_completed}
                                 path=''
                                 handleInput={handleInput}
@@ -276,7 +277,7 @@ export default function RequiredOptionalCoursesPopup({
                                 type='text'  
                             />
 
-                            <div className="flex flex-col gap-2 justify-start items-stretch">
+                            <div className="flex flex-col gap-2 justify-start items-start">
                                 <p>Courses:</p>
                                 <div className="w-full flex flex-col gap-4 justify-start items-start">
                                     {form.school_required_optional_courses_list.map((optionalCourse, courseIndex) => {
@@ -319,14 +320,14 @@ export default function RequiredOptionalCoursesPopup({
                             </div>
 
 
-                            <div className="flex flex-col gap-2 justify-start items-stretch">
+                            <div className="flex flex-col gap-2 justify-start items-start w-full">
                                 <p>Notes:</p>
                                 <div className="w-full flex flex-col gap-4 justify-start items-start">
                                     {form.notes.map((note, noteIndex) => {
                                         
                                         return (
                                         <div className="w-full flex justify-between items-start gap-6">
-                                            <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
+                                            <div className={`grow w-full flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
                                                 <p className={`${note.type === 'requirement' ? 'text-warning' : 'text-primary'} text-[14px] font-medium`}>{note.type}</p>
                                                 <ReactQuill 
                                                     theme='bubble'
@@ -355,10 +356,10 @@ export default function RequiredOptionalCoursesPopup({
                                     })}
                                 </div>
                                 <Button 
-                                    label="Add Course"
+                                    label="Add Note"
                                     type="primary"
                                     styling="outline"
-                                    action={toggleCoursePopup}
+                                    action={toggleNotePopup}
                                 />
                             </div>
                             
