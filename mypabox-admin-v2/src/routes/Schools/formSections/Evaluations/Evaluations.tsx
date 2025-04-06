@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
 import Container from "../../../../components/Form/Validation/Container";
 
@@ -6,6 +6,7 @@ import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import EvaluationsInputs from "./EvaluationsInputs";
+import { OptionalEvaluatorsType } from "./popups/OptionalEvaluatorsPopup";
 
 
 const permissions = {
@@ -112,6 +113,31 @@ export default function Evaluations({
         validateIndividualChange,
         checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
+
+    const [ isPopupOpen, setIsPopupOpen ] = useState(false);
+    const [ selectedEvalField, setSelectedEvalField ] = useState<{
+        name: string,
+        path: string,
+        index?: number,
+    } | null>(null);
+    const [ selectedEvalArrItem, setSelectedEvalArrItem ] = useState<OptionalEvaluatorsType | null>(null);
+
+    const togglePopup = (e:React.MouseEvent<HTMLButtonElement>, field?: { name: string, path: string, index?: number }, arrItem?: OptionalEvaluatorsType) => {
+        e.preventDefault();
+        setIsPopupOpen(!isNoteOpen);
+
+        if (field !== undefined) {
+            setSelectedEvalField(field);
+        } else {
+            setSelectedEvalField(null);
+        }
+
+        if (arrItem !== undefined) {
+            setSelectedEvalArrItem(arrItem);
+        } else {
+            setSelectedEvalArrItem(null);
+        }
+    };
 
 
     return (
