@@ -27,7 +27,7 @@ export default function Course({
     return (
         <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
             <p>
-                <span className="font-semibold">{courseName}</span>
+                <span className="font-semibold">{courseName} </span>
                 <span className='text-placeholder font-medium'>
                     {`(${course.course_lab ? 'with lab' : 'without lab'}
                     ${course.course_lab_preferred ? ' / lab preferred' : ''}  

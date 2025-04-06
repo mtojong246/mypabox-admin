@@ -40,13 +40,6 @@ export default function RecommendedCoursesInputs({
         name: string;
         type: string;
         path: string;
-        associatedFields: {
-            label: string;
-            name: string;
-            type: string;
-            path?: string;
-            notePath?: string;
-        }[],
         notePath?: string;
     },
     value: any,
@@ -99,7 +92,7 @@ export default function RecommendedCoursesInputs({
         <div className="flex flex-col gap-8 justify-start items-start">
         {field.type === 'array' ? (
             <div className="w-full flex flex-col gap-4 justify-start items-start">
-                <label className="text-default">{field.label}</label>
+                <label className="text-default">{field.label}:</label>
                 {(value as any[]).length > 0 && (value as any[]).map((val,i) => {
                     const inputPath = `${field.path}.${i}`;
                     const change = schoolField.changes.find(change => change.path === inputPath);
@@ -131,7 +124,7 @@ export default function RecommendedCoursesInputs({
                             </div>
                             <div className="flex gap-4">
                                 <button 
-                                    onClick={(e:any) => togglePopup(e, 'recommended-courses', { name: field.name, path: field.path, index: i }, value)} 
+                                    onClick={(e:any) => togglePopup(e, 'recommended-courses', { name: field.name, path: field.path, index: i }, val)} 
                                     className="w-[24px] text-primary"
                                 >   
                                     <EditIcon/>

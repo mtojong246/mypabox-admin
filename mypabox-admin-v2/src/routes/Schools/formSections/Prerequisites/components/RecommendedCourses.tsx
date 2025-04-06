@@ -1,15 +1,9 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import Container from "../../../../../components/Form/Validation/Container";
-import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput";
-import TextInput from "../../../../../components/Form/InputTypes/TextInput";
-import Notes from "../../../../../components/Form/Notes/Notes";
 import { UserPermissions } from "../../../../../types/users.types";
-import SelectInput from "../../../../../components/Form/InputTypes/SelectInput";
-import Button from "../../../../../components/Buttons/Button";
-import { ReactComponent as PlusIcon } from '../../../../../components/Icons/Plus.svg';
-import { ReactComponent as MinusIcon } from '../../../../../components/Icons/Minus.svg';
-import TextEditorInput from "../../../../../components/Form/InputTypes/TextEditorInput";
+import RecommendedCoursesInputs from "../inputs/RecommendedCoursesInputs";
+import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
 
 const recommendedCoursesFields = [
     {
@@ -27,15 +21,13 @@ export default function RecommendedCourses({
     isEditSchool,
     permissions,
     handleRetrieveValue,
-    handleModify,
-    handleAddition,
-    handleDeletion,
     handleChanges,
     toggleNote,
-    deleteNote,
     handleModification,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
+    checkIfValueHasBeenRemoved,
+    togglePopup,
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -44,19 +36,6 @@ export default function RecommendedCourses({
     handleRetrieveValue: (path: string, field: GenericSchoolField) => {
         originalValue: any,
         originalDraftValue: any,
-    },
-    handleModify: (path: string, field: GenericSchoolField, newValue: any) => {
-        originalField: any;
-        draftField: any;
-        originalValue: any;
-    },
-    handleAddition: (path: string, field: GenericSchoolField, newValue: any) => {
-        originalField: any;
-        draftField: any;
-    },
-    handleDeletion: (path: string, field: GenericSchoolField, index: number) => {
-        originalField: any;
-        draftField: any;
     },
     handleChanges: (
         field: GenericSchoolField, 
@@ -72,7 +51,6 @@ export default function RecommendedCourses({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
     handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
         originalField: any;
         draftField: any;
@@ -80,11 +58,16 @@ export default function RecommendedCourses({
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    checkIfValueHasBeenRemoved: (path: string, field: GenericSchoolField) => any | null;
+    togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
 }) {
     return (
         <>
         {recommendedCoursesFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;  
+            const inputs = handleRetrieveValue(field.path, schoolField);
+            const value = inputs.originalValue;
+            const draftValue = inputs.originalDraftValue;
 
             let noteValue: NewNote[] = [];
             let draftNoteValue: NewNote[] = [];
@@ -103,8 +86,41 @@ export default function RecommendedCourses({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
-                    originalInputs={<></>}
-                    modifiedInputs={<></>}
+                    originalInputs={
+                        <RecommendedCoursesInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            togglePopup={togglePopup}
+                        />
+                    }
+                    modifiedInputs={
+                        <RecommendedCoursesInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            togglePopup={togglePopup}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                        />
+                    }
                 />
             )
         })}

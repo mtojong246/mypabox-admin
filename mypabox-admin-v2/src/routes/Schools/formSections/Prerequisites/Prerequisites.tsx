@@ -10,6 +10,7 @@ import RequiredCoursesPopup, { RequiredCourseType } from "./popups/RequiredCours
 import RequiredOptionalCoursesPopup, { RequiredOptionalCourseType } from "./popups/RequiredOptionalCoursesPopup";
 import RequiredCourseCategoriesPopup, { RequiredCourseCategoryType } from "./popups/RequiredCourseCategoriesPopup";
 import RecommendedCoursePopup, { RecommendedCourseType } from "./popups/RecommendedCoursePopup";
+import RecommendedCourses from "./components/RecommendedCourses";
 
 export type PrereqPopupType = 'required-courses' | 'recommended-courses' | 'optional-courses' | 'course-categories' ;
 export type PrereqArrItemType = RequiredCourseType | RequiredOptionalCourseType | RequiredCourseCategoryType | RecommendedCourseType;
@@ -80,6 +81,7 @@ export default function Prerequisites({
     };
 
 
+
     const handleQuill = (e: any, name: string, path: string) => {
         const value = e;
 
@@ -99,6 +101,20 @@ export default function Prerequisites({
 
     return (
         <>
+        <RecommendedCourses 
+            school={school}
+            setSchool={setSchool}
+            isEditSchool={isEditSchool}
+            permissions={permissions}
+            handleRetrieveValue={handleRetrieveValue}
+            handleChanges={handleChanges}
+            toggleNote={toggleNote}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
+            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            togglePopup={togglePopup}
+        />
         <MinimumGradeAndTimeCriteriaAndBoolean 
             school={school}
             setSchool={setSchool}
@@ -236,7 +252,14 @@ export default function Prerequisites({
                     handleModification={handleModification}
                 />
             ) : popupType === 'recommended-courses' ? (
-                <RecommendedCoursePopup />
+                <RecommendedCoursePopup 
+                    school={school}
+                    togglePopup={togglePopup}
+                    selectedPrereqArrItem={selectedPrereqArrItem}
+                    selectedPrereqField={selectedPrereqField}
+                    handleChanges={handleChanges}
+                    handleModification={handleModification}
+                />
             ) : popupType === 'optional-courses' ? (
                 <RequiredOptionalCoursesPopup 
                     school={school}

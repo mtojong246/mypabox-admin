@@ -34,7 +34,7 @@ export default function CoursePopup({
     handleSubmit,
 }: {
     selectedCourse: CourseForm | null, 
-    togglePopup?: (e:React.MouseEvent<HTMLButtonElement>, type?: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
+    togglePopup?: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
     toggleCoursePopup?: (e: React.MouseEvent<HTMLButtonElement>, index?: number, course?: any) => void,
     handleSubmit: (e: React.MouseEvent<HTMLButtonElement>, form: CourseForm) => void,
 
@@ -57,6 +57,7 @@ export default function CoursePopup({
         ))
         setCourseOptions([{value: '', label: 'Select'}].concat(options))
     }, [courses]);
+
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
@@ -105,7 +106,7 @@ export default function CoursePopup({
         <div className='fixed top-0 left-0 right-0 bottom-0 z-[100]'>
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                 <div className='w-full max-w-[600px] rounded-lg bg-white'>
-                    <div className="flex justify-between items-center gap-6 p-6">
+                    <div className="flex justify-between items-center gap-6 p-6 border-b border-outline">
                         <p className="font-medium text-[24px]">{selectedCourse ? 'Edit Course' : 'Add Course'}</p>
                         <button onClick={(e: any) => {
                             togglePopup ? togglePopup(e, null)
@@ -114,86 +115,88 @@ export default function CoursePopup({
                         }} className="w-[16px] text-placeholder hover:text-default transition-all"><CloseIcon /></button>
                     </div>
 
-                    <div className='w-full p-6 flex flex-col justify-start items-start gap-8 w-full'>
-                        {courseOptions.length > 0 && (
-                            <SelectInput 
-                                label='Course'
-                                placeholder='Course'
-                                name='course_id'
-                                value={{ 
-                                    value: form.course_id, 
-                                    label: courses.find(course => course.unique_id === form.course_id) 
-                                        ? courses.find(course => course.unique_id === form.course_id)!.course_name 
-                                        : '' 
-                                }}
+                    <div className="max-h-[600px] overflow-y-auto">
+                        <div className='w-full p-6 flex flex-col justify-start items-start gap-8 w-full'>
+                            {courseOptions.length > 0 && (
+                                <SelectInput 
+                                    label='Course'
+                                    placeholder='Course'
+                                    name='course_id'
+                                    value={{ 
+                                        value: form.course_id, 
+                                        label: courses.find(course => course.unique_id === form.course_id) 
+                                            ? courses.find(course => course.unique_id === form.course_id)!.course_name 
+                                            : '' 
+                                    }}
+                                    path=''
+                                    handleSelect={handleSelect}
+                                    isRequired={false}
+                                    isCreatable={false}
+                                    isDisabled={false}
+                                    options={courseOptions}
+                                />
+                            )}
+
+                            <BooleanInput 
+                                label='With Lab'
+                                name='course_lab'
+                                value={form.course_lab}
                                 path=''
-                                handleSelect={handleSelect}
+                                handleCheck={handleBoolean}
                                 isRequired={false}
-                                isCreatable={false}
                                 isDisabled={false}
-                                options={courseOptions}
                             />
-                        )}
 
-                        <BooleanInput 
-                            label='With Lab'
-                            name='course_lab'
-                            value={form.course_lab}
-                            path=''
-                            handleCheck={handleBoolean}
-                            isRequired={false}
-                            isDisabled={false}
-                        />
-
-                        <BooleanInput 
-                            label='Lab Preferred'
-                            name='course_lab_preferred'
-                            value={form.course_lab_preferred}
-                            path=''
-                            handleCheck={handleBoolean}
-                            isRequired={false}
-                            isDisabled={false}
-                        />
-
-                        <TextInput 
-                            label='Credit Hours'
-                            placeholder='Credit Hours'
-                            name='course_credit_hours'
-                            value={form.course_credit_hours}
-                            path=''
-                            handleInput={handleInput}
-                            isRequired={false}
-                            isDisabled={false}
-                            type='text'  
-                        />
-
-                        <TextInput 
-                            label='Quarter Hours'
-                            placeholder='Quarter Hours'
-                            name='course_quarter_hours'
-                            value={form.course_quarter_hours}
-                            path=''
-                            handleInput={handleInput}
-                            isRequired={false}
-                            isDisabled={false}
-                            type='text'  
-                        />
-                        
-                        <div className='flex flex-col gap-2 justify-start items-start w-full mb-10'>
-                            <label className='font-medium'>Note:</label>
-                            <ReactQuill 
-                                theme="snow" 
-                                onChange={handleNote} 
-                                value={form.course_note_section}
-                                style={{
-                                    width: '100%',
-                                    height: '200px',
-                                }}
+                            <BooleanInput 
+                                label='Lab Preferred'
+                                name='course_lab_preferred'
+                                value={form.course_lab_preferred}
+                                path=''
+                                handleCheck={handleBoolean}
+                                isRequired={false}
+                                isDisabled={false}
                             />
+
+                            <TextInput 
+                                label='Credit Hours'
+                                placeholder='Credit Hours'
+                                name='course_credit_hours'
+                                value={form.course_credit_hours}
+                                path=''
+                                handleInput={handleInput}
+                                isRequired={false}
+                                isDisabled={false}
+                                type='text'  
+                            />
+
+                            <TextInput 
+                                label='Quarter Hours'
+                                placeholder='Quarter Hours'
+                                name='course_quarter_hours'
+                                value={form.course_quarter_hours}
+                                path=''
+                                handleInput={handleInput}
+                                isRequired={false}
+                                isDisabled={false}
+                                type='text'  
+                            />
+                            
+                            <div className='flex flex-col gap-2 justify-start items-start w-full mb-10'>
+                                <label className='font-medium'>Note:</label>
+                                <ReactQuill 
+                                    theme="snow" 
+                                    onChange={handleNote} 
+                                    value={form.course_note_section}
+                                    style={{
+                                        width: '100%',
+                                        height: '200px',
+                                    }}
+                                />
+                            </div>
                         </div>
                     </div>
-                    
-                    <div className='w-full p-6 flex justify-end items-center gap-3'>
+
+                    <div className='w-full p-6 flex justify-end items-center gap-3 border-t border-outline'>
                         <Button 
                             label="Cancel"
                             action={(e: any) => {
