@@ -1,18 +1,12 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import Container from "../../../../../components/Form/Validation/Container";
-import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput";
-import TextInput from "../../../../../components/Form/InputTypes/TextInput";
-import Notes from "../../../../../components/Form/Notes/Notes";
 import { UserPermissions } from "../../../../../types/users.types";
-import SelectInput from "../../../../../components/Form/InputTypes/SelectInput";
-import Button from "../../../../../components/Buttons/Button";
-import { ReactComponent as PlusIcon } from '../../../../../components/Icons/Plus.svg';
-import { ReactComponent as MinusIcon } from '../../../../../components/Icons/Minus.svg';
-import TextEditorInput from "../../../../../components/Form/InputTypes/TextEditorInput";
+import RequiredCoursesAndCategoriesInputs from "../inputs/RequiredCoursesAndCategoriesInputs";
+import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
 
 
-const completionCriteriaFields = [
+const prereqFields = [
     {
         label: 'Required Courses And Categories',
         name: 'school_prereq_required_courses_and_categories',
@@ -186,29 +180,6 @@ const completionCriteriaFields = [
     },
 ]
 
-const options = [
-    { value: '', label: 'Select' },
-    { value: 'A+', label: 'A+' },
-    { value: 'A', label: 'A' },
-    { value: 'A-', label: 'A-' },
-    { value: 'B+', label: 'B+' },
-    { value: 'B', label: 'B' },
-    { value: 'B-', label: 'B-' },
-    { value: 'C+', label: 'C+' },
-    { value: 'C', label: 'C' },
-    { value: 'C-', label: 'C-' },
-    { value: 'D+', label: 'D+' },
-    { value: 'D', label: 'D' },
-    { value: 'D-', label: 'D-' },
-]
-
-const semesterOptions = [
-    { value: '', label: 'Select' },
-    { value: 'Spring', label: 'Spring' },
-    { value: 'Fall', label: 'Fall' },
-    { value: 'Winter', label: 'Winter' },
-    { value: 'Summer', label: 'Summer' }
-]
 
 export default function RequiredCoursesAndCategories({
     school,
@@ -216,15 +187,13 @@ export default function RequiredCoursesAndCategories({
     isEditSchool,
     permissions,
     handleRetrieveValue,
-    handleModify,
-    handleAddition,
-    handleDeletion,
     handleChanges,
     toggleNote,
-    deleteNote,
     handleModification,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
+    checkIfValueHasBeenRemoved,
+    togglePopup
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -233,19 +202,6 @@ export default function RequiredCoursesAndCategories({
     handleRetrieveValue: (path: string, field: GenericSchoolField) => {
         originalValue: any,
         originalDraftValue: any,
-    },
-    handleModify: (path: string, field: GenericSchoolField, newValue: any) => {
-        originalField: any;
-        draftField: any;
-        originalValue: any;
-    },
-    handleAddition: (path: string, field: GenericSchoolField, newValue: any) => {
-        originalField: any;
-        draftField: any;
-    },
-    handleDeletion: (path: string, field: GenericSchoolField, index: number) => {
-        originalField: any;
-        draftField: any;
     },
     handleChanges: (
         field: GenericSchoolField, 
@@ -261,7 +217,6 @@ export default function RequiredCoursesAndCategories({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
     handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
         originalField: any;
         draftField: any;
@@ -269,131 +224,15 @@ export default function RequiredCoursesAndCategories({
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    checkIfValueHasBeenRemoved: (path: string, field: GenericSchoolField) => any | null;
+    togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
 }) {
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
-
-    const handleSelect = (e: any, name: string, path: string) => {
-        const value = e.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-    };
-
-
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.checked;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-    };
-
-    const handleQuill = (e: any, name: string, path: string) => {
-        const value = e;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
-
-    const handleAdd = (e:any, name: string, path: string) => {
-        e.preventDefault();
-        let value = {};
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        if (name === 'school_other_types_of_gpa_evaluated') {
-            value = {
-                gpa_value_required_or_recommended: {
-                    input: 'required',
-                },
-                minimum_gpa_value_needed: {
-                    input: 0,
-                },
-                minimum_number_of_credits_evaluated: {
-                    input: 0,
-                },
-                type_of_gpa_evaluated: {
-                    input: '',
-                },
-                notes: [],
-            }
-        } else {
-            value = {
-                minimum_gpa_required_for_course: {
-                    input: 0,
-                },
-                courseID: {
-                    input: '',
-                },
-                notes: [],
-            }
-        };
-
-        const {
-            originalField,
-            draftField,
-        } = handleAddition(path, field, value);
-
-        handleChanges(field, name, originalField, draftField, path, 'added');
-    }
-
-    const handleRemove = (e:any, name: string, path: string, index: number) => {
-        e.preventDefault();
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-        } = handleDeletion(path, field, index);
-
-        handleChanges(field, name, originalField, draftField, path, 'removed');
-
-    }
 
 
     return (
         <>
-        {completionCriteriaFields.map(field => {
+        {prereqFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;  
 
             let noteValue: NewNote[] = [];
@@ -414,257 +253,39 @@ export default function RequiredCoursesAndCategories({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let originalInput;
-                                let originalNotes = [];
-
-                                if (associatedFieldObject.originalValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path ? associatedField.path : ''}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    originalInput = associatedFieldInputs.originalValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        originalNotes = associatedFieldNotes.originalValue;
-                                    }
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'array' ? (
-                                               <>
-                                               {(originalInput as any[]).length > 0 && (originalInput as any[]).map((val,i) => (
-                                                   <div className="w-full flex flex-col gap-8 justify-start items-start p-6 rounded-lg border border-outline">
-                                                       <div className="w-full flex justify-between items-center gap-8">
-                                                           <p className="font-medium text-[18px]">{i+1} - {associatedField.label}</p>
-                                                           <Button 
-                                                               type="warning"
-                                                               styling="outline"
-                                                               label={`Remove ${field.name === 'school_other_types_of_gpa_evaluated' ? 'GPA Type' : 'Course GPA'}`}
-                                                               action={(e:any) => handleRemove(e, field.name, inputPath, i)}
-                                                               adornment={<MinusIcon/>}
-                                                           />
-                                                       </div>
-                                                       {associatedField.associatedFields.length > 0 && associatedField.associatedFields.map(nestedAssociatedField => {
-                                                           const arrayInputPath = `${inputPath}.${i}.${nestedAssociatedField.name}`;
-                                                           const arrayAssociatedPath = handleRetrieveValue(arrayInputPath, schoolField);
-                                                           const arrayOriginalInput = arrayAssociatedPath.originalValue;
-                   
-                                                           return (
-                                                               <>
-                                                                   {associatedField.type === 'text' ? (
-                                                                       <TextInput 
-                                                                           label={nestedAssociatedField.label}
-                                                                           placeholder={nestedAssociatedField.label}
-                                                                           name={field.name}
-                                                                           value={arrayOriginalInput}
-                                                                           path={arrayInputPath}
-                                                                           handleInput={handleInput}
-                                                                           isRequired={false}
-                                                                           type="text"
-                                                                           isDisabled={false}
-                                                                       />
-                                                                   ) : associatedField.type === 'boolean' ? (
-                                                                        <BooleanInput 
-                                                                            label={nestedAssociatedField.label}
-                                                                            name={field.name}
-                                                                            value={arrayOriginalInput}
-                                                                            path={arrayInputPath}
-                                                                            handleCheck={handleBoolean}
-                                                                            isRequired={false}
-                                                                            isDisabled={false}
-                                                                        />
-                                                                   ) : associatedField.type === 'text-area' ? (
-                                                                        <TextEditorInput 
-                                                                            label={nestedAssociatedField.label}
-                                                                            name={field.name}
-                                                                            value={arrayOriginalInput}
-                                                                            path={arrayInputPath}
-                                                                            handleQuill={handleQuill}
-                                                                            isRequired={false}
-                                                                            isDisabled={false}
-                                                                        />
-                                                                       
-                                                                   ) : associatedField.type === 'note' ? (
-                                                                       <Notes 
-                                                                           notes={arrayOriginalInput}
-                                                                           field={{
-                                                                               ...nestedAssociatedField,
-                                                                               notePath: inputPath,
-                                                                               name: field.name,
-                                                                               path: '',
-                                                                           }}
-                                                                           toggleNote={toggleNote}
-                                                                           schoolField={schoolField}
-                                                                            validateIndividualChange={validateIndividualChange}
-                                                                            revertIndividualChange={revertIndividualChange}
-                                                                            handleChanges={handleChanges}
-                                                                            handleModification={handleModification}
-                                                                       />
-                                                                   ) : (
-                                                                       <></>
-                                                                   )}
-                                                               </>
-                                                           )
-                                                       })}
-                                                   </div>
-                                               ))}
-                                               <Button 
-                                                   type="primary"
-                                                   styling="outline"
-                                                   label={`Add ${field.name === 'school_other_types_of_gpa_evaluated' ? 'GPA Type' : 'Course GPA'}`}
-                                                   action={(e:any) => handleAdd(e, field.name, field.path)}
-                                                   adornment={<PlusIcon/>}
-                                               />
-                                               </>
-                                            ) : (
-                                                <></>
-                                            )}
-                                            {associatedField.notePath && originalNotes !== undefined && (
-                                                <Notes 
-                                                    notes={originalNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    schoolField={schoolField}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                    handleChanges={handleChanges}
-                                                    handleModification={handleModification}
-                                                />
-                                            )}
-                                            
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                schoolField={schoolField}
-                                validateIndividualChange={validateIndividualChange}
-                                revertIndividualChange={revertIndividualChange}
-                                handleChanges={handleChanges}
-                                handleModification={handleModification}
-                            />
-                        )}
-                        </div>
+                        <RequiredCoursesAndCategoriesInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            noteValue={noteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            handleRetrieveValue={handleRetrieveValue}
+                            togglePopup={togglePopup}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let draftInput;
-                                let draftNotes = [];
-
-                                if (associatedFieldObject.originalDraftValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path ? associatedField.path : ''}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    draftInput = associatedFieldInputs.originalDraftValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        draftNotes = associatedFieldNotes.originalDraftValue;
-                                    }
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={field.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={field.path}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <SelectInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={{ value: draftInput, label: draftInput }}
-                                                    path={inputPath}
-                                                    handleSelect={handleSelect}
-                                                    isRequired={false}
-                                                    isCreatable={false}
-                                                    options={associatedField.name === 'school_minimum_grade_required_for_pending_courses' ? options : semesterOptions}
-                                                    isDisabled={false}
-                                                />
-                                            )}
-                                            {associatedField.notePath && draftNotes !== undefined && (
-                                                <Notes 
-                                                    notes={draftNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    schoolField={schoolField}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                    handleChanges={handleChanges}
-                                                    handleModification={handleModification}
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={draftNoteValue}
-                                field={field}
-                                toggleNote={toggleNote}
-                                schoolField={schoolField}
-                                validateIndividualChange={validateIndividualChange}
-                                revertIndividualChange={revertIndividualChange}
-                                handleChanges={handleChanges}
-                                handleModification={handleModification}
-                            />
-                        )}
-                        </div>
+                        <RequiredCoursesAndCategoriesInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            noteValue={draftNoteValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            handleRetrieveValue={handleRetrieveValue}
+                            togglePopup={togglePopup}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                        />
                     }
                 />
             )

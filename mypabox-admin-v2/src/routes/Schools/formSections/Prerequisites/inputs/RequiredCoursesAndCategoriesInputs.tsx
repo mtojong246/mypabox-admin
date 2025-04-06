@@ -1,15 +1,18 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import { UserPermissions } from "../../../../../types/users.types";
-import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput";
 import Notes from "../../../../../components/Form/Notes/Notes";
-import TextInput from "../../../../../components/Form/InputTypes/TextInput";
 import Button from "../../../../../components/Buttons/Button";
 import { ReactComponent as PlusIcon } from '../../../../../components/Icons/Plus.svg';
-import { ReactComponent as MinusIcon } from '../../../../../components/Icons/Minus.svg';
-import RequiredOptionalCourses from "../arrayFields/RequiredOptionalCourses";
-import RequiredCourses from "../arrayFields/RequiredCourses";
-import RequiredCourseCategories from "../arrayFields/RequiredCourseCategories";
+import { ReactComponent as DeleteIcon } from '../../../../../components/Icons/Trash.svg';
+import { ReactComponent as EditIcon } from '../../../../../components/Icons/Edit-With-Line.svg';
+
+import ChangePopup from "../../../../../components/Form/Validation/ChangePopup";
+import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
+import RequiredCoursesField from "../arrayFields/RequiredCourses";
+import RequiredOptionalCoursesField from "../arrayFields/RequiredOptionalCoursesField";
+import RequiredCourseCategoriesField from "../arrayFields/RequiredCourseCategoriesField";
+
 
 export default function RequiredCoursesAndCategoriesInputs({
     tab,
@@ -25,7 +28,8 @@ export default function RequiredCoursesAndCategoriesInputs({
     revertIndividualChange,
     toggleNote,
     handleRetrieveValue,
-    checkIfValueHasBeenRemoved
+    checkIfValueHasBeenRemoved,
+    togglePopup,
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -72,7 +76,7 @@ export default function RequiredCoursesAndCategoriesInputs({
         noteIndex?: number;
     }, note?: NewNote) => void,
     checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
-    
+    togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
 
@@ -83,48 +87,6 @@ export default function RequiredCoursesAndCategoriesInputs({
             setIsDisabled(false);
         }
     }, [isEditSchool, permissions, schoolField, tab]);
-
-    const handleAdd = (e:any, name: string, path: string) => {
-        e.preventDefault();
-        let value = {};
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        if (name === 'school_other_types_of_gpa_evaluated') {
-            value = {
-                gpa_value_required_or_recommended: {
-                    input: 'required',
-                },
-                minimum_gpa_value_needed: {
-                    input: 0,
-                },
-                minimum_number_of_credits_evaluated: {
-                    input: 0,
-                },
-                type_of_gpa_evaluated: {
-                    input: '',
-                },
-                notes: [],
-            }
-        } else {
-            value = {
-                minimum_gpa_required_for_course: {
-                    input: 0,
-                },
-                courseID: {
-                    input: '',
-                },
-                notes: [],
-            }
-        };
-
-        const {
-            originalField,
-            draftField,
-        } = handleModification(path, field, value, 'add');
-
-        handleChanges(field, name, originalField, draftField, path, 'added');
-    }
 
     const handleRemove = (e:any, name: string, path: string, index: number) => {
         e.preventDefault();
@@ -180,52 +142,72 @@ export default function RequiredCoursesAndCategoriesInputs({
                         return (
                             <>
                                 {associatedField.type === 'array' ? (
-                                    <>
-                                    {(inputValue as any[]).length > 0 && (inputValue as any[]).map((val,i) => (
+                                    <div className="w-full flex flex-col gap-4 justify-start items-start">
+                                        <label className="text-default">{associatedField.label}:</label>
                                         <div className="w-full flex flex-col gap-8 justify-start items-start p-6 rounded-lg border border-outline">
-                                            <div className="w-full flex justify-between items-center gap-8">
-                                                <p className="font-medium text-[18px]">{i+1} - {associatedField.label}</p>
-                                                <Button 
-                                                    type="warning"
-                                                    styling="outline"
-                                                    label={`Remove ${field.name === 'school_other_types_of_gpa_evaluated' ? 'GPA Type' : 'Course GPA'}`}
-                                                    action={(e:any) => handleRemove(e, field.name, inputPath, i)}
-                                                    adornment={<MinusIcon/>}
-                                                />
-                                            </div>
-                                            {associatedField.associatedFields.length > 0 && associatedField.associatedFields.map(nestedAssociatedField => {
-                                                const arrayInputPath = `${inputPath}.${i}.${nestedAssociatedField.name}`;
-                                                const arrayAssociatedPath = handleRetrieveValue(arrayInputPath, schoolField);
-                                                let arrayInput: any = '';
-
-                                                if (tab === 'original') {
-                                                    arrayInput = arrayAssociatedPath.originalValue
-                                                } else {
-                                                    arrayInput = arrayAssociatedPath.originalDraftValue;
-                                                }
+                                            {(inputValue as any[]).length > 0 && (inputValue as any[]).map((val, i) => {
+                                                const arrayInputPath = `${inputPath}.${i}`;
+                                                const change = schoolField.changes.find(change => change.path === arrayInputPath);
 
                                                 return (
-                                                    <>
-                                                    {associatedField.name === 'school_prereq_required_courses' ? (
-                                                        <RequiredCourses />
-                                                    ) : associatedField.name === 'school_prereq_required_optional_courses' ? (
-                                                        <RequiredOptionalCourses />
-                                                    ) : (
-                                                        <RequiredCourseCategories />
-                                                    )} 
-                                                    </>
+                                                    <div className="w-full flex justify-between items-start gap-6">
+                                                        <div className="grow flex justify-start items-start gap-2">
+                                                            {associatedField.name === 'school_prereq_required_courses' ? (
+                                                                <RequiredCoursesField value={val}/>
+                                                            ) : associatedField.name === 'school_prereq_required_optional_courses' ? (
+                                                                <RequiredOptionalCoursesField value={val}/>
+                                                            ) : (
+                                                                <RequiredCourseCategoriesField value={val} />
+                                                            )}
+                                                            
+                                                            {change && (
+                                                                <ChangePopup 
+                                                                    change={change}
+                                                                    name={field.name}
+                                                                    validateIndividualChange={validateIndividualChange}
+                                                                    revertIndividualChange={revertIndividualChange}
+                                                                />
+                                                            )}
+                                                        </div>
+                                                        <div className="flex gap-4">
+                                                            <button 
+                                                                onClick={(e:any) => togglePopup(
+                                                                    e, 
+                                                                    associatedField.name === 'school_prereq_required_courses' ? 'required-courses' : associatedField.name === 'school_prereq_required_optional_courses' ? 'optional-courses' : 'course-categories',
+                                                                    { name: field.name, path: inputPath, index: i }, 
+                                                                    val
+                                                                )} 
+                                                                className="w-[24px] text-primary"
+                                                            >   
+                                                                <EditIcon/>
+                                                            </button>
+                                                            <button 
+                                                                onClick={(e:any) => handleRemove(e, field.name, inputPath, i)} 
+                                                                className="w-[24px] text-warning"
+                                                            >
+                                                                <DeleteIcon/>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 )
+
                                             })}
+                                           <Button 
+                                                type={isDisabled ? 'disable' : 'primary'}
+                                                styling="outline"
+                                                label={`Add ${associatedField.name === 'school_prereq_required_courses' ? 'Required Course' : associatedField.name === 'school_prereq_required_optional_courses' ? 'Required Optional Course' : 'Required Course Category'}`}
+                                                action={(e:any) => togglePopup(
+                                                    e, 
+                                                    associatedField.name === 'school_prereq_required_courses' ? 'required-courses' : associatedField.name === 'school_prereq_required_optional_courses' ? 'optional-courses' : 'course-categories',
+                                                    {
+                                                        name: field.name,
+                                                        path: inputPath,
+                                                    }
+                                                )}
+                                                adornment={<PlusIcon/>}
+                                            />
                                         </div>
-                                    ))}
-                                    <Button 
-                                        type="primary"
-                                        styling="outline"
-                                        label={`Add ${associatedField.name === 'school_prereq_required_courses' ? 'Required Course' : associatedField.name === 'school_prereq_required_optional_courses' ? 'Required Optional Course' : 'Required Course Category'}`}
-                                        action={(e:any) => handleAdd(e, field.name, field.path)}
-                                        adornment={<PlusIcon/>}
-                                    />
-                                    </>
+                                    </div>
                                 ) : (
                                     <></>
                                 )}
@@ -270,6 +252,7 @@ export default function RequiredCoursesAndCategoriesInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

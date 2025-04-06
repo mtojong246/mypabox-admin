@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react"
-import { GenericSchoolField, NewSchool } from "../../../../types/newSchools.types"
+import { NewSchool } from "../../../../types/newSchools.types"
 
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
@@ -11,6 +11,7 @@ import RequiredOptionalCoursesPopup, { RequiredOptionalCourseType } from "./popu
 import RequiredCourseCategoriesPopup, { RequiredCourseCategoryType } from "./popups/RequiredCourseCategoriesPopup";
 import RecommendedCoursePopup, { RecommendedCourseType } from "./popups/RecommendedCoursePopup";
 import RecommendedCourses from "./components/RecommendedCourses";
+import RequiredCoursesAndCategories from "./components/RequiredCoursesAndCategories";
 
 export type PrereqPopupType = 'required-courses' | 'recommended-courses' | 'optional-courses' | 'course-categories' ;
 export type PrereqArrItemType = RequiredCourseType | RequiredOptionalCourseType | RequiredCourseCategoryType | RecommendedCourseType;
@@ -43,7 +44,6 @@ export default function Prerequisites({
 
     const {
         handleChanges,
-        handleModify,
         handleRetrieveValue,
         handleModification,
         revertIndividualChange,
@@ -81,26 +81,22 @@ export default function Prerequisites({
     };
 
 
-
-    const handleQuill = (e: any, name: string, path: string) => {
-        const value = e;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
-
-
     return (
         <>
+        <RequiredCoursesAndCategories 
+            school={school}
+            setSchool={setSchool}
+            isEditSchool={isEditSchool}
+            permissions={permissions}
+            handleRetrieveValue={handleRetrieveValue}
+            handleChanges={handleChanges}
+            toggleNote={toggleNote}
+            handleModification={handleModification}
+            revertIndividualChange={revertIndividualChange}
+            validateIndividualChange={validateIndividualChange}
+            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            togglePopup={togglePopup}
+        />
         <RecommendedCourses 
             school={school}
             setSchool={setSchool}
@@ -142,93 +138,6 @@ export default function Prerequisites({
             validateIndividualChange={validateIndividualChange}
         />
         
-        {/* <MinimumRequiredOrRecommendedGPA 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
-        <OtherTypesAndSpecificCourses 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            handleAddition={handleAddition}
-            handleDeletion={handleDeletion}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        />
-        <AverageGPA 
-            school={school}
-            setSchool={setSchool}
-            isEditSchool={isEditSchool}
-            permissions={permissions}
-            handleRetrieveValue={handleRetrieveValue}
-            handleChanges={handleChanges}
-            handleModify={handleModify}
-            deleteNote={deleteNote}
-            toggleNote={toggleNote}
-        /> */}
-        {/* {gpaFields.map(field => {
-            const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
-            const inputs = handleRetrieveValue(field.path, schoolField);
-            const value = inputs.originalValue;
-            const draftValue = inputs.originalDraftValue;
-
-            return (
-                <Container 
-                    label={field.label} 
-                    name={field.name}
-                    school={school}
-                    setSchool={setSchool}
-                    isEditSchool={isEditSchool}
-                    permissions={permissions}
-                    originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        </div>
-                    }
-
-                    modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        </div>
-                    }
-                />
-            )
-        })} */}
         {isNoteOpen && selectedField && (
             <NotePopup 
                 toggleNotePopup={toggleNote}
