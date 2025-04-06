@@ -1,15 +1,7 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GenericSchoolField, NewSchool } from "../../../../../types/newSchools.types";
 import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
-import { useSelector } from "react-redux";
-import { selectCourses } from "../../../../../app/selectors/courses.selectors";
-
-import { ReactComponent as CloseIcon } from '../../../../../components/Icons/X.svg';
-import ReactQuill from "react-quill";
-import Button from "../../../../../components/Buttons/Button";
-import SelectInput from "../../../../../components/Form/InputTypes/SelectInput";
-import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput";
-import TextInput from "../../../../../components/Form/InputTypes/TextInput";
+import CoursePopup, { CourseForm } from "./CoursePopup";
 
 
 export interface RequiredCourseType {
@@ -19,15 +11,6 @@ export interface RequiredCourseType {
     school_required_course_credit_hours: number;
     school_required_course_quarter_hours: number;
     school_required_course_note_section: string;
-}
-
-const defaultForm: RequiredCourseType = {
-    school_required_course_id: '',
-    school_required_course_lab: false,
-    school_required_course_lab_preferred: false,
-    school_required_course_credit_hours: 0,
-    school_required_course_quarter_hours: 0,
-    school_required_course_note_section: '',
 }
 
 export default function RequiredCoursesPopup({
@@ -55,24 +38,22 @@ export default function RequiredCoursesPopup({
     handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
     
 }) {
-    const [ form, setForm ] = useState<RequiredCourseType>(defaultForm);
-    const courses = useSelector(selectCourses);
-    const [ courseOptions, setCourseOptions ] = useState<{value: string, label: string}[]>([]);
-
-    useEffect(() => {
-        const options = courses.map(course => (
-            { value: course.unique_id, label: course.course_name }
-        ))
-        setCourseOptions([{value: '', label: 'Select'}].concat(options))
-    }, [courses]);
+    const [ selectedCourse, setSelectedCourse ] = useState<CourseForm | null>(null);
 
     useEffect(() => {
         if (selectedPrereqArrItem) {
-          setForm(selectedPrereqArrItem as RequiredCourseType);
-        } else {
-            setForm(defaultForm)
-        }
+            const arrItem = selectedPrereqArrItem as RequiredCourseType;
+            setSelectedCourse({
+                course_id: arrItem.school_required_course_id,
+                course_lab: arrItem.school_required_course_lab,
+                course_lab_preferred: arrItem.school_required_course_lab_preferred,
+                course_credit_hours: arrItem.school_required_course_credit_hours,
+                course_quarter_hours: arrItem.school_required_course_quarter_hours,
+                course_note_section: arrItem.school_required_course_note_section,
+            })
+        } 
     }, [selectedPrereqArrItem]);
+
 
     const addRequiredCourse = (name: string, path: string, requiredCourse: RequiredCourseType) => {
         const field = school[name as keyof NewSchool] as GenericSchoolField;
@@ -103,164 +84,30 @@ export default function RequiredCoursesPopup({
 
     }
 
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>, course: CourseForm) => {
         e.preventDefault();
+        const formattedCourse: RequiredCourseType = {
+            school_required_course_id: course.course_id,
+            school_required_course_lab: course.course_lab,
+            school_required_course_lab_preferred: course.course_lab_preferred,
+            school_required_course_credit_hours: course.course_credit_hours,
+            school_required_course_quarter_hours: course.course_quarter_hours,
+            school_required_course_note_section: course.course_note_section,
+        }
         if (selectedPrereqArrItem && selectedPrereqField.index !== undefined) {
-            editRequiredCourse(selectedPrereqField.name, selectedPrereqField.path, form, selectedPrereqField.index);
+            editRequiredCourse(selectedPrereqField.name, selectedPrereqField.path, formattedCourse, selectedPrereqField.index);
         } else {
-            addRequiredCourse(selectedPrereqField.name, selectedPrereqField.path, form);
+            addRequiredCourse(selectedPrereqField.name, selectedPrereqField.path, formattedCourse);
         }
 
         togglePopup(e, null);
     };
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        setForm({
-            ...form,
-            [name]: value,
-        })
-    };
-
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const checked = e.target.checked;
-
-        setForm({
-            ...form,
-            [name]: checked,
-        })
-    };
-
-    const handleSelect = (e:any, name: string, path: string) => {
-        const value = e.value;
-
-        setForm({
-            ...form,
-            [name]: value,
-        })
-    }
-
-    const handleNote = (e:any) => {
-        let note = '';
-        if (e === '<p><br></p>') {
-            note = '';
-        } else {
-            note = e
-        }
-        setForm({
-            ...form,
-            school_required_course_note_section: note,
-        })
-    };
-
-
     return (
-        <div className='fixed top-0 left-0 right-0 bottom-0 z-[100]'>
-            <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
-                <div className='w-full max-w-[600px] rounded-lg bg-white'>
-                    <div className="flex justify-between items-center gap-6 p-6">
-                        <p className="font-medium text-[24px]">{selectedPrereqArrItem ? 'Edit Required Course' : 'Add Required Course'}</p>
-                        <button onClick={(e: any) => togglePopup(e, null)} className="w-[16px] text-placeholder hover:text-default transition-all"><CloseIcon /></button>
-                    </div>
-
-                    <div className='w-full p-6 flex flex-col justify-start items-start gap-8 w-full'>
-                        {courseOptions.length > 0 && (
-                            <SelectInput 
-                                label='Course'
-                                placeholder='Course'
-                                name='school_required_course_id'
-                                value={{ 
-                                    value: form.school_required_course_id, 
-                                    label: courses.find(course => course.unique_id === form.school_required_course_id) 
-                                        ? courses.find(course => course.unique_id === form.school_required_course_id)!.course_name 
-                                        : '' 
-                                }}
-                                path=''
-                                handleSelect={handleSelect}
-                                isRequired={false}
-                                isCreatable={false}
-                                isDisabled={false}
-                                options={courseOptions}
-                            />
-                        )}
-
-                        <BooleanInput 
-                            label='With Lab'
-                            name='school_required_course_lab'
-                            value={form.school_required_course_lab}
-                            path=''
-                            handleCheck={handleBoolean}
-                            isRequired={false}
-                            isDisabled={false}
-                        />
-
-                        <BooleanInput 
-                            label='Lab Preferred'
-                            name='school_required_course_lab_preferred'
-                            value={form.school_required_course_lab_preferred}
-                            path=''
-                            handleCheck={handleBoolean}
-                            isRequired={false}
-                            isDisabled={false}
-                        />
-
-                        <TextInput 
-                            label='Credit Hours'
-                            placeholder='Credit Hours'
-                            name='school_required_course_credit_hours'
-                            value={form.school_required_course_credit_hours}
-                            path=''
-                            handleInput={handleInput}
-                            isRequired={false}
-                            isDisabled={false}
-                            type='text'  
-                        />
-
-                        <TextInput 
-                            label='Quarter Hours'
-                            placeholder='Quarter Hours'
-                            name='school_required_course_credit_hours'
-                            value={form.school_required_course_quarter_hours}
-                            path=''
-                            handleInput={handleInput}
-                            isRequired={false}
-                            isDisabled={false}
-                            type='text'  
-                        />
-                        
-                        <div className='flex flex-col gap-2 justify-start items-start w-full mb-10'>
-                            <label className='font-medium'>Note:</label>
-                            <ReactQuill 
-                                theme="snow" 
-                                onChange={handleNote} 
-                                value={form.school_required_course_note_section}
-                                style={{
-                                    width: '100%',
-                                    height: '200px',
-                                }}
-                            />
-                        </div>
-                    </div>
-                    
-                    <div className='w-full p-6 flex justify-end items-center gap-3'>
-                        <Button 
-                            label="Cancel"
-                            action={(e:any) => togglePopup(e, null)}
-                            type='default'
-                            styling="outline"
-                        />
-                        <Button 
-                            label={`${selectedPrereqArrItem ? 'Edit' : 'Add'} Required Course`}
-                            action={handleSubmit}
-                            type='primary'
-                            styling="solid"
-                        />
-                    </div>
-                </div>
-            </div>
-        </div>
+        <CoursePopup 
+            selectedCourse={selectedCourse}
+            togglePopup={togglePopup}
+            handleSubmit={handleSubmit}
+        />
     )
 }
