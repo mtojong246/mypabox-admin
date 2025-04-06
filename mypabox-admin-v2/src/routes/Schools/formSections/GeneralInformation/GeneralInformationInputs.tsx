@@ -1,16 +1,14 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import Button from "../../../../components/Buttons/Button";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
 import SelectInput from "../../../../components/Form/InputTypes/SelectInput";
 import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
 import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Notes from "../../../../components/Form/Notes/Notes";
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types";
-import EmailAndPhoneNumber from "./components/EmailAndPhoneNumber";
 
-import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
 import countries from '../../../../data/countries.json';
 import { UserPermissions } from "../../../../types/users.types";
+import EmailAndPhoneNumberFields from "./components/EmailAndPhoneNumberFields";
 
 export default function GeneralInformationInputs({
     tab,
@@ -52,6 +50,7 @@ export default function GeneralInformationInputs({
         originalField: any;
         draftField: any;
         originalValue: any;
+        originalDraftValue: any;
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
@@ -173,9 +172,13 @@ export default function GeneralInformationInputs({
         const {
             originalField,
             draftField,
+            originalDraftValue,
         } = handleModification(path, field, value, 'add');
 
-        handleChanges(field, name, originalField, draftField, path, 'added');
+        const index = (originalDraftValue as any[]).length;
+
+        handleChanges(field, name, originalField, draftField, `${path}.${index}`, 'added');
+
     }
 
     const handleRemoveEmailOrPhone = (e:any, name: string, path: string, index: number) => {
@@ -188,7 +191,8 @@ export default function GeneralInformationInputs({
             draftField,
         } = handleModification(path, field, '', 'remove', index);
 
-        handleChanges(field, name, originalField, draftField, path, 'removed');
+
+        handleChanges(schoolField, name, originalField, draftField, `${path}.${index}`, 'removed');
 
     }
 
@@ -241,53 +245,21 @@ export default function GeneralInformationInputs({
                     revertIndividualChange={revertIndividualChange}
                 />
             ) : field.type === 'array' ? (
-                <div className="w-full flex flex-col gap-4 justify-start items-start">
-                    <label className="text-default">{field.name === 'school_email' ? 'Emails:' : 'Phone Numbers:'}</label>
-                    <>
-                    {(value as any[]).length > 0 && (value as any[]).map((val,i) => {
-                        const selectPath = `${field.path}.${i}.category`;
-                        const selectInput = handleRetrieveValue(selectPath, schoolField);
-
-                        let inputPath = '';
-
-                        if (field.name === 'school_email') {
-                            inputPath = `${field.path}.${i}.email`;
-                        } else {
-                            inputPath = `${field.path}.${i}.number`;
-                        }
-
-                        const textInput = handleRetrieveValue(inputPath, schoolField);
-
-                        return (
-                            <EmailAndPhoneNumber 
-                                schoolField={schoolField}
-                                name={field.name}
-                                path={field.path}
-                                index={i}
-                                selectValue={selectInput.originalDraftValue}
-                                selectPath={selectPath}
-                                inputValue={textInput.originalDraftValue}
-                                inputPath={inputPath}
-                                handleSelect={handleSelect}
-                                handleInput={handleInput}
-                                handleRemove={handleRemoveEmailOrPhone}
-                                change={schoolField.changes.find(change => change.path === field.path)}
-                                validateIndividualChange={validateIndividualChange}
-                                revertIndividualChange={revertIndividualChange}
-                                isDisabled={isDisabled}
-                            />
-                        )
-                        
-                    })}
-                    <Button 
-                        type={isDisabled ? 'disable' : 'primary'}
-                        styling="outline"
-                        label={`Add ${field.name === 'school_email' ? 'Email' : 'Phone Number'}`}
-                        action={(e:any) => handleAddEmailOrPhone(e, field.name, field.path)}
-                        adornment={<PlusIcon/>}
-                    />
-                    </>
-                </div>
+                <EmailAndPhoneNumberFields 
+                    tab={tab}
+                    field={field}
+                    handleRetrieveValue={handleRetrieveValue}
+                    inputValues={value}
+                    schoolField={schoolField}
+                    isDisabled={isDisabled}
+                    handleInput={handleInput}
+                    handleSelect={handleSelect}
+                    handleAdd={handleAddEmailOrPhone}
+                    handleRemove={handleRemoveEmailOrPhone}
+                    validateIndividualChange={validateIndividualChange}
+                    revertIndividualChange={revertIndividualChange}
+                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                />
             ) : (
                 <TextEditorInput 
                     label={field.label}

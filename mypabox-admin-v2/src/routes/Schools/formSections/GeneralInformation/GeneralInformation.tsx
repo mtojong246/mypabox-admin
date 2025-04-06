@@ -226,7 +226,6 @@ export default function GeneralInformation({
         checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
-    console.log(school.school_email)
 
     return (
         <>

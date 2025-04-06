@@ -36,7 +36,7 @@ export default function AddSchoolForms({
                     <GeneralInformation 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                     />
                 ) : tab === '#degree-info' ? (
                     <DegreeInformation

@@ -6,6 +6,7 @@ import { ReactComponent as PlusIcon } from '../../../components/Icons/Plus.svg';
 import { ReactComponent as EditIcon } from '../../../components/Icons/Edit-With-Line.svg';
 import { ReactComponent as DeleteIcon } from '../../../components/Icons/Trash.svg';
 import ChangePopup from "../Validation/ChangePopup";
+import IconButton from "../../Buttons/IconButton";
 
 export default function Notes({
     notes,
@@ -125,18 +126,18 @@ export default function Notes({
                     </div>
                     {!noteValue.toBeRemoved && (
                         <div className="flex gap-4">
-                            <button 
-                                onClick={(e:any) => {toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i }, note)}} 
-                                className="w-[24px] text-primary"
-                            >   
-                                <EditIcon/>
-                            </button>
-                            <button 
-                                onClick={(e:any) => {deleteNote(e, field.name, field.notePath, i)}} 
-                                className="w-[24px] text-warning"
-                            >
-                                <DeleteIcon/>
-                            </button>
+                            <IconButton 
+                                action={(e: any) => toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i }, note)}
+                                icon={<EditIcon/>}
+                                color="primary"
+                                isDisabled={false}
+                            />
+                            <IconButton 
+                                action={(e: any) => deleteNote(e, field.name, field.notePath, i)}
+                                icon={<DeleteIcon/>}
+                                color="warning"
+                                isDisabled={false}
+                            />
                         </div>
                     )}
                 </div>
