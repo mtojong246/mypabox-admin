@@ -1,10 +1,8 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import Container from "../../../../../components/Form/Validation/Container";
 import { UserPermissions } from "../../../../../types/users.types";
-import Notes from "../../../../../components/Form/Notes/Notes";
-import TextInput from "../../../../../components/Form/InputTypes/TextInput";
-import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput";
+import MinimumRequiredOrRecommendedGPAInputs from "../inputs/MinimumRequiredOrRecommendedGPAInputs";
 
 const minimumGPAFields = [
     {
@@ -87,13 +85,12 @@ export default function MinimumRequiredOrRecommendedGPA({
     isEditSchool,
     permissions,
     handleRetrieveValue,
-    handleModify,
     handleChanges,
     toggleNote,
-    deleteNote,
     handleModification,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
+    checkIfValueHasBeenRemoved,
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -102,11 +99,6 @@ export default function MinimumRequiredOrRecommendedGPA({
     handleRetrieveValue: (path: string, field: GenericSchoolField) => {
         originalValue: any,
         originalDraftValue: any,
-    },
-    handleModify: (path: string, field: GenericSchoolField, newValue: any) => {
-        originalField: any;
-        draftField: any;
-        originalValue: any;
     },
     handleChanges: (
         field: GenericSchoolField, 
@@ -122,7 +114,6 @@ export default function MinimumRequiredOrRecommendedGPA({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
     handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
         originalField: any;
         draftField: any;
@@ -130,86 +121,8 @@ export default function MinimumRequiredOrRecommendedGPA({
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    checkIfValueHasBeenRemoved: (path: string, field: GenericSchoolField) => any | null;
 }) {
-
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
-
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const checked = e.target.checked;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        let value = {};
-        let inputPath = '';
-
-        if (name === 'school_minimum_gpa_required') {
-            inputPath = '.input';
-            value = {
-                school_minimum_gpa_required: {
-                    input: checked,
-                },
-                school_minimum_overall_gpa_required: checked ? {
-                    input: 0,
-                    notes: [],
-                } : null,
-                school_minimum_science_gpa_required: checked ? {
-                    input: 0,
-                    notes: [],
-                } : null,
-                school_minimum_prerequisite_gpa_required: checked ? {
-                    input: 0,
-                    notes: [],
-                } : null,
-            }
-
-        } else if (name === 'school_minimum_gpa_recommended') {
-            inputPath = '.input';
-            value = {
-                school_minimum_gpa_recommended: {
-                    input: checked,
-                },
-                school_minimum_overall_gpa_recommended: checked ? {
-                    input: 0,
-                    notes: [],
-                } : null,
-                school_minimum_science_gpa_recommended: checked ? {
-                    input: 0,
-                    notes: [],
-                } : null,
-                school_minimum_prerequisite_gpa_recommended: checked ? {
-                    input: 0,
-                    notes: [],
-                } : null,
-            }
-        } else {
-            inputPath = path;
-            value = checked;
-        }
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(inputPath, field, value);
-        
-        handleChanges(field, name, originalField, draftField, inputPath, 'modified', originalValue, value);
-    };
 
 
     return (
@@ -226,159 +139,35 @@ export default function MinimumRequiredOrRecommendedGPA({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let originalInput;
-                                let originalNotes = [];
-
-                                if (associatedFieldObject.originalValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    originalInput = associatedFieldInputs.originalValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        originalNotes = associatedFieldNotes.originalValue;
-                                    }
-
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                            {associatedField.notePath && originalNotes !== undefined && (
-                                                <Notes 
-                                                    notes={originalNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    schoolField={schoolField}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                    handleChanges={handleChanges}
-                                                    handleModification={handleModification}
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        </div>
+                        <MinimumRequiredOrRecommendedGPAInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let draftInput;
-                                let draftNotes = [];
-
-                                if (associatedFieldObject.originalDraftValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    draftInput = associatedFieldInputs.originalDraftValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        draftNotes = associatedFieldNotes.originalDraftValue;
-                                    }
-
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={associatedField.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={inputPath}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                            {associatedField.notePath && draftNotes !== undefined && (
-                                                <Notes 
-                                                    notes={draftNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    schoolField={schoolField}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                    handleChanges={handleChanges}
-                                                    handleModification={handleModification}
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        </div>
+                        <MinimumRequiredOrRecommendedGPAInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                        />
                     }
                 />
             )

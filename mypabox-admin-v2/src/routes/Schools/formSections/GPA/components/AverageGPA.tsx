@@ -49,7 +49,6 @@ export default function AverageGPA({
     isEditSchool,
     permissions,
     handleRetrieveValue,
-    handleModify,
     handleChanges,
     toggleNote,
     handleModification,
@@ -64,11 +63,6 @@ export default function AverageGPA({
     handleRetrieveValue: (path: string, field: GenericSchoolField) => {
         originalValue: any,
         originalDraftValue: any,
-    },
-    handleModify: (path: string, field: GenericSchoolField, newValue: any) => {
-        originalField: any;
-        draftField: any;
-        originalValue: any;
     },
     handleChanges: (
         field: GenericSchoolField, 
@@ -91,7 +85,7 @@ export default function AverageGPA({
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
+    checkIfValueHasBeenRemoved: (path: string, field: GenericSchoolField) => any | null;
 }) {
 
 
