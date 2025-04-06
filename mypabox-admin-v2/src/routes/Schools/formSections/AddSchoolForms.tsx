@@ -102,7 +102,7 @@ export default function AddSchoolForms({
                     <Evaluations 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#international-students' ? (
                     <InternationalStudents 

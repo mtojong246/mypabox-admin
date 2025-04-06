@@ -309,6 +309,7 @@ export default function EvaluationsInputs({
                                 ) : associatedField.type === 'array' ? (
                                     <div className="w-full flex flex-col gap-4 justify-start items-start">
                                         <label className="text-default">{associatedField.label}</label>
+                                        <div className="w-full flex flex-col gap-8 justify-start items-start p-6 rounded-lg border border-outline">
                                         {(inputValue as any[]).length > 0 && (inputValue as any[]).map((val,i) => {
                                             if (associatedField.label.includes('Title')) {
                                                 const arrayInputPath = `${inputPath}.${i}.value`
@@ -398,9 +399,15 @@ export default function EvaluationsInputs({
                                             type="primary"
                                             styling="outline"
                                             label={`Add ${associatedField.label.includes('Title') ? 'Title' : 'Option'}`}
-                                            action={(e:any) => handleAdd(e, field.name, inputPath)}
+                                            action={(e:any) => {
+                                                associatedField.label.includes('Title') ? handleAdd(e, field.name, inputPath) : togglePopup(e, {
+                                                    name: field.name,
+                                                    path: inputPath
+                                                })
+                                            }}
                                             adornment={<PlusIcon/>}
                                         />
+                                    </div>
                                     </div>
                                 ) : (
                                     <></>

@@ -6,12 +6,21 @@ import { ReactComponent as DeleteIcon } from '../../../../../components/Icons/Tr
 import Button from "../../../../../components/Buttons/Button";
 import { OutlinedInput } from "@mui/material";
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 const unitOptions = [
     {value: '', label: 'Select'},
     {value: 'Years', label: 'Years'},
     {value: 'Months', label: 'Months'}
 ]
+
+const evaluatorOptions = [
+    {value: 'PA', label: 'PA'},
+    {value: 'MD', label: 'MD'},
+    {value: 'DO', label: 'DO'},
+    {value: 'NP', label: 'NP'},
+    {value: 'PhD', label: 'PhD'},
+];
 
 export interface OptionalEvaluatorsType {
     school_minimum_number_of_evaluators_required_in_group: number;
@@ -137,14 +146,13 @@ export default function OptionalEvaluatorsPopup({
         })
     }
 
-    const handleTitle = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const title = e.target.value;
-        const titleIndex = Number(path);
+    const handleTitle = (e: any, index: number) => {
+        const title = e.value;
 
         setOptionalEvaluators({
             ...optionalEvaluators,
             school_required_optional_group_evaluator_title: optionalEvaluators.school_required_optional_group_evaluator_title.map((t, i) => {
-                if (i === titleIndex) {
+                if (i === index) {
                     return {
                         value: title,
                     }
@@ -203,19 +211,23 @@ export default function OptionalEvaluatorsPopup({
 
                                         return (
                                         <div className="w-full flex gap-4 justify-start items-start">
-                                            <div className="flex gap-4 p-6 border border-outline w-full rounded-lg">
-                                                <TextInput 
-                                                    label="Title"
-                                                    placeholder="Title"
-                                                    name='title'
-                                                    value={title.value}
-                                                    path={titleIndex.toString()}
-                                                    handleInput={handleTitle}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            </div>
+                                            <CreatableSelect 
+                                                className='w-full'
+                                                options={evaluatorOptions}
+                                                value={{ value: title.value, label: title.value }}
+                                                onChange={(e:any) => handleTitle(e, titleIndex)}
+                                                styles={{
+                                                    control: (baseStyles, state) => ({
+                                                        ...baseStyles,
+                                                        borderColor: 'rgba(0, 0, 0, 0.23)',
+                                                        borderRadius: 8,
+                                                    }),
+                                                    valueContainer: (baseStyles, state) => ({
+                                                        ...baseStyles,
+                                                        padding: '7px 16px',
+                                                    }),
+                                                }}
+                                            />
                                             <div className="py-4 flex justify-center items-end">
                                                 <button 
                                                     onClick={(e:any) => removeTitle(e, titleIndex)} 
@@ -247,7 +259,7 @@ export default function OptionalEvaluatorsPopup({
                                                 type='text'
                                                 placeholder='Quantity'
                                                 name='quantity'
-                                                value={optionalEvaluators.school_minimum_time_evaluator_knows_applicant.quantity}
+                                                value={optionalEvaluators.school_minimum_time_evaluator_knows_applicant.quantity ? optionalEvaluators.school_minimum_time_evaluator_knows_applicant.quantity : ''}
                                                 onChange={handleQuantity}
                                                 sx={{
                                                     maxWidth: 600,

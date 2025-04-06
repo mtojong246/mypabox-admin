@@ -10,7 +10,7 @@ export default function OptionalEvaluatorsField({
             <p><span className="font-semibold">{value.school_minimum_number_of_evaluators_required_in_group}</span> evaluators are required with the following titles:</p>
             <div className="w-full flex flex-col gap-2 justify-start items-stretch">
                 {value.school_required_optional_group_evaluator_title.map(title => (
-                    <div className="p-4 border border-outline flex justify-start items-center">
+                    <div className="p-4 border border-outline flex justify-start items-center rounded-lg">
                         <p>{title.value}</p>
                     </div>
                 ))}
