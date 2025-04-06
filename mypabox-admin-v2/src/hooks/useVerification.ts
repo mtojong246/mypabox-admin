@@ -438,9 +438,10 @@ const useVerification = ({
 
         const keys = path.split('.').filter(key => key !== '');
         let index: undefined | number = undefined;
+        
 
         if (change.type === 'added' || change.type === 'removed') {
-            if (Number(keys[keys.length-1])) {
+            if (!isNaN(Number(keys[keys.length-1]))) {
                 path = `.${keys.filter((key, i) => i !== keys.length-1).join('.')}`
                 index = Number(keys[keys.length-1])
             } else {

@@ -215,7 +215,6 @@ export default function GeneralInformation({
         isNoteOpen,
         selectedField,
         selectedNote,
-        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const {
@@ -223,10 +222,11 @@ export default function GeneralInformation({
         handleRetrieveValue,
         handleModification,
         validateIndividualChange,
-        revertIndividualChange
+        revertIndividualChange,
+        checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
-
+    console.log(school.school_email)
 
     return (
         <>
@@ -267,7 +267,6 @@ export default function GeneralInformation({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                         />
                     }
                     modifiedInputs={
@@ -284,9 +283,9 @@ export default function GeneralInformation({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

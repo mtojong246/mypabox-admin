@@ -27,7 +27,7 @@ export default function GeneralInformationInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    deleteNote,
+    checkIfValueHasBeenRemoved,
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -60,7 +60,7 @@ export default function GeneralInformationInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
 
@@ -307,14 +307,16 @@ export default function GeneralInformationInputs({
                     notes={noteValue}
                     field={{
                         ...field,
-                        notePath: field.notePath,
+                        notePath: field.notePath
                     }}
+                    tab={tab}
                     toggleNote={toggleNote}
                     schoolField={schoolField}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

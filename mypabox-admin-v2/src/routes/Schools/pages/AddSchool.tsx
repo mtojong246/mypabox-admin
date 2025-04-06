@@ -85,11 +85,11 @@ export default function AddSchool() {
                 {schoolCategories.map(category => (
                   <button 
                     onClick={(e:any) => {navigateTabs(category.hash)}} 
-                    className={`whitespace-nowrap ${category.hash === tab ? 'text-red-500' : ''}`}
+                    className={`whitespace-nowrap hover:text-warning transition-all ${category.hash === tab ? 'text-warning': ''}`}
                   >
-                    <div className='flex justify-start items-center gap-[2px]'>
+                    <div className='flex justify-start items-center gap-1'>
                         {category.name}
-                        {checkForChanges(category.fields) && <AlertIcon className='w-[20px] text-warning'/>}
+                        {checkForChanges(category.fields) && <AlertIcon className='w-[16px] text-warning'/>}
                     </div>
                   </button>
                 ))}
