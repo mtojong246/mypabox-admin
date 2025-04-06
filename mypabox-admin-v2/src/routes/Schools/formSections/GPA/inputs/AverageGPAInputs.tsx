@@ -1,47 +1,22 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import { UserPermissions } from "../../../../../types/users.types";
-import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput";
 import Notes from "../../../../../components/Form/Notes/Notes";
-import SelectInput from "../../../../../components/Form/InputTypes/SelectInput";
-import TextSelectInput from "../../../../../components/Form/InputTypes/TextSelectInput";
+import TextInput from "../../../../../components/Form/InputTypes/TextInput";
 
-const options = [
-    { value: '', label: 'Select' },
-    { value: 'A+', label: 'A+' },
-    { value: 'A', label: 'A' },
-    { value: 'A-', label: 'A-' },
-    { value: 'B+', label: 'B+' },
-    { value: 'B', label: 'B' },
-    { value: 'B-', label: 'B-' },
-    { value: 'C+', label: 'C+' },
-    { value: 'C', label: 'C' },
-    { value: 'C-', label: 'C-' },
-    { value: 'D+', label: 'D+' },
-    { value: 'D', label: 'D' },
-    { value: 'D-', label: 'D-' },
-]
-
-const unitOptions = [
-    {value: '', label: 'Select'},
-    {value: 'Years', label: 'Years'},
-    {value: 'Months', label: 'Months'}
-]
-
-export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
+export default function AverageGPAInputs({
     tab,
     permissions,
     isEditSchool,
     school,
     schoolField,
     field,
-    noteValue,
+    handleRetrieveValue,
     handleChanges,
     handleModification,
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    handleRetrieveValue,
     checkIfValueHasBeenRemoved
 }: {
     tab: 'original' | 'modified',
@@ -58,21 +33,19 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
             label: string;
             name: string;
             type: string;
-            path?: string;
+            path: string;
             notePath?: string;
         }[],
-        notePath?: string;
     },
-    noteValue: NewNote[],
+    handleRetrieveValue: (path: string, field: GenericSchoolField) => {
+        originalValue: any,
+        originalDraftValue: any,
+    },
     handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
     handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
         originalField: any;
         draftField: any;
         originalValue: any;
-    },
-    handleRetrieveValue:(path: string, field: GenericSchoolField) => {
-        originalValue: any;
-        originalDraftValue: any;
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
@@ -94,21 +67,9 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
         }
     }, [isEditSchool, permissions, schoolField, tab]);
 
-    const handleDuration = (name: string, path: string, value: string | number) => {
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModification(path, field, value, 'modify');
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-    }
-
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
-        const value = e.target.checked;
+        const value = e.target.value;
 
         const field = school[name as keyof NewSchool] as GenericSchoolField;
 
@@ -119,20 +80,7 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
         } = handleModification(path, field, value, 'modify');
         
         handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-    };
 
-    const handleSelect = (e: any, name: string, path: string) => {
-        const value = e.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModification(path, field, value, 'modify');
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
     };
 
     return (
@@ -154,7 +102,7 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                     let inputNotes = [];
 
                     if (associatedFieldValue !== null) {
-                        const inputPath = `${field.path}.${associatedField.name}${associatedField.path ? associatedField.path : ''}`;
+                        const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
                         const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
                         if (tab === 'original') {
                             inputValue = associatedFieldInputs.originalValue;
@@ -175,60 +123,30 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
 
                         return (
                             <>
-                                {associatedField.type === 'select' ? (
-                                    <SelectInput 
+                                {associatedField.type === 'text' ? (
+                                    <TextInput 
                                         label={associatedField.label}
                                         placeholder={associatedField.label}
                                         name={field.name}
-                                        value={{ value: inputValue, label: inputValue }}
-                                        path={inputPath}
-                                        handleSelect={handleSelect}
-                                        isRequired={false}
-                                        isCreatable={false}
-                                        options={options}
-                                        isDisabled={isDisabled}
-                                        change={schoolField.changes.find(change => change.path === inputPath)}
-                                        validateIndividualChange={validateIndividualChange}
-                                        revertIndividualChange={revertIndividualChange}
-                                    />
-                                ) : associatedField.type === 'boolean' ? (
-                                    <BooleanInput 
-                                        label={associatedField.label}
-                                        name={field.name}
                                         value={inputValue}
                                         path={inputPath}
-                                        handleCheck={handleBoolean}
+                                        handleInput={handleInput}
                                         isRequired={false}
+                                        type="text"
                                         isDisabled={isDisabled}
-                                        change={schoolField.changes.find(change => change.path === inputPath)}
-                                        validateIndividualChange={validateIndividualChange}
-                                        revertIndividualChange={revertIndividualChange}
-                                    />
-                                ) : associatedField.type === 'text-select' ? (
-                                    <TextSelectInput 
-                                        label={associatedField.label}
-                                        placeholder="Quantity"
-                                        name={field.name}
-                                        value={inputValue}
-                                        inputPath={`${inputPath}.quantity`}
-                                        selectPath={`${inputPath}.units`}
-                                        handleChange={handleDuration}
-                                        options={unitOptions}
-                                        isDisabled={isDisabled}
-                                        schoolField={schoolField}
+                                        change={schoolField.changes.find(change => change.path === field.path)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
                                     />
                                 ) : (
                                     <></>
                                 )}
-                                {associatedField.notePath && inputValue !== undefined && (
+                                {associatedField.notePath && inputNotes !== undefined && (
                                     <Notes 
                                         notes={inputNotes}
                                         field={{
                                             ...associatedField,
                                             name: field.name,
-                                            path: '',
                                             notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
                                         }}
                                         toggleNote={toggleNote}
@@ -249,23 +167,6 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                 </>
             ) : (
                 <></>
-            )}
-            {field.notePath && (
-                <Notes 
-                    notes={noteValue}
-                    field={{
-                        ...field,
-                        notePath: field.notePath
-                    }}
-                    tab={tab}
-                    toggleNote={toggleNote}
-                    schoolField={schoolField}
-                    validateIndividualChange={validateIndividualChange}
-                    revertIndividualChange={revertIndividualChange}
-                    handleChanges={handleChanges}
-                    handleModification={handleModification}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
-                />
             )}
             </div>
     )

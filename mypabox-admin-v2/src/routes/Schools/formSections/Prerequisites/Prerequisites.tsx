@@ -90,6 +90,7 @@ export default function Prerequisites({
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
         />
+        
         {/* <MinimumRequiredOrRecommendedGPA 
             school={school}
             setSchool={setSchool}

@@ -1,9 +1,8 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import Container from "../../../../../components/Form/Validation/Container";
 import { UserPermissions } from "../../../../../types/users.types";
-import Notes from "../../../../../components/Form/Notes/Notes";
-import TextInput from "../../../../../components/Form/InputTypes/TextInput";
+import AverageGPAInputs from "../inputs/AverageGPAInputs";
 
 const averageGPAFields = [
     {
@@ -53,10 +52,10 @@ export default function AverageGPA({
     handleModify,
     handleChanges,
     toggleNote,
-    deleteNote,
     handleModification,
     revertIndividualChange,
-    validateIndividualChange
+    validateIndividualChange,
+    checkIfValueHasBeenRemoved,
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -85,7 +84,6 @@ export default function AverageGPA({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
     handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
         originalField: any;
         draftField: any;
@@ -93,23 +91,8 @@ export default function AverageGPA({
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
 }) {
-
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-    };
 
 
     return (
@@ -126,139 +109,35 @@ export default function AverageGPA({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let originalInput;
-                                let originalNotes = [];
-
-                                if (associatedFieldObject.originalValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    originalInput = associatedFieldInputs.originalValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        originalNotes = associatedFieldNotes.originalValue;
-                                    }
-
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={originalInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                            {associatedField.notePath && originalNotes !== undefined && (
-                                                <Notes 
-                                                    notes={originalNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    schoolField={schoolField}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                    handleChanges={handleChanges}
-                                                    handleModification={handleModification}
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        </div>
+                        <AverageGPAInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
-                            <>
-                            {field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let draftInput;
-                                let draftNotes = [];
-
-                                if (associatedFieldObject.originalDraftValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    draftInput = associatedFieldInputs.originalDraftValue;
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        draftNotes = associatedFieldNotes.originalDraftValue;
-                                    }
-
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={draftInput}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={false}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                            {associatedField.notePath && draftNotes !== undefined && (
-                                                <Notes 
-                                                    notes={draftNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    schoolField={schoolField}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                    handleChanges={handleChanges}
-                                                    handleModification={handleModification}
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        </div>
+                        <AverageGPAInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            toggleNote={toggleNote}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                        />
                     }
                 />
             )

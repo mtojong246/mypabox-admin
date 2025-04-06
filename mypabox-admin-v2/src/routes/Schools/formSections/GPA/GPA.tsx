@@ -54,7 +54,8 @@ export default function GPA({
         handleRetrieveValue,
         handleModification,
         revertIndividualChange,
-        validateIndividualChange
+        validateIndividualChange,
+        checkIfValueHasBeenRemoved
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const handleQuill = (e: any, name: string, path: string) => {
@@ -114,11 +115,11 @@ export default function GPA({
             handleRetrieveValue={handleRetrieveValue}
             handleChanges={handleChanges}
             handleModify={handleModify}
-            deleteNote={deleteNote}
             toggleNote={toggleNote}
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
+            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
         />
         {gpaFields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
