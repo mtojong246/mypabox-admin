@@ -9,9 +9,10 @@ import CompletionCriteria from "./components/CompletionCriteria";
 import RequiredCoursesPopup, { RequiredCourseType } from "./popups/RequiredCoursesPopup";
 import RequiredOptionalCoursesPopup, { RequiredOptionalCourseType } from "./popups/RequiredOptionalCoursesPopup";
 import RequiredCourseCategoriesPopup, { RequiredCourseCategoryType } from "./popups/RequiredCourseCategoriesPopup";
+import RecommendedCoursePopup, { RecommendedCourseType } from "./popups/RecommendedCoursePopup";
 
-export type PrereqPopupType = 'courses' | 'optional-courses' | 'course-categories' | null;
-export type PrereqArrItemType = RequiredCourseType | RequiredOptionalCourseType | RequiredCourseCategoryType | null;
+export type PrereqPopupType = 'required-courses' | 'recommended-courses' | 'optional-courses' | 'course-categories' ;
+export type PrereqArrItemType = RequiredCourseType | RequiredOptionalCourseType | RequiredCourseCategoryType | RecommendedCourseType;
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -49,7 +50,7 @@ export default function Prerequisites({
         checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
-    const [ popupType, setPopupType ] = useState<PrereqPopupType>(null);
+    const [ popupType, setPopupType ] = useState<PrereqPopupType | null>(null);
     const [ isPopupOpen, setIsPopupOpen ] = useState(false);
     const [ selectedPrereqField, setSelectedPrereqField ] = useState<{
         name: string,
@@ -57,9 +58,9 @@ export default function Prerequisites({
         index?: number,
     } | null>(null);
 
-    const [ selectedPrereqArrItem, setSelectedPrereqArrItem ] = useState<PrereqArrItemType>(null);
+    const [ selectedPrereqArrItem, setSelectedPrereqArrItem ] = useState<PrereqArrItemType | null>(null);
 
-    const togglePopup = (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => {
+    const togglePopup = (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => {
         e.preventDefault();
         setIsPopupOpen(!isNoteOpen);
 
@@ -223,9 +224,9 @@ export default function Prerequisites({
             />
         )}
 
-        {isPopupOpen && (
+        {isPopupOpen && selectedPrereqField && (
             <>
-            {popupType === 'courses' ? (
+            {popupType === 'required-courses' ? (
                 <RequiredCoursesPopup 
                     school={school}
                     togglePopup={togglePopup}
@@ -234,10 +235,26 @@ export default function Prerequisites({
                     handleChanges={handleChanges}
                     handleModification={handleModification}
                 />
+            ) : popupType === 'recommended-courses' ? (
+                <RecommendedCoursePopup />
             ) : popupType === 'optional-courses' ? (
-                <RequiredOptionalCoursesPopup />
+                <RequiredOptionalCoursesPopup 
+                    school={school}
+                    togglePopup={togglePopup}
+                    selectedPrereqArrItem={selectedPrereqArrItem}
+                    selectedPrereqField={selectedPrereqField}
+                    handleChanges={handleChanges}
+                    handleModification={handleModification}
+                />
             ) : popupType === 'course-categories' ? (
-                <RequiredCourseCategoriesPopup />
+                <RequiredCourseCategoriesPopup 
+                    school={school}
+                    togglePopup={togglePopup}
+                    selectedPrereqArrItem={selectedPrereqArrItem}
+                    selectedPrereqField={selectedPrereqField}
+                    handleChanges={handleChanges}
+                    handleModification={handleModification}
+                />
             ) : (
                 <></>
             )}

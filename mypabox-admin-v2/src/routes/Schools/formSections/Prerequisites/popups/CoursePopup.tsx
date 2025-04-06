@@ -1,63 +1,55 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { GenericSchoolField, NewSchool } from "../../../../../types/newSchools.types";
-import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
 import { useSelector } from "react-redux";
 import { selectCourses } from "../../../../../app/selectors/courses.selectors";
-
+import { ChangeEvent, useEffect, useState } from "react";
+import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
 import { ReactComponent as CloseIcon } from '../../../../../components/Icons/X.svg';
-import ReactQuill from "react-quill";
-import Button from "../../../../../components/Buttons/Button";
 import SelectInput from "../../../../../components/Form/InputTypes/SelectInput";
 import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput";
 import TextInput from "../../../../../components/Form/InputTypes/TextInput";
+import ReactQuill from "react-quill";
+import Button from "../../../../../components/Buttons/Button";
 
-
-export interface RequiredCourseType {
-    school_required_course_id: string;
-    school_required_course_lab: boolean;
-    school_required_course_lab_preferred: boolean;
-    school_required_course_credit_hours: number;
-    school_required_course_quarter_hours: number;
-    school_required_course_note_section: string;
+export interface CourseForm {
+    course_id: string;
+    course_lab: boolean;
+    course_lab_preferred: boolean;
+    course_credit_hours: number;
+    course_quarter_hours: number;
+    course_note_section: string;
 }
 
-const defaultForm: RequiredCourseType = {
-    school_required_course_id: '',
-    school_required_course_lab: false,
-    school_required_course_lab_preferred: false,
-    school_required_course_credit_hours: 0,
-    school_required_course_quarter_hours: 0,
-    school_required_course_note_section: '',
+const defaultCourseForm: CourseForm = {
+    course_id: '',
+    course_lab: false,
+    course_lab_preferred: false,
+    course_credit_hours: 0,
+    course_quarter_hours: 0,
+    course_note_section: '',
 }
 
-export default function RequiredCoursesPopup({
-    school,
+export default function CoursePopup({
+    selectedCourse,
     togglePopup,
-    selectedPrereqField,
-    selectedPrereqArrItem,
-    handleModification,
-    handleChanges,
+    toggleCoursePopup,
+    handleSubmit,
 }: {
-    school: NewSchool,
-    togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
-    selectedPrereqField: {
-        name: string,
-        path: string,
-        index?: number,
-    },
-    selectedPrereqArrItem: PrereqArrItemType | null,
-    handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
-        originalField: any;
-        draftField: any;
-        originalValue: any;
-        originalDraftValue: any[] | undefined;
-    },
-    handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
-    
+    selectedCourse: CourseForm | null, 
+    togglePopup?: (e:React.MouseEvent<HTMLButtonElement>, type?: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
+    toggleCoursePopup?: (e: React.MouseEvent<HTMLButtonElement>, index?: number, course?: any) => void,
+    handleSubmit: (e: React.MouseEvent<HTMLButtonElement>, form: CourseForm) => void,
+
 }) {
-    const [ form, setForm ] = useState<RequiredCourseType>(defaultForm);
     const courses = useSelector(selectCourses);
     const [ courseOptions, setCourseOptions ] = useState<{value: string, label: string}[]>([]);
+    const [ form, setForm ] = useState<CourseForm>(defaultCourseForm);
+
+    useEffect(() => {
+        if (selectedCourse) {
+            setForm(selectedCourse)
+        } else {
+            setForm(defaultCourseForm)
+        }
+    }, [selectedCourse]);
 
     useEffect(() => {
         const options = courses.map(course => (
@@ -65,54 +57,6 @@ export default function RequiredCoursesPopup({
         ))
         setCourseOptions([{value: '', label: 'Select'}].concat(options))
     }, [courses]);
-
-    useEffect(() => {
-        if (selectedPrereqArrItem) {
-          setForm(selectedPrereqArrItem as RequiredCourseType);
-        } else {
-            setForm(defaultForm)
-        }
-    }, [selectedPrereqArrItem]);
-
-    const addRequiredCourse = (name: string, path: string, requiredCourse: RequiredCourseType) => {
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalDraftValue,
-        } = handleModification(path, field, requiredCourse, 'add');
-
-        const index = (originalDraftValue as RequiredCourseType[]).length;
-
-        handleChanges(field, name, originalField, draftField, `${path}.${index}`, 'added');
-
-    }
-
-    const editRequiredCourse = (name: string, path: string, requiredCourse: RequiredCourseType, index: number) => {
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-        const notePath = `${path}.${index}`;
-
-        const {
-            originalField,
-            draftField,
-            originalValue,
-        } = handleModification(notePath, field, requiredCourse, 'modify');
-
-        handleChanges(field, name, originalField, draftField, notePath, 'modified', originalValue, requiredCourse);
-
-    }
-
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        if (selectedPrereqArrItem && selectedPrereqField.index !== undefined) {
-            editRequiredCourse(selectedPrereqField.name, selectedPrereqField.path, form, selectedPrereqField.index);
-        } else {
-            addRequiredCourse(selectedPrereqField.name, selectedPrereqField.path, form);
-        }
-
-        togglePopup(e, null);
-    };
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
@@ -152,7 +96,7 @@ export default function RequiredCoursesPopup({
         }
         setForm({
             ...form,
-            school_required_course_note_section: note,
+            course_note_section: note,
         })
     };
 
@@ -162,8 +106,12 @@ export default function RequiredCoursesPopup({
             <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
                 <div className='w-full max-w-[600px] rounded-lg bg-white'>
                     <div className="flex justify-between items-center gap-6 p-6">
-                        <p className="font-medium text-[24px]">{selectedPrereqArrItem ? 'Edit Required Course' : 'Add Required Course'}</p>
-                        <button onClick={(e: any) => togglePopup(e, null)} className="w-[16px] text-placeholder hover:text-default transition-all"><CloseIcon /></button>
+                        <p className="font-medium text-[24px]">{selectedCourse ? 'Edit Course' : 'Add Course'}</p>
+                        <button onClick={(e: any) => {
+                            togglePopup ? togglePopup(e, null)
+                            : toggleCoursePopup ? toggleCoursePopup(e)
+                            : console.log(e);
+                        }} className="w-[16px] text-placeholder hover:text-default transition-all"><CloseIcon /></button>
                     </div>
 
                     <div className='w-full p-6 flex flex-col justify-start items-start gap-8 w-full'>
@@ -171,11 +119,11 @@ export default function RequiredCoursesPopup({
                             <SelectInput 
                                 label='Course'
                                 placeholder='Course'
-                                name='school_required_course_id'
+                                name='course_id'
                                 value={{ 
-                                    value: form.school_required_course_id, 
-                                    label: courses.find(course => course.unique_id === form.school_required_course_id) 
-                                        ? courses.find(course => course.unique_id === form.school_required_course_id)!.course_name 
+                                    value: form.course_id, 
+                                    label: courses.find(course => course.unique_id === form.course_id) 
+                                        ? courses.find(course => course.unique_id === form.course_id)!.course_name 
                                         : '' 
                                 }}
                                 path=''
@@ -189,8 +137,8 @@ export default function RequiredCoursesPopup({
 
                         <BooleanInput 
                             label='With Lab'
-                            name='school_required_course_lab'
-                            value={form.school_required_course_lab}
+                            name='course_lab'
+                            value={form.course_lab}
                             path=''
                             handleCheck={handleBoolean}
                             isRequired={false}
@@ -199,8 +147,8 @@ export default function RequiredCoursesPopup({
 
                         <BooleanInput 
                             label='Lab Preferred'
-                            name='school_required_course_lab_preferred'
-                            value={form.school_required_course_lab_preferred}
+                            name='course_lab_preferred'
+                            value={form.course_lab_preferred}
                             path=''
                             handleCheck={handleBoolean}
                             isRequired={false}
@@ -210,8 +158,8 @@ export default function RequiredCoursesPopup({
                         <TextInput 
                             label='Credit Hours'
                             placeholder='Credit Hours'
-                            name='school_required_course_credit_hours'
-                            value={form.school_required_course_credit_hours}
+                            name='course_credit_hours'
+                            value={form.course_credit_hours}
                             path=''
                             handleInput={handleInput}
                             isRequired={false}
@@ -222,8 +170,8 @@ export default function RequiredCoursesPopup({
                         <TextInput 
                             label='Quarter Hours'
                             placeholder='Quarter Hours'
-                            name='school_required_course_credit_hours'
-                            value={form.school_required_course_quarter_hours}
+                            name='course_quarter_hours'
+                            value={form.course_quarter_hours}
                             path=''
                             handleInput={handleInput}
                             isRequired={false}
@@ -236,7 +184,7 @@ export default function RequiredCoursesPopup({
                             <ReactQuill 
                                 theme="snow" 
                                 onChange={handleNote} 
-                                value={form.school_required_course_note_section}
+                                value={form.course_note_section}
                                 style={{
                                     width: '100%',
                                     height: '200px',
@@ -248,13 +196,17 @@ export default function RequiredCoursesPopup({
                     <div className='w-full p-6 flex justify-end items-center gap-3'>
                         <Button 
                             label="Cancel"
-                            action={(e:any) => togglePopup(e, null)}
+                            action={(e: any) => {
+                                togglePopup ? togglePopup(e, null)
+                                : toggleCoursePopup ? toggleCoursePopup(e)
+                                : console.log(e);
+                            }}
                             type='default'
                             styling="outline"
                         />
                         <Button 
-                            label={`${selectedPrereqArrItem ? 'Edit' : 'Add'} Required Course`}
-                            action={handleSubmit}
+                            label={`${selectedCourse ? 'Edit' : 'Add'} Course`}
+                            action={(e:any) => handleSubmit(e, form)}
                             type='primary'
                             styling="solid"
                         />

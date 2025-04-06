@@ -1,4 +1,6 @@
-import { NewNote } from "../../../../../types/newSchools.types";
+import { ChangeEvent, useEffect, useState } from "react";
+import { GenericSchoolField, NewSchool, NewNote } from "../../../../../types/newSchools.types";
+import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
 
 export interface RequiredCourseCategoryType {
     school_required_course_category: string;
@@ -16,7 +18,31 @@ export interface RequiredCourseCategoryType {
     notes: NewNote[];
 }
 
-export default function RequiredCourseCategoriesPopup() {
+export default function RequiredCourseCategoriesPopup({
+    school,
+    togglePopup,
+    selectedPrereqField,
+    selectedPrereqArrItem,
+    handleModification,
+    handleChanges,
+}: {
+    school: NewSchool,
+    togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
+    selectedPrereqField: {
+        name: string,
+        path: string,
+        index?: number,
+    },
+    selectedPrereqArrItem: PrereqArrItemType | null,
+    handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
+        originalField: any;
+        draftField: any;
+        originalValue: any;
+        originalDraftValue: any[] | undefined;
+    },
+    handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
+    
+}) {
     return (
         <></>
     )
