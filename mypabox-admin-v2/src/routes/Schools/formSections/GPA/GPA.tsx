@@ -8,7 +8,7 @@ import MinimumRequiredOrRecommendedGPA from "./components/MinimumRequiredOrRecom
 import OtherTypesAndSpecificCourses from "./components/OtherTypesAndSpecificCourses";
 import AverageGPA from "./components/AverageGPA";
 import Container from "../../../../components/Form/Validation/Container";
-import TextEditorInput from "../../../../components/Form/InputTypes/TextEditorInput";
+import GPAInputs from "./inputs/GPAInputs";
 
 
 
@@ -43,14 +43,10 @@ export default function GPA({
         isNoteOpen,
         selectedField,
         selectedNote,
-        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const {
         handleChanges,
-        handleModify,
-        handleAddition,
-        handleDeletion,
         handleRetrieveValue,
         handleModification,
         revertIndividualChange,
@@ -58,21 +54,6 @@ export default function GPA({
         checkIfValueHasBeenRemoved
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
-    const handleQuill = (e: any, name: string, path: string) => {
-        const value = e;
-
-        const field = school[name as keyof NewSchool] as GenericSchoolField;
-
-        const {
-            originalField,
-            draftField,
-            originalValue 
-        } = handleModify(path, field, value);
-        
-        handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
-
-        
-    };
 
 
     return (
@@ -97,14 +78,11 @@ export default function GPA({
             permissions={permissions}
             handleRetrieveValue={handleRetrieveValue}
             handleChanges={handleChanges}
-            handleModify={handleModify}
-            handleAddition={handleAddition}
-            handleDeletion={handleDeletion}
-            deleteNote={deleteNote}
             toggleNote={toggleNote}
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
+            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
         />
         <AverageGPA 
             school={school}
@@ -134,41 +112,34 @@ export default function GPA({
                     isEditSchool={isEditSchool}
                     permissions={permissions}
                     originalInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        </div>
+                        <GPAInputs 
+                            tab='original'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={value}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                        />
                     }
-
                     modifiedInputs={
-                        <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'text-area' ? (
-                            <TextEditorInput 
-                                label={field.label}
-                                name={field.name}
-                                value={draftValue}
-                                path={field.path}
-                                handleQuill={handleQuill}
-                                isRequired={false}
-                                isDisabled={false}
-                            />
-                        ) : (
-                            <>
-                            </>
-                        )}
-                        </div>
+                        <GPAInputs 
+                            tab='modified'
+                            permissions={permissions}
+                            isEditSchool={isEditSchool}
+                            school={school}
+                            schoolField={schoolField}
+                            field={field}
+                            value={draftValue}
+                            handleRetrieveValue={handleRetrieveValue}
+                            handleChanges={handleChanges}
+                            handleModification={handleModification}
+                            revertIndividualChange={revertIndividualChange}
+                            validateIndividualChange={validateIndividualChange}
+                        />
                     }
                 />
             )

@@ -11,9 +11,10 @@ export default function RadioInput({
     handleInput,
     options,
     isRequired,
+    isDisabled,
     change,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
 
 }: {
     label: string,
@@ -26,6 +27,7 @@ export default function RadioInput({
         value: string,
     }[],
     isRequired: boolean,
+    isDisabled: boolean,
     change?: Change,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
@@ -40,7 +42,15 @@ export default function RadioInput({
                     name="row-radio-buttons-group"
                 >
                 {options.length > 0 && options.map(option => (
-                    <FormControlLabel onChange={(e:any) => handleInput(e, path)} value={option.value} name={name} checked={value === option.value ? true : false} control={<Radio />} label={option.label} />
+                    <FormControlLabel 
+                        onChange={(e:any) => handleInput(e, path)} 
+                        value={option.value} 
+                        name={name} 
+                        checked={value === option.value ? true : false} 
+                        control={<Radio />} 
+                        label={option.label} 
+                        disabled={isDisabled}
+                    />
                 ))}
                 </RadioGroup>
                 {change && (
