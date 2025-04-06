@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { GenericSchoolField, NewSchool } from "../../../../types/newSchools.types"
 
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
@@ -6,8 +6,12 @@ import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import MinimumGradeAndTimeCriteriaAndBoolean from "./components/MinimumGradeAndTimeCriteriaAndBoolean";
 import CompletionCriteria from "./components/CompletionCriteria";
+import RequiredCoursesPopup, { RequiredCourseType } from "./popups/RequiredCoursesPopup";
+import RequiredOptionalCoursesPopup, { RequiredOptionalCourseType } from "./popups/RequiredOptionalCoursesPopup";
+import RequiredCourseCategoriesPopup, { RequiredCourseCategoryType } from "./popups/RequiredCourseCategoriesPopup";
 
-
+export type PrereqPopupType = 'courses' | 'optional-courses' | 'course-categories' | null;
+export type PrereqArrItemType = RequiredCourseType | RequiredOptionalCourseType | RequiredCourseCategoryType | null;
 
 const permissions = {
     canEditWithVerificationNeeded: true,
@@ -44,6 +48,36 @@ export default function Prerequisites({
         validateIndividualChange,
         checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
+
+    const [ popupType, setPopupType ] = useState<PrereqPopupType>(null);
+    const [ isPopupOpen, setIsPopupOpen ] = useState(false);
+    const [ selectedPrereqField, setSelectedPrereqField ] = useState<{
+        name: string,
+        path: string,
+        index?: number,
+    } | null>(null);
+
+    const [ selectedPrereqArrItem, setSelectedPrereqArrItem ] = useState<PrereqArrItemType>(null);
+
+    const togglePopup = (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => {
+        e.preventDefault();
+        setIsPopupOpen(!isNoteOpen);
+
+        setPopupType(type);
+
+        if (field !== undefined) {
+            setSelectedPrereqField(field);
+        } else {
+            setSelectedPrereqField(null);
+        }
+
+        if (arrItem !== undefined) {
+            setSelectedPrereqArrItem(arrItem);
+        } else {
+            setSelectedPrereqArrItem(null);
+        }
+    };
+
 
     const handleQuill = (e: any, name: string, path: string) => {
         const value = e;
@@ -187,6 +221,27 @@ export default function Prerequisites({
                 handleChanges={handleChanges}
                 handleModification={handleModification}
             />
+        )}
+
+        {isPopupOpen && (
+            <>
+            {popupType === 'courses' ? (
+                <RequiredCoursesPopup 
+                    school={school}
+                    togglePopup={togglePopup}
+                    selectedPrereqArrItem={selectedPrereqArrItem}
+                    selectedPrereqField={selectedPrereqField}
+                    handleChanges={handleChanges}
+                    handleModification={handleModification}
+                />
+            ) : popupType === 'optional-courses' ? (
+                <RequiredOptionalCoursesPopup />
+            ) : popupType === 'course-categories' ? (
+                <RequiredCourseCategoriesPopup />
+            ) : (
+                <></>
+            )}
+            </>
         )}
         </>
     )
