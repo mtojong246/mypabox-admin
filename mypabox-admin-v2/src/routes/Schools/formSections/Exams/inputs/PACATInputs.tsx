@@ -116,18 +116,60 @@ export default function PACATInputs({
 
             if (['school_pacat_required', 'school_pacat_recommended'].includes(keys[keys.length-1])) {
                 if (!isEditSchool || (isEditSchool && permissions.canEditWithoutVerificationNeeded)) {
-                    value = {
-                        ...school.school_pacat.original.input,
-                        ...pacatValue,
-                        school_pacat_required: keys[keys.length-1].includes('school_pacat_required') ? checked : school.school_pacat.original.input.school_pacat_required,
-                        school_pacat_recommended: keys[keys.length-1].includes('school_pacat_recommended') ? checked : school.school_pacat.original.input.school_pacat_recommended,
+                    if (keys[keys.length-1].includes('school_pacat_required')) {
+                        if (school.school_pacat.original.input.school_pacat_recommended) {
+                            value = {
+                                ...school.school_pacat.original.input,
+                                school_pacat_required: checked,
+                            }
+                        } else {
+                            value = {
+                                ...school.school_pacat.original.input,
+                                ...pacatValue,
+                                school_pacat_required: checked,
+                            }
+                        }
+                    } else if (keys[keys.length-1].includes('school_pacat_recommended')) {
+                        if (school.school_pacat.original.input.school_pacat_required) {
+                            value = {
+                                ...school.school_pacat.original.input,
+                                school_pacat_recommended: checked,
+                            }
+                        } else {
+                            value = {
+                                ...school.school_pacat.original.input,
+                                ...pacatValue,
+                                school_pacat_recommended: checked,
+                            }
+                        }
                     }
                 } else if (isEditSchool && permissions.canEditWithVerificationNeeded) {
-                    value = {
-                        ...school.school_pacat.draft.input,
-                        ...pacatValue,
-                        school_pacat_required: keys[keys.length-1].includes('school_pacat_required') ? checked : school.school_pacat.draft.input.school_pacat_required,
-                        school_pacat_recommended: keys[keys.length-1].includes('school_pacat_recommended') ? checked : school.school_pacat.draft.input.school_pacat_recommended,
+                    if (keys[keys.length-1].includes('school_pacat_required')) {
+                        if (school.school_pacat.draft.input.school_pacat_recommended) {
+                            value = {
+                                ...school.school_pacat.draft.input,
+                                school_pacat_required: checked,
+                            }
+                        } else {
+                            value = {
+                                ...school.school_pacat.draft.input,
+                                ...pacatValue,
+                                school_pacat_required: checked,
+                            }
+                        }
+                    } else if (keys[keys.length-1].includes('school_pacat_recommended')) {
+                        if (school.school_pacat.draft.input.school_pacat_required) {
+                            value = {
+                                ...school.school_pacat.draft.input,
+                                school_pacat_recommended: checked,
+                            }
+                        } else {
+                            value = {
+                                ...school.school_pacat.draft.input,
+                                ...pacatValue,
+                                school_pacat_recommended: checked,
+                            }
+                        }
                     }
                 }
             }
