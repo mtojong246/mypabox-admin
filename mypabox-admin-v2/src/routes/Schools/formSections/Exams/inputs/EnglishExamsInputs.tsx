@@ -397,6 +397,7 @@ export default function EnglishExamsInputs({
                                     />
                                 ) : associatedField.type === 'note' ? (
                                     <Notes 
+                                        label={associatedField.label}
                                         notes={inputValue}
                                         field={{
                                             ...associatedField,

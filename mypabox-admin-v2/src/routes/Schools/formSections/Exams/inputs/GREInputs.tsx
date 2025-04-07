@@ -6,6 +6,13 @@ import Notes from "../../../../../components/Form/Notes/Notes";
 import TextInput from "../../../../../components/Form/InputTypes/TextInput";
 import TextSelectInput from "../../../../../components/Form/InputTypes/TextSelectInput";
 
+const unitOptions = [
+    {value: '', label: 'Select'},
+    {value: 'Years', label: 'Years'},
+    {value: 'Months', label: 'Months'}
+]
+
+
 export default function GREInputs({
     tab,
     permissions,
@@ -342,7 +349,7 @@ export default function GREInputs({
                                         inputPath={`${inputPath}.quantity`}
                                         selectPath={`${inputPath}.units`}
                                         handleChange={handleDuration}
-                                        options={inputValue}
+                                        options={unitOptions}
                                         isDisabled={isDisabled}
                                         schoolField={schoolField}
                                         validateIndividualChange={validateIndividualChange}

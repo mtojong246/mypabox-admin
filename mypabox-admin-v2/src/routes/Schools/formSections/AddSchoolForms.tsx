@@ -84,13 +84,13 @@ export default function AddSchoolForms({
                     <Experience 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#pa-shadowing' ? (
                     <PAShadowing 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#exams' ? (
                     <Exams 
@@ -108,7 +108,7 @@ export default function AddSchoolForms({
                     <InternationalStudents 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#certifications' ? (
                     <Certifications 
@@ -120,13 +120,13 @@ export default function AddSchoolForms({
                     <Applications 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#preference' ? (
                     <Preference 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : (
                     <></>

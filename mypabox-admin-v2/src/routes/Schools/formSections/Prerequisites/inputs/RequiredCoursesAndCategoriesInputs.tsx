@@ -213,6 +213,7 @@ export default function RequiredCoursesAndCategoriesInputs({
                                 )}
                                 {associatedField.notePath && inputNotes !== undefined && (
                                     <Notes 
+                                        label={associatedField.label}
                                         notes={inputNotes}
                                         field={{
                                             ...associatedField,

@@ -47,7 +47,7 @@ export default function SelectInput({
                 {isCreatable ? (
                 <CreatableSelect 
                     isDisabled={isDisabled}
-                    className='w-full'
+                    className='w-full max-w-[600px]'
                     options={options}
                     value={!value.value.toString() ? null : value}
                     onChange={(e:any) => handleSelect(e, name, path)}
@@ -67,7 +67,7 @@ export default function SelectInput({
                 ) : (
                 <Select 
                     isDisabled={isDisabled}
-                    className='w-full'
+                    className='w-full max-w-[600px]'
                     options={options}
                     value={!value.value.toString() ? null : value}
                     onChange={(e:any) => handleSelect(e, name, path)}
