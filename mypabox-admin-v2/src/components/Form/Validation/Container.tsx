@@ -185,7 +185,7 @@ export default function Container({
                         </div>
                     ) : (
                         <div className="flex flex-col gap-2 justify-start items-start">
-                            <label>Link:</label>
+                            <label className="font-medium text-default">Link:</label>
                             <Button 
                                 label="Insert Link"
                                 type="primary"

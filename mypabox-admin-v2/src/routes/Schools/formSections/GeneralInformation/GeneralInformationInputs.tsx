@@ -8,7 +8,7 @@ import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../type
 
 import countries from '../../../../data/countries.json';
 import { UserPermissions } from "../../../../types/users.types";
-import EmailAndPhoneNumberFields from "./components/EmailAndPhoneNumberFields";
+import EmailAndPhoneNumberFields from "./arrayFields/EmailAndPhoneNumberFields";
 
 export default function GeneralInformationInputs({
     tab,

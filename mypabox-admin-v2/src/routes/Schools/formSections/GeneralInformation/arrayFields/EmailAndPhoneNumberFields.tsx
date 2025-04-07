@@ -87,8 +87,8 @@ export default function EmailAndPhoneNumberFields({
 
 
     return (
-        <div className="w-full flex flex-col gap-4 justify-start items-start">
-            <label className="text-default">{field.name === 'school_email' ? 'Emails:' : 'Phone Numbers:'}</label>
+        <div className="w-full flex flex-col gap-2 justify-start items-start">
+            <label className="text-default font-medium">{field.name === 'school_email' ? 'Emails:' : 'Phone Numbers:'}</label>
             <>
             {values.length > 0 && values.map((val,i) => {
                 const selectPath = `${field.path}.${i}.category`;
@@ -170,13 +170,15 @@ export default function EmailAndPhoneNumberFields({
                 )
                 
             })}
-            <Button 
-                type={isDisabled ? 'disable' : 'primary'}
-                styling="outline"
-                label={`Add ${field.name === 'school_email' ? 'Email' : 'Phone Number'}`}
-                action={(e:any) => handleAdd(e, field.name, field.path)}
-                adornment={<PlusIcon/>}
-            />
+            <div className="mt-2">
+                <Button 
+                    type={isDisabled ? 'disable' : 'primary'}
+                    styling="outline"
+                    label={`Add ${field.name === 'school_email' ? 'Email' : 'Phone Number'}`}
+                    action={(e:any) => handleAdd(e, field.name, field.path)}
+                    adornment={<PlusIcon/>}
+                />
+            </div>
             </>
         </div>
     )

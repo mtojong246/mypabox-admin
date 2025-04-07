@@ -96,8 +96,8 @@ export default function Notes({
     }
     
     return (
-        <div className="flex flex-col gap-4 justify-start items-start w-full">
-            <p className="text-default">Notes:</p>
+        <div className="flex flex-col gap-2 justify-start items-start w-full">
+            <p className="text-default font-medium">Notes:</p>
             {noteValues.length > 0 && noteValues.map((noteValue,i) => {
                 const notePath = `${field.notePath}.${i}`;
                 const change = changes.find(change => change.path === notePath);

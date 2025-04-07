@@ -1,14 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import Button from "../../../../components/Buttons/Button";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
-import TextInput from "../../../../components/Form/InputTypes/TextInput";
 import Notes from "../../../../components/Form/Notes/Notes";
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types";
 
-import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
-import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
 import { UserPermissions } from "../../../../types/users.types";
-import ChangePopup from "../../../../components/Form/Validation/ChangePopup";
+import TypesOfDegreesOfferedFields from "./arrayFields/TypesOfDegreesOfferedFields";
 
 export default function DegreeInformationInputs({
     tab,
@@ -25,7 +21,7 @@ export default function DegreeInformationInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    deleteNote,
+    checkIfValueHasBeenRemoved,
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -50,6 +46,7 @@ export default function DegreeInformationInputs({
         originalField: any;
         draftField: any;
         originalValue: any;
+        originalDraftValue: any;
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
@@ -58,7 +55,7 @@ export default function DegreeInformationInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
 
@@ -116,9 +113,12 @@ export default function DegreeInformationInputs({
         const {
             originalField,
             draftField,
+            originalDraftValue,
         } = handleModification(path, field, value, 'add');
 
-        handleChanges(field, name, originalField, draftField, path, 'added');
+        const index = (originalDraftValue as any[]).length;
+
+        handleChanges(field, name, originalField, draftField, `${path}.${index}`, 'added');
     }
 
     const handleRemoveDegree = (e:any, name: string, path: string, index: number) => {
@@ -131,9 +131,7 @@ export default function DegreeInformationInputs({
             draftField,
         } = handleModification(path, field, '', 'remove', index);
 
-
-        handleChanges(field, name, originalField, draftField, path, 'removed');
-
+        handleChanges(schoolField, name, originalField, draftField, `${path}.${index}`, 'removed');
     }
 
 
@@ -153,62 +151,20 @@ export default function DegreeInformationInputs({
                     revertIndividualChange={revertIndividualChange}
                 />
             ) : field.type === 'array' ? (
-                <div className="w-full flex flex-col gap-4 justify-start items-start">
-                    <label className="text-default">{field.label}</label>
-                    <>
-                    {(value as any[]).length > 0 && (value as any[]).map((val,i) => {
-                        const inputPath = `${field.path}.${i}.value`
-                        const textInput = handleRetrieveValue(inputPath, schoolField);
-                        const change = schoolField.changes.find(change => change.path === field.path);
-                        return (
-                            <div className="w-full flex gap-4 justify-start items-start">
-                                <div className="flex w-full gap-2 justify-start items-start">
-                                    <div className="flex gap-4 p-6 border border-outline w-full rounded-lg">
-                                        <TextInput 
-                                            label='Degree'
-                                            placeholder='Degree'
-                                            name={field.name}
-                                            value={textInput.originalValue}
-                                            path={inputPath}
-                                            handleInput={handleInput}
-                                            isRequired={false}
-                                            type="text"
-                                            isDisabled={isDisabled}
-                                            change={schoolField.changes.find(change => change.path === inputPath)}
-                                            validateIndividualChange={validateIndividualChange}
-                                            revertIndividualChange={revertIndividualChange}
-                                        />
-                                    </div>
-                                    {change && (
-                                        <ChangePopup 
-                                            change={change}
-                                            name={field.name}
-                                            validateIndividualChange={validateIndividualChange}
-                                            revertIndividualChange={revertIndividualChange}
-                                        />
-                                    )}
-                                </div>
-                                <div className="py-4 flex justify-center items-end">
-                                    <button 
-                                        onClick={(e:any) => handleRemoveDegree(e, field.name, field.path, i)} 
-                                        className="w-[24px] text-warning hover:brightness-90 transition-all"
-                                    >
-                                        <DeleteIcon/>
-                                    </button>
-                                </div>
-                            </div>
-                        )
-                        
-                    })}
-                    <Button 
-                        type={isDisabled ? 'disable' : 'primary'}
-                        styling="outline"
-                        label='Add Type of Degree Offered'
-                        action={(e:any) => handleAddDegree(e, field.name, field.path)}
-                        adornment={<PlusIcon/>}
-                    />
-                    </>
-                </div>
+                <TypesOfDegreesOfferedFields 
+                    tab={tab}
+                    field={field}
+                    handleRetrieveValue={handleRetrieveValue}
+                    inputValues={value}
+                    schoolField={schoolField}
+                    isDisabled={isDisabled}
+                    handleInput={handleInput}
+                    handleAdd={handleAddDegree}
+                    handleRemove={handleRemoveDegree}
+                    validateIndividualChange={validateIndividualChange}
+                    revertIndividualChange={revertIndividualChange}
+                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                />
             ) : (
                 <></>
             )}
@@ -217,14 +173,16 @@ export default function DegreeInformationInputs({
                     notes={noteValue}
                     field={{
                         ...field,
-                        notePath: field.notePath,
+                        notePath: field.notePath
                     }}
+                    tab={tab}
                     toggleNote={toggleNote}
                     schoolField={schoolField}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>
