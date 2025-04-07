@@ -224,6 +224,7 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                                 )}
                                 {associatedField.notePath && inputValue !== undefined && (
                                     <Notes 
+                                        label={associatedField.label}
                                         notes={inputNotes}
                                         field={{
                                             ...associatedField,

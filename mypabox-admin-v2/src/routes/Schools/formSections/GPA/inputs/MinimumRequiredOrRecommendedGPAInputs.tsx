@@ -138,11 +138,12 @@ export default function MinimumRequiredOrRecommendedGPAInputs({
             value = checked;
         }
 
+
         const {
             originalField,
             draftField,
             originalValue 
-        } = handleModification(path, field, value, 'modify');
+        } = handleModification(inputPath, field, value, 'modify');
         
         handleChanges(field, name, originalField, draftField, inputPath, 'modified', originalValue, value);
     };
@@ -220,6 +221,7 @@ export default function MinimumRequiredOrRecommendedGPAInputs({
                                 )}
                                 {associatedField.notePath && inputNotes !== undefined && (
                                     <Notes 
+                                        label={associatedField.label}
                                         notes={inputNotes}
                                         field={{
                                             ...associatedField,

@@ -296,6 +296,7 @@ export default function CompletionCriteriaInputs({
                                 )}
                                 {associatedField.notePath && inputNotes !== undefined && (
                                     <Notes 
+                                        label={associatedField.label}
                                         notes={inputNotes}
                                         field={{
                                             ...associatedField,

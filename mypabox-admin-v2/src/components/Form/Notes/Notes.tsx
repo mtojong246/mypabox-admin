@@ -18,7 +18,8 @@ export default function Notes({
     handleChanges,
     handleModification,
     checkIfValueHasBeenRemoved,
-    tab
+    tab,
+    label,
 }: {
     notes: NewNote[],
     field: {
@@ -40,6 +41,7 @@ export default function Notes({
     },
     checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     tab?: 'original' | 'modified';
+    label?: string,
 }) {
     const [ changes, setChanges ] = useState<Change[]>([]);
     const [ noteValues, setNoteValues ] = useState<{
@@ -97,7 +99,7 @@ export default function Notes({
     
     return (
         <div className="flex flex-col gap-2 justify-start items-start w-full">
-            <p className="text-default font-medium">Notes:</p>
+            <p className="text-default font-medium">{label ? label : ''} Notes:</p>
             {noteValues.length > 0 && noteValues.map((noteValue,i) => {
                 const notePath = `${field.notePath}.${i}`;
                 const change = changes.find(change => change.path === notePath);

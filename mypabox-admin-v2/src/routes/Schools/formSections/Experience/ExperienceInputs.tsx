@@ -396,6 +396,7 @@ export default function ExperienceInputs({
                                 )}
                                 {associatedField.notePath && inputNotes !== undefined && (
                                     <Notes 
+                                        label={associatedField.label}
                                         notes={inputNotes}
                                         field={{
                                             ...associatedField,

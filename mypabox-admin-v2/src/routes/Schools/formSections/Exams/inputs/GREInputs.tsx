@@ -350,6 +350,7 @@ export default function GREInputs({
                                     />
                                 ) : associatedField.type === 'note' ? (
                                     <Notes 
+                                        label={associatedField.label}
                                         notes={inputValue}
                                         field={{
                                             ...associatedField,
