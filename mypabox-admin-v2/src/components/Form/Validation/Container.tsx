@@ -8,6 +8,7 @@ import { ReactComponent as DeleteIcon } from '../../../components/Icons/Trash.sv
 import TextInput from "../InputTypes/TextInput";
 import Button from "../../Buttons/Button";
 import SchoolFieldTabs from "./SchoolFieldTabs";
+import IconButton from "../../Buttons/IconButton";
 
 export default function Container({
     label,
@@ -175,12 +176,12 @@ export default function Container({
                                 isDisabled={false}
                             />
                             <div className="flex justify-center items-center h-[47px]">
-                                <button 
-                                    onClick={removeLink}
-                                    className="w-[24px] text-warning hover:brightness-90 transition-all"
-                                >
-                                    <DeleteIcon />
-                                </button>
+                                <IconButton 
+                                    color="warning"
+                                    icon={<DeleteIcon/>}
+                                    action={removeLink}
+                                    isDisabled={false}
+                                />
                             </div>
                         </div>
                     ) : (

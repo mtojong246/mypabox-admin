@@ -1,15 +1,87 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddSchoolForms from "../formSections/AddSchoolForms";
 import { GenericSchoolField, NewSchool } from "../../../types/newSchools.types";
 import { defaultSchool, schoolCategories } from "../../../utils/defaults";
 import Button from "../../../components/Buttons/Button";
 import { ReactComponent as AlertIcon } from '../../../components/Icons/Info.svg';
+import { getAllCategories, getAllCourses } from "../../../utils/firebase/firebase.utils";
+import { Course } from "../../../types/courses.types";
+import { useDispatch } from "react-redux";
+import { setCourses } from "../../../app/slices/courses";
+import { CategoryType } from "../../../types/categories.types";
+import { setCategories } from "../../../app/slices/categories";
 
 export default function AddSchool() {
     const navigate = useNavigate();
     const [ tab, setTab ] = useState('#general-info');
     const [ school, setSchool ] = useState<NewSchool>(defaultSchool);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+
+      const fetchCourses = async () => {
+          try {
+              const allCourses = await getAllCourses();
+              if  (allCourses) {
+                  // Sorts course alphabetically
+                  (allCourses as Course[]).sort(function (a, b) {
+                      if (a.course_name < b.course_name) {
+                          return -1;
+                      }
+                      if (a.course_name > b.course_name) {
+                          return 1;
+                      }
+                      return 0;
+                  })
+                  dispatch(setCourses(allCourses));
+              }
+          } catch (error: any) {
+              if (error.message === 'permission-denied') {
+                  alert("Access denied. Please log in using the appropriate credentials");
+                  navigate('/');
+                  return;
+                } else {
+                  alert('Error loading course data')
+                }
+          }
+      }
+  
+      fetchCourses();
+  
+  }, [dispatch, navigate]);
+  
+    useEffect(() => {
+  
+      const fetchCategories = async () => {
+          try {
+              const allCategories = await getAllCategories();
+              if (allCategories) {
+                  // Sorts course alphabetically
+                  (allCategories as CategoryType[]).sort(function (a, b) {
+                      if (a.category_name < b.category_name) {
+                          return -1;
+                      }
+                      if (a.category_name > b.category_name) {
+                          return 1;
+                      }
+                      return 0;
+                  })
+                  dispatch(setCategories(allCategories));
+              } 
+          } catch (error: any) {
+              if (error.message === 'permission-denied') {
+                  alert("Access denied. Please log in using the appropriate credentials");
+                  navigate('/');
+                  return;
+              } else {
+                  alert('Error loading course data')
+              }
+          }
+      }
+  
+      fetchCategories();
+    }, [dispatch, navigate]);
 
     const navigateTabs = (hash: string) => {
         navigate(`/schools/add-school${hash}`);

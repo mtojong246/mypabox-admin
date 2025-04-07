@@ -79,6 +79,25 @@ export default function GeneralInformationInputs({
         setCountryNames(countries.map(country => ({ value: country.name, label: country.name})))    
     }, []);
 
+    useEffect(() => {
+        if (countries.length > 0) {
+            let countryValue = '';
+            if (tab === 'original') {
+                countryValue = school.school_country.original.input;
+            } else {
+                countryValue = school.school_country.draft.input;
+            }
+
+            if (countryValue) {
+                const filteredCountries = countries.filter(country => country.name === countryValue);
+                if (filteredCountries.length > 0) {
+                    const states = filteredCountries[0].states;
+                    setStateNames(states.map(state => ({ value: state.name, label: state.name })))
+                }
+            }
+        }
+    }, [school, tab]);
+
     const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
         let value = e.target.value;
@@ -146,9 +165,6 @@ export default function GeneralInformationInputs({
         
         handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
 
-        if (name === 'school_country') {
-            setStateNames(countries.filter(country => country.name === school.school_country.original.input)[0].states.map(state => ({ value: state.name, label: state.name })));
-        }
     };
 
     const handleAddEmailOrPhone = (e:any, name: string, path: string) => {
