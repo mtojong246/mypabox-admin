@@ -52,7 +52,6 @@ export default function PANCEPassRate({
         isNoteOpen,
         selectedField,
         selectedNote,
-        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const {
@@ -60,7 +59,8 @@ export default function PANCEPassRate({
         handleRetrieveValue,
         handleModification,
         revertIndividualChange,
-        validateIndividualChange
+        validateIndividualChange,
+        checkIfValueHasBeenRemoved
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
 
@@ -103,7 +103,6 @@ export default function PANCEPassRate({
                             handleChanges={handleChanges}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                         />
                     }
                     modifiedInputs={
@@ -119,7 +118,7 @@ export default function PANCEPassRate({
                             handleChanges={handleChanges}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

@@ -55,6 +55,7 @@ export default function Exams({
         handleModification,
         validateIndividualChange,
         revertIndividualChange,
+        checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
 
@@ -83,7 +84,7 @@ export default function Exams({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            deleteNote={deleteNote}
+            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             toggleNote={toggleNote}
         />
         <PACAT 
@@ -96,7 +97,7 @@ export default function Exams({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            deleteNote={deleteNote}
+            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             toggleNote={toggleNote}
         />
         <CASPer 
@@ -109,7 +110,6 @@ export default function Exams({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            deleteNote={deleteNote}
             toggleNote={toggleNote}
         />
         <EnglishExams 
@@ -122,7 +122,7 @@ export default function Exams({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            deleteNote={deleteNote}
+            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             toggleNote={toggleNote}
         />
         {examFields.map(field => {

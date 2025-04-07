@@ -32,9 +32,15 @@ const useVerification = ({
             if (!isNaN(Number(key))) {
                 key = Number(key);
             }
+
+            if (keys[i] === undefined) {
+                isOriginalInvalid = true;
+                break;
+            }
             
             if (!(keys[i] in original)) {
                 isOriginalInvalid = true;
+                break;
             }
             original = original[keys[i]];
         }
@@ -45,9 +51,15 @@ const useVerification = ({
             if (!isNaN(Number(key))) {
                 key = Number(key);
             }
+
+            if (keys[i] === undefined) {
+                isDraftInvalid = true;
+                break;
+            }
             
             if (!(keys[i] in draft)) {
                 isDraftInvalid = true;
+                break;
             }
             draft = draft[keys[i]];
         }
@@ -270,8 +282,14 @@ const useVerification = ({
                 key = Number(key);
             }
             
+            if (keys[i] === undefined) {
+                isOriginalInvalid = true;
+                break;
+            }
+            
             if (!(keys[i] in original)) {
                 isOriginalInvalid = true;
+                break;
             }
             original = original[keys[i]];
         }
@@ -282,9 +300,15 @@ const useVerification = ({
             if (!isNaN(Number(key))) {
                 key = Number(key);
             }
+
+            if (keys[i] === undefined) {
+                isDraftInvalid = true;
+                break;
+            }
             
             if (!(keys[i] in draft)) {
                 isDraftInvalid = true;
+                break;
             }
             draft = draft[keys[i]];
         }

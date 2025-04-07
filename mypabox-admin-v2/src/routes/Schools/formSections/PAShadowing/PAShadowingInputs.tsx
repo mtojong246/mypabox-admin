@@ -20,7 +20,7 @@ export default function PAShadowingInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    deleteNote,
+    checkIfValueHasBeenRemoved
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -58,7 +58,7 @@ export default function PAShadowingInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -213,12 +213,14 @@ export default function PAShadowingInputs({
                         ...field,
                         notePath: field.notePath
                     }}
+                    tab={tab}
                     toggleNote={toggleNote}
                     schoolField={schoolField}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

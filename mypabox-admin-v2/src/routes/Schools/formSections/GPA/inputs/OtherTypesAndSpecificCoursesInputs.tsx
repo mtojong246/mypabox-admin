@@ -10,6 +10,7 @@ import { ReactComponent as PlusIcon } from '../../../../../components/Icons/Plus
 import { ReactComponent as MinusIcon } from '../../../../../components/Icons/Minus.svg';
 import RadioInput from "../../../../../components/Form/InputTypes/RadioInput";
 import SelectInput from "../../../../../components/Form/InputTypes/SelectInput";
+import ChangePopup from "../../../../../components/Form/Validation/ChangePopup";
 
 const gpaOptions = [
     { value: '', label: 'Select' },
@@ -26,7 +27,7 @@ export default function OtherTypesAndSpecificCoursesInputs({
     school,
     schoolField,
     field,
-    value,
+    inputValues,
     handleChanges,
     handleModification,
     validateIndividualChange,
@@ -54,12 +55,13 @@ export default function OtherTypesAndSpecificCoursesInputs({
         }[],
         notePath?: string;
     },
-    value: any,
+    inputValues: any[],
     handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
     handleModification: (path: string, field: GenericSchoolField, newValue: any, modificationType: "modify" | "add" | "remove", index?: number) => {
         originalField: any;
         draftField: any;
         originalValue: any;
+        originalDraftValue: any;
     },
     handleRetrieveValue:(path: string, field: GenericSchoolField) => {
         originalValue: any;
@@ -76,6 +78,42 @@ export default function OtherTypesAndSpecificCoursesInputs({
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
+    const [ values, setValues ] = useState<{
+        value: any,
+        toBeRemoved: boolean,
+    }[]>([]);
+
+    useEffect(() => {
+        if (schoolField !== undefined) {
+            const allChanges = schoolField.changes;
+
+            let flaggedValues: {
+                value: any,
+                toBeRemoved: boolean,
+            }[] = inputValues.map(val => ({ value: val, toBeRemoved: false }));
+
+            if (checkIfValueHasBeenRemoved && tab !== undefined && tab === 'modified') {
+                const removedChanges = allChanges.filter(change => change.type === 'removed');
+                if (removedChanges.length > 0) {
+                    removedChanges.forEach(change => {
+                        const keys = change.path.split('.');
+                        const index = keys[keys.length-1];
+    
+                        const originalValue = checkIfValueHasBeenRemoved(change.path, schoolField);
+                        if (originalValue !== null) {
+                            flaggedValues.splice(Number(index), 0, {
+                                value: originalValue,
+                                toBeRemoved: true,
+                            })
+                        }
+                    })
+                }
+            };
+
+            setValues(flaggedValues);
+
+        }
+    }, [checkIfValueHasBeenRemoved, inputValues, schoolField, tab]);
 
     useEffect(() => {
         if (tab === 'original' && isEditSchool && (permissions.canEditWithVerificationNeeded || (schoolField.changes.length > 0 && permissions.canVerify))) {
@@ -164,9 +202,12 @@ export default function OtherTypesAndSpecificCoursesInputs({
         const {
             originalField,
             draftField,
+            originalDraftValue,
         } = handleModification(path, field, value, 'add');
 
-        handleChanges(field, name, originalField, draftField, path, 'added');
+        const index = (originalDraftValue as any[]).length;
+
+        handleChanges(field, name, originalField, draftField, `${path}.${index}`, 'added');
     }
 
     const handleRemove = (e:any, name: string, path: string, index: number) => {
@@ -179,149 +220,165 @@ export default function OtherTypesAndSpecificCoursesInputs({
             draftField,
         } = handleModification(path, field, '', 'remove', index);
 
-        handleChanges(field, name, originalField, draftField, path, 'removed');
+        handleChanges(schoolField, name, originalField, draftField, `${path}.${index}`, 'removed');
 
     }
 
     return (
-        <div className="flex flex-col gap-8 justify-start items-start">
+        <div className="flex flex-col gap-2 justify-start items-start">
+        <label className="text-default font-medium">{field.label}:</label>
         {field.type === 'array' ? (
             <>
-            {(value as any[]).length > 0 && (value as any[]).map((val,i) => (
-                <div className="w-full flex flex-col gap-8 justify-start items-start p-6 rounded-lg border border-outline">
-                    <div className="w-full flex justify-between items-center gap-8">
-                        <p className="font-medium text-[18px]">{i+1} - {field.label}</p>
-                        <Button 
-                            type="warning"
-                            styling="outline"
-                            label={`Remove ${field.name === 'school_other_types_of_gpa_evaluated' ? 'GPA Type' : 'Course GPA'}`}
-                            action={(e:any) => handleRemove(e, field.name, field.path, i)}
-                            adornment={<MinusIcon/>}
-                        />
-                    </div>
-                    {field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                        const inputPath = `${field.path}.${i}.${associatedField.name}${associatedField.path}`;
-                        const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                        let inputValue: any = '';
+            {values && values.length > 0 && values.map((val,i) => {
+                const change = schoolField.changes.find(change => change.path === `${field.path}.${i}`)
+                return (
+                <div className="flex w-full gap-2 justify-start items-start">
+                    <div className={`${val.toBeRemoved && 'opacity-50'} w-full flex flex-col gap-8 justify-start items-start p-6 rounded-lg border border-outline`}>
+                        <div className="w-full flex justify-between items-center gap-8">
+                            <p className="font-medium text-[18px]">{i+1} - {field.label}</p>
+                            <Button 
+                                type="warning"
+                                styling="outline"
+                                label={`Remove ${field.name === 'school_other_types_of_gpa_evaluated' ? 'GPA Type' : 'Course GPA'}`}
+                                action={(e:any) => handleRemove(e, field.name, field.path, i)}
+                                adornment={<MinusIcon/>}
+                            />
+                        </div>
+                        {field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
+                            const inputPath = `${field.path}.${i}.${associatedField.name}${associatedField.path}`;
+                            const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
+                            let inputValue: any = '';
 
-                        if (tab === 'original') {
-                            inputValue = associatedFieldInputs.originalValue
-                        } else {
-                            inputValue = associatedFieldInputs.originalDraftValue;
-                        }
+                            if (tab === 'original') {
+                                inputValue = associatedFieldInputs.originalValue
+                            } else {
+                                inputValue = associatedFieldInputs.originalDraftValue;
+                            }
 
-                        return (
-                            <>
-                                {associatedField.type === 'text' ? (
-                                    <TextInput 
-                                        label={associatedField.label}
-                                        placeholder={associatedField.label}
-                                        name={field.name}
-                                        value={inputValue}
-                                        path={inputPath}
-                                        handleInput={handleInput}
-                                        isRequired={false}
-                                        type="text"
-                                        isDisabled={isDisabled}
-                                        change={schoolField.changes.find(change => change.path === inputPath)}
-                                        validateIndividualChange={validateIndividualChange}
-                                        revertIndividualChange={revertIndividualChange}
-                                    />
-                                ) : associatedField.type === 'radio' ? (
-                                    <RadioInput 
-                                        label={associatedField.label}
-                                        name={field.name}
-                                        value={inputValue}
-                                        path={inputPath}
-                                        handleInput={handleInput}
-                                        isRequired={false}
-                                        options={[
-                                            {
-                                                label: 'Required',
-                                                value: 'required',
-                                            },
-                                            {
-                                                label: 'Recommended',
-                                                value: 'recommended',
-                                            }
-                                        ]}
-                                        change={schoolField.changes.find(change => change.path === inputPath)}
-                                        validateIndividualChange={validateIndividualChange}
-                                        revertIndividualChange={revertIndividualChange}
-                                        isDisabled={isDisabled}
-                                    />
-                                ) : associatedField.type === 'select' ? (
-                                    <>
-                                    {field.name === 'school_other_types_of_gpa_evaluated' ? (
-                                        <SelectInput 
+                            return (
+                                <>
+                                    {associatedField.type === 'text' ? (
+                                        <TextInput 
                                             label={associatedField.label}
                                             placeholder={associatedField.label}
                                             name={field.name}
-                                            value={{ value: inputValue, label: inputValue }}
+                                            value={inputValue ? inputValue : ''}
                                             path={inputPath}
-                                            handleSelect={handleSelect}
+                                            handleInput={handleInput}
                                             isRequired={false}
-                                            isCreatable={true}
-                                            options={gpaOptions}
+                                            type="text"
                                             isDisabled={isDisabled}
                                             change={schoolField.changes.find(change => change.path === inputPath)}
                                             validateIndividualChange={validateIndividualChange}
                                             revertIndividualChange={revertIndividualChange}
                                         />
-                                    ) : courseOptions.length > 0 ? (
-                                        <SelectInput 
+                                    ) : associatedField.type === 'radio' ? (
+                                        <RadioInput 
                                             label={associatedField.label}
-                                            placeholder={associatedField.label}
                                             name={field.name}
-                                            value={{ value: inputValue, label: courseOptions.find(option => option.value === inputValue)!.label }}
+                                            value={inputValue ? inputValue : ''}
                                             path={inputPath}
-                                            handleSelect={handleSelect}
+                                            handleInput={handleInput}
                                             isRequired={false}
-                                            isCreatable={false}
-                                            options={courseOptions}
-                                            isDisabled={isDisabled}
+                                            options={[
+                                                {
+                                                    label: 'Required',
+                                                    value: 'required',
+                                                },
+                                                {
+                                                    label: 'Recommended',
+                                                    value: 'recommended',
+                                                }
+                                            ]}
                                             change={schoolField.changes.find(change => change.path === inputPath)}
                                             validateIndividualChange={validateIndividualChange}
                                             revertIndividualChange={revertIndividualChange}
+                                            isDisabled={isDisabled}
+                                        />
+                                    ) : associatedField.type === 'select' ? (
+                                        <>
+                                        {field.name === 'school_other_types_of_gpa_evaluated' ? (
+                                            <SelectInput 
+                                                label={associatedField.label}
+                                                placeholder={associatedField.label}
+                                                name={field.name}
+                                                value={{ value: inputValue ? inputValue : '', label: inputValue ? inputValue : ''}}
+                                                path={inputPath}
+                                                handleSelect={handleSelect}
+                                                isRequired={false}
+                                                isCreatable={true}
+                                                options={gpaOptions}
+                                                isDisabled={isDisabled}
+                                                change={schoolField.changes.find(change => change.path === inputPath)}
+                                                validateIndividualChange={validateIndividualChange}
+                                                revertIndividualChange={revertIndividualChange}
+                                            />
+                                        ) : courseOptions.length > 0 ? (
+                                            <SelectInput 
+                                                label={associatedField.label}
+                                                placeholder={associatedField.label}
+                                                name={field.name}
+                                                value={{ value: inputValue ? inputValue : '', label: inputValue ? courseOptions.find(option => option.value === inputValue)!.label : ''}}
+                                                path={inputPath}
+                                                handleSelect={handleSelect}
+                                                isRequired={false}
+                                                isCreatable={false}
+                                                options={courseOptions}
+                                                isDisabled={isDisabled}
+                                                change={schoolField.changes.find(change => change.path === inputPath)}
+                                                validateIndividualChange={validateIndividualChange}
+                                                revertIndividualChange={revertIndividualChange}
+                                            />
+                                        ) : (
+                                            <></>
+                                        )}
+                                        
+                                        </>
+                                        
+                                    ) : associatedField.type === 'note' ? (
+                                        <Notes 
+                                            notes={inputValue ? inputValue : []}
+                                            field={{
+                                                ...associatedField,
+                                                notePath: inputPath,
+                                                name: field.name,
+                                                path: '',
+                                            }}
+                                            toggleNote={toggleNote}
+                                            schoolField={schoolField}
+                                            validateIndividualChange={validateIndividualChange}
+                                            revertIndividualChange={revertIndividualChange}
+                                            handleChanges={handleChanges}
+                                            handleModification={handleModification}
+                                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                         />
                                     ) : (
                                         <></>
                                     )}
-                                    
-                                    </>
-                                    
-                                ) : associatedField.type === 'note' ? (
-                                    <Notes 
-                                        notes={inputValue}
-                                        field={{
-                                            ...associatedField,
-                                            notePath: inputPath,
-                                            name: field.name,
-                                            path: '',
-                                        }}
-                                        toggleNote={toggleNote}
-                                        schoolField={schoolField}
-                                        validateIndividualChange={validateIndividualChange}
-                                        revertIndividualChange={revertIndividualChange}
-                                        handleChanges={handleChanges}
-                                        handleModification={handleModification}
-                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
-                                    />
-                                ) : (
-                                    <></>
-                                )}
-                            </>
-                        )
-                    })}
+                                </>
+                            )
+                        })}
+                    </div>
+                    {change && (
+                        <ChangePopup 
+                            change={change}
+                            name={field.name}
+                            validateIndividualChange={validateIndividualChange}
+                            revertIndividualChange={revertIndividualChange}
+                        />
+                    )}
                 </div>
-            ))}
-            <Button 
-                type={isDisabled ? 'disable' : 'primary'}
-                styling="outline"
-                label={`Add ${field.name === 'school_other_types_of_gpa_evaluated' ? 'GPA Type' : 'Course GPA'}`}
-                action={(e:any) => handleAdd(e, field.name, field.path)}
-                adornment={<PlusIcon/>}
-            />
+                )
+            })}
+            <div className="mt-2">
+                <Button 
+                    type={isDisabled ? 'disable' : 'primary'}
+                    styling="outline"
+                    label={`Add ${field.name === 'school_other_types_of_gpa_evaluated' ? 'GPA Type' : 'Course GPA'}`}
+                    action={(e:any) => handleAdd(e, field.name, field.path)}
+                    adornment={<PlusIcon/>}
+                />
+            </div>
             </>
         ) : (
             <></>

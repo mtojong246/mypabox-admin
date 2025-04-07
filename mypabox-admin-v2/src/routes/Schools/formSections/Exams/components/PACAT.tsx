@@ -54,7 +54,7 @@ export default function PACAT({
     validateIndividualChange,
     handleChanges,
     toggleNote,
-    deleteNote,
+    checkIfValueHasBeenRemoved,
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -85,7 +85,7 @@ export default function PACAT({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
 }) {
 
 
@@ -129,7 +129,7 @@ export default function PACAT({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
+                           
                         />
                     }
                     modifiedInputs={
@@ -146,7 +146,7 @@ export default function PACAT({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

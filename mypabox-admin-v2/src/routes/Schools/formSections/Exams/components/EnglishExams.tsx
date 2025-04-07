@@ -205,7 +205,7 @@ export default function EnglishExams({
     validateIndividualChange,
     handleChanges,
     toggleNote,
-    deleteNote,
+    checkIfValueHasBeenRemoved,
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -236,7 +236,7 @@ export default function EnglishExams({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
 }) {
 
 
@@ -280,7 +280,6 @@ export default function EnglishExams({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                         />
                     }
                     modifiedInputs={
@@ -297,7 +296,7 @@ export default function EnglishExams({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

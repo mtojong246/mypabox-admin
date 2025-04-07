@@ -21,7 +21,7 @@ export default function GREInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    deleteNote,
+    checkIfValueHasBeenRemoved,
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -61,7 +61,7 @@ export default function GREInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void,
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -268,158 +268,164 @@ export default function GREInputs({
 
     return (
         <div className="flex flex-col gap-8 justify-start items-start">
-                        {field.type === 'object' ? (
+            {field.type === 'object' ? (
+                <>
+                {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
+                    const associatedFieldPath = `${field.path}.${associatedField.name}`;
+                    const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
+                    let associatedFieldValue = '';
+        
+                    if (tab === 'original') {
+                        associatedFieldValue = associatedFieldObject.originalValue
+                    } else {
+                        associatedFieldValue = associatedFieldObject.originalDraftValue;
+                    }
+
+                    let inputValue;
+                    let inputNotes = [];
+
+                    if (associatedFieldValue !== null) {
+                        const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
+                        const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
+                        if (tab === 'original') {
+                            inputValue = associatedFieldInputs.originalValue;
+                        } else {
+                            inputValue = associatedFieldInputs.originalDraftValue;
+                        }
+
+                        if (associatedField.notePath !== undefined) {
+                            const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
+                            const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
+                            if (tab === 'original') {
+                                inputNotes = associatedFieldNotes.originalValue;
+                            } else {
+                                inputNotes = associatedFieldNotes.originalDraftValue;
+                            }
+                        }
+
+                        return (
                             <>
-                            {field.associatedFields && field.associatedFields.length > 0 && field.associatedFields.map(associatedField => {
-                                const associatedFieldPath = `${field.path}.${associatedField.name}`;
-                                const associatedFieldObject = handleRetrieveValue(associatedFieldPath, schoolField);
-                                let associatedFieldValue = '';
-                    
-                                if (tab === 'original') {
-                                    associatedFieldValue = associatedFieldObject.originalValue
-                                } else {
-                                    associatedFieldValue = associatedFieldObject.originalDraftValue;
-                                }
-
-                                let inputValue;
-                                let inputNotes = [];
-
-                                if (associatedFieldValue !== null) {
-                                    const inputPath = `${field.path}.${associatedField.name}${associatedField.path}`;
-                                    const associatedFieldInputs = handleRetrieveValue(inputPath, schoolField);
-                                    if (tab === 'original') {
-                                        inputValue = associatedFieldInputs.originalValue;
-                                    } else {
-                                        inputValue = associatedFieldInputs.originalDraftValue;
-                                    }
-
-                                    if (associatedField.notePath !== undefined) {
-                                        const notesPath = `${field.path}.${associatedField.name}${associatedField.notePath}`;
-                                        const associatedFieldNotes = handleRetrieveValue(notesPath, schoolField);
-                                        if (tab === 'original') {
-                                            inputNotes = associatedFieldNotes.originalValue;
-                                        } else {
-                                            inputNotes = associatedFieldNotes.originalDraftValue;
-                                        }
-                                    }
-
-                                    return (
-                                        <>
-                                            {associatedField.type === 'boolean' ? (
-                                                <BooleanInput 
-                                                    label={associatedField.label}
-                                                    name={field.name}
-                                                    value={inputValue}
-                                                    path={inputPath}
-                                                    handleCheck={handleBoolean}
-                                                    isRequired={false}
-                                                    isDisabled={isDisabled}
-                                                    change={schoolField.changes.find(change => change.path === inputPath)}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                />
-                                            ) : associatedField.type === 'text' ? (
-                                                <TextInput 
-                                                    label={associatedField.label}
-                                                    placeholder={associatedField.label}
-                                                    name={field.name}
-                                                    value={inputValue}
-                                                    path={inputPath}
-                                                    handleInput={handleInput}
-                                                    isRequired={false}
-                                                    type="text"
-                                                    isDisabled={isDisabled}
-                                                    change={schoolField.changes.find(change => change.path === inputPath)}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                />
-                                            ) : associatedField.type === 'text-select' ? (
-                                                <TextSelectInput 
-                                                    label={associatedField.label}
-                                                    placeholder="Quantity"
-                                                    name={field.name}
-                                                    value={inputValue}
-                                                    inputPath={`${inputPath}.quantity`}
-                                                    selectPath={`${inputPath}.units`}
-                                                    handleChange={handleDuration}
-                                                    options={inputValue}
-                                                    isDisabled={isDisabled}
-                                                    schoolField={schoolField}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                />
-                                            ) : associatedField.type === 'note' ? (
-                                                <Notes 
-                                                    notes={inputValue}
-                                                    field={{
-                                                        ...associatedField,
-                                                        notePath: inputPath,
-                                                        name: field.name,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    schoolField={schoolField}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                    handleChanges={handleChanges}
-                                                    handleModification={handleModification}
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                            {associatedField.notePath && inputNotes !== undefined && (
-                                                <Notes 
-                                                    notes={inputNotes}
-                                                    field={{
-                                                        ...associatedField,
-                                                        name: field.name,
-                                                        notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
-                                                    }}
-                                                    toggleNote={toggleNote}
-                                                    schoolField={schoolField}
-                                                    validateIndividualChange={validateIndividualChange}
-                                                    revertIndividualChange={revertIndividualChange}
-                                                    handleChanges={handleChanges}
-                                                    handleModification={handleModification}
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                } else {
-                                    return null;
-                                }     
-                            })}
+                                {associatedField.type === 'boolean' ? (
+                                    <BooleanInput 
+                                        label={associatedField.label}
+                                        name={field.name}
+                                        value={inputValue}
+                                        path={inputPath}
+                                        handleCheck={handleBoolean}
+                                        isRequired={false}
+                                        isDisabled={isDisabled}
+                                        change={schoolField.changes.find(change => change.path === inputPath)}
+                                        validateIndividualChange={validateIndividualChange}
+                                        revertIndividualChange={revertIndividualChange}
+                                    />
+                                ) : associatedField.type === 'text' ? (
+                                    <TextInput 
+                                        label={associatedField.label}
+                                        placeholder={associatedField.label}
+                                        name={field.name}
+                                        value={inputValue}
+                                        path={inputPath}
+                                        handleInput={handleInput}
+                                        isRequired={false}
+                                        type="text"
+                                        isDisabled={isDisabled}
+                                        change={schoolField.changes.find(change => change.path === inputPath)}
+                                        validateIndividualChange={validateIndividualChange}
+                                        revertIndividualChange={revertIndividualChange}
+                                    />
+                                ) : associatedField.type === 'text-select' ? (
+                                    <TextSelectInput 
+                                        label={associatedField.label}
+                                        placeholder="Quantity"
+                                        name={field.name}
+                                        value={inputValue}
+                                        inputPath={`${inputPath}.quantity`}
+                                        selectPath={`${inputPath}.units`}
+                                        handleChange={handleDuration}
+                                        options={inputValue}
+                                        isDisabled={isDisabled}
+                                        schoolField={schoolField}
+                                        validateIndividualChange={validateIndividualChange}
+                                        revertIndividualChange={revertIndividualChange}
+                                    />
+                                ) : associatedField.type === 'note' ? (
+                                    <Notes 
+                                        notes={inputValue}
+                                        field={{
+                                            ...associatedField,
+                                            notePath: inputPath,
+                                            name: field.name,
+                                        }}
+                                        tab={tab}
+                                        toggleNote={toggleNote}
+                                        schoolField={schoolField}
+                                        validateIndividualChange={validateIndividualChange}
+                                        revertIndividualChange={revertIndividualChange}
+                                        handleChanges={handleChanges}
+                                        handleModification={handleModification}
+                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                                    />
+                                ) : (
+                                    <></>
+                                )}
+                                {associatedField.notePath && inputNotes !== undefined && (
+                                    <Notes 
+                                        notes={inputNotes}
+                                        field={{
+                                            ...associatedField,
+                                            name: field.name,
+                                            notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
+                                        }}
+                                        tab={tab}
+                                        toggleNote={toggleNote}
+                                        schoolField={schoolField}
+                                        validateIndividualChange={validateIndividualChange}
+                                        revertIndividualChange={revertIndividualChange}
+                                        handleChanges={handleChanges}
+                                        handleModification={handleModification}
+                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                                    />
+                                )}
                             </>
-                        ) : (
-                            <TextInput 
-                                label={field.label}
-                                placeholder={field.label}
-                                name={field.name}
-                                value={value}
-                                path={field.path}
-                                handleInput={handleInput}
-                                isRequired={false}
-                                type="text"
-                                isDisabled={isDisabled}
-                                change={schoolField.changes.find(change => change.path === field.path)}
-                                validateIndividualChange={validateIndividualChange}
-                                revertIndividualChange={revertIndividualChange}
-                            />
-                        )}
-                        {field.notePath && (
-                            <Notes 
-                                notes={noteValue}
-                                field={{
-                                    ...field,
-                                     notePath: field.notePath,
-                                }}
-                                toggleNote={toggleNote}
-                                schoolField={schoolField}
-                                validateIndividualChange={validateIndividualChange}
-                                revertIndividualChange={revertIndividualChange}
-                                handleChanges={handleChanges}
-                                handleModification={handleModification}
-                            />
-                        )}
-                        </div>
+                        )
+                    } else {
+                        return null;
+                    }     
+                })}
+                </>
+            ) : (
+                <TextInput 
+                    label={field.label}
+                    placeholder={field.label}
+                    name={field.name}
+                    value={value}
+                    path={field.path}
+                    handleInput={handleInput}
+                    isRequired={false}
+                    type="text"
+                    isDisabled={isDisabled}
+                    change={schoolField.changes.find(change => change.path === field.path)}
+                    validateIndividualChange={validateIndividualChange}
+                    revertIndividualChange={revertIndividualChange}
+                />
+            )}
+            {field.notePath && (
+                <Notes 
+                    notes={noteValue}
+                    field={{
+                        ...field,
+                            notePath: field.notePath,
+                    }}
+                    tab={tab}
+                    toggleNote={toggleNote}
+                    schoolField={schoolField}
+                    validateIndividualChange={validateIndividualChange}
+                    revertIndividualChange={revertIndividualChange}
+                    handleChanges={handleChanges}
+                    handleModification={handleModification}
+                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                />
+            )}
+            </div>
     )
 }

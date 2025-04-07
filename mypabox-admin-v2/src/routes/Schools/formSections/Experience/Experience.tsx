@@ -233,7 +233,6 @@ export default function Experience({
         isNoteOpen,
         selectedField,
         selectedNote,
-        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const {
@@ -241,7 +240,8 @@ export default function Experience({
         handleRetrieveValue,
         handleModification,
         validateIndividualChange,
-        revertIndividualChange
+        revertIndividualChange,
+        checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
 
@@ -285,7 +285,6 @@ export default function Experience({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                         />
                     }
                     modifiedInputs={
@@ -302,7 +301,7 @@ export default function Experience({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

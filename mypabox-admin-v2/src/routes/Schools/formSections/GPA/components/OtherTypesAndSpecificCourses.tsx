@@ -114,6 +114,7 @@ export default function OtherTypesAndSpecificCourses({
         originalField: any;
         draftField: any;
         originalValue: any;
+        originalDraftValue: any;
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
@@ -144,7 +145,7 @@ export default function OtherTypesAndSpecificCourses({
                             school={school}
                             schoolField={schoolField}
                             field={field}
-                            value={value}
+                            inputValues={value}
                             handleRetrieveValue={handleRetrieveValue}
                             handleChanges={handleChanges}
                             handleModification={handleModification}
@@ -159,7 +160,7 @@ export default function OtherTypesAndSpecificCourses({
                             school={school}
                             schoolField={schoolField}
                             field={field}
-                            value={draftValue}
+                            inputValues={draftValue}
                             handleRetrieveValue={handleRetrieveValue}
                             handleChanges={handleChanges}
                             handleModification={handleModification}

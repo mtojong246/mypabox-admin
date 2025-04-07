@@ -39,7 +39,7 @@ export default function CASPer({
     validateIndividualChange,
     handleChanges,
     toggleNote,
-    deleteNote,
+    checkIfValueHasBeenRemoved,
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -70,7 +70,7 @@ export default function CASPer({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
 }) {
 
 
@@ -109,7 +109,6 @@ export default function CASPer({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                         />
                     }
                     modifiedInputs={
@@ -125,7 +124,7 @@ export default function CASPer({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

@@ -35,11 +35,14 @@ export default function RadioInput({
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">
             <label className={`font-medium ${isRequired && 'required'}`}>{label}</label>
-            <div className="flex w-full gap-2 justify-start items-start">
+            <div className="flex w-full gap-6 justify-start items-start px-6 py-2 rounded-lg border border-outline">
                 <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
+                    sx={{
+                        gap: '24px'
+                    }}
                 >
                 {options.length > 0 && options.map(option => (
                     <FormControlLabel 

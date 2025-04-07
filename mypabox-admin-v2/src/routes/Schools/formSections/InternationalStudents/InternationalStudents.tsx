@@ -39,7 +39,6 @@ export default function InternationalStudents({
         isNoteOpen,
         selectedField,
         selectedNote,
-        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const {
@@ -47,7 +46,8 @@ export default function InternationalStudents({
         handleRetrieveValue,
         handleModification,
         revertIndividualChange,
-        validateIndividualChange
+        validateIndividualChange,
+        checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
     
 
@@ -93,7 +93,6 @@ export default function InternationalStudents({
                             handleChanges={handleChanges}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                         />
                     }
                     modifiedInputs={
@@ -109,9 +108,9 @@ export default function InternationalStudents({
                             handleChanges={handleChanges}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

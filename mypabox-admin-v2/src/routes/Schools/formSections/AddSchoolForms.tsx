@@ -42,31 +42,31 @@ export default function AddSchoolForms({
                     <DegreeInformation
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                     />
                 ) : tab === '#accreditation-status' ? (
                    <AccreditationStatus 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#mission-statement' ? (
                     <MissionStatement 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#tuition' ? (
                     <Tuition 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#pance-pass-rate' ? (
                     <PANCEPassRate 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#GPA' ? (
                     <GPA 
@@ -114,7 +114,7 @@ export default function AddSchoolForms({
                     <Certifications 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={true}
+                        isEditSchool={false}
                    />
                 ) : tab === '#applications' ? (
                     <Applications 
