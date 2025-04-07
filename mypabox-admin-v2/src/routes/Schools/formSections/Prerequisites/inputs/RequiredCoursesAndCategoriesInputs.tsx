@@ -220,12 +220,14 @@ export default function RequiredCoursesAndCategoriesInputs({
                                             path: '',
                                             notePath: `${field.path}.${associatedField.name}${associatedField.notePath}`,
                                         }}
+                                        tab={tab}
                                         toggleNote={toggleNote}
                                         schoolField={schoolField}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
+                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                     />
                                 )}
                                 
@@ -246,6 +248,7 @@ export default function RequiredCoursesAndCategoriesInputs({
                         ...field,
                         notePath: field.notePath,
                     }}
+                    tab={tab}
                     toggleNote={toggleNote}
                     schoolField={schoolField}
                     validateIndividualChange={validateIndividualChange}

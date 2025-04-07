@@ -160,6 +160,7 @@ export default function RecommendedCoursesInputs({
                     ...field,
                     notePath: field.notePath,
                 }}
+                tab={tab}
                 toggleNote={toggleNote}
                 schoolField={schoolField}
                 validateIndividualChange={validateIndividualChange}
