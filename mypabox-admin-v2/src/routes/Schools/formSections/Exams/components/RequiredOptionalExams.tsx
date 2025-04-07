@@ -44,7 +44,7 @@ export default function RequiredOptionalExams({
     revertIndividualChange,
     handleChanges,
     toggleNote,
-    deleteNote,
+    checkIfValueHasBeenRemoved,
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -58,6 +58,7 @@ export default function RequiredOptionalExams({
         originalField: any;
         draftField: any;
         originalValue: any;
+        originalDraftValue: any;
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
@@ -75,7 +76,7 @@ export default function RequiredOptionalExams({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    deleteNote: (e: React.MouseEvent<HTMLButtonElement>, name: string, path: string, noteIndex: number) => void
+    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
 }) {
 
 
@@ -103,12 +104,11 @@ export default function RequiredOptionalExams({
                             school={school}
                             schoolField={schoolField}
                             field={field}
-                            value={value}
+                            inputValues={value}
                             handleChanges={handleChanges}
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
                         />
                     }
                     modifiedInputs={
@@ -119,12 +119,12 @@ export default function RequiredOptionalExams({
                             school={school}
                             schoolField={schoolField}
                             field={field}
-                            value={draftValue}
+                            inputValues={draftValue}
                             handleChanges={handleChanges}
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            deleteNote={deleteNote}
+                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

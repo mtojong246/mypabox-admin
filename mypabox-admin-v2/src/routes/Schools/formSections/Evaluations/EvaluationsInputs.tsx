@@ -73,6 +73,7 @@ export default function EvaluationsInputs({
         originalField: any;
         draftField: any;
         originalValue: any;
+        originalDraftValue: any;
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
@@ -215,9 +216,13 @@ export default function EvaluationsInputs({
         const {
             originalField,
             draftField,
+            originalDraftValue,
         } = handleModification(path, field, value, 'add');
 
-        handleChanges(field, name, originalField, draftField, path, 'added');
+        const index = (originalDraftValue as any[]).length;
+
+        handleChanges(field, name, originalField, draftField, `${path}.${index}`, 'added');
+
     }
 
     const handleRemove = (e:any, name: string, path: string, index: number) => {
@@ -230,7 +235,7 @@ export default function EvaluationsInputs({
             draftField,
         } = handleModification(path, field, '', 'remove', index);
 
-        handleChanges(field, name, originalField, draftField, path, 'removed');
+        handleChanges(schoolField, name, originalField, draftField, `${path}.${index}`, 'removed');
 
     }
 
@@ -314,7 +319,14 @@ export default function EvaluationsInputs({
                                             if (associatedField.label.includes('Title')) {
                                                 const arrayInputPath = `${inputPath}.${i}.value`
                                                 const textInput = handleRetrieveValue(arrayInputPath, schoolField);
-                                                const change = schoolField.changes.find(change => change.path === inputPath);
+                                                const change = schoolField.changes.find(change => change.path === `${inputPath}.${i}`);
+
+                                                let textValue = '';
+                                                if (tab === 'original') {
+                                                    textValue = textInput.originalValue;
+                                                } else {
+                                                    textValue = textInput.originalDraftValue;
+                                                }
 
                                                 return (
                                                 <div className="w-full flex gap-4 justify-start items-start">
@@ -324,7 +336,7 @@ export default function EvaluationsInputs({
                                                                 label="Title"
                                                                 placeholder="Title"
                                                                 name={field.name}
-                                                                value={{value: textInput.originalValue, label: textInput.originalValue}}
+                                                                value={{value: textValue, label: textValue}}
                                                                 path={arrayInputPath}
                                                                 handleSelect={handleSelect}
                                                                 isRequired={false}

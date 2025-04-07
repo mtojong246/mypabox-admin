@@ -46,7 +46,6 @@ export default function Exams({
         isNoteOpen,
         selectedField,
         selectedNote,
-        deleteNote,
     } = useSchoolNotes({ school, setSchool });
 
     const {
@@ -71,7 +70,7 @@ export default function Exams({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            deleteNote={deleteNote}
+            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             toggleNote={toggleNote}
         />
         <GRE 
