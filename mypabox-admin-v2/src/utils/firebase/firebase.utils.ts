@@ -6,6 +6,7 @@ import { School } from "../../types/schools.types";
 import { Course } from "../../types/courses.types";
 import { CategoryCourse, CategoryType } from "../../types/categories.types";
 import { UserObject } from "../../types/users.types";
+import { NewSchool } from "../../types/newSchools.types";
 
 interface AdditionalInfo {
     displayName: string,
@@ -57,6 +58,24 @@ export const auth = getAuth();
 export const db = getFirestore();
 
 //  **************[SCHOOL DATA FUNCTION HANDLERS]**************
+
+// Retrieve all updated schools
+export const getUpdatedSchoolsAndDocuments = async () => {
+    const collectionRef = collection(db, 'newSchools');
+    const q = query(collectionRef);
+
+    try {
+        // Gets documents based on query parameters 
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((docSnapshot) => docSnapshot.data())
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error fetching school data' , error.code);
+    }
+}
 
 // Retrieves all documents inside schools collection
 export const getSchoolsAndDocuments = async () => {
@@ -116,6 +135,63 @@ export const getDocsById = async (id: number) => {
         console.log('error fetching school data by name' , error.message);
     }
 }
+
+// Updated schools
+export const addUpdatedSchoolDoc = async (data: NewSchool) => {
+    const collectionRef = collection(db, 'newSchools');
+
+    try {
+        // Adds new doc to collection
+        const newDoc = await addDoc(collectionRef, data);
+        const docRef = doc(db, 'newSchools', newDoc.id);
+        // Updates doc reference with newly-generated id 
+        await updateDoc(docRef, {
+            id: newDoc.id,
+        })
+        // Grabs and returns doc with updated id 
+        const docSnap = await getDoc(docRef);
+        return docSnap.data();
+
+    } catch (error:any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error adding school' , error.code);
+    }
+}
+
+export const updateUpdatedSchoolDoc = async (data: NewSchool, id: string) => {
+    const docRef = doc(db, 'newSchools', id);
+
+    try {
+        // Adds data as a document to school collection or updates existing document
+        await setDoc(docRef, data)
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error updating school' , error.code);
+    }
+    
+}
+
+export const deleteUpdatedSchoolDoc = async (id: string) => {
+    const docRef = doc(db, 'newSchools', id);
+
+    try {
+        // Removes course from document 
+        await deleteDoc(docRef);
+    } catch (error: any) {
+        if (error.code === 'permission-denied') {
+            throw new Error(error.code);
+        }
+
+        console.log('error deleting school' , error.code);
+    }
+}
+
 
 // Adds individual school collection to school document 
 export const addDocToSchoolCollection = async (data: School, id: string) => {

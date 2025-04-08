@@ -7,16 +7,28 @@ import Button from "../../../components/Buttons/Button";
 import { ReactComponent as AlertIcon } from '../../../components/Icons/Info.svg';
 import { getAllCategories, getAllCourses } from "../../../utils/firebase/firebase.utils";
 import { Course } from "../../../types/courses.types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCourses } from "../../../app/slices/courses";
 import { CategoryType } from "../../../types/categories.types";
 import { setCategories } from "../../../app/slices/categories";
+import { selectIsEditSchool, selectSelectedSchool } from "../../../app/selectors/selectedSchool.selectors";
+import { setIsEditSchool, setSelectedSchool } from "../../../app/slices/selectedSchool";
 
 export default function AddSchool() {
     const navigate = useNavigate();
     const [ tab, setTab ] = useState('#general-info');
     const [ school, setSchool ] = useState<NewSchool>(defaultSchool);
     const dispatch = useDispatch();
+    const selectedSchool = useSelector(selectSelectedSchool);
+    const isEditSchool = useSelector(selectIsEditSchool);
+
+    useEffect(() => {
+      if (selectedSchool) {
+        setSchool(selectedSchool);
+      } else {
+        setSchool(defaultSchool);
+      }
+    }, [selectedSchool]);
 
     useEffect(() => {
 
@@ -105,6 +117,15 @@ export default function AddSchool() {
       return hasChanges;
     }
 
+    const cancelAction = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      navigate('/schools');
+      dispatch(setSelectedSchool(null));
+      dispatch(setIsEditSchool(false));
+    }
+
+
+
 
     return (
         <div className={`w-screen px-10 ont-['Noto Sans']`}>
@@ -144,7 +165,7 @@ export default function AddSchool() {
                       type="warning"
                       label="Cancel"
                       styling='outline'
-                      action={() => {}}
+                      action={cancelAction}
                       value='cancel'
                     />
               </div>

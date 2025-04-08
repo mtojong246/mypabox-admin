@@ -21,6 +21,8 @@ import { UserObject } from '../../types/users.types';
 import { HiOutlineSignal } from "react-icons/hi2";
 import { editSchoolData } from '../../app/slices/schools';
 import { mockUser } from '../../data/defaultValues';
+import { setIsEditSchool, setSelectedSchool } from '../../app/slices/selectedSchool';
+import { defaultSchool } from '../../utils/defaults';
 
 
 const Schools = () => {
@@ -243,6 +245,8 @@ const Schools = () => {
 
   const addSchoolButton = () => {
     dispatch(setIsEdit(false));
+    dispatch(setIsEditSchool(false));
+    dispatch(setSelectedSchool(defaultSchool));
     navigate('/schools/add-school#general-info');
   };
 
