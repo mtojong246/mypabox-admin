@@ -11,7 +11,7 @@ export default function Button({
     type: 'warning' | 'primary' | 'success' | 'disable' | 'default',
     styling: 'outline' | 'solid',
     label: string,
-    action: (e: MouseEvent<HTMLButtonElement>) => void,
+    action: (e: MouseEvent<HTMLButtonElement>) => void | Promise<void>,
     adornment?: ReactNode,
     value?: string,
 }) {

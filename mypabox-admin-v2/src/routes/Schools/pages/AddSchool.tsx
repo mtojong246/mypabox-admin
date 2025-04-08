@@ -1,18 +1,20 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import AddSchoolForms from "../formSections/AddSchoolForms";
 import { GenericSchoolField, NewSchool } from "../../../types/newSchools.types";
 import { defaultSchool, schoolCategories } from "../../../utils/defaults";
 import Button from "../../../components/Buttons/Button";
 import { ReactComponent as AlertIcon } from '../../../components/Icons/Info.svg';
-import { getAllCategories, getAllCourses } from "../../../utils/firebase/firebase.utils";
+import { addUpdatedSchoolDoc, getAllCategories, getAllCourses, updateUpdatedSchoolDoc } from "../../../utils/firebase/firebase.utils";
 import { Course } from "../../../types/courses.types";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourses } from "../../../app/slices/courses";
 import { CategoryType } from "../../../types/categories.types";
 import { setCategories } from "../../../app/slices/categories";
-import { selectIsEditSchool, selectSelectedSchool } from "../../../app/selectors/selectedSchool.selectors";
+import { selectSelectedSchool } from "../../../app/selectors/selectedSchool.selectors";
 import { setIsEditSchool, setSelectedSchool } from "../../../app/slices/selectedSchool";
+import { selectNewSchools } from "../../../app/selectors/newSchools.selector";
+import { addNewSchool, updateNewSchool } from "../../../app/slices/newSchools";
 
 export default function AddSchool() {
     const navigate = useNavigate();
@@ -20,7 +22,7 @@ export default function AddSchool() {
     const [ school, setSchool ] = useState<NewSchool>(defaultSchool);
     const dispatch = useDispatch();
     const selectedSchool = useSelector(selectSelectedSchool);
-    const isEditSchool = useSelector(selectIsEditSchool);
+    const newSchools = useSelector(selectNewSchools);
 
     useEffect(() => {
       if (selectedSchool) {
@@ -117,6 +119,42 @@ export default function AddSchool() {
       return hasChanges;
     }
 
+    const updateSchool = async (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      const existingSchool = newSchools.find(s => s.id === school.id);
+
+      if (!existingSchool) {
+        try {
+          const addedSchool = await addUpdatedSchoolDoc(school);
+          dispatch(addNewSchool(addedSchool));
+          dispatch(setSelectedSchool(addedSchool));
+        } catch (err:any) {
+          console.log(err);
+        }
+      } else {
+        try {
+          await updateUpdatedSchoolDoc(school, school.id);
+          dispatch(updateNewSchool(school));
+          dispatch(setSelectedSchool(school));
+        } catch (err:any) {
+          console.log(err);
+        }
+      }
+    }
+
+    const updateAction = async (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      const value = e.currentTarget.value;
+
+      await updateSchool(e);
+
+      if (value === 'done') {
+        navigate('/schools');
+        dispatch(setSelectedSchool(null));
+        dispatch(setIsEditSchool(false));
+      } 
+    }
+
     const cancelAction = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       navigate('/schools');
@@ -151,14 +189,14 @@ export default function AddSchool() {
                       type="success"
                       label="Save"
                       styling='outline'
-                      action={() => {}}
+                      action={updateAction}
                       value='save'
                     />
                     <Button
                       type="primary"
                       label="Finish"
                       styling='outline'
-                      action={() => {}}
+                      action={updateAction}
                       value='done'
                     />
                     <Button

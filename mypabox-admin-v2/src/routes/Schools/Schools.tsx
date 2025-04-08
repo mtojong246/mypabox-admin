@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSchools } from '../../app/selectors/schools.selectors';
-import {  getSchoolsAndDocuments, getAllCourses, getAllCategories, addDocToSchoolCollection, getAllUsers, updateSchoolDoc } from '../../utils/firebase/firebase.utils';
+import {  getSchoolsAndDocuments, getAllCourses, getAllCategories, addDocToSchoolCollection, getAllUsers, updateSchoolDoc, getUpdatedSchoolsAndDocuments } from '../../utils/firebase/firebase.utils';
 import { setIsEdit, setSchools } from '../../app/slices/schools';
 import { setUsers } from '../../app/slices/users';
 import { AppDispatch } from '../../app/store';
@@ -23,17 +23,21 @@ import { editSchoolData } from '../../app/slices/schools';
 import { mockUser } from '../../data/defaultValues';
 import { setIsEditSchool, setSelectedSchool } from '../../app/slices/selectedSchool';
 import { defaultSchool } from '../../utils/defaults';
+import { NewSchool } from '../../types/newSchools.types';
+import { selectNewSchools } from '../../app/selectors/newSchools.selector';
+import { setNewSchools } from '../../app/slices/newSchools';
 
 
 const Schools = () => {
   const login = useSelector(selectLogin);
   const users = useSelector(selectUsers);
   const schools = useSelector(selectSchools);
+  const newSchools = useSelector(selectNewSchools);
   const dispatch: AppDispatch = useDispatch()
   const { stateSearch, schoolName, setStateSearch, setToggleSideMenu } = useContext(SchoolContext)
   const navigate = useNavigate();
   const [ deletePopup, setDeletePopup ] = useState(false);
-  const [ name, setName ] = useState('');
+  const [ schoolToDelete, setSchoolToDelete ] = useState<{ name: string, id: string } | null>(null);
   const [ canEdit, setCanEdit ] = useState(false);
   const [ loggedInUser, setLoggedInUser ] = useState<UserObject>({
     id: '',
@@ -52,9 +56,16 @@ const Schools = () => {
     archivedTasks: [],
   })
 
-  const toggleDelete = (e:any) => {
+  const toggleDelete = (e:React.MouseEvent<HTMLButtonElement>, deleteInfo?: { name: string, id: string }) => {
     e.preventDefault();
     setDeletePopup(!deletePopup)
+
+    if (deleteInfo !== undefined) {
+      const { name, id } = deleteInfo;
+      setSchoolToDelete({ name, id });
+    } else {
+      setSchoolToDelete(null);
+    }
   };
 
   useEffect(() => {
@@ -142,6 +153,42 @@ const Schools = () => {
     }
 
     fetchSchools();
+
+  }, [dispatch, navigate, setStateSearch]);
+
+  useEffect(() => {
+    
+    const fetchNewSchools = async () => {
+      try {
+        // fetches schools from firebase db and dispatches school action, which updates the schools array 
+        // that's stored in the school reducer
+        const allSchools = await getUpdatedSchoolsAndDocuments();
+        if (allSchools) {
+          // Sorts schools by name alphabetically
+          (allSchools as NewSchool[]).sort(function (a, b) {
+            if (a.school_name.original.input < b.school_name.original.input) {
+                return -1;
+            }
+            if (a.school_name.original.input > b.school_name.original.input) {
+                return 1;
+            }
+            return 0;
+        })
+          dispatch(setNewSchools(allSchools));
+        }
+      } catch (error: any) {
+        // throws error and navigates to main page if user is not authenticated 
+        if (error.message === 'permission-denied') {
+          alert("Access denied. Please log in using the appropriate credentials");
+          navigate('/');
+          return;
+        } else {
+          alert('Error loading school data')
+        }
+      }
+    }
+
+    fetchNewSchools();
 
   }, [dispatch, navigate, setStateSearch]);
 
@@ -242,24 +289,33 @@ const Schools = () => {
     setToggleSideMenu(false)
   }, [])
   
+  // const addSchoolButton = () => {
+  //   dispatch(setIsEdit(false));
+  //   navigate('/schools/add-school#general-info');
+  // };
 
   const addSchoolButton = () => {
-    dispatch(setIsEdit(false));
     dispatch(setIsEditSchool(false));
-    dispatch(setSelectedSchool(defaultSchool));
+    dispatch(setSelectedSchool(defaultSchool))
     navigate('/schools/add-school#general-info');
   };
 
-  const editSchool = (school: School) => {
-    dispatch(setIsEdit(true));
-    localStorage.setItem('newSchool', JSON.stringify(school));
+  // const editSchool = (school: School) => {
+  //   dispatch(setIsEdit(true));
+  //   localStorage.setItem('newSchool', JSON.stringify(school));
+  //   navigate('/schools/add-school#general-info');
+  // };
+
+  const editSchool = (school: NewSchool) => {
+    dispatch(setIsEditSchool(true));
+    dispatch(setSelectedSchool(school));
     navigate('/schools/add-school#general-info');
   };
 
-  const deleteSchool = (e:any, schoolName: string) => {
-    setName(schoolName);
-    toggleDelete(e)
-  };
+  // const deleteSchool = (e:any, schoolName: string) => {
+  //   setName(schoolName);
+  //   toggleDelete(e)
+  // };
 
   const changeLiveStatus = async (e: MouseEvent<HTMLButtonElement>, id: string) => {
     e.preventDefault();
@@ -317,7 +373,7 @@ const Schools = () => {
             </tr>
           </thead>
           <tbody>
-          {
+          {/* {
             schools && schools.filter(school => school.school_name.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
               item : stateSearch.includes(item.school_state.input)).map((d, i) => (
                 <tr className="border-b-[0.125px] border-gray-400">
@@ -332,6 +388,22 @@ const Schools = () => {
                 </tr>
               )
             )
+          } */}
+          {
+            newSchools && newSchools.filter(school => school.school_name.original.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
+              item : stateSearch.includes(item.school_state.original.input)).map((d, i) => (
+                <tr className="border-b-[0.125px] border-gray-400">
+                  <td className='text-xl text-left p-[10px]'>{d.school_name.original.input}</td>
+                  <td className='text-xl text-left p-[10px]'>{d.school_city.original.input}</td>
+                  <td className='text-xl text-left p-[10px]'>{d.school_state.original.input}</td>
+                  <td className='flex justify-end items-center p-[10px]'>
+                    {canEdit && <button onClick={() => editSchool(d)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
+                    {loggedInUser.permissions.canAddOrDelete && <button onClick={(e:any) => toggleDelete(e, { name: d.school_name.original.input, id: d.id })} className='ml-2'><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>}
+                    <button onClick={(e:MouseEvent<HTMLButtonElement>) => changeLiveStatus(e, d.id)}><HiOutlineSignal className={`h-7 w-7 ml-2 ${d.isLive ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`}/></button>
+                  </td>
+                </tr>
+              )
+            )
           }
           </tbody>
         </table>
@@ -340,7 +412,7 @@ const Schools = () => {
       </div>
       {/* If openForm is true, the add school form will be shown, if not it will stay hidden */}
     </div>
-    {deletePopup && <DeleteSchoolPopup toggleDelete={toggleDelete} name={name}/>}
+    {deletePopup && schoolToDelete && <DeleteSchoolPopup toggleDelete={toggleDelete} schoolToDelete={schoolToDelete}/>}
     </>
   )
 }

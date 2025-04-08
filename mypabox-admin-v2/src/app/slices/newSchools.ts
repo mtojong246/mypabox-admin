@@ -19,7 +19,7 @@ const newSchoolSlice = createSlice({
         addNewSchool: (state, action) => {
             state.newSchools.push(action.payload)
         },
-        editNewSchool: (state, action) => {
+        updateNewSchool: (state, action) => {
             state.newSchools = state.newSchools.map(school => {
                 if (school.id === action.payload.id) {
                     return { ...action.payload }
@@ -34,6 +34,6 @@ const newSchoolSlice = createSlice({
     }
 })
 
-export const { setNewSchools, addNewSchool, editNewSchool, deleteNewSchool } = newSchoolSlice.actions;
+export const { setNewSchools, addNewSchool, updateNewSchool, deleteNewSchool } = newSchoolSlice.actions;
 
 export const newSchoolReducer = newSchoolSlice.reducer;
