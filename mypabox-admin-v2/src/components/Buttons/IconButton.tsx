@@ -24,7 +24,7 @@ export default function IconButton({
         ) : (  
         <button 
             onClick={action}
-            className={`${color === 'primary' ? 'text-primary bg-primary/[0.1]' : 'text-warning bg-warning/[0.1]'} hover:brightness-90 transition-all w-[28px] aspect-square rounded flex justify-center items-center`}
+            className={`${color === 'primary' ? 'text-primary bg-primary/[0.1]' : 'text-warning bg-warning/[0.1]'} hover:brightness-75 transition-all w-[28px] aspect-square rounded flex justify-center items-center`}
         >   
             <div className="w-[16px]">{icon}</div>
         </button>

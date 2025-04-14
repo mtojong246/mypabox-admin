@@ -1,19 +1,17 @@
 import { useEffect, useContext, useState, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSchools } from '../../app/selectors/schools.selectors';
-import {  getSchoolsAndDocuments, getAllCourses, getAllCategories, addDocToSchoolCollection, getAllUsers, updateSchoolDoc, getUpdatedSchoolsAndDocuments } from '../../utils/firebase/firebase.utils';
-import { setIsEdit, setSchools } from '../../app/slices/schools';
+import {  getSchoolsAndDocuments, getAllCourses, getAllCategories, addDocToSchoolCollection, getAllUsers, getUpdatedSchoolsAndDocuments } from '../../utils/firebase/firebase.utils';
+import { setSchools } from '../../app/slices/schools';
 import { setUsers } from '../../app/slices/users';
 import { AppDispatch } from '../../app/store';
 import { SchoolContext } from '../../useContext';
 import { useNavigate } from 'react-router-dom';
-import { School, SchoolPrereqRecommendedCourse } from '../../types/schools.types';
+import { School } from '../../types/schools.types';
 import { Course } from '../../types/courses.types';
 import { CategoryType } from '../../types/categories.types';
 import { setCourses } from '../../app/slices/courses';
 import { setCategories } from '../../app/slices/categories';
-import { FiEdit3 } from 'react-icons/fi'
-import { AiOutlineClose } from 'react-icons/ai'
 import DeleteSchoolPopup from './DeleteSchoolPopup';
 import { selectLogin } from '../../app/selectors/login.selector';
 import { selectUsers } from '../../app/selectors/users.selectors';
@@ -26,6 +24,9 @@ import { defaultSchool } from '../../utils/defaults';
 import { NewSchool } from '../../types/newSchools.types';
 import { selectNewSchools } from '../../app/selectors/newSchools.selector';
 import { setNewSchools } from '../../app/slices/newSchools';
+import { ReactComponent as EditIcon } from '../../components/Icons/Edit-With-Line.svg';
+import { ReactComponent as DeleteIcon } from '../../components/Icons/Trash.svg';
+import IconButton from '../../components/Buttons/IconButton';
 
 
 const Schools = () => {
@@ -287,6 +288,7 @@ const Schools = () => {
   useEffect(() => {
     localStorage.removeItem('newSchool');
     setToggleSideMenu(false)
+    //eslint-disable-next-line
   }, [])
   
   // const addSchoolButton = () => {
@@ -366,6 +368,7 @@ const Schools = () => {
         <table className='w-full relative'>
           <thead className='bg-[#eeeef2] mt-8 sticky top-[256px] z-20'>
             <tr>
+              <th scope="col" className='font-semibold text-xl text-left p-[10px]'>Logo</th>
               <th scope="col" className='font-semibold text-xl text-left p-[10px]'>Name</th>
               <th scope="col" className='font-semibold text-xl text-left p-[10px]'>City</th>
               <th scope="col" className='font-semibold text-xl text-left p-[10px]'>State</th>
@@ -393,13 +396,36 @@ const Schools = () => {
             newSchools && newSchools.filter(school => school.school_name.original.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
               item : stateSearch.includes(item.school_state.original.input)).map((d, i) => (
                 <tr className="border-b-[0.125px] border-gray-400">
+                  <td className='p-[10px]'>
+                    <div className='w-[80px] border border-outline'>
+                      {d.school_logo.original.input && (
+                        <img src={d.school_logo.original.input} alt='school-logo' className='w-full object-cover'/>
+                      )}
+                    </div>
+                  </td>
                   <td className='text-xl text-left p-[10px]'>{d.school_name.original.input}</td>
                   <td className='text-xl text-left p-[10px]'>{d.school_city.original.input}</td>
                   <td className='text-xl text-left p-[10px]'>{d.school_state.original.input}</td>
-                  <td className='flex justify-end items-center p-[10px]'>
-                    {canEdit && <button onClick={() => editSchool(d)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
-                    {loggedInUser.permissions.canAddOrDelete && <button onClick={(e:any) => toggleDelete(e, { name: d.school_name.original.input, id: d.id })} className='ml-2'><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>}
+                  <td className='p-[10px]'>
+                    <div className='flex justify-end items-center gap-2'> 
+                    {canEdit && (
+                      <IconButton 
+                          action={(e: any) => editSchool(d)}
+                          icon={<EditIcon/>}
+                          color="primary"
+                          isDisabled={false}
+                      />
+                    )}
+                    {loggedInUser.permissions.canAddOrDelete && (
+                      <IconButton 
+                          action={(e: any) => toggleDelete(e, { name: d.school_name.original.input, id: d.id })}
+                          icon={<DeleteIcon/>}
+                          color="warning"
+                          isDisabled={false}
+                      />
+                    )}
                     <button onClick={(e:MouseEvent<HTMLButtonElement>) => changeLiveStatus(e, d.id)}><HiOutlineSignal className={`h-7 w-7 ml-2 ${d.isLive ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`}/></button>
+                    </div>
                   </td>
                 </tr>
               )
