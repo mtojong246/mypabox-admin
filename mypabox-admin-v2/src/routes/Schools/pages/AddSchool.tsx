@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, MouseEvent } from "react";
+import { useEffect, useState, MouseEvent, ChangeEvent } from "react";
 import AddSchoolForms from "../formSections/AddSchoolForms";
 import { GenericSchoolField, NewSchool } from "../../../types/newSchools.types";
 import { defaultSchool, schoolCategories } from "../../../utils/defaults";
@@ -18,10 +18,19 @@ import { setIsEditSchool, setSelectedSchool } from "../../../app/slices/selected
 import { selectNewSchools } from "../../../app/selectors/newSchools.selector";
 import { addNewSchool, updateNewSchool } from "../../../app/slices/newSchools";
 
+const permissions = {
+  canEditWithVerificationNeeded: true,
+  canEditWithoutVerificationNeeded: false,
+  canVerify: false,
+  canMakeLive: false,
+  canAddOrDelete: false,
+};
+
 export default function AddSchool() {
     const navigate = useNavigate();
     const [ tab, setTab ] = useState('#general-info');
     const [ school, setSchool ] = useState<NewSchool>(defaultSchool);
+    const [ showChangesOnly, setShowChangesOnly ] = useState(false);
     const dispatch = useDispatch();
     const selectedSchool = useSelector(selectSelectedSchool);
     const newSchools = useSelector(selectNewSchools);
@@ -165,7 +174,9 @@ export default function AddSchool() {
       dispatch(setIsEditSchool(false));
     }
 
-
+    const handleShowChanges = (e: ChangeEvent<HTMLInputElement>) => {
+      setShowChangesOnly(e.target.checked);
+    }
 
 
     return (
@@ -229,7 +240,7 @@ export default function AddSchool() {
                 <div className='flex flex-col justify-start items-start gap-5'>
                 {schoolCategories.map(category => (
                   <button 
-                    onClick={(e:any) => {navigateTabs(category.hash)}} 
+                    onClick={(e:any) => {navigateTabs(category.hash); updateAction(e)}} 
                     className={`whitespace-nowrap hover:text-warning transition-all ${category.hash === tab ? 'text-warning': ''}`}
                   >
                     <div className='flex justify-start items-center gap-1'>
@@ -247,9 +258,17 @@ export default function AddSchool() {
                     tab={tab}
                     school={school}
                     setSchool={setSchool}
+                    showChangesOnly={showChangesOnly}
                 />
               {/* <Category tab={tab} newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}
               handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} /> */}
+            </div>
+
+            <div className={`flex justify-start items-start sticky top-0 py-4 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
+              <label className={`py-3 px-4 flex justify-end items-center gap-3 text-[14px] border border-outline hover:border-primary rounded hover:cursor-pointer hover:bg-primary/[0.1] hover:text-primary transition-all`}>
+                <input onChange={handleShowChanges} checked={showChangesOnly} type="checkbox" />
+                Show modified fields only
+              </label>
             </div>
           </div>
     

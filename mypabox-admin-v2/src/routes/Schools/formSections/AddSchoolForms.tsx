@@ -25,10 +25,12 @@ export default function AddSchoolForms({
     tab,
     school,
     setSchool,
+    showChangesOnly,
 }: {
     tab: string,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
+    showChangesOnly: boolean,
 }) {
     const isEditSchool = useSelector(selectIsEditSchool);
 
@@ -40,6 +42,7 @@ export default function AddSchoolForms({
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                     />
                 ) : tab === '#degree-info' ? (
                     <DegreeInformation
