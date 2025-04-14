@@ -5,13 +5,15 @@ import { GenericSchoolField, NewSchool } from "../../../types/newSchools.types";
 import { defaultSchool, schoolCategories } from "../../../utils/defaults";
 import Button from "../../../components/Buttons/Button";
 import { ReactComponent as AlertIcon } from '../../../components/Icons/Info.svg';
+import { ReactComponent as ExternalLinkIcon } from '../../../components/Icons/External-Link.svg';
+
 import { addUpdatedSchoolDoc, getAllCategories, getAllCourses, updateUpdatedSchoolDoc } from "../../../utils/firebase/firebase.utils";
 import { Course } from "../../../types/courses.types";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourses } from "../../../app/slices/courses";
 import { CategoryType } from "../../../types/categories.types";
 import { setCategories } from "../../../app/slices/categories";
-import { selectSelectedSchool } from "../../../app/selectors/selectedSchool.selectors";
+import { selectIsEditSchool, selectSelectedSchool } from "../../../app/selectors/selectedSchool.selectors";
 import { setIsEditSchool, setSelectedSchool } from "../../../app/slices/selectedSchool";
 import { selectNewSchools } from "../../../app/selectors/newSchools.selector";
 import { addNewSchool, updateNewSchool } from "../../../app/slices/newSchools";
@@ -23,6 +25,7 @@ export default function AddSchool() {
     const dispatch = useDispatch();
     const selectedSchool = useSelector(selectSelectedSchool);
     const newSchools = useSelector(selectNewSchools);
+    const isEditSchool = useSelector(selectIsEditSchool);
 
     useEffect(() => {
       if (selectedSchool) {
@@ -172,9 +175,20 @@ export default function AddSchool() {
             {/* Header */}
             <div className={`w-full flex justify-between items-center pt-[120px] sticky bg-white z-50 top-0 border-b border-[#DCDCDC] ${window.scrollY === 180 ? '' : 'pb-2'}`}>
               <div className={`${window.scrollY === 180 ? '' : '-mt-28'}`}>
-                <div className="flex justify-start items-start gap-2">
-                        <div>
-                            <p className={`text-4xl font-medium`}>Add School</p>
+                <div className="flex justify-start items-center gap-4">
+                        {school && school.school_logo.original.input && (
+                          <div className="h-[80px] aspect-square">
+                            <img src={school.school_logo.original.input} alt='school-logo' className="object-cover w-full"/>
+                          </div>
+                        )}
+                        <div className="flex flex-col justify-center items-start gap-1">
+                            <p className={`text-3xl font-medium`}>{isEditSchool ? 'Edit' : 'Add'} {school && school.school_name.original.input ? school.school_name.original.input : 'School'}</p>
+                            {school && school.school_website.original.input && (
+                              <a href={school.school_website.original.input} target="_blank" rel="noreferrer" className="flex justify-start items-center gap-1 text-primary hover:underline transition-all">
+                                <p>Visit website</p>
+                                <div className="w-[16px]"><ExternalLinkIcon /></div>
+                              </a>
+                            )}
                             {/* {assignee && <p className='text-xl font-medium mt-1'>Assigned to: <span className='text-orange-600'>{assignee}</span></p>} */}
                         </div>
                         {/* <div className="flex flex-col justify-start items-start gap-1">
