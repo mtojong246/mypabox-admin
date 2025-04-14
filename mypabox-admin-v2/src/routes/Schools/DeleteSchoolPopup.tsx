@@ -2,14 +2,14 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSchools } from '../../app/selectors/schools.selectors';
 import { deleteSchoolDoc, deleteUpdatedSchoolDoc } from '../../utils/firebase/firebase.utils';
-import { setSchools } from '../../app/slices/schools';
+// import { setSchools } from '../../app/slices/schools';
 import { CircularProgress } from '@mui/material';
 import { useState } from 'react';
 import { selectNewSchools } from '../../app/selectors/newSchools.selector';
 import { deleteNewSchool } from '../../app/slices/newSchools';
 
 export default function DeleteSchoolPopup({toggleDelete, schoolToDelete}: {toggleDelete: (e:any) => void, schoolToDelete: { name: string, id: string }}) {
-    const schools = useSelector(selectSchools);
+    // const schools = useSelector(selectSchools);
     const newSchools = useSelector(selectNewSchools);
     const dispatch = useDispatch();
     const [ isLoading, setIsLoading ] = useState(false);

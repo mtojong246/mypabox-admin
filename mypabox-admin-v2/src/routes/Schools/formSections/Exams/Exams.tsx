@@ -17,7 +17,7 @@ import ExamInputs from "./inputs/ExamInputs";
 const permissions = {
     canEditWithVerificationNeeded: true,
     canEditWithoutVerificationNeeded: false,
-    canVerify: false,
+    canVerify: true,
     canMakeLive: false,
     canAddOrDelete: false,
 };

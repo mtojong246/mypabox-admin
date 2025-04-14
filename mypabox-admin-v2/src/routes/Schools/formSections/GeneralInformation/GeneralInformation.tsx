@@ -9,8 +9,8 @@ import GeneralInformationInputs from "./GeneralInformationInputs";
 
 
 const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
+    canEditWithVerificationNeeded: false,
+    canEditWithoutVerificationNeeded: true,
     canVerify: false,
     canMakeLive: false,
     canAddOrDelete: false,

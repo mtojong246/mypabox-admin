@@ -16,6 +16,8 @@ import Experience from "./Experience/Experience"
 import Applications from "./Applications/Applications"
 import Exams from "./Exams/Exams"
 import Prerequisites from "./Prerequisites/Prerequisites"
+import { useSelector } from "react-redux"
+import { selectIsEditSchool } from "../../../app/selectors/selectedSchool.selectors"
 
 
 
@@ -28,6 +30,7 @@ export default function AddSchoolForms({
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
 }) {
+    const isEditSchool = useSelector(selectIsEditSchool);
 
     return (
         <form className={`flex flex-col gap-10 p-8 justify-start items-start`}>
@@ -36,97 +39,97 @@ export default function AddSchoolForms({
                     <GeneralInformation 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                     />
                 ) : tab === '#degree-info' ? (
                     <DegreeInformation
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                     />
                 ) : tab === '#accreditation-status' ? (
                    <AccreditationStatus 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#mission-statement' ? (
                     <MissionStatement 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#tuition' ? (
                     <Tuition 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#pance-pass-rate' ? (
                     <PANCEPassRate 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#GPA' ? (
                     <GPA 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#prerequisites' ? (
                     <Prerequisites 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#experience' ? (
                     <Experience 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#pa-shadowing' ? (
                     <PAShadowing 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#exams' ? (
                     <Exams 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#evaluations' ? (
                     <Evaluations 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#international-students' ? (
                     <InternationalStudents 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#certifications' ? (
                     <Certifications 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#applications' ? (
                     <Applications 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : tab === '#preference' ? (
                     <Preference 
                         school={school}
                         setSchool={setSchool}
-                        isEditSchool={false}
+                        isEditSchool={isEditSchool}
                    />
                 ) : (
                     <></>

@@ -98,6 +98,7 @@ export default function GeneralInformationInputs({
         }
     }, [school, tab]);
 
+
     const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
         const name = e.target.name;
         let value = e.target.value;
@@ -165,6 +166,9 @@ export default function GeneralInformationInputs({
         
         handleChanges(field, name, originalField, draftField, path, 'modified', originalValue, value);
 
+        if (name === 'school_country') {
+            setStateNames(countries.filter(country => country.name === school.school_country.original.input)[0].states.map(state => ({ value: state.name, label: state.name })));
+        }
     };
 
     const handleAddEmailOrPhone = (e:any, name: string, path: string) => {
@@ -213,24 +217,32 @@ export default function GeneralInformationInputs({
     }
 
 
+
     return (
         <div className="flex flex-col gap-8 justify-start items-start">
             {field.type === 'text' ? (
-                <TextInput 
-                    label={field.label}
-                    placeholder={field.label}
-                    name={field.name}
-                    value={value}
-                    path={field.path}
-                    handleInput={handleInput}
-                    isRequired={false}
-                    type="text"
-                    link={field.name === 'school_website' ? value : undefined}
-                    change={schoolField.changes.find(change => change.path === field.path)}
-                    validateIndividualChange={validateIndividualChange}
-                    revertIndividualChange={revertIndividualChange}
-                    isDisabled={isDisabled}
-                />
+                <div className="w-full flex justify-start items-start gap-4">
+                    <TextInput 
+                        label={field.label}
+                        placeholder={field.label}
+                        name={field.name}
+                        value={value}
+                        path={field.path}
+                        handleInput={handleInput}
+                        isRequired={false}
+                        type="text"
+                        link={field.name === 'school_website' ? value : undefined}
+                        change={schoolField.changes.find(change => change.path === field.path)}
+                        validateIndividualChange={validateIndividualChange}
+                        revertIndividualChange={revertIndividualChange}
+                        isDisabled={isDisabled}
+                    />
+                    {field.name === 'school_logo' && value && (
+                        <div className="h-[80px] aspect-square border border-outline rounded">
+                            <img src={value} alt='school-logo' className="object-cover w-full"/>
+                        </div>
+                    )}
+                </div>
             ) : field.type === 'boolean' ? (
                 <BooleanInput 
                     label={field.label}
