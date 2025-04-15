@@ -202,10 +202,6 @@ export default function AddSchool() {
                             )}
                             {/* {assignee && <p className='text-xl font-medium mt-1'>Assigned to: <span className='text-orange-600'>{assignee}</span></p>} */}
                         </div>
-                        {/* <div className="flex flex-col justify-start items-start gap-1">
-                        {newSchool.school_name.input && <p className="text-4xl font-medium">- {newSchool.school_name.input}</p>}
-                        {newSchool.school_website.input && <a className="text-blue-600 pl-6 hover:underline max-w-[700px] truncate" href={newSchool.school_website.input} target="_blank" rel="noreferrer">{newSchool.school_website.input}</a>}
-                        </div> */}
                 </div>
               </div>
 
@@ -264,12 +260,14 @@ export default function AddSchool() {
               handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} /> */}
             </div>
 
-            <div className={`flex justify-start items-start sticky top-0 py-4 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
-              <label className={`py-3 px-4 flex justify-end items-center gap-3 text-[14px] border border-outline hover:border-primary rounded hover:cursor-pointer hover:bg-primary/[0.1] hover:text-primary transition-all`}>
-                <input onChange={handleShowChanges} checked={showChangesOnly} type="checkbox" />
-                Show modified fields only
-              </label>
-            </div>
+            {permissions.canVerify && (
+              <div className={`flex justify-start items-start sticky top-0 py-4 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>
+                <label className={`py-3 px-4 flex justify-end items-center gap-3 text-[14px] border border-outline hover:border-primary rounded hover:cursor-pointer hover:bg-primary/[0.1] hover:text-primary transition-all`}>
+                  <input onChange={handleShowChanges} checked={showChangesOnly} type="checkbox" />
+                  Show modified fields only
+                </label>
+              </div>
+            )}
           </div>
     
         </div>

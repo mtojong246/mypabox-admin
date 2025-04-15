@@ -92,22 +92,24 @@ export default function ChangePopup({
                 <p>{new Date(change.timestamp).toLocaleDateString()}</p>
             </div>
 
-            {revertIndividualChange && validateIndividualChange && (
-              <div className="flex w-full justify-between items-center gap-4">
-                <Button 
-                    type="warning"
-                    styling="outline"
-                    label="Reject"
-                    action={(e: MouseEvent<HTMLButtonElement>) => {revertIndividualChange(e, name, change); handleClose()}}
-                />
-                <Button 
-                    type="success"
-                    styling="outline"
-                    label="Accept"
-                    action={(e: MouseEvent<HTMLButtonElement>) => {validateIndividualChange(e, name, change); handleClose()}}
-                />
+              <div className="flex w-full justify-end items-center gap-4">
+                {revertIndividualChange && (
+                  <Button 
+                      type="warning"
+                      styling="outline"
+                      label="Reject"
+                      action={(e: MouseEvent<HTMLButtonElement>) => {revertIndividualChange(e, name, change); handleClose()}}
+                  />
+                )}
+                {validateIndividualChange && (
+                  <Button 
+                      type="success"
+                      styling="outline"
+                      label="Accept"
+                      action={(e: MouseEvent<HTMLButtonElement>) => {validateIndividualChange(e, name, change); handleClose()}}
+                  />
+                )}
             </div>
-            )}
         </div>
       </Popover>
     </div>
