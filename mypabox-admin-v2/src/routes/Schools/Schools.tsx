@@ -1334,6 +1334,53 @@ const Schools = () => {
               },
               notes: school.school_prereq_required_notes.notes,
           },
+          draft: {
+            input: {
+                school_prereq_required_courses: {
+                    input: school.school_prereq_required_courses.courses.map(course => ({
+                      school_required_course_id: course.school_required_course_id,
+                      school_required_course_lab: course.school_required_course_lab,
+                      school_required_course_credit_hours: course.school_required_course_credit_hours,
+                      school_required_course_lab_preferred: course.school_required_course_lab_preferred,
+                      school_required_course_note_section: course.school_required_course_note_section,
+                      school_required_course_quarter_hours: course.school_required_course_quarter_hours,
+                    })),
+                    notes: school.school_prereq_required_courses.notes,
+                },
+                school_prereq_required_optional_courses: {
+                    input: school.school_prereq_required_optional_courses.map(course => ({
+                        school_minimum_number_of_courses_to_be_completed: course.school_minimum_number_of_courses_to_be_completed,
+                        school_required_optional_courses_list: course.school_required_optional_courses_list.map(list => ({
+                            school_optional_course_id: list.school_optional_course_id,
+                            school_optional_course_lab: list.school_optional_course_lab,
+                            school_optional_course_lab_preferred: list.school_optional_course_lab_preferred,
+                            school_optional_course_credit_hours: list.school_optional_course_credit_hours,
+                            school_optional_course_quarter_hours: list.school_optional_course_quarter_hours,
+                            school_optional_course_note_section: list.school_optional_course_note_section,
+                        })),
+                        notes: course.school_optional_course_note_section,
+                    })),
+                },
+                school_prereq_required_course_categories: {
+                    input: school.school_prereq_required_course_categories.map(cat => ({
+                      school_required_course_category: cat.school_required_course_category,
+                      school_required_course_category_number_of_courses_that_need_lab: cat.school_required_course_category_number_of_courses_that_need_lab,
+                      school_required_course_category_number_of_credits_need_to_be_completed: cat.school_required_course_category_number_of_credits_need_to_be_completed,
+                      school_required_course_category_number_of_quarter_hours_need_to_be_completed: cat.school_required_course_category_number_of_quarter_hours_need_to_be_completed,
+                      school_required_course_category_extra_included_courses: cat.school_required_course_category_extra_included_courses.map(c => ({
+                        school_required_course_id: c.school_required_course_id,
+                        school_required_course_note: c.school_required_course_note,
+                      })),
+                      school_required_course_category_excluded_courses: cat.school_required_course_category_excluded_courses.map(c => ({
+                        school_required_course_id: c.school_required_course_id,
+                        school_required_course_note: c.school_required_course_note,
+                      })),
+                      notes: cat.school_required_course_category_note_section,
+                    })),
+                },
+            },
+            notes: school.school_prereq_required_notes.notes,
+        },
           },
           school_prereq_recommended_courses: {
             ...defaultSchool.school_prereq_recommended_courses,
@@ -1348,7 +1395,537 @@ const Schools = () => {
               })),  
               notes: school.school_prereq_recommended_courses.notes,
           },
+          draft: {
+            input: school.school_prereq_recommended_courses.courses.map(course => ({
+              school_recommended_course_id: course.school_recommended_course_id,
+              school_recommended_course_lab: course.school_recommended_course_lab,
+              school_recommended_course_credit_hours: course.school_recommended_course_credit_hours,
+              school_recommended_course_lab_preferred: course.school_recommended_course_lab_preferred,
+              school_recommended_course_note_section: course.school_recommended_course_note_section,
+              school_recommended_course_quarter_hours: course.school_recommended_course_quarter_hours,
+            })),  
+            notes: school.school_prereq_recommended_courses.notes,
+        },
           },
+          school_grade_criteria: {
+            ...defaultSchool.school_grade_criteria,
+            original: {
+              input: {
+                  school_minimum_grade_required_for_all_courses: school.school_grade_criteria.school_minimum_grade_required_for_all_courses,
+              },
+              notes: school.school_grade_criteria.school_grade_criteria_note_section,
+            },
+            draft: {
+              input: {
+                  school_minimum_grade_required_for_all_courses: school.school_grade_criteria.school_minimum_grade_required_for_all_courses,
+              },
+              notes: school.school_grade_criteria.school_grade_criteria_note_section,
+            },
+          },
+          school_time_frame_criteria: {
+            ...defaultSchool.school_time_frame_criteria,
+            original: {
+              input: {
+                  school_time_frame_all_courses_must_be_completed: {
+                      input: {
+                          quantity: Number(school.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.input.split(' ')[0]),
+                          units: school.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.input.split(' ')[1],
+                      },
+                      notes: school.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes,
+                  },
+                  school_time_frame_science_courses_must_be_completed: {
+                      input: {
+                          quantity: Number(school.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.input.split(' ')[0]),
+                          units: school.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.input.split(' ')[1],
+                      },
+                      notes: school.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes,
+                  },
+                  school_time_frame_math_courses_must_be_completed: {
+                      input: {
+                          quantity: Number(school.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.input.split(' ')[0]),
+                          units: school.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.input.split(' ')[1],
+                      },
+                      notes: school.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes,
+                  },
+              },
+              notes: school.school_time_frame_criteria.school_time_frame_criteria_note_section,
+          },
+          draft: {
+            input: {
+                school_time_frame_all_courses_must_be_completed: {
+                    input: {
+                        quantity: Number(school.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.input.split(' ')[0]),
+                        units: school.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.input.split(' ')[1],
+                    },
+                    notes: school.school_time_frame_criteria.school_time_frame_all_courses_must_be_completed.notes,
+                },
+                school_time_frame_science_courses_must_be_completed: {
+                    input: {
+                        quantity: Number(school.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.input.split(' ')[0]),
+                        units: school.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.input.split(' ')[1],
+                    },
+                    notes: school.school_time_frame_criteria.school_time_frame_science_courses_must_be_completed.notes,
+                },
+                school_time_frame_math_courses_must_be_completed: {
+                    input: {
+                        quantity: Number(school.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.input.split(' ')[0]),
+                        units: school.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.input.split(' ')[1],
+                    },
+                    notes: school.school_time_frame_criteria.school_time_frame_math_courses_must_be_completed.notes,
+                },
+            },
+            notes: school.school_time_frame_criteria.school_time_frame_criteria_note_section,
+        },
+          },
+          school_pass_fail_criteria: {
+            ...defaultSchool.school_pass_fail_criteria,
+            original: {
+              input: {
+                  school_pass_fail_grade_accepted: school.school_pass_fail_criteria.school_pass_fail_grade_accepted,
+              },
+              notes: school.school_pass_fail_criteria.school_pass_fail_grade_criteria_note_section,
+          },
+          draft: {
+            input: {
+                school_pass_fail_grade_accepted: school.school_pass_fail_criteria.school_pass_fail_grade_accepted,
+            },
+            notes: school.school_pass_fail_criteria.school_pass_fail_grade_criteria_note_section,
+        },
+          },
+          school_ap_criteria: {
+            ...defaultSchool.school_ap_criteria,
+            original: {
+              input: {
+                school_ap_courses_accepted: school.school_ap_criteria.school_ap_courses_accepted,
+              },
+              notes: school.school_ap_criteria.school_ap_courses_criteria_note_section,
+          },
+          draft: {
+              input: {
+                school_ap_courses_accepted: school.school_ap_criteria.school_ap_courses_accepted,
+              },
+              notes: school.school_ap_criteria.school_ap_courses_criteria_note_section,
+          },
+          },
+          school_community_college_criteria: {
+            ...defaultSchool.school_community_college_criteria,
+            original: {
+              input: {
+                school_community_college_credits_accepted: school.school_community_college_criteria.school_community_college_credits_accepted,
+              },
+              notes: school.school_community_college_criteria.school_community_college_criteria_note_section,
+          },
+          draft: {
+              input: {
+                school_community_college_credits_accepted: school.school_community_college_criteria.school_community_college_credits_accepted,
+              },
+              notes: school.school_community_college_criteria.school_community_college_criteria_note_section,
+          },
+          },
+          school_clep_criteria: {
+            ...defaultSchool.school_clep_criteria,
+            original: {
+              input: {
+                school_clep_credits_accepted: school.school_clep_criteria.school_clep_credits_accepted,
+              },
+              notes: school.school_clep_criteria.school_clep_credits_criteria_note_section,
+          },
+          draft: {
+              input: {
+                school_clep_credits_accepted: school.school_clep_criteria.school_clep_credits_accepted,
+              },
+              notes: school.school_clep_criteria.school_clep_credits_criteria_note_section,
+          },
+          },
+          school_online_courses_criteria: {
+            ...defaultSchool.school_online_courses_criteria,
+            original: {
+              input: {
+                school_online_courses_accepted: school.school_online_courses_criteria.school_online_courses_accepted,
+              },
+              notes: school.school_online_courses_criteria.school_online_courses_criteria_note_section,
+          },
+          draft: {
+              input: {
+                school_online_courses_accepted: school.school_online_courses_criteria.school_online_courses_accepted,
+              },
+              notes: school.school_online_courses_criteria.school_online_courses_criteria_note_section,
+          },
+          },
+          school_prerequisite_completion_criteria: {
+            ...defaultSchool.school_prerequisite_completion_criteria,
+            original: {
+                input: {
+                    school_all_courses_most_be_completed_before_applying: school.school_prerequisite_completion_criteria.school_all_courses_most_be_completed_before_applying,
+                    school_courses_can_be_in_progress_while_applying: school.school_prerequisite_completion_criteria.school_courses_can_be_in_progress_while_applying,
+                    school_maximum_number_of_courses_pending_while_applying:  school.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying !== null ? {
+                        input: school.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying.input,
+                        notes: school.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying.notes,
+                    } : null,
+                    school_maximum_number_of_credits_pending_while_applying: school.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying !== null ? {
+                        input: school.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying.input,
+                        notes: school.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying.notes,
+                    } : null,
+                    school_maximum_number_of_science_courses_pending_while_applying: school.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying !== null ? {
+                        input: school.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying.input,
+                        notes: school.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying.notes,
+                    } : null,
+                    school_maximum_number_of_non_science_courses_pending_while_applying: school.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying !== null ? {
+                        input: school.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying.input,
+                        notes: school.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying.notes
+                    } : null,
+                    school_minimum_grade_required_for_pending_courses: school.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses !== null ? {
+                        input: school.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses.input,
+                        notes: school.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses.notes,
+                    } : null,
+                    school_date_pending_courses_must_be_completed: school.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed !== null ? {
+                        input: school.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed.input,
+                        notes: school.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed.notes,
+                    } : null,
+                    school_semester_pending_courses_must_be_completed: school.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed !== null ? {
+                        input: school.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed.input,
+                        notes: school.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed.notes
+                    } : null,
+                },
+                notes: school.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section
+            },
+            draft: {
+              input: {
+                  school_all_courses_most_be_completed_before_applying: school.school_prerequisite_completion_criteria.school_all_courses_most_be_completed_before_applying,
+                  school_courses_can_be_in_progress_while_applying: school.school_prerequisite_completion_criteria.school_courses_can_be_in_progress_while_applying,
+                  school_maximum_number_of_courses_pending_while_applying:  school.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying !== null ? {
+                      input: school.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying.input,
+                      notes: school.school_prerequisite_completion_criteria.school_maximum_number_of_courses_pending_while_applying.notes,
+                  } : null,
+                  school_maximum_number_of_credits_pending_while_applying: school.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying !== null ? {
+                      input: school.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying.input,
+                      notes: school.school_prerequisite_completion_criteria.school_maximum_number_of_credits_pending_while_applying.notes,
+                  } : null,
+                  school_maximum_number_of_science_courses_pending_while_applying: school.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying !== null ? {
+                      input: school.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying.input,
+                      notes: school.school_prerequisite_completion_criteria.school_maximum_number_of_science_courses_pending_while_applying.notes,
+                  } : null,
+                  school_maximum_number_of_non_science_courses_pending_while_applying: school.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying !== null ? {
+                      input: school.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying.input,
+                      notes: school.school_prerequisite_completion_criteria.school_maximum_number_of_non_science_courses_pending_while_applying.notes
+                  } : null,
+                  school_minimum_grade_required_for_pending_courses: school.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses !== null ? {
+                      input: school.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses.input,
+                      notes: school.school_prerequisite_completion_criteria.school_minimum_grade_required_for_pending_courses.notes,
+                  } : null,
+                  school_date_pending_courses_must_be_completed: school.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed !== null ? {
+                      input: school.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed.input,
+                      notes: school.school_prerequisite_completion_criteria.school_date_pending_courses_must_be_completed.notes,
+                  } : null,
+                  school_semester_pending_courses_must_be_completed: school.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed !== null ? {
+                      input: school.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed.input,
+                      notes: school.school_prerequisite_completion_criteria.school_semester_pending_courses_must_be_completed.notes
+                  } : null,
+              },
+              notes: school.school_prerequisite_completion_criteria.school_prerequisite_completion_criteria_note_section
+          },
+          },
+          school_paid_experience_required: {
+            ...defaultSchool.school_paid_experience_required,
+            original: {
+                input: school.school_paid_experience_required.input,
+                notes: school.school_paid_experience_required.school_paid_experience_required_notes,
+            },
+            draft: {
+              input: school.school_paid_experience_required.input,
+              notes: school.school_paid_experience_required.school_paid_experience_required_notes,
+          },
+          },
+          school_patient_experience: {
+            ...defaultSchool.school_patient_experience,
+            original: {
+              input: {
+                  school_patient_experience_required: {
+                      input: school.school_patient_experience.school_patient_experience_required,
+                  },
+                  school_patient_experience_recommended: {
+                      input: school.school_patient_experience.school_patient_experience_recommended,
+                  },
+                  school_minimum_patient_care_experience_hours_required: school.school_patient_experience.school_minimum_patient_care_experience_hours_required !== null ? {
+                      input: school.school_patient_experience.school_minimum_patient_care_experience_hours_required.input,
+                      notes: school.school_patient_experience.school_minimum_patient_care_experience_hours_required.school_minimum_patient_care_experience_hours_required_notes,
+                  } : null,
+                  school_minimum_patient_care_experience_hours_recommended: school.school_patient_experience.school_minimum_patient_care_experience_hours_recommended !== null ? {
+                      input: school.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.input,
+                      notes: school.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.school_minimum_patient_care_experience_hours_recommended_notes,
+                  } : null,
+                  school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed !== null ? {
+                      input: {
+                          quantity: Number(school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.input.split(' ')[0]),
+                          units: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.input.split(' ')[1]
+                      },
+                      notes: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes,
+                  } : null,
+                  school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended !== null ? {
+                    input: {
+                        quantity: Number(school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input.split(' ')[0]),
+                        units: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input.split(' ')[1]
+                    },
+                    notes: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes,
+                } : null,
+                  school_average_patient_care_experience_hours_accepted_previous_cycle: {
+                      input: school.school_patient_experience.school_average_patient_care_experience_hours_accepted_previous_cycle,
+                  }
+              },
+              notes:school.school_patient_experience.school_patient_care_experience_general_notes,
+          },
+          draft: {
+            input: {
+                school_patient_experience_required: {
+                    input: school.school_patient_experience.school_patient_experience_required,
+                },
+                school_patient_experience_recommended: {
+                    input: school.school_patient_experience.school_patient_experience_recommended,
+                },
+                school_minimum_patient_care_experience_hours_required: school.school_patient_experience.school_minimum_patient_care_experience_hours_required !== null ? {
+                    input: school.school_patient_experience.school_minimum_patient_care_experience_hours_required.input,
+                    notes: school.school_patient_experience.school_minimum_patient_care_experience_hours_required.school_minimum_patient_care_experience_hours_required_notes,
+                } : null,
+                school_minimum_patient_care_experience_hours_recommended: school.school_patient_experience.school_minimum_patient_care_experience_hours_recommended !== null ? {
+                    input: school.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.input,
+                    notes: school.school_patient_experience.school_minimum_patient_care_experience_hours_recommended.school_minimum_patient_care_experience_hours_recommended_notes,
+                } : null,
+                school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed !== null ? {
+                    input: {
+                        quantity: Number(school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.input.split(' ')[0]),
+                        units: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.input.split(' ')[1]
+                    },
+                    notes: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_notes,
+                } : null,
+                school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended !== null ? {
+                  input: {
+                      quantity: Number(school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input.split(' ')[0]),
+                      units: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.input.split(' ')[1]
+                  },
+                  notes: school.school_patient_experience.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_recommended_notes,
+              } : null,
+                school_average_patient_care_experience_hours_accepted_previous_cycle: {
+                    input: school.school_patient_experience.school_average_patient_care_experience_hours_accepted_previous_cycle,
+                }
+            },
+            notes:school.school_patient_experience.school_patient_care_experience_general_notes,
+        },
+          },
+          school_healthcare_experience: {
+            ...defaultSchool.school_healthcare_experience,
+            original: {
+              input: {
+                  school_healthcare_experience_required: {
+                      input: school.school_healthcare_experience.school_healthcare_experience_required,
+                  },
+                  school_healthcare_experience_recommended: {
+                      input: school.school_healthcare_experience.school_healthcare_experience_recommended,
+                  },
+                  school_minimum_healthcare_experience_hours_required: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_required !== null ? {
+                      input: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.input,
+                      notes: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.school_minimum_healthcare_experience_hours_required_notes,
+                  } : null,
+                  school_minimum_healthcare_experience_hours_recommended: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended !== null ? {
+                      input: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended.input,
+                      notes: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended.school_minimum_healthcare_experience_hours_recommended_notes,
+                  } : null,
+                  school_minimum_time_frame_healthcare_experience_needs_to_be_completed_required: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed !== null ? {
+                      input: {
+                          quantity: Number(school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input.split(' ')[0]),
+                          units: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input.split(' ')[1],
+                      },
+                      notes: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes
+                  } : null,
+                  school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended !== null ? {
+                    input: {
+                        quantity: Number(school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input.split(' ')[0]),
+                        units: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input.split(' ')[1],
+                    },
+                    notes: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes
+                } : null,
+                  school_average_healthcare_experience_hours_accepted_previous_cycle: {
+                      input: school.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle,
+                  },
+              },
+              notes: school.school_healthcare_experience.school_healthcare_experience_general_notes,
+          },
+          draft: {
+            input: {
+                school_healthcare_experience_required: {
+                    input: school.school_healthcare_experience.school_healthcare_experience_required,
+                },
+                school_healthcare_experience_recommended: {
+                    input: school.school_healthcare_experience.school_healthcare_experience_recommended,
+                },
+                school_minimum_healthcare_experience_hours_required: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_required !== null ? {
+                    input: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.input,
+                    notes: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_required.school_minimum_healthcare_experience_hours_required_notes,
+                } : null,
+                school_minimum_healthcare_experience_hours_recommended: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended !== null ? {
+                    input: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended.input,
+                    notes: school.school_healthcare_experience.school_minimum_healthcare_experience_hours_recommended.school_minimum_healthcare_experience_hours_recommended_notes,
+                } : null,
+                school_minimum_time_frame_healthcare_experience_needs_to_be_completed_required: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed !== null ? {
+                    input: {
+                        quantity: Number(school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input.split(' ')[0]),
+                        units: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.input.split(' ')[1],
+                    },
+                    notes: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_notes
+                } : null,
+                school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended !== null ? {
+                  input: {
+                      quantity: Number(school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input.split(' ')[0]),
+                      units: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.input.split(' ')[1],
+                  },
+                  notes: school.school_healthcare_experience.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended.school_minimum_time_frame_healthcare_experience_needs_to_be_completed_recommended_notes
+              } : null,
+                school_average_healthcare_experience_hours_accepted_previous_cycle: {
+                    input: school.school_healthcare_experience.school_average_healthcare_experience_hours_accepted_previous_cycle,
+                },
+            },
+            notes: school.school_healthcare_experience.school_healthcare_experience_general_notes,
+        },
+          },
+          school_community_service: {
+            ...defaultSchool.school_community_service,
+            original: {
+              input: {
+                  school_community_service_required: {
+                      input: school.school_community_service.school_community_service_required,
+                  },
+                  school_minimum_community_service_hours_required: school.school_community_service.school_minimum_community_service_hours_required !== null ? {
+                      input: school.school_community_service.school_minimum_community_service_hours_required.input,
+                      notes: school.school_community_service.school_minimum_community_service_hours_required.school_minimum_community_service_hours_required_notes,
+                  } : null,
+                  school_community_service_recommended: {
+                      input: school.school_community_service.school_community_service_recommended,
+                  },
+                  school_minimum_community_service_hours_recommended: school.school_community_service.school_minimum_community_service_hours_recommended !== null ? {
+                      input: school.school_community_service.school_minimum_community_service_hours_recommended.input,
+                      notes: school.school_community_service.school_minimum_community_service_hours_recommended.school_minimum_community_service_hours_recommended_notes,
+                  } : null,
+                  school_average_community_service_hours_accepted_previous_cycle: {
+                      input: school.school_community_service.school_average_community_service_hours_accepted_previous_cycle
+                  },
+              },
+              notes: school.school_community_service.school_community_service_general_notes,
+          },
+          draft: {
+            input: {
+                school_community_service_required: {
+                    input: school.school_community_service.school_community_service_required,
+                },
+                school_minimum_community_service_hours_required: school.school_community_service.school_minimum_community_service_hours_required !== null ? {
+                    input: school.school_community_service.school_minimum_community_service_hours_required.input,
+                    notes: school.school_community_service.school_minimum_community_service_hours_required.school_minimum_community_service_hours_required_notes,
+                } : null,
+                school_community_service_recommended: {
+                    input: school.school_community_service.school_community_service_recommended,
+                },
+                school_minimum_community_service_hours_recommended: school.school_community_service.school_minimum_community_service_hours_recommended !== null ? {
+                    input: school.school_community_service.school_minimum_community_service_hours_recommended.input,
+                    notes: school.school_community_service.school_minimum_community_service_hours_recommended.school_minimum_community_service_hours_recommended_notes,
+                } : null,
+                school_average_community_service_hours_accepted_previous_cycle: {
+                    input: school.school_community_service.school_average_community_service_hours_accepted_previous_cycle
+                },
+            },
+            notes: school.school_community_service.school_community_service_general_notes,
+        },
+          },
+          school_volunteer_service: {
+            ...defaultSchool.school_volunteer_service,
+            original: {
+              input: {
+                  school_volunteer_service_required: {
+                      input: school.school_volunteer_service.school_volunteer_service_required,
+                  },
+                  school_minimum_volunteer_service_hours_required: school.school_volunteer_service.school_minimum_volunteer_service_hours_required !== null ? {
+                      input: school.school_volunteer_service.school_minimum_volunteer_service_hours_required.input,
+                      notes: school.school_volunteer_service.school_minimum_volunteer_service_hours_required.school_minimum_volunteer_service_hours_required_notes,
+                  } : null,
+                  school_volunteer_service_recommended: {
+                      input: school.school_volunteer_service.school_volunteer_service_recommended,
+                  },
+                  school_minimum_volunteer_service_hours_recommended: school.school_volunteer_service.school_minimum_volunteer_service_hours_recommended !== null ? {
+                      input: school.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.input,
+                      notes: school.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.school_minimum_volunteer_service_hours_recommended_notes,
+                  } : null,
+                  school_average_volunteer_service_hours_accepted_previous_cycle: {
+                      input: school.school_volunteer_service.school_average_volunteer_service_hours_accepted_previous_cycle,
+                  },
+              },
+              notes: school.school_volunteer_service.school_volunteer_service_general_notes
+          },
+          draft: {
+            input: {
+                school_volunteer_service_required: {
+                    input: school.school_volunteer_service.school_volunteer_service_required,
+                },
+                school_minimum_volunteer_service_hours_required: school.school_volunteer_service.school_minimum_volunteer_service_hours_required !== null ? {
+                    input: school.school_volunteer_service.school_minimum_volunteer_service_hours_required.input,
+                    notes: school.school_volunteer_service.school_minimum_volunteer_service_hours_required.school_minimum_volunteer_service_hours_required_notes,
+                } : null,
+                school_volunteer_service_recommended: {
+                    input: school.school_volunteer_service.school_volunteer_service_recommended,
+                },
+                school_minimum_volunteer_service_hours_recommended: school.school_volunteer_service.school_minimum_volunteer_service_hours_recommended !== null ? {
+                    input: school.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.input,
+                    notes: school.school_volunteer_service.school_minimum_volunteer_service_hours_recommended.school_minimum_volunteer_service_hours_recommended_notes,
+                } : null,
+                school_average_volunteer_service_hours_accepted_previous_cycle: {
+                    input: school.school_volunteer_service.school_average_volunteer_service_hours_accepted_previous_cycle,
+                },
+            },
+            notes: school.school_volunteer_service.school_volunteer_service_general_notes
+        },
+          },
+          school_pa_shadowing_required: {
+            ...defaultSchool.school_pa_shadowing_required,
+            original: {
+              input: {
+                  school_pa_shadowing_required: school.school_pa_shadowing_required.input,
+                  school_minimum_pa_shadowing_hours_required: school.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required,
+              },
+              notes: school.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required_notes,
+          },
+          draft: {
+            input: {
+                school_pa_shadowing_required: school.school_pa_shadowing_required.input,
+                school_minimum_pa_shadowing_hours_required: school.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required,
+            },
+            notes: school.school_pa_shadowing_required.school_minimum_pa_shadowing_hours_required_notes,
+        },
+          },
+          school_pa_shadowing_recommended: {
+            ...defaultSchool.school_pa_shadowing_recommended,
+            original: {
+              input: {
+                school_pa_shadowing_recommended: school.school_pa_shadowing_recommended.input,
+                school_minimum_pa_shadowing_hours_recommended: school.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended,
+              },
+              notes: school.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended_notes,
+          },
+          draft: {
+            input: {
+              school_pa_shadowing_recommended: school.school_pa_shadowing_recommended.input,
+              school_minimum_pa_shadowing_hours_recommended: school.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended,
+            },
+            notes: school.school_pa_shadowing_recommended.school_minimum_pa_shadowing_hours_recommended_notes,
+        },
+          },
+          school_average_pa_shadowing_hours_accepted_previous_cycle: {
+            ...defaultSchool.school_average_pa_shadowing_hours_accepted_previous_cycle,
+            original: {
+                input: school.school_average_pa_shadowing_hours_accepted_previous_cycle.input,
+                notes: school.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes,
+            },
+            draft: {
+              input: school.school_average_pa_shadowing_hours_accepted_previous_cycle.input,
+              notes: school.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes,
+          },
+          },
+          
         }
       })
     }
