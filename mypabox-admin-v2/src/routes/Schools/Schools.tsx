@@ -1925,7 +1925,116 @@ const Schools = () => {
               notes: school.school_average_pa_shadowing_hours_accepted_previous_cycle.school_average_pa_shadowing_hours_accepted_previous_cycle_notes,
           },
           },
-          
+          school_certifications_required: {
+            ...defaultSchool.school_certifications_required,
+            original: {
+              input: {
+                  school_certifications_required: {
+                      input: school.school_certifications_required.input,
+                  },
+                  school_certifications_required_options: school.school_certifications_required.school_certifications_required_options !== null ? {
+                      input: school.school_certifications_required.school_certifications_required_options.map(opt => ({
+                        value: opt,
+                      }))
+                  } : null,
+              },
+              notes: school.school_certifications_required.school_certification_notes,
+          },
+          draft: {
+            input: {
+                school_certifications_required: {
+                    input: school.school_certifications_required.input,
+                },
+                school_certifications_required_options: school.school_certifications_required.school_certifications_required_options !== null ? {
+                    input: school.school_certifications_required.school_certifications_required_options.map(opt => ({
+                      value: opt,
+                    }))
+                } : null,
+            },
+            notes: school.school_certifications_required.school_certification_notes,
+        },
+          },
+          school_application_submitted_on_caspa: {
+            ...defaultSchool.school_application_submitted_on_caspa,
+            original: {
+              input: {
+                  school_application_submitted_on_caspa: school.school_application_submitted_on_caspa.input,
+                  school_caspa_application_deadline_date: school.school_application_submitted_on_caspa.school_caspa_application_deadline_date,
+                  school_caspa_application_deadline_type: school.school_application_submitted_on_caspa.school_caspa_application_deadline_type
+              },
+              notes: school.school_application_submitted_on_caspa.school_caspa_application_notes,
+          },
+          draft: {
+            input: {
+                school_application_submitted_on_caspa: school.school_application_submitted_on_caspa.input,
+                school_caspa_application_deadline_date: school.school_application_submitted_on_caspa.school_caspa_application_deadline_date,
+                school_caspa_application_deadline_type: school.school_application_submitted_on_caspa.school_caspa_application_deadline_type
+            },
+            notes: school.school_application_submitted_on_caspa.school_caspa_application_notes,
+        },
+          },
+          school_application_submitted_directly_to_school: {
+            ...defaultSchool.school_application_submitted_directly_to_school,
+            original: {
+              input: {
+                  school_application_submitted_directly_to_school: school.school_application_submitted_directly_to_school.input,
+                  school_application_direct_to_school_deadline: school.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline,
+                  school_application_direct_to_school_fee: school.school_application_submitted_directly_to_school.school_application_direct_to_school_fee,
+              },
+              notes: school.school_application_submitted_directly_to_school.school_application_direct_to_school_notes,
+          },
+          draft: {
+            input: {
+                school_application_submitted_directly_to_school: school.school_application_submitted_directly_to_school.input,
+                school_application_direct_to_school_deadline: school.school_application_submitted_directly_to_school.school_application_direct_to_school_deadline,
+                school_application_direct_to_school_fee: school.school_application_submitted_directly_to_school.school_application_direct_to_school_fee,
+            },
+            notes: school.school_application_submitted_directly_to_school.school_application_direct_to_school_notes,
+        },
+          },
+          school_supplemental_application_required: {
+            ...defaultSchool.school_supplemental_application_required,
+            original: {
+              input: {
+                  school_supplemental_application_required: school.school_supplemental_application_required.input,
+                  school_supplemental_application_deadline: school.school_supplemental_application_required.school_supplemental_application_deadline,
+                  school_supplemental_application_fee: school.school_supplemental_application_required.school_supplemental_application_fee,
+                  school_supplemental_application_link: school.school_supplemental_application_required.school_supplemental_application_link,
+                  school_supplemental_application_link_provided_with_invite_only: school.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only,
+              },
+              notes: school.school_supplemental_application_required.school_supplemental_application_notes,
+          },
+          draft: {
+            input: {
+                school_supplemental_application_required: school.school_supplemental_application_required.input,
+                school_supplemental_application_deadline: school.school_supplemental_application_required.school_supplemental_application_deadline,
+                school_supplemental_application_fee: school.school_supplemental_application_required.school_supplemental_application_fee,
+                school_supplemental_application_link: school.school_supplemental_application_required.school_supplemental_application_link,
+                school_supplemental_application_link_provided_with_invite_only: school.school_supplemental_application_required.school_supplemental_application_link_provided_with_invite_only,
+            },
+            notes: school.school_supplemental_application_required.school_supplemental_application_notes,
+        },
+          },
+          school_international_students_accepted: {
+            ...defaultSchool.school_international_students_accepted,
+            original: {
+              input: school.school_international_students_accepted.input,
+              notes: school.school_international_students_accepted.notes,
+            },
+            draft: {
+              input: school.school_international_students_accepted.input,
+              notes: school.school_international_students_accepted.notes,
+            },
+          },
+          school_preference: {
+            ...defaultSchool.school_preference,
+            original: {
+              input: school.school_preference,
+            },
+            draft: {
+              input: school.school_preference,
+            },
+          }
         }
       })
     }
