@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../../types/newSchools.types";
 import Container from "../../../../../components/Form/Validation/Container";
 import { UserPermissions } from "../../../../../types/users.types";
@@ -144,7 +144,8 @@ export default function MinimumGradeAndTimeCriteriaAndBoolean({
     handleModification,
     validateIndividualChange,
     revertIndividualChange,
-    checkIfValueHasBeenRemoved
+    checkIfValueHasBeenRemoved,
+    showChangesOnly,
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -176,12 +177,55 @@ export default function MinimumGradeAndTimeCriteriaAndBoolean({
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     checkIfValueHasBeenRemoved: (path: string, field: GenericSchoolField) => any | null;
+    showChangesOnly: boolean,
 }) {
+    const [ fields, setFields ] = useState<{
+        label: string;
+        name: string;
+        type: string;
+        path: string;
+        associatedFields: {
+            label: string;
+            name: string;
+            type: string;
+            path?: string;
+            notePath?: string;
+        }[],
+        notePath?: string;
+    }[]>(schoolFields);
+
+    useEffect(() => {
+        if (!showChangesOnly) {
+            setFields(schoolFields)
+        } else {
+            let changedFields: {
+                label: string;
+                name: string;
+                type: string;
+                path: string;
+                associatedFields: {
+                    label: string;
+                    name: string;
+                    type: string;
+                    path?: string;
+                    notePath?: string;
+                }[],
+                notePath?: string;
+            }[] = [];
+            schoolFields.forEach(f => {
+                const schoolField = school[f.name as keyof NewSchool] as GenericSchoolField;
+                if (schoolField.changes.length > 0) {
+                    changedFields.push(f);
+                }
+            })
+            setFields(changedFields)
+        }
+    }, [school, showChangesOnly]);
 
 
     return (
         <>
-        {schoolFields.map(field => {
+        {fields.length > 0 && fields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;    
             let noteValue: NewNote[] = [];
             let draftNoteValue: NewNote[] = [];

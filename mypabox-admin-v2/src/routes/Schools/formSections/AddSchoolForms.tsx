@@ -49,90 +49,105 @@ export default function AddSchoolForms({
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                     />
                 ) : tab === '#accreditation-status' ? (
                    <AccreditationStatus 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#mission-statement' ? (
                     <MissionStatement 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#tuition' ? (
                     <Tuition 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#pance-pass-rate' ? (
                     <PANCEPassRate 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#GPA' ? (
                     <GPA 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#prerequisites' ? (
                     <Prerequisites 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#experience' ? (
                     <Experience 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#pa-shadowing' ? (
                     <PAShadowing 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#exams' ? (
                     <Exams 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#evaluations' ? (
                     <Evaluations 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#international-students' ? (
                     <InternationalStudents 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#certifications' ? (
                     <Certifications 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#applications' ? (
                     <Applications 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : tab === '#preference' ? (
                     <Preference 
                         school={school}
                         setSchool={setSchool}
                         isEditSchool={isEditSchool}
+                        showChangesOnly={showChangesOnly}
                    />
                 ) : (
                     <></>

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types";
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import useVerification from "../../../../hooks/useVerification";
@@ -41,11 +41,20 @@ export default function PANCEPassRate({
     isEditSchool,
     school,
     setSchool,
+    showChangesOnly
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
+    showChangesOnly: boolean,
 }) {
+    const [ fields, setFields ] = useState<{
+        label: string,
+        name: string,
+        type: string,
+        path: string,
+        notePath?: string,
+    }[]>(pancePassRateFields);
 
     const {
         toggleNote,
@@ -63,11 +72,31 @@ export default function PANCEPassRate({
         checkIfValueHasBeenRemoved
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
+    useEffect(() => {
+        if (!showChangesOnly) {
+            setFields(pancePassRateFields)
+        } else {
+            let changedFields: {
+                label: string;
+                name: string;
+                type: string;
+                path: string;
+                notePath?: string;
+            }[] = [];
+            pancePassRateFields.forEach(f => {
+                const schoolField = school[f.name as keyof NewSchool] as GenericSchoolField;
+                if (schoolField.changes.length > 0) {
+                    changedFields.push(f);
+                }
+            })
+            setFields(changedFields)
+        }
+    }, [school, showChangesOnly]);
 
 
     return (
         <>
-        {pancePassRateFields.map(field => {
+        {fields.length > 0 && fields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
             const inputs = handleRetrieveValue(field.path, schoolField);
             const value = inputs.originalValue;

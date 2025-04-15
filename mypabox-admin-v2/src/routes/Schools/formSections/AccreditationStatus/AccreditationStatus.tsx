@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types";
 import Container from "../../../../components/Form/Validation/Container";
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
@@ -30,11 +30,20 @@ export default function AccreditationStatus({
     isEditSchool,
     school,
     setSchool,
+    showChangesOnly
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
+    showChangesOnly: boolean,
 }) {
+    const [ fields, setFields ] = useState<{
+        label: string,
+        name: string,
+        type: string,
+        path: string,
+        notePath?: string,
+    }[]>(accreditationStatusFields);
     
     const {
         toggleNote,
@@ -52,12 +61,31 @@ export default function AccreditationStatus({
         checkIfValueHasBeenRemoved,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
     
-    // console.log(school.school_accreditation_status)
+    useEffect(() => {
+        if (!showChangesOnly) {
+            setFields(accreditationStatusFields)
+        } else {
+            let changedFields: {
+                label: string;
+                name: string;
+                type: string;
+                path: string;
+                notePath?: string;
+            }[] = [];
+            accreditationStatusFields.forEach(f => {
+                const schoolField = school[f.name as keyof NewSchool] as GenericSchoolField;
+                if (schoolField.changes.length > 0) {
+                    changedFields.push(f);
+                }
+            })
+            setFields(changedFields)
+        }
+    }, [school, showChangesOnly]);
     
 
     return (
         <>
-        {accreditationStatusFields.map(field => {
+        {fields.length > 0 && fields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
             const inputs = handleRetrieveValue(field.path, schoolField);
             const value = inputs.originalValue;

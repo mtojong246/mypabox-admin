@@ -30,10 +30,12 @@ export default function Prerequisites({
     isEditSchool,
     school,
     setSchool,
+    showChangesOnly
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
+    showChangesOnly: boolean,
 }) {
     const {
         toggleNote,
@@ -96,6 +98,7 @@ export default function Prerequisites({
             validateIndividualChange={validateIndividualChange}
             checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             togglePopup={togglePopup}
+            showChangesOnly={showChangesOnly}
         />
         <RecommendedCourses 
             school={school}
@@ -110,6 +113,7 @@ export default function Prerequisites({
             validateIndividualChange={validateIndividualChange}
             checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             togglePopup={togglePopup}
+            showChangesOnly={showChangesOnly}
         />
         <MinimumGradeAndTimeCriteriaAndBoolean 
             school={school}
@@ -123,6 +127,7 @@ export default function Prerequisites({
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
             checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            showChangesOnly={showChangesOnly}
         />
         <CompletionCriteria 
             school={school}
@@ -136,6 +141,7 @@ export default function Prerequisites({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
+            showChangesOnly={showChangesOnly}
         />
         
         {isNoteOpen && selectedField && (

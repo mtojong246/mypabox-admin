@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { GenericSchoolField, NewSchool } from "../../../../types/newSchools.types"
 
 import useSchoolNotes from "../../../../hooks/useSchoolNotes";
@@ -36,11 +36,20 @@ export default function Exams({
     isEditSchool,
     school,
     setSchool,
+    showChangesOnly
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
+    showChangesOnly: boolean,
 }) {
+    const [ fields, setFields ] = useState<{
+        label: string,
+        name: string,
+        type: string,
+        path: string,
+    }[]>(examFields);
+
     const {
         toggleNote,
         isNoteOpen,
@@ -58,6 +67,27 @@ export default function Exams({
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
 
+    useEffect(() => {
+        if (!showChangesOnly) {
+            setFields(examFields)
+        } else {
+            let changedFields: {
+                label: string;
+                name: string;
+                type: string;
+                path: string;
+                notePath?: string;
+            }[] = [];
+            examFields.forEach(f => {
+                const schoolField = school[f.name as keyof NewSchool] as GenericSchoolField;
+                if (schoolField.changes.length > 0) {
+                    changedFields.push(f);
+                }
+            })
+            setFields(changedFields)
+        }
+    }, [school, showChangesOnly]);
+
     return (
         <>
         <RequiredOptionalExams 
@@ -72,6 +102,7 @@ export default function Exams({
             validateIndividualChange={validateIndividualChange}
             checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             toggleNote={toggleNote}
+            showChangesOnly={showChangesOnly}
         />
         <GRE 
             school={school}
@@ -85,6 +116,7 @@ export default function Exams({
             validateIndividualChange={validateIndividualChange}
             checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             toggleNote={toggleNote}
+            showChangesOnly={showChangesOnly}
         />
         <PACAT 
             school={school}
@@ -98,6 +130,7 @@ export default function Exams({
             validateIndividualChange={validateIndividualChange}
             checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             toggleNote={toggleNote}
+            showChangesOnly={showChangesOnly}
         />
         <CASPer 
             school={school}
@@ -110,6 +143,7 @@ export default function Exams({
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
             toggleNote={toggleNote}
+            showChangesOnly={showChangesOnly}
         />
         <EnglishExams 
             school={school}
@@ -123,8 +157,9 @@ export default function Exams({
             validateIndividualChange={validateIndividualChange}
             checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             toggleNote={toggleNote}
+            showChangesOnly={showChangesOnly}
         />
-        {examFields.map(field => {
+        {fields.length > 0 && fields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;
             const inputs = handleRetrieveValue(field.path, schoolField);
             const value = inputs.originalValue;
