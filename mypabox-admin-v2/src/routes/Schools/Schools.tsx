@@ -2165,10 +2165,6 @@ const Schools = () => {
             action={addSchoolButton}
             adornment={<PlusIcon/>}
           />
-          // <button className={`text-lg border-2 
-          // border-[#F06A6A] text-[#F06A6A] rounded py-2 px-4 hover:text-white hover:bg-[#F06A6A]`} onClick={addSchoolButton}>
-          //   + Add School
-          // </button>
         )}
       </div>
       <div className={`w-full max-w-[1800px] px-10 pb-10`}>
@@ -2185,22 +2181,6 @@ const Schools = () => {
             </tr>
           </thead>
           <tbody>
-          {/* {
-            schools && schools.filter(school => school.school_name.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
-              item : stateSearch.includes(item.school_state.input)).map((d, i) => (
-                <tr className="border-b-[0.125px] border-gray-400">
-                  <td className='text-xl text-left p-[10px]'>{d.school_name.input}</td>
-                  <td className='text-xl text-left p-[10px]'>{d.school_city.input}</td>
-                  <td className='text-xl text-left p-[10px]'>{d.school_state.input}</td>
-                  <td className='flex justify-end items-center p-[10px]'>
-                    {canEdit && <button onClick={() => editSchool(d)}><FiEdit3 className='h-7 w-7 border-2 rounded border-[#4573D2] bg-none text-[#4573D2] hover:text-white hover:bg-[#4573D2]'/></button>}
-                    {loggedInUser.permissions.canAddOrDelete && <button onClick={(e:any) => deleteSchool(e, d.school_name.input)} className='ml-2'><AiOutlineClose className='h-7 w-7 border-2 rounded border-[#F06A6A] bg-none text-[#F06A6A] hover:text-white hover:bg-[#F06A6A]'/></button>}
-                    <button onClick={(e:MouseEvent<HTMLButtonElement>) => changeLiveStatus(e, d.id)}><HiOutlineSignal className={`h-7 w-7 ml-2 ${d.isLive ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`}/></button>
-                  </td>
-                </tr>
-              )
-            )
-          } */}
           {
             newSchools && newSchools.filter(school => school.school_name.original.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
               item : stateSearch.includes(item.school_state.original.input)).map((d, i) => (

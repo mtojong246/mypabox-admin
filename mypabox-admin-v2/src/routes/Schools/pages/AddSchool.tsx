@@ -236,7 +236,11 @@ export default function AddSchool() {
                 <div className='flex flex-col justify-start items-start gap-5'>
                 {schoolCategories.map(category => (
                   <button 
-                    onClick={(e:any) => {navigateTabs(category.hash); updateAction(e)}} 
+                    onClick={(e:any) => {
+                      navigateTabs(category.hash); 
+                      updateAction(e);
+                      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+                    }} 
                     className={`whitespace-nowrap hover:text-warning transition-all ${category.hash === tab ? 'text-warning': ''}`}
                   >
                     <div className='flex justify-start items-center gap-1'>

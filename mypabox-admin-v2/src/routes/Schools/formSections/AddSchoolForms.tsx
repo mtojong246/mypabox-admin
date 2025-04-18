@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useEffect } from "react"
 import { NewSchool } from "../../../types/newSchools.types"
 import GeneralInformation from "./GeneralInformation/GeneralInformation"
 import DegreeInformation from "./DegreeInformation/DegreeInformation"
@@ -33,6 +33,10 @@ export default function AddSchoolForms({
     showChangesOnly: boolean,
 }) {
     const isEditSchool = useSelector(selectIsEditSchool);
+    
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    }, [])
 
     return (
         <form className={`flex flex-col gap-10 p-8 justify-start items-start`}>
