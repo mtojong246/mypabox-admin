@@ -3,6 +3,14 @@ import { ChangeEvent, MouseEvent } from "react"
 import { Change } from "../../../types/newSchools.types"
 import ChangePopup from "../Validation/ChangePopup"
 
+const permissions = {
+    canEditWithVerificationNeeded: true,
+    canEditWithoutVerificationNeeded: false,
+    canVerify: false,
+    canMakeLive: false,
+    canAddOrDelete: false,
+};
+
 export default function RadioInput({
     label,
     name,
@@ -60,7 +68,7 @@ export default function RadioInput({
                     <ChangePopup 
                         change={change}
                         name={name}
-                        validateIndividualChange={validateIndividualChange}
+                        validateIndividualChange={permissions.canVerify ? validateIndividualChange : undefined}
                         revertIndividualChange={revertIndividualChange}
                     />
                 )}

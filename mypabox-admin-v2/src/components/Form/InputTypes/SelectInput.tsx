@@ -4,6 +4,13 @@ import { Change } from '../../../types/newSchools.types';
 import { MouseEvent } from 'react';
 import ChangePopup from '../Validation/ChangePopup';
 
+const permissions = {
+    canEditWithVerificationNeeded: true,
+    canEditWithoutVerificationNeeded: false,
+    canVerify: false,
+    canMakeLive: false,
+    canAddOrDelete: false,
+};
 
 interface ColorOptions {value: string | number, label: string | number, color?: string, focus?: string}
 
@@ -90,7 +97,7 @@ export default function SelectInput({
                     <ChangePopup 
                         change={change}
                         name={name}
-                        validateIndividualChange={validateIndividualChange}
+                        validateIndividualChange={permissions.canVerify ? validateIndividualChange : undefined}
                         revertIndividualChange={revertIndividualChange}
                     />
                 )}

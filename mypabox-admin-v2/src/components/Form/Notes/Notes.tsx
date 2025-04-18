@@ -7,6 +7,16 @@ import { ReactComponent as EditIcon } from '../../../components/Icons/Edit-With-
 import { ReactComponent as DeleteIcon } from '../../../components/Icons/Trash.svg';
 import ChangePopup from "../Validation/ChangePopup";
 import IconButton from "../../Buttons/IconButton";
+import { useSelector } from "react-redux";
+import { selectIsEditSchool } from "../../../app/selectors/selectedSchool.selectors";
+
+const permissions = {
+    canEditWithVerificationNeeded: true,
+    canEditWithoutVerificationNeeded: false,
+    canVerify: false,
+    canMakeLive: false,
+    canAddOrDelete: false,
+};
 
 export default function Notes({
     notes,
@@ -43,11 +53,23 @@ export default function Notes({
     tab?: 'original' | 'modified';
     label?: string,
 }) {
+    const isEditSchool = useSelector(selectIsEditSchool);
     const [ changes, setChanges ] = useState<Change[]>([]);
     const [ noteValues, setNoteValues ] = useState<{
         note: NewNote,
         toBeRemoved: boolean,
     }[]>([]);
+    const [ isDisabled, setIsDisabled ] = useState(false);
+
+    useEffect(() => {
+        if (tab === 'original' && isEditSchool && (permissions.canEditWithVerificationNeeded || (schoolField.changes.length > 0 && permissions.canVerify))) {
+            setIsDisabled(true);
+        } else if (tab === 'modified' && isEditSchool && !permissions.canEditWithoutVerificationNeeded && permissions.canVerify && schoolField.changes.length > 0) {
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false);
+        }
+    }, [isEditSchool, schoolField.changes, tab]);
 
     useEffect(() => {
         if (schoolField !== undefined) {
@@ -132,13 +154,13 @@ export default function Notes({
                                 action={(e: any) => toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i }, note)}
                                 icon={<EditIcon/>}
                                 color="primary"
-                                isDisabled={false}
+                                isDisabled={isDisabled}
                             />
                             <IconButton 
                                 action={(e: any) => deleteNote(e, field.name, field.notePath, i)}
                                 icon={<DeleteIcon/>}
                                 color="warning"
-                                isDisabled={false}
+                                isDisabled={isDisabled}
                             />
                         </div>
                     )}
@@ -146,7 +168,7 @@ export default function Notes({
                 )
             })}
             <Button 
-                type='primary'
+                type={isDisabled ? 'disable' : 'primary'}
                 styling="outline"
                 label='Add Note'
                 action={(e: any) => {toggleNote(e, { name: field.name, path: field.notePath })}}

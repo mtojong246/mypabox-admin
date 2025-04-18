@@ -4,6 +4,14 @@ import Select from 'react-select';
 import { Change, GenericSchoolField } from '../../../types/newSchools.types';
 import ChangePopup from '../Validation/ChangePopup';
 
+const permissions = {
+    canEditWithVerificationNeeded: true,
+    canEditWithoutVerificationNeeded: false,
+    canVerify: false,
+    canMakeLive: false,
+    canAddOrDelete: false,
+};
+
 export default function TextSelectInput({
     label,
     placeholder,
@@ -126,7 +134,7 @@ export default function TextSelectInput({
                             <ChangePopup 
                                 change={selectChange}
                                 name={name}
-                                validateIndividualChange={validateIndividualChange}
+                                validateIndividualChange={permissions.canVerify ? validateIndividualChange : undefined}
                                 revertIndividualChange={revertIndividualChange}
                             />
                         )}

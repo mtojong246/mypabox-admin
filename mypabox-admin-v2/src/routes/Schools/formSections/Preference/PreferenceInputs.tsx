@@ -45,6 +45,8 @@ export default function PreferenceInputs({
     useEffect(() => {
         if (tab === 'original' && isEditSchool && (permissions.canEditWithVerificationNeeded || (schoolField.changes.length > 0 && permissions.canVerify))) {
             setIsDisabled(true);
+        } else if (tab === 'modified' && isEditSchool && !permissions.canEditWithoutVerificationNeeded && permissions.canVerify && schoolField.changes.length > 0) {
+            setIsDisabled(true);
         } else {
             setIsDisabled(false);
         }
