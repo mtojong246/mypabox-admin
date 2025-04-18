@@ -17,6 +17,7 @@ import { selectIsEditSchool, selectSelectedSchool } from "../../../app/selectors
 import { setIsEditSchool, setSelectedSchool } from "../../../app/slices/selectedSchool";
 import { selectNewSchools } from "../../../app/selectors/newSchools.selector";
 import { addNewSchool, updateNewSchool } from "../../../app/slices/newSchools";
+import { selectUsers } from "../../../app/selectors/users.selectors";
 
 const permissions = {
   canEditWithVerificationNeeded: true,
@@ -35,7 +36,11 @@ export default function AddSchool() {
     const selectedSchool = useSelector(selectSelectedSchool);
     const newSchools = useSelector(selectNewSchools);
     const isEditSchool = useSelector(selectIsEditSchool);
+    const users = useSelector(selectUsers);
+    const [ assignee, setAssignee ] = useState('');
 
+
+    
     useEffect(() => {
       if (selectedSchool) {
         setSchool(selectedSchool);
@@ -43,6 +48,13 @@ export default function AddSchool() {
         setSchool(defaultSchool);
       }
     }, [selectedSchool]);
+
+    useEffect(() => {
+      if (school.school_name.original.input) {
+        const user = users.find(u => u.activeTasks.find(task => task.schools.includes(school.school_name.original.input)))
+        if (user) setAssignee(user.displayName)
+      }
+     }, [school.school_name.original.input, users]);
 
     useEffect(() => {
 
@@ -194,13 +206,16 @@ export default function AddSchool() {
                         )}
                         <div className="flex flex-col justify-center items-start gap-1">
                             <p className={`text-3xl font-medium`}>{isEditSchool ? 'Edit' : 'Add'} {school && school.school_name.original.input ? school.school_name.original.input : 'School'}</p>
+                            <div className="flex justify-start items-center gap-2">
                             {school && school.school_website.original.input && (
                               <a href={school.school_website.original.input} target="_blank" rel="noreferrer" className="flex justify-start items-center gap-1 text-primary hover:underline transition-all">
                                 <p>Visit website</p>
                                 <div className="w-[16px]"><ExternalLinkIcon /></div>
                               </a>
                             )}
-                            {/* {assignee && <p className='text-xl font-medium mt-1'>Assigned to: <span className='text-orange-600'>{assignee}</span></p>} */}
+                            {assignee && <p>&#8226;</p>}
+                            {assignee && <p>Assignee: {assignee}</p>}
+                            </div>
                         </div>
                 </div>
               </div>
