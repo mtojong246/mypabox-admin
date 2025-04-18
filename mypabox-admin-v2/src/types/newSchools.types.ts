@@ -2085,14 +2085,14 @@ export interface NewSchool {
         original: {
             input: {
                 school_evaluations_required: boolean;
-                school_minimum_number_of_evaluations_required: {
+                school_minimum_number_of_evaluations_required: number | null,
+                school_minimum_time_evaluator_knows_applicant: {
                     quantity: number,
                     units: string,
                 } | null;
                 school_required_evaluator_title: {
                     value: string;
                 }[] | null;
-                school_minimum_time_evaluator_knows_applicant: string | null;
                 school_optional_evaluators_required: {
                     school_minimum_number_of_evaluators_required_in_group: number;
                     school_required_optional_group_evaluator_title: { value: string }[];
@@ -2107,14 +2107,14 @@ export interface NewSchool {
         draft: {
             input: {
                 school_evaluations_required: boolean;
-                school_minimum_number_of_evaluations_required: number | null;
-                school_required_evaluator_title: {
-                    value: string;
-                }[] | null;
+                school_minimum_number_of_evaluations_required: number | null,
                 school_minimum_time_evaluator_knows_applicant: {
                     quantity: number,
                     units: string,
                 } | null;
+                school_required_evaluator_title: {
+                    value: string;
+                }[] | null;
                 school_optional_evaluators_required: {
                     school_minimum_number_of_evaluators_required_in_group: number;
                     school_required_optional_group_evaluator_title: { value: string }[];
@@ -2134,14 +2134,14 @@ export interface NewSchool {
         original: {
             input: {
                 school_evaluations_recommended: boolean;
-                school_minimum_number_of_evaluations_recommended: {
+                school_minimum_time_evaluator_knows_applicant: {
                     quantity: number,
                     units: string,
                 } | null;
+                school_minimum_number_of_evaluations_recommended: number | null,
                 school_recommended_evaluator_title: {
                     value: string;
                 }[] | null;
-                school_minimum_time_evaluator_knows_applicant: string | null;
                 school_optional_evaluators_recommended: {
                     school_minimum_number_evaluators_recommended_in_group: number;
                     school_recommended_optional_group_evaluator_title: { value: string }[];
@@ -2156,14 +2156,14 @@ export interface NewSchool {
         draft: {
             input: {
                 school_evaluations_recommended: boolean;
-                school_minimum_number_of_evaluations_recommended: {
+                school_minimum_time_evaluator_knows_applicant: {
                     quantity: number,
                     units: string,
                 } | null;
+                school_minimum_number_of_evaluations_recommended: number | null,
                 school_recommended_evaluator_title: {
                     value: string;
                 }[] | null;
-                school_minimum_time_evaluator_knows_applicant: string | null;
                 school_optional_evaluators_recommended: {
                     school_minimum_number_evaluators_recommended_in_group: number;
                     school_recommended_optional_group_evaluator_title: { value: string }[];

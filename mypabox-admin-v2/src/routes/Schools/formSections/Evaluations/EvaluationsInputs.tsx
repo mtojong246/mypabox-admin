@@ -155,7 +155,10 @@ export default function EvaluationsInputs({
                 school_evaluations_required: checked,
                 school_minimum_number_of_evaluations_required: checked ? 0 : null,
                 school_required_evaluator_title: checked ? [] : null,
-                school_minimum_time_evaluator_knows_applicant: checked ? '' : null,
+                school_minimum_time_evaluator_knows_applicant: checked ? {
+                    quantity: 0,
+                    units: ''
+                } : null,
                 school_optional_evaluators_required: checked ? [] : null,
             }
 
@@ -165,7 +168,10 @@ export default function EvaluationsInputs({
                 school_evaluations_recommended: checked,
                 school_minimum_number_of_evaluations_recommended: checked ? 0 : null,
                 school_recommended_evaluator_title: checked ? [] : null,
-                school_minimum_time_evaluator_knows_applicant: checked ? '' : null,
+                school_minimum_time_evaluator_knows_applicant: checked ? {
+                    quantity: 0,
+                    units: ''
+                } : null,
                 school_optional_evaluators_recommended: checked ? [] : null,
             }
         } else {
@@ -200,13 +206,19 @@ export default function EvaluationsInputs({
                     value = {
                         school_minimum_number_of_evaluators_required_in_group: 0,
                         school_required_optional_group_evaluator_title: [],
-                        school_minimum_time_evaluator_knows_applicant: '',
+                        school_minimum_time_evaluator_knows_applicant: {
+                            quantity: 0,
+                            units: ''
+                        },
                     }
                 } else {
                     value = {
                         school_minimum_number_evaluators_recommended_in_group: 0,
                         school_recommended_optional_group_evaluator_title: [],
-                        school_minimum_time_evaluator_knows_applicant: '',
+                        school_minimum_time_evaluator_knows_applicant: {
+                            quantity: 0,
+                            units: ''
+                        },
                     }
                 }
         }

@@ -172,7 +172,8 @@ export const updateUpdatedSchoolDoc = async (data: NewSchool, id: string) => {
             throw new Error(error.code);
         }
 
-        console.log('error updating school' , error.code);
+        console.log('error updating school' , error.code, error);
+        console.log(data);
     }
     
 }
