@@ -9,6 +9,7 @@ import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../../type
 import countries from '../../../../data/countries.json';
 import { UserPermissions } from "../../../../types/users.types";
 import EmailAndPhoneNumberFields from "./arrayFields/EmailAndPhoneNumberFields";
+import EmailAndPhoneNumberInputs from "./EmailAndPhoneNumberInputs";
 
 export default function GeneralInformationInputs({
     tab,
@@ -216,7 +217,7 @@ export default function GeneralInformationInputs({
 
         handleChanges(schoolField, name, originalField, draftField, `${path}.${index}`, 'removed');
 
-    }
+    };
 
 
 
@@ -275,11 +276,26 @@ export default function GeneralInformationInputs({
                     revertIndividualChange={revertIndividualChange}
                 />
             ) : field.type === 'array' ? (
-                <EmailAndPhoneNumberFields 
+                // <EmailAndPhoneNumberFields 
+                //     tab={tab}
+                //     field={field}
+                //     handleRetrieveValue={handleRetrieveValue}
+                //     inputValues={value}
+                //     schoolField={schoolField}
+                //     isDisabled={isDisabled}
+                //     handleInput={handleInput}
+                //     handleSelect={handleSelect}
+                //     handleAdd={handleAddEmailOrPhone}
+                //     handleRemove={handleRemoveEmailOrPhone}
+                //     validateIndividualChange={validateIndividualChange}
+                //     revertIndividualChange={revertIndividualChange}
+                //     checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                // />
+                <EmailAndPhoneNumberInputs 
                     tab={tab}
                     field={field}
                     handleRetrieveValue={handleRetrieveValue}
-                    inputValues={value}
+                    values={value}
                     schoolField={schoolField}
                     isDisabled={isDisabled}
                     handleInput={handleInput}
@@ -288,7 +304,6 @@ export default function GeneralInformationInputs({
                     handleRemove={handleRemoveEmailOrPhone}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             ) : (
                 <TextEditorInput 

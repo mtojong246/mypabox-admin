@@ -10,8 +10,8 @@ import GeneralInformationInputs from "./GeneralInformationInputs";
 
 const permissions = {
     canEditWithVerificationNeeded: false,
-    canEditWithoutVerificationNeeded: true,
-    canVerify: false,
+    canEditWithoutVerificationNeeded: false,
+    canVerify: true,
     canMakeLive: false,
     canAddOrDelete: false,
 };
@@ -234,6 +234,7 @@ export default function GeneralInformation({
         validateIndividualChange,
         revertIndividualChange,
         checkIfValueHasBeenRemoved,
+        validateAllRemovals,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     useEffect(() => {
@@ -283,6 +284,7 @@ export default function GeneralInformation({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <GeneralInformationInputs 
                             tab='original'

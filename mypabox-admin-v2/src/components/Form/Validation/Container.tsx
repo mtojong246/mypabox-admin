@@ -19,6 +19,7 @@ export default function Container({
     permissions,
     originalInputs,
     modifiedInputs,
+    validateAllRemovals,
 }: {
     label: string,
     name: string,
@@ -28,6 +29,7 @@ export default function Container({
     permissions: UserPermissions,
     originalInputs: ReactNode,
     modifiedInputs?: ReactNode,
+    validateAllRemovals?: (name: string) => any,
 }) {
     const [ selectedIndex, setSelectedIndex ] = useState(0);
     const [ tabs, setTabs ] = useState<string[]>([]);
@@ -114,9 +116,17 @@ export default function Container({
 
         let field = school[name as keyof NewSchool] as GenericSchoolField;
 
+        let draft;
+
+        if (validateAllRemovals) {
+            draft = validateAllRemovals(name);
+        } else {
+            draft = field.draft;
+        }
+
         field = {
             ...field,
-            original: field.draft,
+            original: draft,
             changes: [],
         }
 

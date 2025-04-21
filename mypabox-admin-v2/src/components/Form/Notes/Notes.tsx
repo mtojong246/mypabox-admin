@@ -71,6 +71,7 @@ export default function Notes({
         }
     }, [isEditSchool, schoolField.changes, tab]);
 
+
     useEffect(() => {
         if (schoolField !== undefined) {
             const allChanges = schoolField.changes;

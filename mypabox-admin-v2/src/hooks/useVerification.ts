@@ -409,7 +409,7 @@ const useVerification = ({
                 ...school,
                 [name]: {
                     ...field,
-                    draft,
+                    draft: type === 'removed' ? field.draft : draft,
                     changes,
                 }
             })
@@ -450,6 +450,78 @@ const useVerification = ({
         return updatedChanges;
     }
 
+    const validateAllRemovals = (name: string) => {
+        const field = school[name as keyof NewSchool] as GenericSchoolField;
+        const removedChanges = field.changes.filter(change => change.type === 'removed');
+
+        let draft;
+
+        if (removedChanges.length < 1) {
+            draft = field.draft;
+        } else {
+            let modified: {
+                value: any[],
+                path: string,
+            }[] = [];
+
+            removedChanges.forEach(change => {
+                let path = change.path;
+                let index: undefined | number = undefined;
+                const keys = path.split('.').filter(key => key !== '');
+
+                if (!isNaN(Number(keys[keys.length-1]))) {
+                    path = `.${keys.filter((key, i) => i !== keys.length-1).join('.')}`
+                    index = Number(keys[keys.length-1])
+                } else {
+                    path = change.path;
+                }
+
+                if (index !== undefined) {
+                    const {
+                        originalDraftValue,
+                    } = handleRetrieveValue(path, field);
+
+                    const modifiedDraftValue = (originalDraftValue as any[]).filter((val,i) => i !== index);
+
+                    const existingModification = modified.find(mod => mod.path === path);
+
+                    if (existingModification) {
+                        modified.map(mod => {
+                            if (mod.path === path) {
+                                return {
+                                    ...mod,
+                                    value: modifiedDraftValue.filter(val => mod.value.includes(val)),
+                                }
+                            } else {
+                                return mod
+                            }
+                        })
+                    } else {
+                        modified.push({
+                            value: modifiedDraftValue,
+                            path,
+                        })
+                    }
+                    
+                }
+               
+
+            });
+
+            if (modified.length > 0) {
+                modified.forEach(mod => {
+                    const {
+                        draftField
+                    } = handleModification(mod.path, field, mod.value, 'modify');
+
+                    draft = draftField;
+                })
+            }
+        };
+
+        return draft;
+    }
+
     const validateIndividualChange = (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => {
         e.preventDefault();
 
@@ -478,21 +550,22 @@ const useVerification = ({
         if (change.type === 'modified') {
             validatedValue = originalDraftValue;
         } else {
-            const {
-                originalValue,
-            } = handleRetrieveValue(path, field);
+            const retrievedValues = handleRetrieveValue(path, field);
+            // const {
+            //     originalValue,
+            // } = handleRetrieveValue(path, field);
 
             if (change.type === 'added' && index !== undefined) {
-                let originalArr = originalValue as any[];
-                if (index >= originalValue.length) {
-                    originalArr = originalValue.concat(originalDraftValue);
+                let originalArr = retrievedValues.originalValue as any[];
+                if (index >= retrievedValues.originalValue.length) {
+                    originalArr = retrievedValues.originalValue.concat(originalDraftValue);
                 } else {
                     originalArr.splice(index, 0, originalDraftValue);
                 }
                 validatedValue = originalArr;
 
             } else if (change.type === 'removed' && index !== undefined) {
-                validatedValue = (originalValue as any[]).filter((val,i) => i !== index);
+                validatedValue = (retrievedValues.originalValue as any[]).filter((val,i) => i !== index);
             }
         }
 
@@ -505,10 +578,17 @@ const useVerification = ({
             'modify',
         );
 
+        let modifiedDraftField: any | undefined = undefined;
+
+
         let modifiedChanges = field.changes.filter(c => c.type !== change.type && c.path !== change.path);
 
         if (change.type === 'removed' && index !== undefined) {
             modifiedChanges = adjustIndices(modifiedChanges, path, index);
+            const {
+                draftField,
+            } = handleModification(path, field, '', 'remove', index);
+            modifiedDraftField = draftField
         }
 
         
@@ -517,6 +597,7 @@ const useVerification = ({
             [name]: {
                 ...field,
                 original: originalField,
+                draft: modifiedDraftField !== undefined ? modifiedDraftField : field.draft,
                 changes: modifiedChanges,
             }
         })
@@ -556,11 +637,7 @@ const useVerification = ({
 
             if (change.type === 'added') {
                 revertedValue = (originalDraftValue as any[]).filter((val,i) => i !== index);
-            } else if (change.type === 'removed' && index !== undefined) {
-                let draftArr = originalDraftValue as any[];
-                draftArr.splice(index, 0, originalValue);
-                revertedValue = draftArr;
-            }
+            } 
         }
 
 
@@ -583,7 +660,7 @@ const useVerification = ({
             ...school,
             [name]: {
                 ...field,
-                draft: draftField,
+                draft: change.type === 'removed' ? field.draft : draftField,
                 changes: modifiedChanges,
             }
         })
@@ -598,7 +675,8 @@ const useVerification = ({
         validateIndividualChange,
         revertIndividualChange,
         handleModification,
-        checkIfValueHasBeenRemoved
+        checkIfValueHasBeenRemoved,
+        validateAllRemovals,
     }
 
 };
