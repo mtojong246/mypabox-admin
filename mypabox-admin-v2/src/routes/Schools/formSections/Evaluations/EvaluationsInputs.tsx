@@ -301,6 +301,7 @@ export default function EvaluationsInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'text' ? (
                                     <TextInput 
@@ -316,6 +317,7 @@ export default function EvaluationsInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 
                                 ) : associatedField.type === 'text-select' ? (
@@ -332,6 +334,7 @@ export default function EvaluationsInputs({
                                         schoolField={schoolField}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'array' ? (
                                     <div className="w-full flex flex-col gap-4 justify-start items-start">
@@ -371,6 +374,7 @@ export default function EvaluationsInputs({
                                                                 change={schoolField.changes.find(change => change.path === arrayInputPath)}
                                                                 validateIndividualChange={validateIndividualChange}
                                                                 revertIndividualChange={revertIndividualChange}
+                                                                permissions={permissions}
                                                             />
                                                         </div>
                                                         {change && (
@@ -479,6 +483,7 @@ export default function EvaluationsInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

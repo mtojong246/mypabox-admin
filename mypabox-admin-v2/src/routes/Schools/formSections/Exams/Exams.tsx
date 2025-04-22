@@ -11,16 +11,8 @@ import PACAT from "./components/PACAT";
 import CASPer from "./components/CASPer";
 import EnglishExams from "./components/EnglishExams";
 import ExamInputs from "./inputs/ExamInputs";
+import { UserPermissions } from "../../../../types/users.types";
 
-
-
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: true,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 const examFields = [
     {
@@ -36,12 +28,14 @@ export default function Exams({
     isEditSchool,
     school,
     setSchool,
-    showChangesOnly
+    showChangesOnly,
+    permissions
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
+    permissions: UserPermissions
 }) {
     const [ fields, setFields ] = useState<{
         label: string,

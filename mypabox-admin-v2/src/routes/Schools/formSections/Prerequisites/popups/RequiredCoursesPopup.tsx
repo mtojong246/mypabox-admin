@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { GenericSchoolField, NewSchool } from "../../../../../types/newSchools.types";
 import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
 import CoursePopup, { CourseForm } from "./CoursePopup";
+import { UserPermissions } from "../../../../../types/users.types";
 
 
 export interface RequiredCourseType {
@@ -20,6 +21,7 @@ export default function RequiredCoursesPopup({
     selectedPrereqArrItem,
     handleModification,
     handleChanges,
+    permissions,
 }: {
     school: NewSchool,
     togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
@@ -36,7 +38,7 @@ export default function RequiredCoursesPopup({
         originalDraftValue: any[] | undefined;
     },
     handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
-    
+    permissions: UserPermissions
 }) {
     const [ selectedCourse, setSelectedCourse ] = useState<CourseForm | null>(null);
 
@@ -108,6 +110,7 @@ export default function RequiredCoursesPopup({
             selectedCourse={selectedCourse}
             togglePopup={togglePopup}
             handleSubmit={handleSubmit}
+            permissions={permissions}
         />
     )
 }

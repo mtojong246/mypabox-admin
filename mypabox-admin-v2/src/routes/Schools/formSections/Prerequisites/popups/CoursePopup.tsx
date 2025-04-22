@@ -8,6 +8,7 @@ import BooleanInput from "../../../../../components/Form/InputTypes/BooleanInput
 import TextInput from "../../../../../components/Form/InputTypes/TextInput";
 import ReactQuill from "react-quill";
 import Button from "../../../../../components/Buttons/Button";
+import { UserPermissions } from "../../../../../types/users.types";
 
 export interface CourseForm {
     course_id: string;
@@ -32,11 +33,13 @@ export default function CoursePopup({
     togglePopup,
     toggleCoursePopup,
     handleSubmit,
+    permissions,
 }: {
     selectedCourse: CourseForm | null, 
     togglePopup?: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
     toggleCoursePopup?: (e: React.MouseEvent<HTMLButtonElement>, index?: number, course?: any) => void,
     handleSubmit: (e: React.MouseEvent<HTMLButtonElement>, form: CourseForm) => void,
+    permissions: UserPermissions
 
 }) {
     const courses = useSelector(selectCourses);
@@ -134,6 +137,7 @@ export default function CoursePopup({
                                     isCreatable={false}
                                     isDisabled={false}
                                     options={courseOptions}
+                                    permissions={permissions}
                                 />
                             )}
 
@@ -145,6 +149,7 @@ export default function CoursePopup({
                                 handleCheck={handleBoolean}
                                 isRequired={false}
                                 isDisabled={false}
+                                permissions={permissions}
                             />
 
                             <BooleanInput 
@@ -155,6 +160,7 @@ export default function CoursePopup({
                                 handleCheck={handleBoolean}
                                 isRequired={false}
                                 isDisabled={false}
+                                permissions={permissions}
                             />
 
                             <TextInput 
@@ -167,6 +173,7 @@ export default function CoursePopup({
                                 isRequired={false}
                                 isDisabled={false}
                                 type='text'  
+                                permissions={permissions}
                             />
 
                             <TextInput 
@@ -179,6 +186,7 @@ export default function CoursePopup({
                                 isRequired={false}
                                 isDisabled={false}
                                 type='text'  
+                                permissions={permissions}
                             />
                             
                             <div className='flex flex-col gap-2 justify-start items-start w-full mb-10'>

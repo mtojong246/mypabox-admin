@@ -184,6 +184,7 @@ export default function Container({
                                 handleInput={handleLink}
                                 link={link}
                                 isDisabled={false}
+                                permissions={permissions}
                             />
                             <div className="flex justify-center items-center h-[47px]">
                                 <IconButton 

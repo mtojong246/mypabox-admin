@@ -13,6 +13,7 @@ import Button from "../../../../../components/Buttons/Button";
 import NotePopup from "./NotePopup";
 import IncludedOrExcludedCoursePopup, { IncludedOrExcludedCourseType } from "./IncludedOrExcludedCoursePopup";
 import { selectCourses } from "../../../../../app/selectors/courses.selectors";
+import { UserPermissions } from "../../../../../types/users.types";
 
 export interface RequiredCourseCategoryType {
     school_required_course_category: string;
@@ -47,6 +48,7 @@ export default function RequiredCourseCategoriesPopup({
     selectedPrereqArrItem,
     handleModification,
     handleChanges,
+    permissions,
 }: {
     school: NewSchool,
     togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
@@ -63,7 +65,7 @@ export default function RequiredCourseCategoriesPopup({
         originalDraftValue: any[] | undefined;
     },
     handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
-    
+    permissions: UserPermissions
 }) {
     const [ form, setForm ] = useState<RequiredCourseCategoryType>(defaultForm);
     const categories = useSelector(selectCategories);
@@ -317,6 +319,7 @@ export default function RequiredCourseCategoriesPopup({
                                 isDisabled={false}
                                 isRequired={false}
                                 options={categoryOptions}
+                                permissions={permissions}
                             />
                         
                             <TextInput 
@@ -329,6 +332,7 @@ export default function RequiredCourseCategoriesPopup({
                                 isRequired={false}
                                 isDisabled={false}
                                 type='text'  
+                                permissions={permissions}
                             />
 
                             <TextInput 
@@ -341,6 +345,7 @@ export default function RequiredCourseCategoriesPopup({
                                 isRequired={false}
                                 isDisabled={false}
                                 type='text'  
+                                permissions={permissions}
                             />
 
                             <TextInput 
@@ -353,6 +358,7 @@ export default function RequiredCourseCategoriesPopup({
                                 isRequired={false}
                                 isDisabled={false}
                                 type='text'  
+                                permissions={permissions}
                             />
 
                             <div className="w-full flex flex-col gap-2 justify-start items-start">
@@ -524,6 +530,7 @@ export default function RequiredCourseCategoriesPopup({
                     handleSubmit={handleSubmitCourse}
                     courseType={courseType}
                     courseOptions={courseOptions}
+                    permissions={permissions}
                 />
             )}
             {isNotePopupOpen && (

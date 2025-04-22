@@ -8,6 +8,7 @@ import IconButton from "../../../../components/Buttons/IconButton";
 
 import { ReactComponent as PlusIcon } from '../../../../components/Icons/Plus.svg';
 import { ReactComponent as DeleteIcon } from '../../../../components/Icons/Trash.svg';
+import { UserPermissions } from "../../../../types/users.types";
 
 
 
@@ -25,6 +26,7 @@ export default function EmailAndPhoneNumberInputs({
     handleRemove,
     validateIndividualChange,
     revertIndividualChange,
+    permissions
 }: {
     tab: 'original' | 'modified',
     field: {
@@ -47,6 +49,7 @@ export default function EmailAndPhoneNumberInputs({
     handleRemove: (e:any, name: string, path: string, index: number) => void,
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    permissions: UserPermissions
 }) {
 
     const checkIfValueHasBeenRemoved = (path: string) => {
@@ -111,6 +114,7 @@ export default function EmailAndPhoneNumberInputs({
                                     validateIndividualChange={validateIndividualChange}
                                     revertIndividualChange={revertIndividualChange}
                                     isDisabled={isDisabled}
+                                    permissions={permissions}
                                 />
                                 <TextInput 
                                     label={field.name === 'school_email' ? 'Email Address' : 'Phone Number'}
@@ -125,6 +129,7 @@ export default function EmailAndPhoneNumberInputs({
                                     validateIndividualChange={validateIndividualChange}
                                     revertIndividualChange={revertIndividualChange}
                                     isDisabled={isDisabled}
+                                    permissions={permissions}
                                 />
                             </div>
                             {change && (

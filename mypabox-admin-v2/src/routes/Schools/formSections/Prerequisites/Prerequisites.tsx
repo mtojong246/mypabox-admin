@@ -12,17 +12,10 @@ import RequiredCourseCategoriesPopup, { RequiredCourseCategoryType } from "./pop
 import RecommendedCoursePopup, { RecommendedCourseType } from "./popups/RecommendedCoursePopup";
 import RecommendedCourses from "./components/RecommendedCourses";
 import RequiredCoursesAndCategories from "./components/RequiredCoursesAndCategories";
+import { UserPermissions } from "../../../../types/users.types";
 
 export type PrereqPopupType = 'required-courses' | 'recommended-courses' | 'optional-courses' | 'course-categories' ;
 export type PrereqArrItemType = RequiredCourseType | RequiredOptionalCourseType | RequiredCourseCategoryType | RecommendedCourseType;
-
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 
 
@@ -30,12 +23,14 @@ export default function Prerequisites({
     isEditSchool,
     school,
     setSchool,
-    showChangesOnly
+    showChangesOnly,
+    permissions
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
+    permissions: UserPermissions
 }) {
     const {
         toggleNote,
@@ -165,6 +160,7 @@ export default function Prerequisites({
                     selectedPrereqField={selectedPrereqField}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             ) : popupType === 'recommended-courses' ? (
                 <RecommendedCoursePopup 
@@ -174,6 +170,7 @@ export default function Prerequisites({
                     selectedPrereqField={selectedPrereqField}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             ) : popupType === 'optional-courses' ? (
                 <RequiredOptionalCoursesPopup 
@@ -183,6 +180,7 @@ export default function Prerequisites({
                     selectedPrereqField={selectedPrereqField}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             ) : popupType === 'course-categories' ? (
                 <RequiredCourseCategoriesPopup 
@@ -192,6 +190,7 @@ export default function Prerequisites({
                     selectedPrereqField={selectedPrereqField}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             ) : (
                 <></>

@@ -84,6 +84,7 @@ export default function GPAInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             ) : (
                 <>

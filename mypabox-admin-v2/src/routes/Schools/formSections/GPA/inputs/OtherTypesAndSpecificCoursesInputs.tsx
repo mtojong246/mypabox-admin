@@ -249,6 +249,7 @@ export default function OtherTypesAndSpecificCoursesInputs({
                                             change={schoolField.changes.find(change => change.path === inputPath)}
                                             validateIndividualChange={validateIndividualChange}
                                             revertIndividualChange={revertIndividualChange}
+                                            permissions={permissions}
                                         />
                                     ) : associatedField.type === 'radio' ? (
                                         <RadioInput 
@@ -272,6 +273,7 @@ export default function OtherTypesAndSpecificCoursesInputs({
                                             validateIndividualChange={validateIndividualChange}
                                             revertIndividualChange={revertIndividualChange}
                                             isDisabled={isDisabled}
+                                            permissions={permissions}
                                         />
                                     ) : associatedField.type === 'select' ? (
                                         <>
@@ -290,6 +292,7 @@ export default function OtherTypesAndSpecificCoursesInputs({
                                                 change={schoolField.changes.find(change => change.path === inputPath)}
                                                 validateIndividualChange={validateIndividualChange}
                                                 revertIndividualChange={revertIndividualChange}
+                                                permissions={permissions}
                                             />
                                         ) : courseOptions.length > 0 ? (
                                             <SelectInput 
@@ -306,6 +309,7 @@ export default function OtherTypesAndSpecificCoursesInputs({
                                                 change={schoolField.changes.find(change => change.path === inputPath)}
                                                 validateIndividualChange={validateIndividualChange}
                                                 revertIndividualChange={revertIndividualChange}
+                                                permissions={permissions}
                                             />
                                         ) : (
                                             <></>
@@ -328,6 +332,7 @@ export default function OtherTypesAndSpecificCoursesInputs({
                                             revertIndividualChange={revertIndividualChange}
                                             handleChanges={handleChanges}
                                             handleModification={handleModification}
+                                            permissions={permissions}
                                         />
                                     ) : (
                                         <></>

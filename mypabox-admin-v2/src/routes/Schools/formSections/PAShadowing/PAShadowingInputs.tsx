@@ -164,6 +164,7 @@ export default function PAShadowingInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'text' ? (
                                     <TextInput 
@@ -179,6 +180,7 @@ export default function PAShadowingInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : (
                                     <></>
@@ -204,6 +206,7 @@ export default function PAShadowingInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             )}
             {field.notePath && (
@@ -220,6 +223,7 @@ export default function PAShadowingInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

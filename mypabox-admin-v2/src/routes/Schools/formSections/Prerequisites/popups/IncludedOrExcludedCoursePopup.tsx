@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectCourses } from "../../../../../app/selectors/courses.selectors";
 import ReactQuill from "react-quill";
 import Button from "../../../../../components/Buttons/Button";
+import { UserPermissions } from "../../../../../types/users.types";
 
 
 export interface IncludedOrExcludedCourseType {
@@ -22,14 +23,15 @@ export default function IncludedOrExcludedCoursePopup({
     toggleCoursePopup,
     handleSubmit,
     courseOptions,
-    courseType
+    courseType,
+    permissions,
 }: {
     selectedCourse: IncludedOrExcludedCourseType | null, 
     toggleCoursePopup: (e: React.MouseEvent<HTMLButtonElement>, index?: number, course?: any) => void,
     handleSubmit: (e: React.MouseEvent<HTMLButtonElement>, form: IncludedOrExcludedCourseType, type: 'Included' | 'Excluded') => void,
     courseType: 'Included' | 'Excluded'
     courseOptions: { value: string, label: string }[],
-
+    permissions: UserPermissions
 }) {
     const [ form, setForm ] = useState<IncludedOrExcludedCourseType>(defaultForm);
     const courses = useSelector(selectCourses);
@@ -92,6 +94,7 @@ export default function IncludedOrExcludedCoursePopup({
                                     isCreatable={false}
                                     isDisabled={false}
                                     options={courseOptions}
+                                    permissions={permissions}
                                 />
                             )}
                             

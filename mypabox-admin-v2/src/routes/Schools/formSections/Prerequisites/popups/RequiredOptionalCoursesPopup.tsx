@@ -12,6 +12,7 @@ import CoursePopup, { CourseForm } from "./CoursePopup";
 import Course from "../arrayFields/Course";
 import ReactQuill from "react-quill";
 import NotePopup from "./NotePopup";
+import { UserPermissions } from "../../../../../types/users.types";
 
 
 
@@ -51,6 +52,7 @@ export default function RequiredOptionalCoursesPopup({
     selectedPrereqArrItem,
     handleModification,
     handleChanges,
+    permissions,
 }: {
     school: NewSchool,
     togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
@@ -67,7 +69,7 @@ export default function RequiredOptionalCoursesPopup({
         originalDraftValue: any[] | undefined;
     },
     handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
-    
+    permissions: UserPermissions
 }) {
     const [ form, setForm ] = useState<RequiredOptionalCourseType>(defaultForm);
     const [ selectedCourse, setSelectedCourse ] = useState<CourseForm | null>(null);
@@ -276,6 +278,7 @@ export default function RequiredOptionalCoursesPopup({
                                 isRequired={false}
                                 isDisabled={false}
                                 type='text'  
+                                permissions={permissions}
                             />
 
                             <div className="flex flex-col gap-2 justify-start items-start">
@@ -390,6 +393,7 @@ export default function RequiredOptionalCoursesPopup({
                     selectedCourse={selectedCourse}
                     toggleCoursePopup={toggleCoursePopup}
                     handleSubmit={handleSubmitCourse}
+                    permissions={permissions}
                 />
             )}
             {isNotePopupOpen && (

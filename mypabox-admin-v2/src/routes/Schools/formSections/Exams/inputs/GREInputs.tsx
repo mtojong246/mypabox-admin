@@ -385,6 +385,7 @@ export default function GREInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'text' ? (
                                     <TextInput 
@@ -400,6 +401,7 @@ export default function GREInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'text-select' ? (
                                     <TextSelectInput 
@@ -415,6 +417,7 @@ export default function GREInputs({
                                         schoolField={schoolField}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'note' ? (
                                     <Notes 
@@ -432,6 +435,7 @@ export default function GREInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
+                                        permissions={permissions}
                                     />
                                 ) : (
                                     <></>
@@ -451,6 +455,7 @@ export default function GREInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
+                                        permissions={permissions}
                                     />
                                 )}
                             </>
@@ -474,6 +479,7 @@ export default function GREInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             )}
             {field.notePath && (
@@ -490,6 +496,7 @@ export default function GREInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

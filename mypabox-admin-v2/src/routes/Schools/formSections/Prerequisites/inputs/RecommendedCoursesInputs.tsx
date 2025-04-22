@@ -181,6 +181,7 @@ export default function RecommendedCoursesInputs({
                 revertIndividualChange={revertIndividualChange}
                 handleChanges={handleChanges}
                 handleModification={handleModification}
+                permissions={permissions}
             />
         )}
         </div>

@@ -2,14 +2,8 @@ import { FormControlLabel, Radio, RadioGroup } from "@mui/material"
 import { ChangeEvent, MouseEvent } from "react"
 import { Change } from "../../../types/newSchools.types"
 import ChangePopup from "../Validation/ChangePopup"
+import { UserPermissions } from "../../../types/users.types"
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 export default function RadioInput({
     label,
@@ -23,7 +17,7 @@ export default function RadioInput({
     change,
     validateIndividualChange,
     revertIndividualChange,
-
+    permissions
 }: {
     label: string,
     name: string,
@@ -39,6 +33,7 @@ export default function RadioInput({
     change?: Change,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    permissions: UserPermissions
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">

@@ -7,6 +7,7 @@ import Button from "../../../../../components/Buttons/Button";
 import { OutlinedInput } from "@mui/material";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import { UserPermissions } from "../../../../../types/users.types";
 
 const unitOptions = [
     {value: '', label: 'Select'},
@@ -47,6 +48,7 @@ export default function OptionalEvaluatorsPopup({
     selectedEvalArrItem,
     handleModification,
     handleChanges,
+    permissions,
 }: {
     school: NewSchool,
     togglePopup: (e:React.MouseEvent<HTMLButtonElement>, field?: { name: string, path: string, index?: number }, arrItem?: OptionalEvaluatorsType) => void,
@@ -63,7 +65,7 @@ export default function OptionalEvaluatorsPopup({
         originalDraftValue: any[] | undefined;
     },
     handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
-    
+    permissions: UserPermissions
 }) {
     const [ optionalEvaluators, setOptionalEvaluators ] = useState<OptionalEvaluatorsType>(defaultForm);
 
@@ -202,6 +204,7 @@ export default function OptionalEvaluatorsPopup({
                                 isRequired={false}
                                 isDisabled={false}
                                 type='text'  
+                                permissions={permissions}
                             />
 
                             <div className="w-full flex flex-col gap-2 justify-start items-start">

@@ -123,6 +123,7 @@ export default function CASPerInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : (
                                     <></>
@@ -152,6 +153,7 @@ export default function CASPerInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

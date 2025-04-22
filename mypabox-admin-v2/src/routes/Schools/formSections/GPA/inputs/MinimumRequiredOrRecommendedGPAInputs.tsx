@@ -202,6 +202,7 @@ export default function MinimumRequiredOrRecommendedGPAInputs({
                                         change={schoolField.changes.find(change => change.path === field.path)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'boolean' ? (
                                     <BooleanInput 
@@ -215,6 +216,7 @@ export default function MinimumRequiredOrRecommendedGPAInputs({
                                         change={schoolField.changes.find(change => change.path === field.path)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : (
                                     <></>
@@ -234,6 +236,7 @@ export default function MinimumRequiredOrRecommendedGPAInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
+                                        permissions={permissions}
                                     />
                                 )}
                             </>

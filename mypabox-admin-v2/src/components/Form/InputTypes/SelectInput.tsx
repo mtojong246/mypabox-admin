@@ -3,14 +3,8 @@ import CreatableSelect from 'react-select/creatable';
 import { Change } from '../../../types/newSchools.types';
 import { MouseEvent } from 'react';
 import ChangePopup from '../Validation/ChangePopup';
+import { UserPermissions } from '../../../types/users.types';
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 interface ColorOptions {value: string | number, label: string | number, color?: string, focus?: string}
 
@@ -30,6 +24,7 @@ export default function SelectInput({
     revertIndividualChange,
     isDisabled,
     colorStyles,
+    permissions
 }: {
     label: string,
     placeholder: string,
@@ -44,7 +39,8 @@ export default function SelectInput({
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     isDisabled: boolean,
-    colorStyles?: StylesConfig<ColorOptions>
+    colorStyles?: StylesConfig<ColorOptions>,
+    permissions: UserPermissions
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">

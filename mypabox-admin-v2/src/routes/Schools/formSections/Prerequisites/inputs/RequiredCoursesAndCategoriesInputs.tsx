@@ -252,6 +252,7 @@ export default function RequiredCoursesAndCategoriesInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
+                                        permissions={permissions}
                                     />
                                 )}
                                 
@@ -279,6 +280,7 @@ export default function RequiredCoursesAndCategoriesInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

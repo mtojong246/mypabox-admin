@@ -6,15 +6,8 @@ import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import TuitionInputs from "./TuitionInputs";
+import { UserPermissions } from "../../../../types/users.types";
 
-
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 const tuitionFields = [
     {
@@ -54,12 +47,14 @@ export default function Tuition({
     isEditSchool,
     school,
     setSchool,
-    showChangesOnly
+    showChangesOnly,
+    permissions
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
+    permissions: UserPermissions
 }) {
     const [ fields, setFields ] = useState<{
         label: string,

@@ -230,6 +230,7 @@ export default function PACATInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'text' ? (
                                     <TextInput 
@@ -245,6 +246,7 @@ export default function PACATInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : (
                                     <></>
@@ -271,6 +273,7 @@ export default function PACATInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             )}
             {field.notePath && (
@@ -287,6 +290,7 @@ export default function PACATInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

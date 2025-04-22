@@ -112,6 +112,7 @@ export default function PANCEPassRateInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             ) : field.type === 'text-area' ? (
                 <TextEditorInput 
@@ -125,6 +126,7 @@ export default function PANCEPassRateInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             ) : (
                 <></>
@@ -143,6 +145,7 @@ export default function PANCEPassRateInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

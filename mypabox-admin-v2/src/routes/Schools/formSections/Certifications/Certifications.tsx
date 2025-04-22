@@ -6,15 +6,9 @@ import useSchoolNotes from "../../../../hooks/useSchoolNotes";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import CertificationInputs from "./CertificationInputs";
+import { UserPermissions } from "../../../../types/users.types";
 
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 const certificationFields = [
     {
@@ -46,12 +40,14 @@ export default function Certifications({
     isEditSchool,
     school,
     setSchool,
-    showChangesOnly
+    showChangesOnly,
+    permissions
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
+    permissions: UserPermissions,
 }) {
     const [ fields, setFields ] = useState<{
         label: string;

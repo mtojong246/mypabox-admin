@@ -238,6 +238,7 @@ export default function GeneralInformationInputs({
                         validateIndividualChange={validateIndividualChange}
                         revertIndividualChange={revertIndividualChange}
                         isDisabled={isDisabled}
+                        permissions={permissions}
                     />
                     {field.name === 'school_logo' && value && (
                         <div className="h-[80px] aspect-square border border-outline rounded">
@@ -257,6 +258,7 @@ export default function GeneralInformationInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             ) : field.type === 'select' ? (
                 <SelectInput 
@@ -273,6 +275,7 @@ export default function GeneralInformationInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             ) : field.type === 'array' ? (
                 <EmailAndPhoneNumberInputs 
@@ -288,6 +291,7 @@ export default function GeneralInformationInputs({
                     handleRemove={handleRemoveEmailOrPhone}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             ) : (
                 <TextEditorInput 
@@ -301,6 +305,7 @@ export default function GeneralInformationInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             )}
             {field.notePath && (
@@ -317,6 +322,7 @@ export default function GeneralInformationInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

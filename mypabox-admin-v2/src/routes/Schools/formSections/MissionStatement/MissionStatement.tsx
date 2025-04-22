@@ -4,14 +4,8 @@ import Container from "../../../../components/Form/Validation/Container";
 import useVerification from "../../../../hooks/useVerification";
 
 import MissionStatementInputs from "./MissionStatementInputs";
+import { UserPermissions } from "../../../../types/users.types";
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 
 const missionStatementFields = [
@@ -27,12 +21,14 @@ export default function MissionStatement({
     isEditSchool,
     school,
     setSchool,
-    showChangesOnly
+    showChangesOnly,
+    permissions
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
+    permissions: UserPermissions
 }) {
     const [ fields, setFields ] = useState<{
         label: string,

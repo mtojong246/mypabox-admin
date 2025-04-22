@@ -261,6 +261,7 @@ export default function CompletionCriteriaInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'text' ? (
                                     <TextInput 
@@ -276,6 +277,7 @@ export default function CompletionCriteriaInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : (
                                     <SelectInput 
@@ -292,6 +294,7 @@ export default function CompletionCriteriaInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 )}
                                 {associatedField.notePath && inputNotes !== undefined && (
@@ -311,6 +314,7 @@ export default function CompletionCriteriaInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
+                                        permissions={permissions}
                                     />
                                 )}
                                 
@@ -338,6 +342,7 @@ export default function CompletionCriteriaInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

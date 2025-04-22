@@ -261,6 +261,7 @@ export default function ApplicationsInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type.includes('text') ? (
                                     <TextInput 
@@ -278,6 +279,7 @@ export default function ApplicationsInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : (
                                     <SelectInput 
@@ -295,6 +297,7 @@ export default function ApplicationsInputs({
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
                                         colorStyles={colorStyles}
+                                        permissions={permissions}
                                     />
                                 )}
                             </>
@@ -318,6 +321,7 @@ export default function ApplicationsInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             )}
             {field.notePath && (
@@ -334,6 +338,7 @@ export default function ApplicationsInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

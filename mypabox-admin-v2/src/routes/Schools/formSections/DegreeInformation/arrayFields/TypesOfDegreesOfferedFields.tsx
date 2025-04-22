@@ -6,6 +6,7 @@ import TextInput from "../../../../../components/Form/InputTypes/TextInput";
 import ChangePopup from "../../../../../components/Form/Validation/ChangePopup";
 import { ChangeEvent } from "react";
 import IconButton from "../../../../../components/Buttons/IconButton";
+import { UserPermissions } from "../../../../../types/users.types";
 
 export default function TypesOfDegreesOfferedFields({
     tab,
@@ -19,6 +20,7 @@ export default function TypesOfDegreesOfferedFields({
     handleRemove,
     validateIndividualChange,
     revertIndividualChange,
+    permissions
 }: {
     tab: 'original' | 'modified',
     field: {
@@ -40,6 +42,7 @@ export default function TypesOfDegreesOfferedFields({
     handleRemove: (e:any, name: string, path: string, index: number) => void,
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    permissions: UserPermissions
 }) {
 
     const checkIfValueHasBeenRemoved = (path: string) => {
@@ -87,6 +90,7 @@ export default function TypesOfDegreesOfferedFields({
                                     change={schoolField.changes.find(change => change.path === inputPath)}
                                     validateIndividualChange={validateIndividualChange}
                                     revertIndividualChange={revertIndividualChange}
+                                    permissions={permissions}
                                 />
                             </div>
                             {change && (

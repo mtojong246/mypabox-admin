@@ -5,6 +5,7 @@ import { ReactComponent as PlusIcon } from '../../../../../components/Icons/Plus
 import SelectInput from "../../../../../components/Form/InputTypes/SelectInput";
 import ChangePopup from "../../../../../components/Form/Validation/ChangePopup";
 import IconButton from "../../../../../components/Buttons/IconButton";
+import { UserPermissions } from "../../../../../types/users.types";
 
 const options = [
     {value: 'GRE', label: 'GRE'},
@@ -27,6 +28,7 @@ export default function OptionalExamFields({
     handleRemove,
     validateIndividualChange,
     revertIndividualChange,
+    permissions
 }: {
     tab: 'original' | 'modified',
     name: string,
@@ -49,6 +51,7 @@ export default function OptionalExamFields({
     handleRemove: (e:any, name: string, path: string, index: number) => void,
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    permissions: UserPermissions
 }) {
    
     const checkIfValueHasBeenRemoved = (path: string) => {
@@ -94,6 +97,7 @@ export default function OptionalExamFields({
                                 change={schoolField.changes.find(change => change.path === arrayInputPath)}
                                 validateIndividualChange={validateIndividualChange}
                                 revertIndividualChange={revertIndividualChange}
+                                permissions={permissions}
                             />
                             </div>
                             {change && (

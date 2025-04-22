@@ -208,6 +208,7 @@ export default function RequiredOptionalExamsInputs({
                                             change={schoolField.changes.find(change => change.path === inputPath)}
                                             validateIndividualChange={validateIndividualChange}
                                             revertIndividualChange={revertIndividualChange}
+                                            permissions={permissions}
                                         />
                                     ) : associatedField.type === 'array' ? (
                                         <OptionalExamFields 
@@ -224,6 +225,7 @@ export default function RequiredOptionalExamsInputs({
                                             handleRemove={handleRemove}
                                             validateIndividualChange={validateIndividualChange}
                                             revertIndividualChange={revertIndividualChange}
+                                            permissions={permissions}
                                         
                                         />
                                     ) : associatedField.type === 'note' ? (
@@ -242,6 +244,7 @@ export default function RequiredOptionalExamsInputs({
                                             revertIndividualChange={revertIndividualChange}
                                             handleChanges={handleChanges}
                                             handleModification={handleModification}
+                                            permissions={permissions}
                                         />
                                     ) : (
                                         <></>

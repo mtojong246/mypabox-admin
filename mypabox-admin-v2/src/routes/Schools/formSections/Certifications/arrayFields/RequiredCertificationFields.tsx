@@ -6,6 +6,7 @@ import TextInput from "../../../../../components/Form/InputTypes/TextInput";
 import ChangePopup from "../../../../../components/Form/Validation/ChangePopup";
 import { ChangeEvent } from "react";
 import IconButton from "../../../../../components/Buttons/IconButton";
+import { UserPermissions } from "../../../../../types/users.types";
 
 
 export default function RequiredCertificationFields({
@@ -21,6 +22,7 @@ export default function RequiredCertificationFields({
     handleRemove,
     validateIndividualChange,
     revertIndividualChange,
+    permissions
 }: {
     tab: 'original' | 'modified',
     field: {
@@ -43,6 +45,7 @@ export default function RequiredCertificationFields({
     handleRemove: (e:any, name: string, path: string, index: number) => void,
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    permissions: UserPermissions
 }) {
 
     const checkIfValueHasBeenRemoved = (path: string) => {
@@ -91,6 +94,7 @@ export default function RequiredCertificationFields({
                                         change={schoolField.changes.find(change => change.path === arrayInputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 </div>
                                 {change && (

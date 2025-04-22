@@ -9,16 +9,9 @@ import OtherTypesAndSpecificCourses from "./components/OtherTypesAndSpecificCour
 import AverageGPA from "./components/AverageGPA";
 import Container from "../../../../components/Form/Validation/Container";
 import GPAInputs from "./inputs/GPAInputs";
+import { UserPermissions } from "../../../../types/users.types";
 
 
-
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 const gpaFields = [
     {
@@ -33,12 +26,14 @@ export default function GPA({
     isEditSchool,
     school,
     setSchool,
-    showChangesOnly
+    showChangesOnly,
+    permissions
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
+    permissions: UserPermissions
 }) {
     const [ fields, setFields ] = useState<{
         label: string,

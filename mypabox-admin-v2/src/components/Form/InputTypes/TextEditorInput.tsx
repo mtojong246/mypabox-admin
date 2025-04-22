@@ -2,14 +2,8 @@ import ReactQuill from "react-quill"
 import { Change } from "../../../types/newSchools.types"
 import { MouseEvent } from "react"
 import ChangePopup from "../Validation/ChangePopup"
+import { UserPermissions } from "../../../types/users.types"
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 export default function TextEditorInput({
     label,
@@ -22,6 +16,7 @@ export default function TextEditorInput({
     validateIndividualChange,
     revertIndividualChange,
     isDisabled,
+    permissions
 }: {
     label: string,
     name: string,
@@ -33,6 +28,7 @@ export default function TextEditorInput({
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     isDisabled: boolean,
+    permissions: UserPermissions
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">

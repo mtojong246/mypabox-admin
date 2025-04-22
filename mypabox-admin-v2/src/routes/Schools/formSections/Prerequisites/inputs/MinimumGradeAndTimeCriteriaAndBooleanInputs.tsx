@@ -190,6 +190,7 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'boolean' ? (
                                     <BooleanInput 
@@ -203,6 +204,7 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                                         change={schoolField.changes.find(change => change.path === inputPath)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : associatedField.type === 'text-select' ? (
                                     <TextSelectInput 
@@ -218,6 +220,7 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                                         schoolField={schoolField}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : (
                                     <></>
@@ -238,6 +241,7 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
+                                        permissions={permissions}
                                     />
                                 )}
                             </>
@@ -264,6 +268,7 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

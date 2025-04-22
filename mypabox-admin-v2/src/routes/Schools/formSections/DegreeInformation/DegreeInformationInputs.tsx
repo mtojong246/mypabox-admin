@@ -149,6 +149,7 @@ export default function DegreeInformationInputs({
                     change={schoolField.changes.find(change => change.path === field.path)}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             ) : field.type === 'array' ? (
                 <TypesOfDegreesOfferedFields 
@@ -163,6 +164,7 @@ export default function DegreeInformationInputs({
                     handleRemove={handleRemoveDegree}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
+                    permissions={permissions}
                 />
             ) : (
                 <></>
@@ -181,6 +183,7 @@ export default function DegreeInformationInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
+                    permissions={permissions}
                 />
             )}
             </div>

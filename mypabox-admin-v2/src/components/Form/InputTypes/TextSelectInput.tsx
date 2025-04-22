@@ -3,14 +3,8 @@ import { ChangeEvent, useEffect, useState, MouseEvent } from 'react';
 import Select from 'react-select';
 import { Change, GenericSchoolField } from '../../../types/newSchools.types';
 import ChangePopup from '../Validation/ChangePopup';
+import { UserPermissions } from '../../../types/users.types';
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 export default function TextSelectInput({
     label,
@@ -25,6 +19,7 @@ export default function TextSelectInput({
     validateIndividualChange,
     revertIndividualChange,
     isDisabled,
+    permissions
 }: {
     label: string,
     placeholder: string,
@@ -41,6 +36,7 @@ export default function TextSelectInput({
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     isDisabled: boolean,
+    permissions: UserPermissions
 }) {
     const [ units, setUnits ] = useState('');
     const [ quantity, setQuantity ] = useState(0);

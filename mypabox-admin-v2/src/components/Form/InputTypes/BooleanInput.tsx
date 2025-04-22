@@ -2,14 +2,8 @@ import { Switch } from "@mui/material"
 import { ChangeEvent, MouseEvent } from "react"
 import { Change } from "../../../types/newSchools.types"
 import ChangePopup from "../Validation/ChangePopup"
+import { UserPermissions } from "../../../types/users.types"
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 export default function BooleanInput({
     label,
@@ -21,7 +15,8 @@ export default function BooleanInput({
     isDisabled,
     change,
     validateIndividualChange,
-    revertIndividualChange
+    revertIndividualChange,
+    permissions
 }: {
     label: string,
     name: string,
@@ -33,6 +28,7 @@ export default function BooleanInput({
     change?: Change,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    permissions: UserPermissions
     
 }) {
     return (

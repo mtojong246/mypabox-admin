@@ -137,6 +137,7 @@ export default function AverageGPAInputs({
                                         change={schoolField.changes.find(change => change.path === field.path)}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
+                                        permissions={permissions}
                                     />
                                 ) : (
                                     <></>
@@ -156,6 +157,7 @@ export default function AverageGPAInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
+                                        permissions={permissions}
                                     />
                                 )}
                             </>

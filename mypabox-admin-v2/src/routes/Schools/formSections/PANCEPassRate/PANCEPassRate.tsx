@@ -5,14 +5,8 @@ import useVerification from "../../../../hooks/useVerification";
 import Container from "../../../../components/Form/Validation/Container";
 import NotePopup from "../../../../components/Popups/NotePopup";
 import PANCEPassRateInputs from "./PANCEPassRateInputs";
+import { UserPermissions } from "../../../../types/users.types";
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 const pancePassRateFields = [
     {
@@ -41,12 +35,14 @@ export default function PANCEPassRate({
     isEditSchool,
     school,
     setSchool,
-    showChangesOnly
+    showChangesOnly,
+    permissions
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
+    permissions: UserPermissions
 }) {
     const [ fields, setFields ] = useState<{
         label: string,

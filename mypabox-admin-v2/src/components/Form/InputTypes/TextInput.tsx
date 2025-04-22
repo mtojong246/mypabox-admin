@@ -3,14 +3,8 @@ import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, MouseEvent } from "reac
 import { ReactComponent as ExternalLinkIcon } from '../../Icons/External-Link.svg';
 import { Change } from "../../../types/newSchools.types";
 import ChangePopup from "../Validation/ChangePopup";
+import { UserPermissions } from "../../../types/users.types";
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 export default function TextInput({
     label,
@@ -27,6 +21,7 @@ export default function TextInput({
     validateIndividualChange,
     revertIndividualChange,
     isDisabled,
+    permissions
 }: {
     label: string,
     placeholder: string,
@@ -42,6 +37,7 @@ export default function TextInput({
     change?: Change,
     validateIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
+    permissions: UserPermissions
 }) {
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">

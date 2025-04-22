@@ -9,14 +9,8 @@ import ChangePopup from "../Validation/ChangePopup";
 import IconButton from "../../Buttons/IconButton";
 import { useSelector } from "react-redux";
 import { selectIsEditSchool } from "../../../app/selectors/selectedSchool.selectors";
+import { UserPermissions } from "../../../types/users.types";
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 export default function Notes({
     notes,
@@ -29,6 +23,7 @@ export default function Notes({
     handleModification,
     tab,
     label,
+    permissions
 }: {
     notes: NewNote[],
     field: {
@@ -50,6 +45,7 @@ export default function Notes({
     },
     tab?: 'original' | 'modified';
     label?: string,
+    permissions: UserPermissions
 }) {
     const isEditSchool = useSelector(selectIsEditSchool);
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -62,7 +58,7 @@ export default function Notes({
         } else {
             setIsDisabled(false);
         }
-    }, [isEditSchool, schoolField.changes, tab]);
+    }, [isEditSchool, schoolField.changes, tab, permissions]);
 
 
     const deleteNote = (e:any, name: string, path: string, index: number) => {

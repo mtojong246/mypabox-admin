@@ -7,15 +7,9 @@ import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import EvaluationsInputs from "./EvaluationsInputs";
 import OptionalEvaluatorsPopup, { OptionalEvaluatorsType } from "./popups/OptionalEvaluatorsPopup";
+import { UserPermissions } from "../../../../types/users.types";
 
 
-const permissions = {
-    canEditWithVerificationNeeded: true,
-    canEditWithoutVerificationNeeded: false,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
 
 const evaluationsFields = [
     {
@@ -93,12 +87,14 @@ export default function Evaluations({
     isEditSchool,
     school,
     setSchool,
-    showChangesOnly
+    showChangesOnly,
+    permissions
 }: {
     isEditSchool: boolean,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
+    permissions: UserPermissions,
 }) {
     const [ fields, setFields ] = useState<{
         label: string;
@@ -260,6 +256,7 @@ export default function Evaluations({
                 selectedEvalField={selectedEvalField}
                 handleChanges={handleChanges}
                 handleModification={handleModification}
+                permissions={permissions}
             />
         )}
         </>
