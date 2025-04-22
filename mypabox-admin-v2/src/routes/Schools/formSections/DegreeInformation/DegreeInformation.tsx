@@ -71,7 +71,7 @@ export default function DegreeInformation({
         handleModification,
         revertIndividualChange,
         validateIndividualChange,
-        checkIfValueHasBeenRemoved,
+        validateAllRemovals,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     useEffect(() => {
@@ -121,6 +121,7 @@ export default function DegreeInformation({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <DegreeInformationInputs 
                             tab='original'
@@ -153,7 +154,6 @@ export default function DegreeInformation({
                             toggleNote={toggleNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

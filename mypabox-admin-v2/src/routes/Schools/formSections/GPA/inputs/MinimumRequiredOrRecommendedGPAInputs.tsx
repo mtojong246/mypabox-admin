@@ -18,7 +18,6 @@ export default function MinimumRequiredOrRecommendedGPAInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    checkIfValueHasBeenRemoved
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -55,7 +54,6 @@ export default function MinimumRequiredOrRecommendedGPAInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -236,7 +234,6 @@ export default function MinimumRequiredOrRecommendedGPAInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
-                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                     />
                                 )}
                             </>

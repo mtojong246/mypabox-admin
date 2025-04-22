@@ -86,8 +86,8 @@ export default function OtherTypesAndSpecificCourses({
     handleModification,
     validateIndividualChange,
     revertIndividualChange,
-    checkIfValueHasBeenRemoved,
-    showChangesOnly
+    showChangesOnly,
+    validateAllRemovals
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -119,8 +119,8 @@ export default function OtherTypesAndSpecificCourses({
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
-    checkIfValueHasBeenRemoved: (path: string, field: GenericSchoolField) => any | null;
     showChangesOnly: boolean,
+    validateAllRemovals: (name: string) => any,
 }) {
     const [ fields, setFields ] = useState<{
         label: string;
@@ -181,6 +181,7 @@ export default function OtherTypesAndSpecificCourses({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <OtherTypesAndSpecificCoursesInputs 
                             tab='original'
@@ -211,7 +212,6 @@ export default function OtherTypesAndSpecificCourses({
                             toggleNote={toggleNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

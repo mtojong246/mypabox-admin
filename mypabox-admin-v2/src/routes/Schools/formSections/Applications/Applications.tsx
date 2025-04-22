@@ -142,7 +142,7 @@ export default function Applications({
         handleModification,
         revertIndividualChange,
         validateIndividualChange,
-        checkIfValueHasBeenRemoved,
+        validateAllRemovals,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     useEffect(() => {
@@ -197,6 +197,7 @@ export default function Applications({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <ApplicationsInputs 
                             tab='original'
@@ -227,7 +228,6 @@ export default function Applications({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

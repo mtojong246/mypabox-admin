@@ -63,7 +63,7 @@ export default function Exams({
         handleModification,
         validateIndividualChange,
         revertIndividualChange,
-        checkIfValueHasBeenRemoved,
+        validateAllRemovals,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
 
@@ -100,7 +100,7 @@ export default function Exams({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             toggleNote={toggleNote}
             showChangesOnly={showChangesOnly}
         />
@@ -114,7 +114,7 @@ export default function Exams({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             toggleNote={toggleNote}
             showChangesOnly={showChangesOnly}
         />
@@ -128,7 +128,7 @@ export default function Exams({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             toggleNote={toggleNote}
             showChangesOnly={showChangesOnly}
         />
@@ -144,6 +144,7 @@ export default function Exams({
             validateIndividualChange={validateIndividualChange}
             toggleNote={toggleNote}
             showChangesOnly={showChangesOnly}
+            validateAllRemovals={validateAllRemovals}
         />
         <EnglishExams 
             school={school}
@@ -155,9 +156,10 @@ export default function Exams({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             toggleNote={toggleNote}
             showChangesOnly={showChangesOnly}
+            validateAllRemovals={validateAllRemovals}
+            
         />
         {fields.length > 0 && fields.map(field => {
             const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;

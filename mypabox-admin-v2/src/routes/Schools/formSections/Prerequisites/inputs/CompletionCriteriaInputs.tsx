@@ -44,7 +44,6 @@ export default function CompletionCriteriaInputs({
     revertIndividualChange,
     toggleNote,
     handleRetrieveValue,
-    checkIfValueHasBeenRemoved
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -83,7 +82,6 @@ export default function CompletionCriteriaInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -313,7 +311,6 @@ export default function CompletionCriteriaInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
-                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                     />
                                 )}
                                 
@@ -341,7 +338,6 @@ export default function CompletionCriteriaInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

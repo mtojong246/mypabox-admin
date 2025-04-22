@@ -43,7 +43,6 @@ export default function EvaluationsInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    checkIfValueHasBeenRemoved,
     togglePopup,
 }: {
     tab: 'original' | 'modified',
@@ -82,7 +81,6 @@ export default function EvaluationsInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;    
     togglePopup: (e:React.MouseEvent<HTMLButtonElement>, field?: { name: string, path: string, index?: number }, arrItem?: OptionalEvaluatorsType) => void,
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -251,6 +249,16 @@ export default function EvaluationsInputs({
 
         handleChanges(schoolField, name, originalField, draftField, `${path}.${index}`, 'removed');
 
+    };
+
+    const checkIfValueHasBeenRemoved = (path: string) => {
+        const change = schoolField.changes.find(change => change.path === path);
+
+        if (change && change.type === 'removed') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     return (
@@ -342,10 +350,13 @@ export default function EvaluationsInputs({
                                                     textValue = textInput.originalDraftValue;
                                                 }
 
+                                                const toBeRemoved = checkIfValueHasBeenRemoved(`${inputPath}.${i}`);
+                                                
+
                                                 return (
                                                 <div className="w-full flex gap-4 justify-start items-start">
                                                     <div className="flex w-full gap-2 justify-start items-start">
-                                                        <div className="flex gap-4 p-6 border border-outline w-full rounded-lg">
+                                                        <div className={`${toBeRemoved && tab === 'modified' && 'opacity-50'} flex gap-4 p-6 border border-outline w-full rounded-lg`}>
                                                             <SelectInput 
                                                                 label="Title"
                                                                 placeholder="Title"
@@ -385,10 +396,16 @@ export default function EvaluationsInputs({
                                                 const arrayInputPath = `${inputPath}.${i}`;
                                                 const change = schoolField.changes.find(change => change.path === arrayInputPath);
 
+                                                const toBeRemoved = checkIfValueHasBeenRemoved(arrayInputPath);
+
                                                 return (
                                                     <div className="w-full flex justify-between items-start gap-6">
                                                         <div className="grow flex justify-start items-start gap-2">
-                                                            <OptionalEvaluatorsField value={val}/>
+                                                            <OptionalEvaluatorsField 
+                                                                value={val}
+                                                                toBeRemoved={toBeRemoved}
+                                                                tab={tab}
+                                                            />
                                                             
                                                             {change && (
                                                                 <ChangePopup 
@@ -462,7 +479,6 @@ export default function EvaluationsInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

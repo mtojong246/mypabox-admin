@@ -17,7 +17,6 @@ export default function AverageGPAInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    checkIfValueHasBeenRemoved
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -54,7 +53,6 @@ export default function AverageGPAInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -158,7 +156,6 @@ export default function AverageGPAInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
-                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                     />
                                 )}
                             </>

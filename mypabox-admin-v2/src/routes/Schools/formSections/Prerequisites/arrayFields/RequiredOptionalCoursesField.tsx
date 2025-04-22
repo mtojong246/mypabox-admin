@@ -5,11 +5,15 @@ import Course from "./Course";
 
 export default function RequiredOptionalCoursesField({
     value,
+    toBeRemoved,
+    tab,
 }: {
     value: RequiredOptionalCourseType,
+    toBeRemoved: boolean,
+    tab: 'modified' | 'original'
 }) {
     return (
-        <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
+        <div className={`${toBeRemoved && tab === 'modified' && 'opacity-50'} grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
             <p><span className="font-semibold">{value.school_minimum_number_of_courses_to_be_completed}</span> of the following courses need to be completed:</p>
             <div className="w-full flex flex-col gap-2 justify-start items-stretch">
                 {value.school_required_optional_courses_list.map(optionalCourse => {
@@ -23,7 +27,11 @@ export default function RequiredOptionalCoursesField({
                     };
 
                     return (
-                        <Course course={course}/>
+                        <Course 
+                            course={course}
+                            tab={tab}
+                            toBeRemoved={toBeRemoved}
+                        />
                     )
                 })}
             </div>

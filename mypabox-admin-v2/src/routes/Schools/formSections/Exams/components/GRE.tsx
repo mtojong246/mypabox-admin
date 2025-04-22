@@ -197,8 +197,8 @@ export default function GRE({
     validateIndividualChange,
     handleChanges,
     toggleNote,
-    checkIfValueHasBeenRemoved,
     showChangesOnly,
+    validateAllRemovals
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -229,8 +229,8 @@ export default function GRE({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     showChangesOnly: boolean,
+    validateAllRemovals: (name: string) => any,
 }) {
     const [ fields, setFields ] = useState<{
         label: string;
@@ -301,6 +301,7 @@ export default function GRE({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <GREInputs 
                             tab='original'
@@ -331,7 +332,6 @@ export default function GRE({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

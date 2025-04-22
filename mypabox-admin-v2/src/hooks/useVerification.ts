@@ -409,7 +409,7 @@ const useVerification = ({
                 ...school,
                 [name]: {
                     ...field,
-                    draft: type === 'removed' ? field.draft : draft,
+                    draft: type === 'removed' && !existingChange ? field.draft : draft,
                     changes,
                 }
             })

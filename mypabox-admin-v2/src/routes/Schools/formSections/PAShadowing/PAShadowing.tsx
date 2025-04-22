@@ -103,7 +103,7 @@ export default function PAShadowing({
         handleModification,
         revertIndividualChange,
         validateIndividualChange,
-        checkIfValueHasBeenRemoved,
+        validateAllRemovals
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
 
@@ -160,6 +160,7 @@ export default function PAShadowing({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <PAShadowingInputs 
                             tab='original'
@@ -190,7 +191,6 @@ export default function PAShadowing({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

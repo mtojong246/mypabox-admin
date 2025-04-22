@@ -27,7 +27,6 @@ export default function Notes({
     revertIndividualChange,
     handleChanges,
     handleModification,
-    checkIfValueHasBeenRemoved,
     tab,
     label,
 }: {
@@ -49,16 +48,10 @@ export default function Notes({
         draftField: any;
         originalValue: any;
     },
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     tab?: 'original' | 'modified';
     label?: string,
 }) {
     const isEditSchool = useSelector(selectIsEditSchool);
-    const [ changes, setChanges ] = useState<Change[]>([]);
-    const [ noteValues, setNoteValues ] = useState<{
-        note: NewNote,
-        toBeRemoved: boolean,
-    }[]>([]);
     const [ isDisabled, setIsDisabled ] = useState(false);
 
     useEffect(() => {
@@ -70,40 +63,6 @@ export default function Notes({
             setIsDisabled(false);
         }
     }, [isEditSchool, schoolField.changes, tab]);
-
-
-    useEffect(() => {
-        if (schoolField !== undefined) {
-            const allChanges = schoolField.changes;
-            setChanges(allChanges);
-
-            let flaggedNotes: {
-                note: NewNote,
-                toBeRemoved: boolean,
-            }[] = notes.map(note => ({ note, toBeRemoved: false }));
-
-            if (checkIfValueHasBeenRemoved && tab !== undefined && tab === 'modified') {
-                const removedChanges = allChanges.filter(change => change.type === 'removed');
-                if (removedChanges.length > 0) {
-                    removedChanges.forEach(change => {
-                        const keys = change.path.split('.');
-                        const index = keys[keys.length-1];
-    
-                        const originalNoteValue = checkIfValueHasBeenRemoved(change.path, schoolField);
-                        if (originalNoteValue !== null) {
-                            flaggedNotes.splice(Number(index), 0, {
-                                note: originalNoteValue,
-                                toBeRemoved: true,
-                            })
-                        }
-                    })
-                }
-            };
-
-            setNoteValues(flaggedNotes);
-
-        }
-    }, [schoolField, notes, checkIfValueHasBeenRemoved, tab]);
 
 
     const deleteNote = (e:any, name: string, path: string, index: number) => {
@@ -119,19 +78,30 @@ export default function Notes({
         handleChanges(schoolField, name, originalField, draftField, notePath, 'removed');
 
     }
+
+    const checkIfValueHasBeenRemoved = (path: string) => {
+        const change = schoolField.changes.find(change => change.path === path);
+
+        if (change && change.type === 'removed') {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
     return (
         <div className="flex flex-col gap-2 justify-start items-start w-full">
             <p className="text-default font-medium">{label ? label : ''} Notes:</p>
-            {noteValues.length > 0 && noteValues.map((noteValue,i) => {
+            {notes.length > 0 && notes.map((note,i) => {
                 const notePath = `${field.notePath}.${i}`;
-                const change = changes.find(change => change.path === notePath);
-                const note = noteValue.note;
+                const change = schoolField.changes.find(change => change.path === notePath);
+
+                const toBeRemoved = checkIfValueHasBeenRemoved(notePath);
 
                 return (
                 <div className="w-full flex justify-between items-start gap-6">
                     <div className="grow flex justify-start items-start gap-2">
-                        <div className={`${noteValue.toBeRemoved && 'opacity-50'} grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
+                        <div className={`${toBeRemoved && 'opacity-50'} grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
                             <p className={`${note.type === 'requirement' ? 'text-warning' : 'text-primary'} text-[14px] font-medium`}>{note.type}</p>
                             <ReactQuill 
                                 theme='bubble'
@@ -149,7 +119,7 @@ export default function Notes({
                             />
                         )}
                     </div>
-                    {!noteValue.toBeRemoved && (
+                    {!toBeRemoved && (
                         <div className="flex gap-4">
                             <IconButton 
                                 action={(e: any) => toggleNote(e, { name: field.name, path: field.notePath, noteIndex: i }, note)}

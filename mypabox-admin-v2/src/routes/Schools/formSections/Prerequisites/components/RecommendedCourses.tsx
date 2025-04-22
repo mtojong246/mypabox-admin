@@ -26,9 +26,9 @@ export default function RecommendedCourses({
     handleModification,
     validateIndividualChange,
     revertIndividualChange,
-    checkIfValueHasBeenRemoved,
     togglePopup,
     showChangesOnly,
+    validateAllRemovals
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -59,9 +59,9 @@ export default function RecommendedCourses({
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
-    checkIfValueHasBeenRemoved: (path: string, field: GenericSchoolField) => any | null;
     togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
-    showChangesOnly: boolean
+    showChangesOnly: boolean,
+    validateAllRemovals: (name: string) => any,
 }) {
     const [ fields, setFields ] = useState<{
         label: string,
@@ -117,6 +117,7 @@ export default function RecommendedCourses({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <RecommendedCoursesInputs 
                             tab='original'
@@ -149,7 +150,6 @@ export default function RecommendedCourses({
                             togglePopup={togglePopup}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

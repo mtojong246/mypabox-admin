@@ -90,8 +90,8 @@ export default function MinimumRequiredOrRecommendedGPA({
     handleModification,
     validateIndividualChange,
     revertIndividualChange,
-    checkIfValueHasBeenRemoved,
     showChangesOnly,
+    validateAllRemovals
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -122,8 +122,8 @@ export default function MinimumRequiredOrRecommendedGPA({
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
-    checkIfValueHasBeenRemoved: (path: string, field: GenericSchoolField) => any | null;
     showChangesOnly: boolean,
+    validateAllRemovals: (name: string) => any,
 }) {
     const [ fields, setFields ] = useState<{
         label: string;
@@ -179,6 +179,7 @@ export default function MinimumRequiredOrRecommendedGPA({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <MinimumRequiredOrRecommendedGPAInputs 
                             tab='original'
@@ -207,7 +208,7 @@ export default function MinimumRequiredOrRecommendedGPA({
                             toggleNote={toggleNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+                            
                         />
                     }
                 />

@@ -28,7 +28,6 @@ export default function RequiredCoursesAndCategoriesInputs({
     revertIndividualChange,
     toggleNote,
     handleRetrieveValue,
-    checkIfValueHasBeenRemoved,
     togglePopup,
 }: {
     tab: 'original' | 'modified',
@@ -75,7 +74,6 @@ export default function RequiredCoursesAndCategoriesInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -102,6 +100,16 @@ export default function RequiredCoursesAndCategoriesInputs({
 
         handleChanges(field, name, originalField, draftField, path, 'removed');
 
+    };
+
+    const checkIfValueHasBeenRemoved = (path: string) => {
+        const change = schoolField.changes.find(change => change.path === path);
+
+        if (change && change.type === 'removed') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     return (
@@ -151,15 +159,29 @@ export default function RequiredCoursesAndCategoriesInputs({
                                                 const arrayInputPath = `${inputPath}.${i}`;
                                                 const change = schoolField.changes.find(change => change.path === arrayInputPath);
 
+                                                const toBeRemoved = checkIfValueHasBeenRemoved(arrayInputPath);
+
                                                 return (
                                                     <div className="w-full flex justify-between items-start gap-6">
                                                         <div className="grow flex justify-start items-start gap-2">
                                                             {associatedField.name === 'school_prereq_required_courses' ? (
-                                                                <RequiredCoursesField value={val}/>
+                                                                <RequiredCoursesField 
+                                                                    value={val}
+                                                                    toBeRemoved={toBeRemoved}
+                                                                    tab={tab}
+                                                                />
                                                             ) : associatedField.name === 'school_prereq_required_optional_courses' ? (
-                                                                <RequiredOptionalCoursesField value={val}/>
+                                                                <RequiredOptionalCoursesField 
+                                                                    value={val}
+                                                                    toBeRemoved={toBeRemoved}
+                                                                    tab={tab}
+                                                                />
                                                             ) : (
-                                                                <RequiredCourseCategoriesField value={val} />
+                                                                <RequiredCourseCategoriesField 
+                                                                    value={val} 
+                                                                    toBeRemoved={toBeRemoved}
+                                                                    tab={tab}
+                                                                />
                                                             )}
                                                             
                                                             {change && (
@@ -230,7 +252,6 @@ export default function RequiredCoursesAndCategoriesInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
-                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                     />
                                 )}
                                 
@@ -258,7 +279,6 @@ export default function RequiredCoursesAndCategoriesInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

@@ -82,7 +82,7 @@ export default function Tuition({
         handleModification,
         revertIndividualChange,
         validateIndividualChange,
-        checkIfValueHasBeenRemoved
+        validateAllRemovals
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
 
@@ -132,6 +132,7 @@ export default function Tuition({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <TuitionInputs 
                             tab='original'
@@ -162,7 +163,6 @@ export default function Tuition({
                             toggleNote={toggleNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

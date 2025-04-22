@@ -5,8 +5,12 @@ import { CourseForm } from "../popups/CoursePopup";
 
 export default function RequiredCoursesField({
     value,
+    toBeRemoved,
+    tab,
 }: {
     value: RequiredCourseType,
+    toBeRemoved: boolean,
+    tab: 'modified' | 'original'
 }) {
     const [ course, setCourse ] = useState<CourseForm | null>(null);
 
@@ -26,6 +30,8 @@ export default function RequiredCoursesField({
         <>
         {course && (
             <Course 
+                tab={tab}
+                toBeRemoved={toBeRemoved}
                 course={course}
             />
         )}

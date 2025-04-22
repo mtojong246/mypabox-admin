@@ -258,7 +258,7 @@ export default function Experience({
         handleModification,
         validateIndividualChange,
         revertIndividualChange,
-        checkIfValueHasBeenRemoved,
+        validateAllRemovals
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     useEffect(() => {
@@ -315,6 +315,7 @@ export default function Experience({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <ExperienceInputs 
                             tab='original'
@@ -345,7 +346,6 @@ export default function Experience({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

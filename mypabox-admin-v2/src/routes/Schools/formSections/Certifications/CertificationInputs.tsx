@@ -19,7 +19,6 @@ export default function CertificationInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    checkIfValueHasBeenRemoved,
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -58,7 +57,6 @@ export default function CertificationInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -214,7 +212,6 @@ export default function CertificationInputs({
                                         handleRemove={handleRemoveCert}
                                         validateIndividualChange={validateIndividualChange}
                                         revertIndividualChange={revertIndividualChange}
-                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                     />
                                 ) : (
                                     <></>
@@ -243,7 +240,6 @@ export default function CertificationInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

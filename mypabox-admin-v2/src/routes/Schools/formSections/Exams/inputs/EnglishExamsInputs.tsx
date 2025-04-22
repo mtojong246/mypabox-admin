@@ -27,7 +27,6 @@ export default function EnglishExamsInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    checkIfValueHasBeenRemoved,
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -67,7 +66,6 @@ export default function EnglishExamsInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -413,7 +411,6 @@ export default function EnglishExamsInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
-                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                     />
                                 ) : (
                                     <></>
@@ -455,7 +452,6 @@ export default function EnglishExamsInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

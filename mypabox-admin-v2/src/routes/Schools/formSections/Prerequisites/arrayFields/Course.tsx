@@ -6,8 +6,12 @@ import { useEffect, useState } from "react";
 
 export default function Course({
     course,
+    toBeRemoved,
+    tab,
 }: {
     course: CourseForm,
+    toBeRemoved: boolean,
+    tab: 'modified' | 'original'
 
 }) {
     const courses = useSelector(selectCourses);
@@ -25,7 +29,7 @@ export default function Course({
     }, [courses, course]);
 
     return (
-        <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
+        <div className={`${toBeRemoved && tab === 'modified' && 'opacity-50'} grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
             <p>
                 <span className="font-semibold">{courseName} </span>
                 <span className='text-placeholder font-medium'>

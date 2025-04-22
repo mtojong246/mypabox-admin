@@ -69,7 +69,7 @@ export default function PANCEPassRate({
         handleModification,
         revertIndividualChange,
         validateIndividualChange,
-        checkIfValueHasBeenRemoved
+        validateAllRemovals
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     useEffect(() => {
@@ -119,6 +119,7 @@ export default function PANCEPassRate({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <PANCEPassRateInputs 
                             tab='original'
@@ -147,7 +148,6 @@ export default function PANCEPassRate({
                             handleChanges={handleChanges}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

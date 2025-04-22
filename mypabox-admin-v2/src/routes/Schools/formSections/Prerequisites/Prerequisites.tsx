@@ -50,7 +50,7 @@ export default function Prerequisites({
         handleModification,
         revertIndividualChange,
         validateIndividualChange,
-        checkIfValueHasBeenRemoved,
+        validateAllRemovals
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const [ popupType, setPopupType ] = useState<PrereqPopupType | null>(null);
@@ -96,7 +96,7 @@ export default function Prerequisites({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             togglePopup={togglePopup}
             showChangesOnly={showChangesOnly}
         />
@@ -111,7 +111,7 @@ export default function Prerequisites({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             togglePopup={togglePopup}
             showChangesOnly={showChangesOnly}
         />
@@ -126,7 +126,7 @@ export default function Prerequisites({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             showChangesOnly={showChangesOnly}
         />
         <CompletionCriteria 
@@ -136,7 +136,7 @@ export default function Prerequisites({
             permissions={permissions}
             handleRetrieveValue={handleRetrieveValue}
             handleChanges={handleChanges}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             toggleNote={toggleNote}
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}

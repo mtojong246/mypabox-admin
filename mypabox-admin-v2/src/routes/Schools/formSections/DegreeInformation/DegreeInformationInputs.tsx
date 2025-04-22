@@ -21,7 +21,6 @@ export default function DegreeInformationInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    checkIfValueHasBeenRemoved,
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -55,7 +54,6 @@ export default function DegreeInformationInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
 
@@ -165,7 +163,6 @@ export default function DegreeInformationInputs({
                     handleRemove={handleRemoveDegree}
                     validateIndividualChange={validateIndividualChange}
                     revertIndividualChange={revertIndividualChange}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             ) : (
                 <></>
@@ -184,7 +181,6 @@ export default function DegreeInformationInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

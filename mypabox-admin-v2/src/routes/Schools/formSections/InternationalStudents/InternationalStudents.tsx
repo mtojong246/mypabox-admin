@@ -57,7 +57,7 @@ export default function InternationalStudents({
         handleModification,
         revertIndividualChange,
         validateIndividualChange,
-        checkIfValueHasBeenRemoved,
+        validateAllRemovals,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
     
     useEffect(() => {
@@ -110,6 +110,7 @@ export default function InternationalStudents({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <InternationalStudentsInputs 
                             tab='original'
@@ -140,7 +141,6 @@ export default function InternationalStudents({
                             toggleNote={toggleNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

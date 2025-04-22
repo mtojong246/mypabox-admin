@@ -39,8 +39,8 @@ export default function CASPer({
     validateIndividualChange,
     handleChanges,
     toggleNote,
-    checkIfValueHasBeenRemoved,
     showChangesOnly,
+    validateAllRemovals
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -71,8 +71,8 @@ export default function CASPer({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     showChangesOnly: boolean,
+    validateAllRemovals: (name: string) => any,
 }) {
     const [ fields, setFields ] = useState<{
         label: string;
@@ -135,6 +135,7 @@ export default function CASPer({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <CASPerInputs 
                             tab='original'
@@ -163,7 +164,6 @@ export default function CASPer({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

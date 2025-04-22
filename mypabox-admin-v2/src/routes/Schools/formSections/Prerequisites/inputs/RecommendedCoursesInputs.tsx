@@ -27,7 +27,6 @@ export default function RecommendedCoursesInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    checkIfValueHasBeenRemoved,
     togglePopup,
 }: {
     tab: 'original' | 'modified',
@@ -57,7 +56,6 @@ export default function RecommendedCoursesInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     togglePopup: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void
     
 }) {
@@ -88,6 +86,16 @@ export default function RecommendedCoursesInputs({
 
         handleChanges(field, name, originalField, draftField, inputPath, 'removed');
 
+    };
+
+    const checkIfValueHasBeenRemoved = (path: string) => {
+        const change = schoolField.changes.find(change => change.path === path);
+
+        if (change && change.type === 'removed') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     return (
@@ -107,13 +115,17 @@ export default function RecommendedCoursesInputs({
                         course_credit_hours: inputValue.school_recommended_course_credit_hours,
                         course_quarter_hours: inputValue.school_recommended_course_quarter_hours,
                         course_note_section: inputValue.school_recommended_course_note_section
-                    }
+                    };
+
+                    const toBeRemoved = checkIfValueHasBeenRemoved(inputPath);
                     
                     return (
                         <div className="w-full flex justify-between items-start gap-6">
                             <div className="grow flex justify-start items-start gap-2">
                                 <Course 
                                     course={course}
+                                    toBeRemoved={toBeRemoved}
+                                    tab={tab}
                                 />
                                 {change && (
                                     <ChangePopup 
@@ -169,7 +181,6 @@ export default function RecommendedCoursesInputs({
                 revertIndividualChange={revertIndividualChange}
                 handleChanges={handleChanges}
                 handleModification={handleModification}
-                checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
             />
         )}
         </div>

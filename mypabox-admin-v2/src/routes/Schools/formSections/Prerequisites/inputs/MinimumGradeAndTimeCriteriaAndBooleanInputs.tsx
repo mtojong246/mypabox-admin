@@ -42,7 +42,6 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
     revertIndividualChange,
     toggleNote,
     handleRetrieveValue,
-    checkIfValueHasBeenRemoved
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -81,7 +80,6 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
@@ -240,7 +238,6 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                                         revertIndividualChange={revertIndividualChange}
                                         handleChanges={handleChanges}
                                         handleModification={handleModification}
-                                        checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                     />
                                 )}
                             </>
@@ -267,7 +264,6 @@ export default function MinimumGradeAndTimeCriteriaAndBooleanInputs({
                     revertIndividualChange={revertIndividualChange}
                     handleChanges={handleChanges}
                     handleModification={handleModification}
-                    checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                 />
             )}
             </div>

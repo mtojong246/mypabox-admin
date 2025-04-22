@@ -127,7 +127,7 @@ export default function Evaluations({
         handleModification,
         revertIndividualChange,
         validateIndividualChange,
-        checkIfValueHasBeenRemoved,
+        validateAllRemovals,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     const [ isPopupOpen, setIsPopupOpen ] = useState(false);
@@ -203,6 +203,7 @@ export default function Evaluations({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <EvaluationsInputs 
                             tab='original'
@@ -234,7 +235,6 @@ export default function Evaluations({
                             toggleNote={toggleNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             togglePopup={togglePopup}
                         />
                     }

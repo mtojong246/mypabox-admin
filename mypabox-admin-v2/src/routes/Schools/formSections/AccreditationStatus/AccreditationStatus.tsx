@@ -58,7 +58,7 @@ export default function AccreditationStatus({
         validateIndividualChange,
         revertIndividualChange,
         handleModification,
-        checkIfValueHasBeenRemoved,
+        validateAllRemovals,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
     
     useEffect(() => {
@@ -108,6 +108,7 @@ export default function AccreditationStatus({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <AccreditationStatusInputs 
                             tab='original'
@@ -138,7 +139,6 @@ export default function AccreditationStatus({
                             toggleNote={toggleNote}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

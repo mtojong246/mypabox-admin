@@ -44,8 +44,8 @@ export default function RequiredOptionalExams({
     revertIndividualChange,
     handleChanges,
     toggleNote,
-    checkIfValueHasBeenRemoved,
-    showChangesOnly
+    showChangesOnly,
+    validateAllRemovals
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -77,8 +77,8 @@ export default function RequiredOptionalExams({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
-    showChangesOnly: boolean
+    showChangesOnly: boolean,
+    validateAllRemovals: (name: string) => any,
 }) {
     const [ fields, setFields ] = useState<{
         label: string;
@@ -136,6 +136,7 @@ export default function RequiredOptionalExams({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <RequiredOptionalExamsInputs 
                             tab='original'
@@ -164,7 +165,6 @@ export default function RequiredOptionalExams({
                             handleRetrieveValue={handleRetrieveValue}
                             handleModification={handleModification}
                             toggleNote={toggleNote}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
                         />

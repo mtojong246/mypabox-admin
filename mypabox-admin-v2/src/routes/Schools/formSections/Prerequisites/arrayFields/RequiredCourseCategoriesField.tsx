@@ -7,8 +7,12 @@ import { useEffect, useState } from "react";
 
 export default function RequiredCourseCategoriesField({
     value,
+    toBeRemoved,
+    tab,
 } : {
     value: RequiredCourseCategoryType,
+    toBeRemoved: boolean,
+    tab: 'original' | 'modified'
 }) {
     const courses = useSelector(selectCourses);
     const categories = useSelector(selectCategories);
@@ -22,7 +26,7 @@ export default function RequiredCourseCategoriesField({
     }, [categories, value]);
 
     return (
-        <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
+        <div className={`${toBeRemoved && tab === 'modified' && 'opacity-50'} grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
             <p>
                 <span className="font-semibold">{categoryName}</span>
                 <span className='text-placeholder font-medium'>

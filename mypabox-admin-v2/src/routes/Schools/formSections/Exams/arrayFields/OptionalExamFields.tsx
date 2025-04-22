@@ -4,7 +4,6 @@ import { ReactComponent as DeleteIcon } from '../../../../../components/Icons/Tr
 import { ReactComponent as PlusIcon } from '../../../../../components/Icons/Plus.svg';
 import SelectInput from "../../../../../components/Form/InputTypes/SelectInput";
 import ChangePopup from "../../../../../components/Form/Validation/ChangePopup";
-import { useEffect, useState } from "react";
 import IconButton from "../../../../../components/Buttons/IconButton";
 
 const options = [
@@ -28,7 +27,6 @@ export default function OptionalExamFields({
     handleRemove,
     validateIndividualChange,
     revertIndividualChange,
-    checkIfValueHasBeenRemoved,
 }: {
     tab: 'original' | 'modified',
     name: string,
@@ -51,50 +49,22 @@ export default function OptionalExamFields({
     handleRemove: (e:any, name: string, path: string, index: number) => void,
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
 }) {
-    const [ values, setValues ] = useState<{
-        value: any,
-        toBeRemoved: boolean,
-    }[]>([]);
+   
+    const checkIfValueHasBeenRemoved = (path: string) => {
+        const change = schoolField.changes.find(change => change.path === path);
 
-    useEffect(() => {
-        if (schoolField !== undefined && inputValues) {
-            const allChanges = schoolField.changes;
-
-            let flaggedValues: {
-                value: any,
-                toBeRemoved: boolean,
-            }[] = inputValues.map(val => ({ value: val, toBeRemoved: false }));
-
-            if (checkIfValueHasBeenRemoved && tab !== undefined && tab === 'modified') {
-                const removedChanges = allChanges.filter(change => change.type === 'removed');
-                if (removedChanges.length > 0) {
-                    removedChanges.forEach(change => {
-                        const keys = change.path.split('.');
-                        const index = keys[keys.length-1];
-    
-                        const originalValue = checkIfValueHasBeenRemoved(change.path, schoolField);
-                        if (originalValue !== null) {
-                            flaggedValues.splice(Number(index), 0, {
-                                value: originalValue,
-                                toBeRemoved: true,
-                            })
-                        }
-                    })
-                }
-            };
-
-            setValues(flaggedValues);
-
+        if (change && change.type === 'removed') {
+            return true;
+        } else {
+            return false;
         }
-    }, [checkIfValueHasBeenRemoved, inputValues, schoolField, tab]);
-
+    }
 
     return (
         <div className="w-full flex flex-col gap-4 justify-start items-start">
             <label className="text-default">{associatedField.label}</label>
-            {values.length > 0 && values.map((val,i) => {
+            {inputValues.length > 0 && inputValues.map((val,i) => {
                 const arrayInputPath = `${inputPath}.${i}.value`
                 const textInput = handleRetrieveValue(arrayInputPath, schoolField);
                 let arrayInputValue: any = '';
@@ -104,11 +74,12 @@ export default function OptionalExamFields({
                     arrayInputValue = textInput.originalDraftValue;
                 }
                 const change = schoolField.changes.find(change => change.path === `${inputPath}.${i}`);
+                const toBeRemoved = checkIfValueHasBeenRemoved(`${inputPath}.${i}`);
 
                 return (
                 <div className="w-full flex gap-4 justify-start items-start">
                     <div className="flex w-full gap-2 justify-start items-start">
-                        <div className="flex gap-4 p-6 border border-outline w-full rounded-lg">
+                        <div className={`${toBeRemoved && tab === 'modified' && 'opacity-50'} flex gap-4 p-6 border border-outline w-full rounded-lg`}>
                             <SelectInput 
                                 label="Exam"
                                 placeholder="Exam"
@@ -134,21 +105,16 @@ export default function OptionalExamFields({
                                 />
                             )}
                         </div>
-                        <IconButton 
-                            icon={<DeleteIcon/>}
-                            action={(e:any) => handleRemove(e, name, inputPath, i)}
-                            color="warning"
-                            isDisabled={isDisabled}
-                        />
-                        {/* <div className="py-4 flex justify-center items-end">
-                            <button 
-                                onClick={(e:any) => handleRemove(e, name, inputPath, i)} 
-                                className="w-[24px] text-warning"
-                                disabled={isDisabled}
-                            >
-                                <DeleteIcon/>
-                            </button>
-                        </div> */}
+                        {tab === 'modified' && toBeRemoved ? (
+                            <></>
+                        ) : (
+                            <IconButton 
+                                icon={<DeleteIcon/>}
+                                action={(e:any) => handleRemove(e, name, inputPath, i)}
+                                color="warning"
+                                isDisabled={isDisabled}
+                            />
+                        )}
                     </div>
                 )
                 

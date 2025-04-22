@@ -24,7 +24,6 @@ export default function RequiredOptionalExamsInputs({
     validateIndividualChange,
     revertIndividualChange,
     toggleNote,
-    checkIfValueHasBeenRemoved,
 }: {
     tab: 'original' | 'modified',
     permissions: UserPermissions,
@@ -62,46 +61,9 @@ export default function RequiredOptionalExamsInputs({
         path: string;
         noteIndex?: number;
     }, note?: NewNote) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
     
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
-    const [ values, setValues ] = useState<{
-        value: any,
-        toBeRemoved: boolean,
-    }[]>([]);
-
-    useEffect(() => {
-        if (schoolField !== undefined) {
-            const allChanges = schoolField.changes;
-
-            let flaggedValues: {
-                value: any,
-                toBeRemoved: boolean,
-            }[] = inputValues.map(val => ({ value: val, toBeRemoved: false }));
-
-            if (checkIfValueHasBeenRemoved && tab !== undefined && tab === 'modified') {
-                const removedChanges = allChanges.filter(change => change.type === 'removed');
-                if (removedChanges.length > 0) {
-                    removedChanges.forEach(change => {
-                        const keys = change.path.split('.');
-                        const index = keys[keys.length-1];
-    
-                        const originalValue = checkIfValueHasBeenRemoved(change.path, schoolField);
-                        if (originalValue !== null) {
-                            flaggedValues.splice(Number(index), 0, {
-                                value: originalValue,
-                                toBeRemoved: true,
-                            })
-                        }
-                    })
-                }
-            };
-
-            setValues(flaggedValues);
-
-        }
-    }, [checkIfValueHasBeenRemoved, inputValues, schoolField, tab]);
 
     useEffect(() => {
         if (tab === 'original' && isEditSchool && (permissions.canEditWithVerificationNeeded || (schoolField.changes.length > 0 && permissions.canVerify))) {
@@ -189,6 +151,16 @@ export default function RequiredOptionalExamsInputs({
 
         handleChanges(schoolField, name, originalField, draftField, `${path}.${index}`, 'removed');
 
+    };
+
+    const checkIfValueHasBeenRemoved = (path: string) => {
+        const change = schoolField.changes.find(change => change.path === path);
+
+        if (change && change.type === 'removed') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -197,9 +169,9 @@ export default function RequiredOptionalExamsInputs({
             {field.type === 'array' ? (
                 <div className="w-full flex flex-col gap-4 justify-start items-start">
                 <label className="text-default">{field.label}</label>
-                {values.length > 0 && values.map((val,i) => (
+                {inputValues.length > 0 && inputValues.map((val,i) => (
                     <div className="flex w-full gap-2 justify-start items-start">
-                    <div className={`${val.toBeRemoved && 'opacity-50'} w-full flex flex-col gap-8 justify-start items-start p-6 rounded-lg border border-outline`}>
+                    <div className={`${checkIfValueHasBeenRemoved(`${field.path}.${i}`) && tab === 'modified' && 'opacity-50'} w-full flex flex-col gap-8 justify-start items-start p-6 rounded-lg border border-outline`}>
                         <div className="w-full flex justify-between items-center gap-8">
                             <p className="font-medium text-[18px]">{i+1} - {field.label}</p>
                             <Button 
@@ -252,7 +224,6 @@ export default function RequiredOptionalExamsInputs({
                                             handleRemove={handleRemove}
                                             validateIndividualChange={validateIndividualChange}
                                             revertIndividualChange={revertIndividualChange}
-                                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                         
                                         />
                                     ) : associatedField.type === 'note' ? (
@@ -271,7 +242,6 @@ export default function RequiredOptionalExamsInputs({
                                             revertIndividualChange={revertIndividualChange}
                                             handleChanges={handleChanges}
                                             handleModification={handleModification}
-                                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                                         />
                                     ) : (
                                         <></>

@@ -88,8 +88,8 @@ export default function CompletionCriteria({
     handleModification,
     revertIndividualChange,
     validateIndividualChange,
-    checkIfValueHasBeenRemoved,
-    showChangesOnly
+    showChangesOnly,
+    validateAllRemovals
 }: {
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
@@ -120,8 +120,8 @@ export default function CompletionCriteria({
     },
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
-    checkIfValueHasBeenRemoved: (path: string, field: GenericSchoolField) => any | null;
     showChangesOnly: boolean,
+    validateAllRemovals: (name: string) => any,
 }) {
     const [ fields, setFields ] = useState<{
         label: string;
@@ -188,6 +188,7 @@ export default function CompletionCriteria({
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
+                    validateAllRemovals={validateAllRemovals}
                     originalInputs={
                         <CompletionCriteriaInputs 
                             tab='original'
@@ -218,7 +219,6 @@ export default function CompletionCriteria({
                             handleRetrieveValue={handleRetrieveValue}
                             revertIndividualChange={revertIndividualChange}
                             validateIndividualChange={validateIndividualChange}
-                            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
                         />
                     }
                 />

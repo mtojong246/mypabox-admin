@@ -292,7 +292,7 @@ export default function RequiredOptionalCoursesPopup({
                                         };
                                         return (
                                         <div className="w-full flex justify-between items-start gap-6">
-                                            <Course course={course} />
+                                            <Course course={course} toBeRemoved={false} tab="original"/>
                                             <div className="flex gap-4">
                                                 <button 
                                                     onClick={(e: any) => toggleCoursePopup(e, courseIndex, optionalCourse)}

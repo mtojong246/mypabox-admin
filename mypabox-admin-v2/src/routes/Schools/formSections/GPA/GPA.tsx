@@ -60,7 +60,7 @@ export default function GPA({
         handleModification,
         revertIndividualChange,
         validateIndividualChange,
-        checkIfValueHasBeenRemoved
+        validateAllRemovals,
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
     useEffect(() => {
@@ -96,7 +96,7 @@ export default function GPA({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             showChangesOnly={showChangesOnly}
         />
         <OtherTypesAndSpecificCourses 
@@ -110,7 +110,7 @@ export default function GPA({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             showChangesOnly={showChangesOnly}
         />
         <AverageGPA 
@@ -124,7 +124,7 @@ export default function GPA({
             handleModification={handleModification}
             revertIndividualChange={revertIndividualChange}
             validateIndividualChange={validateIndividualChange}
-            checkIfValueHasBeenRemoved={checkIfValueHasBeenRemoved}
+            validateAllRemovals={validateAllRemovals}
             showChangesOnly={showChangesOnly}
         />
         {fields.length > 0 && fields.map(field => {

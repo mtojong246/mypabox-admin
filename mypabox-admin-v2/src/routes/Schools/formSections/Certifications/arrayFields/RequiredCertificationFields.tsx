@@ -4,7 +4,7 @@ import { ReactComponent as DeleteIcon } from '../../../../../components/Icons/Tr
 import { ReactComponent as PlusIcon } from '../../../../../components/Icons/Plus.svg';
 import TextInput from "../../../../../components/Form/InputTypes/TextInput";
 import ChangePopup from "../../../../../components/Form/Validation/ChangePopup";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 import IconButton from "../../../../../components/Buttons/IconButton";
 
 
@@ -21,7 +21,6 @@ export default function RequiredCertificationFields({
     handleRemove,
     validateIndividualChange,
     revertIndividualChange,
-    checkIfValueHasBeenRemoved,
 }: {
     tab: 'original' | 'modified',
     field: {
@@ -44,52 +43,23 @@ export default function RequiredCertificationFields({
     handleRemove: (e:any, name: string, path: string, index: number) => void,
     validateIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
     revertIndividualChange?: (e: React.MouseEvent<HTMLButtonElement>, name: string, change: Change) => void,
-    checkIfValueHasBeenRemoved?: (path: string, field: GenericSchoolField) => any | null;
 }) {
-    const [ values, setValues ] = useState<{
-        value: any,
-        toBeRemoved: boolean,
-    }[]>([]);
 
-    useEffect(() => {
-        if (schoolField !== undefined) {
-            const allChanges = schoolField.changes;
+    const checkIfValueHasBeenRemoved = (path: string) => {
+        const change = schoolField.changes.find(change => change.path === path);
 
-            let flaggedValues: {
-                value: any,
-                toBeRemoved: boolean,
-            }[] = inputValues.map(val => ({ value: val, toBeRemoved: false }));
-
-            if (checkIfValueHasBeenRemoved && tab !== undefined && tab === 'modified') {
-                const removedChanges = allChanges.filter(change => change.type === 'removed');
-                if (removedChanges.length > 0) {
-                    removedChanges.forEach(change => {
-                        const keys = change.path.split('.');
-                        const index = keys[keys.length-1];
-    
-                        const originalValue = checkIfValueHasBeenRemoved(change.path, schoolField);
-                        if (originalValue !== null) {
-                            flaggedValues.splice(Number(index), 0, {
-                                value: originalValue,
-                                toBeRemoved: true,
-                            })
-                        }
-                    })
-                }
-            };
-
-            setValues(flaggedValues);
-
+        if (change && change.type === 'removed') {
+            return true;
+        } else {
+            return false;
         }
-    }, [checkIfValueHasBeenRemoved, inputValues, schoolField, tab]);
-
-
+    }
 
     return (
         <div className="w-full flex flex-col gap-2 justify-start items-start">
             <label className="text-default font-medium">{field.label}:</label>
             <>
-                {values.length > 0 && values.map((val,i) => {
+                {inputValues.length > 0 && inputValues.map((val,i) => {
                     const arrayInputPath = `${inputPath}.${i}.value`
                     const textInput = handleRetrieveValue(arrayInputPath, schoolField);
                     let textValue = '';
@@ -102,10 +72,12 @@ export default function RequiredCertificationFields({
 
                     const change = schoolField.changes.find(change => change.path === `${inputPath}.${i}`);
 
+                    const toBeRemoved = checkIfValueHasBeenRemoved(`${inputPath}.${i}`);
+
                     return (
                         <div className="w-full flex gap-4 justify-start items-start">
                             <div className="flex w-full gap-2 justify-start items-start">
-                                <div className="flex gap-4 p-6 border border-outline w-full rounded-lg">
+                                <div className={`${toBeRemoved && tab === 'modified' && 'opacity-50'} flex gap-4 p-6 border border-outline w-full rounded-lg`}>
                                     <TextInput 
                                         label="Certification"
                                         placeholder="Certification"
@@ -130,12 +102,17 @@ export default function RequiredCertificationFields({
                                     />
                                 )}
                             </div>
-                            <IconButton 
-                                icon={<DeleteIcon/>}
-                                action={(e:any) => handleRemove(e, field.name, inputPath, i)}
-                                color="warning"
-                                isDisabled={isDisabled}
-                            />
+                            {tab === 'modified' && toBeRemoved ? (
+                                <></>
+                            ) : (
+                                <IconButton 
+                                    icon={<DeleteIcon/>}
+                                    action={(e:any) => handleRemove(e, field.name, inputPath, i)}
+                                    color="warning"
+                                    isDisabled={isDisabled}
+                                />
+                            )}
+                            
                         </div>
                     )
                     
