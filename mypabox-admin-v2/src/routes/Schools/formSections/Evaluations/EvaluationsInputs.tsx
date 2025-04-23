@@ -368,7 +368,7 @@ export default function EvaluationsInputs({
                                                                 path={arrayInputPath}
                                                                 handleSelect={handleSelect}
                                                                 isRequired={false}
-                                                                isCreatable={false}
+                                                                isCreatable={true}
                                                                 options={evaluatorOptions}
                                                                 isDisabled={isDisabled}
                                                                 change={schoolField.changes.find(change => change.path === arrayInputPath)}
