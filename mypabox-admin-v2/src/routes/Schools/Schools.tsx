@@ -195,9 +195,6 @@ const Schools = () => {
 
   }, [dispatch, navigate, setStateSearch]);
 
-    
-    
-  // }, [schools, newSchools])
 
   // addUpdatedSchoolDoc
   // useEffect(() => {

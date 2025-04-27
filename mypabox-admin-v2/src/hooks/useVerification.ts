@@ -319,6 +319,7 @@ const useVerification = ({
         }
 
         let originalValue = undefined;
+        let originalDraftValue = undefined;
 
         if (original === null) {
             originalValue = undefined;
@@ -326,7 +327,11 @@ const useVerification = ({
             originalValue = isOriginalInvalid ? undefined : original[lastKey];
         }
 
-        const originalDraftValue = isDraftInvalid ? undefined : draft[lastKey];
+        if (draft === null) {
+            originalDraftValue = undefined;
+        } else {
+            originalDraftValue = isDraftInvalid ? undefined : draft[lastKey];
+        }
 
         return {
             originalValue,

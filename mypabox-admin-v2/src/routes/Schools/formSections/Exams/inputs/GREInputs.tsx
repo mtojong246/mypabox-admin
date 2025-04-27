@@ -332,6 +332,7 @@ export default function GREInputs({
         } = handleModification(inputPath, field, value, 'modify');
         
         handleChanges(field, name, originalField, draftField, inputPath, 'modified', originalValue, value);
+
     };
 
     return (
