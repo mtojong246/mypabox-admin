@@ -219,7 +219,6 @@ export default function GeneralInformationInputs({
     };
 
 
-
     return (
         <div className="flex flex-col gap-8 justify-start items-start">
             {field.type === 'text' ? (

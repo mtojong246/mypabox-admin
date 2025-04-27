@@ -196,6 +196,7 @@ const Schools = () => {
   }, [dispatch, navigate, setStateSearch]);
 
 
+
   // addUpdatedSchoolDoc
   // useEffect(() => {
   //   if (schools.length > 0) {
