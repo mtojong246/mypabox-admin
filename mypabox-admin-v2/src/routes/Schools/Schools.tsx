@@ -196,6 +196,172 @@ const Schools = () => {
   }, [dispatch, navigate, setStateSearch]);
 
 
+  // useEffect(() => {
+  //   if (newSchools.length > 0) {
+  //     const updateNewSchools = async () => {
+  //       const promises = newSchools.map(school => {
+  //           let updatedSchool = school;
+
+  //           updatedSchool = {
+  //             ...school,
+  //             school_english_proficiency_exams: {
+  //               ...school.school_english_proficiency_exams,
+  //               original: {
+  //                 ...school.school_english_proficiency_exams.original,
+  //                 input: {
+  //                   ...school.school_english_proficiency_exams.original.input,
+  //                   school_toefl_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_required : null,
+  //                   school_minimum_time_frame_toefl_needs_to_be_completed: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.original.input.school_minimum_time_frame_toefl_needs_to_be_completed : null,
+  //                   school_toefl_exempt_with_masters_degree: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_exempt_with_masters_degree : null,
+  //                   school_toefl_exempt_with_doctoral_degree: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_exempt_with_doctoral_degree : null,
+            
+  //                   school_toefl_ibt_minimum_total_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_ibt_minimum_total_score_required : null,
+  //                   school_toefl_ibt_minimum_reading_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_ibt_minimum_reading_score_required : null,
+  //                   school_toefl_ibt_minimum_writing_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_ibt_minimum_writing_score_required : null,
+  //                   school_toefl_ibt_minimum_listening_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_ibt_minimum_listening_score_required : null,
+  //                   school_toefl_ibt_minimum_speaking_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_ibt_minimum_speaking_score_required : null,
+  //                   school_toefl_ibt_minimum_score_notes: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_ibt_minimum_score_notes : null,
+            
+  //                   school_toefl_pbt_minimum_total_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_pbt_minimum_total_score_required : null,
+  //                   school_toefl_pbt_minimum_reading_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_pbt_minimum_reading_score_required : null,
+  //                   school_toefl_pbt_minimum_writing_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_pbt_minimum_writing_score_required : null,
+  //                   school_toefl_pbt_minimum_listening_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_pbt_minimum_listening_score_required : null,
+  //                   school_toefl_pbt_minimum_speaking_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_pbt_minimum_speaking_score_required : null,
+  //                   school_toefl_pbt_minimum_score_notes: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_toefl_pbt_minimum_score_notes : null,
+
+  //                   school_ielt_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_ielt_required : null,
+  //                   school_ielt_minimum_total_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_ielt_minimum_total_score_required : null,
+  //                   school_ielt_minimum_score_notes: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_ielt_minimum_score_notes : null,
+            
+  //                   school_melab_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_melab_required : null,
+  //                   school_melab_minimum_total_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_melab_minimum_total_score_required : null,
+  //                   school_melab_minimum_score_notes: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_melab_minimum_score_notes : null,
+            
+  //                   school_pte_academic_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_pte_academic_required : null,
+  //                   school_pte_academic_minimum_total_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_pte_academic_minimum_total_score_required : null,
+  //                   school_pte_academic_minimum_score_notes: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_pte_academic_minimum_score_notes : null,
+            
+  //                   school_itep_academic_plus_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_itep_academic_plus_required : null,
+  //                   school_itep_academic_plus_minimum_total_score_required: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_itep_academic_plus_minimum_total_score_required : null,
+  //                   school_itep_academic_plus_minimum_score_notes: school.school_english_proficiency_exams.original.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.original.input.school_itep_academic_plus_minimum_score_notes : null,
+  //                 },
+  //               },
+  //               draft: {
+  //                 ...school.school_english_proficiency_exams.draft,
+  //                 input: {
+  //                   ...school.school_english_proficiency_exams.draft.input,
+  //                   school_toefl_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_required : null,
+  //                   school_minimum_time_frame_toefl_needs_to_be_completed: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.draft.input.school_minimum_time_frame_toefl_needs_to_be_completed : null,
+  //                   school_toefl_exempt_with_masters_degree: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_exempt_with_masters_degree : null,
+  //                   school_toefl_exempt_with_doctoral_degree: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_exempt_with_doctoral_degree : null,
+            
+  //                   school_toefl_ibt_minimum_total_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ? 
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_ibt_minimum_total_score_required : null,
+  //                   school_toefl_ibt_minimum_reading_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_ibt_minimum_reading_score_required : null,
+  //                   school_toefl_ibt_minimum_writing_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_ibt_minimum_writing_score_required : null,
+  //                   school_toefl_ibt_minimum_listening_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_ibt_minimum_listening_score_required : null,
+  //                   school_toefl_ibt_minimum_speaking_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_ibt_minimum_speaking_score_required : null,
+  //                   school_toefl_ibt_minimum_score_notes: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_ibt_minimum_score_notes : null,
+            
+  //                   school_toefl_pbt_minimum_total_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_pbt_minimum_total_score_required : null,
+  //                   school_toefl_pbt_minimum_reading_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_pbt_minimum_reading_score_required : null,
+  //                   school_toefl_pbt_minimum_writing_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_pbt_minimum_writing_score_required : null,
+  //                   school_toefl_pbt_minimum_listening_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_pbt_minimum_listening_score_required : null,
+  //                   school_toefl_pbt_minimum_speaking_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_pbt_minimum_speaking_score_required : null,
+  //                   school_toefl_pbt_minimum_score_notes: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_toefl_pbt_minimum_score_notes : null,
+
+  //                   school_ielt_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_ielt_required : null,
+  //                   school_ielt_minimum_total_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_ielt_minimum_total_score_required : null,
+  //                   school_ielt_minimum_score_notes: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_ielt_minimum_score_notes : null,
+            
+  //                   school_melab_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_melab_required : null,
+  //                   school_melab_minimum_total_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_melab_minimum_total_score_required : null,
+  //                   school_melab_minimum_score_notes: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_melab_minimum_score_notes : null,
+            
+  //                   school_pte_academic_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_pte_academic_required : null,
+  //                   school_pte_academic_minimum_total_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_pte_academic_minimum_total_score_required : null,
+  //                   school_pte_academic_minimum_score_notes: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_pte_academic_minimum_score_notes : null,
+            
+  //                   school_itep_academic_plus_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_itep_academic_plus_required : null,
+  //                   school_itep_academic_plus_minimum_total_score_required: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_itep_academic_plus_minimum_total_score_required : null,
+  //                   school_itep_academic_plus_minimum_score_notes: school.school_english_proficiency_exams.draft.input.school_english_proficiency_exams_required.input ?
+  //                   school.school_english_proficiency_exams.draft.input.school_itep_academic_plus_minimum_score_notes : null,
+  //                 },
+  //               },
+  //             }
+  //           };
+
+            
+  //           console.log('updated')
+  //           return updateUpdatedSchoolDoc(updatedSchool, updatedSchool.id);
+
+  //       });
+
+  //       try {
+  //         await Promise.all(promises);
+  //       } catch (err:any) {
+  //         console.log(err);
+  //       };
+  //     };
+
+  //     updateNewSchools();
+  //   }
+  // }, [newSchools]);
+
 
   // addUpdatedSchoolDoc
   // useEffect(() => {

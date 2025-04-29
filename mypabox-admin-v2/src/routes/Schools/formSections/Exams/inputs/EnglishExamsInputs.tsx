@@ -324,6 +324,8 @@ export default function EnglishExamsInputs({
         handleChanges(field, name, originalField, draftField, inputPath, 'modified', originalValue, value);
     };
 
+    console.log(school.school_english_proficiency_exams)
+
     return (
         <div className="flex flex-col gap-8 justify-start items-start">
             {field.type === 'object' ? (
