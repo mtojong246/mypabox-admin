@@ -33,7 +33,7 @@ const useVerification = ({
                 key = Number(key);
             }
 
-            if (keys[i] === undefined) {
+            if (keys[i] === undefined || keys[i] === null || original === null || original === undefined) {
                 isOriginalInvalid = true;
                 break;
             }
@@ -52,7 +52,7 @@ const useVerification = ({
                 key = Number(key);
             }
 
-            if (keys[i] === undefined) {
+            if (keys[i] === undefined || keys[i] === null || draft === null || draft === undefined) {
                 isDraftInvalid = true;
                 break;
             }
@@ -282,7 +282,7 @@ const useVerification = ({
                 key = Number(key);
             }
             
-            if (keys[i] === undefined) {
+            if (keys[i] === undefined || keys[i] === null || original === undefined || original === null) {
                 isOriginalInvalid = true;
                 break;
             }
@@ -301,7 +301,7 @@ const useVerification = ({
                 key = Number(key);
             }
 
-            if (keys[i] === undefined) {
+            if (keys[i] === undefined || keys[i] === null || draft === null || draft === undefined) {
                 isDraftInvalid = true;
                 break;
             }
@@ -381,8 +381,8 @@ const useVerification = ({
                 path,
                 editedBy: 'user',
                 timestamp: new Date().toISOString(),
-                original: originalValue,
-                modified: value,
+                original: originalValue !== undefined ? originalValue : '',
+                modified: value !== undefined ? value : '',
             }
             const existingChange = changes.find(change => change.path === path);
 
