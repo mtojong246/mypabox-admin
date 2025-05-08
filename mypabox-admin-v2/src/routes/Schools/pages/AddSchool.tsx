@@ -7,7 +7,7 @@ import Button from "../../../components/Buttons/Button";
 import { ReactComponent as AlertIcon } from '../../../components/Icons/Info.svg';
 import { ReactComponent as ExternalLinkIcon } from '../../../components/Icons/External-Link.svg';
 
-import { addUpdatedSchoolDoc, getAllCategories, getAllCourses, updateUpdatedSchoolDoc } from "../../../utils/firebase/firebase.utils";
+import { addUpdatedSchoolDoc, getAllCategories, getAllCourses, getAllUsers, updateUpdatedSchoolDoc } from "../../../utils/firebase/firebase.utils";
 import { Course } from "../../../types/courses.types";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourses } from "../../../app/slices/courses";
@@ -18,10 +18,13 @@ import { setIsEditSchool, setSelectedSchool } from "../../../app/slices/selected
 import { selectNewSchools } from "../../../app/selectors/newSchools.selector";
 import { addNewSchool, updateNewSchool } from "../../../app/slices/newSchools";
 import { selectUsers } from "../../../app/selectors/users.selectors";
+import { UserObject, UserPermissions } from "../../../types/users.types";
+import { setUsers } from "../../../app/slices/users";
+import { selectLogin } from "../../../app/selectors/login.selector";
 
-const permissions = {
-  canEditWithVerificationNeeded: true,
-  canEditWithoutVerificationNeeded: false,
+const defaultPermissions = {
+  canEditWithVerificationNeeded: false,
+  canEditWithoutVerificationNeeded: true,
   canVerify: false,
   canMakeLive: false,
   canAddOrDelete: false,
@@ -37,17 +40,62 @@ export default function AddSchool() {
     const newSchools = useSelector(selectNewSchools);
     const isEditSchool = useSelector(selectIsEditSchool);
     const users = useSelector(selectUsers);
+    const login = useSelector(selectLogin);
     const [ assignee, setAssignee ] = useState('');
-
+    const [ permissions, setPermissions ] = useState<UserPermissions>(defaultPermissions);
 
     
     useEffect(() => {
-      if (selectedSchool) {
+      const hasData = selectedSchool && Object.keys(selectedSchool).length > 0;
+      if (hasData) {
         setSchool(selectedSchool);
       } else {
         setSchool(defaultSchool);
       }
     }, [selectedSchool]);
+
+    useEffect(() => {
+
+      const fetchUsers = async () => {
+          try {
+              const allUsers = await getAllUsers();
+              let userData: UserObject[] = [];
+              if (allUsers) {
+                  allUsers.forEach(user => (
+                      userData.push({
+                          id: user.id,
+                          displayName: user.data.displayName,
+                          email: user.data.email,
+                          isSuperAdmin: user.data.isSuperAdmin,
+                          permissions: user.data.permissions,
+                          activeTasks: user.data.activeTasks,
+                          completedTasks: user.data.completedTasks,
+                          archivedTasks: user.data.archivedTasks,
+                      })
+                  )) 
+                  dispatch(setUsers(userData))
+              }
+  
+          } catch (error: any) {
+              console.log(error);
+          }
+      }
+  
+      fetchUsers();
+  
+  }, [dispatch]);
+
+  useEffect(() => {
+      if (users.length > 0 && login) {
+          const currentUser = users.find(user => user.email === login);
+
+          if (currentUser) {
+              setPermissions(currentUser.permissions);
+          } 
+      }
+  }, [users, login]);
+
+
 
     useEffect(() => {
       if (school.school_name.original.input) {
@@ -123,7 +171,7 @@ export default function AddSchool() {
 
     const navigateTabs = (hash: string) => {
         navigate(`/schools/add-school${hash}`);
-          setTab(hash);
+        setTab(hash);
     }
 
     const checkForChanges = (fields: string[]) => {
@@ -189,6 +237,7 @@ export default function AddSchool() {
     const handleShowChanges = (e: ChangeEvent<HTMLInputElement>) => {
       setShowChangesOnly(e.target.checked);
     }
+
 
 
     return (
@@ -270,6 +319,7 @@ export default function AddSchool() {
             {/* Body */}
             <div className={`grow`}>
                 <AddSchoolForms 
+                    permissions={permissions}
                     tab={tab}
                     school={school}
                     setSchool={setSchool}

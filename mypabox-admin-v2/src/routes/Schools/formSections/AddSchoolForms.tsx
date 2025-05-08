@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect } from "react"
 import { NewSchool } from "../../../types/newSchools.types"
 import GeneralInformation from "./GeneralInformation/GeneralInformation"
 import DegreeInformation from "./DegreeInformation/DegreeInformation"
@@ -16,21 +16,9 @@ import Experience from "./Experience/Experience"
 import Applications from "./Applications/Applications"
 import Exams from "./Exams/Exams"
 import Prerequisites from "./Prerequisites/Prerequisites"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { selectIsEditSchool } from "../../../app/selectors/selectedSchool.selectors"
-import { getAllUsers } from "../../../utils/firebase/firebase.utils"
-import { UserObject, UserPermissions } from "../../../types/users.types"
-import { setUsers } from "../../../app/slices/users"
-import { selectUsers } from "../../../app/selectors/users.selectors"
-import { selectLogin } from "../../../app/selectors/login.selector"
-
-const defaultPermissions = {
-    canEditWithVerificationNeeded: false,
-    canEditWithoutVerificationNeeded: true,
-    canVerify: false,
-    canMakeLive: false,
-    canAddOrDelete: false,
-};
+import { UserPermissions } from "../../../types/users.types"
 
 
 export default function AddSchoolForms({
@@ -38,59 +26,17 @@ export default function AddSchoolForms({
     school,
     setSchool,
     showChangesOnly,
+    permissions,
 }: {
     tab: string,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
+    permissions: UserPermissions,
 }) {
-    const dispatch = useDispatch();
-    const users = useSelector(selectUsers);
-    const login = useSelector(selectLogin);
     const isEditSchool = useSelector(selectIsEditSchool);
-    const [ permissions, setPermissions ] = useState<UserPermissions>(defaultPermissions);
 
-    useEffect(() => {
-
-        const fetchUsers = async () => {
-            try {
-                const allUsers = await getAllUsers();
-                let userData: UserObject[] = [];
-                if (allUsers) {
-                    allUsers.forEach(user => (
-                        userData.push({
-                            id: user.id,
-                            displayName: user.data.displayName,
-                            email: user.data.email,
-                            isSuperAdmin: user.data.isSuperAdmin,
-                            permissions: user.data.permissions,
-                            activeTasks: user.data.activeTasks,
-                            completedTasks: user.data.completedTasks,
-                            archivedTasks: user.data.archivedTasks,
-                        })
-                    )) 
-                    dispatch(setUsers(userData))
-                }
-    
-            } catch (error: any) {
-                console.log(error);
-            }
-        }
-    
-        fetchUsers();
-    
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (users.length > 0 && login) {
-            const currentUser = users.find(user => user.email === login);
-
-            if (currentUser) {
-                setPermissions(currentUser.permissions);
-            } 
-        }
-    }, [users, login]);
-    
+   
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     }, []);
