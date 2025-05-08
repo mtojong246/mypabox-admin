@@ -24,6 +24,7 @@ function App() {
           <Route path='main' element={<Main />} />
           <Route path='schools' element={<Schools />} />
           <Route path='schools/add-school' element={<AddSchool />} />  
+          <Route path='schools/edit-school/:id' element={<AddSchool/>} />
           <Route path='courses' element={<Courses />} />
           <Route path='courses/add-course' element={<AddOrEditCourse />} />
           <Route path='courses/edit-course/:id' element={<AddOrEditCourse />} />

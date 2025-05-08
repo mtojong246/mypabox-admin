@@ -15,8 +15,6 @@ import { selectUsers } from '../../app/selectors/users.selectors';
 import { UserObject } from '../../types/users.types';
 import { HiOutlineSignal } from "react-icons/hi2";
 import { mockUser } from '../../data/defaultValues';
-import { setIsEditSchool, setSelectedSchool } from '../../app/slices/selectedSchool';
-import { defaultSchool } from '../../utils/defaults';
 import { NewSchool } from '../../types/newSchools.types';
 import { selectNewSchools } from '../../app/selectors/newSchools.selector';
 import { setNewSchools, updateNewSchool } from '../../app/slices/newSchools';
@@ -152,8 +150,6 @@ const Schools = () => {
     fetchNewSchools();
 
   }, [dispatch, navigate, setStateSearch]);
-  
-
 
 
   useEffect(() => {
@@ -223,23 +219,22 @@ const Schools = () => {
   }, [dispatch, navigate]);
 
   useEffect(() => {
-    localStorage.removeItem('newSchool');
     setToggleSideMenu(false)
     //eslint-disable-next-line
   }, [])
   
 
   const addSchoolButton = () => {
-    dispatch(setIsEditSchool(false));
-    dispatch(setSelectedSchool(defaultSchool))
-    navigate('/schools/add-school#general-info');
+    // dispatch(setIsEditSchool(false));
+    // dispatch(setSelectedSchool(defaultSchool))
+    navigate('/schools/add-school');
   };
 
 
   const editSchool = (school: NewSchool) => {
-    dispatch(setIsEditSchool(true));
-    dispatch(setSelectedSchool(school));
-    navigate('/schools/add-school#general-info');
+    // dispatch(setIsEditSchool(true));
+    // dispatch(setSelectedSchool(school));
+    navigate(`/schools/edit-school/${school.id}`);
   };
 
   const changeLiveStatus = async (e: MouseEvent<HTMLButtonElement>, id: string) => {

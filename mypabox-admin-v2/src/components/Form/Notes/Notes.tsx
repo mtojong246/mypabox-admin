@@ -7,9 +7,8 @@ import { ReactComponent as EditIcon } from '../../../components/Icons/Edit-With-
 import { ReactComponent as DeleteIcon } from '../../../components/Icons/Trash.svg';
 import ChangePopup from "../Validation/ChangePopup";
 import IconButton from "../../Buttons/IconButton";
-import { useSelector } from "react-redux";
-import { selectIsEditSchool } from "../../../app/selectors/selectedSchool.selectors";
 import { UserPermissions } from "../../../types/users.types";
+import { useLocation } from "react-router-dom";
 
 
 export default function Notes({
@@ -47,8 +46,15 @@ export default function Notes({
     label?: string,
     permissions: UserPermissions
 }) {
-    const isEditSchool = useSelector(selectIsEditSchool);
+    const location = useLocation();
     const [ isDisabled, setIsDisabled ] = useState(false);
+    const [ isEditSchool, setIsEditSchool ] = useState(false);
+
+    useEffect(() => {
+        if (location.pathname.includes('edit')) {
+            setIsEditSchool(true)
+        }
+    }, [location.pathname])
 
     useEffect(() => {
         if (tab === 'original' && isEditSchool && (permissions.canEditWithVerificationNeeded || (schoolField.changes.length > 0 && permissions.canVerify))) {

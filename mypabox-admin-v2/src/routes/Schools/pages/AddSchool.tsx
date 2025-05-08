@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, MouseEvent, ChangeEvent } from "react";
 import AddSchoolForms from "../formSections/AddSchoolForms";
 import { GenericSchoolField, NewSchool } from "../../../types/newSchools.types";
@@ -13,14 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCourses } from "../../../app/slices/courses";
 import { CategoryType } from "../../../types/categories.types";
 import { setCategories } from "../../../app/slices/categories";
-import { selectIsEditSchool, selectSelectedSchool } from "../../../app/selectors/selectedSchool.selectors";
-import { setIsEditSchool, setSelectedSchool } from "../../../app/slices/selectedSchool";
 import { selectNewSchools } from "../../../app/selectors/newSchools.selector";
 import { addNewSchool, updateNewSchool } from "../../../app/slices/newSchools";
 import { selectUsers } from "../../../app/selectors/users.selectors";
 import { UserObject, UserPermissions } from "../../../types/users.types";
 import { setUsers } from "../../../app/slices/users";
 import { selectLogin } from "../../../app/selectors/login.selector";
+import { fetchNewSchools } from "../../../data/functions";
 
 const defaultPermissions = {
   canEditWithVerificationNeeded: false,
@@ -32,27 +31,73 @@ const defaultPermissions = {
 
 export default function AddSchool() {
     const navigate = useNavigate();
+    const { id } = useParams();
+    const location = useLocation();
     const [ tab, setTab ] = useState('#general-info');
     const [ school, setSchool ] = useState<NewSchool>(defaultSchool);
     const [ showChangesOnly, setShowChangesOnly ] = useState(false);
     const dispatch = useDispatch();
-    const selectedSchool = useSelector(selectSelectedSchool);
     const newSchools = useSelector(selectNewSchools);
-    const isEditSchool = useSelector(selectIsEditSchool);
     const users = useSelector(selectUsers);
     const login = useSelector(selectLogin);
     const [ assignee, setAssignee ] = useState('');
     const [ permissions, setPermissions ] = useState<UserPermissions>(defaultPermissions);
+    const [ isEditSchool, setIsEditSchool ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
 
-    
+  // useEffect(() => {
+  //   const getSchoolInfo = async () => {
+  //       setIsLoading(true);
+  //       if (id) {
+  //         let matchingSchool: NewSchool | undefined = undefined;
+  //         if (newSchools.length > 0) {
+  //           matchingSchool = newSchools.find(school => school.id === id);
+  //         } else {
+  //           const fetchedSchools = await fetchNewSchools();
+  //           if (fetchedSchools) {
+  //             matchingSchool = fetchedSchools.find(school => school.id === id);
+  //           }
+  //         };
+
+  //         if (matchingSchool) {
+  //           setSchool(matchingSchool)
+  //         } else {
+  //           setSchool(defaultSchool);
+  //         }
+  //       } else {
+  //         setSchool(defaultSchool);
+  //       };
+
+  //       setIsLoading(false);
+  //   };
+
+  //   getSchoolInfo();
+
+  //   if (location.pathname.includes('edit')) {
+  //     setIsEditSchool(true);
+  //   } else {
+  //     setIsEditSchool(false);
+  //   }
+  // }, [id, location.pathname, newSchools])
+
     useEffect(() => {
-      const hasData = selectedSchool && Object.keys(selectedSchool).length > 0;
-      if (hasData) {
-        setSchool(selectedSchool);
+      if (id && newSchools.length > 0) {
+        const matchingSchool = newSchools.find(school => school.id === id);
+        if (matchingSchool) {
+          setSchool(matchingSchool)
+        } else {
+          setSchool(defaultSchool)
+        }
       } else {
         setSchool(defaultSchool);
       }
-    }, [selectedSchool]);
+
+      if (location.pathname.includes('edit')) {
+        setIsEditSchool(true);
+      } else {
+        setIsEditSchool(false);
+      }
+    }, [id, newSchools, location.pathname]);
 
     useEffect(() => {
 
@@ -104,73 +149,73 @@ export default function AddSchool() {
       }
      }, [school.school_name.original.input, users]);
 
-    useEffect(() => {
+  //   useEffect(() => {
 
-      const fetchCourses = async () => {
-          try {
-              const allCourses = await getAllCourses();
-              if  (allCourses) {
-                  // Sorts course alphabetically
-                  (allCourses as Course[]).sort(function (a, b) {
-                      if (a.course_name < b.course_name) {
-                          return -1;
-                      }
-                      if (a.course_name > b.course_name) {
-                          return 1;
-                      }
-                      return 0;
-                  })
-                  dispatch(setCourses(allCourses));
-              }
-          } catch (error: any) {
-              if (error.message === 'permission-denied') {
-                  alert("Access denied. Please log in using the appropriate credentials");
-                  navigate('/');
-                  return;
-                } else {
-                  alert('Error loading course data')
-                }
-          }
-      }
+  //     const fetchCourses = async () => {
+  //         try {
+  //             const allCourses = await getAllCourses();
+  //             if  (allCourses) {
+  //                 // Sorts course alphabetically
+  //                 (allCourses as Course[]).sort(function (a, b) {
+  //                     if (a.course_name < b.course_name) {
+  //                         return -1;
+  //                     }
+  //                     if (a.course_name > b.course_name) {
+  //                         return 1;
+  //                     }
+  //                     return 0;
+  //                 })
+  //                 dispatch(setCourses(allCourses));
+  //             }
+  //         } catch (error: any) {
+  //             if (error.message === 'permission-denied') {
+  //                 alert("Access denied. Please log in using the appropriate credentials");
+  //                 navigate('/');
+  //                 return;
+  //               } else {
+  //                 alert('Error loading course data')
+  //               }
+  //         }
+  //     }
   
-      fetchCourses();
+  //     fetchCourses();
   
-  }, [dispatch, navigate]);
+  // }, [dispatch, navigate]);
   
-    useEffect(() => {
+  //   useEffect(() => {
   
-      const fetchCategories = async () => {
-          try {
-              const allCategories = await getAllCategories();
-              if (allCategories) {
-                  // Sorts course alphabetically
-                  (allCategories as CategoryType[]).sort(function (a, b) {
-                      if (a.category_name < b.category_name) {
-                          return -1;
-                      }
-                      if (a.category_name > b.category_name) {
-                          return 1;
-                      }
-                      return 0;
-                  })
-                  dispatch(setCategories(allCategories));
-              } 
-          } catch (error: any) {
-              if (error.message === 'permission-denied') {
-                  alert("Access denied. Please log in using the appropriate credentials");
-                  navigate('/');
-                  return;
-              } else {
-                  alert('Error loading course data')
-              }
-          }
-      }
+  //     const fetchCategories = async () => {
+  //         try {
+  //             const allCategories = await getAllCategories();
+  //             if (allCategories) {
+  //                 // Sorts course alphabetically
+  //                 (allCategories as CategoryType[]).sort(function (a, b) {
+  //                     if (a.category_name < b.category_name) {
+  //                         return -1;
+  //                     }
+  //                     if (a.category_name > b.category_name) {
+  //                         return 1;
+  //                     }
+  //                     return 0;
+  //                 })
+  //                 dispatch(setCategories(allCategories));
+  //             } 
+  //         } catch (error: any) {
+  //             if (error.message === 'permission-denied') {
+  //                 alert("Access denied. Please log in using the appropriate credentials");
+  //                 navigate('/');
+  //                 return;
+  //             } else {
+  //                 alert('Error loading course data')
+  //             }
+  //         }
+  //     }
   
-      fetchCategories();
-    }, [dispatch, navigate]);
+  //     fetchCategories();
+  //   }, [dispatch, navigate]);
 
     const navigateTabs = (hash: string) => {
-        navigate(`/schools/add-school${hash}`);
+        // navigate(`/schools/add-school${hash}`);
         setTab(hash);
     }
 
@@ -199,7 +244,7 @@ export default function AddSchool() {
         try {
           const addedSchool = await addUpdatedSchoolDoc(school);
           dispatch(addNewSchool(addedSchool));
-          dispatch(setSelectedSchool(addedSchool));
+          // dispatch(setSelectedSchool(addedSchool));
         } catch (err:any) {
           console.log(err);
         }
@@ -207,7 +252,7 @@ export default function AddSchool() {
         try {
           await updateUpdatedSchoolDoc(school, school.id);
           dispatch(updateNewSchool(school));
-          dispatch(setSelectedSchool(school));
+          // dispatch(setSelectedSchool(school));
         } catch (err:any) {
           console.log(err);
         }
@@ -222,16 +267,16 @@ export default function AddSchool() {
 
       if (value === 'done') {
         navigate('/schools');
-        dispatch(setSelectedSchool(null));
-        dispatch(setIsEditSchool(false));
+        // dispatch(setSelectedSchool(null));
+        // dispatch(setIsEditSchool(false));
       } 
     }
 
     const cancelAction = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       navigate('/schools');
-      dispatch(setSelectedSchool(null));
-      dispatch(setIsEditSchool(false));
+      // dispatch(setSelectedSchool(null));
+      // dispatch(setIsEditSchool(false));
     }
 
     const handleShowChanges = (e: ChangeEvent<HTMLInputElement>) => {
@@ -324,6 +369,7 @@ export default function AddSchool() {
                     school={school}
                     setSchool={setSchool}
                     showChangesOnly={showChangesOnly}
+                    isEditSchool={isEditSchool}
                 />
               {/* <Category tab={tab} newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}
               handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} /> */}

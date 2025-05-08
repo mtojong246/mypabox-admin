@@ -16,8 +16,6 @@ import Experience from "./Experience/Experience"
 import Applications from "./Applications/Applications"
 import Exams from "./Exams/Exams"
 import Prerequisites from "./Prerequisites/Prerequisites"
-import { useSelector } from "react-redux"
-import { selectIsEditSchool } from "../../../app/selectors/selectedSchool.selectors"
 import { UserPermissions } from "../../../types/users.types"
 
 
@@ -27,14 +25,15 @@ export default function AddSchoolForms({
     setSchool,
     showChangesOnly,
     permissions,
+    isEditSchool,
 }: {
     tab: string,
     school: NewSchool,
     setSchool: Dispatch<SetStateAction<NewSchool>>,
     showChangesOnly: boolean,
     permissions: UserPermissions,
+    isEditSchool: boolean,
 }) {
-    const isEditSchool = useSelector(selectIsEditSchool);
 
    
     useEffect(() => {
