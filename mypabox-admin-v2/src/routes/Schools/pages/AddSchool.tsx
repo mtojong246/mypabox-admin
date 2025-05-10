@@ -19,6 +19,7 @@ import { selectUsers } from "../../../app/selectors/users.selectors";
 import { UserObject, UserPermissions } from "../../../types/users.types";
 import { setUsers } from "../../../app/slices/users";
 import { selectLogin } from "../../../app/selectors/login.selector";
+import SnackbarAlert from "../../../components/SnackbarAlert";
 
 const defaultPermissions = {
   canEditWithVerificationNeeded: false,
@@ -42,6 +43,10 @@ export default function AddSchool() {
     const [ assignee, setAssignee ] = useState('');
     const [ permissions, setPermissions ] = useState<UserPermissions>(defaultPermissions);
     const [ isEditSchool, setIsEditSchool ] = useState(false);
+
+    const [ open, setOpen ] = useState(false);
+    const [ message, setMessage ] = useState('');
+    const [ severity, setSeverity ] = useState<'success' | 'error' | 'warning' | 'info'>('success');
     const [ isLoading, setIsLoading ] = useState<{
       done: boolean,
       save: boolean,
@@ -226,17 +231,21 @@ export default function AddSchool() {
           try {
             const addedSchool = await addUpdatedSchoolDoc(school);
             dispatch(addNewSchool(addedSchool));
+            openSnackbar(`${school.school_name.original.input ? school.school_name.original.input : 'School'} was added successfully`, 'success');
             // dispatch(setSelectedSchool(addedSchool));
           } catch (err:any) {
             console.log(err);
+            openSnackbar('There was a problem adding this school. Please try again.', 'error');
           }
         } else {
           try {
             await updateUpdatedSchoolDoc(school, school.id);
             dispatch(updateNewSchool(school));
+            openSnackbar(`${school.school_name.original.input ? school.school_name.original.input : 'School'} was saved successfully`, 'success');
             // dispatch(setSelectedSchool(school));
           } catch (err:any) {
             console.log(err);
+            openSnackbar('There was a problem saving this school. Please try again.', 'error');
           }
         }
 
@@ -245,6 +254,12 @@ export default function AddSchool() {
           save: false,
         })
       } 
+    }
+
+    const openSnackbar = (msg: string, sev: 'success' | 'error' | 'warning' | 'info') => {
+      setOpen(true);
+      setMessage(msg);
+      setSeverity(sev);
     }
 
     const updateAction = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -378,6 +393,13 @@ export default function AddSchool() {
           </div>
     
         </div>
+
+        <SnackbarAlert 
+          open={open}
+          setOpen={setOpen}
+          message={message}
+          severity={severity}
+        />
         {/* {openNote && <AddNote currentInput={currentInput} addNote={addNote} toggleNote={toggleNote} />}
         {openEdit && <EditNote currentInput={currentInput} note={note} index={index} toggleEdit={toggleEdit} editNote={editNote}/>} */}
         {/* {isCancelOpen && <CancelPopup toggleDelete={toggleCancelPopup} cancel={cancel} />}
