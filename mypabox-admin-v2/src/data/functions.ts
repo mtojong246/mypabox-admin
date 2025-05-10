@@ -1,5 +1,5 @@
 import { NewSchool } from "../types/newSchools.types";
-import { Note, School } from "../types/schools.types";
+import { School } from "../types/schools.types";
 import { UserObject } from "../types/users.types";
 import { getUpdatedSchoolsAndDocuments } from "../utils/firebase/firebase.utils";
 

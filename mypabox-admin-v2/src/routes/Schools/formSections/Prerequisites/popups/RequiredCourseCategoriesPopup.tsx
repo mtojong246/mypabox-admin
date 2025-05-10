@@ -296,13 +296,13 @@ export default function RequiredCourseCategoriesPopup({
         <>
             <div className='fixed top-0 left-0 right-0 bottom-0 z-[100]'>
                 <div className='fixed bg-[rgba(0,0,0,0.2)] top-0 left-0 right-0 bottom-0 flex justify-center items-center p-10'>
-                    <div className='w-full max-w-[600px] rounded-lg bg-white'>
+                    <div className='w-full max-w-[600px] rounded-lg bg-white popup-max-height flex flex-col justify-start items-stretch'>
                         <div className="flex justify-between items-center gap-6 p-6 border-b border-outline">
                             <p className="font-medium text-[24px]">{selectedPrereqArrItem ? 'Edit Required Course Category' : 'Add Required Course Category'}</p>
                             <button onClick={(e: any) => togglePopup(e, null)} className="w-[16px] text-placeholder hover:text-default transition-all"><CloseIcon /></button>
                         </div>
 
-                        <div className="max-h-[600px] overflow-y-auto">
+                        <div className="grow overflow-y-auto">
                         <div className='w-full p-6 flex flex-col justify-start items-start gap-8 w-full'>
 
                             <SelectInput 

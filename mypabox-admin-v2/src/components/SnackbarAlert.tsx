@@ -13,8 +13,6 @@ export default function SnackbarAlert({
     severity: 'success' | 'error' | 'info' | 'warning',
 }) {
   
-  console.log(open)
-
   return (
     <div>
       <Snackbar open={open} autoHideDuration={2000} onClose={() => setOpen(false)}>

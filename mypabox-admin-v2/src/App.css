@@ -59,32 +59,10 @@
 .edited-quill .ql-container.ql-disabled .ql-tooltip {
   display: none !important;
 }
-/* .edited-quill .ql-container {
-  font-size: 16px;
+
+.popup-max-height {
+  max-height: calc(100vh - 5rem);
 }
-
-.edited-quill .ql-container .ql-editor {
-  padding: 0px;
-}
-
-.strike .ql-container .ql-editor p {
-  text-decoration: line-through;
-}
-
-.ql-toolbar {
-  border-radius: 5px 5px 0 0;
-  border-width: 2px 2px 0px 2px !important;
-  border-color: #B4B4B4 !important;
-}
-
-.ql-container.ql-snow {
-  border-radius: 0 0 5px 5px;
-  border: 2px solid #B4B4B4 !important;
-} */
-
-/* .ql-disabled {
-  background-color: #999999 !important;
-} */
 
 
 .css-13cymwt-control, .css-13iuoa8-control, .css-t3ipsp-control, .css-v68sna-control, .css-blhudp-control, .css-b62m3t-container, .css-16xfy0z-control {
