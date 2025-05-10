@@ -42,6 +42,13 @@ export default function AddSchool() {
     const [ assignee, setAssignee ] = useState('');
     const [ permissions, setPermissions ] = useState<UserPermissions>(defaultPermissions);
     const [ isEditSchool, setIsEditSchool ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState<{
+      done: boolean,
+      save: boolean,
+    }>({
+      done: false,
+      save: false,
+    })
 
 
     useEffect(() => {
@@ -205,8 +212,15 @@ export default function AddSchool() {
 
     const updateSchool = async (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
+      const value = e.currentTarget.value;
+      
       if (school) {
         const existingSchool = newSchools.find(s => s.id === school.id);
+
+        setIsLoading({
+          done: value === 'done' ? true : false,
+          save: value === 'save' ? true : false,
+        });
 
         if (!existingSchool) {
           try {
@@ -225,6 +239,11 @@ export default function AddSchool() {
             console.log(err);
           }
         }
+
+        setIsLoading({
+          done: false,
+          save: false,
+        })
       } 
     }
 
@@ -290,6 +309,7 @@ export default function AddSchool() {
                       styling='outline'
                       action={updateAction}
                       value='save'
+                      isLoading={isLoading.save}
                     />
                     <Button
                       type="primary"
@@ -297,6 +317,7 @@ export default function AddSchool() {
                       styling='outline'
                       action={updateAction}
                       value='done'
+                      isLoading={isLoading.done}
                     />
                     <Button
                       type="warning"
