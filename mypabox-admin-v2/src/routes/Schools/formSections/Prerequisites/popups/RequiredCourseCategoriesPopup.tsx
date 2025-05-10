@@ -373,15 +373,17 @@ export default function RequiredCourseCategoriesPopup({
                                                 <p className="font-semibold">
                                                     {matchingCourse ? matchingCourse.course_name : ''}
                                                 </p>
-                                                <div className="flex flex-col justify-start items-start gap-1">
-                                                    <p>Note:</p>
-                                                    <ReactQuill 
-                                                        theme='bubble'
-                                                        value={includedCourse.school_required_course_note} 
-                                                        readOnly={true} 
-                                                        className='edited-quill'
-                                                    />
-                                                </div>
+                                                {includedCourse.school_required_course_note && (
+                                                    <div className="flex flex-col justify-start items-start gap-1">
+                                                        <p>Note:</p>
+                                                        <ReactQuill 
+                                                            theme='bubble'
+                                                            value={includedCourse.school_required_course_note} 
+                                                            readOnly={true} 
+                                                            className='edited-quill'
+                                                        />
+                                                    </div>
+                                                )}
                                             </div>
                                             <div className="flex gap-4">
                                                 <button 
@@ -422,15 +424,17 @@ export default function RequiredCourseCategoriesPopup({
                                                 <p className="font-semibold">
                                                     {matchingCourse ? matchingCourse.course_name : ''}
                                                 </p>
-                                                <div className="flex flex-col justify-start items-start gap-1">
-                                                    <p>Note:</p>
-                                                    <ReactQuill 
-                                                        theme='bubble'
-                                                        value={excludedCourse.school_required_course_note} 
-                                                        readOnly={true} 
-                                                        className='edited-quill'
-                                                    />
-                                                </div>
+                                                {excludedCourse.school_required_course_note && (
+                                                    <div className="flex flex-col justify-start items-start gap-1">
+                                                        <p>Note:</p>
+                                                        <ReactQuill 
+                                                            theme='bubble'
+                                                            value={excludedCourse.school_required_course_note} 
+                                                            readOnly={true} 
+                                                            className='edited-quill'
+                                                        />
+                                                    </div>
+                                                )}
                                             </div>
                                             <div className="flex gap-4">
                                                 <button 

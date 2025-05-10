@@ -45,15 +45,17 @@ export default function RequiredCourseCategoriesField({
                     return (
                         <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
                             <p className="font-medium">{matchingCourse ? matchingCourse.course_name : ''}</p>
-                            <div className="flex flex-col justify-start items-start gap-1">
-                                <p className="font-medium underline">Note:</p>
-                                <ReactQuill 
-                                    theme='bubble'
-                                    value={includedCourse.school_required_course_note} 
-                                    readOnly={true} 
-                                    className='edited-quill'
-                                />
-                            </div>
+                            {includedCourse.school_required_course_note && (
+                                <div className="flex flex-col justify-start items-start gap-1">
+                                    <p className="font-medium underline">Note:</p>
+                                    <ReactQuill 
+                                        theme='bubble'
+                                        value={includedCourse.school_required_course_note} 
+                                        readOnly={true} 
+                                        className='edited-quill'
+                                    />
+                                </div>
+                            )}
                         </div>
                     )
                 })}
@@ -66,34 +68,38 @@ export default function RequiredCourseCategoriesField({
                     return (
                         <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
                             <p className="font-medium">{matchingCourse ? matchingCourse.course_name : ''}</p>
-                            <div className="flex flex-col justify-start items-start gap-1">
-                                <p className="font-medium underline">Note:</p>
-                                <ReactQuill 
-                                    theme='bubble'
-                                    value={excludedCourse.school_required_course_note} 
-                                    readOnly={true} 
-                                    className='edited-quill'
-                                />
-                            </div>
+                            {excludedCourse.school_required_course_note && (
+                                <div className="flex flex-col justify-start items-start gap-1">
+                                    <p className="font-medium underline">Note:</p>
+                                    <ReactQuill 
+                                        theme='bubble'
+                                        value={excludedCourse.school_required_course_note} 
+                                        readOnly={true} 
+                                        className='edited-quill'
+                                    />
+                                </div>
+                            )}
                         </div>
                     )
                 })}
             </div>
 
-            <div className="w-full flex flex-col gap-2 justify-start items-stretch">
-                <p className="underline text-default font-medium">Course Category Notes:</p>
-                {value.notes.map(note => (
-                    <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
-                        <p className={`${note.type === 'requirement' ? 'text-warning' : 'text-primary'} text-[14px] font-medium`}>{note.type}</p>
-                        <ReactQuill 
-                            theme='bubble'
-                            value={note.note} 
-                            readOnly={true} 
-                            className='edited-quill'
-                        />
-                    </div>
-                ))}
-            </div>
+            {value.notes.length > 0 && (
+                <div className="w-full flex flex-col gap-2 justify-start items-stretch">
+                    <p className="underline text-default font-medium">Course Category Notes:</p>
+                    {value.notes.map(note => (
+                        <div className={`grow flex flex-col gap-4 p-4 justify-start items-start rounded-lg border border-outline`}>
+                            <p className={`${note.type === 'requirement' ? 'text-warning' : 'text-primary'} text-[14px] font-medium`}>{note.type}</p>
+                            <ReactQuill 
+                                theme='bubble'
+                                value={note.note} 
+                                readOnly={true} 
+                                className='edited-quill'
+                            />
+                        </div>
+                    ))}
+                </div>
+            )}
 
         </div>
     )
