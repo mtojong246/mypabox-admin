@@ -10,7 +10,7 @@ const useVerification = ({
     permissions,
 }: {
     school: NewSchool,
-    setSchool: Dispatch<SetStateAction<NewSchool>>,
+    setSchool: Dispatch<SetStateAction<NewSchool | null>>,
     isEditSchool: boolean,
     permissions: UserPermissions,
 }) => {

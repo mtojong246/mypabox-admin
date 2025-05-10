@@ -19,7 +19,6 @@ import { selectUsers } from "../../../app/selectors/users.selectors";
 import { UserObject, UserPermissions } from "../../../types/users.types";
 import { setUsers } from "../../../app/slices/users";
 import { selectLogin } from "../../../app/selectors/login.selector";
-import { fetchNewSchools } from "../../../data/functions";
 
 const defaultPermissions = {
   canEditWithVerificationNeeded: false,
@@ -34,7 +33,7 @@ export default function AddSchool() {
     const { id } = useParams();
     const location = useLocation();
     const [ tab, setTab ] = useState('#general-info');
-    const [ school, setSchool ] = useState<NewSchool>(defaultSchool);
+    const [ school, setSchool ] = useState<NewSchool | null>(null);
     const [ showChangesOnly, setShowChangesOnly ] = useState(false);
     const dispatch = useDispatch();
     const newSchools = useSelector(selectNewSchools);
@@ -43,42 +42,7 @@ export default function AddSchool() {
     const [ assignee, setAssignee ] = useState('');
     const [ permissions, setPermissions ] = useState<UserPermissions>(defaultPermissions);
     const [ isEditSchool, setIsEditSchool ] = useState(false);
-    const [ isLoading, setIsLoading ] = useState(false);
 
-  // useEffect(() => {
-  //   const getSchoolInfo = async () => {
-  //       setIsLoading(true);
-  //       if (id) {
-  //         let matchingSchool: NewSchool | undefined = undefined;
-  //         if (newSchools.length > 0) {
-  //           matchingSchool = newSchools.find(school => school.id === id);
-  //         } else {
-  //           const fetchedSchools = await fetchNewSchools();
-  //           if (fetchedSchools) {
-  //             matchingSchool = fetchedSchools.find(school => school.id === id);
-  //           }
-  //         };
-
-  //         if (matchingSchool) {
-  //           setSchool(matchingSchool)
-  //         } else {
-  //           setSchool(defaultSchool);
-  //         }
-  //       } else {
-  //         setSchool(defaultSchool);
-  //       };
-
-  //       setIsLoading(false);
-  //   };
-
-  //   getSchoolInfo();
-
-  //   if (location.pathname.includes('edit')) {
-  //     setIsEditSchool(true);
-  //   } else {
-  //     setIsEditSchool(false);
-  //   }
-  // }, [id, location.pathname, newSchools])
 
     useEffect(() => {
       if (id && newSchools.length > 0) {
@@ -98,6 +62,7 @@ export default function AddSchool() {
         setIsEditSchool(false);
       }
     }, [id, newSchools, location.pathname]);
+
 
     useEffect(() => {
 
@@ -143,76 +108,76 @@ export default function AddSchool() {
 
 
     useEffect(() => {
-      if (school.school_name.original.input) {
+      if (school &&  school.school_name.original.input) {
         const user = users.find(u => u.activeTasks.find(task => task.schools.includes(school.school_name.original.input)))
         if (user) setAssignee(user.displayName)
       }
-     }, [school.school_name.original.input, users]);
+     }, [school, users]);
 
-  //   useEffect(() => {
+    useEffect(() => {
 
-  //     const fetchCourses = async () => {
-  //         try {
-  //             const allCourses = await getAllCourses();
-  //             if  (allCourses) {
-  //                 // Sorts course alphabetically
-  //                 (allCourses as Course[]).sort(function (a, b) {
-  //                     if (a.course_name < b.course_name) {
-  //                         return -1;
-  //                     }
-  //                     if (a.course_name > b.course_name) {
-  //                         return 1;
-  //                     }
-  //                     return 0;
-  //                 })
-  //                 dispatch(setCourses(allCourses));
-  //             }
-  //         } catch (error: any) {
-  //             if (error.message === 'permission-denied') {
-  //                 alert("Access denied. Please log in using the appropriate credentials");
-  //                 navigate('/');
-  //                 return;
-  //               } else {
-  //                 alert('Error loading course data')
-  //               }
-  //         }
-  //     }
+      const fetchCourses = async () => {
+          try {
+              const allCourses = await getAllCourses();
+              if  (allCourses) {
+                  // Sorts course alphabetically
+                  (allCourses as Course[]).sort(function (a, b) {
+                      if (a.course_name < b.course_name) {
+                          return -1;
+                      }
+                      if (a.course_name > b.course_name) {
+                          return 1;
+                      }
+                      return 0;
+                  })
+                  dispatch(setCourses(allCourses));
+              }
+          } catch (error: any) {
+              if (error.message === 'permission-denied') {
+                  alert("Access denied. Please log in using the appropriate credentials");
+                  navigate('/');
+                  return;
+                } else {
+                  alert('Error loading course data')
+                }
+          }
+      }
   
-  //     fetchCourses();
+      fetchCourses();
   
-  // }, [dispatch, navigate]);
+  }, [dispatch, navigate]);
   
-  //   useEffect(() => {
+    useEffect(() => {
   
-  //     const fetchCategories = async () => {
-  //         try {
-  //             const allCategories = await getAllCategories();
-  //             if (allCategories) {
-  //                 // Sorts course alphabetically
-  //                 (allCategories as CategoryType[]).sort(function (a, b) {
-  //                     if (a.category_name < b.category_name) {
-  //                         return -1;
-  //                     }
-  //                     if (a.category_name > b.category_name) {
-  //                         return 1;
-  //                     }
-  //                     return 0;
-  //                 })
-  //                 dispatch(setCategories(allCategories));
-  //             } 
-  //         } catch (error: any) {
-  //             if (error.message === 'permission-denied') {
-  //                 alert("Access denied. Please log in using the appropriate credentials");
-  //                 navigate('/');
-  //                 return;
-  //             } else {
-  //                 alert('Error loading course data')
-  //             }
-  //         }
-  //     }
+      const fetchCategories = async () => {
+          try {
+              const allCategories = await getAllCategories();
+              if (allCategories) {
+                  // Sorts course alphabetically
+                  (allCategories as CategoryType[]).sort(function (a, b) {
+                      if (a.category_name < b.category_name) {
+                          return -1;
+                      }
+                      if (a.category_name > b.category_name) {
+                          return 1;
+                      }
+                      return 0;
+                  })
+                  dispatch(setCategories(allCategories));
+              } 
+          } catch (error: any) {
+              if (error.message === 'permission-denied') {
+                  alert("Access denied. Please log in using the appropriate credentials");
+                  navigate('/');
+                  return;
+              } else {
+                  alert('Error loading course data')
+              }
+          }
+      }
   
-  //     fetchCategories();
-  //   }, [dispatch, navigate]);
+      fetchCategories();
+    }, [dispatch, navigate]);
 
     const navigateTabs = (hash: string) => {
         // navigate(`/schools/add-school${hash}`);
@@ -222,13 +187,15 @@ export default function AddSchool() {
     const checkForChanges = (fields: string[]) => {
       let hasChanges = false;
 
-      for (let i=0; i<fields.length; i++) {
-        const schoolField = school[fields[i] as keyof NewSchool] as GenericSchoolField;
-        if (schoolField) {
-          const changes = schoolField.changes;
-          if (changes && changes.length > 0) {
-            hasChanges = true;
-            break;
+      if (school) {
+        for (let i=0; i<fields.length; i++) {
+          const schoolField = school[fields[i] as keyof NewSchool] as GenericSchoolField;
+          if (schoolField) {
+            const changes = schoolField.changes;
+            if (changes && changes.length > 0) {
+              hasChanges = true;
+              break;
+            }
           }
         }
       }
@@ -238,25 +205,27 @@ export default function AddSchool() {
 
     const updateSchool = async (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      const existingSchool = newSchools.find(s => s.id === school.id);
+      if (school) {
+        const existingSchool = newSchools.find(s => s.id === school.id);
 
-      if (!existingSchool) {
-        try {
-          const addedSchool = await addUpdatedSchoolDoc(school);
-          dispatch(addNewSchool(addedSchool));
-          // dispatch(setSelectedSchool(addedSchool));
-        } catch (err:any) {
-          console.log(err);
+        if (!existingSchool) {
+          try {
+            const addedSchool = await addUpdatedSchoolDoc(school);
+            dispatch(addNewSchool(addedSchool));
+            // dispatch(setSelectedSchool(addedSchool));
+          } catch (err:any) {
+            console.log(err);
+          }
+        } else {
+          try {
+            await updateUpdatedSchoolDoc(school, school.id);
+            dispatch(updateNewSchool(school));
+            // dispatch(setSelectedSchool(school));
+          } catch (err:any) {
+            console.log(err);
+          }
         }
-      } else {
-        try {
-          await updateUpdatedSchoolDoc(school, school.id);
-          dispatch(updateNewSchool(school));
-          // dispatch(setSelectedSchool(school));
-        } catch (err:any) {
-          console.log(err);
-        }
-      }
+      } 
     }
 
     const updateAction = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -362,6 +331,7 @@ export default function AddSchool() {
             </div>
     
             {/* Body */}
+            {school && (
             <div className={`grow`}>
                 <AddSchoolForms 
                     permissions={permissions}
@@ -374,6 +344,7 @@ export default function AddSchool() {
               {/* <Category tab={tab} newSchool={newSchool} setNewSchool={setNewSchool} handleInputChange={handleInputChange}
               handleCheck={handleCheck} handleQuillInputChange={handleQuillInputChange} openNotePopup={openNotePopup} openEditPopup={openEditPopup} removeNote={removeNote} /> */}
             </div>
+            )}
 
             {permissions.canVerify && (
               <div className={`flex justify-start items-start sticky top-0 py-4 ${window.scrollY === 180 ? 'top-[210px]' : 'top-[135px]'}`}>

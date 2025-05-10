@@ -24,7 +24,7 @@ export default function Container({
     label: string,
     name: string,
     school: NewSchool,
-    setSchool: Dispatch<SetStateAction<NewSchool>>,
+    setSchool: Dispatch<SetStateAction<NewSchool | null>>,
     isEditSchool: boolean,
     permissions: UserPermissions,
     originalInputs: ReactNode,

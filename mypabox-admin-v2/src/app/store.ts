@@ -1,14 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { rootReducer } from "./root-reducer";
-import storage from 'redux-persist/lib/storage';
+// import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from "redux-thunk";
+import localforage from "localforage";
 
 export type RootState = ReturnType<typeof rootReducer>
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: localforage,
 }
 
 // added root reducer 

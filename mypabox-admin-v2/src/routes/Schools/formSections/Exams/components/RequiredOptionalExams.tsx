@@ -48,7 +48,7 @@ export default function RequiredOptionalExams({
     validateAllRemovals
 }: {
     school: NewSchool,
-    setSchool: Dispatch<SetStateAction<NewSchool>>,
+    setSchool: Dispatch<SetStateAction<NewSchool | null>>,
     isEditSchool: boolean,
     permissions: UserPermissions,
     handleRetrieveValue: (path: string, field: GenericSchoolField) => {

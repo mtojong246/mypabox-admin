@@ -29,7 +29,7 @@ export default function AccreditationStatus({
 }: {
     isEditSchool: boolean,
     school: NewSchool,
-    setSchool: Dispatch<SetStateAction<NewSchool>>,
+    setSchool: Dispatch<SetStateAction<NewSchool | null>>,
     showChangesOnly: boolean,
     permissions: UserPermissions
 }) {

@@ -6,7 +6,7 @@ const useSchoolNotes = ({
     setSchool,
 }: {
     school: NewSchool,
-    setSchool: Dispatch<SetStateAction<NewSchool>>,
+    setSchool: Dispatch<SetStateAction<NewSchool | null>>,
 }) => {
     const [ isNoteOpen, setIsNoteOpen ] = useState(false);
     const [ selectedField, setSelectedField ] = useState<{

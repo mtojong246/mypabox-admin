@@ -77,6 +77,16 @@ export const getUpdatedSchoolsAndDocuments = async () => {
     }
 }
 
+// Retrieve single updated schol
+// export const getUpdatedSchoolDoc = async (id: string) => {
+//     const docRef = doc(db, 'newSchools', id);
+//     try {
+
+//     } catch (err:any) {
+
+//     }
+// }
+
 // Retrieves all documents inside schools collection
 export const getSchoolsAndDocuments = async () => {
     const collectionRef = collection(db, 'schools');
