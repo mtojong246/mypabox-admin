@@ -14,7 +14,6 @@ import { selectLogin } from '../../app/selectors/login.selector';
 import { selectUsers } from '../../app/selectors/users.selectors';
 import { UserObject } from '../../types/users.types';
 import { HiOutlineSignal } from "react-icons/hi2";
-import { mockUser } from '../../data/defaultValues';
 import { NewSchool } from '../../types/newSchools.types';
 import { selectNewSchools } from '../../app/selectors/newSchools.selector';
 import { setNewSchools, updateNewSchool } from '../../app/slices/newSchools';
@@ -106,7 +105,7 @@ const Schools = () => {
     if (currentUser) {
         setLoggedInUser(currentUser);
 
-        if (mockUser.permissions.canEditWithVerificationNeeded || mockUser.permissions.canEditWithoutVerificationNeeded) {
+        if (currentUser.permissions.canEditWithVerificationNeeded || currentUser.permissions.canEditWithoutVerificationNeeded) {
           setCanEdit(true);
         } else {
           setCanEdit(false);
