@@ -23,6 +23,9 @@ import IconButton from '../../components/Buttons/IconButton';
 import Button from '../../components/Buttons/Button';
 import { ReactComponent as PlusIcon } from '../../components/Icons/Plus.svg';
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 const Schools = () => {
   const login = useSelector(selectLogin);
@@ -34,6 +37,7 @@ const Schools = () => {
   const [ deletePopup, setDeletePopup ] = useState(false);
   const [ schoolToDelete, setSchoolToDelete ] = useState<{ name: string, id: string } | null>(null);
   const [ canEdit, setCanEdit ] = useState(false);
+  const [ isLoading, setIsLoading ] = useState(false);
   const [ loggedInUser, setLoggedInUser ] = useState<UserObject>({
     id: '',
     displayName: '',
@@ -117,6 +121,7 @@ const Schools = () => {
   useEffect(() => {
     setStateSearch([])
     const fetchNewSchools = async () => {
+      setIsLoading(true);
       try {
         // fetches schools from firebase db and dispatches school action, which updates the schools array 
         // that's stored in the school reducer
@@ -144,6 +149,7 @@ const Schools = () => {
           alert('Error loading school data')
         }
       }
+      setIsLoading(false);
     }
 
     fetchNewSchools();
@@ -270,20 +276,38 @@ const Schools = () => {
           After the filters are ran, the remaining schools array is then mapped through and the schools data is displayed
       */}
       <div className={`w-full flex justify-between items-start p-10 bg-white sticky top-[76px] z-10`}>
-        <div >
-          <p className='text-[48px] font-medium'>Schools</p>
-          <p className='text-xl'>Total: {newSchools.length}</p>
+        <div>
+          {isLoading ? (
+            <div className='flex flex-col justify-start items-start gap-1'>
+              <div className='w-[170px] h-[72px]'><Skeleton height='100%' width='100%'/></div>
+              <div className='w-[170px] h-[28px]'><Skeleton height='100%' width='100%'/></div>
+            </div>
+          ) : (
+            <>
+              <p className='text-[48px] font-medium'>Schools</p>
+              <p className='text-xl'>Total: {newSchools.length}</p>
+            </>
+          )}
+          
         </div>
 
-        {loggedInUser.permissions.canAddOrDelete && (
-          <Button 
-            type='warning'
-            styling='outline'
-            label='Add School'
-            action={addSchoolButton}
-            adornment={<PlusIcon/>}
-          />
+        {isLoading ? (
+          <div className='w-[140px] h-[50px]'><Skeleton width='100%' height='100%'/></div>
+        ) : (
+          <>
+          {loggedInUser.permissions.canAddOrDelete && (
+            <Button 
+              type='warning'
+              styling='outline'
+              label='Add School'
+              action={addSchoolButton}
+              adornment={<PlusIcon/>}
+            />
+          )}
+          </>
         )}
+
+    
       </div>
       <div className={`w-full max-w-[1800px] px-10 pb-10`}>
       <div className={`w-full rounded-t-xl shadow-lg 
@@ -291,53 +315,80 @@ const Schools = () => {
         <table className='w-full relative'>
           <thead className='bg-[#eeeef2] mt-8 sticky top-[256px] z-20'>
             <tr>
-              <th scope="col" className='font-semibold text-xl text-left p-[10px]'>Logo</th>
-              <th scope="col" className='font-semibold text-xl text-left p-[10px]'>Name</th>
-              <th scope="col" className='font-semibold text-xl text-left p-[10px]'>City</th>
-              <th scope="col" className='font-semibold text-xl text-left p-[10px]'>State</th>
-              <th scope='col' className='font-semibold text-xl text-right p-[10px]'>Live Status</th>
+              {isLoading ? (
+                <>
+                {Array.from(Array(5).keys()).map(key => (
+                  <th scope="col" className='font-semibold text-xl text-left p-[10px]'>
+                    <Skeleton width='100%' height='100%'/>
+                  </th>
+                ))}
+                </>
+              ) : (
+                <>
+                <th scope="col" className='font-semibold text-xl text-left p-[10px]'>Logo</th>
+                <th scope="col" className='font-semibold text-xl text-left p-[10px]'>Name</th>
+                <th scope="col" className='font-semibold text-xl text-left p-[10px]'>City</th>
+                <th scope="col" className='font-semibold text-xl text-left p-[10px]'>State</th>
+                <th scope='col' className='font-semibold text-xl text-right p-[10px]'>Live Status</th>
+                </>
+              )}
             </tr>
           </thead>
           <tbody>
-          {
-            newSchools && newSchools.filter(school => school.school_name.original.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
-              item : stateSearch.includes(item.school_state.original.input)).map((d, i) => (
-                <tr className="border-b-[0.125px] border-gray-400">
-                  <td className='p-[10px]'>
-                    <div className='w-[80px] aspect-square border border-outline'>
-                      {d.school_logo.original.input && (
-                        <img src={d.school_logo.original.input} alt='school-logo' className='w-full object-cover'/>
+          {isLoading ? (
+            <>
+            {Array.from(Array(5).keys()).map(key => (
+              <tr className="border-b-[0.125px] border-gray-400">
+                {Array.from(Array(5).keys()).map(cellKey => (
+                  <td className='p-[10px] h-[80px]'>
+                    <Skeleton width='100%' height='100%'/>
+                  </td>
+                ))}
+              </tr>
+            ))}
+            </>
+          ) : (
+            <>
+            {newSchools && newSchools.filter(school => school.school_name.original.input.toLowerCase().includes(schoolName)).filter(item => stateSearch.length === 0 ?
+                item : stateSearch.includes(item.school_state.original.input)).map((d, i) => (
+                  <tr className="border-b-[0.125px] border-gray-400">
+                    <td className='p-[10px]'>
+                      <div className='w-[80px] aspect-square border border-outline'>
+                        {d.school_logo.original.input && (
+                          <img src={d.school_logo.original.input} alt='school-logo' className='w-full object-cover'/>
+                        )}
+                      </div>
+                    </td>
+                    <td className='text-xl text-left p-[10px]'>{d.school_name.original.input}</td>
+                    <td className='text-xl text-left p-[10px]'>{d.school_city.original.input}</td>
+                    <td className='text-xl text-left p-[10px]'>{d.school_state.original.input}</td>
+                    <td className='p-[10px]'>
+                      <div className='flex justify-end items-center gap-2'> 
+                      {canEdit && (
+                        <IconButton 
+                            action={(e: any) => editSchool(d)}
+                            icon={<EditIcon/>}
+                            color="primary"
+                            isDisabled={false}
+                        />
                       )}
-                    </div>
-                  </td>
-                  <td className='text-xl text-left p-[10px]'>{d.school_name.original.input}</td>
-                  <td className='text-xl text-left p-[10px]'>{d.school_city.original.input}</td>
-                  <td className='text-xl text-left p-[10px]'>{d.school_state.original.input}</td>
-                  <td className='p-[10px]'>
-                    <div className='flex justify-end items-center gap-2'> 
-                    {canEdit && (
-                      <IconButton 
-                          action={(e: any) => editSchool(d)}
-                          icon={<EditIcon/>}
-                          color="primary"
-                          isDisabled={false}
-                      />
-                    )}
-                    {loggedInUser.permissions.canAddOrDelete && (
-                      <IconButton 
-                          action={(e: any) => toggleDelete(e, { name: d.school_name.original.input, id: d.id })}
-                          icon={<DeleteIcon/>}
-                          color="warning"
-                          isDisabled={false}
-                      />
-                    )}
-                    <button onClick={(e:MouseEvent<HTMLButtonElement>) => changeLiveStatus(e, d.id)}><HiOutlineSignal className={`h-7 w-7 ml-2 ${d.isLive ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`}/></button>
-                    </div>
-                  </td>
-                </tr>
+                      {loggedInUser.permissions.canAddOrDelete && (
+                        <IconButton 
+                            action={(e: any) => toggleDelete(e, { name: d.school_name.original.input, id: d.id })}
+                            icon={<DeleteIcon/>}
+                            color="warning"
+                            isDisabled={false}
+                        />
+                      )}
+                      <button onClick={(e:MouseEvent<HTMLButtonElement>) => changeLiveStatus(e, d.id)}><HiOutlineSignal className={`h-7 w-7 ml-2 ${d.isLive ? 'text-[#4FC769]' : 'text-[#B4B4B4]'}`}/></button>
+                      </div>
+                    </td>
+                  </tr>
+                )
               )
-            )
-          }
+            }
+          </>
+          )}
           </tbody>
         </table>
         </div>
