@@ -323,7 +323,7 @@ export default function RequiredCourseCategoriesPopup({
                             />
                         
                             <TextInput 
-                                label='Minimum number of courses that need to be completed'
+                                label='Total number of credit hours that need to be completed'
                                 placeholder='Total number of credit hours that need to be completed'
                                 name='school_required_course_category_number_of_credits_need_to_be_completed'
                                 value={form.school_required_course_category_number_of_credits_need_to_be_completed}
@@ -336,7 +336,7 @@ export default function RequiredCourseCategoriesPopup({
                             />
 
                             <TextInput 
-                                label='Minimum number of courses that need to be completed'
+                                label='Total number of quarter hours that need to be completed'
                                 placeholder='Total number of quarter hours that need to be completed'
                                 name='school_required_course_category_number_of_quarter_hours_need_to_be_completed'
                                 value={form.school_required_course_category_number_of_quarter_hours_need_to_be_completed}
@@ -349,7 +349,7 @@ export default function RequiredCourseCategoriesPopup({
                             />
 
                             <TextInput 
-                                label='Minimum number of courses that need to be completed'
+                                label='Total number of courses that need lab'
                                 placeholder='Total number of courses that need lab'
                                 name='school_required_course_category_number_of_courses_that_need_lab'
                                 value={form.school_required_course_category_number_of_courses_that_need_lab}
