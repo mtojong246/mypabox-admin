@@ -13,6 +13,7 @@ import Course from "../arrayFields/Course";
 import ReactQuill from "react-quill";
 import NotePopup from "./NotePopup";
 import { UserPermissions } from "../../../../../types/users.types";
+import { defaultCourseForm } from "./RequiredCoursesPopup";
 
 
 
@@ -72,7 +73,7 @@ export default function RequiredOptionalCoursesPopup({
     permissions: UserPermissions
 }) {
     const [ form, setForm ] = useState<RequiredOptionalCourseType>(defaultForm);
-    const [ selectedCourse, setSelectedCourse ] = useState<CourseForm | null>(null);
+    const [ selectedCourse, setSelectedCourse ] = useState<CourseForm>(defaultCourseForm);
     const [ selectedCourseIndex, setSelectedCourseIndex ] = useState<number | null>(null);
     const [ isCoursePopupOpen, setIsCoursePopupOpen ] = useState(false);
 
@@ -101,7 +102,7 @@ export default function RequiredOptionalCoursesPopup({
                 course_note_section: course.school_optional_course_note_section,
             });
         } else {
-            setSelectedCourse(null);
+            setSelectedCourse(defaultCourseForm);
         }
     }
 
@@ -254,6 +255,56 @@ export default function RequiredOptionalCoursesPopup({
         toggleNotePopup(e);
     };
 
+    const handleCourseInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        setSelectedCourse((prevCourse) => {
+            return {
+                ...prevCourse,
+                [name]: value,
+            }
+        })
+    };
+
+    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+        const name = e.target.name;
+        const checked = e.target.checked;
+
+        setSelectedCourse((prevCourse) => {
+            return {
+                ...prevCourse,
+                [name]: checked,
+            }
+        })
+    };
+
+    const handleSelect = (e:any, name: string, path: string) => {
+        const value = e.value;
+
+        setSelectedCourse((prevCourse) => {
+            return {
+                ...prevCourse,
+                [name]: value,
+            }
+        })
+    }
+
+    const handleNote = (e:any) => {
+        let note = '';
+        if (e === '<p><br></p>') {
+            note = '';
+        } else {
+            note = e
+        }
+        setSelectedCourse((prevCourse) => {
+            return {
+                ...prevCourse,
+                course_note_section: note,
+            }
+        })
+    };
+
 
     return (
         <>
@@ -394,6 +445,10 @@ export default function RequiredOptionalCoursesPopup({
                     toggleCoursePopup={toggleCoursePopup}
                     handleSubmit={handleSubmitCourse}
                     permissions={permissions}
+                    handleBoolean={handleBoolean}
+                    handleInput={handleCourseInput}
+                    handleNote={handleNote}
+                    handleSelect={handleSelect}
                 />
             )}
             {isNotePopupOpen && (

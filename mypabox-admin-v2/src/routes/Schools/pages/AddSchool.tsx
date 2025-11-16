@@ -7,7 +7,7 @@ import Button from "../../../components/Buttons/Button";
 import { ReactComponent as AlertIcon } from '../../../components/Icons/Info.svg';
 import { ReactComponent as ExternalLinkIcon } from '../../../components/Icons/External-Link.svg';
 
-import { addUpdatedSchoolDoc, getAllCategories, getAllCourses, getAllUsers, getSchoolById, updateUpdatedSchoolDoc } from "../../../utils/firebase/firebase.utils";
+import { getAllCategories, getAllCourses, getAllUsers, getSchoolById, updateUpdatedSchoolDoc } from "../../../utils/firebase/firebase.utils";
 import { Course } from "../../../types/courses.types";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourses } from "../../../app/slices/courses";

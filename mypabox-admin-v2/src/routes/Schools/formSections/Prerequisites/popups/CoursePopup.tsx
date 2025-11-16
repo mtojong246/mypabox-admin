@@ -19,40 +19,39 @@ export interface CourseForm {
     course_note_section: string;
 }
 
-const defaultCourseForm: CourseForm = {
-    course_id: '',
-    course_lab: false,
-    course_lab_preferred: false,
-    course_credit_hours: 0,
-    course_quarter_hours: 0,
-    course_note_section: '',
-}
-
 export default function CoursePopup({
     selectedCourse,
     togglePopup,
     toggleCoursePopup,
     handleSubmit,
     permissions,
+    handleInput,
+    handleBoolean,
+    handleSelect,
+    handleNote,
 }: {
-    selectedCourse: CourseForm | null, 
+    selectedCourse: CourseForm, 
     togglePopup?: (e:React.MouseEvent<HTMLButtonElement>, type: PrereqPopupType | null, field?: { name: string, path: string, index?: number }, arrItem?: PrereqArrItemType) => void,
     toggleCoursePopup?: (e: React.MouseEvent<HTMLButtonElement>, index?: number, course?: any) => void,
     handleSubmit: (e: React.MouseEvent<HTMLButtonElement>, form: CourseForm) => void,
-    permissions: UserPermissions
-
+    permissions: UserPermissions,
+    handleInput: (e: ChangeEvent<HTMLInputElement>, path: string) => void,
+    handleBoolean: (e: ChangeEvent<HTMLInputElement>, path: string) => void,
+    handleSelect: (e:any, name: string, path: string) => void,
+    handleNote: (e:any) => void,
 }) {
+
     const courses = useSelector(selectCourses);
     const [ courseOptions, setCourseOptions ] = useState<{value: string, label: string}[]>([]);
-    const [ form, setForm ] = useState<CourseForm>(defaultCourseForm);
+    // const [ form, setForm ] = useState<CourseForm>(defaultCourseForm);
 
-    useEffect(() => {
-        if (selectedCourse) {
-            setForm(selectedCourse)
-        } else {
-            setForm(defaultCourseForm)
-        }
-    }, [selectedCourse]);
+    // useEffect(() => {
+    //     if (selectedCourse) {
+    //         setForm(selectedCourse)
+    //     } else {
+    //         setForm(defaultCourseForm)
+    //     }
+    // }, [selectedCourse]);
 
     useEffect(() => {
         const options = courses.map(course => (
@@ -62,47 +61,47 @@ export default function CoursePopup({
     }, [courses]);
 
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const value = e.target.value;
+    // const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+    //     const name = e.target.name;
+    //     const value = e.target.value;
 
-        setForm({
-            ...form,
-            [name]: value,
-        })
-    };
+    //     setForm({
+    //         ...form,
+    //         [name]: value,
+    //     })
+    // };
 
-    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
-        const name = e.target.name;
-        const checked = e.target.checked;
+    // const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+    //     const name = e.target.name;
+    //     const checked = e.target.checked;
 
-        setForm({
-            ...form,
-            [name]: checked,
-        })
-    };
+    //     setForm({
+    //         ...form,
+    //         [name]: checked,
+    //     })
+    // };
 
-    const handleSelect = (e:any, name: string, path: string) => {
-        const value = e.value;
+    // const handleSelect = (e:any, name: string, path: string) => {
+    //     const value = e.value;
 
-        setForm({
-            ...form,
-            [name]: value,
-        })
-    }
+    //     setForm({
+    //         ...form,
+    //         [name]: value,
+    //     })
+    // }
 
-    const handleNote = (e:any) => {
-        let note = '';
-        if (e === '<p><br></p>') {
-            note = '';
-        } else {
-            note = e
-        }
-        setForm({
-            ...form,
-            course_note_section: note,
-        })
-    };
+    // const handleNote = (e:any) => {
+    //     let note = '';
+    //     if (e === '<p><br></p>') {
+    //         note = '';
+    //     } else {
+    //         note = e
+    //     }
+    //     setForm({
+    //         ...form,
+    //         course_note_section: note,
+    //     })
+    // };
 
 
     return (
@@ -126,9 +125,9 @@ export default function CoursePopup({
                                     placeholder='Course'
                                     name='course_id'
                                     value={{ 
-                                        value: form.course_id, 
-                                        label: courses.find(course => course.unique_id === form.course_id) 
-                                            ? courses.find(course => course.unique_id === form.course_id)!.course_name 
+                                        value: selectedCourse.course_id, 
+                                        label: courses.find(course => course.unique_id === selectedCourse.course_id) 
+                                            ? courses.find(course => course.unique_id === selectedCourse.course_id)!.course_name 
                                             : '' 
                                     }}
                                     path=''
@@ -144,7 +143,7 @@ export default function CoursePopup({
                             <BooleanInput 
                                 label='With Lab'
                                 name='course_lab'
-                                value={form.course_lab}
+                                value={selectedCourse.course_lab}
                                 path=''
                                 handleCheck={handleBoolean}
                                 isRequired={false}
@@ -155,7 +154,7 @@ export default function CoursePopup({
                             <BooleanInput 
                                 label='Lab Preferred'
                                 name='course_lab_preferred'
-                                value={form.course_lab_preferred}
+                                value={selectedCourse.course_lab_preferred}
                                 path=''
                                 handleCheck={handleBoolean}
                                 isRequired={false}
@@ -167,7 +166,7 @@ export default function CoursePopup({
                                 label='Credit Hours'
                                 placeholder='Credit Hours'
                                 name='course_credit_hours'
-                                value={form.course_credit_hours}
+                                value={selectedCourse.course_credit_hours}
                                 path=''
                                 handleInput={handleInput}
                                 isRequired={false}
@@ -180,7 +179,7 @@ export default function CoursePopup({
                                 label='Quarter Hours'
                                 placeholder='Quarter Hours'
                                 name='course_quarter_hours'
-                                value={form.course_quarter_hours}
+                                value={selectedCourse.course_quarter_hours}
                                 path=''
                                 handleInput={handleInput}
                                 isRequired={false}
@@ -194,7 +193,7 @@ export default function CoursePopup({
                                 <ReactQuill 
                                     theme="snow" 
                                     onChange={handleNote} 
-                                    value={form.course_note_section}
+                                    value={selectedCourse.course_note_section}
                                     style={{
                                         width: '100%',
                                         height: '200px',
@@ -217,7 +216,7 @@ export default function CoursePopup({
                         />
                         <Button 
                             label={`${selectedCourse ? 'Edit' : 'Add'} Course`}
-                            action={(e:any) => handleSubmit(e, form)}
+                            action={(e:any) => handleSubmit(e, selectedCourse)}
                             type='primary'
                             styling="solid"
                         />
