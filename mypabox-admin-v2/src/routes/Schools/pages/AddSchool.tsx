@@ -7,7 +7,7 @@ import Button from "../../../components/Buttons/Button";
 import { ReactComponent as AlertIcon } from '../../../components/Icons/Info.svg';
 import { ReactComponent as ExternalLinkIcon } from '../../../components/Icons/External-Link.svg';
 
-import { addUpdatedSchoolDoc, getAllCategories, getAllCourses, getAllUsers, updateUpdatedSchoolDoc } from "../../../utils/firebase/firebase.utils";
+import { addUpdatedSchoolDoc, getAllCategories, getAllCourses, getAllUsers, getSchoolById, updateUpdatedSchoolDoc } from "../../../utils/firebase/firebase.utils";
 import { Course } from "../../../types/courses.types";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourses } from "../../../app/slices/courses";
@@ -20,6 +20,7 @@ import { UserObject, UserPermissions } from "../../../types/users.types";
 import { setUsers } from "../../../app/slices/users";
 import { selectLogin } from "../../../app/selectors/login.selector";
 import SnackbarAlert from "../../../components/SnackbarAlert";
+import { CircularProgress } from "@mui/material";
 
 const defaultPermissions = {
   canEditWithVerificationNeeded: false,
@@ -28,6 +29,18 @@ const defaultPermissions = {
   canMakeLive: false,
   canAddOrDelete: false,
 };
+
+export function generateRandomString() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+
+    for (let i = 0; i < 12; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
 
 export default function AddSchool() {
     const navigate = useNavigate();
@@ -55,25 +68,35 @@ export default function AddSchool() {
       save: false,
     })
 
-
     useEffect(() => {
-      if (id && newSchools.length > 0) {
-        const matchingSchool = newSchools.find(school => school.id === id);
-        if (matchingSchool) {
-          setSchool(matchingSchool)
-        } else {
-          setSchool(defaultSchool)
-        }
-      } else {
-        setSchool(defaultSchool);
-      }
+      const fetchSchool = async (school_id?: string) => {
 
-      if (location.pathname.includes('edit')) {
-        setIsEditSchool(true);
-      } else {
-        setIsEditSchool(false);
+        if (school_id === undefined) {
+          setSchool({...defaultSchool, id: generateRandomString()});
+          return;
+        }
+
+        try {
+          const fetchedSchool = await getSchoolById(school_id);
+          if (fetchedSchool) {
+            setSchool(fetchedSchool);
+          } else {
+            setSchool({...defaultSchool, id: generateRandomString()});
+          }
+        } catch (err:any) {
+          console.log(err);
+        }
+
+        if (location.pathname.includes('edit')) {
+          setIsEditSchool(true);
+        } else {
+          setIsEditSchool(false);
+        }
       }
-    }, [id, newSchools, location.pathname]);
+      
+      fetchSchool(id);
+
+    }, [id, location.pathname]);
 
 
     useEffect(() => {
@@ -215,46 +238,42 @@ export default function AddSchool() {
       return hasChanges;
     }
 
-    const updateSchool = async (e: MouseEvent<HTMLButtonElement>) => {
+    const saveSchool = async (e: MouseEvent<HTMLButtonElement>, schoolToUpdate: NewSchool) => {
       e.preventDefault();
       const value = e.currentTarget.value;
-      
-      if (school) {
-        const existingSchool = newSchools.find(s => s.id === school.id);
 
-        setIsLoading({
-          done: value === 'done' ? true : false,
-          save: value === 'save' ? true : false,
-        });
+      const existingSchool = newSchools.find(s => s.id === schoolToUpdate.id);
 
-        if (!existingSchool) {
-          try {
-            const addedSchool = await addUpdatedSchoolDoc(school);
-            dispatch(addNewSchool(addedSchool));
-            openSnackbar(`${school.school_name.original.input ? school.school_name.original.input : 'School'} was added successfully`, 'success');
-            // dispatch(setSelectedSchool(addedSchool));
-          } catch (err:any) {
-            console.log(err);
-            openSnackbar('There was a problem adding this school. Please try again.', 'error');
-          }
+      setIsLoading({
+        done: value === 'done' ? true : false,
+        save: value === 'save' ? true : false,
+      });
+
+      let severity = 'success';
+      let message = '';
+
+      try {
+        await updateUpdatedSchoolDoc(schoolToUpdate, schoolToUpdate.id);
+
+        if (existingSchool) {
+          dispatch(updateNewSchool(schoolToUpdate));
+          message = `${schoolToUpdate.school_name.original.input} was successfully updated!`;
         } else {
-          try {
-            await updateUpdatedSchoolDoc(school, school.id);
-            dispatch(updateNewSchool(school));
-            openSnackbar(`${school.school_name.original.input ? school.school_name.original.input : 'School'} was saved successfully`, 'success');
-            // dispatch(setSelectedSchool(school));
-          } catch (err:any) {
-            console.log(err);
-            openSnackbar('There was a problem saving this school. Please try again.', 'error');
-          }
+          dispatch(addNewSchool(schoolToUpdate));
+          message = `${schoolToUpdate.school_name.original.input} was successfully added!`;
         }
+      } catch (err:any) {
+        console.log(err);
+        message = 'There was a problem adding this school. Please try again.';
+        severity = 'error';
+      }
 
-        setIsLoading({
-          done: false,
-          save: false,
-        })
-      } 
-    }
+      openSnackbar(message, severity as any);
+      setIsLoading({
+        done: false,
+        save: false,
+      });
+    };
 
     const openSnackbar = (msg: string, sev: 'success' | 'error' | 'warning' | 'info') => {
       setOpen(true);
@@ -262,11 +281,12 @@ export default function AddSchool() {
       setSeverity(sev);
     }
 
-    const updateAction = async (e: MouseEvent<HTMLButtonElement>) => {
+    const updateAction = async (e: MouseEvent<HTMLButtonElement>, schoolToUpdate: NewSchool) => {
       e.preventDefault();
       const value = e.currentTarget.value;
 
-      await updateSchool(e);
+      // await updateSchool(e);
+      await saveSchool(e, schoolToUpdate);
 
       if (value === 'done') {
         navigate('/schools');
@@ -318,7 +338,23 @@ export default function AddSchool() {
               </div>
 
               <div className={`flex gap-5 ${window.scrollY === 180 ? '' : '-mt-28'}`}>
-                    <Button
+                <button value='save' onClick={(e:any) => {school && updateAction(e, school)}} className={`py-3 px-4 flex justify-center items-center gap-2 rounded-lg border border-success transition-all bg-none hover:bg-success text-success hover:text-white`}>
+                    {isLoading.save ? (
+                        <CircularProgress size={14} color="inherit"/>
+                    ) : (
+                      <></>
+                    )}
+                    <p>Save</p>
+                </button>
+                <button value='done' onClick={(e:any) => {school && updateAction(e, school)}} className={`py-3 px-4 flex justify-center items-center gap-2 rounded-lg border border-primary transition-all bg-none hover:bg-primary text-primary hover:text-white`}>
+                    {isLoading.done ? (
+                        <CircularProgress size={14} color="inherit"/>
+                    ) : (
+                      <></>
+                    )}
+                    <p>Done</p>
+                </button>
+                    {/* <Button
                       type="success"
                       label="Save"
                       styling='outline'
@@ -333,7 +369,7 @@ export default function AddSchool() {
                       action={updateAction}
                       value='done'
                       isLoading={isLoading.done}
-                    />
+                    /> */}
                     <Button
                       type="warning"
                       label="Cancel"
@@ -352,7 +388,7 @@ export default function AddSchool() {
                   <button 
                     onClick={(e:any) => {
                       navigateTabs(category.hash); 
-                      updateAction(e);
+                      school && updateAction(e, school);
                       window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
                     }} 
                     className={`whitespace-nowrap hover:text-warning transition-all ${category.hash === tab ? 'text-warning': ''}`}
