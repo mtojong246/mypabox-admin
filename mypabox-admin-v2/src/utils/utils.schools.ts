@@ -1,4 +1,4 @@
-import { Change } from "../types/newSchools.types";
+import { Change, NewNote } from "../types/newSchools.types";
 import { UserPermissions } from "../types/users.types";
 
 export interface TabsAndIndices {
@@ -79,5 +79,30 @@ export const isDraftOnly = (isEditSchool: boolean, permissions: UserPermissions)
     };
 
     return draftOnly;
+}
+
+export const addModifyOrDeleteNote = (notes: NewNote[], newNote?: NewNote, index?: number) => {
+    let updatedNotes: NewNote[] = [];
+
+    // Add or edit condition
+    if (newNote !== undefined) {
+        // Add condition
+        if (index === undefined) {
+            updatedNotes = notes.concat(newNote);
+        } else {
+            updatedNotes = notes.map((n, i) => {
+                if (i === index) {
+                    return {...newNote}
+                } else {
+                    return {...n}
+                }
+            });
+        }
+    // Delete condition
+    } else if (index !== undefined) {
+        updatedNotes = notes.filter((n,i) => i !== index);
+    };
+
+    return updatedNotes;
 }
 

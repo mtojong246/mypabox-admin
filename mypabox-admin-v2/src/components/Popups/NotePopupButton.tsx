@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, MouseEvent } from "react";
 import Modal from '@mui/material/Modal';
 import { NewNote } from "../../types/newSchools.types";
 import ReactQuill from "react-quill";
@@ -15,9 +15,15 @@ const defaultNote = {
 export default function NotePopupButton({
     selectedNote,
     isDisabled,
+    index,
+    handleNotes,
+    name,
 }: {
-    selectedNote: NewNote,
+    selectedNote: NewNote | null,
     isDisabled: boolean,
+    index?: number,
+    handleNotes: (name: string, newNote?: NewNote, index?: number) => void,
+    name: string,
 }) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -52,6 +58,12 @@ export default function NotePopupButton({
             note: note,
         })
     };
+
+    const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        handleNotes(name, noteForm, index);
+        handleClose();
+    }
 
     return (
     <div>
@@ -110,7 +122,7 @@ export default function NotePopupButton({
                     />
                     <Button 
                         label={`${selectedNote ? 'Edit' : 'Add'} Note`}
-                        action={() => {}}
+                        action={handleSubmit}
                         type='primary'
                         styling="solid"
                     />

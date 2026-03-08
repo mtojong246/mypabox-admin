@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 import { NewNote, NewSchool } from "../../../../types/newSchools.types"
 import { UserPermissions } from "../../../../types/users.types"
-import { isDraftOnly, isSchoolFieldDisabled, retrieveSelectedTab, setupValidationInterface, TabsAndIndices } from "../../../../utils/utils.schools";
+import { addModifyOrDeleteNote, isDraftOnly, isSchoolFieldDisabled, retrieveSelectedTab, setupValidationInterface, TabsAndIndices } from "../../../../utils/utils.schools";
 import FieldContainer from "../../../../components/Form/Validation/FieldContainer";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
 import Notes from "../../../../components/Form/Notes/Notes";
@@ -87,7 +87,36 @@ export default function PaidExperience({
         }
     }
 
+    const handleNotes = (name: string, newNote?: NewNote, index?: number) => {
+        const modifyDraftOnly = isDraftOnly(isEditSchool, permissions);
 
+        if (name === 'school_paid_experience_required') {
+            const field = school.school_paid_experience_required;
+            const updatedNotes = addModifyOrDeleteNote(
+                modifyDraftOnly ? field.draft.notes : field.original.notes,
+                newNote,
+                index,
+            );
+            
+            setSchool({
+                ...school,
+                school_paid_experience_required: {
+                    ...field,
+                    original: modifyDraftOnly ? field.original : {
+                        ...field.original,
+                        notes: updatedNotes
+                    },
+                    draft: !modifyDraftOnly ? field.draft : {
+                        ...field.draft,
+                        notes: updatedNotes,
+                    }
+                }
+            });
+
+        }
+
+        
+    }
 
     return (
         <>
