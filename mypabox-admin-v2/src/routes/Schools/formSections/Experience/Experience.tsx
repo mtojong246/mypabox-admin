@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
 import Container from "../../../../components/Form/Validation/Container";
 
@@ -7,6 +7,7 @@ import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import ExperienceInputs from "./ExperienceInputs";
 import { UserPermissions } from "../../../../types/users.types";
+import PaidExperience from "./PaidExperience";
 
 
 
@@ -257,6 +258,22 @@ export default function Experience({
         validateAllRemovals
     } = useVerification({ school, setSchool, isEditSchool, permissions });
 
+    const experience = useMemo(() => {
+        let schoolExperience: any | null = null;
+
+        if (school) {
+            schoolExperience = {
+                paidExperience: school.school_paid_experience_required,
+                patientCareExperience: school.school_patient_experience,
+                healthCareExperience: school.school_healthcare_experience,
+                volunteerExperience: school.school_volunteer_service,
+                communityServiceExperience: school.school_community_service,
+            }
+        }
+
+        return schoolExperience;
+    }, [school]);
+
     useEffect(() => {
         if (!showChangesOnly) {
             setFields(experienceFields)
@@ -285,81 +302,106 @@ export default function Experience({
         }
     }, [school, showChangesOnly]);
 
-    return (
-        <>
-        {fields.length > 0 && fields.map(field => {
-            const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;  
-            const inputs = handleRetrieveValue(field.path, schoolField);
-   
-            const value = inputs.originalValue;
-            const draftValue = inputs.originalDraftValue;
 
-            let noteValue: NewNote[] = [];
-            let draftNoteValue: NewNote[] = [];
+    if (!experience) {
+        return null;
+    } else {
+        const {
+            paidExperience,
+            patientCareExperience,
+            healthCareExperience,
+            volunteerExperience,
+            communityServiceExperience,
+        } = experience;
 
-            if (field.notePath !== undefined) {
-                const notes = handleRetrieveValue(field.notePath, schoolField);
-                noteValue = notes.originalValue;
-                draftNoteValue = notes.originalDraftValue;
-            }  
-
-            return (
-                <Container 
-                    label={field.label} 
-                    name={field.name}
+        return (
+            <>
+                <PaidExperience 
+                    isEditSchool={isEditSchool}
                     school={school}
                     setSchool={setSchool}
-                    isEditSchool={isEditSchool}
+                    showChangesOnly={showChangesOnly}
                     permissions={permissions}
-                    validateAllRemovals={validateAllRemovals}
-                    originalInputs={
-                        <ExperienceInputs 
-                            tab='original'
-                            permissions={permissions}
-                            isEditSchool={isEditSchool}
-                            school={school}
-                            schoolField={schoolField}
-                            field={field}
-                            value={value}
-                            noteValue={noteValue}
-                            handleChanges={handleChanges}
-                            handleRetrieveValue={handleRetrieveValue}
-                            handleModification={handleModification}
-                            toggleNote={toggleNote}
-                        />
-                    }
-                    modifiedInputs={
-                        <ExperienceInputs 
-                            tab='modified'
-                            permissions={permissions}
-                            isEditSchool={isEditSchool}
-                            school={school}
-                            schoolField={schoolField}
-                            field={field}
-                            value={draftValue}
-                            noteValue={draftNoteValue}
-                            handleChanges={handleChanges}
-                            handleRetrieveValue={handleRetrieveValue}
-                            handleModification={handleModification}
-                            toggleNote={toggleNote}
-                            revertIndividualChange={revertIndividualChange}
-                            validateIndividualChange={validateIndividualChange}
-                        />
-                    }
+                    paidExperience={paidExperience}
                 />
-            )
-        })}
+            </>
+        )
+    }
+    // return (
+    //     <>
+    //     {fields.length > 0 && fields.map(field => {
+    //         const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;  
+    //         const inputs = handleRetrieveValue(field.path, schoolField);
+   
+    //         const value = inputs.originalValue;
+    //         const draftValue = inputs.originalDraftValue;
 
-        {isNoteOpen && selectedField && (
-            <NotePopup 
-                toggleNotePopup={toggleNote}
-                selectedField={selectedField}
-                selectedNote={selectedNote}
-                school={school}
-                handleChanges={handleChanges}
-                handleModification={handleModification}
-            />
-        )}
-        </>
-    )
+    //         let noteValue: NewNote[] = [];
+    //         let draftNoteValue: NewNote[] = [];
+
+    //         if (field.notePath !== undefined) {
+    //             const notes = handleRetrieveValue(field.notePath, schoolField);
+    //             noteValue = notes.originalValue;
+    //             draftNoteValue = notes.originalDraftValue;
+    //         }  
+
+    //         return (
+    //             <Container 
+    //                 label={field.label} 
+    //                 name={field.name}
+    //                 school={school}
+    //                 setSchool={setSchool}
+    //                 isEditSchool={isEditSchool}
+    //                 permissions={permissions}
+    //                 validateAllRemovals={validateAllRemovals}
+    //                 originalInputs={
+    //                     <ExperienceInputs 
+    //                         tab='original'
+    //                         permissions={permissions}
+    //                         isEditSchool={isEditSchool}
+    //                         school={school}
+    //                         schoolField={schoolField}
+    //                         field={field}
+    //                         value={value}
+    //                         noteValue={noteValue}
+    //                         handleChanges={handleChanges}
+    //                         handleRetrieveValue={handleRetrieveValue}
+    //                         handleModification={handleModification}
+    //                         toggleNote={toggleNote}
+    //                     />
+    //                 }
+    //                 modifiedInputs={
+    //                     <ExperienceInputs 
+    //                         tab='modified'
+    //                         permissions={permissions}
+    //                         isEditSchool={isEditSchool}
+    //                         school={school}
+    //                         schoolField={schoolField}
+    //                         field={field}
+    //                         value={draftValue}
+    //                         noteValue={draftNoteValue}
+    //                         handleChanges={handleChanges}
+    //                         handleRetrieveValue={handleRetrieveValue}
+    //                         handleModification={handleModification}
+    //                         toggleNote={toggleNote}
+    //                         revertIndividualChange={revertIndividualChange}
+    //                         validateIndividualChange={validateIndividualChange}
+    //                     />
+    //                 }
+    //             />
+    //         )
+    //     })}
+
+    //     {isNoteOpen && selectedField && (
+    //         <NotePopup 
+    //             toggleNotePopup={toggleNote}
+    //             selectedField={selectedField}
+    //             selectedNote={selectedNote}
+    //             school={school}
+    //             handleChanges={handleChanges}
+    //             handleModification={handleModification}
+    //         />
+    //     )}
+    //     </>
+    // )
 }
