@@ -15,6 +15,12 @@ export interface TabAndIndex {
 
 export type SchoolFieldType = "boolean" | "text" | "select" | "text-select";
 
+export const unitOptions = [
+    {value: '', label: 'Select'},
+    {value: 'Years', label: 'Years'},
+    {value: 'Months', label: 'Months'}
+]
+
 export interface SchoolField {
     name: string;
     label: string;

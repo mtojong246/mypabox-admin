@@ -1,10 +1,12 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 import { NewNote, NewSchool } from "../../../../types/newSchools.types"
 import { UserPermissions } from "../../../../types/users.types"
-import { addModifyOrDeleteNote, isDraftOnly, isSchoolFieldDisabled, retrieveSelectedTab, SchoolField, setupValidationInterface, TabsAndIndices } from "../../../../utils/utils.schools";
+import { addModifyOrDeleteNote, isDraftOnly, isSchoolFieldDisabled, retrieveSelectedTab, SchoolField, setupValidationInterface, TabsAndIndices, unitOptions } from "../../../../utils/utils.schools";
 import FieldContainer from "../../../../components/Form/Validation/FieldContainer";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
 import FieldNotes from "../../../../components/Form/Notes/FieldNotes";
+import TextInput from "../../../../components/Form/InputTypes/TextInput";
+import UpdatedTextSelectInput from "../../../../components/Form/InputTypes/UpdatedTextSelectInput";
 
 const defaultTabsAndIndices = {
     school_patient_experience: {
@@ -30,7 +32,7 @@ export default function PCE({
     patientCareExperience: any,
     validateAllRemovals?: (name: string) => {input: any; notes?: NewNote[] | undefined},
 }) {
-    const { changes, link } = patientCareExperience;
+    const { changes, link, original, draft } = patientCareExperience;
     const [ tabsAndIndices, setTabsAndIndices ] = useState<TabsAndIndices>(defaultTabsAndIndices);
 
     useEffect(() => {
@@ -109,30 +111,43 @@ export default function PCE({
         const checked = e.target.checked;
 
         const modifyDraftOnly = isDraftOnly(isEditSchool, permissions);
+
+        const field = modifyDraftOnly ? school.school_patient_experience.draft.input[name as keyof object] 
+            : school.school_patient_experience.original.input[name as keyof object] 
         
-        if (name === "school_paid_experience_required") {
-            setSchool({
-                ...school,
-                school_paid_experience_required: {
-                    ...school.school_paid_experience_required,
-                    original: modifyDraftOnly ? school.school_paid_experience_required.original : {
-                        ...school.school_paid_experience_required.original,
-                        input: checked,
-                    },
-                    draft: !modifyDraftOnly ? school.school_paid_experience_required.draft : {
-                        ...school.school_paid_experience_required.draft,
-                        input: checked,
+        setSchool({
+            ...school,
+            school_patient_experience: {
+                ...school.school_patient_experience,
+                original: modifyDraftOnly ? school.school_patient_experience.original : {
+                    ...school.school_patient_experience.original,
+                    input: {
+                        ...school.school_patient_experience.original.input,
+                        [name]: {
+                            ...field as any,
+                            input: checked,
+                        }
                     }
-                }
-            })
-        }
+                },
+                draft: !modifyDraftOnly ? school.school_patient_experience.draft : {
+                    ...school.school_patient_experience.draft,
+                    input: {
+                        ...school.school_patient_experience.draft.input,
+                        [name]: {
+                            ...field as any,
+                            input: checked,
+                        }
+                    }
+                },
+            }
+        })
     }
 
     const handleNotes = (name: string, newNote?: NewNote, index?: number) => {
         const modifyDraftOnly = isDraftOnly(isEditSchool, permissions);
 
-        if (name === 'school_paid_experience_required') {
-            const field = school.school_paid_experience_required;
+        if (name === 'school_patient_experience') {
+            const field = school.school_patient_experience;
             const updatedNotes = addModifyOrDeleteNote(
                 modifyDraftOnly ? field.draft.notes : field.original.notes,
                 newNote,
@@ -141,11 +156,11 @@ export default function PCE({
             
             setSchool({
                 ...school,
-                school_paid_experience_required: {
+                school_patient_experience: {
                     ...field,
                     original: modifyDraftOnly ? field.original : {
                         ...field.original,
-                        notes: updatedNotes
+                        notes: updatedNotes,
                     },
                     draft: !modifyDraftOnly ? field.draft : {
                         ...field.draft,
@@ -153,10 +168,231 @@ export default function PCE({
                     }
                 }
             });
+        } else {
+            const field = modifyDraftOnly ? school.school_patient_experience.draft.input[name as keyof object] 
+            : school.school_patient_experience.original.input[name as keyof object];
 
+            const updatedNotes = addModifyOrDeleteNote(
+                field,
+                newNote,
+                index,
+            );
+
+            setSchool({
+                ...school,
+                school_patient_experience: {
+                    ...school.school_patient_experience,
+                    original: modifyDraftOnly ? school.school_patient_experience.original : {
+                        ...school.school_patient_experience.original,
+                        input: {
+                            ...school.school_patient_experience.original.input,
+                            [name]: {
+                                ...field as any,
+                                notes: updatedNotes,
+                            }
+                        }
+                    },
+                    draft: !modifyDraftOnly ? school.school_patient_experience.draft : {
+                        ...school.school_patient_experience.draft,
+                        input: {
+                            ...school.school_patient_experience.draft.input,
+                            [name]: {
+                                ...field as any,
+                                notes: updatedNotes,
+                            }
+                        }
+                    },
+                }
+            })
         }
+    };
+
+    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        const modifyDraftOnly = isDraftOnly(isEditSchool, permissions);
+
+        const field = modifyDraftOnly ? school.school_patient_experience.draft.input[name as keyof object] 
+            : school.school_patient_experience.original.input[name as keyof object] 
+        
+        setSchool({
+            ...school,
+            school_patient_experience: {
+                ...school.school_patient_experience,
+                original: modifyDraftOnly ? school.school_patient_experience.original : {
+                    ...school.school_patient_experience.original,
+                    input: {
+                        ...school.school_patient_experience.original.input,
+                        [name]: {
+                            ...field as any,
+                            input: value,
+                        }
+                    }
+                },
+                draft: !modifyDraftOnly ? school.school_patient_experience.draft : {
+                    ...school.school_patient_experience.draft,
+                    input: {
+                        ...school.school_patient_experience.draft.input,
+                        [name]: {
+                            ...field as any,
+                            input: value,
+                        }
+                    }
+                },
+            }
+        })
+    };
+
+    const handleDuration = (inputType: "quantity" | "units", value: string | number, name: string) => {
+        const modifyDraftOnly = isDraftOnly(isEditSchool, permissions);
+
+        const field = modifyDraftOnly ? school.school_patient_experience.draft.input[name as keyof object] 
+            : school.school_patient_experience.original.input[name as keyof object] 
+
+        setSchool({
+            ...school,
+            school_patient_experience: {
+                ...school.school_patient_experience,
+                original: modifyDraftOnly ? school.school_patient_experience.original : {
+                    ...school.school_patient_experience.original,
+                    input: {
+                        ...school.school_patient_experience.original.input,
+                        [name]: {
+                            ...field as any,
+                            input: {
+                                ...(field as any).input,
+                                [inputType]: value,
+                            }
+                        }
+                    }
+                },
+                draft: !modifyDraftOnly ? school.school_patient_experience.draft : {
+                    ...school.school_patient_experience.draft,
+                    input: {
+                        ...school.school_patient_experience.draft.input,
+                        [name]: {
+                            ...field as any,
+                            input: {
+                                ...(field as any).input,
+                                [inputType]: value,
+                            }
+                        }
+                    }
+                },
+            }
+        })
     }
+
+    const tabsAndIndex = tabsAndIndices["school_patient_experience"];
+    const tab = retrieveSelectedTab("school_patient_experience", tabsAndIndices);
+
+    const isDisabled = isSchoolFieldDisabled(tabsAndIndex, isEditSchool, permissions, changes);
+    const pceNotes = tab === "Original" ? original.notes : draft.notes;
+
     return (
-        <></>
+        <FieldContainer
+            name="school_patient_experience"
+            changes={changes}
+            permissions={permissions}
+            label="Patient Care Experience (PCE) Required"
+            tabsAndIndex={tabsAndIndices["school_patient_experience"]}
+            modifyIndex={modifyIndex}
+            link={link}
+            school={school}
+            setSchool={setSchool}
+            validateAllRemovals={validateAllRemovals}
+        >
+        {fields.map(field => {
+            const {
+                name,
+                label,
+                original,
+                draft,
+                fieldType,
+            } = field;
+
+            const inputAndNotes = tab === 'Original' ? original : draft;
+
+            if (inputAndNotes) {
+                const { input, notes } = inputAndNotes;
+                return (
+                    <>
+                        {fieldType === "boolean" ? (
+                            <BooleanInput 
+                                label={label}
+                                name={name}
+                                value={input}
+                                path=""
+                                handleCheck={handleBoolean}
+                                isRequired={false}
+                                isDisabled={isDisabled}
+                                change={changes}
+                                // validateIndividualChange={validateIndividualChange}
+                                // revertIndividualChange={revertIndividualChange}
+                                permissions={permissions}
+                            />
+                        ) : fieldType === "text" ? (
+                            <TextInput 
+                                label={label}
+                                placeholder={label}
+                                name={name}
+                                value={input}
+                                path=""
+                                handleInput={handleInput}
+                                isRequired={false}
+                                type="text"
+                                isDisabled={isDisabled}
+                                change={changes}
+                                // validateIndividualChange={validateIndividualChange}
+                                // revertIndividualChange={revertIndividualChange}
+                                permissions={permissions}
+                            />
+                        ) : fieldType === "text-select" ? (
+                            <UpdatedTextSelectInput 
+                                label={label}
+                                placeholder="Quantity"
+                                name={name}
+                                value={input}
+                                handleChange={handleDuration}
+                                options={unitOptions}
+                                isDisabled={isDisabled}
+                                // validateIndividualChange={validateIndividualChange}
+                                // revertIndividualChange={revertIndividualChange}
+                                permissions={permissions}
+                            />
+                        ) : (
+                            <></>
+                        )}
+                        {notes !== undefined && (
+                            <FieldNotes 
+                                notes={notes}
+                                label={label}
+                                isDisabled={isDisabled}
+                                handleNotes={handleNotes}
+                                name={name}
+                                changes={changes}
+                            />
+                        )}
+                    </>
+                )
+            } else {
+                return null;
+            }
+            
+        })}
+        {pceNotes.length > 0 ? (
+            <FieldNotes 
+                notes={pceNotes}
+                isDisabled={isDisabled}
+                handleNotes={handleNotes}
+                name="school_patient_experience"
+                changes={changes}
+            />
+        ) : (
+            <></>
+        )}
+        </FieldContainer>
+
     )
 }
