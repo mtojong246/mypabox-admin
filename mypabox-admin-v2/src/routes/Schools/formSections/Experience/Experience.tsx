@@ -8,6 +8,7 @@ import useVerification from "../../../../hooks/useVerification";
 import ExperienceInputs from "./ExperienceInputs";
 import { UserPermissions } from "../../../../types/users.types";
 import PaidExperience from "./PaidExperience";
+import PCE from "./PCE";
 
 
 
@@ -274,6 +275,83 @@ export default function Experience({
         return schoolExperience;
     }, [school]);
 
+    // useEffect(() => {
+    //     const pce = school.school_patient_experience;
+    //     const showPCE = {
+    //         original: pce.original.input.school_patient_experience_required.input
+    //         || pce.original.input.school_patient_experience_recommended.input,
+    //         draft: pce.draft.input.school_patient_experience_required.input
+    //         || pce.draft.input.school_patient_experience_recommended.input,
+    //     }
+
+    //     const hce = school.school_healthcare_experience;
+    //     const showHCE = {
+    //         original: hce.original.input.school_healthcare_experience_required.input
+    //             || hce.original.input.school_healthcare_experience_recommended.input,
+    //         draft: hce.draft.input.school_healthcare_experience_required.input
+    //             || hce.draft.input.school_healthcare_experience_recommended.input,
+    //     }
+
+    //     const vs = school.school_volunteer_service;
+    //     const showVS = {
+    //         original: vs.original.input.school_volunteer_service_required.input
+    //             || vs.original.input.school_volunteer_service_recommended.input,
+    //         draft: vs.draft.input.school_volunteer_service_required.input
+    //             || vs.draft.input.school_volunteer_service_recommended.input,
+    //     }
+
+    //     const cs = school.school_community_service;
+    //     const showCS = {
+    //         original: cs.original.input.school_community_service_required.input
+    //             || cs.original.input.school_community_service_recommended.input,
+    //         draft: cs.draft.input.school_community_service_required.input
+    //             || cs.draft.input.school_community_service_recommended.input,
+    //     }
+
+    //     setSchool({
+    //         ...school,
+    //         school_patient_experience: {
+    //             ...pce,
+    //             original: {
+    //                 ...pce.original,
+    //                 input: {
+    //                     ...pce.original.input,
+    //                     school_minimum_patient_care_experience_hours_required: showPCE ? {
+    //                         ...pce.original.input.school_minimum_patient_care_experience_hours_required!,
+    //                     } : null,
+    //                     school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: showPCE ? {
+    //                         ...pce.original.input.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required!,
+    //                     } : null,
+    //                 }
+    //             },
+    //             draft: {
+    //                 ...pce.draft,
+    //                 input: {
+    //                     ...pce.draft.input,
+    //                     school_minimum_patient_care_experience_hours_required: showPCE ? {
+    //                         ...pce.draft.input.school_minimum_patient_care_experience_hours_required!,
+    //                     } : null,
+    //                     school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required: showPCE ? {
+    //                         ...pce.draft.input.school_minimum_time_frame_patient_care_experience_needs_to_be_completed_required!,
+    //                     } : null,
+    //                 }
+    //             },
+    //         },
+    //         school_healthcare_experience: {
+    //             ...hce,
+    //             original: {
+    //                 ...hce.original,
+    //                 input: {
+    //                     ...hce.original.input,
+
+    //                 }
+    //             }
+    //         }
+    //     })
+
+    //     //eslint-disable-next-line
+    // }, [school]);
+
     useEffect(() => {
         if (!showChangesOnly) {
             setFields(experienceFields)
@@ -322,6 +400,14 @@ export default function Experience({
                     showChangesOnly={showChangesOnly}
                     permissions={permissions}
                     paidExperience={paidExperience}
+                />
+                <PCE 
+                    isEditSchool={isEditSchool}
+                    school={school}
+                    setSchool={setSchool}
+                    showChangesOnly={showChangesOnly}
+                    permissions={permissions}
+                    patientCareExperience={patientCareExperience}
                 />
             </>
         )
