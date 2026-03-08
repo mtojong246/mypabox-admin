@@ -302,7 +302,6 @@ export default function Experience({
         }
     }, [school, showChangesOnly]);
 
-
     if (!experience) {
         return null;
     } else {

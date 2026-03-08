@@ -4,8 +4,7 @@ import { UserPermissions } from "../../../../types/users.types"
 import { addModifyOrDeleteNote, isDraftOnly, isSchoolFieldDisabled, retrieveSelectedTab, setupValidationInterface, TabsAndIndices } from "../../../../utils/utils.schools";
 import FieldContainer from "../../../../components/Form/Validation/FieldContainer";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
-import Notes from "../../../../components/Form/Notes/Notes";
-import NotePopupButton from "../../../../components/Popups/NotePopupButton";
+import FieldNotes from "../../../../components/Form/Notes/FieldNotes";
 
 const defaultTabsAndIndices = {
     school_paid_experience_required: {
@@ -115,13 +114,11 @@ export default function PaidExperience({
             });
 
         }
-
-        
     }
 
     return (
         <>
-        {fields.forEach(field => {
+        {fields.map(field => {
             const {
                 name,
                 label,
@@ -172,7 +169,13 @@ export default function PaidExperience({
                         <></>
                     )}
                     {notes !== undefined && (
-                        <></>
+                        <FieldNotes 
+                            notes={notes}
+                            isDisabled={isDisabled}
+                            handleNotes={handleNotes}
+                            name={name}
+                            changes={changes}
+                        />
                     )}
                     </>
                 </FieldContainer>

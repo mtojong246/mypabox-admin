@@ -4,8 +4,8 @@ import { NewNote } from "../../types/newSchools.types";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import { ReactComponent as CloseIcon } from '../Icons/X.svg';
-import { ReactComponent as PlusIcon } from '../../../components/Icons/Plus.svg';
-import { ReactComponent as EditIcon } from '../../../components/Icons/Edit-With-Line.svg';
+import { ReactComponent as PlusIcon } from '../../components/Icons/Plus.svg';
+import { ReactComponent as EditIcon } from '../../components/Icons/Edit-With-Line.svg';
 import Button from "../Buttons/Button";
 import IconButton from "../Buttons/IconButton";
 
