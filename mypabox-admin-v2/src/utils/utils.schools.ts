@@ -13,6 +13,16 @@ export interface TabAndIndex {
     selectedIndex: number | null;
 }
 
+export type SchoolFieldType = "boolean" | "text" | "select" | "text-select";
+
+export interface SchoolField {
+    name: string;
+    label: string;
+    original: { input: any, notes?: NewNote[] } | null;
+    draft: { input: any, notes?: NewNote[] } | null;
+    fieldType: SchoolFieldType,
+}
+
 export const setupValidationInterface = (tabsAndIndices: TabsAndIndices, permissions: UserPermissions, changes: Change[]) => {
     const { canEditWithVerificationNeeded, canVerify } = permissions;
 
