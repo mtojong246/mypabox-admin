@@ -70,6 +70,8 @@ export default function ExperienceInputs({
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
 
+    console.log('schol', school)
+
     useEffect(() => {
         if (tab === 'original' && isEditSchool && (permissions.canEditWithVerificationNeeded || (schoolField.changes.length > 0 && permissions.canVerify))) {
             setIsDisabled(true);
