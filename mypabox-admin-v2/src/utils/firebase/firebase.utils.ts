@@ -77,6 +77,18 @@ export const getUpdatedSchoolsAndDocuments = async () => {
     }
 }
 
+// Retrieve data for single school 
+export const getSchoolById = async (id: string) => {
+    const docRef = doc(db, 'newSchools', id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return docSnap.data() as NewSchool;
+    } else {
+        throw new Error('No account exists');
+    }
+};
+
 // Retrieve single updated schol
 // export const getUpdatedSchoolDoc = async (id: string) => {
 //     const docRef = doc(db, 'newSchools', id);

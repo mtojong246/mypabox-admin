@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { GenericSchoolField, NewSchool } from "../../../../../types/newSchools.types";
 import { PrereqArrItemType, PrereqPopupType } from "../Prerequisites";
 import CoursePopup, { CourseForm } from "./CoursePopup";
 import { UserPermissions } from "../../../../../types/users.types";
+import { defaultCourseForm } from "./RequiredCoursesPopup";
 
 export interface RecommendedCourseType {
     school_recommended_course_id: string;
@@ -39,7 +40,7 @@ export default function RecommendedCoursePopup({
     handleChanges: (field: GenericSchoolField, name: string, original: any, draft: any, path: string, type: "modified" | "added" | "removed", originalValue?: any, value?: any) => void,
     permissions: UserPermissions
 }) {
-    const [ selectedCourse, setSelectedCourse ] = useState<CourseForm | null>(null);
+    const [ selectedCourse, setSelectedCourse ] = useState<CourseForm>(defaultCourseForm);
 
     useEffect(() => {
         if (selectedPrereqArrItem) {
@@ -52,7 +53,9 @@ export default function RecommendedCoursePopup({
                 course_quarter_hours: arrItem.school_recommended_course_quarter_hours,
                 course_note_section: arrItem.school_recommended_course_note_section,
             })
-        } 
+        } else {
+            setSelectedCourse(defaultCourseForm);
+        }
     }, [selectedPrereqArrItem]);
 
     const addRecommendedCourse = (name: string, path: string, recommendedCourse: RecommendedCourseType) => {
@@ -103,12 +106,66 @@ export default function RecommendedCoursePopup({
         togglePopup(e, null);
     };
 
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        setSelectedCourse((prevCourse) => {
+            return {
+                ...prevCourse,
+                [name]: value,
+            }
+        })
+    };
+
+    const handleBoolean = (e: ChangeEvent<HTMLInputElement>, path: string) => {
+        const name = e.target.name;
+        const checked = e.target.checked;
+
+        setSelectedCourse((prevCourse) => {
+            return {
+                ...prevCourse,
+                [name]: checked,
+            }
+        })
+    };
+
+    const handleSelect = (e:any, name: string, path: string) => {
+        const value = e.value;
+
+        setSelectedCourse((prevCourse) => {
+            return {
+                ...prevCourse,
+                [name]: value,
+            }
+        })
+    }
+
+    const handleNote = (e:any) => {
+        let note = '';
+        if (e === '<p><br></p>') {
+            note = '';
+        } else {
+            note = e
+        }
+        setSelectedCourse((prevCourse) => {
+            return {
+                ...prevCourse,
+                course_note_section: note,
+            }
+        })
+    };
+
     return (
         <CoursePopup 
             selectedCourse={selectedCourse}
             togglePopup={togglePopup}
             handleSubmit={handleSubmit}
             permissions={permissions}
+            handleBoolean={handleBoolean}
+            handleInput={handleInput}
+            handleNote={handleNote}
+            handleSelect={handleSelect}
         />
     )
 }
