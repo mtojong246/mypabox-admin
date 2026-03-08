@@ -25,6 +25,7 @@ export interface Change {
     modified?: string | number | boolean | {
         [key: string] : any
     };
+    name?: string;
 }
 
 export interface NewNote {

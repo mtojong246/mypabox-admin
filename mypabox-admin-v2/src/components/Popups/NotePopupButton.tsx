@@ -5,7 +5,9 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import { ReactComponent as CloseIcon } from '../Icons/X.svg';
 import { ReactComponent as PlusIcon } from '../../../components/Icons/Plus.svg';
+import { ReactComponent as EditIcon } from '../../../components/Icons/Edit-With-Line.svg';
 import Button from "../Buttons/Button";
+import IconButton from "../Buttons/IconButton";
 
 const defaultNote = {
     type: 'information',
@@ -19,7 +21,7 @@ export default function NotePopupButton({
     handleNotes,
     name,
 }: {
-    selectedNote: NewNote | null,
+    selectedNote?: NewNote,
     isDisabled: boolean,
     index?: number,
     handleNotes: (name: string, newNote?: NewNote, index?: number) => void,
@@ -67,13 +69,22 @@ export default function NotePopupButton({
 
     return (
     <div>
-        <Button 
-            type={isDisabled ? 'disable' : 'primary'}
-            styling="outline"
-            label='Add Note'
-            action={handleOpen}
-            adornment={<PlusIcon/>}
-        />
+        {selectedNote ? (
+            <IconButton 
+                action={handleOpen}
+                icon={<EditIcon/>}
+                color="primary"
+                isDisabled={isDisabled}
+            />
+        ) : (
+            <Button 
+                type={isDisabled ? 'disable' : 'primary'}
+                styling="outline"
+                label='Add Note'
+                action={handleOpen}
+                adornment={<PlusIcon/>}
+            />
+        )}
         <Modal
             open={open}
             onClose={handleClose}

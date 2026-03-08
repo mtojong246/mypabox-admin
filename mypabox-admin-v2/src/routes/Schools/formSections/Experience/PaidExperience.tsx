@@ -5,6 +5,7 @@ import { addModifyOrDeleteNote, isDraftOnly, isSchoolFieldDisabled, retrieveSele
 import FieldContainer from "../../../../components/Form/Validation/FieldContainer";
 import BooleanInput from "../../../../components/Form/InputTypes/BooleanInput";
 import Notes from "../../../../components/Form/Notes/Notes";
+import NotePopupButton from "../../../../components/Popups/NotePopupButton";
 
 const defaultTabsAndIndices = {
     school_paid_experience_required: {
@@ -170,7 +171,9 @@ export default function PaidExperience({
                     ) : (
                         <></>
                     )}
-                   
+                    {notes !== undefined && (
+                        <></>
+                    )}
                     </>
                 </FieldContainer>
             )
