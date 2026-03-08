@@ -161,7 +161,9 @@ export default function FieldContainer({
                     />
                 )}
                 <div className={`p-6 w-full flex flex-col gap-8`}>
-                    {children}
+                    <div className="flex flex-col gap-8 justify-start items-start">
+                        {children}
+                    </div>
                     {link !== null ? (
                         <div className="flex justify-between items-end gap-4">
                             <TextInput 

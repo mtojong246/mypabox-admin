@@ -8,6 +8,11 @@ export interface TabsAndIndices {
     }
 }
 
+export interface TabAndIndex {
+    tabs: string[];
+    selectedIndex: number | null;
+}
+
 export const setupValidationInterface = (tabsAndIndices: TabsAndIndices, permissions: UserPermissions, changes: Change[]) => {
     const { canEditWithVerificationNeeded, canVerify } = permissions;
 
@@ -29,3 +34,50 @@ export const setupValidationInterface = (tabsAndIndices: TabsAndIndices, permiss
     
     return updatedTabsAndIndices;
 }
+
+export const isSchoolFieldDisabled = (
+    tabAndIndex: TabAndIndex,
+    isEditSchool: boolean, 
+    permissions: UserPermissions,
+    changes: Change[],
+) => {
+    const { tabs, selectedIndex } = tabAndIndex;
+    const { canEditWithVerificationNeeded, canVerify } = permissions;
+    let isDisabled = false;
+
+    if (selectedIndex !== null && isEditSchool) {
+        const tab = tabs[selectedIndex];
+        if (tab === "Original" && (canEditWithVerificationNeeded || (changes.length > 0 && canVerify))) {
+            isDisabled = true;
+        } else if (tab === "Modified" && !canEditWithVerificationNeeded && canVerify && changes.length > 0) {
+            isDisabled = true;
+        }
+    };
+
+    return isDisabled;
+}
+
+export const retrieveSelectedTab = (name: string, tabsAndIndices: TabsAndIndices) => {
+    const { tabs, selectedIndex } = tabsAndIndices[name];
+
+    let tab: "Original" | "Modified" = 'Original';
+
+    if (tabs.length > 0 && selectedIndex !== null) {
+        tab = tabs[selectedIndex] as "Original" | "Modified";
+    };
+
+    return tab;
+};
+
+export const isDraftOnly = (isEditSchool: boolean, permissions: UserPermissions) => {
+    const { canEditWithVerificationNeeded } = permissions;
+
+    let draftOnly = false;
+
+    if (isEditSchool && canEditWithVerificationNeeded) {
+        draftOnly = true;
+    };
+
+    return draftOnly;
+}
+
