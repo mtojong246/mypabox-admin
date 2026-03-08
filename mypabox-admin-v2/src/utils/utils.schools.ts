@@ -1,19 +1,31 @@
 import { Change } from "../types/newSchools.types";
 import { UserPermissions } from "../types/users.types";
 
-export const setupValidationInterface = (tabs: {[key: string]: string[]}, permissions: UserPermissions, changes: Change[]) => {
+export interface TabsAndIndices {
+    [key: string]: {
+        tabs: string[];
+        selectedIndex: number | null;
+    }
+}
+
+export const setupValidationInterface = (tabsAndIndices: TabsAndIndices, permissions: UserPermissions, changes: Change[]) => {
     const { canEditWithVerificationNeeded, canVerify } = permissions;
 
-    let updatedTabs: {[key: string]: string[]} = {};
+    let updatedTabsAndIndices: TabsAndIndices = {};
 
-    for (const [key, value] of Object.entries(tabs)) {
+    for (const [key, value] of Object.entries(tabsAndIndices)) {
         if (canEditWithVerificationNeeded || (changes.length > 0 && canVerify)) {
-            updatedTabs[key] = ["Modified", "Original"]
+            updatedTabsAndIndices[key] = {
+                tabs: ["Modified", "Original"],
+                selectedIndex: 0,
+            }
         } else {
-            updatedTabs[key] = [];
+            updatedTabsAndIndices[key] = {
+                tabs: [],
+                selectedIndex: null,
+            }
         }
-    }
-
+    };
     
-    return updatedTabs;
+    return updatedTabsAndIndices;
 }

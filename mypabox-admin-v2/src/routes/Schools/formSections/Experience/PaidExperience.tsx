@@ -1,10 +1,14 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { NewSchool } from "../../../../types/newSchools.types"
+import { NewNote, NewSchool } from "../../../../types/newSchools.types"
 import { UserPermissions } from "../../../../types/users.types"
-import { setupValidationInterface } from "../../../../utils/utils.schools";
+import { setupValidationInterface, TabsAndIndices } from "../../../../utils/utils.schools";
+import FieldContainer from "../../../../components/Form/Validation/FieldContainer";
 
-const defaultTabs = {
-    school_paid_experience_required: [],
+const defaultTabsAndIndices = {
+    school_paid_experience_required: {
+        tabs: [],
+        selectedIndex: null,
+    }
 }
 
 export default function PaidExperience({
@@ -14,6 +18,7 @@ export default function PaidExperience({
     showChangesOnly,
     permissions,
     paidExperience,
+    validateAllRemovals,
 }: {
     isEditSchool: boolean,
     school: NewSchool,
@@ -21,21 +26,44 @@ export default function PaidExperience({
     showChangesOnly: boolean,
     permissions: UserPermissions,
     paidExperience: any,
+    validateAllRemovals?: (name: string) => {input: any; notes?: NewNote[] | undefined},
 }) {
     const { original, draft, changes, link } = paidExperience;
-    const [ tabs, setTabs ] = useState<{
-        [key: string]: string[]
-    }>(defaultTabs);
+    const [ tabsAndIndices, setTabsAndIndices ] = useState<TabsAndIndices>(defaultTabsAndIndices);
 
     useEffect(() => {
-        const updatedTabs = setupValidationInterface(defaultTabs, permissions, changes);
-        setTabs(updatedTabs);
+        const updatedTabs = setupValidationInterface(defaultTabsAndIndices, permissions, changes);
+        setTabsAndIndices(updatedTabs);
 
     }, [changes, permissions]);
 
-    
+    const modifyIndex = (name: string, newIndex: number) => {
+        const tabAndIndex = tabsAndIndices[name];
+        setTabsAndIndices({
+            ...tabsAndIndices,
+            [name]: {
+                ...tabAndIndex,
+                selectedIndex: newIndex,
+            }
+        })
+    } 
 
     return (
-        <></>
+        <>
+            <FieldContainer
+                name="school_paid_experience_required"
+                changes={changes}
+                permissions={permissions}
+                label="Paid Experience Required"
+                tabsAndIndex={tabsAndIndices["school_paid_experience_required"]}
+                modifyIndex={modifyIndex}
+                link={link}
+                school={school}
+                setSchool={setSchool}
+                validateAllRemovals={validateAllRemovals}
+            >
+                <></>
+            </FieldContainer>
+        </>
     )
 }

@@ -1,7 +1,6 @@
 import { Dispatch, ReactNode, useEffect, useState, MouseEvent, SetStateAction, ChangeEvent } from "react"
 import { Change, GenericSchoolField, NewNote, NewSchool } from "../../../types/newSchools.types";
 import { UserPermissions } from "../../../types/users.types";
-import SchoolFieldTabs from "./SchoolFieldTabs";
 import TextInput from "../InputTypes/TextInput";
 import IconButton from "../../Buttons/IconButton";
 import Button from "../../Buttons/Button";
@@ -10,13 +9,15 @@ import { ReactComponent as RevertIcon } from '../../../components/Icons/Revert.s
 import { ReactComponent as CheckIcon } from '../../../components/Icons/Check.svg';
 import { ReactComponent as LinkIcon } from '../../../components/Icons/Link.svg';
 import { ReactComponent as DeleteIcon } from '../../../components/Icons/Trash.svg';
+import FieldTabs from "./FieldTabs";
 
 export default function FieldContainer({
     children,
     changes,
     permissions,
     label,
-    tabs,
+    tabsAndIndex,
+    modifyIndex,
     link,
     school,
     setSchool,
@@ -27,14 +28,17 @@ export default function FieldContainer({
     changes: Change[],
     permissions: UserPermissions,
     label: string,
-    tabs: string[];
+    tabsAndIndex: {
+        tabs: string[];
+        selectedIndex: number | null;
+    };
+    modifyIndex: (name: string, newIndex: number) => void,
     link: string | null;
     school: NewSchool,
-    setSchool: Dispatch<SetStateAction<NewSchool>>,
+    setSchool: Dispatch<SetStateAction<NewSchool | null>>,
     name: string;
     validateAllRemovals?: (name: string) => {input: any; notes?: NewNote[] | undefined}
 }) {
-    const [ selectedIndex, setSelectedIndex ] = useState(0);
     const [ showRevertButton, setShowRevertButton ] = useState(false);
     const [ showValidateAllButton, setShowValidateAllButton ] = useState(false);
 
@@ -60,23 +64,23 @@ export default function FieldContainer({
 
     const handleLink = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setSchool((prevSchool) => ({
-            ...prevSchool,
+        setSchool({
+            ...school,
             [name]: {
-                ...(prevSchool[name as keyof NewSchool] as any),
+                ...(school[name as keyof NewSchool] as any),
                 link: value,
             }
-        }));
+        });
     }
 
     const resetLink = () => {
-        setSchool((prevSchool) => ({
-            ...prevSchool,
+        setSchool({
+            ...school,
             [name]: {
-                ...(prevSchool[name as keyof NewSchool] as any),
+                ...(school[name as keyof NewSchool] as any),
                 link: '',
             }
-        }));
+        });
     }
 
     const removeLink = (e: MouseEvent<HTMLButtonElement>) => {
@@ -148,11 +152,12 @@ export default function FieldContainer({
                 </div>
             </div>
             <div className="flex flex-col justify-start items-start rounded-lg w-full border border-outline">
-                {tabs.length > 0 && (
-                    <SchoolFieldTabs 
-                        tabs={tabs}
-                        selectedIndex={selectedIndex}
-                        setSelectedIndex={setSelectedIndex}
+                {tabsAndIndex.tabs.length > 0 && tabsAndIndex.selectedIndex !== null && (
+                    <FieldTabs 
+                        name={name}
+                        modifyIndex={modifyIndex}
+                        tabs={tabsAndIndex.tabs}
+                        selectedIndex={tabsAndIndex.selectedIndex}
                     />
                 )}
                 <div className={`p-6 w-full flex flex-col gap-8`}>
