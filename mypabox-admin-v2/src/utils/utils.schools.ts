@@ -5,8 +5,6 @@ export const setupValidationInterface = (tabs: {[key: string]: string[]}, permis
     const { canEditWithVerificationNeeded, canVerify } = permissions;
 
     let updatedTabs: {[key: string]: string[]} = {};
-    let showRevertButton = false;
-    let showValidateAllButton = false;
 
     for (const [key, value] of Object.entries(tabs)) {
         if (canEditWithVerificationNeeded || (changes.length > 0 && canVerify)) {
@@ -16,19 +14,6 @@ export const setupValidationInterface = (tabs: {[key: string]: string[]}, permis
         }
     }
 
-    if (changes.length > 0 && (canVerify || canEditWithVerificationNeeded)) {
-        showRevertButton = true;
-    }
-
-    if (changes.length > 0 && canVerify) {
-        showValidateAllButton = true;
-    }
     
-    return {
-        tabs: updatedTabs,
-        showRevertButton,
-        showValidateAllButton,
-    }
-
-    
+    return updatedTabs;
 }
