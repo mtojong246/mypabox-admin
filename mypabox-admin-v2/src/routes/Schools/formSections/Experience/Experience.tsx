@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 import { GenericSchoolField, NewNote, NewSchool } from "../../../../types/newSchools.types"
 import Container from "../../../../components/Form/Validation/Container";
 
@@ -286,14 +286,18 @@ export default function Experience({
         }
     }, [school, showChangesOnly]);
 
-    useEffect(() => {
-        setExperienceConditionalFields(school);
+    // Memoizing school form to prevent infinite updates
+    const schoolForm: NewSchool = useMemo(() => {
+        const updatedSchool = setExperienceConditionalFields(school);
+        return updatedSchool;
     }, [school]);
+
+
 
     return (
         <>
         {fields.length > 0 && fields.map(field => {
-            const schoolField = school[field.name as keyof NewSchool] as GenericSchoolField;  
+            const schoolField = schoolForm[field.name as keyof NewSchool] as GenericSchoolField;  
             const inputs = handleRetrieveValue(field.path, schoolField);
    
             const value = inputs.originalValue;
@@ -312,7 +316,7 @@ export default function Experience({
                 <Container 
                     label={field.label} 
                     name={field.name}
-                    school={school}
+                    school={schoolForm}
                     setSchool={setSchool}
                     isEditSchool={isEditSchool}
                     permissions={permissions}
@@ -338,7 +342,7 @@ export default function Experience({
                             tab='modified'
                             permissions={permissions}
                             isEditSchool={isEditSchool}
-                            school={school}
+                            school={schoolForm}
                             schoolField={schoolField}
                             field={field}
                             value={draftValue}
@@ -360,7 +364,7 @@ export default function Experience({
                 toggleNotePopup={toggleNote}
                 selectedField={selectedField}
                 selectedNote={selectedNote}
-                school={school}
+                school={schoolForm}
                 handleChanges={handleChanges}
                 handleModification={handleModification}
             />
