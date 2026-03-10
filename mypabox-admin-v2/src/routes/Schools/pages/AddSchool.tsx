@@ -214,6 +214,9 @@ export default function AddSchool() {
       fetchCategories();
     }, [dispatch, navigate]);
 
+  
+
+
     const navigateTabs = (hash: string) => {
         // navigate(`/schools/add-school${hash}`);
         setTab(hash);

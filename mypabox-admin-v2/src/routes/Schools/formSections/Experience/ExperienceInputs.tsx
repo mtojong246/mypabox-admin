@@ -70,8 +70,6 @@ export default function ExperienceInputs({
 }) {
     const [ isDisabled, setIsDisabled ] = useState(false);
 
-    console.log('schol', school)
-
     useEffect(() => {
         if (tab === 'original' && isEditSchool && (permissions.canEditWithVerificationNeeded || (schoolField.changes.length > 0 && permissions.canVerify))) {
             setIsDisabled(true);
@@ -310,6 +308,7 @@ export default function ExperienceInputs({
         
         handleChanges(field, name, originalField, draftField, inputPath, 'modified', originalValue, value);
     };
+
 
     return (
         <div className="flex flex-col gap-8 justify-start items-start">
