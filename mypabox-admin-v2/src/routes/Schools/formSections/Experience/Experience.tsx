@@ -7,6 +7,7 @@ import NotePopup from "../../../../components/Popups/NotePopup";
 import useVerification from "../../../../hooks/useVerification";
 import ExperienceInputs from "./ExperienceInputs";
 import { UserPermissions } from "../../../../types/users.types";
+import { setExperienceConditionalFields } from "./experienceHelpers";
 
 
 
@@ -284,6 +285,10 @@ export default function Experience({
             setFields(changedFields)
         }
     }, [school, showChangesOnly]);
+
+    useEffect(() => {
+        setExperienceConditionalFields(school);
+    }, [school]);
 
     return (
         <>
